@@ -28,13 +28,17 @@ namespace GraphML.Logic
     public IQueryable<T> ByOwner(string ownerId)
     {
       var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwner));
-      return valRes.IsValid ? _datastore.ByOwner(ownerId) : Enumerable.Empty<T>().AsQueryable();
+      return _filter.Filter(valRes.IsValid ? _datastore.ByOwner(ownerId) : Enumerable.Empty<T>().AsQueryable());
     }
 
     public T Create(T entity)
     {
       var valRes = _validator.Validate(entity, ruleSet: nameof(ILogic<T>.Create));
-      return valRes.IsValid ? _datastore.Create(entity) : null;
+      if (!valRes.IsValid)
+      {
+        return null;
+      }
+      return _filter.Filter(new T[] { _datastore.Create(entity) }.AsQueryable()).SingleOrDefault();
     }
 
     public void Delete(T entity)

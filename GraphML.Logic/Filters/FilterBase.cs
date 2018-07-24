@@ -13,7 +13,10 @@ namespace GraphML.Logic.Filters
       _context = context;
     }
 
-    protected abstract T Filter(T input);
+    protected virtual T Filter(T input)
+    {
+      return input;
+    }
 
     public IQueryable<T> Filter(IQueryable<T> input)
     {

@@ -1,6 +1,5 @@
 ﻿using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace GraphML.Logic.Filters
 {
@@ -9,11 +8,6 @@ namespace GraphML.Logic.Filters
     public RepositoryFilter(IHttpContextAccessor context) :
       base(context)
     {
-    }
-
-    protected override Repository Filter(Repository input)
-    {
-      throw new NotImplementedException();
     }
   }
 }
