@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GraphML.API": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

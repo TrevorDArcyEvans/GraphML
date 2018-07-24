@@ -1,0 +1,43 @@
+﻿{
+  "urls": "http://localhost:6000; http://*:5122; https://*:5123",
+
+  "Certificate":
+  {
+    "FileName": "GraphML.pfx",
+    "Password": "DisruptTheMarket",
+    "HttpsPort": 8001
+  },
+
+
+  "wwwroot": "wwwroot",
+
+  "RepositoryDatabase":
+  {
+    "Connection": "SqLite",
+
+    "SqLite":
+    {
+      "Type": "SqLite",
+      "ConnectionString": "Data Source=|DataDirectory|Data/GraphML.sqlite3;"
+    },
+
+    "SqlServer":
+    {
+      "Type": "SqlServer",
+      "ConnectionString": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True"
+    },
+
+    "MySql":
+    {
+      "Type": "MySql",
+      "ConnectionString": "server=127.0.0.1;uid=NHSD;pwd=DisruptTheMarket;database=GraphML;SslMode=none"
+    }
+  },
+
+  "Jwt":
+  {
+    "Authority": "https://buying-catalogue-beta-prototype.eu.auth0.com/",
+    "Audience": "api.buying-catalogue-beta-prototype",
+    "UserInfo": "https://buying-catalogue-beta-prototype.eu.auth0.com/userinfo",
+  }
+}
