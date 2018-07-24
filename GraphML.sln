@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Logic", "GraphML.Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Datastore.Database", "GraphML.Datastore.Database\GraphML.Datastore.Database.csproj", "{8934E4FC-3B35-4614-8E78-25698C0A0E46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphMLEx", "GraphMLEx\GraphMLEx.csproj", "{B78E6631-46CD-482F-82E7-FF123D4240AD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{8934E4FC-3B35-4614-8E78-25698C0A0E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8934E4FC-3B35-4614-8E78-25698C0A0E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8934E4FC-3B35-4614-8E78-25698C0A0E46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B78E6631-46CD-482F-82E7-FF123D4240AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B78E6631-46CD-482F-82E7-FF123D4240AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B78E6631-46CD-482F-82E7-FF123D4240AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B78E6631-46CD-482F-82E7-FF123D4240AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
