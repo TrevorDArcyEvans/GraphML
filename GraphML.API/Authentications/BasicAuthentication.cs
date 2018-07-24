@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GraphML.Utils;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ZNetCS.AspNetCore.Authentication.Basic;
@@ -26,7 +27,7 @@ namespace GraphML.API.Authentications
         new Claim(ClaimTypes.Role, context.UserName),
 
         // 'GraphML' is for testing
-        new Claim("Organisation", "GraphML")
+        new Claim(GraphMLClaimTypes.OrganisationId, "GraphML")
       };
 
       context.Principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));

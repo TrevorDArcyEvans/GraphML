@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GraphML.Utils;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Security.Claims;
 
@@ -9,7 +10,7 @@ namespace GraphML.Logic
     public static string ContextOrganisationId(this IHttpContextAccessor context)
     {
       return context.HttpContext.User.Claims
-        .FirstOrDefault(x => x.Type == "Organisation")?.Value;
+        .FirstOrDefault(x => x.Type == GraphMLClaimTypes.OrganisationId)?.Value;
     }
 
     public static bool HasRole(this IHttpContextAccessor context, string role)

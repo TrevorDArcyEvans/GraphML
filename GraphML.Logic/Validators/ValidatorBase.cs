@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using GraphML.API;
+using GraphML.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
@@ -11,6 +12,39 @@ namespace GraphML.Logic.Validators
     public ValidatorBase(IHttpContextAccessor context)
     {
       _context = context;
+
+      RuleSet(nameof(ILogic<T>.ByOwner), () =>
+      {
+        RuleForByOwner();
+      });
+      RuleSet(nameof(ILogic<T>.Create), () =>
+      {
+        RuleForCreate();
+      });
+      RuleSet(nameof(ILogic<T>.Update), () =>
+      {
+        RuleForUpdate();
+      });
+      RuleSet(nameof(ILogic<T>.Delete), () =>
+      {
+        RuleForDelete();
+      });
+    }
+
+    protected virtual void RuleForByOwner()
+    {
+    }
+
+    protected virtual void RuleForCreate()
+    {
+    }
+
+    protected virtual void RuleForUpdate()
+    {
+    }
+
+    protected virtual void RuleForDelete()
+    {
     }
 
     protected void MustBeAdmin()
@@ -18,6 +52,13 @@ namespace GraphML.Logic.Validators
       RuleFor(x => x)
         .Must(x => _context.HasRole(Roles.Admin))
         .WithMessage("Must be admin");
+    }
+
+    protected void MustBeUserAdmin()
+    {
+      RuleFor(x => x)
+        .Must(x => _context.HasRole(Roles.UserAdmin))
+        .WithMessage("Must be user admin");
     }
   }
 }

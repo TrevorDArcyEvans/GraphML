@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GraphML.Logic
 {
-  public abstract class LogicBase<T> : ILogic<T>
+  public abstract class LogicBase<T> : ILogic<T> where T : class, new()
   {
     protected readonly IHttpContextAccessor _context;
     protected readonly IDatastore<T> _datastore;
@@ -27,22 +27,32 @@ namespace GraphML.Logic
 
     public IQueryable<T> ByOwner(string ownerId)
     {
-      return _datastore.ByOwner(ownerId);
+      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwner));
+      return valRes.IsValid ? _datastore.ByOwner(ownerId) : Enumerable.Empty<T>().AsQueryable();
     }
 
     public T Create(T entity)
     {
-      return _datastore.Create(entity);
+      var valRes = _validator.Validate(entity, ruleSet: nameof(ILogic<T>.Create));
+      return valRes.IsValid ? _datastore.Create(entity) : null;
     }
 
     public void Delete(T entity)
     {
-      _datastore.Delete(entity);
+      var valRes = _validator.Validate(entity, ruleSet: nameof(ILogic<T>.Delete));
+      if (valRes.IsValid)
+      {
+        _datastore.Delete(entity);
+      }
     }
 
     public void Update(T entity)
     {
-      _datastore.Update(entity);
+      var valRes = _validator.Validate(entity, ruleSet: nameof(ILogic<T>.Update));
+      if (valRes.IsValid)
+      {
+        _datastore.Update(entity);
+      }
     }
   }
 }

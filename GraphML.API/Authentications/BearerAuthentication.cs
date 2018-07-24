@@ -1,4 +1,5 @@
-﻿using IdentityModel.Client;
+﻿using GraphML.Utils;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.Extensions.Configuration;
@@ -42,12 +43,10 @@ namespace GraphML.API.Authentications
 
       var userClaims = response.Claims;
       var claims = new List<Claim>(userClaims);
-      var email = userClaims.SingleOrDefault(x => x.Type == "email")?.Value;
-      if (!string.IsNullOrEmpty(email))
+      var orgId = userClaims.SingleOrDefault(x => x.Type == GraphMLClaimTypes.OrganisationId)?.Value;
+      if (!string.IsNullOrEmpty(orgId))
       {
-        var servProv = context.HttpContext.RequestServices;
-        //var contLog = (IContactDatastore)servProv.GetService(typeof(IContactDatastore));
-        claims.Add(new Claim("Organisation", "org.Id"));
+        claims.Add(new Claim(GraphMLClaimTypes.OrganisationId, orgId));
       }
 
       context.Principal.AddIdentity(new ClaimsIdentity(claims));
