@@ -29,6 +29,14 @@ namespace GraphML.Datastore.Database
       _policy = policy.Build(_logger);
     }
 
+    public T ById(string id)
+    {
+      return GetInternal(() =>
+      {
+        return _dbConnection.Get<T>(id);
+      });
+    }
+
     public IQueryable<T> ByOwner(string ownerId)
     {
       return GetInternal(() =>

@@ -30,6 +30,21 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
+    /// Retrieve Edge by its unique identifier
+    /// </summary>
+    /// <param name="id">unique identifier</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpGet]
+    [ValidateModelState]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(Edge), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
+    public override IActionResult ById([FromQuery]string id)
+    {
+      return ByIdInternal(id);
+    }
+
+    /// <summary>
     /// Retrieve all Edge in a paged list
     /// </summary>
     /// <param name="ownerId"></param>
@@ -37,6 +52,7 @@ namespace GraphML.API.Controllers
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success - if no Edge found, return empty list</response>
     [HttpGet]
+    [Route(nameof(ByOwner))]
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Edge>), description: "Success - if no Edge found, return empty list")]
     public override IActionResult ByOwner([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)

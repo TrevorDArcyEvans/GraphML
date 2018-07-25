@@ -25,6 +25,12 @@ namespace GraphML.Logic
       _filter = filter;
     }
 
+    public T ById(string id)
+    {
+      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwner));
+      return _filter.Filter(valRes.IsValid ? new T[] { _datastore.ById(id) }.AsQueryable() : Enumerable.Empty<T>().AsQueryable()).SingleOrDefault();
+    }
+
     public IQueryable<T> ByOwner(string ownerId)
     {
       var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwner));

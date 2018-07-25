@@ -3,14 +3,7 @@ using GraphML.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
 
@@ -37,13 +30,29 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Retrieve all Graph in a paged list
+    /// Retrieve Graph by its unique identifier
+    /// </summary>
+    /// <param name="id">unique identifier</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpGet]
+    [ValidateModelState]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(Graph), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
+    public override IActionResult ById([FromQuery]string id)
+    {
+      return ByIdInternal(id);
+    }
+
+    /// <summary>
+    /// Retrieve all  in a paged list
     /// </summary>
     /// <param name="ownerId"></param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success - if no Graph found, return empty list</response>
     [HttpGet]
+    [Route(nameof(ByOwner))]
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Graph>), description: "Success - if no Graph found, return empty list")]
     public override IActionResult ByOwner([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)

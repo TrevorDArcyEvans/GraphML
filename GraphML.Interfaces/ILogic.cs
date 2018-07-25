@@ -4,6 +4,7 @@ namespace GraphML.Interfaces
 {
   public interface ILogic<T>
   {
+    T ById(string id);
     IQueryable<T> ByOwner(string ownerId);
     T Create(T entity);
     void Update(T entity);

@@ -13,6 +13,13 @@ namespace GraphML.API.Controllers
       _logic = logic;
     }
 
+    public abstract IActionResult ById([FromQuery]string id);
+    protected IActionResult ByIdInternal([FromQuery]string id)
+    {
+      var ent = _logic.ById(id);
+      return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
+    }
+
     public abstract IActionResult ByOwner([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize);
     protected IActionResult ByOwnerInternal([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
     {
