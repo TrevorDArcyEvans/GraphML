@@ -51,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphML.API\GraphML.API.csproj" />
     <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
     <ProjectReference Include="..\GraphML\GraphML.csproj" />
   </ItemGroup>
