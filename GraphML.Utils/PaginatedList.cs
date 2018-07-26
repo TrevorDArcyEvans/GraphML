@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraphML.API
+namespace GraphML.Utils
 {
   /// <summary>
   /// A paged list of objects

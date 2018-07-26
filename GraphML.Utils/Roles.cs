@@ -1,4 +1,4 @@
-﻿namespace GraphML.API
+﻿namespace GraphML.Utils
 {
   /// <summary>
   /// User roles within GraphML

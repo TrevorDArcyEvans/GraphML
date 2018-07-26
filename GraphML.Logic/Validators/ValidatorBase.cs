@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using GraphML.API;
 using GraphML.Interfaces;
+using GraphML.Utils;
 using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
