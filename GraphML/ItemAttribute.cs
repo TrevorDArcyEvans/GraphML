@@ -1,17 +1,11 @@
-﻿using Dapper.Contrib.Extensions;
-using GraphML.Utils;
+﻿using GraphML.Utils;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace GraphML
 {
-  [Table(nameof(ItemAttribute))]
-  public sealed class ItemAttribute : OwnedItem
+  public abstract class ItemAttribute : OwnedItem
   {
-    [Required]
-    [JsonProperty(nameof(OwnerType))]
-    public string OwnerType { get; set; }
-
     [Required]
     [JsonProperty(nameof(DataType))]
     public string DataType { get; set; }
@@ -24,10 +18,9 @@ namespace GraphML
     {
     }
 
-    public ItemAttribute(string ownerType, string ownerId, string name, string dataType) :
+    public ItemAttribute(string ownerId, string name, string dataType) :
       base(ownerId, name)
     {
-      OwnerType = ownerType.ThrowIfNullOrWhiteSpace(nameof(ownerType));
       DataType = dataType.ThrowIfNullOrWhiteSpace(nameof(dataType));
     }
   }

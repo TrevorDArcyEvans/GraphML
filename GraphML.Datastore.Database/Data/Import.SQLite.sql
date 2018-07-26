@@ -5,4 +5,7 @@
 .import Graph.csv Graph
 .import Node.csv Node
 .import Edge.csv Edge
-.import ItemAttribute.csv ItemAttribute
+.import RepositoryItemAttribute.csv RepositoryItemAttribute
+.import GraphItemAttribute.csv GraphItemAttribute
+.import NodeItemAttribute.csv NodeItemAttribute
+.import EdgeItemAttribute.csv EdgeItemAttribute

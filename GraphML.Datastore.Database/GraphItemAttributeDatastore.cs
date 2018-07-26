@@ -4,11 +4,11 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class ItemAttributeDatastore : DatastoreBase<ItemAttribute>, IItemAttributeDatastore
+  public sealed class GraphItemAttributeDatastore : DatastoreBase<GraphItemAttribute>, IGraphItemAttributeDatastore
   {
-    public ItemAttributeDatastore(
+    public GraphItemAttributeDatastore(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<ItemAttributeDatastore> logger,
+      ILogger<GraphItemAttributeDatastore> logger,
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {

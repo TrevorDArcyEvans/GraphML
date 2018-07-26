@@ -2,7 +2,10 @@
 
 
 -- drop data tables
-DROP TABLE IF EXISTS ItemAttribute;
+DROP TABLE IF EXISTS EdgeItemAttribute;
+DROP TABLE IF EXISTS NodeItemAttribute;
+DROP TABLE IF EXISTS GraphItemAttribute;
+DROP TABLE IF EXISTS RepositoryItemAttribute;
 DROP TABLE IF EXISTS Edge;
 DROP TABLE IF EXISTS Node;
 DROP TABLE IF EXISTS Graph;
@@ -67,15 +70,51 @@ CREATE TABLE Edge
   FOREIGN KEY (Target) REFERENCES Node(Id) ON DELETE CASCADE
 );
 
--- ItemAttribute.csv
-CREATE TABLE ItemAttribute
+-- RepositoryItemAttribute.csv
+CREATE TABLE RepositoryItemAttribute
 (
   Id TEXT NOT NULL UNIQUE,
   Name TEXT NOT NULL,
   OwnerId TEXT NOT NULL,
-  OwnerType TEXT NOT NULL,
   DataType TEXT NOT NULL,
   DataValueAsString TEXT,
-  PRIMARY KEY (Id)
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE
+);
+
+-- GraphItemAttribute.csv
+CREATE TABLE GraphItemAttribute
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  DataType TEXT NOT NULL,
+  DataValueAsString TEXT,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
+);
+
+-- NodeItemAttribute.csv
+CREATE TABLE NodeItemAttribute
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  DataType TEXT NOT NULL,
+  DataValueAsString TEXT,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Node(Id) ON DELETE CASCADE
+);
+
+-- EdgeItemAttribute.csv
+CREATE TABLE EdgeItemAttribute
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  DataType TEXT NOT NULL,
+  DataValueAsString TEXT,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Edge(Id) ON DELETE CASCADE
 );
 
