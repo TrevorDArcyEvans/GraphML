@@ -5,7 +5,7 @@ namespace GraphML.Interfaces
   public interface IDatastore<T>
   {
     IEnumerable<T> ByIds(IEnumerable<string> id);
-    IEnumerable<T> ByOwner(string ownerId);
+    IEnumerable<T> ByOwners(IEnumerable<string> ownerIds);
     IEnumerable<T> Create(IEnumerable<T> entity);
     void Update(IEnumerable<T> entity);
     void Delete(IEnumerable<T> entity);

@@ -51,17 +51,17 @@ namespace GraphML.API.Controllers
     /// <summary>
     /// Retrieve all Entities in a paged list
     /// </summary>
-    /// <param name="ownerId"></param>
+    /// <param name="ownerIds"></param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
-    [HttpGet]
-    [Route(nameof(ByOwner))]
+    [HttpPost]
+    [Route(nameof(ByOwners))]
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<RepositoryManager>), description: "Success - if no Entities found, return empty list")]
-    public override IActionResult ByOwner([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
+    public override IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
     {
-      return ByOwnerInternal(Guid.Empty.ToString(), pageIndex, pageSize);
+      return ByOwnersInternal(new[] { Guid.Empty.ToString() }, pageIndex, pageSize);
     }
 
     /// <summary>

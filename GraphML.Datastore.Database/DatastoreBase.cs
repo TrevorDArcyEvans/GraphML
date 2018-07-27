@@ -37,11 +37,11 @@ namespace GraphML.Datastore.Database
       });
     }
 
-    public virtual IEnumerable<T> ByOwner(string ownerId)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
     {
       return GetInternal(() =>
       {
-        return _dbConnection.GetAll<T>().Where(x => x.OwnerId == ownerId);
+        return _dbConnection.GetAll<T>().Where(x => ownerIds.Contains(x.OwnerId));
       });
     }
 

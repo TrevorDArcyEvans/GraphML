@@ -28,7 +28,7 @@ namespace GraphML.Logic
 
     public virtual IEnumerable<T> Ids(IEnumerable<string> ids)
     {
-      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwner));
+      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwners));
       if (valRes.IsValid)
       {
         return _filter.Filter(_datastore.ByIds(ids));
@@ -37,12 +37,12 @@ namespace GraphML.Logic
       return null;
     }
 
-    public virtual IEnumerable<T> ByOwner(string ownerId)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
     {
-      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwner));
+      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwners));
       if (valRes.IsValid)
       {
-        return _filter.Filter(_datastore.ByOwner(ownerId));
+        return _filter.Filter(_datastore.ByOwners(ownerIds));
       }
 
       return Enumerable.Empty<T>();

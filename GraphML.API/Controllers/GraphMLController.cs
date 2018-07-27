@@ -22,10 +22,10 @@ namespace GraphML.API.Controllers
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
     }
 
-    public abstract IActionResult ByOwner([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize);
-    protected IActionResult ByOwnerInternal([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
+    public abstract IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int? pageIndex, [FromQuery]int? pageSize);
+    protected IActionResult ByOwnersInternal([FromBody]IEnumerable<string> ownerIds, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
     {
-      var result = _logic.ByOwner(ownerId);
+      var result = _logic.ByOwners(ownerIds);
       var retval = PaginatedList<T>.Create(result, pageIndex, pageSize);
       return new OkObjectResult(retval);
     }

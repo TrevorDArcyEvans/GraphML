@@ -13,7 +13,7 @@ namespace GraphML.Logic.Validators
     {
       _context = context;
 
-      RuleSet(nameof(ILogic<T>.ByOwner), () =>
+      RuleSet(nameof(ILogic<T>.ByOwners), () =>
       {
         RuleForByOwner();
       });
