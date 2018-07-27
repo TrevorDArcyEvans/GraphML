@@ -1,5 +1,6 @@
 ﻿using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GraphML.Logic.Filters
@@ -18,7 +19,7 @@ namespace GraphML.Logic.Filters
       return input;
     }
 
-    public IQueryable<T> Filter(IQueryable<T> input)
+    public IEnumerable<T> Filter(IEnumerable<T> input)
     {
       return input.Select(x => Filter(x)).Where(x => x != null);
     }

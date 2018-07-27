@@ -29,29 +29,33 @@ namespace GraphML.Datastore.Database
       _policy = policy.Build(_logger);
     }
 
-    public T ById(string id)
+    public virtual IEnumerable<T> ByIds(IEnumerable<string> ids)
     {
       return GetInternal(() =>
       {
-        return _dbConnection.Get<T>(id);
+        return _dbConnection.GetAll<T>().Where(x => ids.Contains(x.Id));
       });
     }
 
-    public IQueryable<T> ByOwner(string ownerId)
+    public virtual IEnumerable<T> ByOwner(string ownerId)
     {
       return GetInternal(() =>
       {
-        return _dbConnection.GetAll<T>().Where(x => x.OwnerId == ownerId).AsQueryable();
+        return _dbConnection.GetAll<T>().Where(x => x.OwnerId == ownerId);
       });
     }
 
-    public T Create(T entity)
+    public virtual IEnumerable<T> Create(IEnumerable<T> entity)
     {
       return GetInternal(() =>
       {
         using (var trans = _dbConnection.BeginTransaction())
         {
-          entity.Id = Guid.NewGuid().ToString();
+          foreach (var ent in entity)
+          {
+            ent.Id = Guid.NewGuid().ToString();
+          }
+
           _dbConnection.Insert(entity, trans);
           trans.Commit();
 
@@ -60,7 +64,7 @@ namespace GraphML.Datastore.Database
       });
     }
 
-    public virtual void Delete(T entity)
+    public virtual void Delete(IEnumerable<T> entity)
     {
       GetInternal(() =>
       {
@@ -74,7 +78,7 @@ namespace GraphML.Datastore.Database
       });
     }
 
-    public void Update(T entity)
+    public virtual void Update(IEnumerable<T> entity)
     {
       GetInternal(() =>
       {

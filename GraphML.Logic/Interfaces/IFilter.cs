@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace GraphML.Logic.Interfaces
 {
   public interface IFilter<T>
   {
-    IQueryable<T> Filter(IQueryable<T> input);
+    IEnumerable<T> Filter(IEnumerable<T> input);
   }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
 
@@ -31,27 +32,28 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Retrieve EdgeItemAttribute by its unique identifier
+    /// Retrieve Entity by its unique identifier
     /// </summary>
-    /// <param name="id">unique identifier</param>
+    /// <param name="ids">unique identifier</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
-    [HttpGet]
+    [HttpPost]
+    [Route(nameof(ByIds))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(EdgeItemAttribute), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<EdgeItemAttribute>), description: "Success")]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
-    public override IActionResult ById([FromQuery]string id)
+    public override IActionResult ByIds([FromBody]IEnumerable<string> ids)
     {
-      return ByIdInternal(id);
+      return ByIdsInternal(ids);
     }
 
     /// <summary>
-    /// Retrieve all EdgeItemAttribute in a paged list
+    /// Retrieve all Entities in a paged list
     /// </summary>
     /// <param name="ownerId"></param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
-    /// <response code="200">Success - if no Entity found, return empty list</response>
+    /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
     [Route(nameof(ByOwner))]
     [ValidateModelState]
@@ -62,38 +64,38 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Create a new EdgeItemAttribute
+    /// Create new Entities
     /// </summary>
-    /// <param name="entity">new ItemAttribute information</param>
+    /// <param name="entity">new Entity information</param>
     /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entity</response>
+    /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
     [Route(nameof(Create))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(EdgeItemAttribute), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<EdgeItemAttribute>), description: "Success")]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
-    public override IActionResult Create([FromBody] EdgeItemAttribute entity)
+    public override IActionResult Create([FromBody] IEnumerable<EdgeItemAttribute> entity)
     {
       return CreateInternal(entity);
     }
 
     /// <summary>
-    /// Delete an existing EdgeItemAttribute
+    /// Delete existing Entities
     /// </summary>
     /// <param name="entity">existing ItemAttribute information</param>
     /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entity</response>
+    /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
-    public override IActionResult Delete([FromBody] EdgeItemAttribute entity)
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    public override IActionResult Delete([FromBody] IEnumerable<EdgeItemAttribute> entity)
     {
       return DeleteInternal(entity);
     }
 
     /// <summary>
-    /// Update an existing EdgeItemAttribute with new information
+    /// Update an existing Entity with new information
     /// </summary>
     /// <param name="entity">Entity with updated information</param>
     /// <response code="200">Success</response>
@@ -102,7 +104,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
-    public override IActionResult Update([FromBody] EdgeItemAttribute entity)
+    public override IActionResult Update([FromBody] IEnumerable<EdgeItemAttribute> entity)
     {
       return UpdateInternal(entity);
     }

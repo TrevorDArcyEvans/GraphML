@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
 
@@ -31,77 +32,78 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Retrieve Node by its unique identifier
+    /// Retrieve Entity by its unique identifier
     /// </summary>
-    /// <param name="id">unique identifier</param>
+    /// <param name="ids">unique identifier</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
-    [HttpGet]
+    [HttpPost]
+    [Route(nameof(ByIds))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(Node), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Node>), description: "Success")]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
-    public override IActionResult ById([FromQuery]string id)
+    public override IActionResult ByIds([FromBody]IEnumerable<string> ids)
     {
-      return ByIdInternal(id);
+      return ByIdsInternal(ids);
     }
 
     /// <summary>
-    /// Retrieve all Node in a paged list
+    /// Retrieve all Entities in a paged list
     /// </summary>
     /// <param name="ownerId"></param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
-    /// <response code="200">Success - if no Node found, return empty list</response>
+    /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
     [Route(nameof(ByOwner))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Node>), description: "Success - if no Node found, return empty list")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Node>), description: "Success - if no Entities found, return empty list")]
     public override IActionResult ByOwner([FromQuery]string ownerId, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
     {
       return ByOwnerInternal(ownerId, pageIndex, pageSize);
     }
 
     /// <summary>
-    /// Create a new Node
+    /// Create new Entities
     /// </summary>
-    /// <param name="entity">new Node information</param>
+    /// <param name="entity">new Entities information</param>
     /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entity</response>
+    /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
     [Route(nameof(Create))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(Node), description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
-    public override IActionResult Create([FromBody] Node entity)
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Node>), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in ")]
+    public override IActionResult Create([FromBody] IEnumerable<Node> entity)
     {
       return CreateInternal(entity);
     }
 
     /// <summary>
-    /// Delete an existing Node
+    /// Delete existing Entities
     /// </summary>
-    /// <param name="entity">existing Node information</param>
+    /// <param name="entity">existing Entities information</param>
     /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entity</response>
+    /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
-    public override IActionResult Delete([FromBody] Node entity)
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    public override IActionResult Delete([FromBody] IEnumerable<Node> entity)
     {
       return DeleteInternal(entity);
     }
     /// <summary>
-    /// Update an existing Node with new information
+    /// Update existing Entities with new information
     /// </summary>
-    /// <param name="entity">capability with updated information</param>
+    /// <param name="entity">Entities with updated information</param>
     /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entity</response>
+    /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
     [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
-    public override IActionResult Update([FromBody] Node entity)
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    public override IActionResult Update([FromBody] IEnumerable<Node> entity)
     {
       return UpdateInternal(entity);
     }

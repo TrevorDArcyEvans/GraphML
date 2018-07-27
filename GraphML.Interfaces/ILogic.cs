@@ -1,13 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace GraphML.Interfaces
 {
   public interface ILogic<T>
   {
-    T ById(string id);
-    IQueryable<T> ByOwner(string ownerId);
-    T Create(T entity);
-    void Update(T entity);
-    void Delete(T entity);
+    IEnumerable<T> Ids(IEnumerable<string> ids);
+    IEnumerable<T> ByOwner(string ownerId);
+    IEnumerable<T> Create(IEnumerable<T> entity);
+    void Update(IEnumerable<T> entity);
+    void Delete(IEnumerable<T> entity);
   }
 }
