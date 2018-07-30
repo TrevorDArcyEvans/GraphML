@@ -70,22 +70,22 @@ namespace GraphML.Datastore.Database.Porcelain
         {
           foreach (var ent in entity)
           {
-            foreach (var graph in ent.Graphs) { graph.Id = Guid.NewGuid().ToString(); }
+            foreach (var graph in ent.Graphs) { graph.Id = graph.Id = graph.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : graph.Id; }
             _dbConnection.Insert(ent.Graphs, trans);
 
-            foreach (var graphAttr in ent.GraphItemAttributes) { graphAttr.Id = Guid.NewGuid().ToString(); }
+            foreach (var graphAttr in ent.GraphItemAttributes) { graphAttr.Id = graphAttr.Id = graphAttr.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : graphAttr.Id; }
             _dbConnection.Insert(ent.GraphItemAttributes, trans);
 
-            foreach (var node in ent.Nodes) { node.Id = Guid.NewGuid().ToString(); }
+            foreach (var node in ent.Nodes) { node.Id = node.Id = node.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : node.Id; }
             _dbConnection.Insert(ent.Nodes, trans);
 
-            foreach (var nodeAttr in ent.NodeItemAttributes) { nodeAttr.Id = Guid.NewGuid().ToString(); }
+            foreach (var nodeAttr in ent.NodeItemAttributes) { nodeAttr.Id = nodeAttr.Id = nodeAttr.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : nodeAttr.Id; }
             _dbConnection.Insert(ent.NodeItemAttributes, trans);
 
-            foreach (var edge in ent.Edges) { edge.Id = Guid.NewGuid().ToString(); }
+            foreach (var edge in ent.Edges) { edge.Id = edge.Id = edge.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : edge.Id; }
             _dbConnection.Insert(ent.Edges, trans);
 
-            foreach (var edgeAttr in ent.EdgeItemAttributes) { edgeAttr.Id = Guid.NewGuid().ToString(); }
+            foreach (var edgeAttr in ent.EdgeItemAttributes) { edgeAttr.Id = edgeAttr.Id = edgeAttr.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : edgeAttr.Id; }
             _dbConnection.Insert(ent.EdgeItemAttributes, trans);
           }
           trans.Commit();

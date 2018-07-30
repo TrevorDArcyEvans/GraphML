@@ -42,7 +42,7 @@ namespace GraphML.Datastore.Database
         {
           foreach (var ent in entity)
           {
-            ent.Id = Guid.NewGuid().ToString();
+            ent.Id = ent.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : ent.Id;
           }
 
           _dbConnection.Insert(entity, trans);
