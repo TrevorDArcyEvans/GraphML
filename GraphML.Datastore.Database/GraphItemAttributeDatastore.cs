@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class GraphItemAttributeDatastore : DatastoreBase<GraphItemAttribute>, IGraphItemAttributeDatastore
+  public sealed class GraphItemAttributeDatastore : OwnedItemDatastoreBase<GraphItemAttribute>, IGraphItemAttributeDatastore
   {
     public GraphItemAttributeDatastore(
       IDbConnectionFactory dbConnectionFactory,

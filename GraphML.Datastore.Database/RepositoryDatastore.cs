@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class RepositoryDatastore : DatastoreBase<Repository>, IRepositoryDatastore
+  public sealed class RepositoryDatastore : OwnedItemDatastoreBase<Repository>, IRepositoryDatastore
   {
     public RepositoryDatastore(
       IDbConnectionFactory dbConnectionFactory,

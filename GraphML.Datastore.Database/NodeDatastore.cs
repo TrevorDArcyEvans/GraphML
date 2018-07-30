@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class NodeDatastore : DatastoreBase<Node>, INodeDatastore
+  public sealed class NodeDatastore : OwnedItemDatastoreBase<Node>, INodeDatastore
   {
     public NodeDatastore(
       IDbConnectionFactory dbConnectionFactory,

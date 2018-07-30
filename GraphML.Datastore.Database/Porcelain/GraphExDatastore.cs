@@ -4,32 +4,24 @@ using GraphML.Interfaces;
 using GraphML.Interfaces.Porcelain;
 using GraphML.Porcelain;
 using Microsoft.Extensions.Logging;
-using Polly;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 
 namespace GraphML.Datastore.Database.Porcelain
 {
-  public sealed class GraphExDatastore : IGraphExDatastore
+  public sealed class GraphExDatastore : DatastoreBase<GraphEx>, IGraphExDatastore
   {
-    private readonly IDbConnection _dbConnection;
-    private readonly ILogger<GraphExDatastore> _logger;
-    private readonly ISyncPolicy _policy;
-
     public GraphExDatastore(
       IDbConnectionFactory dbConnectionFactory,
       ILogger<GraphExDatastore> logger,
-      ISyncPolicyFactory policy)
+      ISyncPolicyFactory policy) :
+      base(dbConnectionFactory, logger, policy)
     {
-      _dbConnection = dbConnectionFactory.Get();
-      _logger = logger;
-      _policy = policy.Build(_logger);
     }
 
     // ids --> graph.Id
-    public IEnumerable<GraphEx> ByIds(IEnumerable<string> ids)
+    public override IEnumerable<GraphEx> ByIds(IEnumerable<string> ids)
     {
       return GetInternal(() =>
       {
@@ -59,7 +51,7 @@ namespace GraphML.Datastore.Database.Porcelain
     }
 
     // ownerIds --> Repository.Id
-    public IEnumerable<GraphEx> ByOwners(IEnumerable<string> ownerIds)
+    public override IEnumerable<GraphEx> ByOwners(IEnumerable<string> ownerIds)
     {
       return GetInternal(() =>
       {
@@ -70,7 +62,7 @@ namespace GraphML.Datastore.Database.Porcelain
       });
     }
 
-    public IEnumerable<GraphEx> Create(IEnumerable<GraphEx> entity)
+    public override IEnumerable<GraphEx> Create(IEnumerable<GraphEx> entity)
     {
       return GetInternal(() =>
       {
@@ -103,7 +95,7 @@ namespace GraphML.Datastore.Database.Porcelain
       });
     }
 
-    public void Delete(IEnumerable<GraphEx> entity)
+    public override void Delete(IEnumerable<GraphEx> entity)
     {
       GetInternal(() =>
       {
@@ -125,7 +117,7 @@ namespace GraphML.Datastore.Database.Porcelain
       });
     }
 
-    public void Update(IEnumerable<GraphEx> entity)
+    public override void Update(IEnumerable<GraphEx> entity)
     {
       GetInternal(() =>
       {
@@ -145,11 +137,6 @@ namespace GraphML.Datastore.Database.Porcelain
           return 0;
         }
       });
-    }
-
-    private GraphEx GetInternal<GraphEx>(Func<GraphEx> get)
-    {
-      return _policy.Execute(get);
     }
   }
 }
