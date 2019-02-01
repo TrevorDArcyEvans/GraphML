@@ -6,15 +6,15 @@ using System.ComponentModel.DataAnnotations;
 namespace GraphML
 {
   [Table(nameof(Edge))]
-  public sealed class Edge : AttributedItem
+  public sealed class Edge : GraphItem
   {
     [Required]
-    [JsonProperty(nameof(Source))]
-    public string Source { get; set; }
+    [JsonProperty(nameof(SourceId))]
+    public string SourceId { get; set; }
 
     [Required]
-    [JsonProperty(nameof(Target))]
-    public string Target { get; set; }
+    [JsonProperty(nameof(TargetId))]
+    public string TargetId { get; set; }
 
     [JsonProperty(nameof(Directed))]
     public bool Directed { get; set; }
@@ -27,8 +27,8 @@ namespace GraphML
     public Edge(string ownerId, string name, string source, string target) :
       base(ownerId, name)
     {
-      Source = source.ThrowIfNullOrWhiteSpace(nameof(source));
-      Target = target.ThrowIfNullOrWhiteSpace(nameof(target));
+      SourceId = source.ThrowIfNullOrWhiteSpace(nameof(source));
+      TargetId = target.ThrowIfNullOrWhiteSpace(nameof(target));
     }
   }
 }

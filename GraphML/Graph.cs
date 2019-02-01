@@ -6,7 +6,7 @@ namespace GraphML
   public sealed class Graph : AttributedItem
   {
     public Graph() :
-    base()
+      base()
     {
     }
 

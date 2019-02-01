@@ -3,7 +3,7 @@
 namespace GraphML
 {
   [Table(nameof(Node))]
-  public sealed class Node : AttributedItem
+  public sealed class Node : GraphItem
   {
     public Node() :
       base()
