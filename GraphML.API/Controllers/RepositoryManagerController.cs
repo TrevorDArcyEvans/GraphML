@@ -33,6 +33,19 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
+    /// Retrieve all Entities
+    /// </summary>
+    /// <response code="200">Success</response>
+    [HttpPost]
+    [Route(nameof(GetAll))]
+    [ValidateModelState]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>), description: "Success")]
+    public IActionResult GetAll()
+    {
+      return new OkObjectResult(((IRepositoryManagerLogic)_logic).GetAll());
+    }
+
+    /// <summary>
     /// Retrieve Entity by its unique identifier
     /// </summary>
     /// <param name="ids">unique identifier</param>

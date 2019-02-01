@@ -1,4 +1,7 @@
-﻿using GraphML.Interfaces;
+﻿using FluentValidation;
+using System.Collections.Generic;
+using System.Linq;
+using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -13,6 +16,17 @@ namespace GraphML.Logic
       IRepositoryManagerFilter filter) :
       base(context, datastore, validator, filter)
     {
+    }
+
+    public IEnumerable<RepositoryManager> GetAll()
+    {
+      var valRes = _validator.Validate(new RepositoryManager(), ruleSet: nameof(IRepositoryManagerLogic.GetAll));
+      if (valRes.IsValid)
+      {
+        return _filter.Filter(((IRepositoryManagerDatastore)_datastore).GetAll());
+      }
+
+      return Enumerable.Empty<RepositoryManager>();
     }
   }
 }
