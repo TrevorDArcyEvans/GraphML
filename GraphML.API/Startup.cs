@@ -55,25 +55,6 @@ namespace GraphML.API
       DumpSettings();
     }
 
-    private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
-    {
-      lock (_lock)
-      {
-        AssemblyLoadContext.Default.Resolving -= OnAssemblyResolve;
-        try
-        {
-          var currAssyPath = Assembly.GetExecutingAssembly().Location;
-          var assyPath = Path.Combine(Path.GetDirectoryName(currAssyPath), $"{assemblyName.Name}.dll");
-          var assembly = File.Exists(assyPath) ? Assembly.LoadFile(assyPath) : null;
-          return assembly;
-        }
-        finally
-        {
-          AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
-        }
-      }
-    }
-
     // This method gets called by the runtime. Use this method to add services to the container.
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
@@ -243,6 +224,25 @@ namespace GraphML.API
       logging.AddConsole(logConfig); //log levels set in your configuration
       logging.AddDebug(); //does all log levels
       logging.AddFile(logConfig.GetValue<string>("PathFormat"));
+    }
+
+    private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
+    {
+      lock (_lock)
+      {
+        AssemblyLoadContext.Default.Resolving -= OnAssemblyResolve;
+        try
+        {
+          var currAssyPath = Assembly.GetExecutingAssembly().Location;
+          var assyPath = Path.Combine(Path.GetDirectoryName(currAssyPath), $"{assemblyName.Name}.dll");
+          var assembly = File.Exists(assyPath) ? Assembly.LoadFile(assyPath) : null;
+          return assembly;
+        }
+        finally
+        {
+          AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
+        }
+      }
     }
 
     private void DumpSettings()
