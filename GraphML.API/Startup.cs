@@ -281,6 +281,11 @@ namespace GraphML.API
 
       Console.WriteLine($"  CACHE:");
       Console.WriteLine($"    CACHE_HOST : {Settings.CACHE_HOST(Configuration)}");
+
+      Console.WriteLine($"  KESTREL:");
+      Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(Configuration)}");
+      Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(Configuration)}");
+      Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(Configuration)}");
     }
   }
 }

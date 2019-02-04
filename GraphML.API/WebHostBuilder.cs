@@ -1,6 +1,7 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using GraphML.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -43,18 +44,17 @@ namespace GraphML.API
             options.Listen(listenUrl.IsLoopback ? IPAddress.Loopback : IPAddress.Any, listenUrl.Port);
           }
 
-          var certCfg = config.GetSection("Certificate");
-          var certFileName = certCfg.GetValue<string>("FileName") ?? "GraphML.pfx";
+          var certFileName = Settings.KESTREL_CERTIFICATE_FILENAME(config);
           if (!string.IsNullOrEmpty(certFileName))
           {
-            var httpsPort = certCfg.GetValue<int>(Constants.HttpsPortKey) == 0 ? 8000 : certCfg.GetValue<int>(Constants.HttpsPortKey);
+            var httpsPort = Settings.KESTREL_HTTPS_PORT(config);
             httpsInfos.Add(httpsPort, IPAddress.Any);
 
             foreach (var kvp in httpsInfos)
             {
               options.Listen(kvp.Value, kvp.Key, listenOptions =>
               {
-                var certPassword = certCfg.GetValue<string>("Password") ?? "DisruptTheMarket";
+                var certPassword = Settings.KESTREL_CERTIFICATE_PASSWORD(config);
                 listenOptions.UseHttps(certFileName, certPassword);
               });
             }
