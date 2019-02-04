@@ -8,10 +8,9 @@
     "HttpsPort": 8001
   },
 
-
   "wwwroot": "wwwroot",
 
-  "RepositoryDatabase":
+  "Datastore":
   {
     "Connection": "SqLite",
 
@@ -34,10 +33,10 @@
     }
   },
 
-  "Jwt":
+  "OIDC":
   {
-    "Authority": "https://buying-catalogue-beta-prototype.eu.auth0.com/",
+    "Issuer_URL": "https://buying-catalogue-beta-prototype.eu.auth0.com/",
     "Audience": "api.buying-catalogue-beta-prototype",
-    "UserInfo": "https://buying-catalogue-beta-prototype.eu.auth0.com/userinfo",
+    "UserInfo_URL": "https://buying-catalogue-beta-prototype.eu.auth0.com/userinfo",
   }
 }

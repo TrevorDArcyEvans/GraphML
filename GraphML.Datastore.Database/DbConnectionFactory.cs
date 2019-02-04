@@ -1,7 +1,11 @@
-﻿using GraphML.Datastore.Database.Interfaces;
+﻿using Dapper.Contrib.Extensions;
+using GraphML.Datastore.Database.Interfaces;
+using GraphML.Utils;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
+using System.Linq;
+using System.Reflection;
 
 namespace GraphML.Datastore.Database
 {
@@ -16,17 +20,36 @@ namespace GraphML.Datastore.Database
 
     public IDbConnection Get()
     {
-      var dbConfig = _config.GetSection("RepositoryDatabase");
-      var connNode = dbConfig["Connection"];
-      var connConfig = dbConfig.GetSection(connNode);
-      var dbType = Enum.Parse<DataAccessProviderTypes>(connConfig["Type"]);
-      var fact = DbProviderFactoryUtils.GetDbProviderFactory(dbType);
-      var conn = fact.CreateConnection();
+      var connection = Settings.DATASTORE_CONNECTION(_config);
+      var connType = Settings.DATASTORE_CONNECTION_TYPE(_config, connection);
+      var dbType = Enum.Parse<DataAccessProviderTypes>(connType);
 
-      conn.ConnectionString = connConfig["ConnectionString"].Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
-      conn.Open();
+      // HACK:  workaround for PostgreSql which puts table+column names in lower case
+      if (dbType == DataAccessProviderTypes.PostgreSql)
+      {
+        SqlMapperExtensions.TableNameMapper = LowerCaseTableNameMapper;
+      }
 
-      return conn;
+      var dbFact = DbProviderFactoryUtils.GetDbProviderFactory(dbType);
+      var dbConn = dbFact.CreateConnection();
+
+      dbConn.ConnectionString = Settings.DATASTORE_CONNECTION_STRING(_config, connection).Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
+      dbConn.Open();
+
+      return dbConn;
+    }
+
+    private static string LowerCaseTableNameMapper(Type type)
+    {
+      var tableattr = type.GetCustomAttributes<TableAttribute>(false).SingleOrDefault();
+      var name = string.Empty;
+
+      if (tableattr != null)
+      {
+        name = tableattr.Name.ToLowerInvariant();
+      }
+
+      return name;
     }
   }
 }

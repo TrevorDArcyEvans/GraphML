@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GraphML.API.Authentications;
+using GraphML.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,6 +51,8 @@ namespace GraphML.API
         .AddUserSecrets<Program>();
 
       Configuration = builder.Build();
+
+      DumpSettings();
     }
 
     private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
@@ -240,6 +243,27 @@ namespace GraphML.API
       logging.AddConsole(logConfig); //log levels set in your configuration
       logging.AddDebug(); //does all log levels
       logging.AddFile(logConfig.GetValue<string>("PathFormat"));
+    }
+
+    private void DumpSettings()
+    {
+      Console.WriteLine("Settings:");
+      Console.WriteLine($"  DATASTORE:");
+      Console.WriteLine($"    DATASTORE_CONNECTION         : {Settings.DATASTORE_CONNECTION(Configuration)}");
+      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE    : {Settings.DATASTORE_CONNECTION_TYPE(Configuration, Settings.DATASTORE_CONNECTION(Configuration))}");
+      Console.WriteLine($"    DATASTORE_CONNECTION_STRING  : {Settings.DATASTORE_CONNECTION_STRING(Configuration, Settings.DATASTORE_CONNECTION(Configuration))}");
+
+      Console.WriteLine($"  LOG:");
+      Console.WriteLine($"    LOG_CONNECTION_STRING : {Settings.LOG_CONNECTION_STRING(Configuration)}");
+      Console.WriteLine($"    LOG_BEARER_AUTH       : {Settings.LOG_BEARER_AUTH(Configuration)}");
+
+      Console.WriteLine($"  OIDC:");
+      Console.WriteLine($"    OIDC_USERINFO_URL : {Settings.OIDC_USERINFO_URL(Configuration)}");
+      Console.WriteLine($"    OIDC_ISSUER_URL   : {Settings.OIDC_ISSUER_URL(Configuration)}");
+      Console.WriteLine($"    OIDC_AUDIENCE     : {Settings.OIDC_AUDIENCE(Configuration)}");
+
+      Console.WriteLine($"  CACHE:");
+      Console.WriteLine($"    CACHE_HOST : {Settings.CACHE_HOST(Configuration)}");
     }
   }
 }
