@@ -1,4 +1,6 @@
-﻿using GraphML.Utils;
+﻿using GraphML.Interfaces.Authentications;
+using GraphML.Utils;
+using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -7,10 +9,27 @@ using ZNetCS.AspNetCore.Authentication.Basic.Events;
 
 namespace GraphML.API.Authentications
 {
-  internal static class BasicAuthentication
+#pragma warning disable CS1591
+  public sealed class BasicAuthentication : IBasicAuthentication
   {
-    public static Task Authenticate(ValidatePrincipalContext context)
+    private readonly IHostingEnvironment _env;
+
+    public BasicAuthentication(
+      IHostingEnvironment env
+      )
     {
+      _env = env;
+    }
+
+    public Task Authenticate(ValidatePrincipalContext context)
+    {
+      if (!_env.IsDevelopment())
+      {
+        context.AuthenticationFailMessage = "Basic authentication only available in Development environment";
+
+        return Task.CompletedTask;
+      }
+
       // use basic authentication to support Swagger
       if (context.UserName != context.Password)
       {
@@ -35,4 +54,5 @@ namespace GraphML.API.Authentications
       return Task.CompletedTask;
     }
   }
+#pragma warning restore CS1591
 }

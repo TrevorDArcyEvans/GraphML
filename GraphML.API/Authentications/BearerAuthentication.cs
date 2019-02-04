@@ -1,4 +1,5 @@
-﻿using GraphML.Utils;
+﻿using GraphML.Interfaces.Authentications;
+using GraphML.Utils;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
@@ -11,14 +12,23 @@ using System.Threading.Tasks;
 
 namespace GraphML.API.Authentications
 {
-  internal static class BearerAuthentication
+#pragma warning disable CS1591
+  public sealed class BearerAuthentication : IBearerAuthentication
   {
+    private readonly IConfiguration _config;
+
     private static TimeSpan Expiry = TimeSpan.FromMinutes(60);
 
     // [bearerToken]-->[UserInfoResponse]
     private static Dictionary<string, CachedUserInfoResponse> _cache = new Dictionary<string, CachedUserInfoResponse>();
 
-    public static async Task Authenticate(IConfiguration config, TokenValidatedContext context)
+    public BearerAuthentication(
+      IConfiguration config)
+    {
+      _config = config;
+    }
+
+    public async Task Authenticate(TokenValidatedContext context)
     {
       // set roles based on email-->organisation-->org.PrimaryRoleId
       var bearerToken = ((FrameRequestHeaders)context.HttpContext.Request.Headers).HeaderAuthorization.Single();
@@ -36,7 +46,7 @@ namespace GraphML.API.Authentications
       var response = cachedresponse?.UserInfoResponse;
       if (response == null)
       {
-        var userInfoClient = new UserInfoClient(config["Jwt:UserInfo"]);
+        var userInfoClient = new UserInfoClient(Settings.OIDC_USERINFO_URL(_config));
         response = await userInfoClient.GetAsync(bearerToken.Substring(7));
         _cache.Add(bearerToken, new CachedUserInfoResponse(response));
       }
@@ -63,5 +73,6 @@ namespace GraphML.API.Authentications
       }
     }
   }
+#pragma warning restore CS1591
 }
 

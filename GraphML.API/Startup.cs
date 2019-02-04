@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using GraphML.API.Authentications;
+using GraphML.Interfaces.Authentications;
 using GraphML.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -130,7 +130,8 @@ namespace GraphML.API
               {
                 OnValidatePrincipal = context =>
                 {
-                  return BasicAuthentication.Authenticate(context);
+                  var auth = ServiceProvider.GetService<IBasicAuthentication>();
+                  return auth.Authenticate(context);
                 }
               };
             });
@@ -141,18 +142,20 @@ namespace GraphML.API
           options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
           options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-      .AddJwtBearer(options =>
-      {
-        options.Authority = Configuration["Jwt:Authority"];
-        options.Audience = Configuration["Jwt:Audience"];
-        options.Events = new JwtBearerEvents
+        .AddJwtBearer(options =>
         {
-          OnTokenValidated = async context =>
+          options.Authority = Settings.OIDC_ISSUER_URL(Configuration);
+          options.Audience = Settings.OIDC_AUDIENCE(Configuration);
+          options.RequireHttpsMetadata = !CurrentEnvironment.IsDevelopment();
+          options.Events = new JwtBearerEvents
           {
-            await BearerAuthentication.Authenticate(Configuration, context);
-          }
-        };
-      });
+            OnTokenValidated = async context =>
+            {
+              var auth = ServiceProvider.GetService<IBearerAuthentication>();
+              await auth.Authenticate(context);
+            }
+          };
+        });
 
       // Create the container builder.
       var builder = new ContainerBuilder();
@@ -192,9 +195,11 @@ namespace GraphML.API
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory logging)
+    public void Configure(IApplicationBuilder app, ILoggerFactory logging)
     {
-      if (env.IsDevelopment())
+      ServiceProvider = app.ApplicationServices;
+
+      if (CurrentEnvironment.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
       }
@@ -207,23 +212,31 @@ namespace GraphML.API
 
       app.UseRewriter(options);
 
-      // Enable middleware to serve generated Swagger as a JSON endpoint.
-      app.UseSwagger();
-
-      // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-      app.UseSwaggerUI(opts =>
+      if (CurrentEnvironment.IsDevelopment())
       {
-        opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API V1");
-        opts.SwaggerEndpoint("/swagger/porcelain/swagger.json", "GraphML API V1 Porcelain");
-      });
+        // Enable middleware to serve generated Swagger as a JSON endpoint.
+        app.UseSwagger();
+
+        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+        app.UseSwaggerUI(opts =>
+        {
+          opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API V1");
+          opts.SwaggerEndpoint("/swagger/porcelain/swagger.json", "GraphML API V1 Porcelain");
+
+          opts.DocExpansion(DocExpansion.None);
+        });
+      }
 
       app.UseStaticFiles();
       app.UseMvc();
 
-      var logConfig = Configuration.GetSection("Logging");
-      logging.AddConsole(logConfig); //log levels set in your configuration
-      logging.AddDebug(); //does all log levels
-      logging.AddFile(logConfig.GetValue<string>("PathFormat"));
+      if (CurrentEnvironment.IsDevelopment())
+      {
+        var logConfig = Configuration.GetSection("Logging");
+        logging.AddConsole(logConfig); //log levels set in your configuration
+        logging.AddDebug(); //does all log levels
+        logging.AddFile(logConfig.GetValue<string>("PathFormat"));
+      }
     }
 
     private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)

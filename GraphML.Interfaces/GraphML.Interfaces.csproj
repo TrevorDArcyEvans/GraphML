@@ -25,6 +25,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Polly-Signed" Version="5.8.0" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
