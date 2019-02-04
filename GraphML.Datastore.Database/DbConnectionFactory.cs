@@ -33,7 +33,7 @@ namespace GraphML.Datastore.Database
       var dbFact = DbProviderFactoryUtils.GetDbProviderFactory(dbType);
       var dbConn = dbFact.CreateConnection();
 
-      dbConn.ConnectionString = Settings.DATASTORE_CONNECTION_STRING(_config, connection).Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
+      dbConn.ConnectionString = Settings.DATASTORE_CONNECTION_STRING(_config, connection);
       dbConn.Open();
 
       return dbConn;
