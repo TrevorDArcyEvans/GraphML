@@ -21,12 +21,8 @@ namespace GraphML.Utils
 
     public static string KESTREL_CERTIFICATE_FILENAME(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_FILENAME") ?? config["Kestrel:Certificate_FileName"] ?? "GraphML.pfx";
     public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? config["Kestrel:Certificate_Password"] ?? "DisruptTheMarket";
-    public static int KESTREL_HTTPS_PORT(IConfiguration config)
-    {
-      return int.TryParse(Environment.GetEnvironmentVariable("KESTREL_HTTPS_PORT") ?? config["Kestrel:Https_Port"], out int result) ?
-        result :
-        8000;
-    }
+    public static string KESTREL_URLS(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_URLS") ?? config["Kestrel:Urls"] ?? "http://localhost:5000";
+    public static int KESTREL_HTTPS_PORT(IConfiguration config) => int.TryParse(Environment.GetEnvironmentVariable("KESTREL_HTTPS_PORT") ?? config["Kestrel:Https_Port"], out int result) ? result : 8000;
   }
 #pragma warning restore CS1591
 }

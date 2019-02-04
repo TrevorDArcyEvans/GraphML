@@ -18,7 +18,10 @@ namespace GraphML.API
     {
       var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddJsonFile("hosting.json")
+        .AddEnvironmentVariables()
+        .AddUserSecrets<Program>()
         .Build();
 
       return WebHost.CreateDefaultBuilder(args)
@@ -26,7 +29,7 @@ namespace GraphML.API
         .UseKestrel(options =>
         {
           var httpsInfos = new Dictionary<int, IPAddress>();
-          var allUrls = (config.GetValue<string>("urls") ?? "http://localhost:5000").Split(';');
+          var allUrls = (Settings.KESTREL_URLS(config)).Split(';');
           foreach (var url in allUrls)
           {
             var updatedUrl = url;
@@ -45,7 +48,7 @@ namespace GraphML.API
           }
 
           var certFileName = Settings.KESTREL_CERTIFICATE_FILENAME(config);
-          if (!string.IsNullOrEmpty(certFileName))
+          if (!string.IsNullOrEmpty(certFileName) && File.Exists(certFileName))
           {
             var httpsPort = Settings.KESTREL_HTTPS_PORT(config);
             httpsInfos.Add(httpsPort, IPAddress.Any);

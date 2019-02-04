@@ -210,7 +210,7 @@ namespace GraphML.API
 
       app.UseAuthentication();
 
-      var httpsPort = Configuration.GetValue<int>(Constants.HttpsPortKey);
+      var httpsPort = Settings.KESTREL_HTTPS_PORT(Configuration);
       var options = new RewriteOptions()
                       .AddRedirectToHttps((int)HttpStatusCode.MovedPermanently, httpsPort);
 
@@ -285,6 +285,7 @@ namespace GraphML.API
       Console.WriteLine($"  KESTREL:");
       Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(Configuration)}");
       Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(Configuration)}");
+      Console.WriteLine($"    KESTREL_URLS                  : {Settings.KESTREL_URLS(Configuration)}");
       Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(Configuration)}");
     }
   }

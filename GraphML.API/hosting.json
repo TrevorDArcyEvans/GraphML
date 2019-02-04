@@ -1,12 +1,3 @@
 ﻿{
-  "urls": "http://localhost:6000; http://*:5122; https://*:5123",
-
-  "Kestrel":
-  {
-    "Certificate_FileName": "GraphML.pfx",
-    "Certificate_Password": "DisruptTheMarket",
-    "Https_Port": 8001
-  },
-
   "wwwroot": "wwwroot"
 }
