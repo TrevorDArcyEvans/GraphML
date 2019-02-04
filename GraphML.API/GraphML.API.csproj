@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <StartupObject>GraphML.API.Program</StartupObject>
+    <UserSecretsId>e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
