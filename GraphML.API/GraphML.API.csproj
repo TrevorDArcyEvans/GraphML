@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <StartupObject>GraphML.API.Program</StartupObject>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
@@ -12,11 +12,11 @@
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\GraphML.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.1\GraphML.API.xml</DocumentationFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\GraphML.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.1\GraphML.API.xml</DocumentationFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

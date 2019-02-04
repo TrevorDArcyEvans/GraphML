@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
@@ -11,12 +11,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>..\GraphML.API\bin\Debug\netcoreapp2.0\</OutputPath>
+    <OutputPath>..\GraphML.API\bin\Debug\netcoreapp2.1\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>..\GraphML.API\bin\Release\netcoreapp2.0\</OutputPath>
+    <OutputPath>..\GraphML.API\bin\Release\netcoreapp2.1\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +26,6 @@
     <PackageReference Include="Dapper.Contrib" Version="1.50.4" />
     <PackageReference Include="FluentValidation" Version="7.5.2" />
     <PackageReference Include="IdentityModel" Version="3.7.0" />
-    <!--PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" /-->
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.0.0" />
