@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore;
+﻿using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,7 +60,14 @@ namespace GraphML.API
             }
           }
         })
+        .ConfigureServices(services => services.AddAutofac())
         .UseConfiguration(config)
+        .ConfigureLogging(logging =>
+        {
+          logging.ClearProviders();
+          logging.SetMinimumLevel(LogLevel.Trace);
+        })
+        .UseNLog()  // NLog: setup NLog for Dependency injection
         .Build();
     }
   }

@@ -12,8 +12,18 @@ DROP TABLE IF EXISTS Graph;
 DROP TABLE IF EXISTS Repository;
 DROP TABLE IF EXISTS RepositoryManager;
 
+DROP TABLE IF EXISTS Log;
+
 
 -- create data tables
+
+CREATE TABLE Log 
+(
+  Timestamp TEXT,
+  Loglevel TEXT,
+  Callsite TEXT,
+  Message TEXT
+);
 
 -- RepositoryManager.csv
 CREATE TABLE RepositoryManager

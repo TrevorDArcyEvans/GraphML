@@ -38,5 +38,10 @@
     "Issuer_URL": "https://buying-catalogue-beta-prototype.eu.auth0.com/",
     "Audience": "api.buying-catalogue-beta-prototype",
     "UserInfo_URL": "https://buying-catalogue-beta-prototype.eu.auth0.com/userinfo",
+  },
+
+  "Log":
+  {
+    "ConnectionString": "Data Source=db;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
   }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog;
 using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -51,6 +52,9 @@ namespace GraphML.API
         .AddUserSecrets<Program>();
 
       Configuration = builder.Build();
+
+      // database connection string for nLog
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(Configuration));
 
       DumpSettings();
     }

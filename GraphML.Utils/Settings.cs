@@ -10,7 +10,7 @@ namespace GraphML.Utils
     public static string OIDC_AUDIENCE(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? config["OIDC:Audience"];
     public static string OIDC_USERINFO_URL(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_USERINFO_URL") ?? config["OIDC:UserInfo_URL"];
 
-    public static string LOG_CONNECTION_STRING(IConfiguration config) => Environment.GetEnvironmentVariable("LOG_CONNECTIONSTRING") ?? config["Log:Connection_String"];
+    public static string LOG_CONNECTION_STRING(IConfiguration config) => Environment.GetEnvironmentVariable("LOG_CONNECTIONSTRING") ?? config["Log:ConnectionString"];
     public static bool LOG_BEARER_AUTH(IConfiguration config) => bool.Parse(Environment.GetEnvironmentVariable("LOG_BEARERAUTH") ?? config["Log:Bearer_Auth"] ?? false.ToString());
 
     public static string DATASTORE_CONNECTION(IConfiguration config) => Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? config["Datastore:Connection"];
