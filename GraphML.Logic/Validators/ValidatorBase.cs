@@ -9,14 +9,10 @@ namespace GraphML.Logic.Validators
   {
     protected readonly IHttpContextAccessor _context;
 
-    public ValidatorBase(IHttpContextAccessor context)
+    public ValidatorBase(IHttpContextAccessor context) :
+      base()
     {
       _context = context;
-
-      RuleSet(nameof(ILogic<T>.ByOwners), () =>
-      {
-        RuleForByOwner();
-      });
       RuleSet(nameof(ILogic<T>.Create), () =>
       {
         RuleForCreate();
@@ -29,10 +25,6 @@ namespace GraphML.Logic.Validators
       {
         RuleForDelete();
       });
-    }
-
-    protected virtual void RuleForByOwner()
-    {
     }
 
     protected virtual void RuleForCreate()

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GraphML.Datastore.Database
 {
-  public abstract class OwnedItemDatastoreBase<T> : DatastoreBase<T> where T : OwnedItem
+  public abstract class OwnedItemDatastoreBase<T> : DatastoreBase<T>, IOwnedDatastore<T> where T : OwnedItem
   {
     public OwnedItemDatastoreBase(
       IDbConnectionFactory dbConnectionFactory,
@@ -18,66 +18,11 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public override IEnumerable<T> ByIds(IEnumerable<string> ids)
-    {
-      return GetInternal(() =>
-      {
-        return _dbConnection.GetAll<T>().Where(x => ids.Contains(x.Id));
-      });
-    }
-
-    public override IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
     {
       return GetInternal(() =>
       {
         return _dbConnection.GetAll<T>().Where(x => ownerIds.Contains(x.OwnerId));
-      });
-    }
-
-    public override IEnumerable<T> Create(IEnumerable<T> entity)
-    {
-      return GetInternal(() =>
-      {
-        using (var trans = _dbConnection.BeginTransaction())
-        {
-          foreach (var ent in entity)
-          {
-            ent.Id = ent.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : ent.Id;
-          }
-
-          _dbConnection.Insert(entity, trans);
-          trans.Commit();
-
-          return entity;
-        }
-      });
-    }
-
-    public override void Delete(IEnumerable<T> entity)
-    {
-      GetInternal(() =>
-      {
-        using (var trans = _dbConnection.BeginTransaction())
-        {
-          _dbConnection.Delete(entity, trans);
-          trans.Commit();
-
-          return 0;
-        }
-      });
-    }
-
-    public override void Update(IEnumerable<T> entity)
-    {
-      GetInternal(() =>
-      {
-        using (var trans = _dbConnection.BeginTransaction())
-        {
-          _dbConnection.Update(entity, trans);
-          trans.Commit();
-
-          return 0;
-        }
       });
     }
   }

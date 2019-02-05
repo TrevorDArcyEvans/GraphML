@@ -3,11 +3,10 @@ using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GraphML.Logic
 {
-  public abstract class LogicBase<T> : ILogic<T> where T : class, new()
+  public abstract class LogicBase<T> : ILogic<T> where T : Item, new()
   {
     protected readonly IHttpContextAccessor _context;
     protected readonly IDatastore<T> _datastore;
@@ -28,24 +27,13 @@ namespace GraphML.Logic
 
     public virtual IEnumerable<T> Ids(IEnumerable<string> ids)
     {
-      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwners));
+      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.Ids));
       if (valRes.IsValid)
       {
         return _filter.Filter(_datastore.ByIds(ids));
       }
 
       return null;
-    }
-
-    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
-    {
-      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.ByOwners));
-      if (valRes.IsValid)
-      {
-        return _filter.Filter(_datastore.ByOwners(ownerIds));
-      }
-
-      return Enumerable.Empty<T>();
     }
 
     public virtual IEnumerable<T> Create(IEnumerable<T> entity)

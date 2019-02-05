@@ -8,9 +8,9 @@ namespace GraphML.API.Controllers
 #pragma warning disable CS1591
   public abstract class GraphMLController<T> : ControllerBase
   {
-    protected readonly ILogic<T> _logic;
+    protected readonly IOwnedLogic<T> _logic;
 
-    public GraphMLController(ILogic<T> logic)
+    public GraphMLController(IOwnedLogic<T> logic)
     {
       _logic = logic;
     }

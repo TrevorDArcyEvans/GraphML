@@ -1,7 +1,17 @@
-INSERT INTO RepositoryManager(Id, OwnerId, Name, OrganisationId)
+INSERT INTO Organisation(Id, Name)
 VALUES
-  ('874852c8-794a-4748-89bc-68ce50823093', '', 'GraphML', 'GraphML Id'),
-  ('66852486-9780-4aad-863a-b7fb2e903192', '', 'Kool Organisation', 'Kool Organisation Id');
+  ('c018775d-ac42-46d2-bf8d-7fadced870d5', 'GraphML'),
+  ('05dfbd09-3252-42a1-901b-85691802d9bc', 'Kool Organisation');
+
+INSERT INTO Contact(Id, OwnerId, Name)
+VALUES
+  ('907bf1ab-fb91-494b-b1a8-376f9a9f03d8', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'admin@GraphML.com'),
+  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '05dfbd09-3252-42a1-901b-85691802d9bc', 'tester@KoolOrganisation.org');
+
+INSERT INTO RepositoryManager(Id, OwnerId, Name)
+VALUES
+  ('874852c8-794a-4748-89bc-68ce50823093', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'GraphML Repository Manager'),
+  ('66852486-9780-4aad-863a-b7fb2e903192', '05dfbd09-3252-42a1-901b-85691802d9bc', 'Kool Organisation Repository Manager');
 
 INSERT INTO Repository(Id, OwnerId, Name)
 VALUES

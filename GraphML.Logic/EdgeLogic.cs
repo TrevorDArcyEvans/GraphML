@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic
 {
-  public sealed class EdgeLogic : LogicBase<Edge>, IEdgeLogic
+  public sealed class EdgeLogic : OwnedLogicBase<Edge>, IEdgeLogic
   {
     public EdgeLogic(
       IHttpContextAccessor context,

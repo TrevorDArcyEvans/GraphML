@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-  public sealed class GraphItemAttributeValidator : ValidatorBase<GraphItemAttribute>, IGraphItemAttributeValidator
+  public sealed class GraphItemAttributeValidator : OwnedValidatorBase<GraphItemAttribute>, IGraphItemAttributeValidator
   {
     public GraphItemAttributeValidator(IHttpContextAccessor context) :
       base(context)

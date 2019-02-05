@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-  public sealed class NodeValidator : ValidatorBase<Node>, INodeValidator
+  public sealed class NodeValidator : OwnedValidatorBase<Node>, INodeValidator
   {
     public NodeValidator(IHttpContextAccessor context) :
       base(context)

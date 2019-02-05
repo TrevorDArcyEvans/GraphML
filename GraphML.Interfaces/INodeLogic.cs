@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface INodeLogic : ILogic<Node>
+  public interface INodeLogic : IOwnedLogic<Node>
   {
   }
 }

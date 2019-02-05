@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface INodeDatastore : IDatastore<Node>
+  public interface INodeDatastore : IOwnedDatastore<Node>
   {
   }
 }

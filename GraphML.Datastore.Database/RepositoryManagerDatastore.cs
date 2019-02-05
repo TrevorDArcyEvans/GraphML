@@ -17,14 +17,6 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public override IEnumerable<RepositoryManager> ByIds(IEnumerable<string> ids)
-    {
-      return GetInternal(() =>
-      {
-        return _dbConnection.GetAll<RepositoryManager>().Where(rm => ids.Contains(rm.Id));
-      });
-    }
-
     public IEnumerable<RepositoryManager> GetAll()
     {
       return GetInternal(() =>

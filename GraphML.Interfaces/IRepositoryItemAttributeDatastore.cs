@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IRepositoryItemAttributeDatastore : IDatastore<RepositoryItemAttribute>
+  public interface IRepositoryItemAttributeDatastore : IOwnedDatastore<RepositoryItemAttribute>
   {
   }
 }

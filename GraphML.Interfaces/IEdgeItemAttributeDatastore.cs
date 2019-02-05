@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IEdgeItemAttributeDatastore : IDatastore<EdgeItemAttribute>
+  public interface IEdgeItemAttributeDatastore : IOwnedDatastore<EdgeItemAttribute>
   {
   }
 }

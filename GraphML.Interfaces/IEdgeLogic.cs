@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IEdgeLogic : ILogic<Edge>
+  public interface IEdgeLogic : IOwnedLogic<Edge>
   {
   }
 }

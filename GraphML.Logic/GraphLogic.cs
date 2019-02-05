@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic
 {
-  public sealed class GraphLogic : LogicBase<Graph>, IGraphLogic
+  public sealed class GraphLogic : OwnedLogicBase<Graph>, IGraphLogic
   {
     public GraphLogic(
       IHttpContextAccessor context,

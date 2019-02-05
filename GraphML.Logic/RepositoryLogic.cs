@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic
 {
-  public sealed class RepositoryLogic : LogicBase<Repository>, IRepositoryLogic
+  public sealed class RepositoryLogic : OwnedLogicBase<Repository>, IRepositoryLogic
   {
     public RepositoryLogic(
       IHttpContextAccessor context,

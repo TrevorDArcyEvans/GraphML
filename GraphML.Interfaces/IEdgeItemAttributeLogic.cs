@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IEdgeItemAttributeLogic : ILogic<EdgeItemAttribute>
+  public interface IEdgeItemAttributeLogic : IOwnedLogic<EdgeItemAttribute>
   {
   }
 }

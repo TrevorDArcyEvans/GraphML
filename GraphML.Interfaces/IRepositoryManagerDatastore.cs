@@ -2,7 +2,7 @@
 
 namespace GraphML.Interfaces
 {
-  public interface IRepositoryManagerDatastore : IDatastore<RepositoryManager>
+  public interface IRepositoryManagerDatastore : IOwnedDatastore<RepositoryManager>
   {
     IEnumerable<RepositoryManager> GetAll();
   }

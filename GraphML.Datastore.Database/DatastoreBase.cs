@@ -1,4 +1,5 @@
-﻿using GraphML.Datastore.Database.Interfaces;
+﻿using Dapper.Contrib.Extensions;
+using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -7,11 +8,12 @@ using Polly;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace GraphML.Datastore.Database
 {
-  public abstract class DatastoreBase<T> : IDatastore<T>
+  public abstract class DatastoreBase<T> : IDatastore<T> where T : Item
   {
     protected readonly IDbConnection _dbConnection;
     protected readonly ILogger<IDatastore<T>> _logger;
@@ -27,11 +29,60 @@ namespace GraphML.Datastore.Database
       _policy = policy.Build(_logger);
     }
 
-    public abstract IEnumerable<T> ByIds(IEnumerable<string> id);
-    public abstract IEnumerable<T> ByOwners(IEnumerable<string> ownerIds);
-    public abstract IEnumerable<T> Create(IEnumerable<T> entity);
-    public abstract void Delete(IEnumerable<T> entity);
-    public abstract void Update(IEnumerable<T> entity);
+    public IEnumerable<T> ByIds(IEnumerable<string> ids)
+    {
+      return GetInternal(() =>
+      {
+        return _dbConnection.GetAll<T>().Where(x => ids.Contains(x.Id));
+      });
+    }
+
+    public IEnumerable<T> Create(IEnumerable<T> entity)
+    {
+      return GetInternal(() =>
+      {
+        using (var trans = _dbConnection.BeginTransaction())
+        {
+          foreach (var ent in entity)
+          {
+            ent.Id = ent.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : ent.Id;
+          }
+
+          _dbConnection.Insert(entity, trans);
+          trans.Commit();
+
+          return entity;
+        }
+      });
+    }
+
+    public void Delete(IEnumerable<T> entity)
+    {
+      GetInternal(() =>
+      {
+        using (var trans = _dbConnection.BeginTransaction())
+        {
+          _dbConnection.Delete(entity, trans);
+          trans.Commit();
+
+          return 0;
+        }
+      });
+    }
+
+    public void Update(IEnumerable<T> entity)
+    {
+      GetInternal(() =>
+      {
+        using (var trans = _dbConnection.BeginTransaction())
+        {
+          _dbConnection.Update(entity, trans);
+          trans.Commit();
+
+          return 0;
+        }
+      });
+    }
 
     protected TOther GetInternal<TOther>(Func<TOther> get)
     {

@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IRepositoryLogic : ILogic<Repository>
+  public interface IRepositoryLogic : IOwnedLogic<Repository>
   {
   }
 }

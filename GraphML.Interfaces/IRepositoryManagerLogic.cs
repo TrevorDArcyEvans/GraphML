@@ -2,7 +2,7 @@
 
 namespace GraphML.Interfaces
 {
-  public interface IRepositoryManagerLogic : ILogic<RepositoryManager>
+  public interface IRepositoryManagerLogic : IOwnedLogic<RepositoryManager>
   {
     IEnumerable<RepositoryManager> GetAll();
   }

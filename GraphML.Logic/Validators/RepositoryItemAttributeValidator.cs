@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-  public sealed class RepositoryItemAttributeValidator : ValidatorBase<RepositoryItemAttribute>, IRepositoryItemAttributeValidator
+  public sealed class RepositoryItemAttributeValidator : OwnedValidatorBase<RepositoryItemAttribute>, IRepositoryItemAttributeValidator
   {
     public RepositoryItemAttributeValidator(IHttpContextAccessor context) :
       base(context)

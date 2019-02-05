@@ -11,6 +11,8 @@ DROP TABLE IF EXISTS Node;
 DROP TABLE IF EXISTS Graph;
 DROP TABLE IF EXISTS Repository;
 DROP TABLE IF EXISTS RepositoryManager;
+DROP TABLE IF EXISTS Contact;
+DROP TABLE IF EXISTS Organisation;
 
 DROP TABLE IF EXISTS Log;
 
@@ -25,17 +27,30 @@ CREATE TABLE Log
   Message TEXT
 );
 
--- RepositoryManager.csv
-CREATE TABLE RepositoryManager
+CREATE TABLE Organisation
 (
   Id TEXT NOT NULL UNIQUE,
   Name TEXT NOT NULL,
-  OwnerId TEXT NOT NULL,
-  OrganisationId TEXT NOT NULL UNIQUE,
   PRIMARY KEY (Id)
 );
 
--- Repository.csv
+CREATE TABLE Contact
+(
+  Id TEXT NOT NULL UNIQUE,
+  OwnerId TEXT NOT NULL,
+  Name TEXT NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Organisation(Id) ON DELETE CASCADE
+);
+
+CREATE TABLE RepositoryManager
+(
+  Id TEXT NOT NULL UNIQUE,
+  OwnerId TEXT NOT NULL,
+  Name TEXT NOT NULL,
+  PRIMARY KEY (Id)
+);
+
 CREATE TABLE Repository
 (
   Id TEXT NOT NULL UNIQUE,
@@ -45,7 +60,6 @@ CREATE TABLE Repository
   FOREIGN KEY (OwnerId) REFERENCES RepositoryManager(Id) ON DELETE CASCADE
 );
 
--- Graph.csv
 CREATE TABLE Graph
 (
   Id TEXT NOT NULL UNIQUE,
@@ -55,7 +69,6 @@ CREATE TABLE Graph
   FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE
 );
 
--- Node.csv
 CREATE TABLE Node
 (
   Id TEXT NOT NULL UNIQUE,
@@ -67,7 +80,6 @@ CREATE TABLE Node
   FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
 );
 
--- Edge.csv
 CREATE TABLE Edge
 (
   Id TEXT NOT NULL UNIQUE,
@@ -84,7 +96,6 @@ CREATE TABLE Edge
   FOREIGN KEY (TargetId) REFERENCES Node(Id) ON DELETE CASCADE
 );
 
--- RepositoryItemAttribute.csv
 CREATE TABLE RepositoryItemAttribute
 (
   Id TEXT NOT NULL UNIQUE,
@@ -96,7 +107,6 @@ CREATE TABLE RepositoryItemAttribute
   FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE
 );
 
--- GraphItemAttribute.csv
 CREATE TABLE GraphItemAttribute
 (
   Id TEXT NOT NULL UNIQUE,
@@ -108,7 +118,6 @@ CREATE TABLE GraphItemAttribute
   FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
 );
 
--- NodeItemAttribute.csv
 CREATE TABLE NodeItemAttribute
 (
   Id TEXT NOT NULL UNIQUE,
@@ -120,7 +129,6 @@ CREATE TABLE NodeItemAttribute
   FOREIGN KEY (OwnerId) REFERENCES Node(Id) ON DELETE CASCADE
 );
 
--- EdgeItemAttribute.csv
 CREATE TABLE EdgeItemAttribute
 (
   Id TEXT NOT NULL UNIQUE,
