@@ -1,4 +1,6 @@
-﻿using GraphML.Datastore.Database.Interfaces;
+﻿using System.Collections.Generic;
+using Dapper.Contrib.Extensions;
+using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +14,11 @@ namespace GraphML.Datastore.Database
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {
+    }
+
+    public IEnumerable<Organisation> GetAll()
+    {
+      return _dbConnection.GetAll<Organisation>();
     }
   }
 }

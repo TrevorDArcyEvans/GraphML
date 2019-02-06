@@ -2,7 +2,7 @@
 
 namespace GraphML.Interfaces
 {
-  public interface IOrganisationDatastore : IDatastore<Organisation>
+  public interface IOrganisationLogic : ILogic<Organisation>
   {
     IEnumerable<Organisation> GetAll();
   }

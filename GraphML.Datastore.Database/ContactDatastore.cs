@@ -1,6 +1,8 @@
-﻿using GraphML.Datastore.Database.Interfaces;
+﻿using Dapper.Contrib.Extensions;
+using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace GraphML.Datastore.Database
 {
@@ -12,6 +14,11 @@ namespace GraphML.Datastore.Database
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {
+    }
+
+    public Contact ByEmail(string email)
+    {
+      return _dbConnection.GetAll<Contact>().SingleOrDefault(c => c.Name.ToLowerInvariant() == email.ToLowerInvariant());
     }
   }
 }

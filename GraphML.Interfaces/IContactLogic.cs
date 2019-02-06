@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IContactDatastore : IOwnedDatastore<Contact>
+  public interface IContactLogic : IOwnedLogic<Contact>
   {
     Contact ByEmail(string email);
   }
