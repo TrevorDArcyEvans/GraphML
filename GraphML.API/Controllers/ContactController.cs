@@ -21,7 +21,7 @@ namespace GraphML.API.Controllers
     Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
     AuthenticationSchemes = BasicAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
-  public sealed class ContactController : GraphMLController<Contact>
+  public sealed class ContactController : OwnedGraphMLController<Contact>
   {
     /// <summary>
     /// constructor

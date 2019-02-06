@@ -20,7 +20,7 @@ namespace GraphML.API.Controllers
     Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
     AuthenticationSchemes = BasicAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
-  public sealed class RepositoryController : GraphMLController<Repository>
+  public sealed class RepositoryController : OwnedGraphMLController<Repository>
   {
     /// <summary>
     /// constructor
