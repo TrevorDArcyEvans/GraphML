@@ -53,10 +53,15 @@ namespace GraphML.API.Authentications
 
       var userClaims = response.Claims;
       var claims = new List<Claim>(userClaims);
-      var orgId = userClaims.SingleOrDefault(x => x.Type == GraphMLClaimTypes.OrganisationId)?.Value;
-      if (!string.IsNullOrEmpty(orgId))
+
+      // ClaimTypes.Email --> 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+      // but some OIDC providers use 'email'
+      var email = userClaims.SingleOrDefault(x =>
+        x.Type == ClaimTypes.Email ||
+        x.Type.ToLowerInvariant() == "email")?.Value;
+      if (!string.IsNullOrEmpty(email))
       {
-        claims.Add(new Claim(GraphMLClaimTypes.OrganisationId, orgId));
+        claims.Add(new Claim(ClaimTypes.Email, email));
       }
 
       context.Principal.AddIdentity(new ClaimsIdentity(claims));

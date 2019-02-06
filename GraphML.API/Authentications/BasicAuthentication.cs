@@ -46,7 +46,7 @@ namespace GraphML.API.Authentications
         new Claim(ClaimTypes.Role, context.UserName),
 
         // 'GraphML' is for testing
-        new Claim(GraphMLClaimTypes.OrganisationId, "GraphML")
+        new Claim(ClaimTypes.Email, "admin@GraphML.com")
       };
 
       context.Principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
