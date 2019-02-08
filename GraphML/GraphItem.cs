@@ -6,7 +6,7 @@ namespace GraphML
   public abstract class GraphItem : AttributedItem
   {
     [JsonProperty(nameof(NextId))]
-    public string NextId { get; set; } = Guid.Empty.ToString();
+    public string NextId { get; set; }
 
     protected GraphItem() :
       base()
@@ -16,8 +16,6 @@ namespace GraphML
     protected GraphItem(string ownerId, string name) :
       base(ownerId, name)
     {
-      OwnerId = ownerId;
-      Name = name;
     }
   }
 }
