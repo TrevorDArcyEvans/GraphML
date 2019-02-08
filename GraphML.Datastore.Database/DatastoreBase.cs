@@ -104,7 +104,7 @@ namespace GraphML.Datastore.Database
       return caller + " --> " + JObject.FromObject(info).ToString(Formatting.None);
     }
 
-    protected string GetListIds(IEnumerable<string> ids)
+    protected static string GetListIds(IEnumerable<string> ids)
     {
       var quotedIds = ids.Select(id => $"'{id}'");
       var listIds = string.Join(',', quotedIds.ToArray());
