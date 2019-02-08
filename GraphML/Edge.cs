@@ -1,11 +1,11 @@
-﻿using Dapper.Contrib.Extensions;
-using GraphML.Utils;
+﻿using GraphML.Utils;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Table(nameof(Edge))]
+  [Schema.Table(nameof(Edge))]
   public sealed class Edge : GraphItem
   {
     [Required]

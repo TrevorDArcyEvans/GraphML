@@ -1,10 +1,8 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GraphML.Datastore.Database
 {
@@ -22,7 +20,9 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        return _dbConnection.GetAll<T>().Where(x => ownerIds.Contains(x.OwnerId));
+        var sql = $"select * from {GetTableName()} where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)})";
+
+        return _dbConnection.Query<T>(sql);
       });
     }
   }

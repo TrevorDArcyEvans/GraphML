@@ -1,8 +1,8 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Table(nameof(Node))]
+  [Schema.Table(nameof(Node))]
   public sealed class Node : GraphItem
   {
     public Node() :

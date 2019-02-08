@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Table(nameof(Graph))]
+  [Schema.Table(nameof(Graph))]
   public sealed class Graph : AttributedItem
   {
     public Graph() :

@@ -1,8 +1,8 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Table(nameof(Repository))]
+  [Schema.Table(nameof(Repository))]
   public sealed class Repository : AttributedItem
   {
     public Repository() :

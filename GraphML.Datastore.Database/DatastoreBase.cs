@@ -1,4 +1,5 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -7,8 +8,10 @@ using Newtonsoft.Json.Linq;
 using Polly;
 using System;
 using System.Collections.Generic;
+using Schema = System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace GraphML.Datastore.Database
@@ -33,7 +36,9 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        return _dbConnection.GetAll<T>().Where(x => ids.Contains(x.Id));
+        var sql = $"select * from {GetTableName()} where {nameof(Item.Id)} in ({GetListIds(ids)})";
+
+        return _dbConnection.Query<T>(sql);
       });
     }
 
@@ -97,6 +102,21 @@ namespace GraphML.Datastore.Database
     protected string GetLogMessage(object info, [CallerMemberName] string caller = "")
     {
       return caller + " --> " + JObject.FromObject(info).ToString(Formatting.None);
+    }
+
+    protected string GetListIds(IEnumerable<string> ids)
+    {
+      var quotedIds = ids.Select(id => $"'{id}'");
+      var listIds = string.Join(',', quotedIds.ToArray());
+
+      return listIds;
+    }
+
+    protected string GetTableName()
+    {
+      var tableName = typeof(T).GetCustomAttribute<Schema.TableAttribute>().Name;
+
+      return tableName;
     }
   }
 }

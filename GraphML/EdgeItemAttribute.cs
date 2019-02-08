@@ -1,8 +1,8 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Table(nameof(ItemAttribute))]
+  [Schema.Table(nameof(ItemAttribute))]
   public sealed class EdgeItemAttribute : ItemAttribute
   {
   }
