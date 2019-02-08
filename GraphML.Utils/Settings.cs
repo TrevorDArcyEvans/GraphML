@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 
 namespace GraphML.Utils
 {
@@ -15,7 +16,11 @@ namespace GraphML.Utils
 
     public static string DATASTORE_CONNECTION(IConfiguration config) => Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? config["Datastore:Connection"];
     public static string DATASTORE_CONNECTION_TYPE(IConfiguration config, string connection) => Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_TYPE") ?? config[$"Datastore:{connection}:Type"];
-    public static string DATASTORE_CONNECTION_STRING(IConfiguration config, string connection) => (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ?? config[$"Datastore:{connection}:ConnectionString"])?.Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
+    public static string DATASTORE_CONNECTION_STRING(IConfiguration config, string connection) => (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ?? config[$"Datastore:{connection}:ConnectionString"])?
+      .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory)
+      .Replace('\\', Path.DirectorySeparatorChar)
+      .Replace('/', Path.DirectorySeparatorChar)
+      .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
     public static string CACHE_HOST(IConfiguration config) => Environment.GetEnvironmentVariable("CACHE_HOST") ?? config["Cache:Host"] ?? "localhost";
 
