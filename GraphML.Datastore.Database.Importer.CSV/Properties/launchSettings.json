@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "GraphML.Datastore.Database.Importer.CSV": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Dev\\GraphML\\Data\\WikiTalk.txt",
+      "environmentVariables": {
+        "REPOSITORY_NAME": "GraphML Repository 0",
+        "DATASTORE_CONNECTION_TYPE": "SqlServer",
+        "DATASTORE_CONNECTION_STRING": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
+      }
+    }
+  }
+}
