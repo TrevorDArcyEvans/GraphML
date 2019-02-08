@@ -1,5 +1,5 @@
 ﻿using CsvHelper.Configuration;
-using DapperExtensions;
+using Dapper.Contrib.Extensions;
 using GraphML.Utils;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -38,6 +38,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
         .Build();
 
       DumpSettings(config);
+      Console.WriteLine();
 
       var sw = Stopwatch.StartNew();
       using (var tr = File.OpenText(_dataFilePath))
@@ -58,14 +59,14 @@ namespace GraphML.Datastore.Database.Importer.CSV
           using (var conn = dbConnFact.Get())
           {
             var repoName = GetRepositoryName();
-            var predicate = Predicates.Field<Repository>(p => p.Name, Operator.Eq, repoName);
-            var repo = conn.GetList<Repository>(predicate).Single();
+            var repo = conn.GetAll<Repository>().Single(r => r.Name == repoName);
             var graph = new Graph(repo.Id, Path.GetFileNameWithoutExtension(_dataFilePath));
 
             Console.WriteLine($"Importing from:  {_dataFilePath}");
             Console.WriteLine($"          into:  {conn.ConnectionString}");
             Console.WriteLine($"    repository:  {repo.Name}");
             Console.WriteLine($"         graph:  {graph.Name}");
+            Console.WriteLine();
 
             var modelNodes = nodes.Select(node => new Node(graph.Id, node)).ToList();
             var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
@@ -76,13 +77,25 @@ namespace GraphML.Datastore.Database.Importer.CSV
                 modelNodesMap[edge.FromNode].Id,
                 modelNodesMap[edge.ToNode].Id)).ToList();
 
+            Console.WriteLine($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
+
             using (var trans = conn.BeginTransaction())
             {
               conn.Insert(graph, trans);
-              conn.Insert<Node>(modelNodes, trans);
-              conn.Insert<Edge>(modelEdges, trans);
 
+              Console.WriteLine($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+              conn.Insert(modelNodes, trans);
+              Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+              Console.WriteLine($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+              conn.Insert(modelEdges, trans);
+              Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+              Console.WriteLine($"Started database commit     : {sw.ElapsedMilliseconds} ms");
               trans.Commit();
+              Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+              Console.WriteLine();
             }
             Console.WriteLine($"Finished!");
             Console.WriteLine($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
