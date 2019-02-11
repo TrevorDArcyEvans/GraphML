@@ -48,7 +48,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
       {
         var csvCfg = new Configuration
         {
-          Delimiter = "\t",
+          Delimiter = Path.GetExtension(_dataFilePath).ToLowerInvariant() == ".csv" ? "," : "\t",
           AllowComments = true,
           HeaderValidated = null
         };
