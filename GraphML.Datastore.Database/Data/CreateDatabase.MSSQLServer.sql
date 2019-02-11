@@ -56,6 +56,7 @@ CREATE TABLE RepositoryManager
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES Organisation(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_RepositoryManager_Organisation ON RepositoryManager(OwnerId);
 
 CREATE TABLE Repository
 (
@@ -65,6 +66,7 @@ CREATE TABLE Repository
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES RepositoryManager(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_Repository_RepositoryManager ON Repository(OwnerId);
 
 CREATE TABLE Graph
 (
@@ -74,6 +76,7 @@ CREATE TABLE Graph
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_Graph_Repository ON Graph(OwnerId);
 
 CREATE TABLE Node
 (
@@ -85,6 +88,8 @@ CREATE TABLE Node
   FOREIGN KEY (NextId) REFERENCES Node(Id),
   FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_Node_Node ON Node(NextId);
+CREATE INDEX IDX_Node_Graph ON Node(OwnerId);
 
 CREATE TABLE Edge
 (
@@ -101,6 +106,10 @@ CREATE TABLE Edge
   FOREIGN KEY (SourceId) REFERENCES Node(Id) ON DELETE NO ACTION,
   FOREIGN KEY (TargetId) REFERENCES Node(Id) ON DELETE NO ACTION
 );
+CREATE INDEX IDX_Edge_NextId ON Edge(NextId);
+CREATE INDEX IDX_Edge_OwnerId ON Edge(OwnerId);
+CREATE INDEX IDX_Edge_SourceId ON Edge(SourceId);
+CREATE INDEX IDX_Edge_TargetId ON Edge(TargetId);
 
 CREATE TABLE RepositoryItemAttribute
 (
@@ -112,6 +121,7 @@ CREATE TABLE RepositoryItemAttribute
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_RepositoryItemAttribute_Repository ON RepositoryItemAttribute(OwnerId);
 
 CREATE TABLE GraphItemAttribute
 (
@@ -123,6 +133,7 @@ CREATE TABLE GraphItemAttribute
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_GraphItemAttribute_Graph ON GraphItemAttribute(OwnerId);
 
 CREATE TABLE NodeItemAttribute
 (
@@ -134,6 +145,7 @@ CREATE TABLE NodeItemAttribute
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES Node(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_NodeItemAttribute_Node ON NodeItemAttribute(OwnerId);
 
 CREATE TABLE EdgeItemAttribute
 (
@@ -145,4 +157,5 @@ CREATE TABLE EdgeItemAttribute
   PRIMARY KEY (Id),
   FOREIGN KEY (OwnerId) REFERENCES Edge(Id) ON DELETE CASCADE
 );
+CREATE INDEX IDX_EdgeItemAttribute_Edge ON EdgeItemAttribute(OwnerId);
 
