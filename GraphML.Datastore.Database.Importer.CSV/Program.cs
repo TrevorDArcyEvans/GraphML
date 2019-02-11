@@ -3,9 +3,12 @@ using Dapper.Contrib.Extensions;
 using GraphML.Utils;
 using Microsoft.Extensions.Configuration;
 using System;
+using Schema = System.ComponentModel.DataAnnotations.Schema;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace GraphML.Datastore.Database.Importer.CSV
 {
@@ -81,15 +84,32 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
             using (var trans = conn.BeginTransaction())
             {
-              conn.Insert(graph, trans);
+              if (conn is SqlConnection && trans is SqlTransaction)
+              {
+                var bulky = new BulkUploadToMsSqlServer((SqlConnection)conn, (SqlTransaction)trans);
 
-              Console.WriteLine($"Started node import at      : {sw.ElapsedMilliseconds} ms");
-              conn.Insert(modelNodes, trans);
-              Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+                bulky.Commit(new[] { graph }, GetTableName<Graph>());
 
-              Console.WriteLine($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
-              conn.Insert(modelEdges, trans);
-              Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+                Console.WriteLine($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+                bulky.Commit(modelNodes, GetTableName<Node>());
+                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+                Console.WriteLine($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+                bulky.Commit(modelEdges, GetTableName<Edge>());
+                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+              }
+              else
+              {
+                conn.Insert(graph, trans);
+
+                Console.WriteLine($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+                conn.Insert(modelNodes, trans);
+                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+                Console.WriteLine($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+                conn.Insert(modelEdges, trans);
+                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+              }
 
               Console.WriteLine($"Started database commit     : {sw.ElapsedMilliseconds} ms");
               trans.Commit();
@@ -122,6 +142,13 @@ namespace GraphML.Datastore.Database.Importer.CSV
       Console.WriteLine($"    DATASTORE_CONNECTION        : {Settings.DATASTORE_CONNECTION(config)}");
       Console.WriteLine($"    DATASTORE_CONNECTION_TYPE   : {Settings.DATASTORE_CONNECTION_TYPE(config, Settings.DATASTORE_CONNECTION(config))}");
       Console.WriteLine($"    DATASTORE_CONNECTION_STRING : {Settings.DATASTORE_CONNECTION_STRING(config, Settings.DATASTORE_CONNECTION(config))}");
+    }
+
+    private static string GetTableName<T>()
+    {
+      var tableName = typeof(T).GetCustomAttribute<Schema.TableAttribute>().Name;
+
+      return tableName;
     }
 
     private static string GetRepositoryName()
