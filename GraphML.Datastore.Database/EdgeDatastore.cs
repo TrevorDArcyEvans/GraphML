@@ -1,4 +1,6 @@
-﻿using GraphML.Datastore.Database.Interfaces;
+﻿using System.Collections.Generic;
+using Dapper;
+using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +14,16 @@ namespace GraphML.Datastore.Database
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {
+    }
+
+    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids)
+    {
+      return GetInternal(() =>
+      {
+        var sql = $"select * from {GetTableName()} where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)})";
+
+        return _dbConnection.Query<Edge>(sql);
+      });
     }
   }
 }

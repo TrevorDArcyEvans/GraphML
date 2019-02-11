@@ -1,4 +1,5 @@
-﻿using GraphML.Logic.Interfaces;
+﻿using GraphML.Interfaces;
+using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
@@ -8,6 +9,9 @@ namespace GraphML.Logic.Validators
     public EdgeValidator(IHttpContextAccessor context) :
       base(context)
     {
+      RuleSet(nameof(IEdgeLogic.ByNodeIds), () =>
+      {
+      });
     }
   }
 }

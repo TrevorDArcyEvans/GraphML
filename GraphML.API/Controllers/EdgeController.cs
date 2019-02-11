@@ -108,5 +108,25 @@ namespace GraphML.API.Controllers
     {
       return UpdateInternal(entity);
     }
+
+    /// <summary>
+    /// Retrieve Edges connected to specified Nodes
+    /// </summary>
+    /// <param name="ids">unique identifier</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpPost]
+    [Route(nameof(ByNodeIds))]
+    [ValidateModelState]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>), description: "Success")]
+    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
+    public IActionResult ByNodeIds([FromBody]IEnumerable<string> ids, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
+    {
+      var ents = ((IEdgeLogic)_logic).ByNodeIds(ids);
+      var retval = PaginatedList<Edge>.Create(ents, pageIndex, pageSize);
+      return new OkObjectResult(retval);
+    }
   }
 }

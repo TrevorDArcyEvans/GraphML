@@ -1,4 +1,7 @@
-﻿using GraphML.Interfaces;
+﻿using FluentValidation;
+using System.Collections.Generic;
+using System.Linq;
+using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -13,6 +16,17 @@ namespace GraphML.Logic
       IEdgeFilter filter) :
       base(context, datastore, validator, filter)
     {
+    }
+
+    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids)
+    {
+      var valRes = _validator.Validate(new Edge(), ruleSet: nameof(IEdgeLogic.ByNodeIds));
+      if (valRes.IsValid)
+      {
+        return _filter.Filter(((IEdgeDatastore)_datastore).ByNodeIds(ids));
+      }
+
+      return Enumerable.Empty<Edge>();
     }
   }
 }
