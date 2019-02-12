@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28531.58
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML", "GraphML\GraphML.csproj", "{49402D91-E260-417E-BF6D-AC51BC7B6AA4}"
 EndProject
@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Logic", "GraphML.Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Datastore.Database", "GraphML.Datastore.Database\GraphML.Datastore.Database.csproj", "{8934E4FC-3B35-4614-8E78-25698C0A0E46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.Datastore.Database.Importer.CSV", "GraphML.Datastore.Database.Importer.CSV\GraphML.Datastore.Database.Importer.CSV.csproj", "{CB77FAD5-FF96-4250-8823-9F043BD52EDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Datastore.Database.Importer.CSV", "GraphML.Datastore.Database.Importer.CSV\GraphML.Datastore.Database.Importer.CSV.csproj", "{CB77FAD5-FF96-4250-8823-9F043BD52EDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.UI.Desktop", "GraphML.UI.Desktop\GraphML.UI.Desktop.csproj", "{99C7918A-AA6C-404B-B987-C9BEA3C815FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.UI.Desktop.Designer", "GraphML.UI.Desktop.Designer\GraphML.UI.Desktop.Designer.csproj", "{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{CB77FAD5-FF96-4250-8823-9F043BD52EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB77FAD5-FF96-4250-8823-9F043BD52EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB77FAD5-FF96-4250-8823-9F043BD52EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
