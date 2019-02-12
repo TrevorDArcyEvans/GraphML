@@ -4,7 +4,6 @@ using GraphML.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
@@ -40,8 +39,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByIds))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>), description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult ByIds([FromBody] IEnumerable<string> ids)
     {
       return ByIdsInternal(ids);
@@ -56,8 +55,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(Create))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>), description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult Create([FromBody] IEnumerable<Organisation> entity)
     {
       return CreateInternal(entity);
@@ -71,8 +70,8 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult Delete([FromBody] IEnumerable<Organisation> entity)
     {
       return DeleteInternal(entity);
@@ -86,8 +85,8 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entity")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult Update([FromBody] IEnumerable<Organisation> entity)
     {
       return UpdateInternal(entity);
@@ -101,8 +100,8 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Organisation>), description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity not found")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Organisation>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult GetAll([FromQuery]int? pageIndex, [FromQuery]int? pageSize)
     {
       var result = ((IOrganisationLogic)_logic).GetAll();

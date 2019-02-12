@@ -2,7 +2,7 @@
   "profiles": {
     "GraphML.Datastore.Database.Importer.CSV": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Dev\\GraphML\\Data\\WikiTalk.txt",
+      "commandLineArgs": "C:\\Dev\\GraphML\\Data\\ChCh-Miner_drugbank-chem-chem.tsv",
       "environmentVariables": {
         "REPOSITORY_NAME": "GraphML Repository 0",
         "DATASTORE_CONNECTION_TYPE": "SqlServer",

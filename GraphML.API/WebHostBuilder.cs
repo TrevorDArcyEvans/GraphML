@@ -56,7 +56,7 @@ namespace GraphML.API
             foreach (var kvp in httpsInfos)
             {
               options.Listen(kvp.Value, kvp.Key, listenOptions =>
-              {
+            {
                 var certPassword = Settings.KESTREL_CERTIFICATE_PASSWORD(config);
                 listenOptions.UseHttps(certFileName, certPassword);
               });
@@ -67,7 +67,6 @@ namespace GraphML.API
         .UseConfiguration(config)
         .ConfigureLogging(logging =>
         {
-          logging.ClearProviders();
           logging.SetMinimumLevel(LogLevel.Trace);
         })
         .UseNLog()  // NLog: setup NLog for Dependency injection

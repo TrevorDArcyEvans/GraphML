@@ -8,14 +8,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.ObjectPool;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NLog;
 using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.Buffers;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -67,7 +73,22 @@ namespace GraphML.API
 
       // Add controllers as services so they'll be resolved.
       services
-        .AddMvc()
+        .AddMvc(o =>
+        {
+          o.RespectBrowserAcceptHeader = true;
+
+          var settings = new JsonSerializerSettings()
+          {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            Formatting = Formatting.Indented
+          };
+          var sp = services.BuildServiceProvider();
+          var logger = sp.GetService<ILoggerFactory>();
+          var objectPoolProvider = sp.GetService<ObjectPoolProvider>();
+
+          o.OutputFormatters.Add(new JsonOutputFormatter(settings, ArrayPool<char>.Create()));
+          o.InputFormatters.Add(new JsonInputFormatter(logger.CreateLogger<JsonInputFormatter>(), settings, ArrayPool<char>.Create(), objectPoolProvider));
+        })
         .AddControllersAsServices();
 
       services.Configure<MvcOptions>(options =>
@@ -233,14 +254,6 @@ namespace GraphML.API
 
       app.UseStaticFiles();
       app.UseMvc();
-
-      if (CurrentEnvironment.IsDevelopment())
-      {
-        var logConfig = Configuration.GetSection("Logging");
-        logging.AddConsole(logConfig); //log levels set in your configuration
-        logging.AddDebug(); //does all log levels
-        logging.AddFile(logConfig.GetValue<string>("PathFormat"));
-      }
     }
 
     private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)

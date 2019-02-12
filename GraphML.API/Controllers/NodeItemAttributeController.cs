@@ -4,7 +4,6 @@ using GraphML.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
@@ -40,8 +39,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByIds))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>), description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Entity with identifier not found")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult ByIds([FromBody]IEnumerable<string> ids)
     {
       return ByIdsInternal(ids);
@@ -57,7 +56,7 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<NodeItemAttribute>), description: "Success - if no Entities found, return empty list")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<NodeItemAttribute>))]
     public override IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
     {
       return ByOwnersInternal(ownerIds, pageIndex, pageSize);
@@ -72,8 +71,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(Create))]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, type: typeof(NodeItemAttribute), description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(NodeItemAttribute))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult Create([FromBody] IEnumerable<NodeItemAttribute> entity)
     {
       return CreateInternal(entity);
@@ -87,8 +86,8 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult Delete([FromBody] IEnumerable<NodeItemAttribute> entity)
     {
       return DeleteInternal(entity);
@@ -102,8 +101,8 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.OK, description: "Success")]
-    [SwaggerResponse(statusCode: (int)HttpStatusCode.NotFound, description: "Incorrect reference in Entities")]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public override IActionResult Update([FromBody] IEnumerable<NodeItemAttribute> entity)
     {
       return UpdateInternal(entity);

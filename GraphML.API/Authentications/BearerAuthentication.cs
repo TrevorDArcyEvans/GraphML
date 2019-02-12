@@ -31,7 +31,7 @@ namespace GraphML.API.Authentications
     public async Task Authenticate(TokenValidatedContext context)
     {
       // set roles based on email-->organisation-->org.PrimaryRoleId
-      var bearerToken = ((FrameRequestHeaders)context.HttpContext.Request.Headers).HeaderAuthorization.Single();
+      var bearerToken = context.SecurityToken.SecurityKey.ToString();
 
       // have to cache responses or UserInfo endpoint thinks we are a DOS attack
       if (_cache.TryGetValue(bearerToken, out CachedUserInfoResponse cachedresponse))
