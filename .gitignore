@@ -266,3 +266,4 @@ GraphML.API/Logs/
 GraphML.Datastore.Database/Data/GraphML.sqlite3
 
 Data/
+.vscode
