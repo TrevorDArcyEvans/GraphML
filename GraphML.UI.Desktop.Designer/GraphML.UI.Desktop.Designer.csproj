@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\Main.cs">
       <Link>Main.cs</Link>
       <SubType>Form</SubType>
@@ -55,7 +58,6 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="..\GraphML.UI.Desktop\Main.resx">
       <Link>Main.resx</Link>
       <DependentUpon>Main.cs</DependentUpon>
