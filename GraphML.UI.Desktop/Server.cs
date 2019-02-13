@@ -13,6 +13,8 @@ namespace GraphML.UI.Desktop
     private readonly RestClient _client;
     private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
 
+    private string ResourceBase { get; } = "/api/RepositoryManager";
+
     public Server(
       string serverUrl,
       string userName,
@@ -25,15 +27,13 @@ namespace GraphML.UI.Desktop
       };
       _client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
     }
-    private string ResourceBase { get; } = "/api/RepositoryManager";
 
-    public string RepositoryManager_GetAll()
+    public IEnumerable<Repository> RepositoryManager_GetAll()
     {
       var request = GetAllRequest($"{ResourceBase}/GetAll");
-      //var retval = GetResponse<PaginatedList<Frameworks>>(request);
-      var resp = GetRawResponse(request);
+      var retval = GetResponse<IEnumerable<Repository>>(request);
 
-      return resp.Content;
+      return retval;
     }
 
     protected IRestRequest GetRequest(string path)

@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.1.50.4\lib\net451\Dapper.Contrib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -43,8 +49,10 @@
       <HintPath>..\packages\RestSharp.106.3.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -70,6 +78,57 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\Server.cs">
       <Link>Server.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Utils\ObjectExtensions.cs">
+      <Link>ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\AttributedItem.cs">
+      <Link>AttributedItem.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Contact.cs">
+      <Link>Contact.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Edge.cs">
+      <Link>Edge.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\EdgeItemAttribute.cs">
+      <Link>EdgeItemAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Graph.cs">
+      <Link>Graph.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\GraphItem.cs">
+      <Link>GraphItem.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\GraphItemAttribute.cs">
+      <Link>GraphItemAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Item.cs">
+      <Link>Item.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\ItemAttribute.cs">
+      <Link>ItemAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Node.cs">
+      <Link>Node.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\NodeItemAttribute.cs">
+      <Link>NodeItemAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Organisation.cs">
+      <Link>Organisation.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\OwnedItem.cs">
+      <Link>OwnedItem.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\Repository.cs">
+      <Link>Repository.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\RepositoryItemAttribute.cs">
+      <Link>RepositoryItemAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML\RepositoryManager.cs">
+      <Link>RepositoryManager.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="..\GraphML.UI.Desktop\Main.resx">

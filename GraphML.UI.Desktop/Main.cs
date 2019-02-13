@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using Newtonsoft.Json;
 
 namespace GraphML.UI.Desktop
 {
@@ -27,7 +28,7 @@ namespace GraphML.UI.Desktop
 
     private void CmdRepositoryManager_Click(object sender, EventArgs e)
     {
-      TxtResults.Text = _server.RepositoryManager_GetAll();
+      TxtResults.Text = JsonConvert.SerializeObject(_server.RepositoryManager_GetAll(), new JsonSerializerSettings { Formatting = Formatting.Indented });
     }
   }
 }
