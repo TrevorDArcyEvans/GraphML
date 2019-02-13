@@ -35,7 +35,7 @@ namespace GraphML.API.Controllers
     /// Retrieve all Entities
     /// </summary>
     /// <response code="200">Success</response>
-    [HttpPost]
+    [HttpGet]
     [Route(nameof(GetAll))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
