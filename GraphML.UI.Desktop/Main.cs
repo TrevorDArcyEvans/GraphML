@@ -13,17 +13,21 @@ namespace GraphML.UI.Desktop
 {
   public partial class Main : Form
   {
-    private readonly string _server;
-    private readonly string _userName;
-    private readonly string _password;
+    private readonly Server _server;
 
     public Main()
     {
       InitializeComponent();
 
-      _server = ConfigurationManager.AppSettings["GraphML_Server"];
-      _userName = ConfigurationManager.AppSettings["GraphML_UserName"];
-      _password = ConfigurationManager.AppSettings["GraphML_Password"];
+      _server = new Server(
+        ConfigurationManager.AppSettings["GraphML_ServerUrl"],
+        ConfigurationManager.AppSettings["GraphML_UserName"],
+        ConfigurationManager.AppSettings["GraphML_Password"]);
+    }
+
+    private void CmdRepositoryManager_Click(object sender, EventArgs e)
+    {
+      TxtResults.Text = _server.RepositoryManager_GetAll();
     }
   }
 }
