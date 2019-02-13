@@ -45,6 +45,7 @@
       // 
       // TxtResults
       // 
+      this.TxtResults.Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.TxtResults.Location = new System.Drawing.Point(13, 13);
       this.TxtResults.Multiline = true;
       this.TxtResults.Name = "TxtResults";
