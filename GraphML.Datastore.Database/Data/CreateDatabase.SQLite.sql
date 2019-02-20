@@ -21,7 +21,7 @@ DROP TABLE IF EXISTS Log;
 
 CREATE TABLE Log 
 (
-  Timestamp TEXT,
+  Timestamp DATETIME,
   Loglevel TEXT,
   Callsite TEXT,
   Message TEXT
