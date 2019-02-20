@@ -13,11 +13,11 @@ namespace GraphML.API.Controllers
     {
     }
 
-    public abstract IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int? pageIndex, [FromQuery]int? pageSize);
-    protected IActionResult ByOwnersInternal([FromBody]IEnumerable<string> ownerIds, [FromQuery]int? pageIndex, [FromQuery]int? pageSize)
+    public abstract IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize);
+    protected IActionResult ByOwnersInternal([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
-      var result = ((IOwnedLogic<T>)_logic).ByOwners(ownerIds);
-      var retval = PaginatedList<T>.Create(result, pageIndex, pageSize);
+      var result = ((IOwnedLogic<T>)_logic).ByOwners(ownerIds, pageIndex, pageSize);
+      var retval = new PaginatedList<T>(result, pageIndex, pageSize);
       return new OkObjectResult(retval);
     }
   }

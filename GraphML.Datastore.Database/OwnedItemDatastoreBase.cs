@@ -2,6 +2,7 @@
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace GraphML.Datastore.Database
@@ -16,14 +17,36 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {
-        var sql = $"select * from {GetTableName()} where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)})";
+        var sql = $"select * from {GetTableName()} where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)}) order by {nameof(OwnedItem.Id)} {AppendForFetch(pageIndex, pageSize)}";
 
         return _dbConnection.Query<T>(sql);
       });
+    }
+
+    protected string AppendForFetch(int pageIndex, int pageSize)
+    {
+      var dbType = _dbConnection.GetType().ToString();
+      switch (dbType)
+      {
+        case "Microsoft.Data.Sqlite.SqliteConnection":
+          return $"{Environment.NewLine} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
+
+        case "MySql.Data.MySqlClient.MySqlConnection":
+          return $"{Environment.NewLine} limit {(pageIndex - 1) * pageSize}, {pageSize}";
+
+        case "Npgsql.NpgsqlConnection":
+          return $"{Environment.NewLine} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
+
+        case "System.Data.SqlClient.SqlConnection":
+          return $"{Environment.NewLine} offset {(pageIndex - 1) * pageSize} rows fetch next {pageSize} rows only";
+
+        default:
+          throw new ArgumentOutOfRangeException($"Untested database: {dbType}");
+      }
     }
   }
 }

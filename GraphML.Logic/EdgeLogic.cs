@@ -18,12 +18,12 @@ namespace GraphML.Logic
     {
     }
 
-    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids)
+    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids, int pageIndex, int pageSize)
     {
       var valRes = _validator.Validate(new Edge(), ruleSet: nameof(IEdgeLogic.ByNodeIds));
       if (valRes.IsValid)
       {
-        return _filter.Filter(((IEdgeDatastore)_datastore).ByNodeIds(ids));
+        return _filter.Filter(((IEdgeDatastore)_datastore).ByNodeIds(ids, pageIndex, pageSize));
       }
 
       return Enumerable.Empty<Edge>();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
 
@@ -102,10 +103,12 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult GetAll([FromQuery]int? pageIndex, [FromQuery]int? pageSize)
+    public IActionResult GetAll([FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
-      var result = ((IOrganisationLogic)_logic).GetAll();
-      var retval = PaginatedList<Organisation>.Create(result, pageIndex, pageSize);
+      var result = ((IOrganisationLogic)_logic).GetAll()
+        .Skip(pageIndex * pageSize)
+        .Take(pageSize);
+      var retval = new PaginatedList<Organisation>(result, pageIndex, pageSize);
       return new OkObjectResult(retval);
     }
   }

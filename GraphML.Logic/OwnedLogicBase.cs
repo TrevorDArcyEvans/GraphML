@@ -18,12 +18,12 @@ namespace GraphML.Logic
     {
     }
 
-    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds, int pageIndex, int pageSize)
     {
       var valRes = _validator.Validate(new T(), ruleSet: nameof(IOwnedLogic<T>.ByOwners));
       if (valRes.IsValid)
       {
-        return _filter.Filter(((IOwnedDatastore<T>)_datastore).ByOwners(ownerIds));
+        return _filter.Filter(((IOwnedDatastore<T>)_datastore).ByOwners(ownerIds, pageIndex, pageSize));
       }
 
       return Enumerable.Empty<T>();
