@@ -16,9 +16,6 @@ namespace GraphML
     [JsonProperty(nameof(TargetId))]
     public string TargetId { get; set; }
 
-    [JsonProperty(nameof(Directed))]
-    public bool Directed { get; set; }
-
     public Edge() :
       base()
     {

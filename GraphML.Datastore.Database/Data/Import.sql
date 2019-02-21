@@ -19,12 +19,12 @@ VALUES
   ('100fba96-f33d-4242-a551-722b73bc9c6d', '874852c8-794a-4748-89bc-68ce50823093', 'GraphML Repository 1'),
   ('45783182-4912-45c5-9589-11f66c69bddb', '66852486-9780-4aad-863a-b7fb2e903192', 'Kool Organisation Repository');
 
-INSERT INTO Graph(Id, OwnerId, Name)
+INSERT INTO Graph(Id, OwnerId, Directed, Name)
 VALUES
-  ('470a1e4f-c0c4-400c-a726-9ffe9697135a', 'b556969c-bd2c-4378-ae95-972923118295', 'GraphML Graph 0'),
-  ('6d574bb5-7f80-4e33-a373-59dd18e8e47c', 'b556969c-bd2c-4378-ae95-972923118295', 'GraphML Graph 1'),
-  ('68e65dd3-940e-41ce-8274-6e2518390605', '100fba96-f33d-4242-a551-722b73bc9c6d', 'GraphML Graph 0'),
-  ('a5f2ab9c-2fe0-4072-a9ab-c38f21d364b1', '45783182-4912-45c5-9589-11f66c69bddb', 'Kool Organisation Graph');
+  ('470a1e4f-c0c4-400c-a726-9ffe9697135a', 'b556969c-bd2c-4378-ae95-972923118295', 0, 'GraphML Graph 0'),
+  ('6d574bb5-7f80-4e33-a373-59dd18e8e47c', 'b556969c-bd2c-4378-ae95-972923118295', 0, 'GraphML Graph 1'),
+  ('68e65dd3-940e-41ce-8274-6e2518390605', '100fba96-f33d-4242-a551-722b73bc9c6d', 0, 'GraphML Graph 0'),
+  ('a5f2ab9c-2fe0-4072-a9ab-c38f21d364b1', '45783182-4912-45c5-9589-11f66c69bddb', 0, 'Kool Organisation Graph');
 
 INSERT INTO Node(Id, NextId, OwnerId, Name)
 VALUES
@@ -34,12 +34,12 @@ VALUES
   ('2c962a0d-bff2-4f3d-8f8a-49c27418001b', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'GraphML Node D'),
   ('2c4cccb1-7873-4732-b0e3-6425d4d24922', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'GraphML Node E');
 
-INSERT INTO Edge(Id, NextId, OwnerId, SourceId, TargetId, Directed, Name)
+INSERT INTO Edge(Id, NextId, OwnerId, SourceId, TargetId, Name)
 VALUES
-  ('fdb37c86-62c3-42b4-a41c-8e648533609c', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'c7718065-af28-40fa-8403-197bc6d23909', '9505402f-a60f-4bd2-91dc-9a02845989fa', 0, 'GraphML Edge A-B'),
-  ('7e352e70-164d-4489-ba73-5a9fcb17e6cf', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '9505402f-a60f-4bd2-91dc-9a02845989fa', '9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', 0, 'GraphML Edge B-C'),
-  ('04d69adb-1da6-428f-a9d5-b5e05f2e8661', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 0, 'GraphML Edge C-D'),
-  ('fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'c7718065-af28-40fa-8403-197bc6d23909', 0, 'GraphML Edge D-A');
+  ('fdb37c86-62c3-42b4-a41c-8e648533609c', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'c7718065-af28-40fa-8403-197bc6d23909', '9505402f-a60f-4bd2-91dc-9a02845989fa', 'GraphML Edge A-B'),
+  ('7e352e70-164d-4489-ba73-5a9fcb17e6cf', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '9505402f-a60f-4bd2-91dc-9a02845989fa', '9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', 'GraphML Edge B-C'),
+  ('04d69adb-1da6-428f-a9d5-b5e05f2e8661', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'GraphML Edge C-D'),
+  ('fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'c7718065-af28-40fa-8403-197bc6d23909', 'GraphML Edge D-A');
 
 INSERT INTO RepositoryItemAttribute(Id, OwnerId, Name, DataType, DataValueAsString)
 VALUES
