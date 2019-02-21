@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.Analysis.SNA", "Gra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.Analysis.SNA.Tests", "GraphML.Analysis.SNA.Tests\GraphML.Analysis.SNA.Tests.csproj", "{2873BF9F-61E7-465E-9C00-DFA64FBD321D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.Analysis", "GraphML.Analysis\GraphML.Analysis.csproj", "{F1410EF7-4014-4B4B-9EE7-16A182DB7F4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{2873BF9F-61E7-465E-9C00-DFA64FBD321D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2873BF9F-61E7-465E-9C00-DFA64FBD321D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2873BF9F-61E7-465E-9C00-DFA64FBD321D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1410EF7-4014-4B4B-9EE7-16A182DB7F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1410EF7-4014-4B4B-9EE7-16A182DB7F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1410EF7-4014-4B4B-9EE7-16A182DB7F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1410EF7-4014-4B4B-9EE7-16A182DB7F4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
