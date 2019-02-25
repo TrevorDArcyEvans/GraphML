@@ -70,7 +70,7 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<RepositoryManager>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
     public override IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       return ByOwnersInternal(new[] { Guid.Empty.ToString() }, pageIndex, pageSize);

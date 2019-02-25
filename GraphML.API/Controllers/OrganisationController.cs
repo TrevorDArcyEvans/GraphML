@@ -101,15 +101,14 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Organisation>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult GetAll([FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       var result = ((IOrganisationLogic)_logic).GetAll()
         .Skip(pageIndex * pageSize)
         .Take(pageSize);
-      var retval = new PaginatedList<Organisation>(result, pageIndex, pageSize);
-      return new OkObjectResult(retval);
+      return new OkObjectResult(result);
     }
   }
 }

@@ -17,8 +17,7 @@ namespace GraphML.API.Controllers
     protected IActionResult ByOwnersInternal([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       var result = ((IOwnedLogic<T>)_logic).ByOwners(ownerIds, pageIndex, pageSize);
-      var retval = new PaginatedList<T>(result, pageIndex, pageSize);
-      return new OkObjectResult(retval);
+      return new OkObjectResult(result);
     }
   }
 #pragma warning restore CS1591

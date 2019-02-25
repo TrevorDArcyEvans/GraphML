@@ -56,7 +56,7 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(PaginatedList<Edge>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
     public override IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       return ByOwnersInternal(ownerIds, pageIndex, pageSize);
@@ -124,8 +124,7 @@ namespace GraphML.API.Controllers
     public IActionResult ByNodeIds([FromBody]IEnumerable<string> ids, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       var ents = ((IEdgeLogic)_logic).ByNodeIds(ids, pageIndex, pageSize);
-      var retval = new PaginatedList<Edge>(ents, pageIndex, pageSize);
-      return new OkObjectResult(retval);
+      return new OkObjectResult(ents);
     }
   }
 }
