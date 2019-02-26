@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -51,6 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
     <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
     <ProjectReference Include="..\GraphML\GraphML.csproj" />
   </ItemGroup>
