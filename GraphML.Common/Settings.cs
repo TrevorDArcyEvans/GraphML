@@ -32,6 +32,7 @@ namespace GraphML.Common
     public static string MESSAGE_QUEUE_URL(IConfiguration config) => Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? config["Message_Queue:URL"] ?? "activemq:tcp://localhost:61616";
     public static string MESSAGE_QUEUE_NAME(IConfiguration config) => Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ?? config["Message_Queue:Name"] ?? "GraphML";
     public static int MESSAGE_QUEUE_POLL_INTERVAL_S(IConfiguration config) => int.TryParse(Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ?? config["Message_Queue:Poll_Interval_s"], out int result) ? result : 5;
+    public static bool MESSAGE_QUEUE_USE_THREADS(IConfiguration config) => bool.Parse(Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ?? config["Message_Queue:Use_Threads"] ?? false.ToString());
   }
 #pragma warning restore CS1591
 }

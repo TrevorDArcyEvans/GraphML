@@ -1,8 +1,11 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Apache.NMS.Util;
+using GraphML.Analysis.SNA.Centrality;
 using GraphML.Common;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Threading;
@@ -31,14 +34,23 @@ namespace GraphML.Analysis.Server
 
       while (true)
       {
-        ThreadPool.QueueUserWorkItem(x =>
+        if (Settings.MESSAGE_QUEUE_USE_THREADS(Configuration))
         {
-          var msg = RetrieveMessage();
-          if (msg != null)
-          {
-            ProcessMessage(msg);
-          }
-        });
+          ThreadPool.QueueUserWorkItem(x => { DoMessageLoop(); });
+        }
+        else
+        {
+          DoMessageLoop();
+        }
+      }
+    }
+
+    private void DoMessageLoop()
+    {
+      var msg = RetrieveMessage();
+      if (msg != null)
+      {
+        ProcessMessage(msg);
       }
     }
 
@@ -70,6 +82,14 @@ namespace GraphML.Analysis.Server
       Console.WriteLine("  Text             : " + msg.Text);
       Console.WriteLine("  NMSTimestamp     : " + msg.NMSTimestamp);
 
+      var jobj = JObject.Parse(msg.Text);
+      var typeStr = jobj["Type"].ToString();
+      var type = Type.GetType(typeStr);
+      var req = JsonConvert.DeserializeObject(msg.Text, type);
+      var baseReq = (BaseRequest)req;
+
+      baseReq.Run();
+
       // simulates a log running process
       Thread.Sleep(TimeSpan.FromMinutes(10));
     }
@@ -81,6 +101,7 @@ namespace GraphML.Analysis.Server
       Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(Configuration)}");
       Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {Settings.MESSAGE_QUEUE_NAME(Configuration)}");
       Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(Configuration)}");
+      Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {Settings.MESSAGE_QUEUE_USE_THREADS(Configuration)}");
 
       Console.WriteLine($"  LOG:");
       Console.WriteLine($"    LOG_CONNECTION_STRING : {Settings.LOG_CONNECTION_STRING(Configuration)}");

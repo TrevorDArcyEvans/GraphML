@@ -300,6 +300,11 @@ namespace GraphML.API
       Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(Configuration)}");
       Console.WriteLine($"    KESTREL_URLS                  : {Settings.KESTREL_URLS(Configuration)}");
       Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(Configuration)}");
+
+      Console.WriteLine($"  MESSAGE_QUEUE:");
+      Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(Configuration)}");
+      Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {Settings.MESSAGE_QUEUE_NAME(Configuration)}");
+      Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(Configuration)}");
     }
   }
 }

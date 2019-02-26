@@ -39,6 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GraphML.Analysis.SNA\GraphML.Analysis.SNA.csproj" />
+    <ProjectReference Include="..\GraphML.Analysis\GraphML.Analysis.csproj" />
     <ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
   </ItemGroup>
 
