@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration;
 using Dapper.Contrib.Extensions;
-using GraphML.Utils;
+using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using System;
 using Schema = System.ComponentModel.DataAnnotations.Schema;

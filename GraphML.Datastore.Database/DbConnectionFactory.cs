@@ -1,6 +1,6 @@
 ﻿using Dapper.Contrib.Extensions;
 using GraphML.Datastore.Database.Interfaces;
-using GraphML.Utils;
+using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;

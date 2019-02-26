@@ -1,5 +1,5 @@
 ﻿using GraphML.Interfaces.Authentications;
-using GraphML.Utils;
+using GraphML.Common;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using System.Security.Claims;

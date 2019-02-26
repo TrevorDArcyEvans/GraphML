@@ -1,4 +1,4 @@
-﻿namespace GraphML.Utils
+﻿namespace GraphML.Common
 {
   /// <summary>
   /// User roles within GraphML

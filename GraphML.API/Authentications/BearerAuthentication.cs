@@ -1,5 +1,5 @@
 ﻿using GraphML.Interfaces.Authentications;
-using GraphML.Utils;
+using GraphML.Common;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
