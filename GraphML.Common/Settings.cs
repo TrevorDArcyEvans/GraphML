@@ -28,6 +28,10 @@ namespace GraphML.Common
     public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? config["Kestrel:Certificate_Password"] ?? "DisruptTheMarket";
     public static string KESTREL_URLS(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_URLS") ?? config["Kestrel:Urls"] ?? "http://localhost:5000";
     public static int KESTREL_HTTPS_PORT(IConfiguration config) => int.TryParse(Environment.GetEnvironmentVariable("KESTREL_HTTPS_PORT") ?? config["Kestrel:Https_Port"], out int result) ? result : 8000;
+
+    public static string MESSAGE_QUEUE_URL(IConfiguration config) => Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? config["Message_Queue:URL"] ?? "activemq:tcp://localhost:61616";
+    public static string MESSAGE_QUEUE_NAME(IConfiguration config) => Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ?? config["Message_Queue:Name"] ?? "GraphML";
+    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(IConfiguration config) => int.TryParse(Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ?? config["Message_Queue:Poll_Interval_s"], out int result) ? result : 5;
   }
 #pragma warning restore CS1591
 }
