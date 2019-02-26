@@ -1,4 +1,5 @@
 ﻿using Apache.NMS;
+using Apache.NMS.ActiveMQ;
 using Apache.NMS.Util;
 using GraphML.Common;
 using Microsoft.Extensions.Configuration;
@@ -44,7 +45,7 @@ namespace GraphML.Analysis.Server
     private ITextMessage RetrieveMessage()
     {
       var connecturi = new Uri(Settings.MESSAGE_QUEUE_URL(Configuration));
-      var factory = new NMSConnectionFactory(connecturi);
+      var factory = new ConnectionFactory(connecturi);
       using (var connection = factory.CreateConnection())
       {
         using (var session = connection.CreateSession())
