@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Analysis
 {
-  public abstract class BaseRequest
+  public abstract class RequestBase
   {
     /// <summary>
     /// Type
@@ -12,7 +12,7 @@
     /// </summary>
     public string CorrelationId { get; set; }
 
-    public BaseRequest()
+    public RequestBase()
     {
       Type = GetType().AssemblyQualifiedName;
     }

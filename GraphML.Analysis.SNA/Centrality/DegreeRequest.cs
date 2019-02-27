@@ -5,7 +5,7 @@ namespace GraphML.Analysis.SNA.Centrality
   /// <summary>
   /// Request to run SNA 'Degree' on specified graph
   /// </summary>
-  public sealed class DegreeRequest : BaseRequest
+  public sealed class DegreeRequest : RequestBase
   {
     /// <summary>
     /// Unique identifier of graph

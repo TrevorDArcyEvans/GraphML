@@ -86,7 +86,7 @@ namespace GraphML.Analysis.Server
       var typeStr = jobj["Type"].ToString();
       var type = Type.GetType(typeStr);
       var req = JsonConvert.DeserializeObject(msg.Text, type);
-      var baseReq = (BaseRequest)req;
+      var baseReq = (RequestBase)req;
 
       baseReq.Run();
 
