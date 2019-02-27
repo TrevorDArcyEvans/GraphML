@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GraphML.Analysis.SNA.Centrality
+﻿namespace GraphML.Analysis.SNA.Centrality
 {
   /// <summary>
   /// Request to run SNA 'Degree' on specified graph
@@ -12,9 +10,6 @@ namespace GraphML.Analysis.SNA.Centrality
     /// </summary>
     public string GraphId { get; set; }
 
-    public override void Run()
-    {
-      Console.WriteLine($"DegreeRequest.Run --> {GraphId} @ {CorrelationId}");
-    }
+    public override string JobType => typeof(DegreeJob).AssemblyQualifiedName;
   }
 }

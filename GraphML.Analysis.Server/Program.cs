@@ -87,8 +87,10 @@ namespace GraphML.Analysis.Server
       var type = Type.GetType(typeStr);
       var req = JsonConvert.DeserializeObject(msg.Text, type);
       var baseReq = (RequestBase)req;
+      var jobType = Type.GetType(baseReq.JobType);
+      var job = (JobBase)Activator.CreateInstance(jobType);
 
-      baseReq.Run();
+      job.Run(baseReq);
 
       // simulates a log running process
       Thread.Sleep(TimeSpan.FromMinutes(10));

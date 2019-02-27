@@ -5,18 +5,13 @@
     /// <summary>
     /// Type
     /// </summary>
-    public string Type { get; }
+    public string Type => GetType().AssemblyQualifiedName;
+
+    public abstract string JobType { get; }
 
     /// <summary>
     /// Unique reference for this request
     /// </summary>
     public string CorrelationId { get; set; }
-
-    public RequestBase()
-    {
-      Type = GetType().AssemblyQualifiedName;
-    }
-
-    public abstract void Run();
   }
 }
