@@ -10,6 +10,6 @@
     /// </summary>
     public string GraphId { get; set; }
 
-    public override string JobType => typeof(DegreeJob).AssemblyQualifiedName;
+    public override string JobType => typeof(IDegreeJob).AssemblyQualifiedName;
   }
 }

@@ -1,20 +1,32 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using Apache.NMS.Util;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using GraphML.Analysis.SNA.Centrality;
 using GraphML.Common;
+using GraphML.Datastore.Database;
+using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading;
 
 namespace GraphML.Analysis.Server
 {
   public sealed class Program
   {
-    public IConfiguration Configuration { get; private set; }
+    private static readonly object _lock = new object();
+
+    private IConfiguration Configuration { get; set; }
+    private IServiceProvider ServiceProvider { get; set; }
 
     public static void Main(string[] args)
     {
@@ -23,6 +35,8 @@ namespace GraphML.Analysis.Server
 
     private void Run(string[] args)
     {
+      AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
+
       Configuration = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -31,6 +45,35 @@ namespace GraphML.Analysis.Server
         .AddUserSecrets<Program>()
         .Build();
       DumpSettings();
+
+      // Create the container builder.
+      var builder = new ContainerBuilder();
+
+      // load all assemblies in same directory and register classes with interfaces
+      // Note that we have to explicitly add this (executing) assembly
+      var exeAssy = Assembly.GetExecutingAssembly();
+      var exeAssyPath = exeAssy.Location;
+      var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
+      var assyDllPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
+      var assyPaths = new List<string>();
+      assyPaths.AddRange(assyDllPaths);
+
+      var assys = assyPaths.Select(filePath => Assembly.LoadFile(filePath)).ToList();
+      assys.Add(exeAssy);
+      builder
+        .RegisterAssemblyTypes(assys.ToArray())
+        .PublicOnly()
+        .AsImplementedInterfaces()
+        .SingleInstance();
+
+      builder.Register(cc => Configuration).As<IConfiguration>();
+
+      // FIX ME!  workaround for Autofac not resolving object in a separate assembly
+      builder.RegisterType<DegreeJob>().As<IDegreeJob>();
+
+      // Create the IServiceProvider based on the container.
+      var container = builder.Build();
+      ServiceProvider = new AutofacServiceProvider(container);
 
       while (true)
       {
@@ -78,7 +121,6 @@ namespace GraphML.Analysis.Server
     {
       Console.WriteLine("Message: ");
       Console.WriteLine("  Correlation ID   : " + msg.NMSCorrelationID);
-      Console.WriteLine("  Message ID       : " + msg.NMSMessageId);
       Console.WriteLine("  Text             : " + msg.Text);
       Console.WriteLine("  NMSTimestamp     : " + msg.NMSTimestamp);
 
@@ -88,12 +130,31 @@ namespace GraphML.Analysis.Server
       var req = JsonConvert.DeserializeObject(msg.Text, type);
       var baseReq = (RequestBase)req;
       var jobType = Type.GetType(baseReq.JobType);
-      var job = (JobBase)Activator.CreateInstance(jobType);
+      var job = (IJob)ServiceProvider.GetService(jobType);
 
       job.Run(baseReq);
 
       // simulates a log running process
       Thread.Sleep(TimeSpan.FromMinutes(10));
+    }
+
+    private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
+    {
+      lock (_lock)
+      {
+        AssemblyLoadContext.Default.Resolving -= OnAssemblyResolve;
+        try
+        {
+          var currAssyPath = Assembly.GetExecutingAssembly().Location;
+          var assyPath = Path.Combine(Path.GetDirectoryName(currAssyPath), $"{assemblyName.Name}.dll");
+          var assembly = File.Exists(assyPath) ? Assembly.LoadFile(assyPath) : null;
+          return assembly;
+        }
+        finally
+        {
+          AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
+        }
+      }
     }
 
     private void DumpSettings()
