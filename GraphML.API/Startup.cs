@@ -203,7 +203,7 @@ namespace GraphML.API
       var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
       var assyPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
 
-      var assys = assyPaths.Select(filePath => Assembly.LoadFile(filePath)).ToList();
+      var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
       assys.Add(exeAssy);
       builder
         .RegisterAssemblyTypes(assys.ToArray())
