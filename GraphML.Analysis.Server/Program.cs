@@ -42,17 +42,17 @@ namespace GraphML.Analysis.Server
     {
       AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
 
-      var _config = new ConfigurationBuilder()
+      var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddJsonFile("hosting.json")
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
         .Build();
-      Settings.DumpSettings(_config);
+      Settings.DumpSettings(config);
 
       // database connection string for nLog
-      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(_config));
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(config));
 
       // The Microsoft.Extensions.DependencyInjection.ServiceCollection
       // has extension methods provided by other .NET Core libraries to
@@ -90,7 +90,7 @@ namespace GraphML.Analysis.Server
         .SingleInstance();
 
       containerBuilder
-        .Register(cc => _config)
+        .Register(cc => config)
         .As<IConfiguration>();
 
       // Create Logger<T> when ILogger<T> is required.
@@ -112,7 +112,7 @@ namespace GraphML.Analysis.Server
 
       while (true)
       {
-        if (Settings.MESSAGE_QUEUE_USE_THREADS(_config))
+        if (Settings.MESSAGE_QUEUE_USE_THREADS(config))
         {
           ThreadPool.QueueUserWorkItem(x => { DoMessageLoop(); });
         }
