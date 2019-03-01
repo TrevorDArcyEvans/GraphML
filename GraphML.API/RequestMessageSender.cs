@@ -6,7 +6,7 @@ using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace GraphML.API.Controllers
+namespace GraphML.API
 {
   public sealed class RequestMessageSender : IRequestMessageSender
   {
