@@ -46,8 +46,23 @@ namespace GraphML.Analysis.Server
         .Build();
       DumpSettings();
 
+      // The Microsoft.Extensions.DependencyInjection.ServiceCollection
+      // has extension methods provided by other .NET Core libraries to
+      // regsiter services with DI.
+      var serviceCollection = new ServiceCollection();
+
+      // The Microsoft.Extensions.Logging package provides this one-liner
+      // to add logging services.
+      serviceCollection.AddLogging();
+
       // Create the container builder.
-      var builder = new ContainerBuilder();
+      var containerBuilder = new ContainerBuilder();
+
+      // Once you've registered everything in the ServiceCollection, call
+      // Populate to bring those registrations into Autofac. This is
+      // just like a foreach over the list of things in the collection
+      // to add them to Autofac.
+      containerBuilder.Populate(serviceCollection);
 
       // load all assemblies in same directory and register classes with interfaces
       // Note that we have to explicitly add this (executing) assembly
@@ -58,21 +73,18 @@ namespace GraphML.Analysis.Server
       var assyPaths = new List<string>();
       assyPaths.AddRange(assyDllPaths);
 
-      var assys = assyPaths.Select(filePath => Assembly.LoadFile(filePath)).ToList();
+      var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
       assys.Add(exeAssy);
-      builder
+      containerBuilder 
         .RegisterAssemblyTypes(assys.ToArray())
         .PublicOnly()
         .AsImplementedInterfaces()
         .SingleInstance();
 
-      builder.Register(cc => Configuration).As<IConfiguration>();
-
-      // FIX ME!  workaround for Autofac not resolving object in a separate assembly
-      builder.RegisterType<DegreeJob>().As<IDegreeJob>();
+      containerBuilder .Register(cc => Configuration).As<IConfiguration>();
 
       // Create the IServiceProvider based on the container.
-      var container = builder.Build();
+      var container = containerBuilder .Build();
       ServiceProvider = new AutofacServiceProvider(container);
 
       while (true)
@@ -125,9 +137,9 @@ namespace GraphML.Analysis.Server
       Console.WriteLine("  NMSTimestamp     : " + msg.NMSTimestamp);
 
       var jobj = JObject.Parse(msg.Text);
-      var typeStr = jobj["Type"].ToString();
-      var type = Type.GetType(typeStr);
-      var req = JsonConvert.DeserializeObject(msg.Text, type);
+      var reqTypeStr = jobj["Type"].ToString();
+      var reqType = Type.GetType(reqTypeStr);
+      var req = JsonConvert.DeserializeObject(msg.Text, reqType);
       var baseReq = (RequestBase)req;
       var jobType = Type.GetType(baseReq.JobType);
       var job = (IJob)ServiceProvider.GetService(jobType);
