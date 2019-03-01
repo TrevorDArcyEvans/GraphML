@@ -3,10 +3,7 @@ using Apache.NMS.ActiveMQ;
 using Apache.NMS.Util;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using GraphML.Analysis.SNA.Centrality;
 using GraphML.Common;
-using GraphML.Datastore.Database;
-using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -140,14 +137,10 @@ namespace GraphML.Analysis.Server
       var reqTypeStr = jobj["Type"].ToString();
       var reqType = Type.GetType(reqTypeStr);
       var req = JsonConvert.DeserializeObject(msg.Text, reqType);
-      var baseReq = (RequestBase)req;
-      var jobType = Type.GetType(baseReq.JobType);
+      var jobType = Type.GetType(((RequestBase)req).JobType);
       var job = (IJob)ServiceProvider.GetService(jobType);
 
-      job.Run(baseReq);
-
-      // simulates a log running process
-      Thread.Sleep(TimeSpan.FromMinutes(10));
+      job.Run((RequestBase)req);
     }
 
     private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
