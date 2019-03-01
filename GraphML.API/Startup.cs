@@ -62,7 +62,7 @@ namespace GraphML.API
       // database connection string for nLog
       GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(Configuration));
 
-      DumpSettings();
+      Settings.DumpSettings(Configuration);
     }
 
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -273,38 +273,6 @@ namespace GraphML.API
           AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
         }
       }
-    }
-
-    private void DumpSettings()
-    {
-      Console.WriteLine("Settings:");
-      Console.WriteLine($"  DATASTORE:");
-      Console.WriteLine($"    DATASTORE_CONNECTION         : {Settings.DATASTORE_CONNECTION(Configuration)}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE    : {Settings.DATASTORE_CONNECTION_TYPE(Configuration, Settings.DATASTORE_CONNECTION(Configuration))}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_STRING  : {Settings.DATASTORE_CONNECTION_STRING(Configuration, Settings.DATASTORE_CONNECTION(Configuration))}");
-
-      Console.WriteLine($"  LOG:");
-      Console.WriteLine($"    LOG_CONNECTION_STRING : {Settings.LOG_CONNECTION_STRING(Configuration)}");
-      Console.WriteLine($"    LOG_BEARER_AUTH       : {Settings.LOG_BEARER_AUTH(Configuration)}");
-
-      Console.WriteLine($"  OIDC:");
-      Console.WriteLine($"    OIDC_USERINFO_URL : {Settings.OIDC_USERINFO_URL(Configuration)}");
-      Console.WriteLine($"    OIDC_ISSUER_URL   : {Settings.OIDC_ISSUER_URL(Configuration)}");
-      Console.WriteLine($"    OIDC_AUDIENCE     : {Settings.OIDC_AUDIENCE(Configuration)}");
-
-      Console.WriteLine($"  CACHE:");
-      Console.WriteLine($"    CACHE_HOST : {Settings.CACHE_HOST(Configuration)}");
-
-      Console.WriteLine($"  KESTREL:");
-      Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(Configuration)}");
-      Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(Configuration)}");
-      Console.WriteLine($"    KESTREL_URLS                  : {Settings.KESTREL_URLS(Configuration)}");
-      Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(Configuration)}");
-
-      Console.WriteLine($"  MESSAGE_QUEUE:");
-      Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(Configuration)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {Settings.MESSAGE_QUEUE_NAME(Configuration)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(Configuration)}");
     }
   }
 }

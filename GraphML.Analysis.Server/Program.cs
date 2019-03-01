@@ -41,7 +41,7 @@ namespace GraphML.Analysis.Server
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
         .Build();
-      DumpSettings();
+      Settings.DumpSettings(Configuration);
 
       // The Microsoft.Extensions.DependencyInjection.ServiceCollection
       // has extension methods provided by other .NET Core libraries to
@@ -160,23 +160,6 @@ namespace GraphML.Analysis.Server
           AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
         }
       }
-    }
-
-    private void DumpSettings()
-    {
-      Console.WriteLine("Settings:");
-      Console.WriteLine($"  MESSAGE_QUEUE:");
-      Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(Configuration)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {Settings.MESSAGE_QUEUE_NAME(Configuration)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(Configuration)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {Settings.MESSAGE_QUEUE_USE_THREADS(Configuration)}");
-
-      Console.WriteLine($"  LOG:");
-      Console.WriteLine($"    LOG_CONNECTION_STRING : {Settings.LOG_CONNECTION_STRING(Configuration)}");
-      Console.WriteLine($"    LOG_BEARER_AUTH       : {Settings.LOG_BEARER_AUTH(Configuration)}");
-
-      Console.WriteLine($"  CACHE:");
-      Console.WriteLine($"    CACHE_HOST : {Settings.CACHE_HOST(Configuration)}");
     }
   }
 }
