@@ -1,13 +1,10 @@
-﻿using Apache.NMS;
-using Apache.NMS.ActiveMQ;
-using Apache.NMS.Util;
-using GraphML.Analysis.SNA.Centrality;
+﻿using GraphML.Analysis.SNA.Centrality;
 using GraphML.API.Attributes;
 using GraphML.Common;
+using GraphML.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -27,16 +24,16 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class AnalysisController : ControllerBase
   {
-    private readonly IConfiguration _config;
+    private readonly IRequestMessageSender _sender;
 
     /// <summary>
     /// constructor
     /// </summary>
-    /// <param name="config">configuration</param>
+    /// <param name="sender">configuration</param>
     public AnalysisController(
-      IConfiguration config)
+      IRequestMessageSender sender)
     {
-      _config = config;
+      _sender = sender;
     }
 
     /// <summary>
@@ -52,38 +49,15 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult Degree([Required] string graphId)
     {
-      var connecturi = new Uri(Settings.MESSAGE_QUEUE_URL(_config));
-      var factory = new ConnectionFactory(connecturi);
-      using (var connection = factory.CreateConnection())
+      var req = new DegreeRequest
       {
-        using (var session = connection.CreateSession())
-        {
-          using (var destination = SessionUtil.GetQueue(session, Settings.MESSAGE_QUEUE_NAME(_config)))
-          {
-            using (var producer = session.CreateProducer(destination))
-            {
-              // Start the connection so that messages will be processed.
-              connection.Start();
+        CorrelationId = Guid.NewGuid().ToString(),
+        GraphId = graphId
+      };
+      var json = JsonConvert.SerializeObject(req);
+      _sender.Send(json);
 
-              producer.DeliveryMode = MsgDeliveryMode.Persistent;
-
-              // Send a message
-              var req = new DegreeRequest
-              {
-                CorrelationId = Guid.NewGuid().ToString(),
-                GraphId = graphId
-              };
-              var json = JsonConvert.SerializeObject(req);
-              var msg = session.CreateTextMessage(json);
-              msg.NMSCorrelationID = req.CorrelationId;
-
-              producer.Send(msg);
-
-              return new OkObjectResult(msg.NMSCorrelationID);
-            }
-          }
-        }
-      }
+      return new OkObjectResult(req.CorrelationId);
     }
   }
 }

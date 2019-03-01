@@ -1,9 +1,7 @@
-﻿using Apache.NMS;
-using Apache.NMS.ActiveMQ;
-using Apache.NMS.Util;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
+using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,9 +22,8 @@ namespace GraphML.Analysis.Server
   public sealed class Program
   {
     private static readonly object _lock = new object();
-
-    private IConfiguration Configuration { get; set; }
     private IServiceProvider ServiceProvider { get; set; }
+    private IRequestMessageReceiver _receiver;
 
     public static void Main(string[] args)
     {
@@ -45,17 +42,17 @@ namespace GraphML.Analysis.Server
     {
       AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
 
-      Configuration = new ConfigurationBuilder()
+      var _config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddJsonFile("hosting.json")
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
         .Build();
-      Settings.DumpSettings(Configuration);
+      Settings.DumpSettings(_config);
 
       // database connection string for nLog
-      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(Configuration));
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(_config));
 
       // The Microsoft.Extensions.DependencyInjection.ServiceCollection
       // has extension methods provided by other .NET Core libraries to
@@ -93,7 +90,7 @@ namespace GraphML.Analysis.Server
         .SingleInstance();
 
       containerBuilder
-        .Register(cc => Configuration)
+        .Register(cc => _config)
         .As<IConfiguration>();
 
       // Create Logger<T> when ILogger<T> is required.
@@ -111,9 +108,11 @@ namespace GraphML.Analysis.Server
       var container = containerBuilder.Build();
       ServiceProvider = new AutofacServiceProvider(container);
 
+      _receiver = ServiceProvider.GetRequiredService<IRequestMessageReceiver>();
+
       while (true)
       {
-        if (Settings.MESSAGE_QUEUE_USE_THREADS(Configuration))
+        if (Settings.MESSAGE_QUEUE_USE_THREADS(_config))
         {
           ThreadPool.QueueUserWorkItem(x => { DoMessageLoop(); });
         }
@@ -126,39 +125,19 @@ namespace GraphML.Analysis.Server
 
     private void DoMessageLoop()
     {
-      var msg = RetrieveMessage();
-      if (msg != null)
+      var json = _receiver.Receive();
+      if (json != null)
       {
-        ProcessMessage(msg);
+        ProcessMessage(json);
       }
     }
 
-    private ITextMessage RetrieveMessage()
+    private void ProcessMessage(string json)
     {
-      var connecturi = new Uri(Settings.MESSAGE_QUEUE_URL(Configuration));
-      var factory = new ConnectionFactory(connecturi);
-      using (var connection = factory.CreateConnection())
-      {
-        using (var session = connection.CreateSession())
-        {
-          using (var destination = SessionUtil.GetQueue(session, Settings.MESSAGE_QUEUE_NAME(Configuration)))
-          {
-            using (var consumer = session.CreateConsumer(destination))
-            {
-              connection.Start();
-              return consumer.Receive(TimeSpan.FromSeconds(Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(Configuration))) as ITextMessage;
-            }
-          }
-        }
-      }
-    }
-
-    private void ProcessMessage(ITextMessage msg)
-    {
-      var jobj = JObject.Parse(msg.Text);
+      var jobj = JObject.Parse(json);
       var reqTypeStr = jobj["Type"].ToString();
       var reqType = Type.GetType(reqTypeStr);
-      var req = JsonConvert.DeserializeObject(msg.Text, reqType);
+      var req = JsonConvert.DeserializeObject(json, reqType);
       var jobType = Type.GetType(((RequestBase)req).JobType);
       var job = (IJob)ServiceProvider.GetService(jobType);
 
