@@ -6,8 +6,11 @@ using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
+using NLog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +30,15 @@ namespace GraphML.Analysis.Server
 
     public static void Main(string[] args)
     {
-      new Program().Run(args);
+      try
+      {
+        new Program().Run(args);
+      }
+      finally
+      {
+        // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+        NLog.LogManager.Shutdown();
+      }
     }
 
     private void Run(string[] args)
@@ -42,6 +53,9 @@ namespace GraphML.Analysis.Server
         .AddUserSecrets<Program>()
         .Build();
       Settings.DumpSettings(Configuration);
+
+      // database connection string for nLog
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(Configuration));
 
       // The Microsoft.Extensions.DependencyInjection.ServiceCollection
       // has extension methods provided by other .NET Core libraries to
@@ -72,16 +86,29 @@ namespace GraphML.Analysis.Server
 
       var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
       assys.Add(exeAssy);
-      containerBuilder 
+      containerBuilder
         .RegisterAssemblyTypes(assys.ToArray())
         .PublicOnly()
         .AsImplementedInterfaces()
         .SingleInstance();
 
-      containerBuilder .Register(cc => Configuration).As<IConfiguration>();
+      containerBuilder
+        .Register(cc => Configuration)
+        .As<IConfiguration>();
+
+      // Create Logger<T> when ILogger<T> is required.
+      containerBuilder
+        .RegisterGeneric(typeof(Logger<>))
+        .As(typeof(ILogger<>));
+
+      // Use NLogLoggerFactory as a factory required by Logger<T>.
+      containerBuilder
+        .RegisterType<NLogLoggerFactory>()
+        .AsImplementedInterfaces()
+        .SingleInstance();
 
       // Create the IServiceProvider based on the container.
-      var container = containerBuilder .Build();
+      var container = containerBuilder.Build();
       ServiceProvider = new AutofacServiceProvider(container);
 
       while (true)
@@ -128,11 +155,6 @@ namespace GraphML.Analysis.Server
 
     private void ProcessMessage(ITextMessage msg)
     {
-      Console.WriteLine("Message: ");
-      Console.WriteLine("  Correlation ID   : " + msg.NMSCorrelationID);
-      Console.WriteLine("  Text             : " + msg.Text);
-      Console.WriteLine("  NMSTimestamp     : " + msg.NMSTimestamp);
-
       var jobj = JObject.Parse(msg.Text);
       var reqTypeStr = jobj["Type"].ToString();
       var reqType = Type.GetType(reqTypeStr);

@@ -25,7 +25,7 @@ namespace GraphML.Analysis.SNA.Centrality
     public override void Run(RequestBase req)
     {
       var degReq = (DegreeRequest)req;
-      Console.WriteLine($"DegreeJob.Run --> {degReq.GraphId} @ {degReq.CorrelationId}");
+      _logger.LogInformation ($"DegreeJob.Run --> {degReq.GraphId} @ {degReq.CorrelationId}");
 
       // simulates a log running process
       Thread.Sleep(TimeSpan.FromMinutes(10));
