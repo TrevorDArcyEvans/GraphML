@@ -17,5 +17,10 @@
     /// Unique reference for this request
     /// </summary>
     public string CorrelationId { get; set; }
+
+    /// <summary>
+    /// Person making this request
+    /// </summary>
+    public string ContactId { get; set; }
   }
 }
