@@ -115,7 +115,6 @@ namespace GraphML.ResultDatastore.Redis
         var resType = Type.GetType(resTypeStr);
         var result = (IResult)JsonConvert.DeserializeObject(json, resType);
 
-
         return result;
       });
     }
