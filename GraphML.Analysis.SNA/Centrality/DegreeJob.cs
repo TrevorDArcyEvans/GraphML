@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuickGraph;
-using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace GraphML.Analysis.SNA.Centrality
 {

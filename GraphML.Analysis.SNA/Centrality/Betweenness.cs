@@ -25,12 +25,12 @@ namespace GraphML.Analysis.SNA.Centrality
       _weights = weights;
     }
 
-    public IEnumerable<BetweennessResult<TVertex>> Compute()
+    public BetweennessResult<TVertex> Compute()
     {
       var toProcess = _graph.Vertices.Count();
       if (toProcess == 0)
       {
-        return Enumerable.Empty<BetweennessResult<TVertex>>();
+        return new BetweennessResult<TVertex>(Enumerable.Empty<BetweennessVertexResult<TVertex>>());
       }
 
       var nodeOccurrences = new List<TVertex>();
@@ -72,9 +72,9 @@ namespace GraphML.Analysis.SNA.Centrality
 
       var retval = from node in nodeOccurrences
                    group node by node into grp
-                   select new BetweennessResult<TVertex>(grp.Key, grp.Count());
+                   select new BetweennessVertexResult<TVertex>(grp.Key, grp.Count());
 
-      return retval.OrderByDescending(x => x.Betweenness);
+      return new BetweennessResult<TVertex>(retval.OrderByDescending(x => x.Betweenness));
     }
   }
 }

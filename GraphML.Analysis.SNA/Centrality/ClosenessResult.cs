@@ -1,14 +1,15 @@
-﻿namespace GraphML.Analysis.SNA.Centrality
-{
-  public sealed class ClosenessResult<TVertex>
-  {
-    public TVertex Vertex { get; }
-    public double Closeness { get; }
+﻿using System.Collections.Generic;
 
-    public ClosenessResult(TVertex vertex, double closeness)
+namespace GraphML.Analysis.SNA.Centrality
+{
+
+  public sealed class ClosenessResult<TVertex> : ResultBase
+  {
+    public IEnumerable<ClosenessVertexResult<TVertex>> Result { get; }
+
+    public ClosenessResult(IEnumerable<ClosenessVertexResult<TVertex>> result)
     {
-      Vertex = vertex;
-      Closeness = closeness;
+      Result = result;
     }
   }
 }

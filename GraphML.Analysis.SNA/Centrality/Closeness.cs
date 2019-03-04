@@ -72,7 +72,7 @@ namespace GraphML.Analysis.SNA.Centrality
 
               lock (SyncRoot)
               {
-                OnVertexResult(new ClosenessResult<TVertex>(node, closeness));
+                OnVertexResult(new ClosenessVertexResult<TVertex>(node, closeness));
               }
 
               // Safely decrement the counter
@@ -102,7 +102,7 @@ namespace GraphML.Analysis.SNA.Centrality
       }
     }
 
-    private void OnVertexResult(ClosenessResult<TVertex> result)
+    private void OnVertexResult(ClosenessVertexResult<TVertex> result)
     {
       VertexResult?.Invoke(result);
     }

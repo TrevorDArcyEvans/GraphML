@@ -142,8 +142,8 @@ namespace GraphML.Analysis.SNA.Centrality.Tests
         { A,  4 },
         { B,  4 }
       };
-      results.Count().Should().Be(expected.Keys.Count);
-      foreach (var result in results)
+      results.Result.Count().Should().Be(expected.Keys.Count);
+      foreach (var result in results.Result)
       {
         expected[result.Vertex].Should().BeApproximately(result.Betweenness, 1e-12);
       }

@@ -1,14 +1,25 @@
-﻿namespace GraphML.Analysis.SNA.Centrality
+﻿using System.Collections.Generic;
+
+namespace GraphML.Analysis.SNA.Centrality
 {
-  public sealed class BetweennessResult<TVertex>
+  public sealed class BetweennessVertexResult<TVertex>
   {
     public TVertex Vertex { get; }
     public double Betweenness { get; }
 
-    public BetweennessResult(TVertex vertex, double betweenness)
+    public BetweennessVertexResult(TVertex vertex, double betweenness)
     {
       Vertex = vertex;
       Betweenness = betweenness;
+    }
+  }
+  public sealed class BetweennessResult<TVertex> : ResultBase
+  {
+    public IEnumerable<BetweennessVertexResult<TVertex>> Result { get; }
+
+    public BetweennessResult(IEnumerable<BetweennessVertexResult<TVertex>> result)
+    {
+      Result = result;
     }
   }
 }
