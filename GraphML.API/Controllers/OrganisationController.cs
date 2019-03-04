@@ -42,7 +42,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody] IEnumerable<string> ids)
+    public override IActionResult ByIds([FromBody][Required] IEnumerable<string> ids)
     {
       return ByIdsInternal(ids);
     }
@@ -58,7 +58,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Create([FromBody] IEnumerable<Organisation> entity)
+    public override IActionResult Create([FromBody][Required] IEnumerable<Organisation> entity)
     {
       return CreateInternal(entity);
     }
@@ -73,7 +73,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Delete([FromBody] IEnumerable<Organisation> entity)
+    public override IActionResult Delete([FromBody][Required] IEnumerable<Organisation> entity)
     {
       return DeleteInternal(entity);
     }
@@ -88,7 +88,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Update([FromBody] IEnumerable<Organisation> entity)
+    public override IActionResult Update([FromBody][Required] IEnumerable<Organisation> entity)
     {
       return UpdateInternal(entity);
     }

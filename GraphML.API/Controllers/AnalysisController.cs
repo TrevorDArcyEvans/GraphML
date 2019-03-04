@@ -45,7 +45,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Degree([FromBody] DegreeRequest req)
+    public IActionResult Degree([FromBody][Required] DegreeRequest req)
     {
       _logic.Degree(req);
 
@@ -63,7 +63,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Closeness([FromBody] ClosenessRequest req)
+    public IActionResult Closeness([FromBody][Required] ClosenessRequest req)
     {
       _logic.Closeness(req);
 
@@ -81,7 +81,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Betweenness([FromBody] BetweennessRequest req)
+    public IActionResult Betweenness([FromBody][Required] BetweennessRequest req)
     {
       _logic.Betweenness(req);
 

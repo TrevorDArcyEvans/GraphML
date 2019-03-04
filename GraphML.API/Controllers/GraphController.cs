@@ -41,7 +41,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody]IEnumerable<string> ids)
+    public override IActionResult ByIds([FromBody][Required] IEnumerable<string> ids)
     {
       return ByIdsInternal(ids);
     }
@@ -57,7 +57,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(ByOwners))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
-    public override IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public override IActionResult ByOwners([FromBody][Required] IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       return ByOwnersInternal(ownerIds, pageIndex, pageSize);
     }
@@ -73,7 +73,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Create([FromBody] IEnumerable<Graph> entity)
+    public override IActionResult Create([FromBody][Required] IEnumerable<Graph> entity)
     {
       return CreateInternal(entity);
     }
@@ -88,7 +88,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Delete([FromBody] IEnumerable<Graph> entity)
+    public override IActionResult Delete([FromBody][Required] IEnumerable<Graph> entity)
     {
       return DeleteInternal(entity);
     }
@@ -102,7 +102,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Update([FromBody] IEnumerable<Graph> entity)
+    public override IActionResult Update([FromBody][Required] IEnumerable<Graph> entity)
     {
       return UpdateInternal(entity);
     }

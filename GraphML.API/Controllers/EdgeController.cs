@@ -41,7 +41,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody]IEnumerable<string> ids)
+    public override IActionResult ByIds([FromBody][Required] IEnumerable<string> ids)
     {
       return ByIdsInternal(ids);
     }
@@ -57,7 +57,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(ByOwners))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
-    public override IActionResult ByOwners([FromBody]IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public override IActionResult ByOwners([FromBody][Required] IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       return ByOwnersInternal(ownerIds, pageIndex, pageSize);
     }
@@ -73,7 +73,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Create([FromBody] IEnumerable<Edge> entity)
+    public override IActionResult Create([FromBody][Required] IEnumerable<Edge> entity)
     {
       return CreateInternal(entity);
     }
@@ -88,7 +88,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Delete([FromBody] IEnumerable<Edge> entity)
+    public override IActionResult Delete([FromBody][Required] IEnumerable<Edge> entity)
     {
       return DeleteInternal(entity);
     }
@@ -103,7 +103,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Update([FromBody] IEnumerable<Edge> entity)
+    public override IActionResult Update([FromBody][Required] IEnumerable<Edge> entity)
     {
       return UpdateInternal(entity);
     }
@@ -121,7 +121,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult ByNodeIds([FromBody]IEnumerable<string> ids, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public IActionResult ByNodeIds([FromBody][Required] IEnumerable<string> ids, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       var ents = ((IEdgeLogic)_logic).ByNodeIds(ids, pageIndex, pageSize);
       return new OkObjectResult(ents);

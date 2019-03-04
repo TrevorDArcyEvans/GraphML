@@ -17,29 +17,29 @@ namespace GraphML.API.Controllers
       _logic = logic;
     }
 
-    public abstract IActionResult ByIds([FromBody]IEnumerable<string> ids);
-    protected IActionResult ByIdsInternal([FromBody]IEnumerable<string> ids)
+    public abstract IActionResult ByIds([FromBody][Required] IEnumerable<string> ids);
+    protected IActionResult ByIdsInternal([FromBody][Required] IEnumerable<string> ids)
     {
       var ent = _logic.Ids(ids);
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
     }
 
-    public abstract IActionResult Create([FromBody]IEnumerable<T> entity);
-    protected IActionResult CreateInternal([FromBody]IEnumerable<T> entity)
+    public abstract IActionResult Create([FromBody][Required] IEnumerable<T> entity);
+    protected IActionResult CreateInternal([FromBody][Required] IEnumerable<T> entity)
     {
       var newEnt = _logic.Create(entity);
       return newEnt != null ? (IActionResult)new OkObjectResult(newEnt) : new NotFoundResult();
     }
 
-    public abstract IActionResult Update([FromBody]IEnumerable<T> entity);
-    protected IActionResult UpdateInternal([FromBody]IEnumerable<T> entity)
+    public abstract IActionResult Update([FromBody][Required] IEnumerable<T> entity);
+    protected IActionResult UpdateInternal([FromBody][Required] IEnumerable<T> entity)
     {
       _logic.Update(entity);
       return new OkResult();
     }
 
-    public abstract IActionResult Delete([FromBody]IEnumerable<T> entity);
-    protected IActionResult DeleteInternal([FromBody]IEnumerable<T> entity)
+    public abstract IActionResult Delete([FromBody][Required] IEnumerable<T> entity);
+    protected IActionResult DeleteInternal([FromBody][Required] IEnumerable<T> entity)
     {
       _logic.Delete(entity);
       return new OkResult();
