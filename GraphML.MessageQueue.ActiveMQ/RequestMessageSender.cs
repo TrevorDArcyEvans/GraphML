@@ -6,7 +6,7 @@ using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace GraphML.API
+namespace GraphML.MessageQueue.ActiveMQ
 {
   public sealed class RequestMessageSender : IRequestMessageSender
   {
