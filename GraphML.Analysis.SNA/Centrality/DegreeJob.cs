@@ -12,19 +12,22 @@ namespace GraphML.Analysis.SNA.Centrality
   {
     private readonly IConfiguration _config;
     private readonly ILogger<DegreeJob> _logger;
+    private readonly ICentralityDegreeAlgorithm<string> _algo;
     private readonly IGraphDatastore _graphDatastore;
-    private readonly IResultDatastore _resultDatastore;
+    private readonly IResultLogic _resultLogic;
 
     public DegreeJob(
       IConfiguration config,
       ILogger<DegreeJob> logger,
+      ICentralityDegreeAlgorithm<string> algo,
       IGraphDatastore graphDatastore,
-      IResultDatastore resultDatastore)
+      IResultLogic resultLogic)
     {
       _config = config;
       _logger = logger;
+      _algo = algo;
       _graphDatastore = graphDatastore;
-      _resultDatastore = resultDatastore;
+      _resultLogic = resultLogic;
     }
 
     public override void Run(IRequest req)
@@ -32,6 +35,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var degReq = (DegreeRequest)req;
       _logger.LogInformation($"DegreeJob.Run --> {degReq.GraphId} @ {degReq.CorrelationId}");
 
+      // TODO   run Degree algorithm
       var results = new[]
       {
         new DegreeResult<string>("A",  74,   5),
@@ -48,7 +52,7 @@ namespace GraphML.Analysis.SNA.Centrality
       };
       var resultJson = JsonConvert.SerializeObject(results);
 
-      _resultDatastore.Create(req, resultJson);
+      _resultLogic.Create(req, resultJson);
     }
   }
 }
