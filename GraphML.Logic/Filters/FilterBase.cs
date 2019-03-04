@@ -1,4 +1,5 @@
 ﻿using GraphML.Logic.Interfaces;
+using GraphML.Utils;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,26 @@ namespace GraphML.Logic.Filters
       _context = context;
     }
 
-    protected virtual T Filter(T input)
+    public virtual T Filter(T input)
     {
       return input;
     }
 
+    private T FilterInternal(T input)
+    {
+      if (input == null)
+      {
+        return input;
+      }
+
+      Verifier.Verify(input);
+
+      return Filter(input);
+    }
+
     public IEnumerable<T> Filter(IEnumerable<T> input)
     {
-      return input.Select(x => Filter(x)).Where(x => x != null);
+      return input.Select(x => FilterInternal(x)).Where(x => x != null);
     }
   }
 }
