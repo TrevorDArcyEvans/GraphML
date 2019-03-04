@@ -15,9 +15,9 @@ namespace GraphML.Analysis.SNA.Centrality
   /// <typeparam name="TEdge"></typeparam>
   public sealed class Betweenness<TVertex, TEdge> : ICentralityBetweennessAlgorithm<TVertex> where TEdge : IEdge<TVertex>
   {
-    private object _syncRoot { get; } = new object();
+    private readonly object _syncRoot = new object();
     private readonly IBidirectionalGraph<TVertex, TEdge> _graph;
-    Func<TEdge, double> _weights;
+    private readonly Func<TEdge, double> _weights;
 
     public Betweenness(IBidirectionalGraph<TVertex, TEdge> graph, Func<TEdge, double> weights)
     {
