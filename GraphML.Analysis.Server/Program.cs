@@ -2,6 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
 using GraphML.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -58,6 +59,8 @@ namespace GraphML.Analysis.Server
       // has extension methods provided by other .NET Core libraries to
       // regsiter services with DI.
       var serviceCollection = new ServiceCollection();
+
+      serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
       // The Microsoft.Extensions.Logging package provides this one-liner
       // to add logging services.
