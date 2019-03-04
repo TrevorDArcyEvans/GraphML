@@ -140,7 +140,7 @@ namespace GraphML.Analysis.Server
       var jobj = JObject.Parse(json);
       var reqTypeStr = jobj["Type"].ToString();
       var reqType = Type.GetType(reqTypeStr);
-      var req = (IRequest) JsonConvert.DeserializeObject(json, reqType);
+      var req = (IRequest)JsonConvert.DeserializeObject(json, reqType);
       var jobType = Type.GetType(req.JobType);
       var job = (IJob)ServiceProvider.GetService(jobType);
 
