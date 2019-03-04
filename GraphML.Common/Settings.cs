@@ -51,8 +51,8 @@ namespace GraphML.Common
       Console.WriteLine($"    OIDC_ISSUER_URL   : {Settings.OIDC_ISSUER_URL(config)}");
       Console.WriteLine($"    OIDC_AUDIENCE     : {Settings.OIDC_AUDIENCE(config)}");
 
-      Console.WriteLine($"  CACHE:");
-      Console.WriteLine($"    CACHE_HOST : {Settings.RESULT_DATASTORE(config)}");
+      Console.WriteLine($"  RESULT:");
+      Console.WriteLine($"    RESULT_DATASTORE : {Settings.RESULT_DATASTORE(config)}");
 
       Console.WriteLine($"  KESTREL:");
       Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(config)}");
