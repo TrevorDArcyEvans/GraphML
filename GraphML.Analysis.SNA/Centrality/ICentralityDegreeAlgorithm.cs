@@ -3,5 +3,6 @@
   public interface ICentralityDegreeAlgorithm<TVertex>
   {
     event DegreeResultAction<TVertex> VertexResult;
+    void Compute();
   }
 }
