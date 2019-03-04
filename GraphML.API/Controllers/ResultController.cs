@@ -4,6 +4,7 @@ using GraphML.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
@@ -60,7 +61,7 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route("List/{contactId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult List([FromRoute][Required] string contactId)
     {
@@ -78,7 +79,7 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route("Retrieve/{correlationId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IResult))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult Retrieve([FromRoute][Required] string correlationId)
     {

@@ -1,16 +1,16 @@
-﻿namespace GraphML.Analysis.SNA.Centrality
-{
-  public sealed class DegreeVertexResult<TVertex>
-  {
-    public TVertex Vertex { get; }
-    public double In { get; }
-    public double Out { get; }
+﻿using GraphML.Interfaces;
+using System.Collections.Generic;
 
-    public DegreeVertexResult(TVertex vertex, double inDegree, double outDegree)
+namespace GraphML.Analysis.SNA.Centrality
+{
+  public sealed class DegreeResult<TVertex> : IResult
+  {
+    public string Type => GetType().AssemblyQualifiedName;
+    public IEnumerable<DegreeVertexResult<TVertex>> Result { get; }
+
+    public DegreeResult(IEnumerable<DegreeVertexResult<TVertex>> result)
     {
-      Vertex = vertex;
-      In = inDegree;
-      Out = outDegree;
+      Result = result;
     }
   }
 }

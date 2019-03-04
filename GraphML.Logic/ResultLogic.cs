@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GraphML.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GraphML.Logic
 {
@@ -35,7 +38,7 @@ namespace GraphML.Logic
       return _datastore.List(contactId);
     }
 
-    public string Retrieve(string correlationId)
+    public IResult Retrieve(string correlationId)
     {
       // TODO   validation
       return _datastore.Retrieve(correlationId);

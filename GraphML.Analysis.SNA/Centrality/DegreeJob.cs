@@ -128,12 +128,13 @@ namespace GraphML.Analysis.SNA.Centrality
       #endregion
 
       var algo = new Degree<string, IEdge<string>>(graph, e => edgeCost[e]);
-      var results = new List<DegreeVertexResult<string>>();
-      algo.VertexResult += result => results.Add(result);
+      var resultsList = new List<DegreeVertexResult<string>>();
+      algo.VertexResult += vertexRes => resultsList.Add(vertexRes);
 
       algo.Compute();
 
-      var resultJson = JsonConvert.SerializeObject(results);
+      var result = new DegreeResult<string>(resultsList);
+      var resultJson = JsonConvert.SerializeObject(result);
 
       _resultLogic.Create(req, resultJson);
     }

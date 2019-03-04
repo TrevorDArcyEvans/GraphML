@@ -13,7 +13,7 @@ namespace GraphML.Interfaces
     /// <returns>list of CorrelationIds</returns>
     IEnumerable<IRequest> List(string contactId);
 
-    string Retrieve(string correlationId);
+    IResult Retrieve(string correlationId);
     void Delete(string correlationId);
   }
 }

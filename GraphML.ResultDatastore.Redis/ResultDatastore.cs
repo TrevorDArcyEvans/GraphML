@@ -100,18 +100,23 @@ namespace GraphML.ResultDatastore.Redis
       });
     }
 
-    public string Retrieve(string correlationId)
+    public IResult Retrieve(string correlationId)
     {
       return GetInternal(() =>
       {
         if (!_db.KeyExists(correlationId))
         {
-          return string.Empty;
+          return null;
         }
 
-        var result = _db.StringGet(correlationId);
+        var json = _db.StringGet(correlationId);
+        var jobj = JObject.Parse(json);
+        var resTypeStr = jobj["Type"].ToString();
+        var resType = Type.GetType(resTypeStr);
+        var result = (IResult)JsonConvert.DeserializeObject(json, resType);
 
-        return result.ToString();
+
+        return result;
       });
     }
 
