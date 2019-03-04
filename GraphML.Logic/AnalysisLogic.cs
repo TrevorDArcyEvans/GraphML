@@ -19,6 +19,7 @@ namespace GraphML.Logic
 
     public void Degree(IDegreeRequest req)
     {
+      // TODO   validation
       var jsonReq = JsonConvert.SerializeObject(req);
       _sender.Send(jsonReq);
     }
