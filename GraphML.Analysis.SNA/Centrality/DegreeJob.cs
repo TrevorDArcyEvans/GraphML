@@ -12,20 +12,17 @@ namespace GraphML.Analysis.SNA.Centrality
   {
     private readonly IConfiguration _config;
     private readonly ILogger<DegreeJob> _logger;
-    private readonly ICentralityDegreeAlgorithm<string> _algo;
     private readonly IGraphDatastore _graphDatastore;
     private readonly IResultLogic _resultLogic;
 
     public DegreeJob(
       IConfiguration config,
       ILogger<DegreeJob> logger,
-      ICentralityDegreeAlgorithm<string> algo,
       IGraphDatastore graphDatastore,
       IResultLogic resultLogic)
     {
       _config = config;
       _logger = logger;
-      _algo = algo;
       _graphDatastore = graphDatastore;
       _resultLogic = resultLogic;
     }
