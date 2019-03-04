@@ -33,7 +33,7 @@ namespace GraphML.MessageQueue.ActiveMQ
             {
               connection.Start();
               var msg = (ITextMessage)consumer.Receive(TimeSpan.FromSeconds(Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(_config)));
-              return msg.Text;
+              return msg?.Text;
             }
           }
         }
