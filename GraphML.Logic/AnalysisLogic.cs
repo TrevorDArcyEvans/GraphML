@@ -20,6 +20,24 @@ namespace GraphML.Logic
     public void Degree(IDegreeRequest req)
     {
       // TODO   validation
+      Send(req);
+    }
+
+    public void Closeness(IClosenessRequest req)
+    {
+      // TODO   validation
+      Send(req);
+    }
+
+    public void Betweenness(IBetweennessRequest req)
+    {
+      // TODO   validation
+      Send(req);
+    }
+
+    private void Send(IRequest req)
+    {
+      // TODO   validation
       var jsonReq = JsonConvert.SerializeObject(req);
       _sender.Send(jsonReq);
     }

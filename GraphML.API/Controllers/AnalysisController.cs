@@ -51,5 +51,41 @@ namespace GraphML.API.Controllers
 
       return new OkObjectResult(req.CorrelationId);
     }
+
+    /// <summary>
+    /// Calculate SNA 'Closeness' for specified graph
+    /// </summary>
+    /// <param name="req">Job request</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpPost]
+    [Route(nameof(Closeness))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult Closeness([FromBody] ClosenessRequest req)
+    {
+      _logic.Closeness(req);
+
+      return new OkObjectResult(req.CorrelationId);
+    }
+
+    /// <summary>
+    /// Calculate SNA 'Closeness' for specified graph
+    /// </summary>
+    /// <param name="req">Job request</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpPost]
+    [Route(nameof(Betweenness))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult Betweenness([FromBody] BetweennessRequest req)
+    {
+      _logic.Betweenness(req);
+
+      return new OkObjectResult(req.CorrelationId);
+    }
   }
 }
