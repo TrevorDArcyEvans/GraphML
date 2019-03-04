@@ -25,7 +25,7 @@ namespace GraphML.Analysis.SNA.Centrality
 
     public override void Run(IRequest req)
     {
-      var closeReq = (ClosenessRequest)req;
+      var closeReq = (IClosenessRequest)req;
       _logger.LogInformation($"ClosenessJob.Run --> {closeReq.GraphId} @ {closeReq.CorrelationId}");
     }
   }

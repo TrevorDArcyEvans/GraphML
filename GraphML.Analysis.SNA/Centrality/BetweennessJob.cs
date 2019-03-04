@@ -25,7 +25,7 @@ namespace GraphML.Analysis.SNA.Centrality
 
     public override void Run(IRequest req)
     {
-      var closeReq = (BetweennessRequest)req;
+      var closeReq = (IBetweennessRequest)req;
       _logger.LogInformation($"BetweennessJob.Run --> {closeReq.GraphId} @ {closeReq.CorrelationId}");
     }
   }
