@@ -49,13 +49,17 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult Degree([Required] string graphId)
     {
+      // TODO   get DegreeRequest from body
       var req = new DegreeRequest
       {
         CorrelationId = Guid.NewGuid().ToString(),
+        ContactId = Guid.NewGuid().ToString(),  // TODO   refactor into Logic + extract ContactId
+        Description = $"Requesting Degree analysis on {graphId}",
+        CreatedOnUtc = DateTime.UtcNow,
         GraphId = graphId
       };
-      var json = JsonConvert.SerializeObject(req);
-      _sender.Send(json);
+      var jsonReq = JsonConvert.SerializeObject(req);
+      _sender.Send(jsonReq);
 
       return new OkObjectResult(req.CorrelationId);
     }

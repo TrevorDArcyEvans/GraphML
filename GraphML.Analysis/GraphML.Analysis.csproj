@@ -30,4 +30,8 @@
     <PackageReference Include="Sandwych.QuickGraph.Core" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

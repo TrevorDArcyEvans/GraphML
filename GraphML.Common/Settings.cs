@@ -22,7 +22,7 @@ namespace GraphML.Common
       .Replace('/', Path.DirectorySeparatorChar)
       .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
-    public static string CACHE_HOST(IConfiguration config) => Environment.GetEnvironmentVariable("CACHE_HOST") ?? config["Cache:Host"] ?? "localhost";
+    public static string RESULT_DATASTORE(IConfiguration config) => Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? config["Result:Datastore"] ?? "localhost";
 
     public static string KESTREL_CERTIFICATE_FILENAME(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_FILENAME") ?? config["Kestrel:Certificate_FileName"] ?? "GraphML.pfx";
     public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? config["Kestrel:Certificate_Password"] ?? "DisruptTheMarket";
@@ -52,7 +52,7 @@ namespace GraphML.Common
       Console.WriteLine($"    OIDC_AUDIENCE     : {Settings.OIDC_AUDIENCE(config)}");
 
       Console.WriteLine($"  CACHE:");
-      Console.WriteLine($"    CACHE_HOST : {Settings.CACHE_HOST(config)}");
+      Console.WriteLine($"    CACHE_HOST : {Settings.RESULT_DATASTORE(config)}");
 
       Console.WriteLine($"  KESTREL:");
       Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(config)}");

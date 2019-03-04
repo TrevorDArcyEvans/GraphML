@@ -1,4 +1,6 @@
-﻿namespace GraphML.Analysis.SNA.Centrality
+﻿using GraphML.Interfaces;
+
+namespace GraphML.Analysis.SNA.Centrality
 {
   public interface IDegreeJob : IJob
   {

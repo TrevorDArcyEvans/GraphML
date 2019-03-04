@@ -1,7 +1,9 @@
-﻿namespace GraphML.Analysis
+﻿using GraphML.Interfaces;
+
+namespace GraphML.Analysis
 {
   public abstract class JobBase : IJob
   {
-    public abstract void Run(RequestBase req);
+    public abstract void Run(IRequest req);
   }
 }

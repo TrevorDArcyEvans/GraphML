@@ -1,7 +1,7 @@
-﻿namespace GraphML.Analysis
+﻿namespace GraphML.Interfaces
 {
   public interface IJob
   {
-    void Run(RequestBase req);
+    void Run(IRequest req);
   }
 }

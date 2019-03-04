@@ -1,26 +1,15 @@
-﻿namespace GraphML.Analysis
+﻿using System;
+using GraphML.Interfaces;
+
+namespace GraphML.Analysis
 {
-  public abstract class RequestBase
+  public abstract class RequestBase : IRequest
   {
-    /// <summary>
-    /// Assembly containing type of request
-    /// Used to deserialise request
-    /// </summary>
     public string Type => GetType().AssemblyQualifiedName;
-
-    /// <summary>
-    /// Assembly implementing IJob which will run this job
-    /// </summary>
     public abstract string JobType { get; }
-
-    /// <summary>
-    /// Unique reference for this request
-    /// </summary>
     public string CorrelationId { get; set; }
-
-    /// <summary>
-    /// Person making this request
-    /// </summary>
     public string ContactId { get; set; }
+    public string Description { get; set; }
+    public DateTime CreatedOnUtc { get; set; }
   }
 }
