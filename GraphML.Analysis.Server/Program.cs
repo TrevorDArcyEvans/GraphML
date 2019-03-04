@@ -141,10 +141,10 @@ namespace GraphML.Analysis.Server
       var reqTypeStr = jobj["Type"].ToString();
       var reqType = Type.GetType(reqTypeStr);
       var req = JsonConvert.DeserializeObject(json, reqType);
-      var jobType = Type.GetType(((RequestBase)req).JobType);
+      var jobType = Type.GetType(((IRequest)req).JobType);
       var job = (IJob)ServiceProvider.GetService(jobType);
 
-      job.Run((RequestBase)req);
+      job.Run((IRequest)req);
     }
 
     private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
