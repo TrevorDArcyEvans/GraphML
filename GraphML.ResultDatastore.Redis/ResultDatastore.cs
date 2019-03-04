@@ -3,11 +3,12 @@ using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Polly;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace GraphML.ResultDatastore.Redis
 {
@@ -61,18 +62,57 @@ namespace GraphML.ResultDatastore.Redis
 
     public void Delete(string correlationId)
     {
-      throw new NotImplementedException();
+      GetInternal(() =>
+      {
+        var keys = _server.Keys()
+          .Where(x =>
+            x.ToString().StartsWith(correlationId) ||
+            x.ToString().EndsWith(correlationId))
+          .ToArray();
+
+        _db.KeyDelete(keys);
+
+        return 0;
+      });
     }
 
     public IEnumerable<IRequest> List(string contactId)
     {
-      var keys = _server.Keys();
-      throw new NotImplementedException();
+      return GetInternal(() =>
+      {
+        var keys = _server.Keys()
+          .Where(x => x.ToString().StartsWith(contactId))
+          .ToArray();
+        var reqs = _db.StringGet(keys);
+        var retval = new List<IRequest>();
+        foreach (var req in reqs)
+        {
+          var json = req.ToString();
+          var jobj = JObject.Parse(json);
+          var reqTypeStr = jobj["Type"].ToString();
+          var reqType = Type.GetType(reqTypeStr);
+          var request = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+
+          retval.Add(request);
+        }
+
+        return retval;
+      });
     }
 
     public string Retrieve(string correlationId)
     {
-      throw new NotImplementedException();
+      return GetInternal(() =>
+      {
+        if (!_db.KeyExists(correlationId))
+        {
+          return string.Empty;
+        }
+
+        var result = _db.StringGet(correlationId);
+
+        return result.ToString();
+      });
     }
 
     private TOther GetInternal<TOther>(Func<TOther> get)
