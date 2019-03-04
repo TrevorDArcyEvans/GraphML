@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using GraphML.Interfaces;
+﻿using GraphML.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace GraphML.Logic
 {
