@@ -22,7 +22,7 @@ namespace GraphML.Common
       .Replace('/', Path.DirectorySeparatorChar)
       .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
-    public static string RESULT_DATASTORE(IConfiguration config) => Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? config["Result:Datastore"] ?? "localhost";
+    public static string RESULT_DATASTORE(IConfiguration config) => Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? config["Result:Datastore"] ?? "localhost:6379";
 
     public static string KESTREL_CERTIFICATE_FILENAME(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_FILENAME") ?? config["Kestrel:Certificate_FileName"] ?? "GraphML.pfx";
     public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? config["Kestrel:Certificate_Password"] ?? "DisruptTheMarket";

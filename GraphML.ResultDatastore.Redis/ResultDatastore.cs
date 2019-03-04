@@ -2,6 +2,7 @@
 using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Polly;
 using StackExchange.Redis;
 using System;
@@ -17,6 +18,7 @@ namespace GraphML.ResultDatastore.Redis
     private readonly IConfiguration _config;
     private readonly ILogger<ResultDatastore> _logger;
     private readonly ISyncPolicy _policy;
+    private readonly IServer _server;
     private readonly IDatabase _db;
 
     public ResultDatastore(
@@ -28,16 +30,17 @@ namespace GraphML.ResultDatastore.Redis
       _logger = logger;
       _policy = policy.Build(_logger);
 
-      var cacheHost = Settings.RESULT_DATASTORE(_config);
+      var dataStore = Settings.RESULT_DATASTORE(_config);
       var cfg = new ConfigurationOptions
       {
         EndPoints =
         {
-          { cacheHost }
+          { dataStore }
         },
         SyncTimeout = int.MaxValue
       };
       var redis = ConnectionMultiplexer.Connect(cfg);
+      _server = redis.GetServer(dataStore);
       _db = redis.GetDatabase();
     }
 
@@ -45,7 +48,13 @@ namespace GraphML.ResultDatastore.Redis
     {
       GetInternal(() =>
       {
+        // store CorrelationId --> Result
         _db.StringSet(request.CorrelationId, resultJson, Expiry);
+
+        // store ContactId|CorrelationId --> Request
+        var jsonReq = JsonConvert.SerializeObject(request);
+        _db.StringSet($"{request.ContactId}|{request.CorrelationId}", jsonReq, Expiry);
+
         return 0;
       });
     }
@@ -57,6 +66,7 @@ namespace GraphML.ResultDatastore.Redis
 
     public IEnumerable<IRequest> List(string contactId)
     {
+      var keys = _server.Keys();
       throw new NotImplementedException();
     }
 
