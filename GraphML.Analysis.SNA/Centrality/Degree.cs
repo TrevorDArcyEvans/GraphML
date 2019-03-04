@@ -28,10 +28,10 @@ namespace GraphML.Analysis.SNA.Centrality
         var outEdges = _edgeSet.Edges.Where(e => e.Source.Equals(node));
         var outDegree = outEdges.Sum(e => _weights(e));
 
-        OnVertexResult(new DegreeResult<TVertex>(node, inDegree, outDegree));
+        OnVertexResult(new DegreeVertexResult<TVertex>(node, inDegree, outDegree));
       }
     }
-    private void OnVertexResult(DegreeResult<TVertex> result)
+    private void OnVertexResult(DegreeVertexResult<TVertex> result)
     {
       VertexResult?.Invoke(result);
     }

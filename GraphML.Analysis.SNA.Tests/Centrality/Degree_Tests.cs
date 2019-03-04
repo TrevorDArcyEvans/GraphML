@@ -134,7 +134,7 @@ namespace GraphML.Analysis.SNA.Centrality.Tests
     public void Compute_ReturnsExpected()
     {
       var algo = new Degree<string, IEdge<string>>(_edgeSet.Object, _weights);
-      var results = new List<DegreeResult<string>>();
+      var results = new List<DegreeVertexResult<string>>();
       algo.VertexResult += result => results.Add(result);
 
       algo.Compute();
@@ -145,17 +145,17 @@ namespace GraphML.Analysis.SNA.Centrality.Tests
         .BeEquivalentTo(
           new[]
           {
-            new DegreeResult<string>("A",  74,   5),
-            new DegreeResult<string>("B",  16,  88),
-            new DegreeResult<string>("D",  79,  54),
-            new DegreeResult<string>("C",   2,  98),
-            new DegreeResult<string>("E",  44, 175),
-            new DegreeResult<string>("F", 189,  35),
-            new DegreeResult<string>("G",  24,  22),
-            new DegreeResult<string>("H",  61,  74),
-            new DegreeResult<string>("I",  91,  56),
-            new DegreeResult<string>("J",  40,   8),
-            new DegreeResult<string>("K",   3,   8)
+            new DegreeVertexResult<string>("A",  74,   5),
+            new DegreeVertexResult<string>("B",  16,  88),
+            new DegreeVertexResult<string>("D",  79,  54),
+            new DegreeVertexResult<string>("C",   2,  98),
+            new DegreeVertexResult<string>("E",  44, 175),
+            new DegreeVertexResult<string>("F", 189,  35),
+            new DegreeVertexResult<string>("G",  24,  22),
+            new DegreeVertexResult<string>("H",  61,  74),
+            new DegreeVertexResult<string>("I",  91,  56),
+            new DegreeVertexResult<string>("J",  40,   8),
+            new DegreeVertexResult<string>("K",   3,   8)
           });
     }
   }
