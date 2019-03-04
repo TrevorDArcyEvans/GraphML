@@ -12,24 +12,29 @@ namespace GraphML.Analysis.SNA.Centrality
     private readonly IConfiguration _config;
     private readonly ILogger<DegreeJob> _logger;
     private readonly IGraphDatastore _graphDatastore;
+    private readonly ICentralityDegreeAlgorithmFactory _factory;
     private readonly IResultLogic _resultLogic;
 
     public DegreeJob(
       IConfiguration config,
       ILogger<DegreeJob> logger,
       IGraphDatastore graphDatastore,
+      ICentralityDegreeAlgorithmFactory factory,
       IResultLogic resultLogic)
     {
       _config = config;
       _logger = logger;
       _graphDatastore = graphDatastore;
+      _factory = factory;
       _resultLogic = resultLogic;
     }
 
     public override void Run(IRequest req)
     {
-      var degReq = (DegreeRequest)req;
+      var degReq = (IDegreeRequest)req;
       _logger.LogInformation($"DegreeJob.Run --> {degReq.GraphId} @ {degReq.CorrelationId}");
+
+      // TODO   retrieve from db
 
       #region Create the edges
       var a_b = new Edge<string>("A", "B");
@@ -125,7 +130,7 @@ namespace GraphML.Analysis.SNA.Centrality
       });
       #endregion
 
-      var algo = new Degree<string, IEdge<string>>(graph, e => edgeCost[e]);
+      var algo = _factory.Create(graph, e => edgeCost[e]);
       var resultsList = new List<DegreeVertexResult<string>>();
       algo.VertexResult += vertexRes => resultsList.Add(vertexRes);
 
