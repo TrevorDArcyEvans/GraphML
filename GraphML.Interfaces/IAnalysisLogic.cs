@@ -5,5 +5,6 @@
     void Degree(IDegreeRequest req);
     void Closeness(IClosenessRequest req);
     void Betweenness(IBetweennessRequest req);
+    void FindShortestPaths(IFindShortestPathsRequest req);
   }
 }

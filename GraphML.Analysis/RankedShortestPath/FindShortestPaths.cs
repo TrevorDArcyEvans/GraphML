@@ -1,12 +1,11 @@
 ﻿using QuickGraph;
 using QuickGraph.Algorithms.RankedShortestPath;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace GraphML.Analysis.RankedShortestPath
 {
-  public sealed class FindShortestPaths<TVertex, TEdge> where TEdge : IEdge<TVertex>
+  public sealed class FindShortestPaths<TVertex, TEdge>: IFindShortestPathsAlgorithm<TVertex, TEdge> where TEdge : IEdge<TVertex>
   {
     private readonly IBidirectionalGraph<TVertex, TEdge> _graph;
     private readonly Func<TEdge, double> _edgeWeights;
@@ -19,7 +18,7 @@ namespace GraphML.Analysis.RankedShortestPath
       _edgeWeights = edgeWeights;
     }
 
-    public IEnumerable<FindShortestPathsResult<TEdge>> GetShortestPaths(TVertex rootVertex, TVertex goalVertex)
+    public FindShortestPathsResults<TEdge> Compute(TVertex rootVertex, TVertex goalVertex)
     {
       var algo = new HoffmanPavleyRankedShortestPathAlgorithm<TVertex, TEdge>(_graph, _edgeWeights)
       {
@@ -27,7 +26,9 @@ namespace GraphML.Analysis.RankedShortestPath
       };
       algo.Compute(rootVertex, goalVertex);
 
-      return algo.ComputedShortestPaths.Select(path => new FindShortestPathsResult<TEdge>(path, path.Sum(e => _edgeWeights(e))));
+      var result = algo.ComputedShortestPaths.Select(path => new FindShortestPathsResult<TEdge>(path, path.Sum(e => _edgeWeights(e))));
+
+      return new FindShortestPathsResults<TEdge>(result);
     }
   }
 }

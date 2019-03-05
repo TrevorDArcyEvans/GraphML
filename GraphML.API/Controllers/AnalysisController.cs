@@ -1,4 +1,5 @@
-﻿using GraphML.Analysis.SNA.Centrality;
+﻿using GraphML.Analysis.RankedShortestPath;
+using GraphML.Analysis.SNA.Centrality;
 using GraphML.API.Attributes;
 using GraphML.Common;
 using GraphML.Interfaces;
@@ -85,6 +86,24 @@ namespace GraphML.API.Controllers
     public IActionResult Betweenness([FromBody][Required] BetweennessRequest req)
     {
       _logic.Betweenness(req);
+
+      return new OkObjectResult(req.CorrelationId);
+    }
+
+    /// <summary>
+    /// Calculate shortest paths between root node and goal node
+    /// </summary>
+    /// <param name="req">Job request</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpPost]
+    [Route(nameof(FindShortestPaths))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult FindShortestPaths([FromBody][Required] FindShortestPathsRequest req)
+    {
+      _logic.FindShortestPaths(req);
 
       return new OkObjectResult(req.CorrelationId);
     }
