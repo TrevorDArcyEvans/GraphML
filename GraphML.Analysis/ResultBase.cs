@@ -1,6 +1,6 @@
 ﻿using GraphML.Interfaces;
 
-namespace GraphML.Analysis.SNA.Centrality
+namespace GraphML.Analysis
 {
   public abstract class ResultBase : IResult
   {
