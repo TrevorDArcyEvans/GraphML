@@ -35,6 +35,13 @@ namespace GraphML.Logic
       Send(req);
     }
 
+    public void FindShortestPaths(IFindShortestPathsRequest req)
+    {
+      // TODO   validation
+      // root and goal are in same graph (OwnerId)
+      Send(req);
+    }
+
     private void Send(IRequest req)
     {
       var jsonReq = JsonConvert.SerializeObject(req);
