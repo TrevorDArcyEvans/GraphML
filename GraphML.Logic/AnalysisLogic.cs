@@ -37,7 +37,6 @@ namespace GraphML.Logic
 
     private void Send(IRequest req)
     {
-      // TODO   validation
       var jsonReq = JsonConvert.SerializeObject(req);
       _sender.Send(jsonReq);
     }
