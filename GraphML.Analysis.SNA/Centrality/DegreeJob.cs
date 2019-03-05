@@ -34,6 +34,8 @@ namespace GraphML.Analysis.SNA.Centrality
     {
       var degReq = (IDegreeRequest)req;
 
+      var graph = new EdgeListGraph<string, IEdge<string>>();
+
       // raw edges from db
       var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 1, int.MaxValue);
 
@@ -41,7 +43,6 @@ namespace GraphML.Analysis.SNA.Centrality
       var qgEdges = edges.Select(e => new Edge<string>(e.SourceId, e.TargetId));
 
       // add edges to graph
-      var graph = new EdgeListGraph<string, IEdge<string>>();
       graph.AddEdgeRange(qgEdges);
 
       // use unweighted edges
