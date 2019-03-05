@@ -23,8 +23,9 @@ namespace GraphML.Analysis.Server
   public sealed class Program
   {
     private static readonly object _lock = new object();
-    private IServiceProvider ServiceProvider { get; set; }
+    private IServiceProvider _serviceProvider;
     private IRequestMessageReceiver _receiver;
+    private ILogger<Program> _logger;
 
     public static void Main(string[] args)
     {
@@ -109,9 +110,10 @@ namespace GraphML.Analysis.Server
 
       // Create the IServiceProvider based on the container.
       var container = containerBuilder.Build();
-      ServiceProvider = new AutofacServiceProvider(container);
+      _serviceProvider = new AutofacServiceProvider(container);
 
-      _receiver = ServiceProvider.GetRequiredService<IRequestMessageReceiver>();
+      _receiver = _serviceProvider.GetRequiredService<IRequestMessageReceiver>();
+      _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
 
       while (true)
       {
@@ -137,14 +139,21 @@ namespace GraphML.Analysis.Server
 
     private void ProcessMessage(string json)
     {
-      var jobj = JObject.Parse(json);
-      var reqTypeStr = jobj["Type"].ToString();
-      var reqType = Type.GetType(reqTypeStr);
-      var req = (IRequest)JsonConvert.DeserializeObject(json, reqType);
-      var jobType = Type.GetType(req.JobType);
-      var job = (IJob)ServiceProvider.GetService(jobType);
+      try
+      {
+        var jobj = JObject.Parse(json);
+        var reqTypeStr = jobj["Type"].ToString();
+        var reqType = Type.GetType(reqTypeStr);
+        var req = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+        var jobType = Type.GetType(req.JobType);
+        var job = (IJob)_serviceProvider.GetService(jobType);
 
-      job.Run(req);
+        job.Run(req);
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError(ex, $"{ex.Message} --> {json}");
+      }
     }
 
     private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
