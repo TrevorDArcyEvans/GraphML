@@ -41,6 +41,10 @@ namespace GraphML.UI.Desktop
     {
       return new ServiceCollection()
         .AddSingleton(config)
+        .AddSingleton<IRestClientFactory, RestClientFactory>()
+        .AddSingleton<ISyncPolicyFactory, SyncPolicyFactory>()
+        .AddSingleton<IRepositoryManagerServer, RepositoryManagerServer>()
+        .AddSingleton<IRepositoryServer, RepositoryServer>()
         .AddLogging(loggingBuilder =>
         {
           // configure Logging with NLog

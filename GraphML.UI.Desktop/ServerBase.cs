@@ -12,39 +12,23 @@ using System.Net;
 
 namespace GraphML.UI.Desktop
 {
-  public abstract class ServerBase<T>
+  public abstract class ServerBase<T> : IServerBase<T>
   {
     private readonly IRestClient _client;
     private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
     protected readonly ILogger<ServerBase<T>> _logger;
     private readonly ISyncPolicy _policy;
 
-    /*
-
-    public DatastoreBase(
-      IRestClientFactory crmFactory,
-      ILogger<DatastoreBase<T>> logger,
-      ISyncPolicyFactory policy,
-      IConfiguration config)
-    {
-      _crmFactory = crmFactory;
-      _logCRM = Settings.LOG_CRM(config);
-      _logger = logger;
-      _policy = policy.Build(_logger);
-
-      _settings.Converters.Add(
-        new StringEnumConverter
-        {
-          CamelCaseText = false
-        });
-    }
-
-    */
     protected abstract string ResourceBase { get; }
 
-    public ServerBase(IRestClient client)
+    public ServerBase(
+      IRestClientFactory clientFactory,
+      ILogger<ServerBase<T>> logger,
+      ISyncPolicyFactory policy)
     {
-      _client = client;
+      _client = clientFactory.GetRestClient();
+      _logger = logger;
+      _policy = policy.Build(_logger);
     }
 
     public IEnumerable<T> ByIds(IEnumerable<string> ids)

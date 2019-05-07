@@ -1,13 +1,16 @@
 ﻿using Flurl;
-using RestSharp;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class RepositoryManagerServer : ServerBase<RepositoryManager>
+  public sealed class RepositoryManagerServer : ServerBase<RepositoryManager>, IRepositoryManagerServer
   {
-    public RepositoryManagerServer(IRestClient client) :
-      base(client)
+    public RepositoryManagerServer(
+      IRestClientFactory clientFactory,
+      ILogger<RepositoryManagerServer> logger,
+      ISyncPolicyFactory policy) :
+      base(clientFactory, logger, policy)
     {
     }
 

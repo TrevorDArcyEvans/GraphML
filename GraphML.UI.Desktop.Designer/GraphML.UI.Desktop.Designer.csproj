@@ -145,8 +145,17 @@
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IRepositoryManagerServer.cs">
+      <Link>IRepositoryManagerServer.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IRepositoryServer.cs">
+      <Link>IRepositoryServer.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IRestClientFactory.cs">
       <Link>IRestClientFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IServerBase.cs">
+      <Link>IServerBase.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\ISyncPolicyFactory.cs">
       <Link>ISyncPolicyFactory.cs</Link>

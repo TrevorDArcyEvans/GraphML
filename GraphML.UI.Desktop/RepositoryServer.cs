@@ -1,11 +1,14 @@
-﻿using RestSharp;
+﻿using Microsoft.Extensions.Logging;
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class RepositoryServer : ServerBase<Repository>
+  public sealed class RepositoryServer : ServerBase<Repository>, IRepositoryServer
   {
-    public RepositoryServer(IRestClient client) :
-      base(client)
+    public RepositoryServer(
+      IRestClientFactory clientFactory,
+      ILogger<RepositoryServer> logger,
+      ISyncPolicyFactory policy) :
+      base(clientFactory, logger, policy)
     {
     }
 

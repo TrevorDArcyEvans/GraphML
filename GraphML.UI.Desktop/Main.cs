@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RestSharp;
-using RestSharp.Authenticators;
 using System;
-using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,8 +10,8 @@ namespace GraphML.UI.Desktop
 {
   public partial class Main : Form
   {
-    private readonly RepositoryManagerServer _repoMgrServer;
-    private readonly RepositoryServer _repoServer;
+    private readonly IRepositoryManagerServer _repoMgrServer;
+    private readonly IRepositoryServer _repoServer;
 
     public Main()
     {
@@ -24,22 +21,8 @@ namespace GraphML.UI.Desktop
     public Main(IServiceProvider sp) :
       this()
     {
-      var config = sp.GetService<IConfiguration>();
-
-      var serverUrl= Settings.API_URI(config);
-      var userName = Settings.API_USERNAME(config);
-      var password = Settings.API_PASSWORD(config);
-      var client = new RestClient(serverUrl)
-      {
-        Authenticator = new HttpBasicAuthenticator(userName, password)
-      };
-      client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-
-      var logger = sp.GetService<ILogger<Main>>();
-      logger.LogInformation("Hello, world!");
-
-      _repoMgrServer = new RepositoryManagerServer(client);
-      _repoServer = new RepositoryServer(client);
+      _repoMgrServer = sp.GetService<IRepositoryManagerServer>();
+      _repoServer = sp.GetService<IRepositoryServer>();
     }
 
     private void Overview_DoubleClick(object sender, EventArgs e)
