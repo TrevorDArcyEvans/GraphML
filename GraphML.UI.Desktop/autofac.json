@@ -1,2 +1,43 @@
 {
+  "defaultAssembly": "GraphML.UI.Desktop",
+  "components":
+  [
+    {
+      "type": "GraphML.UI.Desktop.RestClientFactory",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IRestClientFactory"
+        }
+      ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.SyncPolicyFactory",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.ISyncPolicyFactory"
+        }
+      ]
+    },
+
+    {
+      "type": "GraphML.UI.Desktop.RepositoryManagerServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IRepositoryManagerServer"
+        }
+      ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.RepositoryServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IRepositoryServer"
+        }
+      ]
+    }
+  ]
 }
