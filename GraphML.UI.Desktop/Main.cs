@@ -37,6 +37,7 @@ namespace GraphML.UI.Desktop
           var repoMgrs = _repoMgrServer.GetAll();
           var childNodes = repoMgrs.Select(x => new TreeNode(x.Name) { Tag = x });
           selNode.Nodes.AddRange(childNodes.ToArray());
+          selNode.ExpandAll();
         }
 
         if (selNode.Tag is RepositoryManager repoMgr)
@@ -45,6 +46,7 @@ namespace GraphML.UI.Desktop
           var repos = _repoServer.ByOwners(new[] { repoMgr.Id });
           var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
           selNode.Nodes.AddRange(childNodes.ToArray());
+          selNode.ExpandAll();
         }
 
         if (selNode.Tag is Repository repo)

@@ -34,13 +34,14 @@
       // 
       // Overview
       // 
-      this.Overview.Location = new System.Drawing.Point(13, 12);
+      this.Overview.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Overview.Location = new System.Drawing.Point(0, 0);
       this.Overview.Name = "Overview";
       treeNode1.Name = "Node0";
       treeNode1.Text = "System";
       this.Overview.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-      this.Overview.Size = new System.Drawing.Size(775, 426);
+      this.Overview.Size = new System.Drawing.Size(800, 450);
       this.Overview.TabIndex = 3;
       this.Overview.DoubleClick += new System.EventHandler(this.Overview_DoubleClick);
       // 
