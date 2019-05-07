@@ -23,6 +23,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class RepositoryManagerController : OwnedGraphMLController<RepositoryManager>
   {
+    private readonly IRepositoryManagerLogic _repoMgrLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -30,6 +32,7 @@ namespace GraphML.API.Controllers
     public RepositoryManagerController(IRepositoryManagerLogic logic) :
       base(logic)
     {
+      _repoMgrLogic = logic;
     }
 
     /// <summary>
@@ -42,7 +45,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
     public IActionResult GetAll()
     {
-      return new OkObjectResult(((IRepositoryManagerLogic)_logic).GetAll());
+      return new OkObjectResult(_repoMgrLogic.GetAll());
     }
 
     /// <summary>
@@ -107,6 +110,7 @@ namespace GraphML.API.Controllers
     {
       return DeleteInternal(entity);
     }
+
     /// <summary>
     /// Update existing Entities with new information
     /// </summary>
