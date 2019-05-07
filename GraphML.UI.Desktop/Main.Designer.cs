@@ -28,46 +28,35 @@
     /// </summary>
     private void InitializeComponent()
     {
-      System.Windows.Forms.Button CmdRepositoryManager;
-      this.TxtResults = new System.Windows.Forms.TextBox();
-      CmdRepositoryManager = new System.Windows.Forms.Button();
+      System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("System");
+      this.Overview = new System.Windows.Forms.TreeView();
       this.SuspendLayout();
       // 
-      // CmdRepositoryManager
+      // Overview
       // 
-      CmdRepositoryManager.Location = new System.Drawing.Point(687, 319);
-      CmdRepositoryManager.Name = "CmdRepositoryManager";
-      CmdRepositoryManager.Size = new System.Drawing.Size(100, 30);
-      CmdRepositoryManager.TabIndex = 0;
-      CmdRepositoryManager.Text = "Retrieve";
-      CmdRepositoryManager.UseVisualStyleBackColor = true;
-      CmdRepositoryManager.Click += new System.EventHandler(this.CmdRepositoryManager_Click);
-      // 
-      // TxtResults
-      // 
-      this.TxtResults.Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.TxtResults.Location = new System.Drawing.Point(13, 13);
-      this.TxtResults.Multiline = true;
-      this.TxtResults.Name = "TxtResults";
-      this.TxtResults.Size = new System.Drawing.Size(596, 344);
-      this.TxtResults.TabIndex = 1;
+      this.Overview.Location = new System.Drawing.Point(13, 12);
+      this.Overview.Name = "Overview";
+      treeNode1.Name = "Node0";
+      treeNode1.Text = "System";
+      this.Overview.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+      this.Overview.Size = new System.Drawing.Size(775, 426);
+      this.Overview.TabIndex = 3;
+      this.Overview.DoubleClick += new System.EventHandler(this.Overview_DoubleClick);
       // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
-      this.Controls.Add(this.TxtResults);
-      this.Controls.Add(CmdRepositoryManager);
+      this.Controls.Add(this.Overview);
       this.Name = "Main";
       this.Text = "GraphML for Desktop";
       this.ResumeLayout(false);
-      this.PerformLayout();
 
     }
 
     #endregion
-
-    private System.Windows.Forms.TextBox TxtResults;
+    private System.Windows.Forms.TreeView Overview;
   }
 }
