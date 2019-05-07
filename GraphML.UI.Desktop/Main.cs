@@ -61,6 +61,8 @@ namespace GraphML.UI.Desktop
     {
       var selNode = Overview.SelectedNode;
       var repo = (Repository)selNode.Tag;
+      var import = new Import(repo);
+      import.ShowDialog();
     }
 
     private void Overview_MouseDown(object sender, MouseEventArgs e)

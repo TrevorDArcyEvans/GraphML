@@ -154,6 +154,14 @@
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\Import.cs">
+      <Link>Import.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\Import.Designer.cs">
+      <Link>Import.Designer.cs</Link>
+      <DependentUpon>Import.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IRepositoryManagerServer.cs">
       <Link>IRepositoryManagerServer.cs</Link>
     </Compile>
@@ -247,6 +255,10 @@
       <Link>RepositoryManager.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
+    <EmbeddedResource Include="..\GraphML.UI.Desktop\Import.resx">
+      <Link>Import.resx</Link>
+      <DependentUpon>Import.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\GraphML.UI.Desktop\Main.resx">
       <Link>Main.resx</Link>
       <DependentUpon>Main.cs</DependentUpon>
