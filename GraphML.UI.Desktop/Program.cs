@@ -18,7 +18,7 @@ namespace GraphML.UI.Desktop
     {
       try
       {
-        using (var sp = BuildDi())
+        using (var sp = BuildServiceProvider())
         {
           var config = sp.GetRequiredService<IConfiguration>();
 
@@ -40,7 +40,7 @@ namespace GraphML.UI.Desktop
       }
     }
 
-    private static AutofacServiceProvider BuildDi()
+    private static AutofacServiceProvider BuildServiceProvider()
     {
       var cfgBuilder = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
