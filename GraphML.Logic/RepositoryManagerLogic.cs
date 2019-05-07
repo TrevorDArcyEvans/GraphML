@@ -9,6 +9,7 @@ namespace GraphML.Logic
 {
   public sealed class RepositoryManagerLogic : OwnedLogicBase<RepositoryManager>, IRepositoryManagerLogic
   {
+    private readonly IRepositoryManagerDatastore _repoMgrDatastore;
     public RepositoryManagerLogic(
       IHttpContextAccessor context,
       IRepositoryManagerDatastore datastore,
@@ -16,6 +17,7 @@ namespace GraphML.Logic
       IRepositoryManagerFilter filter) :
       base(context, datastore, validator, filter)
     {
+      _repoMgrDatastore = datastore;
     }
 
     public IEnumerable<RepositoryManager> GetAll()
@@ -23,7 +25,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new RepositoryManager(), ruleSet: nameof(IRepositoryManagerLogic.GetAll));
       if (valRes.IsValid)
       {
-        return _filter.Filter(((IRepositoryManagerDatastore)_datastore).GetAll());
+        return _filter.Filter(_repoMgrDatastore.GetAll());
       }
 
       return Enumerable.Empty<RepositoryManager>();

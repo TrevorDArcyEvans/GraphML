@@ -9,6 +9,8 @@ namespace GraphML.Logic
 {
   public sealed class OrganisationLogic : LogicBase<Organisation>, IOrganisationLogic
   {
+    private readonly IOrganisationDatastore _orgDatastore;
+
     public OrganisationLogic(
       IHttpContextAccessor context,
       IOrganisationDatastore datastore,
@@ -16,6 +18,7 @@ namespace GraphML.Logic
       IOrganisationFilter filter) :
       base(context, datastore, validator, filter)
     {
+      _orgDatastore = datastore;
     }
 
     public IEnumerable<Organisation> GetAll()
@@ -23,7 +26,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new Organisation(), ruleSet: nameof(IOrganisationLogic.GetAll));
       if (valRes.IsValid)
       {
-        return _filter.Filter(((IOrganisationDatastore)_datastore).GetAll());
+        return _filter.Filter(_orgDatastore.GetAll());
       }
 
       return Enumerable.Empty<Organisation>();

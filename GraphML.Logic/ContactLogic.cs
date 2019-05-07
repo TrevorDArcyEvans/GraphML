@@ -8,6 +8,8 @@ namespace GraphML.Logic
 {
   public sealed class ContactLogic : OwnedLogicBase<Contact>, IContactLogic
   {
+    private readonly IContactDatastore _contactDatastore;
+
     public ContactLogic(
       IHttpContextAccessor context,
       IContactDatastore datastore,
@@ -15,6 +17,7 @@ namespace GraphML.Logic
       IContactFilter filter) :
       base(context, datastore, validator, filter)
     {
+      _contactDatastore = datastore;
     }
 
     public Contact ByEmail(string email)
@@ -22,7 +25,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new Contact(), ruleSet: nameof(IContactLogic.ByEmail));
       if (valRes.IsValid)
       {
-        return _filter.Filter(new[] { ((IContactDatastore)_datastore).ByEmail(email) }).SingleOrDefault();
+        return _filter.Filter(new[] { _contactDatastore.ByEmail(email) }).SingleOrDefault();
       }
 
       return null;

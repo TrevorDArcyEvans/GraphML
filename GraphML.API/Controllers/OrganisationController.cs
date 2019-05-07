@@ -23,6 +23,7 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class OrganisationController : GraphMLController<Organisation>
   {
+    private readonly IOrganisationLogic _orgLogic;
     /// <summary>
     /// constructor
     /// </summary>
@@ -30,6 +31,7 @@ namespace GraphML.API.Controllers
     public OrganisationController(IOrganisationLogic logic) :
       base(logic)
     {
+      _orgLogic = logic;
     }
 
     /// <summary>
@@ -106,7 +108,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult GetAll([FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
-      var result = ((IOrganisationLogic)_logic).GetAll()
+      var result = _orgLogic.GetAll()
         .Skip(pageIndex * pageSize)
         .Take(pageSize);
       return new OkObjectResult(result);

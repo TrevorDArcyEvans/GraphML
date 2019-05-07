@@ -22,6 +22,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class EdgeController : OwnedGraphMLController<Edge>
   {
+    private readonly IEdgeLogic _edgeLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -29,6 +31,7 @@ namespace GraphML.API.Controllers
     public EdgeController(IEdgeLogic logic) :
       base(logic)
     {
+      _edgeLogic = logic;
     }
 
     /// <summary>
@@ -124,7 +127,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult ByNodeIds([FromBody][Required] IEnumerable<string> ids, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
-      var ents = ((IEdgeLogic)_logic).ByNodeIds(ids, pageIndex, pageSize);
+      var ents = _edgeLogic.ByNodeIds(ids, pageIndex, pageSize);
       return new OkObjectResult(ents);
     }
   }

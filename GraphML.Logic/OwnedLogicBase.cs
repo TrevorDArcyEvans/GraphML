@@ -9,6 +9,8 @@ namespace GraphML.Logic
 {
   public abstract class OwnedLogicBase<T> : LogicBase<T>, IOwnedLogic<T> where T : OwnedItem, new()
   {
+    private readonly IOwnedDatastore<T> _ownedDatastore;
+
     public OwnedLogicBase(
       IHttpContextAccessor context, 
       IOwnedDatastore<T> datastore, 
@@ -16,6 +18,7 @@ namespace GraphML.Logic
       IFilter<T> filter) : 
       base(context, datastore, validator, filter)
     {
+      _ownedDatastore = datastore;
     }
 
     public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds, int pageIndex, int pageSize)
@@ -23,7 +26,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new T(), ruleSet: nameof(IOwnedLogic<T>.ByOwners));
       if (valRes.IsValid)
       {
-        return _filter.Filter(((IOwnedDatastore<T>)_datastore).ByOwners(ownerIds, pageIndex, pageSize));
+        return _filter.Filter(_ownedDatastore.ByOwners(ownerIds, pageIndex, pageSize));
       }
 
       return Enumerable.Empty<T>();

@@ -22,6 +22,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class ContactController : OwnedGraphMLController<Contact>
   {
+    private readonly IContactLogic _contactLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -29,6 +31,7 @@ namespace GraphML.API.Controllers
     public ContactController(IContactLogic logic) :
       base(logic)
     {
+      _contactLogic = logic;
     }
 
     /// <summary>
@@ -122,7 +125,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult ByEmail([FromRoute][Required] string email)
     {
-      var ent = ((IContactLogic)_logic).ByEmail(email);
+      var ent = _contactLogic.ByEmail(email);
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
     }
   }

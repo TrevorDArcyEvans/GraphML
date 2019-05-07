@@ -9,6 +9,8 @@ namespace GraphML.Logic
 {
   public sealed class EdgeLogic : OwnedLogicBase<Edge>, IEdgeLogic
   {
+    private readonly IEdgeDatastore _edgeDatastore;
+
     public EdgeLogic(
       IHttpContextAccessor context,
       IEdgeDatastore datastore,
@@ -16,6 +18,7 @@ namespace GraphML.Logic
       IEdgeFilter filter) :
       base(context, datastore, validator, filter)
     {
+      _edgeDatastore = datastore;
     }
 
     public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids, int pageIndex, int pageSize)
@@ -23,7 +26,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new Edge(), ruleSet: nameof(IEdgeLogic.ByNodeIds));
       if (valRes.IsValid)
       {
-        return _filter.Filter(((IEdgeDatastore)_datastore).ByNodeIds(ids, pageIndex, pageSize));
+        return _filter.Filter(_edgeDatastore.ByNodeIds(ids, pageIndex, pageSize));
       }
 
       return Enumerable.Empty<Edge>();
