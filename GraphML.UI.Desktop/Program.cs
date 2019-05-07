@@ -1,22 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
+using System;
 using System.Windows.Forms;
 
 namespace GraphML.UI.Desktop
 {
-    static class Program
+  static class Program
+  {
+    [STAThread]
+    static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+      try
+      {
+        NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config");
+
+        var builder = new ConfigurationBuilder()
+          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+          .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
+          .AddJsonFile($"autofac.json", optional: true);
+        var config = builder.Build();
+
+        using (var sp = BuildDi(config))
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+          Application.EnableVisualStyles();
+          Application.SetCompatibleTextRenderingDefault(false);
+
+          Application.Run(new Main(sp));
         }
+      }
+      finally
+      {
+        // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+        NLog.LogManager.Shutdown();
+      }
     }
+
+    private static ServiceProvider BuildDi(IConfiguration config)
+    {
+      return new ServiceCollection()
+        .AddSingleton(config)
+        .AddLogging(loggingBuilder =>
+        {
+          // configure Logging with NLog
+          loggingBuilder.ClearProviders();
+          loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+          loggingBuilder.AddNLog(config);
+        })
+        .BuildServiceProvider();
+    }
+  }
 }

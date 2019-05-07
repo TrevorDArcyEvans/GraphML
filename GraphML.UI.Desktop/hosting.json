@@ -1,0 +1,13 @@
+﻿{
+  "API":
+  {
+    "Uri": "https://localhost:8001",
+    "UserName": "Admin",
+    "Password": "Admin"
+  },
+
+  "Cache":
+  {
+    "Host": "localhost"
+  }
+}

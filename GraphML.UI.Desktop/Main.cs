@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
@@ -17,16 +19,24 @@ namespace GraphML.UI.Desktop
     public Main()
     {
       InitializeComponent();
+    }
 
-      var serverUrl = ConfigurationManager.AppSettings["GraphML_ServerUrl"];
-      var userName = ConfigurationManager.AppSettings["GraphML_UserName"];
-      var password = ConfigurationManager.AppSettings["GraphML_Password"];
+    public Main(IServiceProvider sp) :
+      this()
+    {
+      var config = sp.GetService<IConfiguration>();
+
+      var serverUrl= Settings.API_URI(config);
+      var userName = Settings.API_USERNAME(config);
+      var password = Settings.API_PASSWORD(config);
       var client = new RestClient(serverUrl)
       {
         Authenticator = new HttpBasicAuthenticator(userName, password)
       };
       client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-      var logFact = new LoggerFactory();
+
+      var logger = sp.GetService<ILogger<Main>>();
+      logger.LogInformation("Hello, world!");
 
       _repoMgrServer = new RepositoryManagerServer(client);
       _repoServer = new RepositoryServer(client);
