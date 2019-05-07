@@ -42,6 +42,8 @@ namespace GraphML.UI.Desktop
       using (new AutoCursor())
       {
         // TODO   run import
+        new GraphML.Datastore.Database.Importer.CSV.Program(_repo.Name, TxtDataFileName.Text, LogInformation).Run();
       }
     }
+  }
 }

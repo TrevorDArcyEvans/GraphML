@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GraphML.Datastore.Database.Importer.CSV\GraphML.Datastore.Database.Importer.CSV.csproj" />
     <ProjectReference Include="..\GraphML\GraphML.csproj" />
   </ItemGroup>
 

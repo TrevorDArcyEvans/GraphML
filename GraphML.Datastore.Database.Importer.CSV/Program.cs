@@ -17,23 +17,27 @@ namespace GraphML.Datastore.Database.Importer.CSV
     static void Main(string[] args)
     {
       // check data file exists
-      if (args.Length != 1 || !File.Exists(args[0]))
+      if (args.Length != 2 || !File.Exists(args[1]))
       {
         Usage();
         return;
       }
 
-      new Program(args[0]).Run();
+      new Program(args[0], args[1], LogInformation).Run();
     }
 
+    private readonly string _repoName;
     private readonly string _dataFilePath;
+    private readonly Action<string> _logInfoAction;
 
-    public Program(string dataFilePath)
+    public Program(string repoName, string dataFilePath, Action<string> logInfoAction)
     {
+      _repoName = repoName;
       _dataFilePath = dataFilePath;
+      _logInfoAction = logInfoAction;
     }
 
-    private void Run()
+    public void Run()
     {
       var config = new ConfigurationBuilder()
         .AddJsonFile("hosting.json")
@@ -41,7 +45,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
         .Build();
 
       DumpSettings(config);
-      Console.WriteLine();
+      _logInfoAction(Environment.NewLine);
 
       var sw = Stopwatch.StartNew();
       using (var tr = File.OpenText(_dataFilePath))
@@ -61,15 +65,14 @@ namespace GraphML.Datastore.Database.Importer.CSV
           var dbConnFact = new DbConnectionFactory(config);
           using (var conn = dbConnFact.Get())
           {
-            var repoName = GetRepositoryName();
-            var repo = conn.GetAll<Repository>().Single(r => r.Name == repoName);
+            var repo = conn.GetAll<Repository>().Single(r => r.Name == _repoName);
             var graph = new Graph(repo.Id, Path.GetFileNameWithoutExtension(_dataFilePath));
 
-            Console.WriteLine($"Importing from:  {_dataFilePath}");
-            Console.WriteLine($"          into:  {conn.ConnectionString}");
-            Console.WriteLine($"    repository:  {repo.Name}");
-            Console.WriteLine($"         graph:  {graph.Name}");
-            Console.WriteLine();
+            _logInfoAction($"Importing from:  {_dataFilePath}");
+            _logInfoAction($"          into:  {conn.ConnectionString}");
+            _logInfoAction($"    repository:  {repo.Name}");
+            _logInfoAction($"         graph:  {graph.Name}");
+            _logInfoAction(Environment.NewLine);
 
             var modelNodes = nodes.Select(node => new Node(graph.Id, node)).ToList();
             var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
@@ -80,7 +83,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
                 modelNodesMap[edge.FromNode].Id,
                 modelNodesMap[edge.ToNode].Id)).ToList();
 
-            Console.WriteLine($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
+            _logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
 
             using (var trans = conn.BeginTransaction())
             {
@@ -90,35 +93,35 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
                 bulky.Commit(new[] { graph }, GetTableName<Graph>());
 
-                Console.WriteLine($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
                 bulky.Commit(modelNodes, GetTableName<Node>());
-                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 
-                Console.WriteLine($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
                 bulky.Commit(modelEdges, GetTableName<Edge>());
-                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
               }
               else
               {
                 conn.Insert(graph, trans);
 
-                Console.WriteLine($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
                 conn.Insert(modelNodes, trans);
-                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 
-                Console.WriteLine($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
                 conn.Insert(modelEdges, trans);
-                Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+                _logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
               }
 
-              Console.WriteLine($"Started database commit     : {sw.ElapsedMilliseconds} ms");
+              _logInfoAction($"Started database commit     : {sw.ElapsedMilliseconds} ms");
               trans.Commit();
-              Console.WriteLine($"  finished at               : {sw.ElapsedMilliseconds} ms");
+              _logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 
-              Console.WriteLine();
+              _logInfoAction(Environment.NewLine);
             }
-            Console.WriteLine($"Finished!");
-            Console.WriteLine($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
+            _logInfoAction($"Finished!");
+            _logInfoAction($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
           }
         }
       }
@@ -127,21 +130,21 @@ namespace GraphML.Datastore.Database.Importer.CSV
     private static void Usage()
     {
       Console.WriteLine("Usage:");
-      Console.WriteLine("  GraphML.Datastore.Database.Importer.CSV.exe [data-file-path.csv]");
+      Console.WriteLine("  GraphML.Datastore.Database.Importer.CSV.exe [repository-name] [data-file-path.csv]");
       Console.WriteLine();
       Console.WriteLine("Notes:");
       Console.WriteLine("  Database connection is contained in hosting.json");
     }
 
-    private static void DumpSettings(IConfiguration config)
+    private void DumpSettings(IConfiguration config)
     {
-      Console.WriteLine("Settings:");
-      Console.WriteLine($"  REPOSITORY:");
-      Console.WriteLine($"    NAME                        : {GetRepositoryName()}");
-      Console.WriteLine($"  DATASTORE:");
-      Console.WriteLine($"    DATASTORE_CONNECTION        : {Settings.DATASTORE_CONNECTION(config)}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE   : {Settings.DATASTORE_CONNECTION_TYPE(config, Settings.DATASTORE_CONNECTION(config))}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_STRING : {Settings.DATASTORE_CONNECTION_STRING(config, Settings.DATASTORE_CONNECTION(config))}");
+      _logInfoAction("Settings:");
+      _logInfoAction($"  REPOSITORY:");
+      _logInfoAction($"    NAME                        : {_repoName}");
+      _logInfoAction($"  DATASTORE:");
+      _logInfoAction($"    DATASTORE_CONNECTION        : {Settings.DATASTORE_CONNECTION(config)}");
+      _logInfoAction($"    DATASTORE_CONNECTION_TYPE   : {Settings.DATASTORE_CONNECTION_TYPE(config, Settings.DATASTORE_CONNECTION(config))}");
+      _logInfoAction($"    DATASTORE_CONNECTION_STRING : {Settings.DATASTORE_CONNECTION_STRING(config, Settings.DATASTORE_CONNECTION(config))}");
     }
 
     private static string GetTableName<T>()
@@ -151,9 +154,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
       return tableName;
     }
 
-    private static string GetRepositoryName()
+    private static void LogInformation(string message = null)
     {
-      return Environment.GetEnvironmentVariable("REPOSITORY_NAME");
+      Console.WriteLine(message ?? Environment.NewLine);
     }
 
     private sealed class ImportEdge
