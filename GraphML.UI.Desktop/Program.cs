@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog;
 using NLog.Extensions.Logging;
 using System;
 using System.Windows.Forms;
@@ -21,6 +22,9 @@ namespace GraphML.UI.Desktop
           .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
           .AddJsonFile($"autofac.json", optional: true);
         var config = builder.Build();
+
+        // database connection string for NLog
+        GlobalDiagnosticsContext.Set("LOG_CONNECTIONSTRING", Settings.LOG_CONNECTIONSTRING(config));
 
         using (var sp = BuildDi(config))
         {
