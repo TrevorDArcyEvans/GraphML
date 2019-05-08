@@ -154,9 +154,6 @@
     <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\BulkUploadToMsSqlServerExtensions.cs">
       <Link>BulkUploadToMsSqlServerExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\ImporterProgram.cs">
-      <Link>ImporterProgram.cs</Link>
-    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\AutoCursor.cs">
       <Link>AutoCursor.cs</Link>
     </Compile>
