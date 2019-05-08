@@ -5,6 +5,10 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\GraphML.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Configuration" Version="4.1.0" />
@@ -70,6 +74,10 @@
     <None Update="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\GraphML.snk" Link="GraphML.snk" />
   </ItemGroup>
 
 </Project>
