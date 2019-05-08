@@ -47,6 +47,24 @@
           "type": "GraphML.UI.Desktop.IGraphServer"
         }
       ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.NodeServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.INodeServer"
+        }
+      ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.EdgeServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IEdgeServer"
+        }
+      ]
     }
   ]
 }

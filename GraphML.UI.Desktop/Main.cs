@@ -12,6 +12,8 @@ namespace GraphML.UI.Desktop
     private readonly IRepositoryManagerServer _repoMgrServer;
     private readonly IRepositoryServer _repoServer;
     private readonly IGraphServer _graphServer;
+    private readonly INodeServer _nodeServer;
+    private readonly IEdgeServer _edgeServer;
 
     public Main()
     {
@@ -24,6 +26,8 @@ namespace GraphML.UI.Desktop
       _repoMgrServer = sp.GetService<IRepositoryManagerServer>();
       _repoServer = sp.GetService<IRepositoryServer>();
       _graphServer = sp.GetService<IGraphServer>();
+      _nodeServer = sp.GetService<INodeServer>();
+      _edgeServer = sp.GetService<IEdgeServer>();
     }
 
     private void Overview_DoubleClick(object sender, EventArgs e)

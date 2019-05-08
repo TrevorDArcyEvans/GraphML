@@ -165,11 +165,17 @@
       <Link>CreateEdit.Designer.cs</Link>
       <DependentUpon>CreateEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\EdgeServer.cs">
+      <Link>EdgeServer.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\GraphServer.cs">
       <Link>GraphServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IEdgeServer.cs">
+      <Link>IEdgeServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IGraphServer.cs">
       <Link>IGraphServer.cs</Link>
@@ -181,6 +187,9 @@
     <Compile Include="..\GraphML.UI.Desktop\Import.Designer.cs">
       <Link>Import.Designer.cs</Link>
       <DependentUpon>Import.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\INodeServer.cs">
+      <Link>INodeServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IRepositoryManagerServer.cs">
       <Link>IRepositoryManagerServer.cs</Link>
@@ -204,6 +213,9 @@
     <Compile Include="..\GraphML.UI.Desktop\Main.Designer.cs">
       <Link>Main.Designer.cs</Link>
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\NodeServer.cs">
+      <Link>NodeServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\RepositoryManagerServer.cs">
       <Link>RepositoryManagerServer.cs</Link>
