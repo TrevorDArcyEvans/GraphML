@@ -38,6 +38,15 @@
           "type": "GraphML.UI.Desktop.IRepositoryServer"
         }
       ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.GraphServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IGraphServer"
+        }
+      ]
     }
   ]
 }

@@ -11,6 +11,7 @@ namespace GraphML.UI.Desktop
   {
     private readonly IRepositoryManagerServer _repoMgrServer;
     private readonly IRepositoryServer _repoServer;
+    private readonly IGraphServer _graphServer;
 
     public Main()
     {
@@ -22,6 +23,7 @@ namespace GraphML.UI.Desktop
     {
       _repoMgrServer = sp.GetService<IRepositoryManagerServer>();
       _repoServer = sp.GetService<IRepositoryServer>();
+      _graphServer = sp.GetService<IGraphServer>();
     }
 
     private void Overview_DoubleClick(object sender, EventArgs e)
@@ -46,7 +48,7 @@ namespace GraphML.UI.Desktop
 
         if (selNode.Tag is Repository repo)
         {
-          // TODO   expand nodes+edges?
+          RefreshRepository(selNode);
         }
       }
     }
@@ -58,6 +60,19 @@ namespace GraphML.UI.Desktop
         selNode.Nodes.Clear();
         var repoMgr = (RepositoryManager)selNode.Tag;
         var repos = _repoServer.ByOwners(new[] { repoMgr.Id });
+        var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
+        selNode.Nodes.AddRange(childNodes.ToArray());
+        selNode.ExpandAll();
+      }
+    }
+
+    private void RefreshRepository(TreeNode selNode)
+    {
+      using (new AutoCursor())
+      {
+        selNode.Nodes.Clear();
+        var repo = (Repository)selNode.Tag;
+        var repos = _graphServer.ByOwners(new[] { repo.Id });
         var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
         selNode.ExpandAll();

@@ -29,19 +29,24 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("System");
       System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+      System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("System");
       this.Overview = new System.Windows.Forms.TreeView();
       this.RepositoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.CmdEdit = new System.Windows.Forms.ToolStripMenuItem();
+      this.CmDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.CmdImport = new System.Windows.Forms.ToolStripMenuItem();
       this.RepositoryManagerMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.CmdCreate = new System.Windows.Forms.ToolStripMenuItem();
-      this.CmdEdit = new System.Windows.Forms.ToolStripMenuItem();
-      this.CmDelete = new System.Windows.Forms.ToolStripMenuItem();
       toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.RepositoryMenu.SuspendLayout();
       this.RepositoryManagerMenu.SuspendLayout();
       this.SuspendLayout();
+      // 
+      // toolStripSeparator1
+      // 
+      toolStripSeparator1.Name = "toolStripSeparator1";
+      toolStripSeparator1.Size = new System.Drawing.Size(148, 6);
       // 
       // Overview
       // 
@@ -68,12 +73,26 @@
             toolStripSeparator1,
             this.CmdImport});
       this.RepositoryMenu.Name = "RepositoryMenu";
-      this.RepositoryMenu.Size = new System.Drawing.Size(241, 139);
+      this.RepositoryMenu.Size = new System.Drawing.Size(152, 106);
+      // 
+      // CmdEdit
+      // 
+      this.CmdEdit.Name = "CmdEdit";
+      this.CmdEdit.Size = new System.Drawing.Size(151, 32);
+      this.CmdEdit.Text = "Edit...";
+      this.CmdEdit.Click += new System.EventHandler(this.CmdEdit_Click);
+      // 
+      // CmDelete
+      // 
+      this.CmDelete.Name = "CmDelete";
+      this.CmDelete.Size = new System.Drawing.Size(151, 32);
+      this.CmDelete.Text = "Delete...";
+      this.CmDelete.Click += new System.EventHandler(this.CmdDelete_Click);
       // 
       // CmdImport
       // 
       this.CmdImport.Name = "CmdImport";
-      this.CmdImport.Size = new System.Drawing.Size(240, 32);
+      this.CmdImport.Size = new System.Drawing.Size(151, 32);
       this.CmdImport.Text = "Import...";
       this.CmdImport.Click += new System.EventHandler(this.CmdImport_Click);
       // 
@@ -91,25 +110,6 @@
       this.CmdCreate.Size = new System.Drawing.Size(146, 32);
       this.CmdCreate.Text = "Create...";
       this.CmdCreate.Click += new System.EventHandler(this.CmdCreate_Click);
-      // 
-      // CmdEdit
-      // 
-      this.CmdEdit.Name = "CmdEdit";
-      this.CmdEdit.Size = new System.Drawing.Size(240, 32);
-      this.CmdEdit.Text = "Edit...";
-      this.CmdEdit.Click += new System.EventHandler(this.CmdEdit_Click);
-      // 
-      // CmDelete
-      // 
-      this.CmDelete.Name = "CmDelete";
-      this.CmDelete.Size = new System.Drawing.Size(240, 32);
-      this.CmDelete.Text = "Delete...";
-      this.CmDelete.Click += new System.EventHandler(this.CmdDelete_Click);
-      // 
-      // toolStripSeparator1
-      // 
-      toolStripSeparator1.Name = "toolStripSeparator1";
-      toolStripSeparator1.Size = new System.Drawing.Size(237, 6);
       // 
       // Main
       // 

@@ -165,8 +165,14 @@
       <Link>CreateEdit.Designer.cs</Link>
       <DependentUpon>CreateEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\GraphServer.cs">
+      <Link>GraphServer.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IGraphServer.cs">
+      <Link>IGraphServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\Import.cs">
       <Link>Import.cs</Link>
