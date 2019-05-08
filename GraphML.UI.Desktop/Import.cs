@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GraphML.UI.Desktop
@@ -41,8 +36,7 @@ namespace GraphML.UI.Desktop
       TxtLog.Clear();
       using (new AutoCursor())
       {
-        // TODO   run import
-        new GraphML.Datastore.Database.Importer.CSV.Program(_repo.Name, TxtDataFileName.Text, LogInformation).Run();
+        new GraphML.Datastore.Database.Importer.CSV.Program(_repo.Name, TxtDataFileName.Text, msg => TxtLog.AppendText(msg)).Run();
       }
     }
   }
