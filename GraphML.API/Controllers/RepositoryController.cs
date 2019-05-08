@@ -70,7 +70,6 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
-    [Route(nameof(Create))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Repository>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]

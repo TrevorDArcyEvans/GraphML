@@ -49,7 +49,7 @@ namespace GraphML.UI.Desktop
 
     public IEnumerable<T> Create(IEnumerable<T> entity)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, "Create"), entity);
+      var request = GetPostRequest(ResourceBase, entity);
       var retval = GetResponse<IEnumerable<T>>(request);
 
       return retval;
@@ -57,7 +57,7 @@ namespace GraphML.UI.Desktop
 
     public IEnumerable<T> Delete(IEnumerable<T> entity)
     {
-      var request = GetDeleteRequest(Url.Combine(ResourceBase, "Delete"), entity);
+      var request = GetDeleteRequest(ResourceBase, entity);
       var retval = GetResponse<IEnumerable<T>>(request);
 
       return retval;
@@ -65,7 +65,7 @@ namespace GraphML.UI.Desktop
 
     public IEnumerable<T> Update(IEnumerable<T> entity)
     {
-      var request = GetPutRequest(Url.Combine(ResourceBase, "Update"), entity);
+      var request = GetPutRequest(ResourceBase, entity);
       var retval = GetResponse<IEnumerable<T>>(request);
 
       return retval;
