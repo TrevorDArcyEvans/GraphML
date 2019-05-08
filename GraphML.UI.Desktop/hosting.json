@@ -9,5 +9,28 @@
   "Cache":
   {
     "Host": "localhost"
+  },
+
+  "Datastore":
+  {
+    "Connection": "SqlServer",
+
+    "SqLite":
+    {
+      "Type": "SqLite",
+      "ConnectionString": "Data Source=|DataDirectory|Data/GraphML.sqlite3;"
+    },
+
+    "SqlServer":
+    {
+      "Type": "SqlServer",
+      "ConnectionString": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
+    },
+
+    "MySql":
+    {
+      "Type": "MySql",
+      "ConnectionString": "server=127.0.0.1;uid=GraphML;pwd=DisruptTheMarket;database=GraphML;SslMode=none"
+    }
   }
 }
