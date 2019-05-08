@@ -34,11 +34,7 @@ namespace GraphML.UI.Desktop
 
         if (selNode.Parent == null)
         {
-          selNode.Nodes.Clear();
-          var repoMgrs = _repoMgrServer.GetAll();
-          var childNodes = repoMgrs.Select(x => new TreeNode(x.Name) { Tag = x });
-          selNode.Nodes.AddRange(childNodes.ToArray());
-          selNode.ExpandAll();
+          RefreshSystem(selNode);
         }
 
         if (selNode.Tag is RepositoryManager repoMgr)
@@ -50,6 +46,18 @@ namespace GraphML.UI.Desktop
         {
           RefreshRepository(selNode);
         }
+      }
+    }
+
+    private void RefreshSystem(TreeNode selNode)
+    {
+      using (new AutoCursor())
+      {
+        selNode.Nodes.Clear();
+        var repoMgrs = _repoMgrServer.GetAll();
+        var childNodes = repoMgrs.Select(x => new TreeNode(x.Name) { Tag = x });
+        selNode.Nodes.AddRange(childNodes.ToArray());
+        selNode.ExpandAll();
       }
     }
 
