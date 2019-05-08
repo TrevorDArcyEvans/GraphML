@@ -157,6 +157,14 @@
     <Compile Include="..\GraphML.UI.Desktop\AutoCursor.cs">
       <Link>AutoCursor.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\CreateEdit.cs">
+      <Link>CreateEdit.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\CreateEdit.Designer.cs">
+      <Link>CreateEdit.Designer.cs</Link>
+      <DependentUpon>CreateEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
     </Compile>
@@ -268,6 +276,9 @@
     <EmbeddedResource Include="..\GraphML.UI.Desktop\Main.resx">
       <Link>Main.resx</Link>
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\GraphML.UI.Desktop\CreateEdit.resx">
+      <DependentUpon>CreateEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
