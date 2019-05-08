@@ -51,9 +51,9 @@ namespace GraphML.Datastore.Database
           foreach (var ent in entity)
           {
             ent.Id = ent.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : ent.Id;
+            _dbConnection.Insert(ent, trans);
           }
 
-          _dbConnection.Insert(entity, trans);
           trans.Commit();
 
           return entity;
