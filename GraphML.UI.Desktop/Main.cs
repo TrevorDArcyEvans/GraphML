@@ -28,24 +28,21 @@ namespace GraphML.UI.Desktop
 
     private void Overview_DoubleClick(object sender, EventArgs e)
     {
-      using (new AutoCursor())
+      var selNode = Overview.SelectedNode;
+
+      if (selNode.Parent == null)
       {
-        var selNode = Overview.SelectedNode;
+        RefreshSystem(selNode);
+      }
 
-        if (selNode.Parent == null)
-        {
-          RefreshSystem(selNode);
-        }
+      if (selNode.Tag is RepositoryManager repoMgr)
+      {
+        RefreshRepositoryManager(selNode);
+      }
 
-        if (selNode.Tag is RepositoryManager repoMgr)
-        {
-          RefreshRepositoryManager(selNode);
-        }
-
-        if (selNode.Tag is Repository repo)
-        {
-          RefreshRepository(selNode);
-        }
+      if (selNode.Tag is Repository repo)
+      {
+        RefreshRepository(selNode);
       }
     }
 
