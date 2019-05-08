@@ -41,7 +41,7 @@ namespace GraphML.UI.Desktop
 
         if (selNode.Tag is RepositoryManager repoMgr)
         {
-          RefreshRepositoryManager(selNode, repoMgr);
+          RefreshRepositoryManager(selNode);
         }
 
         if (selNode.Tag is Repository repo)
@@ -51,11 +51,12 @@ namespace GraphML.UI.Desktop
       }
     }
 
-    private void RefreshRepositoryManager(TreeNode selNode, RepositoryManager repoMgr)
+    private void RefreshRepositoryManager(TreeNode selNode)
     {
       using (new AutoCursor())
       {
         selNode.Nodes.Clear();
+        var repoMgr = (RepositoryManager)selNode.Tag;
         var repos = _repoServer.ByOwners(new[] { repoMgr.Id });
         var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
@@ -113,8 +114,11 @@ namespace GraphML.UI.Desktop
         return;
       }
 
-      _repoServer.Create(new[] { repo });
-      RefreshRepositoryManager(selNode, repoMgr);
+      using (new AutoCursor())
+      {
+        _repoServer.Create(new[] { repo });
+        RefreshRepositoryManager(selNode);
+      }
     }
 
     private void CmdEdit_Click(object sender, EventArgs e)
@@ -127,8 +131,11 @@ namespace GraphML.UI.Desktop
         return;
       }
 
-      _repoServer.Update(new[] { repo });
-      RefreshRepositoryManager(selNode.Parent, (RepositoryManager)selNode.Parent.Tag);
+      using (new AutoCursor())
+      {
+        _repoServer.Update(new[] { repo });
+        RefreshRepositoryManager(selNode.Parent);
+      }
     }
 
     private void CmdDelete_Click(object sender, EventArgs e)
@@ -140,8 +147,11 @@ namespace GraphML.UI.Desktop
         return;
       }
 
-      _repoServer.Delete(new[] { repo });
-      RefreshRepositoryManager(selNode.Parent, (RepositoryManager)selNode.Parent.Tag);
+      using (new AutoCursor())
+      {
+        _repoServer.Delete(new[] { repo });
+        RefreshRepositoryManager(selNode.Parent);
+      }
     }
   }
 }
