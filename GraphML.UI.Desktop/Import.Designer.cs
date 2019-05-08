@@ -33,10 +33,10 @@
       System.Windows.Forms.Label label3;
       System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
       this.CmdImport = new System.Windows.Forms.Button();
-      this.TxtRepository = new System.Windows.Forms.TextBox();
-      this.TxtDataFileName = new System.Windows.Forms.TextBox();
       this.TxtLog = new System.Windows.Forms.TextBox();
       this.CmdBrowseDataFile = new System.Windows.Forms.Button();
+      this.TxtDataFileName = new System.Windows.Forms.TextBox();
+      this.TxtRepository = new System.Windows.Forms.TextBox();
       this.BrowseDataFileDlg = new System.Windows.Forms.OpenFileDialog();
       label1 = new System.Windows.Forms.Label();
       label2 = new System.Windows.Forms.Label();
@@ -103,36 +103,17 @@
       // CmdImport
       // 
       this.CmdImport.AutoSize = true;
+      this.CmdImport.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       tableLayoutPanel1.SetColumnSpan(this.CmdImport, 2);
       this.CmdImport.Dock = System.Windows.Forms.DockStyle.Fill;
       this.CmdImport.Enabled = false;
-      this.CmdImport.Location = new System.Drawing.Point(382, 516);
+      this.CmdImport.Location = new System.Drawing.Point(632, 516);
       this.CmdImport.Name = "CmdImport";
-      this.CmdImport.Size = new System.Drawing.Size(315, 30);
+      this.CmdImport.Size = new System.Drawing.Size(65, 30);
       this.CmdImport.TabIndex = 0;
       this.CmdImport.Text = "Import";
       this.CmdImport.UseVisualStyleBackColor = true;
       this.CmdImport.Click += new System.EventHandler(this.CmdImport_Click);
-      // 
-      // TxtRepository
-      // 
-      tableLayoutPanel1.SetColumnSpan(this.TxtRepository, 3);
-      this.TxtRepository.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.TxtRepository.Location = new System.Drawing.Point(98, 3);
-      this.TxtRepository.Name = "TxtRepository";
-      this.TxtRepository.ReadOnly = true;
-      this.TxtRepository.Size = new System.Drawing.Size(599, 26);
-      this.TxtRepository.TabIndex = 2;
-      // 
-      // TxtDataFileName
-      // 
-      tableLayoutPanel1.SetColumnSpan(this.TxtDataFileName, 2);
-      this.TxtDataFileName.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.TxtDataFileName.Location = new System.Drawing.Point(98, 35);
-      this.TxtDataFileName.Name = "TxtDataFileName";
-      this.TxtDataFileName.ReadOnly = true;
-      this.TxtDataFileName.Size = new System.Drawing.Size(562, 26);
-      this.TxtDataFileName.TabIndex = 2;
       // 
       // TxtLog
       // 
@@ -152,6 +133,7 @@
       // 
       this.CmdBrowseDataFile.AutoSize = true;
       this.CmdBrowseDataFile.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.CmdBrowseDataFile.Dock = System.Windows.Forms.DockStyle.Fill;
       this.CmdBrowseDataFile.Location = new System.Drawing.Point(666, 35);
       this.CmdBrowseDataFile.Name = "CmdBrowseDataFile";
       this.CmdBrowseDataFile.Size = new System.Drawing.Size(31, 30);
@@ -159,6 +141,26 @@
       this.CmdBrowseDataFile.Text = "...";
       this.CmdBrowseDataFile.UseVisualStyleBackColor = true;
       this.CmdBrowseDataFile.Click += new System.EventHandler(this.CmdBrowseDataFile_Click);
+      // 
+      // TxtDataFileName
+      // 
+      tableLayoutPanel1.SetColumnSpan(this.TxtDataFileName, 2);
+      this.TxtDataFileName.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.TxtDataFileName.Location = new System.Drawing.Point(98, 35);
+      this.TxtDataFileName.Name = "TxtDataFileName";
+      this.TxtDataFileName.ReadOnly = true;
+      this.TxtDataFileName.Size = new System.Drawing.Size(562, 26);
+      this.TxtDataFileName.TabIndex = 2;
+      // 
+      // TxtRepository
+      // 
+      tableLayoutPanel1.SetColumnSpan(this.TxtRepository, 3);
+      this.TxtRepository.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.TxtRepository.Location = new System.Drawing.Point(98, 3);
+      this.TxtRepository.Name = "TxtRepository";
+      this.TxtRepository.ReadOnly = true;
+      this.TxtRepository.Size = new System.Drawing.Size(599, 26);
+      this.TxtRepository.TabIndex = 2;
       // 
       // BrowseDataFileDlg
       // 
@@ -170,8 +172,12 @@
       // 
       this.ClientSize = new System.Drawing.Size(700, 549);
       this.Controls.Add(tableLayoutPanel1);
+      this.MaximizeBox = false;
+      this.MinimizeBox = false;
       this.Name = "Import";
+      this.ShowInTaskbar = false;
       this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Import Data";
       tableLayoutPanel1.ResumeLayout(false);
       tableLayoutPanel1.PerformLayout();
