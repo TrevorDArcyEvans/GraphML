@@ -36,8 +36,21 @@ namespace GraphML.UI.Desktop
       TxtLog.Clear();
       using (new AutoCursor())
       {
-        new GraphML.Datastore.Database.Importer.CSV.Program(_repo.Name, TxtDataFileName.Text, msg => TxtLog.AppendText(msg)).Run();
+        new GraphML.Datastore.Database.Importer.CSV.Program(_repo.Name, TxtDataFileName.Text, msg => TxtLog.AppendText(msg + Environment.NewLine)).Run();
       }
+      CmdImport.Enabled = CmdBrowseDataFile.Enabled = false;
+    }
+
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+      if (keyData == Keys.Escape)
+      {
+        DialogResult = DialogResult.Cancel;
+        Close();
+        return true;
+      }
+
+      return base.ProcessCmdKey(ref msg, keyData);
     }
   }
 }
