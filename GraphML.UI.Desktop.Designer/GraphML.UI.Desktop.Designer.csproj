@@ -93,8 +93,8 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.6.3\lib\net45\NLog.dll</HintPath>
@@ -147,6 +147,15 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\BulkUploadToMsSqlServer.cs">
+      <Link>BulkUploadToMsSqlServer.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\BulkUploadToMsSqlServerExtensions.cs">
+      <Link>BulkUploadToMsSqlServerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\ImporterProgram.cs">
+      <Link>ImporterProgram.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\AutoCursor.cs">
       <Link>AutoCursor.cs</Link>
@@ -293,12 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GraphML.Datastore.Database.Importer.CSV\GraphML.Datastore.Database.Importer.CSV.csproj">
-      <Project>{cb77fad5-ff96-4250-8823-9f043bd52edd}</Project>
-      <Name>GraphML.Datastore.Database.Importer.CSV</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
