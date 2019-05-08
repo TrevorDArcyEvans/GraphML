@@ -113,6 +113,11 @@ namespace GraphML.UI.Desktop
       {
         RepositoryMenu.Show(Overview, new Point(e.X, e.Y));
       }
+
+      if (selNode.Tag is Graph)
+      {
+        GraphMenu.Show(Overview, new Point(e.X, e.Y));
+      }
     }
 
     private void CmdImport_Click(object sender, EventArgs e)
@@ -171,6 +176,22 @@ namespace GraphML.UI.Desktop
       {
         _repoServer.Delete(new[] { repo });
         RefreshRepositoryManager(selNode.Parent);
+      }
+    }
+
+    private void CmdGraphDelete_Click(object sender, EventArgs e)
+    {
+      var selNode = Overview.SelectedNode;
+      var graph = (Graph)selNode.Tag;
+      if (MessageBox.Show($"Are you sure you want to delete graph:  {graph.Name}", "Confirm delete graph", MessageBoxButtons.OKCancel) != DialogResult.OK)
+      {
+        return;
+      }
+
+      using (new AutoCursor())
+      {
+        _graphServer.Delete(new[] { graph });
+        RefreshRepository(selNode.Parent);
       }
     }
   }

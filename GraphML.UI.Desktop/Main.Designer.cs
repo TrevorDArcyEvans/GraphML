@@ -38,9 +38,12 @@
       this.CmdImport = new System.Windows.Forms.ToolStripMenuItem();
       this.RepositoryManagerMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.CmdCreate = new System.Windows.Forms.ToolStripMenuItem();
+      this.GraphMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.CmdGraphDelete = new System.Windows.Forms.ToolStripMenuItem();
       toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.RepositoryMenu.SuspendLayout();
       this.RepositoryManagerMenu.SuspendLayout();
+      this.GraphMenu.SuspendLayout();
       this.SuspendLayout();
       // 
       // toolStripSeparator1
@@ -111,6 +114,21 @@
       this.CmdCreate.Text = "Create...";
       this.CmdCreate.Click += new System.EventHandler(this.CmdCreate_Click);
       // 
+      // GraphMenu
+      // 
+      this.GraphMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
+      this.GraphMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CmdGraphDelete});
+      this.GraphMenu.Name = "GraphMenu";
+      this.GraphMenu.Size = new System.Drawing.Size(241, 69);
+      // 
+      // CmdGraphDelete
+      // 
+      this.CmdGraphDelete.Name = "CmdGraphDelete";
+      this.CmdGraphDelete.Size = new System.Drawing.Size(240, 32);
+      this.CmdGraphDelete.Text = "Delete...";
+      this.CmdGraphDelete.Click += new System.EventHandler(this.CmdGraphDelete_Click);
+      // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -121,6 +139,7 @@
       this.Text = "GraphML for Desktop";
       this.RepositoryMenu.ResumeLayout(false);
       this.RepositoryManagerMenu.ResumeLayout(false);
+      this.GraphMenu.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -133,5 +152,7 @@
     private System.Windows.Forms.ToolStripMenuItem CmdCreate;
     private System.Windows.Forms.ToolStripMenuItem CmdEdit;
     private System.Windows.Forms.ToolStripMenuItem CmDelete;
+    private System.Windows.Forms.ContextMenuStrip GraphMenu;
+    private System.Windows.Forms.ToolStripMenuItem CmdGraphDelete;
   }
 }
