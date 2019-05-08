@@ -30,14 +30,14 @@
     {
       this.components = new System.ComponentModel.Container();
       System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-      System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("System");
+      System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("System");
       this.Overview = new System.Windows.Forms.TreeView();
       this.RepositoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.CmdEdit = new System.Windows.Forms.ToolStripMenuItem();
-      this.CmDelete = new System.Windows.Forms.ToolStripMenuItem();
-      this.CmdImport = new System.Windows.Forms.ToolStripMenuItem();
+      this.CmdRepositoryEdit = new System.Windows.Forms.ToolStripMenuItem();
+      this.CmRepositoryDelete = new System.Windows.Forms.ToolStripMenuItem();
+      this.CmdRepositoryImport = new System.Windows.Forms.ToolStripMenuItem();
       this.RepositoryManagerMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.CmdCreate = new System.Windows.Forms.ToolStripMenuItem();
+      this.CmdRepositoryCreate = new System.Windows.Forms.ToolStripMenuItem();
       this.GraphMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.CmdGraphDelete = new System.Windows.Forms.ToolStripMenuItem();
       toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -58,10 +58,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.Overview.Location = new System.Drawing.Point(12, 12);
       this.Overview.Name = "Overview";
-      treeNode1.Name = "Node0";
-      treeNode1.Text = "System";
+      treeNode2.Name = "Node0";
+      treeNode2.Text = "System";
       this.Overview.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
       this.Overview.Size = new System.Drawing.Size(776, 426);
       this.Overview.TabIndex = 3;
       this.Overview.DoubleClick += new System.EventHandler(this.Overview_DoubleClick);
@@ -71,48 +71,48 @@
       // 
       this.RepositoryMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
       this.RepositoryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CmdEdit,
-            this.CmDelete,
+            this.CmdRepositoryEdit,
+            this.CmRepositoryDelete,
             toolStripSeparator1,
-            this.CmdImport});
+            this.CmdRepositoryImport});
       this.RepositoryMenu.Name = "RepositoryMenu";
       this.RepositoryMenu.Size = new System.Drawing.Size(152, 106);
       // 
-      // CmdEdit
+      // CmdRepositoryEdit
       // 
-      this.CmdEdit.Name = "CmdEdit";
-      this.CmdEdit.Size = new System.Drawing.Size(151, 32);
-      this.CmdEdit.Text = "Edit...";
-      this.CmdEdit.Click += new System.EventHandler(this.CmdEdit_Click);
+      this.CmdRepositoryEdit.Name = "CmdRepositoryEdit";
+      this.CmdRepositoryEdit.Size = new System.Drawing.Size(151, 32);
+      this.CmdRepositoryEdit.Text = "Edit...";
+      this.CmdRepositoryEdit.Click += new System.EventHandler(this.CmdRepositoryEdit_Click);
       // 
-      // CmDelete
+      // CmRepositoryDelete
       // 
-      this.CmDelete.Name = "CmDelete";
-      this.CmDelete.Size = new System.Drawing.Size(151, 32);
-      this.CmDelete.Text = "Delete...";
-      this.CmDelete.Click += new System.EventHandler(this.CmdDelete_Click);
+      this.CmRepositoryDelete.Name = "CmRepositoryDelete";
+      this.CmRepositoryDelete.Size = new System.Drawing.Size(151, 32);
+      this.CmRepositoryDelete.Text = "Delete...";
+      this.CmRepositoryDelete.Click += new System.EventHandler(this.CmdRepositoryDelete_Click);
       // 
-      // CmdImport
+      // CmdRepositoryImport
       // 
-      this.CmdImport.Name = "CmdImport";
-      this.CmdImport.Size = new System.Drawing.Size(151, 32);
-      this.CmdImport.Text = "Import...";
-      this.CmdImport.Click += new System.EventHandler(this.CmdImport_Click);
+      this.CmdRepositoryImport.Name = "CmdRepositoryImport";
+      this.CmdRepositoryImport.Size = new System.Drawing.Size(151, 32);
+      this.CmdRepositoryImport.Text = "Import...";
+      this.CmdRepositoryImport.Click += new System.EventHandler(this.CmdRepositoryImport_Click);
       // 
       // RepositoryManagerMenu
       // 
       this.RepositoryManagerMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
       this.RepositoryManagerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CmdCreate});
+            this.CmdRepositoryCreate});
       this.RepositoryManagerMenu.Name = "RepositoryMenu";
       this.RepositoryManagerMenu.Size = new System.Drawing.Size(147, 36);
       // 
-      // CmdCreate
+      // CmdRepositoryCreate
       // 
-      this.CmdCreate.Name = "CmdCreate";
-      this.CmdCreate.Size = new System.Drawing.Size(146, 32);
-      this.CmdCreate.Text = "Create...";
-      this.CmdCreate.Click += new System.EventHandler(this.CmdCreate_Click);
+      this.CmdRepositoryCreate.Name = "CmdRepositoryCreate";
+      this.CmdRepositoryCreate.Size = new System.Drawing.Size(146, 32);
+      this.CmdRepositoryCreate.Text = "Create...";
+      this.CmdRepositoryCreate.Click += new System.EventHandler(this.CmdRepositoryCreate_Click);
       // 
       // GraphMenu
       // 
@@ -120,12 +120,12 @@
       this.GraphMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CmdGraphDelete});
       this.GraphMenu.Name = "GraphMenu";
-      this.GraphMenu.Size = new System.Drawing.Size(241, 69);
+      this.GraphMenu.Size = new System.Drawing.Size(147, 36);
       // 
       // CmdGraphDelete
       // 
       this.CmdGraphDelete.Name = "CmdGraphDelete";
-      this.CmdGraphDelete.Size = new System.Drawing.Size(240, 32);
+      this.CmdGraphDelete.Size = new System.Drawing.Size(146, 32);
       this.CmdGraphDelete.Text = "Delete...";
       this.CmdGraphDelete.Click += new System.EventHandler(this.CmdGraphDelete_Click);
       // 
@@ -147,11 +147,11 @@
     #endregion
     private System.Windows.Forms.TreeView Overview;
     private System.Windows.Forms.ContextMenuStrip RepositoryMenu;
-    private System.Windows.Forms.ToolStripMenuItem CmdImport;
+    private System.Windows.Forms.ToolStripMenuItem CmdRepositoryImport;
     private System.Windows.Forms.ContextMenuStrip RepositoryManagerMenu;
-    private System.Windows.Forms.ToolStripMenuItem CmdCreate;
-    private System.Windows.Forms.ToolStripMenuItem CmdEdit;
-    private System.Windows.Forms.ToolStripMenuItem CmDelete;
+    private System.Windows.Forms.ToolStripMenuItem CmdRepositoryCreate;
+    private System.Windows.Forms.ToolStripMenuItem CmdRepositoryEdit;
+    private System.Windows.Forms.ToolStripMenuItem CmRepositoryDelete;
     private System.Windows.Forms.ContextMenuStrip GraphMenu;
     private System.Windows.Forms.ToolStripMenuItem CmdGraphDelete;
   }

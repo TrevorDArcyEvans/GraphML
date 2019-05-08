@@ -120,7 +120,7 @@ namespace GraphML.UI.Desktop
       }
     }
 
-    private void CmdImport_Click(object sender, EventArgs e)
+    private void CmdRepositoryImport_Click(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repo = (Repository)selNode.Tag;
@@ -128,7 +128,7 @@ namespace GraphML.UI.Desktop
       import.ShowDialog();
     }
 
-    private void CmdCreate_Click(object sender, EventArgs e)
+    private void CmdRepositoryCreate_Click(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repoMgr = (RepositoryManager)selNode.Tag;
@@ -146,7 +146,7 @@ namespace GraphML.UI.Desktop
       }
     }
 
-    private void CmdEdit_Click(object sender, EventArgs e)
+    private void CmdRepositoryEdit_Click(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repo = (Repository)selNode.Tag;
@@ -163,7 +163,7 @@ namespace GraphML.UI.Desktop
       }
     }
 
-    private void CmdDelete_Click(object sender, EventArgs e)
+    private void CmdRepositoryDelete_Click(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repo = (Repository)selNode.Tag;
