@@ -35,9 +35,9 @@
       this.CmdImport = new System.Windows.Forms.Button();
       this.TxtRepository = new System.Windows.Forms.TextBox();
       this.TxtDataFileName = new System.Windows.Forms.TextBox();
+      this.TxtLog = new System.Windows.Forms.TextBox();
       this.CmdBrowseDataFile = new System.Windows.Forms.Button();
       this.BrowseDataFileDlg = new System.Windows.Forms.OpenFileDialog();
-      this.TxtLog = new System.Windows.Forms.TextBox();
       label1 = new System.Windows.Forms.Label();
       label2 = new System.Windows.Forms.Label();
       label3 = new System.Windows.Forms.Label();
@@ -72,72 +72,6 @@
       label3.TabIndex = 1;
       label3.Text = "Log:";
       // 
-      // CmdImport
-      // 
-      this.CmdImport.AutoSize = true;
-      tableLayoutPanel1.SetColumnSpan(this.CmdImport, 2);
-      this.CmdImport.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.CmdImport.Enabled = false;
-      this.CmdImport.Location = new System.Drawing.Point(536, 516);
-      this.CmdImport.Name = "CmdImport";
-      this.CmdImport.Size = new System.Drawing.Size(161, 30);
-      this.CmdImport.TabIndex = 0;
-      this.CmdImport.Text = "Import";
-      this.CmdImport.UseVisualStyleBackColor = true;
-      this.CmdImport.Click += new System.EventHandler(this.CmdImport_Click);
-      // 
-      // TxtRepository
-      // 
-      tableLayoutPanel1.SetColumnSpan(this.TxtRepository, 3);
-      this.TxtRepository.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.TxtRepository.Location = new System.Drawing.Point(98, 3);
-      this.TxtRepository.Name = "TxtRepository";
-      this.TxtRepository.ReadOnly = true;
-      this.TxtRepository.Size = new System.Drawing.Size(599, 26);
-      this.TxtRepository.TabIndex = 2;
-      // 
-      // TxtDataFileName
-      // 
-      tableLayoutPanel1.SetColumnSpan(this.TxtDataFileName, 2);
-      this.TxtDataFileName.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.TxtDataFileName.Location = new System.Drawing.Point(98, 35);
-      this.TxtDataFileName.Name = "TxtDataFileName";
-      this.TxtDataFileName.ReadOnly = true;
-      this.TxtDataFileName.Size = new System.Drawing.Size(562, 26);
-      this.TxtDataFileName.TabIndex = 2;
-      // 
-      // CmdBrowseDataFile
-      // 
-      this.CmdBrowseDataFile.AutoSize = true;
-      this.CmdBrowseDataFile.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.CmdBrowseDataFile.Location = new System.Drawing.Point(666, 35);
-      this.CmdBrowseDataFile.Name = "CmdBrowseDataFile";
-      this.CmdBrowseDataFile.Size = new System.Drawing.Size(31, 30);
-      this.CmdBrowseDataFile.TabIndex = 3;
-      this.CmdBrowseDataFile.Text = "...";
-      this.CmdBrowseDataFile.UseVisualStyleBackColor = true;
-      this.CmdBrowseDataFile.Click += new System.EventHandler(this.CmdBrowseDataFile_Click);
-      // 
-      // BrowseDataFileDlg
-      // 
-      this.BrowseDataFileDlg.AddExtension = false;
-      this.BrowseDataFileDlg.Filter = "CSV files|*.csv|All files|*.*";
-      this.BrowseDataFileDlg.Title = "Select data file";
-      // 
-      // TxtLog
-      // 
-      tableLayoutPanel1.SetColumnSpan(this.TxtLog, 3);
-      this.TxtLog.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.TxtLog.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.TxtLog.Location = new System.Drawing.Point(98, 71);
-      this.TxtLog.Multiline = true;
-      this.TxtLog.Name = "TxtLog";
-      this.TxtLog.ReadOnly = true;
-      this.TxtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.TxtLog.Size = new System.Drawing.Size(599, 439);
-      this.TxtLog.TabIndex = 2;
-      this.TxtLog.WordWrap = false;
-      // 
       // tableLayoutPanel1
       // 
       tableLayoutPanel1.AutoSize = true;
@@ -165,6 +99,72 @@
       tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
       tableLayoutPanel1.Size = new System.Drawing.Size(700, 549);
       tableLayoutPanel1.TabIndex = 4;
+      // 
+      // CmdImport
+      // 
+      this.CmdImport.AutoSize = true;
+      tableLayoutPanel1.SetColumnSpan(this.CmdImport, 2);
+      this.CmdImport.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.CmdImport.Enabled = false;
+      this.CmdImport.Location = new System.Drawing.Point(382, 516);
+      this.CmdImport.Name = "CmdImport";
+      this.CmdImport.Size = new System.Drawing.Size(315, 30);
+      this.CmdImport.TabIndex = 0;
+      this.CmdImport.Text = "Import";
+      this.CmdImport.UseVisualStyleBackColor = true;
+      this.CmdImport.Click += new System.EventHandler(this.CmdImport_Click);
+      // 
+      // TxtRepository
+      // 
+      tableLayoutPanel1.SetColumnSpan(this.TxtRepository, 3);
+      this.TxtRepository.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.TxtRepository.Location = new System.Drawing.Point(98, 3);
+      this.TxtRepository.Name = "TxtRepository";
+      this.TxtRepository.ReadOnly = true;
+      this.TxtRepository.Size = new System.Drawing.Size(599, 26);
+      this.TxtRepository.TabIndex = 2;
+      // 
+      // TxtDataFileName
+      // 
+      tableLayoutPanel1.SetColumnSpan(this.TxtDataFileName, 2);
+      this.TxtDataFileName.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.TxtDataFileName.Location = new System.Drawing.Point(98, 35);
+      this.TxtDataFileName.Name = "TxtDataFileName";
+      this.TxtDataFileName.ReadOnly = true;
+      this.TxtDataFileName.Size = new System.Drawing.Size(562, 26);
+      this.TxtDataFileName.TabIndex = 2;
+      // 
+      // TxtLog
+      // 
+      tableLayoutPanel1.SetColumnSpan(this.TxtLog, 3);
+      this.TxtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.TxtLog.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.TxtLog.Location = new System.Drawing.Point(98, 71);
+      this.TxtLog.Multiline = true;
+      this.TxtLog.Name = "TxtLog";
+      this.TxtLog.ReadOnly = true;
+      this.TxtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+      this.TxtLog.Size = new System.Drawing.Size(599, 439);
+      this.TxtLog.TabIndex = 2;
+      this.TxtLog.WordWrap = false;
+      // 
+      // CmdBrowseDataFile
+      // 
+      this.CmdBrowseDataFile.AutoSize = true;
+      this.CmdBrowseDataFile.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.CmdBrowseDataFile.Location = new System.Drawing.Point(666, 35);
+      this.CmdBrowseDataFile.Name = "CmdBrowseDataFile";
+      this.CmdBrowseDataFile.Size = new System.Drawing.Size(31, 30);
+      this.CmdBrowseDataFile.TabIndex = 3;
+      this.CmdBrowseDataFile.Text = "...";
+      this.CmdBrowseDataFile.UseVisualStyleBackColor = true;
+      this.CmdBrowseDataFile.Click += new System.EventHandler(this.CmdBrowseDataFile_Click);
+      // 
+      // BrowseDataFileDlg
+      // 
+      this.BrowseDataFileDlg.AddExtension = false;
+      this.BrowseDataFileDlg.Filter = "CSV files|*.csv|All files|*.*";
+      this.BrowseDataFileDlg.Title = "Select data file";
       // 
       // Import
       // 
