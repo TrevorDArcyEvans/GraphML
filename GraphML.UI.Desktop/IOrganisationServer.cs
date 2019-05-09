@@ -1,6 +1,6 @@
 ﻿namespace GraphML.UI.Desktop
 {
-  public interface IOrganisationServer : IOwnedItemServerBase<Organisation>
+  public interface IOrganisationServer : IItemServerBase<Organisation>
   {
   }
 }
