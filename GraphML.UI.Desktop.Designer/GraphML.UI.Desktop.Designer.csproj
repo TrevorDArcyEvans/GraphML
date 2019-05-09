@@ -198,6 +198,9 @@
     <Compile Include="..\GraphML.UI.Desktop\IGraphServer.cs">
       <Link>IGraphServer.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IItemServerBase.cs">
+      <Link>IItemServerBase.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\Import.cs">
       <Link>Import.cs</Link>
       <SubType>Form</SubType>
@@ -214,6 +217,9 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IOrganisationServer.cs">
       <Link>IOrganisationServer.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IOwnedItemServerBase.cs">
+      <Link>IOwnedItemServerBase.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IRepositoryItemAttributeServer.cs">
       <Link>IRepositoryItemAttributeServer.cs</Link>
@@ -233,6 +239,9 @@
     <Compile Include="..\GraphML.UI.Desktop\ISyncPolicyFactory.cs">
       <Link>ISyncPolicyFactory.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\ItemServerBase.cs">
+      <Link>ItemServerBase.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\Main.cs">
       <Link>Main.cs</Link>
       <SubType>Form</SubType>
@@ -249,6 +258,9 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\OrganisationServer.cs">
       <Link>OrganisationServer.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\OwnedItemServerBase.cs">
+      <Link>OwnedItemServerBase.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\RepositoryItemAttributeServer.cs">
       <Link>RepositoryItemAttributeServer.cs</Link>
