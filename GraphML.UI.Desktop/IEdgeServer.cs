@@ -2,7 +2,7 @@
 
 namespace GraphML.UI.Desktop
 {
-  public interface IEdgeServer : IServerBase<Edge>
+  public interface IEdgeServer : IOwnedItemServerBase<Edge>
   {
     IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids);
   }

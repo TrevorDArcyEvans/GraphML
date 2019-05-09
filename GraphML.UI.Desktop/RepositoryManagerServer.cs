@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class RepositoryManagerServer : ServerBase<RepositoryManager>, IRepositoryManagerServer
+  public sealed class RepositoryManagerServer : OwnedItemServerBase<RepositoryManager>, IRepositoryManagerServer
   {
     public RepositoryManagerServer(
       IRestClientFactory clientFactory,

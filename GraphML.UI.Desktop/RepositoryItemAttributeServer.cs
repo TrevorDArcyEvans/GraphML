@@ -2,7 +2,7 @@
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class RepositoryItemAttributeServer : ServerBase<RepositoryItemAttribute>, IRepositoryItemAttributeServer
+  public sealed class RepositoryItemAttributeServer : OwnedItemServerBase<RepositoryItemAttribute>, IRepositoryItemAttributeServer
   {
     public RepositoryItemAttributeServer(
       IRestClientFactory clientFactory,

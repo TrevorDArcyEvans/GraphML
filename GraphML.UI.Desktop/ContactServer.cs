@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class ContactServer : ServerBase<Contact>, IContactServer
+  public sealed class ContactServer : OwnedItemServerBase<Contact>, IContactServer
   {
     public ContactServer(
       IRestClientFactory clientFactory,

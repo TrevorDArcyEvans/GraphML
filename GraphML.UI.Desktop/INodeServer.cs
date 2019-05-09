@@ -1,6 +1,6 @@
 ﻿namespace GraphML.UI.Desktop
 {
-  public interface INodeServer : IServerBase<Node>
+  public interface INodeServer : IOwnedItemServerBase<Node>
   {
   }
 }

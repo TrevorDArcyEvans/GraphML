@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class EdgeServer : ServerBase<Edge>, IEdgeServer
+  public sealed class EdgeServer : OwnedItemServerBase<Edge>, IEdgeServer
   {
     public EdgeServer(
       IRestClientFactory clientFactory,

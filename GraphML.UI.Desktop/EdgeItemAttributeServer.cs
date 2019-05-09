@@ -2,7 +2,7 @@
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class EdgeItemAttributeServer : ServerBase<EdgeItemAttribute>, IEdgeItemAttributeServer
+  public sealed class EdgeItemAttributeServer : OwnedItemServerBase<EdgeItemAttribute>, IEdgeItemAttributeServer
   {
     public EdgeItemAttributeServer(
       IRestClientFactory clientFactory,

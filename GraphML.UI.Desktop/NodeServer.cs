@@ -2,7 +2,7 @@
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class NodeServer : ServerBase<Node>, INodeServer
+  public sealed class NodeServer : OwnedItemServerBase<Node>, INodeServer
   {
     public NodeServer(
       IRestClientFactory clientFactory,

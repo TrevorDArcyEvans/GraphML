@@ -1,6 +1,6 @@
 ﻿namespace GraphML.UI.Desktop
 {
-  public interface IGraphServer : IServerBase<Graph>
+  public interface IGraphServer : IOwnedItemServerBase<Graph>
   {
   }
 }

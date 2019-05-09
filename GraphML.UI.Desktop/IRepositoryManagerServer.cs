@@ -2,7 +2,7 @@
 
 namespace GraphML.UI.Desktop
 {
-  public interface IRepositoryManagerServer : IServerBase<RepositoryManager>
+  public interface IRepositoryManagerServer : IOwnedItemServerBase<RepositoryManager>
   {
     IEnumerable<RepositoryManager> GetAll();
   }

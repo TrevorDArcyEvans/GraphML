@@ -1,6 +1,6 @@
 ﻿namespace GraphML.UI.Desktop
 {
-  public interface IContactServer : IServerBase<Contact>
+  public interface IContactServer : IOwnedItemServerBase<Contact>
   {
     Contact ByEmail(string email);
   }

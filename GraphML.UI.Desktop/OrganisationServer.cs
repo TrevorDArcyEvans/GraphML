@@ -2,7 +2,7 @@
 
 namespace GraphML.UI.Desktop
 {
-  public sealed class OrganisationServer : ServerBase<Organisation>, IOrganisationServer
+  public sealed class OrganisationServer : OwnedItemServerBase<Organisation>, IOrganisationServer
   {
     public OrganisationServer(
       IRestClientFactory clientFactory,
