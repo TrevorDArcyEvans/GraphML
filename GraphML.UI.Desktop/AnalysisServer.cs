@@ -9,7 +9,7 @@ namespace GraphML.UI.Desktop
   {
     public AnalysisServer(
       IRestClientFactory clientFactory, 
-      ILogger<ServerBase> logger, 
+      ILogger<AnalysisServer> logger, 
       ISyncPolicyFactory policy) : 
       base(clientFactory, logger, policy)
     {
@@ -49,4 +49,4 @@ namespace GraphML.UI.Desktop
       return retval;
     }
   }
-}
+  }
