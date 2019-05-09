@@ -73,7 +73,7 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Calculate SNA 'Closeness' for specified graph
+    /// Calculate SNA 'Betweenness' for specified graph
     /// </summary>
     /// <param name="req">Job request</param>
     /// <response code="200">Success</response>
