@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Flurl;
+﻿using Flurl;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace GraphML.UI.Desktop
 {
