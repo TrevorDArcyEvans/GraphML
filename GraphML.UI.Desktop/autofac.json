@@ -74,6 +74,15 @@
           "type": "GraphML.UI.Desktop.IContactServer"
         }
       ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.OrganisationServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IOrganisationServer"
+        }
+      ]
     }
   ]
 }

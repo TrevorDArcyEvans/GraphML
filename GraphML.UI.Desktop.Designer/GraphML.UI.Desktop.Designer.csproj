@@ -197,6 +197,9 @@
     <Compile Include="..\GraphML.UI.Desktop\INodeServer.cs">
       <Link>INodeServer.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IOrganisationServer.cs">
+      <Link>IOrganisationServer.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IRepositoryManagerServer.cs">
       <Link>IRepositoryManagerServer.cs</Link>
     </Compile>
@@ -222,6 +225,9 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\NodeServer.cs">
       <Link>NodeServer.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\OrganisationServer.cs">
+      <Link>OrganisationServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\RepositoryManagerServer.cs">
       <Link>RepositoryManagerServer.cs</Link>
