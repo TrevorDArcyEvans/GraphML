@@ -119,6 +119,16 @@
           "type": "GraphML.UI.Desktop.IRepositoryItemAttributeServer"
         }
       ]
+    },
+
+    {
+      "type": "GraphML.UI.Desktop.AnalysisServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IAnalysisServer"
+        }
+      ]
     }
   ]
 }

@@ -148,11 +148,38 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.Analysis.SNA\Centrality\BetweennessRequest.cs">
+      <Link>BetweennessRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis.SNA\Centrality\BetweennessResult.cs">
+      <Link>BetweennessResult.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis.SNA\Centrality\ClosenessRequest.cs">
+      <Link>ClosenessRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis.SNA\Centrality\ClosenessResult.cs">
+      <Link>ClosenessResult.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis.SNA\Centrality\DegreeRequest.cs">
+      <Link>DegreeRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis.SNA\Centrality\DegreeResult.cs">
+      <Link>DegreeResult.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis\RankedShortestPath\FindShortestPathsRequest.cs">
+      <Link>FindShortestPathsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.Analysis\RankedShortestPath\FindShortestPathsResult.cs">
+      <Link>FindShortestPathsResult.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\BulkUploadToMsSqlServer.cs">
       <Link>BulkUploadToMsSqlServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.Datastore.Database.Importer.CSV\BulkUploadToMsSqlServerExtensions.cs">
       <Link>BulkUploadToMsSqlServerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\AnalysisServer.cs">
+      <Link>AnalysisServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\AutoCursor.cs">
       <Link>AutoCursor.cs</Link>
@@ -182,6 +209,9 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IAnalysisServer.cs">
+      <Link>IAnalysisServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IContactServer.cs">
       <Link>IContactServer.cs</Link>

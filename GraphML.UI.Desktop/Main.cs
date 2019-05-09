@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GraphML.Analysis.RankedShortestPath;
+using GraphML.Analysis.SNA.Centrality;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data;
 using System.Drawing;
@@ -20,6 +22,7 @@ namespace GraphML.UI.Desktop
     private readonly IEdgeItemAttributeServer _edgeItemAttributeServer;
     private readonly INodeItemAttributeServer _nodeItemAttributeServer;
     private readonly IRepositoryItemAttributeServer _repositoryItemAttributeServer;
+    private readonly IAnalysisServer _analysisServer;
 
     public Main()
     {
@@ -40,6 +43,17 @@ namespace GraphML.UI.Desktop
       _edgeItemAttributeServer = sp.GetService<IEdgeItemAttributeServer>();
       _nodeItemAttributeServer = sp.GetService<INodeItemAttributeServer>();
       _repositoryItemAttributeServer = sp.GetService<IRepositoryItemAttributeServer>();
+      _analysisServer = sp.GetService<IAnalysisServer>();
+
+      //var req1 = new BetweennessRequest();
+      //var req2 = new ClosenessRequest();
+      //var req3 = new DegreeRequest();
+      //var req4 = new FindShortestPathsRequest();
+      //
+      //var res1 = new BetweennessResult();
+      //var res2 = new ClosenessResult();
+      //var res3 = new DegreeResult();
+      //var res4 = new FindShortestPathsResult();
     }
 
     private void Overview_DoubleClick(object sender, EventArgs e)
