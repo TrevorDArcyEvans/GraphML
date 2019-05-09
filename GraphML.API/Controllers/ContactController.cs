@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
+using System.Web;
 
 namespace GraphML.API.Controllers
 {
@@ -118,13 +119,14 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpGet]
-    [Route(nameof(ByEmail))]
+    [Route("ByEmail/{email}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Contact))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
     public IActionResult ByEmail([FromRoute][Required] string email)
     {
-      var ent = _contactLogic.ByEmail(email);
+      var convertedEmail = HttpUtility.UrlDecode(email);
+      var ent = _contactLogic.ByEmail(convertedEmail);
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
     }
   }
