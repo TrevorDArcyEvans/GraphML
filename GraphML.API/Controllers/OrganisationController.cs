@@ -108,7 +108,7 @@ namespace GraphML.API.Controllers
     public IActionResult GetAll([FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       var result = _orgLogic.GetAll()
-        .Skip(pageIndex * pageSize)
+        .Skip((pageIndex - 1) * pageSize)
         .Take(pageSize);
       return new OkObjectResult(result);
     }
