@@ -129,6 +129,15 @@
           "type": "GraphML.UI.Desktop.IAnalysisServer"
         }
       ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.ResultServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IResultServer"
+        }
+      ]
     }
   ]
 }

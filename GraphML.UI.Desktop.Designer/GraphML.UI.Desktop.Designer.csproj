@@ -263,6 +263,9 @@
     <Compile Include="..\GraphML.UI.Desktop\IRestClientFactory.cs">
       <Link>IRestClientFactory.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IResultServer.cs">
+      <Link>IResultServer.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IServerBase.cs">
       <Link>IServerBase.cs</Link>
     </Compile>
@@ -303,6 +306,9 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\RestClientFactory.cs">
       <Link>RestClientFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\ResultServer.cs">
+      <Link>ResultServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\ServerBase.cs">
       <Link>ServerBase.cs</Link>

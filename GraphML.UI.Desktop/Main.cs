@@ -23,6 +23,7 @@ namespace GraphML.UI.Desktop
     private readonly INodeItemAttributeServer _nodeItemAttributeServer;
     private readonly IRepositoryItemAttributeServer _repositoryItemAttributeServer;
     private readonly IAnalysisServer _analysisServer;
+    private readonly IResultServer _resultServer;
 
     public Main()
     {
@@ -44,6 +45,7 @@ namespace GraphML.UI.Desktop
       _nodeItemAttributeServer = sp.GetService<INodeItemAttributeServer>();
       _repositoryItemAttributeServer = sp.GetService<IRepositoryItemAttributeServer>();
       _analysisServer = sp.GetService<IAnalysisServer>();
+      _resultServer = sp.GetService<IResultServer>();
 
       //var req1 = new BetweennessRequest();
       //var req2 = new ClosenessRequest();

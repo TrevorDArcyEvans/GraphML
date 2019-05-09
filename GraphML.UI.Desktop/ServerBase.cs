@@ -79,10 +79,18 @@ namespace GraphML.UI.Desktop
       return request;
     }
 
+    protected IRestRequest GetDeleteRequest(string path)
+    {
+      var request = GetRequest(path);
+      request.Method = Method.DELETE;
+
+      return request;
+    }
+
     protected IRestRequest GetDeleteRequest(string path, object body)
     {
-      var request = GetRequest(path, body);
-      request.Method = Method.DELETE;
+      var request = GetDeleteRequest(path);
+      request.AddJsonBody(body);
 
       return request;
     }
