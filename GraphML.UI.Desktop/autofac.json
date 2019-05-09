@@ -65,6 +65,15 @@
           "type": "GraphML.UI.Desktop.IEdgeServer"
         }
       ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.ContactServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IContactServer"
+        }
+      ]
     }
   ]
 }

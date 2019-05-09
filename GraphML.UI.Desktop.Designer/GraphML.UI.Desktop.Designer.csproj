@@ -157,6 +157,9 @@
     <Compile Include="..\GraphML.UI.Desktop\AutoCursor.cs">
       <Link>AutoCursor.cs</Link>
     </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\ContactServer.cs">
+      <Link>ContactServer.cs</Link>
+    </Compile>
     <Compile Include="..\GraphML.UI.Desktop\CreateEdit.cs">
       <Link>CreateEdit.cs</Link>
       <SubType>Form</SubType>
@@ -173,6 +176,9 @@
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\HttpResponseException.cs">
       <Link>HttpResponseException.cs</Link>
+    </Compile>
+    <Compile Include="..\GraphML.UI.Desktop\IContactServer.cs">
+      <Link>IContactServer.cs</Link>
     </Compile>
     <Compile Include="..\GraphML.UI.Desktop\IEdgeServer.cs">
       <Link>IEdgeServer.cs</Link>

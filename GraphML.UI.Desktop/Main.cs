@@ -14,6 +14,7 @@ namespace GraphML.UI.Desktop
     private readonly IGraphServer _graphServer;
     private readonly INodeServer _nodeServer;
     private readonly IEdgeServer _edgeServer;
+    private readonly IContactServer _contactServer;
 
     public Main()
     {
@@ -28,6 +29,7 @@ namespace GraphML.UI.Desktop
       _graphServer = sp.GetService<IGraphServer>();
       _nodeServer = sp.GetService<INodeServer>();
       _edgeServer = sp.GetService<IEdgeServer>();
+      _contactServer = sp.GetService<IContactServer>();
     }
 
     private void Overview_DoubleClick(object sender, EventArgs e)
