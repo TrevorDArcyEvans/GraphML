@@ -8,7 +8,7 @@ namespace GraphML.UI.Desktop
   {
     public ItemServerBase(
       IRestClientFactory clientFactory, 
-      ILogger<OwnedItemServerBase<T>> logger, 
+      ILogger<ItemServerBase<T>> logger, 
       ISyncPolicyFactory policy) : 
       base(clientFactory, logger, policy)
     {
