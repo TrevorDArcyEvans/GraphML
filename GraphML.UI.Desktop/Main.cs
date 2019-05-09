@@ -16,6 +16,10 @@ namespace GraphML.UI.Desktop
     private readonly IEdgeServer _edgeServer;
     private readonly IContactServer _contactServer;
     private readonly IOrganisationServer _organisationServer;
+    private readonly IGraphItemAttributeServer _graphItemAttributeServer;
+    private readonly IEdgeItemAttributeServer _edgeItemAttributeServer;
+    private readonly INodeItemAttributeServer _nodeItemAttributeServer;
+    private readonly IRepositoryItemAttributeServer _repositoryItemAttributeServer;
 
     public Main()
     {
@@ -32,6 +36,10 @@ namespace GraphML.UI.Desktop
       _edgeServer = sp.GetService<IEdgeServer>();
       _contactServer = sp.GetService<IContactServer>();
       _organisationServer = sp.GetService<IOrganisationServer>();
+      _graphItemAttributeServer = sp.GetService<IGraphItemAttributeServer>();
+      _edgeItemAttributeServer = sp.GetService<IEdgeItemAttributeServer>();
+      _nodeItemAttributeServer = sp.GetService<INodeItemAttributeServer>();
+      _repositoryItemAttributeServer = sp.GetService<IRepositoryItemAttributeServer>();
     }
 
     private void Overview_DoubleClick(object sender, EventArgs e)

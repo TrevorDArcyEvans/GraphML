@@ -83,6 +83,42 @@
           "type": "GraphML.UI.Desktop.IOrganisationServer"
         }
       ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.GraphItemAttributeServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IGraphItemAttributeServer"
+        }
+      ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.EdgeItemAttributeServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IEdgeItemAttributeServer"
+        }
+      ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.NodeItemAttributeServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.INodeItemAttributeServer"
+        }
+      ]
+    },
+    {
+      "type": "GraphML.UI.Desktop.RepositoryItemAttributeServer",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.IRepositoryItemAttributeServer"
+        }
+      ]
     }
   ]
 }
