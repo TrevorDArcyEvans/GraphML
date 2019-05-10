@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Common", "GraphML.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Analysis.Server", "GraphML.Analysis.Server\GraphML.Analysis.Server.csproj", "{CE1FDD2C-7382-44A5-95BB-E4B1C1C05C59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.ResultDatastore.Redis", "GraphML.ResultDatastore.Redis\GraphML.ResultDatastore.Redis.csproj", "{CEDB2E7C-9901-43D3-B4A5-D34771BBEF9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.ResultDatastore.Redis", "GraphML.Datastore.Redis\GraphML.ResultDatastore.Redis.csproj", "{CEDB2E7C-9901-43D3-B4A5-D34771BBEF9E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.MessageQueue.ActiveMQ", "GraphML.MessageQueue.ActiveMQ\GraphML.MessageQueue.ActiveMQ.csproj", "{2D220D26-1B23-46F2-97A8-9451670DDCBC}"
 EndProject
