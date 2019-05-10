@@ -7,6 +7,9 @@ namespace GraphML
 {
   public abstract class OwnedItem : Item
   {
+    /// <summary>
+    /// Unique identifier of owner
+    /// </summary>
     [Required]
     [JsonProperty(nameof(OwnerId))]
     public string OwnerId { get; set; } = Guid.Empty.ToString();
