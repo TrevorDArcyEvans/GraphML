@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraphML.ResultDatastore.Redis
+namespace GraphML.Datastore.Redis
 {
   public sealed class ResultDatastore : IResultDatastore
   {
