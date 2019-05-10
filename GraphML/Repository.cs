@@ -3,7 +3,7 @@
 namespace GraphML
 {
   [Schema.Table(nameof(Repository))]
-  public sealed class Repository : AttributedItem
+  public sealed class Repository : OwnedItem
   {
     public Repository() :
     base()

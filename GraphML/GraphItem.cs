@@ -2,7 +2,7 @@
 
 namespace GraphML
 {
-  public abstract class GraphItem : AttributedItem
+  public abstract class GraphItem : OwnedItem
   {
     [JsonProperty(nameof(PreviousId))]
     public string PreviousId { get; set; }
