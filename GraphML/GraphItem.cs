@@ -4,8 +4,8 @@ namespace GraphML
 {
   public abstract class GraphItem : AttributedItem
   {
-    [JsonProperty(nameof(NextId))]
-    public string NextId { get; set; }
+    [JsonProperty(nameof(PreviousId))]
+    public string PreviousId { get; set; }
 
     protected GraphItem() :
       base()
