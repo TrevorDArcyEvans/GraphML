@@ -21,8 +21,8 @@ namespace GraphML
     {
     }
 
-    public Edge(string ownerId, string name, string source, string target) :
-      base(ownerId, name)
+    public Edge(string graphId, string name, string source, string target) :
+      base(graphId, name)
     {
       SourceId = source.ThrowIfNullOrWhiteSpace(nameof(source));
       TargetId = target.ThrowIfNullOrWhiteSpace(nameof(target));

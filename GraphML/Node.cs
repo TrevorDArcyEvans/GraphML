@@ -10,8 +10,8 @@ namespace GraphML
     {
     }
 
-    public Node(string ownerId, string name) :
-      base(ownerId, name)
+    public Node(string graphId, string name) :
+      base(graphId, name)
     {
     }
   }

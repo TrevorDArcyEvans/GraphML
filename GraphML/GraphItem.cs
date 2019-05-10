@@ -12,8 +12,8 @@ namespace GraphML
     {
     }
 
-    protected GraphItem(string ownerId, string name) :
-      base(ownerId, name)
+    protected GraphItem(string graphId, string name) :
+      base(graphId, name)
     {
     }
   }
