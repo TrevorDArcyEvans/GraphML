@@ -26,7 +26,7 @@ VALUES
   ('68e65dd3-940e-41ce-8274-6e2518390605', '100fba96-f33d-4242-a551-722b73bc9c6d', 0, 'GraphML Graph 0'),
   ('a5f2ab9c-2fe0-4072-a9ab-c38f21d364b1', '45783182-4912-45c5-9589-11f66c69bddb', 0, 'Kool Organisation Graph');
 
-INSERT INTO Node(Id, NextId, OwnerId, Name)
+INSERT INTO Node(Id, PreviousId, OwnerId, Name)
 VALUES
   ('c7718065-af28-40fa-8403-197bc6d23909', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'GraphML Node A'),
   ('9505402f-a60f-4bd2-91dc-9a02845989fa', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'GraphML Node B'),
@@ -34,7 +34,7 @@ VALUES
   ('2c962a0d-bff2-4f3d-8f8a-49c27418001b', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'GraphML Node D'),
   ('2c4cccb1-7873-4732-b0e3-6425d4d24922', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'GraphML Node E');
 
-INSERT INTO Edge(Id, NextId, OwnerId, SourceId, TargetId, Name)
+INSERT INTO Edge(Id, PreviousId, OwnerId, SourceId, TargetId, Name)
 VALUES
   ('fdb37c86-62c3-42b4-a41c-8e648533609c', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', 'c7718065-af28-40fa-8403-197bc6d23909', '9505402f-a60f-4bd2-91dc-9a02845989fa', 'GraphML Edge A-B'),
   ('7e352e70-164d-4489-ba73-5a9fcb17e6cf', null, '470a1e4f-c0c4-400c-a726-9ffe9697135a', '9505402f-a60f-4bd2-91dc-9a02845989fa', '9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', 'GraphML Edge B-C'),
