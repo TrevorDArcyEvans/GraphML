@@ -7,6 +7,10 @@ namespace GraphML.Common
 #pragma warning disable CS1591
   public static class Settings
   {
+    public static string API_URI(IConfiguration config) => Environment.GetEnvironmentVariable("API_URI") ?? config["API:Uri"];
+    public static string API_USERNAME(IConfiguration config) => Environment.GetEnvironmentVariable("API_USERNAME") ?? config["API:UserName"];
+    public static string API_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("API_PASSWORD") ?? config["API:Password"];
+
     public static string OIDC_ISSUER_URL(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_ISSUER_URL") ?? config["OIDC:Issuer_URL"];
     public static string OIDC_AUDIENCE(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? config["OIDC:Audience"];
     public static string OIDC_USERINFO_URL(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_USERINFO_URL") ?? config["OIDC:UserInfo_URL"];
@@ -21,6 +25,8 @@ namespace GraphML.Common
       .Replace('\\', Path.DirectorySeparatorChar)
       .Replace('/', Path.DirectorySeparatorChar)
       .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
+
+    public static string CACHE_HOST(IConfiguration config) => Environment.GetEnvironmentVariable("CACHE_HOST") ?? config["Cache:Host"] ?? "localhost";
 
     public static string RESULT_DATASTORE(IConfiguration config) => Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? config["Result:Datastore"] ?? "localhost:6379";
 
@@ -37,6 +43,11 @@ namespace GraphML.Common
     public static void DumpSettings(IConfiguration config)
     {
       Console.WriteLine("Settings:");
+      Console.WriteLine($"  API:");
+      Console.WriteLine($"    API_URI       : {Settings.API_URI(config)}");
+      Console.WriteLine($"    API_USERNAME  : {Settings.API_USERNAME(config)}");
+      Console.WriteLine($"    API_PASSWORD  : {Settings.API_PASSWORD(config)}");
+
       Console.WriteLine($"  DATASTORE:");
       Console.WriteLine($"    DATASTORE_CONNECTION         : {Settings.DATASTORE_CONNECTION(config)}");
       Console.WriteLine($"    DATASTORE_CONNECTION_TYPE    : {Settings.DATASTORE_CONNECTION_TYPE(config, Settings.DATASTORE_CONNECTION(config))}");

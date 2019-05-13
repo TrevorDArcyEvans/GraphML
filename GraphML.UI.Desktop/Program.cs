@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Configuration;
 using Autofac.Extensions.DependencyInjection;
-using GraphML.API.Server;
+using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,7 +26,7 @@ namespace GraphML.UI.Desktop
           NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config");
 
           // database connection string for NLog
-          GlobalDiagnosticsContext.Set("LOG_CONNECTIONSTRING", Settings.LOG_CONNECTIONSTRING(config));
+          GlobalDiagnosticsContext.Set("LOG_CONNECTIONSTRING", Settings.LOG_CONNECTION_STRING(config));
 
           Application.EnableVisualStyles();
           Application.SetCompatibleTextRenderingDefault(false);
