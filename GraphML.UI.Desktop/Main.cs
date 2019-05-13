@@ -30,22 +30,35 @@ namespace GraphML.UI.Desktop
       InitializeComponent();
     }
 
-    public Main(IServiceProvider sp) :
+    public Main(
+      IRepositoryManagerServer repoMgrServer,
+      IRepositoryServer repoServer,
+      IGraphServer graphServer,
+      INodeServer nodeServer,
+      IEdgeServer edgeServer,
+      IContactServer contactServer,
+      IOrganisationServer organisationServer,
+      IGraphItemAttributeServer graphItemAttributeServer,
+      IEdgeItemAttributeServer edgeItemAttributeServer,
+      INodeItemAttributeServer nodeItemAttributeServer,
+      IRepositoryItemAttributeServer repositoryItemAttributeServer,
+      IAnalysisServer analysisServer,
+      IResultServer resultServer) :
       this()
     {
-      _repoMgrServer = sp.GetService<IRepositoryManagerServer>();
-      _repoServer = sp.GetService<IRepositoryServer>();
-      _graphServer = sp.GetService<IGraphServer>();
-      _nodeServer = sp.GetService<INodeServer>();
-      _edgeServer = sp.GetService<IEdgeServer>();
-      _contactServer = sp.GetService<IContactServer>();
-      _organisationServer = sp.GetService<IOrganisationServer>();
-      _graphItemAttributeServer = sp.GetService<IGraphItemAttributeServer>();
-      _edgeItemAttributeServer = sp.GetService<IEdgeItemAttributeServer>();
-      _nodeItemAttributeServer = sp.GetService<INodeItemAttributeServer>();
-      _repositoryItemAttributeServer = sp.GetService<IRepositoryItemAttributeServer>();
-      _analysisServer = sp.GetService<IAnalysisServer>();
-      _resultServer = sp.GetService<IResultServer>();
+      _repoMgrServer = repoMgrServer;
+      _repoServer = repoServer;
+      _graphServer = graphServer;
+      _nodeServer = nodeServer;
+      _edgeServer = edgeServer;
+      _contactServer = contactServer;
+      _organisationServer = organisationServer;
+      _graphItemAttributeServer = graphItemAttributeServer;
+      _edgeItemAttributeServer = edgeItemAttributeServer;
+      _nodeItemAttributeServer = nodeItemAttributeServer;
+      _repositoryItemAttributeServer = repositoryItemAttributeServer;
+      _analysisServer = analysisServer;
+      _resultServer = resultServer;
 
       //var req1 = new BetweennessRequest();
       //var req2 = new ClosenessRequest();

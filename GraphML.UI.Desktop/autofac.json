@@ -22,6 +22,16 @@
     },
 
     {
+      "type": "GraphML.UI.Desktop.Main",
+      "services":
+      [
+        {
+          "type": "GraphML.UI.Desktop.Main"
+        }
+      ]
+    },
+
+    {
       "type": "GraphML.UI.Desktop.RepositoryManagerServer",
       "services":
       [

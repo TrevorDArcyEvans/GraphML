@@ -30,7 +30,8 @@ namespace GraphML.UI.Desktop
           Application.EnableVisualStyles();
           Application.SetCompatibleTextRenderingDefault(false);
 
-          Application.Run(new Main(sp));
+          var main = sp.GetRequiredService<Main>();
+          Application.Run(main);
         }
       }
       finally
