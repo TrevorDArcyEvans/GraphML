@@ -2,13 +2,21 @@
 
 
 -- drop data tables
+DROP TABLE IF EXISTS GraphViewEdgeItemAttribute;
+DROP TABLE IF EXISTS GraphViewNodeItemAttribute;
+DROP TABLE IF EXISTS GraphViewEdgeItem;
+DROP TABLE IF EXISTS GraphViewNodeItem;
+DROP TABLE IF EXISTS GraphView;
+
 DROP TABLE IF EXISTS EdgeItemAttribute;
 DROP TABLE IF EXISTS NodeItemAttribute;
 DROP TABLE IF EXISTS GraphItemAttribute;
 DROP TABLE IF EXISTS RepositoryItemAttribute;
+
 DROP TABLE IF EXISTS Edge;
 DROP TABLE IF EXISTS Node;
 DROP TABLE IF EXISTS Graph;
+
 DROP TABLE IF EXISTS Repository;
 DROP TABLE IF EXISTS RepositoryManager;
 DROP TABLE IF EXISTS Contact;
@@ -153,4 +161,63 @@ CREATE TABLE EdgeItemAttribute
   FOREIGN KEY (OwnerId) REFERENCES Edge(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_EdgeItemAttribute_Edge ON EdgeItemAttribute(OwnerId);
+
+CREATE TABLE GraphView
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  ViewType TEXT NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_GraphView_Graph ON GraphView(OwnerId);
+
+CREATE TABLE GraphViewNodeItem
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  PRIMARY KEY (Id),
+  GraphItemId TEXT NOT NULL,
+  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE,
+  FOREIGN KEY (GraphItemId) REFERENCES Node(Id) ON DELETE
+);
+CREATE INDEX IDX_GraphViewNodeItem_Node ON GraphViewNodeItem(OwnerId);
+
+CREATE TABLE GraphViewEdgeItem
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  GraphItemId TEXT NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE,
+  FOREIGN KEY (GraphItemId) REFERENCES Edge(Id) ON DELETE
+);
+CREATE INDEX IDX_GraphViewEdgeItem_Edge ON GraphViewEdgeItem(OwnerId);
+
+CREATE TABLE GraphViewNodeItemAttribute
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  DataType TEXT NOT NULL,
+  DataValueAsString NVARCHAR(MAX),
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES GraphViewNodeItem(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_GraphViewNodeItemAttribute_GraphViewNodeItem ON GraphViewNodeItemAttribute(OwnerId);
+
+CREATE TABLE GraphViewEdgeItemAttribute
+(
+  Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
+  OwnerId TEXT NOT NULL,
+  DataType TEXT NOT NULL,
+  DataValueAsString NVARCHAR(MAX),
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OwnerId) REFERENCES GraphViewEdgeItem(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_GraphViewEdgeItemAttribute_GGraphViewEdgeItem ON GraphViewEdgeItemAttribute(OwnerId);
 
