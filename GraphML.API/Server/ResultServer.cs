@@ -3,7 +3,7 @@ using Flurl;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public sealed class ResultServer : ServerBase, IResultServer
   {

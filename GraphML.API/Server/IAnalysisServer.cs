@@ -1,7 +1,7 @@
 ﻿using GraphML.Analysis.RankedShortestPath;
 using GraphML.Analysis.SNA.Centrality;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public interface IAnalysisServer : IServerBase
   {

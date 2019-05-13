@@ -10,7 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public abstract class OwnedItemServerBase<T> : ItemServerBase<T>, IOwnedItemServerBase<T>
   {

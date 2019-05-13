@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public static class Settings
   {

@@ -3,7 +3,7 @@ using GraphML.Analysis.RankedShortestPath;
 using GraphML.Analysis.SNA.Centrality;
 using Microsoft.Extensions.Logging;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public sealed class AnalysisServer : ServerBase, IAnalysisServer
   {

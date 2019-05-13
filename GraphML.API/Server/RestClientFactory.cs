@@ -3,7 +3,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System.Configuration;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public sealed class RestClientFactory : IRestClientFactory
   {

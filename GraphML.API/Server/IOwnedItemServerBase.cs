@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public interface IOwnedItemServerBase<T> : IItemServerBase<T>
   {

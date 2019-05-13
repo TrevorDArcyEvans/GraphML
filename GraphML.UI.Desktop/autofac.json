@@ -3,20 +3,20 @@
   "components":
   [
     {
-      "type": "GraphML.UI.Desktop.RestClientFactory",
+      "type": "GraphML.API.Server.RestClientFactory",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IRestClientFactory"
+          "type": "GraphML.API.Server.IRestClientFactory"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.SyncPolicyFactory",
+      "type": "GraphML.API.Server.SyncPolicyFactory",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.ISyncPolicyFactory"
+          "type": "GraphML.API.Server.ISyncPolicyFactory"
         }
       ]
     },
@@ -32,120 +32,120 @@
     },
 
     {
-      "type": "GraphML.UI.Desktop.RepositoryManagerServer",
+      "type": "GraphML.API.Server.RepositoryManagerServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IRepositoryManagerServer"
+          "type": "GraphML.API.Server.IRepositoryManagerServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.RepositoryServer",
+      "type": "GraphML.API.Server.RepositoryServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IRepositoryServer"
+          "type": "GraphML.API.Server.IRepositoryServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.GraphServer",
+      "type": "GraphML.API.Server.GraphServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IGraphServer"
+          "type": "GraphML.API.Server.IGraphServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.NodeServer",
+      "type": "GraphML.API.Server.NodeServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.INodeServer"
+          "type": "GraphML.API.Server.INodeServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.EdgeServer",
+      "type": "GraphML.API.Server.EdgeServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IEdgeServer"
+          "type": "GraphML.API.Server.IEdgeServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.ContactServer",
+      "type": "GraphML.API.Server.ContactServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IContactServer"
+          "type": "GraphML.API.Server.IContactServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.OrganisationServer",
+      "type": "GraphML.API.Server.OrganisationServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IOrganisationServer"
+          "type": "GraphML.API.Server.IOrganisationServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.GraphItemAttributeServer",
+      "type": "GraphML.API.Server.GraphItemAttributeServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IGraphItemAttributeServer"
+          "type": "GraphML.API.Server.IGraphItemAttributeServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.EdgeItemAttributeServer",
+      "type": "GraphML.API.Server.EdgeItemAttributeServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IEdgeItemAttributeServer"
+          "type": "GraphML.API.Server.IEdgeItemAttributeServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.NodeItemAttributeServer",
+      "type": "GraphML.API.Server.NodeItemAttributeServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.INodeItemAttributeServer"
+          "type": "GraphML.API.Server.INodeItemAttributeServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.RepositoryItemAttributeServer",
+      "type": "GraphML.API.Server.RepositoryItemAttributeServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IRepositoryItemAttributeServer"
+          "type": "GraphML.API.Server.IRepositoryItemAttributeServer"
         }
       ]
     },
 
     {
-      "type": "GraphML.UI.Desktop.AnalysisServer",
+      "type": "GraphML.API.Server.AnalysisServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IAnalysisServer"
+          "type": "GraphML.API.Server.IAnalysisServer"
         }
       ]
     },
     {
-      "type": "GraphML.UI.Desktop.ResultServer",
+      "type": "GraphML.API.Server.ResultServer",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.IResultServer"
+          "type": "GraphML.API.Server.IResultServer"
         }
       ]
     }

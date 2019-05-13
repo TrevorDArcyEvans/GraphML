@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public interface ISyncPolicyFactory
   {

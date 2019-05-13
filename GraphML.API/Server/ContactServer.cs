@@ -2,7 +2,7 @@
 using Flurl;
 using Microsoft.Extensions.Logging;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public sealed class ContactServer : OwnedItemServerBase<Contact>, IContactServer
   {

@@ -1,7 +1,7 @@
 ﻿using GraphML.Interfaces;
 using System.Collections.Generic;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public interface IResultServer : IServerBase
   {

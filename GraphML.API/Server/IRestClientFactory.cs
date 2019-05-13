@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public interface IRestClientFactory
   {

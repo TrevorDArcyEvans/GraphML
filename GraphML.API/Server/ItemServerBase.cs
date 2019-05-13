@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T>
   {

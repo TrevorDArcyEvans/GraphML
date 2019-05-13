@@ -2,7 +2,7 @@
 using Polly;
 using System;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public sealed class SyncPolicyFactory : ISyncPolicyFactory
   {

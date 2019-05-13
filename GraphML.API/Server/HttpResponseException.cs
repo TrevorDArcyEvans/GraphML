@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace GraphML.UI.Desktop
+namespace GraphML.API.Server
 {
   public sealed class HttpResponseException : Exception
   {
