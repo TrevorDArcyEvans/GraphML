@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Datastore.Redis", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.MessageQueue.ActiveMQ", "GraphML.MessageQueue.ActiveMQ\GraphML.MessageQueue.ActiveMQ.csproj", "{2D220D26-1B23-46F2-97A8-9451670DDCBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.Views", "GraphML.Views\GraphML.Views.csproj", "{FC828B50-F386-4E33-B432-47165A0D8A10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Views", "GraphML.Views\GraphML.Views.csproj", "{FC828B50-F386-4E33-B432-47165A0D8A10}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.UI.Web", "GraphML.UI.Web\GraphML.UI.Web.csproj", "{5A886F72-B570-4373-AE89-96ADE25E7523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,10 @@ Global
 		{FC828B50-F386-4E33-B432-47165A0D8A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC828B50-F386-4E33-B432-47165A0D8A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC828B50-F386-4E33-B432-47165A0D8A10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A886F72-B570-4373-AE89-96ADE25E7523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A886F72-B570-4373-AE89-96ADE25E7523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A886F72-B570-4373-AE89-96ADE25E7523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A886F72-B570-4373-AE89-96ADE25E7523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
