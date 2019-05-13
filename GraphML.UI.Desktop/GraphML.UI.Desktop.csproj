@@ -14,7 +14,6 @@
     <PackageReference Include="Autofac.Configuration" Version="4.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="CsvHelper" Version="12.1.2" />
-    <PackageReference Include="Flurl" Version="2.8.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
@@ -22,7 +21,6 @@
     <PackageReference Include="NLog" Version="4.6.3" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.5.0" />
     <PackageReference Include="Polly-Signed" Version="5.8.0" />
-    <PackageReference Include="RestSharp" Version="106.6.9" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GraphML.Analysis.SNA\GraphML.Analysis.SNA.csproj" />
     <ProjectReference Include="..\GraphML.Analysis\GraphML.Analysis.csproj" />
+    <ProjectReference Include="..\GraphML.API\GraphML.API.csproj" />
     <ProjectReference Include="..\GraphML.Datastore.Database.Importer.CSV\GraphML.Datastore.Database.Importer.CSV.csproj" />
     <ProjectReference Include="..\GraphML\GraphML.csproj" />
   </ItemGroup>

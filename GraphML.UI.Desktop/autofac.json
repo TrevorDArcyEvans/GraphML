@@ -1,5 +1,5 @@
 {
-  "defaultAssembly": "GraphML.UI.Desktop",
+  "defaultAssembly": "GraphML.API",
   "components":
   [
     {
@@ -22,11 +22,11 @@
     },
 
     {
-      "type": "GraphML.UI.Desktop.Main",
+      "type": "GraphML.UI.Desktop.Main, GraphML.UI.Desktop",
       "services":
       [
         {
-          "type": "GraphML.UI.Desktop.Main"
+          "type": "GraphML.UI.Desktop.Main, GraphML.UI.Desktop"
         }
       ]
     },
