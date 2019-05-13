@@ -35,10 +35,10 @@ namespace GraphML.API
 
     private IServiceProvider ServiceProvider { get; set; }
     public IConfiguration Configuration { get; }
-    private IHostingEnvironment CurrentEnvironment { get; }
+    private IWebHostEnvironment CurrentEnvironment { get; }
     private IContainer ApplicationContainer { get; set; }
 
-    public Startup(IHostingEnvironment env)
+    public Startup(IWebHostEnvironment env)
     {
       // Environment variable:
       //    ASPNETCORE_ENVIRONMENT == Development
@@ -91,7 +91,7 @@ namespace GraphML.API
         options.Filters.Add(new RequireHttpsAttribute());
       });
 
-      if (CurrentEnvironment.IsDevelopment())
+      if (CurrentEnvironment.EnvironmentName == "Development")
       {
         // Register the Swagger generator, defining one or more Swagger documents
         services.AddSwaggerGen(options =>
@@ -165,7 +165,7 @@ namespace GraphML.API
         {
           options.Authority = Settings.OIDC_ISSUER_URL(Configuration);
           options.Audience = Settings.OIDC_AUDIENCE(Configuration);
-          options.RequireHttpsMetadata = !CurrentEnvironment.IsDevelopment();
+          options.RequireHttpsMetadata = !(CurrentEnvironment.EnvironmentName == "Development");
           options.Events = new JwtBearerEvents
           {
             OnTokenValidated = async context =>
@@ -218,7 +218,7 @@ namespace GraphML.API
     {
       ServiceProvider = app.ApplicationServices;
 
-      if (CurrentEnvironment.IsDevelopment())
+      if (CurrentEnvironment.EnvironmentName == "Development")
       {
         app.UseDeveloperExceptionPage();
       }
@@ -231,7 +231,7 @@ namespace GraphML.API
 
       app.UseRewriter(options);
 
-      if (CurrentEnvironment.IsDevelopment())
+      if (CurrentEnvironment.EnvironmentName == "Development")
       {
         // Enable middleware to serve generated Swagger as a JSON endpoint.
         app.UseSwagger();
