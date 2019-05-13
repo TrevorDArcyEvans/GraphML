@@ -1,0 +1,42 @@
+@page "/browse"
+@using GraphML
+@using GraphML.API.Server
+@inject IRepositoryManagerServer _repoMgrServer
+@inject IOrganisationServer _orgServer
+
+<h1>Repository Managers</h1>
+
+@if (_repoMgrs == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Organisation</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var forecast in _repoMgrs)
+      {
+        <tr>
+          <td>@_orgServer.ByIds(new[] { forecast.OwnerId }).Single().Name</td>
+          <td>@forecast.Name</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@functions
+{
+  IEnumerable<RepositoryManager> _repoMgrs;
+
+  protected override async Task OnInitAsync()
+  {
+    _repoMgrs = _repoMgrServer.GetAll();
+  }
+}
