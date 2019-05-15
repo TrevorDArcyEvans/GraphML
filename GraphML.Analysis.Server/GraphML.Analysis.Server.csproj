@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <StartupObject>GraphML.Analysis.Server.Program</StartupObject>
-    <UserSecretsId>e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
+    <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <SignAssembly>true</SignAssembly>

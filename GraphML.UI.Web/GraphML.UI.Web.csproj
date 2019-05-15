@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
-    <UserSecretsId>e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
+    <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <SignAssembly>true</SignAssembly>
