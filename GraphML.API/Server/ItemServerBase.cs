@@ -1,6 +1,7 @@
 ﻿using Flurl;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
@@ -14,34 +15,34 @@ namespace GraphML.API.Server
     {
     }
 
-    public IEnumerable<T> ByIds(IEnumerable<string> ids)
+    public async Task<IEnumerable<T>> ByIds(IEnumerable<string> ids)
     {
       var request = GetPostRequest(Url.Combine(ResourceBase, "ByIds"), ids);
-      var retval = GetResponse<IEnumerable<T>>(request);
+      var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
     }
 
-    public IEnumerable<T> Create(IEnumerable<T> entity)
+    public async Task<IEnumerable<T>> Create(IEnumerable<T> entity)
     {
       var request = GetPostRequest(ResourceBase, entity);
-      var retval = GetResponse<IEnumerable<T>>(request);
+      var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
     }
 
-    public IEnumerable<T> Delete(IEnumerable<T> entity)
+    public async Task<IEnumerable<T>> Delete(IEnumerable<T> entity)
     {
       var request = GetDeleteRequest(ResourceBase, entity);
-      var retval = GetResponse<IEnumerable<T>>(request);
+      var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
     }
 
-    public IEnumerable<T> Update(IEnumerable<T> entity)
+    public async Task<IEnumerable<T>> Update(IEnumerable<T> entity)
     {
       var request = GetPutRequest(ResourceBase, entity);
-      var retval = GetResponse<IEnumerable<T>>(request);
+      var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
     }

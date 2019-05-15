@@ -1,6 +1,7 @@
 ﻿using Flurl;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
@@ -16,10 +17,10 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = "/api/Edge";
 
-    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids)
+    public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<string> ids)
     {
       var request = GetAllRequest(Url.Combine(ResourceBase, "ByNodeIds"));
-      var retval = GetResponse<IEnumerable<Edge>>(request);
+      var retval = await GetResponse<IEnumerable<Edge>>(request);
 
       return retval;
     }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
@@ -22,10 +23,10 @@ namespace GraphML.API.Server
     {
     }
 
-    public IEnumerable<T> ByOwners(IEnumerable<string> ownerIds)
+    public async Task<IEnumerable<T>> ByOwners(IEnumerable<string> ownerIds)
     {
       var request = GetPostRequest(Url.Combine(ResourceBase, "ByOwners"), ownerIds);
-      var retval = GetResponse<IEnumerable<T>>(request);
+      var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
     }

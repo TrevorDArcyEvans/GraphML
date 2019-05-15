@@ -2,6 +2,7 @@
 using GraphML.Analysis.RankedShortestPath;
 using GraphML.Analysis.SNA.Centrality;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
@@ -17,34 +18,34 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = "/api/Analysis";
 
-    public string Betweenness(BetweennessRequest req)
+    public async Task<string> Betweenness(BetweennessRequest req)
     {
       var request = GetRequest(Url.Combine(ResourceBase, "Betweenness"), req);
-      var retval = GetResponse<string>(request);
+      var retval = await GetResponse<string>(request);
 
       return retval;
     }
 
-    public string Closeness(ClosenessRequest req)
+    public async Task<string> Closeness(ClosenessRequest req)
     {
       var request = GetRequest(Url.Combine(ResourceBase, "Closeness"), req);
-      var retval = GetResponse<string>(request);
+      var retval = await GetResponse<string>(request);
 
       return retval;
     }
 
-    public string Degree(DegreeRequest req)
+    public async Task<string> Degree(DegreeRequest req)
     {
       var request = GetRequest(Url.Combine(ResourceBase, "Degree"), req);
-      var retval = GetResponse<string>(request);
+      var retval = await GetResponse<string>(request);
 
       return retval;
     }
 
-    public string FindShortestPaths(FindShortestPathsRequest req)
+    public async Task<string> FindShortestPaths(FindShortestPathsRequest req)
     {
       var request = GetRequest(Url.Combine(ResourceBase, "FindShortestPaths"), req);
-      var retval = GetResponse<string>(request);
+      var retval = await GetResponse<string>(request);
 
       return retval;
     }

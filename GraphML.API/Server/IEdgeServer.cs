@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
   public interface IEdgeServer : IOwnedItemServerBase<Edge>
   {
-    IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids);
+    Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<string> ids);
   }
 }

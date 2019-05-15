@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Flurl;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -17,24 +18,24 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = "/api/Result";
 
-    public void Delete(string correlationId)
+    public async Task Delete(string correlationId)
     {
       var request = GetDeleteRequest(Url.Combine(ResourceBase, "Delete", correlationId));
-      var retval = GetResponse<object>(request);
+      var retval = await GetResponse<object>(request);
     }
 
-    public IEnumerable<IRequest> List(string contactId)
+    public async Task<IEnumerable<IRequest>> List(string contactId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, "List", contactId));
-      var retval = GetResponse<IEnumerable<IRequest>>(request);
+      var retval = await GetResponse<IEnumerable<IRequest>>(request);
 
       return retval;
     }
 
-    public IResult Retrieve(string correlationId)
+    public async Task<IResult> Retrieve(string correlationId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, "Retrieve", correlationId));
-      var retval = GetResponse<IResult>(request);
+      var retval = await GetResponse<IResult>(request);
 
       return retval;
     }

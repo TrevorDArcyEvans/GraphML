@@ -1,13 +1,14 @@
 ﻿using GraphML.Analysis.RankedShortestPath;
 using GraphML.Analysis.SNA.Centrality;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
   public interface IAnalysisServer : IServerBase
   {
-    string Degree(DegreeRequest req);
-    string Closeness(ClosenessRequest req);
-    string Betweenness(BetweennessRequest req);
-    string FindShortestPaths(FindShortestPathsRequest req);
+    Task<string> Degree(DegreeRequest req);
+    Task<string> Closeness(ClosenessRequest req);
+    Task<string> Betweenness(BetweennessRequest req);
+    Task<string> FindShortestPaths(FindShortestPathsRequest req);
   }
 }

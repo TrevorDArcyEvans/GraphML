@@ -1,7 +1,9 @@
-﻿namespace GraphML.API.Server
+﻿using System.Threading.Tasks;
+
+namespace GraphML.API.Server
 {
   public interface IContactServer : IOwnedItemServerBase<Contact>
   {
-    Contact ByEmail(string email);
+    Task<Contact> ByEmail(string email);
   }
 }

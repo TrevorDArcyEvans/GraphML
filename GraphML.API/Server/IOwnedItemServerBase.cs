@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
   public interface IOwnedItemServerBase<T> : IItemServerBase<T>
   {
-    IEnumerable<T> ByOwners(IEnumerable<string> ownerIds);
+    Task<IEnumerable<T>> ByOwners(IEnumerable<string> ownerIds);
   }
 }

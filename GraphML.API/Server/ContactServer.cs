@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Threading.Tasks;
+using System.Web;
 using Flurl;
 using Microsoft.Extensions.Logging;
 
@@ -16,11 +17,11 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = "/api/Contact";
 
-    public Contact ByEmail(string email)
+    public async Task<Contact> ByEmail(string email)
     {
       var convertedEmail = HttpUtility.UrlDecode(email);
       var request = GetRequest(Url.Combine(ResourceBase, "ByEmail", convertedEmail));
-      var retval = GetResponse<Contact>(request);
+      var retval = await GetResponse<Contact>(request);
 
       return retval;
     }

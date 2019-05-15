@@ -6,6 +6,8 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
@@ -95,17 +97,17 @@ namespace GraphML.API.Server
       return request;
     }
 
-    protected TOther GetResponse<TOther>(IRestRequest request)
+    protected async Task<TOther> GetResponse<TOther>(IRestRequest request)
     {
-      var resp = GetRawResponse(request);
+      var resp = await GetRawResponse(request);
       var retval = JsonConvert.DeserializeObject<TOther>(resp.Content, _settings);
 
       return retval;
     }
 
-    protected IRestResponse GetRawResponse(IRestRequest request)
+    protected async Task<IRestResponse> GetRawResponse(IRestRequest request)
     {
-      var resp = _client.Execute(request);
+      var resp = await _client.ExecuteTaskAsync(request, new CancellationTokenSource().Token);
 
       // log here as may fail deserialisation
       var body = request.Parameters.SingleOrDefault(x => x.Type == ParameterType.RequestBody)?.Value?.ToString();

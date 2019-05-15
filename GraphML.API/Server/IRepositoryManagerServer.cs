@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
   public interface IRepositoryManagerServer : IOwnedItemServerBase<RepositoryManager>
   {
-    IEnumerable<RepositoryManager> GetAll();
+    Task<IEnumerable<RepositoryManager>> GetAll();
   }
 }
