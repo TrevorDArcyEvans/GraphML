@@ -20,11 +20,11 @@ else
       </tr>
     </thead>
     <tbody>
-      @foreach (var forecast in _repoMgrs)
+      @foreach (var repoMgr in _repoMgrs)
       {
         <tr>
-          <td>@_orgServer.ByIds(new[] { forecast.OwnerId }).Single().Name</td>
-          <td>@forecast.Name</td>
+          <td>@GetOrganisation(repoMgr.OwnerId).Name</td>
+          <td> @repoMgr.Name </td>
         </tr>
       }
     </tbody>
@@ -37,6 +37,12 @@ else
 
   protected override async Task OnInitAsync()
   {
-    _repoMgrs = _repoMgrServer.GetAll();
+    _repoMgrs = await _repoMgrServer.GetAll();
+  }
+
+  private Organisation GetOrganisation(string orgId)
+  {
+    var orgs = Task.Run<IEnumerable<Organisation>>(async () => await _orgServer.ByIds(new[] { orgId }));
+    return orgs.Result.Single();
   }
 }
