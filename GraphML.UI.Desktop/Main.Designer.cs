@@ -64,7 +64,7 @@
             treeNode2});
       this.Overview.Size = new System.Drawing.Size(776, 426);
       this.Overview.TabIndex = 3;
-      this.Overview.DoubleClick += new System.EventHandler(this.Overview_DoubleClick);
+      this.Overview.DoubleClick += new System.EventHandler(this.Overview_DoubleClickAsync);
       this.Overview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overview_MouseDown);
       // 
       // RepositoryMenu
@@ -83,14 +83,14 @@
       this.CmdRepositoryEdit.Name = "CmdRepositoryEdit";
       this.CmdRepositoryEdit.Size = new System.Drawing.Size(151, 32);
       this.CmdRepositoryEdit.Text = "Edit...";
-      this.CmdRepositoryEdit.Click += new System.EventHandler(this.CmdRepositoryEdit_Click);
+      this.CmdRepositoryEdit.Click += new System.EventHandler(this.CmdRepositoryEdit_ClickAsync);
       // 
       // CmRepositoryDelete
       // 
       this.CmRepositoryDelete.Name = "CmRepositoryDelete";
       this.CmRepositoryDelete.Size = new System.Drawing.Size(151, 32);
       this.CmRepositoryDelete.Text = "Delete...";
-      this.CmRepositoryDelete.Click += new System.EventHandler(this.CmdRepositoryDelete_Click);
+      this.CmRepositoryDelete.Click += new System.EventHandler(this.CmdRepositoryDelete_ClickAsync);
       // 
       // CmdRepositoryImport
       // 
@@ -112,7 +112,7 @@
       this.CmdRepositoryCreate.Name = "CmdRepositoryCreate";
       this.CmdRepositoryCreate.Size = new System.Drawing.Size(146, 32);
       this.CmdRepositoryCreate.Text = "Create...";
-      this.CmdRepositoryCreate.Click += new System.EventHandler(this.CmdRepositoryCreate_Click);
+      this.CmdRepositoryCreate.Click += new System.EventHandler(this.CmdRepositoryCreate_ClickAsync);
       // 
       // GraphMenu
       // 
@@ -127,7 +127,7 @@
       this.CmdGraphDelete.Name = "CmdGraphDelete";
       this.CmdGraphDelete.Size = new System.Drawing.Size(146, 32);
       this.CmdGraphDelete.Text = "Delete...";
-      this.CmdGraphDelete.Click += new System.EventHandler(this.CmdGraphDelete_Click);
+      this.CmdGraphDelete.Click += new System.EventHandler(this.CmdGraphDelete_ClickAsync);
       // 
       // Main
       // 

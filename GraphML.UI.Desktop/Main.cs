@@ -6,6 +6,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GraphML.UI.Desktop
@@ -72,7 +73,7 @@ namespace GraphML.UI.Desktop
       //var res4 = new FindShortestPathsResult();
     }
 
-    private void Overview_DoubleClick(object sender, EventArgs e)
+    private async void Overview_DoubleClickAsync(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
 
@@ -88,42 +89,42 @@ namespace GraphML.UI.Desktop
 
       if (selNode.Tag is Repository repo)
       {
-        RefreshRepository(selNode);
+        RefreshRepositoryAsync(selNode);
       }
     }
 
-    private void RefreshSystem(TreeNode selNode)
+    private async void RefreshSystem(TreeNode selNode)
     {
       using (new AutoCursor())
       {
         selNode.Nodes.Clear();
-        var repoMgrs = _repoMgrServer.GetAll();
+        var repoMgrs = await _repoMgrServer.GetAll();
         var childNodes = repoMgrs.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
         selNode.ExpandAll();
       }
     }
 
-    private void RefreshRepositoryManager(TreeNode selNode)
+    private async void RefreshRepositoryManager(TreeNode selNode)
     {
       using (new AutoCursor())
       {
         selNode.Nodes.Clear();
         var repoMgr = (RepositoryManager)selNode.Tag;
-        var repos = _repoServer.ByOwners(new[] { repoMgr.Id });
+        var repos = await _repoServer.ByOwners(new[] { repoMgr.Id });
         var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
         selNode.ExpandAll();
       }
     }
 
-    private void RefreshRepository(TreeNode selNode)
+    private async void RefreshRepositoryAsync(TreeNode selNode)
     {
       using (new AutoCursor())
       {
         selNode.Nodes.Clear();
         var repo = (Repository)selNode.Tag;
-        var repos = _graphServer.ByOwners(new[] { repo.Id });
+        var repos = await _graphServer.ByOwners(new[] { repo.Id });
         var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
         selNode.ExpandAll();
@@ -174,7 +175,7 @@ namespace GraphML.UI.Desktop
       import.ShowDialog();
     }
 
-    private void CmdRepositoryCreate_Click(object sender, EventArgs e)
+    private async void CmdRepositoryCreate_ClickAsync(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repoMgr = (RepositoryManager)selNode.Tag;
@@ -187,12 +188,12 @@ namespace GraphML.UI.Desktop
 
       using (new AutoCursor())
       {
-        _repoServer.Create(new[] { repo });
+        await _repoServer.Create(new[] { repo });
         RefreshRepositoryManager(selNode);
       }
     }
 
-    private void CmdRepositoryEdit_Click(object sender, EventArgs e)
+    private async void CmdRepositoryEdit_ClickAsync(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repo = (Repository)selNode.Tag;
@@ -204,12 +205,12 @@ namespace GraphML.UI.Desktop
 
       using (new AutoCursor())
       {
-        _repoServer.Update(new[] { repo });
+        await _repoServer.Update(new[] { repo });
         RefreshRepositoryManager(selNode.Parent);
       }
     }
 
-    private void CmdRepositoryDelete_Click(object sender, EventArgs e)
+    private async void CmdRepositoryDelete_ClickAsync(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var repo = (Repository)selNode.Tag;
@@ -220,12 +221,12 @@ namespace GraphML.UI.Desktop
 
       using (new AutoCursor())
       {
-        _repoServer.Delete(new[] { repo });
+        await _repoServer.Delete(new[] { repo });
         RefreshRepositoryManager(selNode.Parent);
       }
     }
 
-    private void CmdGraphDelete_Click(object sender, EventArgs e)
+    private async void CmdGraphDelete_ClickAsync(object sender, EventArgs e)
     {
       var selNode = Overview.SelectedNode;
       var graph = (Graph)selNode.Tag;
@@ -236,8 +237,8 @@ namespace GraphML.UI.Desktop
 
       using (new AutoCursor())
       {
-        _graphServer.Delete(new[] { graph });
-        RefreshRepository(selNode.Parent);
+        await _graphServer.Delete(new[] { graph });
+        RefreshRepositoryAsync(selNode.Parent);
       }
     }
   }
