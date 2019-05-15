@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace GraphML.UI.Desktop
 {
-  static class Program
+  public sealed class Program
   {
     [STAThread]
     static void Main()
@@ -26,7 +26,7 @@ namespace GraphML.UI.Desktop
           NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration("NLog.config");
 
           // database connection string for NLog
-          GlobalDiagnosticsContext.Set("LOG_CONNECTIONSTRING", Settings.LOG_CONNECTION_STRING(config));
+          GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(config));
 
           Application.EnableVisualStyles();
           Application.SetCompatibleTextRenderingDefault(false);
@@ -47,7 +47,8 @@ namespace GraphML.UI.Desktop
       var cfgBuilder = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
-        .AddJsonFile($"autofac.json", optional: true);
+        .AddJsonFile($"autofac.json", optional: true)
+        .AddUserSecrets<Program>();
       var config = cfgBuilder.Build();
 
       var services = new ServiceCollection()
