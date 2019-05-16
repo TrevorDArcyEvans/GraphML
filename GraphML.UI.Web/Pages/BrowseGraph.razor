@@ -26,10 +26,6 @@
   [Parameter]
   private string GraphId { get; set; }
 
-  protected override async Task OnInitAsync()
-  {
-  }
-
   private void BrowseNodes()
   {
     UriHelper.NavigateTo($"/BrowseNodes/{GraphName}/{GraphId}");
