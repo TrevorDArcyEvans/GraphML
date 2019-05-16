@@ -1,8 +1,10 @@
 @page "/browse"
 @using GraphML
 @using GraphML.API.Server
-@inject IRepositoryManagerServer _repoMgrServer
 @inject IOrganisationServer _orgServer
+@inject IRepositoryManagerServer _repoMgrServer
+@inject IRepositoryServer _repoServer
+@inject IGraphServer _graphServer
 
 <h1>Repository Managers</h1>
 
@@ -15,9 +17,30 @@ else
   <ul class="list-group">
     @foreach (var org in _orgs)
     {
-      <li class="list-group-item">
-        <span>@org.Name</span>
-      </li>
+    <li class="list-group-item">
+      <span>@org.Name</span>
+      @foreach (var repoMgr in GetRepositoryManagers(org.Id))
+      {
+        <br />
+        <span class="p-2"></span>
+        <span>@repoMgr.Name</span>
+        @foreach (var repo in GetRepositories(repoMgr.Id))
+        {
+          <br />
+          <span class="p-2"></span>
+          <span class="p-2"></span>
+          <span>@repo.Name</span>
+          @foreach (var graph in GetGraphs(repo.Id))
+          {
+            <br />
+            <span class="p-2"></span>
+            <span class="p-2"></span>
+            <span class="p-2"></span>
+            <span>@graph.Name</span>
+          }
+        }
+      }
+    </li>
     }
   </ul>
 }
@@ -25,15 +48,30 @@ else
 @functions
 {
   IEnumerable<Organisation> _orgs;
+  IEnumerable<RepositoryManager> _repoMgrs;
+  IEnumerable<Repository> _repos;
+  IEnumerable<Graph> _graphs;
 
   protected override async Task OnInitAsync()
   {
     _orgs = await _orgServer.GetAll();
+    _repoMgrs = await _repoMgrServer.ByOwners(_orgs.Select(x => x.Id));
+    _repos = await _repoServer.ByOwners(_repoMgrs.Select(x => x.Id));
+    _graphs = await _graphServer.ByOwners(_repos.Select(x => x.Id));
   }
 
-  private Organisation GetOrganisation(string orgId)
+  private IEnumerable<RepositoryManager> GetRepositoryManagers(string orgId)
   {
-    var orgs = Task.Run<IEnumerable<Organisation>>(async () => await _orgServer.ByIds(new[] { orgId }));
-    return orgs.Result.Single();
+    return _repoMgrs.Where(x => x.OwnerId == orgId);
+  }
+
+  private IEnumerable<Repository> GetRepositories(string repoMgrId)
+  {
+    return _repos.Where(x => x.OwnerId == repoMgrId);
+  }
+
+  private IEnumerable<Graph> GetGraphs(string repoId)
+  {
+    return _graphs.Where(x => x.OwnerId == repoId);
   }
 }
