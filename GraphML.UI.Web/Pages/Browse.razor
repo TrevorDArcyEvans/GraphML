@@ -6,38 +6,29 @@
 
 <h1>Repository Managers</h1>
 
-@if (_repoMgrs == null)
+@if (_orgs == null)
 {
   <p><em>Loading...</em></p>
 }
 else
 {
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Organisation</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var repoMgr in _repoMgrs)
-      {
-        <tr>
-          <td>@GetOrganisation(repoMgr.OwnerId).Name</td>
-          <td> @repoMgr.Name </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  <ul class="list-group">
+    @foreach (var org in _orgs)
+    {
+      <li class="list-group-item">
+        <span>@org.Name</span>
+      </li>
+    }
+  </ul>
 }
 
 @functions
 {
-  IEnumerable<RepositoryManager> _repoMgrs;
+  IEnumerable<Organisation> _orgs;
 
   protected override async Task OnInitAsync()
   {
-    _repoMgrs = await _repoMgrServer.GetAll();
+    _orgs = await _orgServer.GetAll();
   }
 
   private Organisation GetOrganisation(string orgId)

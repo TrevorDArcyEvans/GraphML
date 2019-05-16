@@ -102,6 +102,7 @@ namespace GraphML.API.Controllers
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
+    [Route(nameof(GetAll))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]

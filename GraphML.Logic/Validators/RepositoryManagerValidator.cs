@@ -9,10 +9,6 @@ namespace GraphML.Logic.Validators
     public RepositoryManagerValidator(IHttpContextAccessor context) :
       base(context)
     {
-      RuleSet(nameof(IRepositoryManagerLogic.GetAll), () =>
-      {
-        MustBeAdmin();
-      });
     }
   }
 }

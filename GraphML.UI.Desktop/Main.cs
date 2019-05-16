@@ -82,14 +82,19 @@ namespace GraphML.UI.Desktop
         RefreshSystem(selNode);
       }
 
-      if (selNode.Tag is RepositoryManager repoMgr)
+      if (selNode.Tag is Organisation)
       {
         RefreshRepositoryManager(selNode);
       }
 
-      if (selNode.Tag is Repository repo)
+      if (selNode.Tag is RepositoryManager)
       {
         RefreshRepositoryAsync(selNode);
+      }
+
+      if (selNode.Tag is Repository)
+      {
+        RefreshGraphAsync(selNode);
       }
     }
 
@@ -98,14 +103,27 @@ namespace GraphML.UI.Desktop
       using (new AutoCursor())
       {
         selNode.Nodes.Clear();
-        var repoMgrs = await _repoMgrServer.GetAll();
-        var childNodes = repoMgrs.Select(x => new TreeNode(x.Name) { Tag = x });
+        var orgs = await _organisationServer.GetAll();
+        var childNodes = orgs.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
         selNode.ExpandAll();
       }
     }
 
     private async void RefreshRepositoryManager(TreeNode selNode)
+    {
+      using (new AutoCursor())
+      {
+        selNode.Nodes.Clear();
+        var org = (Organisation)selNode.Tag;
+        var repoMgrs = await _repoMgrServer.ByOwners(new[] { org.Id });
+        var childNodes = repoMgrs.Select(x => new TreeNode(x.Name) { Tag = x });
+        selNode.Nodes.AddRange(childNodes.ToArray());
+        selNode.ExpandAll();
+      }
+    }
+
+    private async void RefreshRepositoryAsync(TreeNode selNode)
     {
       using (new AutoCursor())
       {
@@ -118,14 +136,14 @@ namespace GraphML.UI.Desktop
       }
     }
 
-    private async void RefreshRepositoryAsync(TreeNode selNode)
+    private async void RefreshGraphAsync(TreeNode selNode)
     {
       using (new AutoCursor())
       {
         selNode.Nodes.Clear();
         var repo = (Repository)selNode.Tag;
-        var repos = await _graphServer.ByOwners(new[] { repo.Id });
-        var childNodes = repos.Select(x => new TreeNode(x.Name) { Tag = x });
+        var graphs = await _graphServer.ByOwners(new[] { repo.Id });
+        var childNodes = graphs.Select(x => new TreeNode(x.Name) { Tag = x });
         selNode.Nodes.AddRange(childNodes.ToArray());
         selNode.ExpandAll();
       }

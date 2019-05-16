@@ -19,16 +19,5 @@ namespace GraphML.Logic
     {
       _repoMgrDatastore = datastore;
     }
-
-    public IEnumerable<RepositoryManager> GetAll()
-    {
-      var valRes = _validator.Validate(new RepositoryManager(), ruleSet: nameof(IRepositoryManagerLogic.GetAll));
-      if (valRes.IsValid)
-      {
-        return _filter.Filter(_repoMgrDatastore.GetAll());
-      }
-
-      return Enumerable.Empty<RepositoryManager>();
-    }
   }
 }

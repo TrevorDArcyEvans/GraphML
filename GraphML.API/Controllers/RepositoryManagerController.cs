@@ -36,19 +36,6 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Retrieve all Entities
-    /// </summary>
-    /// <response code="200">Success</response>
-    [HttpGet]
-    [Route(nameof(GetAll))]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
-    public IActionResult GetAll()
-    {
-      return new OkObjectResult(_repoMgrLogic.GetAll());
-    }
-
-    /// <summary>
     /// Retrieve Entity by its unique identifier
     /// </summary>
     /// <param name="ids">unique identifier</param>
@@ -77,7 +64,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
     public override IActionResult ByOwners([FromBody][Required] IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
-      return ByOwnersInternal(new[] { Guid.Empty.ToString() }, pageIndex, pageSize);
+      return ByOwnersInternal(ownerIds, pageIndex, pageSize);
     }
 
     /// <summary>

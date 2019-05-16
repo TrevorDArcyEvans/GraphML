@@ -16,13 +16,5 @@ namespace GraphML.Datastore.Database
       base(dbConnectionFactory, logger, policy)
     {
     }
-
-    public IEnumerable<RepositoryManager> GetAll()
-    {
-      return GetInternal(() =>
-      {
-        return _dbConnection.GetAll<RepositoryManager>();
-      });
-    }
   }
 }

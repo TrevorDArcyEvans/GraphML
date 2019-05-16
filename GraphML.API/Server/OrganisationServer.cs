@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Flurl;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
@@ -13,5 +16,13 @@ namespace GraphML.API.Server
     }
 
     protected override string ResourceBase { get; } = "/api/Organisation";
+
+    public async Task<IEnumerable<Organisation>> GetAll()
+    {
+      var request = GetAllRequest(Url.Combine(ResourceBase, "GetAll"));
+      var retval = await GetResponse<IEnumerable<Organisation>>(request);
+
+      return retval;
+    }
   }
 }
