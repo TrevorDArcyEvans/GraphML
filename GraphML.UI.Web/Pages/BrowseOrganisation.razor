@@ -23,6 +23,7 @@ else
       </li>
     }
   </ul>
+  <button onclick="@((e) => Browse())">Back</button>
 }
 
 @functions
@@ -43,5 +44,10 @@ else
   private void BrowseRepositoryManager(RepositoryManager repoMgr)
   {
     UriHelper.NavigateTo($"/BrowseRepositoryManager/{repoMgr.Name}/{repoMgr.Id}");
+  }
+
+  private async Task Browse()
+  {
+    UriHelper.NavigateTo($"/Browse");
   }
 }

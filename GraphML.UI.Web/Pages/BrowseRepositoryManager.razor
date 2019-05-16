@@ -4,6 +4,8 @@
 @using GraphML.API.Server
 @using System.Web;
 
+@inject IOrganisationServer _orgServer
+@inject IRepositoryManagerServer _repoMgrServer
 @inject IRepositoryServer _repoServer
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 
@@ -23,6 +25,7 @@ else
       </li>
     }
   </ul>
+  <button onclick="@((e) => BrowseOrganisation())">Back</button>
 }
 
 @functions
@@ -43,5 +46,12 @@ else
   private void BrowseRepository(Repository repo)
   {
     UriHelper.NavigateTo($"/BrowseRepository/{repo.Name}/{repo.Id}");
+  }
+
+  private async Task BrowseOrganisation()
+  {
+    var repoMgr = (await _repoMgrServer.ByIds(new[] { RepositoryManagerId })).Single();
+    var org = (await _orgServer.ByIds(new[] { repoMgr.OwnerId })).Single();
+    UriHelper.NavigateTo($"/BrowseOrganisation/{org.Name}/{org.Id}");
   }
 }

@@ -1,10 +1,10 @@
 ﻿@page "/BrowseGraph/{GraphName}/{GraphId}"
 
-@using GraphML
 @using GraphML.API.Server
 @using System.Web;
 
 @inject IRepositoryServer _repoServer
+@inject IGraphServer _graphServer
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 
 <h1>Nodes &amp; Edges</h1>
@@ -17,6 +17,7 @@
     <span onclick="@((e) => BrowseEdges())">Browse edges</span>
   </li>
 </ul>
+<button onclick="@((e) => BrowseRepository())">Back</button>
 
 @functions
 {
@@ -34,5 +35,12 @@
   private void BrowseEdges()
   {
     UriHelper.NavigateTo($"/BrowseEdges/{GraphName}/{GraphId}");
+  }
+
+  private async Task BrowseRepository()
+  {
+    var graph = (await _graphServer.ByIds(new[] { GraphId })).Single();
+    var repo = (await _repoServer.ByIds(new[] { graph.OwnerId })).Single();
+    UriHelper.NavigateTo($"/BrowseRepository/{repo.Name}/{repo.Id}");
   }
 }

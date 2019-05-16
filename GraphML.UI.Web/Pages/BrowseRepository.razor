@@ -4,6 +4,8 @@
 @using GraphML.API.Server
 @using System.Web;
 
+@inject IRepositoryManagerServer _repoMgrServer
+@inject IRepositoryServer _repoServer
 @inject IGraphServer _graphServer
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 
@@ -23,6 +25,7 @@ else
       </li>
     }
   </ul>
+  <button onclick="@((e) => BrowseRepositoryManager())">Back</button>
 }
 
 @functions
@@ -43,5 +46,12 @@ else
   private void BrowseGraph(Graph graph)
   {
     UriHelper.NavigateTo($"/BrowseGraph/{graph.Name}/{graph.Id}");
+  }
+
+  private async Task BrowseRepositoryManager()
+  {
+    var repo = (await _repoServer.ByIds(new[] { RepositoryId })).Single();
+    var repoMgr = (await _repoMgrServer.ByIds(new[] { repo.OwnerId })).Single();
+    UriHelper.NavigateTo($"/BrowseRepositoryManager/{repoMgr.Name}/{repoMgr.Id}");
   }
 }
