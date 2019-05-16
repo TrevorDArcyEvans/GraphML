@@ -1,12 +1,12 @@
-@page "/browse"
+@page "/Browse"
+
 @using GraphML
 @using GraphML.API.Server
-@inject IOrganisationServer _orgServer
-@inject IRepositoryManagerServer _repoMgrServer
-@inject IRepositoryServer _repoServer
-@inject IGraphServer _graphServer
 
-<h1>Repository Managers</h1>
+@inject IOrganisationServer _orgServer
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+
+<h1>Organisations</h1>
 
 @if (_orgs == null)
 {
@@ -17,61 +17,24 @@ else
   <ul class="list-group">
     @foreach (var org in _orgs)
     {
-    <li class="list-group-item">
-      <span>@org.Name</span>
-      @foreach (var repoMgr in GetRepositoryManagers(org.Id))
-      {
-        <br />
-        <span class="p-2"></span>
-        <span>@repoMgr.Name</span>
-        @foreach (var repo in GetRepositories(repoMgr.Id))
-        {
-          <br />
-          <span class="p-2"></span>
-          <span class="p-2"></span>
-          <span>@repo.Name</span>
-          @foreach (var graph in GetGraphs(repo.Id))
-          {
-            <br />
-            <span class="p-2"></span>
-            <span class="p-2"></span>
-            <span class="p-2"></span>
-            <span>@graph.Name</span>
-          }
-        }
-      }
-    </li>
+      <li class="list-group-item">
+        <span onclick="@((e) => BrowseOrganisation(@org))">@org.Name</span>
+      </li>
     }
   </ul>
 }
 
 @functions
 {
-  IEnumerable<Organisation> _orgs;
-  IEnumerable<RepositoryManager> _repoMgrs;
-  IEnumerable<Repository> _repos;
-  IEnumerable<Graph> _graphs;
+  private IEnumerable<Organisation> _orgs;
 
   protected override async Task OnInitAsync()
   {
     _orgs = await _orgServer.GetAll();
-    _repoMgrs = await _repoMgrServer.ByOwners(_orgs.Select(x => x.Id));
-    _repos = await _repoServer.ByOwners(_repoMgrs.Select(x => x.Id));
-    _graphs = await _graphServer.ByOwners(_repos.Select(x => x.Id));
   }
 
-  private IEnumerable<RepositoryManager> GetRepositoryManagers(string orgId)
+  private void BrowseOrganisation(Organisation org)
   {
-    return _repoMgrs.Where(x => x.OwnerId == orgId);
-  }
-
-  private IEnumerable<Repository> GetRepositories(string repoMgrId)
-  {
-    return _repos.Where(x => x.OwnerId == repoMgrId);
-  }
-
-  private IEnumerable<Graph> GetGraphs(string repoId)
-  {
-    return _graphs.Where(x => x.OwnerId == repoId);
+    UriHelper.NavigateTo($"/BrowseOrganisation/{org.Name}/{org.Id}");
   }
 }

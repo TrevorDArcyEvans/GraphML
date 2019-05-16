@@ -1,0 +1,47 @@
+﻿@page "/BrowseRepository/{RepositoryName}/{RepositoryId}"
+
+@using GraphML
+@using GraphML.API.Server
+@using System.Web;
+
+@inject IGraphServer _graphServer
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+
+<h1>Graphs</h1>
+@if (_graphs == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+  <ul class="list-group">
+    @foreach (var graph in _graphs)
+    {
+      <li class="list-group-item">
+        <span onclick="@((e) => BrowseGraph(@graph))">@graph.Name</span>
+      </li>
+    }
+  </ul>
+}
+
+@functions
+{
+  [Parameter]
+  private string RepositoryName { get; set; }
+
+  [Parameter]
+  private string RepositoryId { get; set; }
+
+  private IEnumerable<Graph> _graphs;
+
+  protected override async Task OnInitAsync()
+  {
+    _graphs = await _graphServer.ByOwners(new[] { RepositoryId });
+  }
+
+  private void BrowseGraph(Graph graph)
+  {
+    UriHelper.NavigateTo($"/BrowseGraph/{graph.Name}/{graph.Id}");
+  }
+}

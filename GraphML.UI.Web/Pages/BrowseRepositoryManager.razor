@@ -1,0 +1,47 @@
+﻿@page "/BrowseRepositoryManager/{RepositoryManagerName}/{RepositoryManagerId}"
+
+@using GraphML
+@using GraphML.API.Server
+@using System.Web;
+
+@inject IRepositoryServer _repoServer
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+
+<h1>Repositories</h1>
+@if (_repos == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
+  <ul class="list-group">
+    @foreach (var repo in _repos)
+    {
+      <li class="list-group-item">
+        <span onclick="@((e) => BrowseRepository(@repo))">@repo.Name</span>
+      </li>
+    }
+  </ul>
+}
+
+@functions
+{
+  [Parameter]
+  private string RepositoryManagerName { get; set; }
+
+  [Parameter]
+  private string RepositoryManagerId { get; set; }
+
+  private IEnumerable<Repository> _repos;
+
+  protected override async Task OnInitAsync()
+  {
+    _repos = await _repoServer.ByOwners(new[] { RepositoryManagerId });
+  }
+
+  private void BrowseRepository(Repository repo)
+  {
+    UriHelper.NavigateTo($"/BrowseRepository/{repo.Name}/{repo.Id}");
+  }
+}

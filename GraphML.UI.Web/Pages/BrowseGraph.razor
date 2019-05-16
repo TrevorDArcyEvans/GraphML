@@ -1,0 +1,42 @@
+﻿@page "/BrowseGraph/{GraphName}/{GraphId}"
+
+@using GraphML
+@using GraphML.API.Server
+@using System.Web;
+
+@inject IRepositoryServer _repoServer
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+
+<h1>Nodes &amp; Edges</h1>
+<h2>@HttpUtility.UrlDecode(GraphName)</h2>
+<ul class="list-group">
+  <li class="list-group-item">
+    <span onclick="@((e) => BrowseNodes())">Browse nodes</span>
+  </li>
+  <li class="list-group-item">
+    <span onclick="@((e) => BrowseEdges())">Browse edges</span>
+  </li>
+</ul>
+
+@functions
+{
+  [Parameter]
+  private string GraphName { get; set; }
+
+  [Parameter]
+  private string GraphId { get; set; }
+
+  protected override async Task OnInitAsync()
+  {
+  }
+
+  private void BrowseNodes()
+  {
+    UriHelper.NavigateTo($"/BrowseNodes/{GraphName}/{GraphId}");
+  }
+
+  private void BrowseEdges()
+  {
+    UriHelper.NavigateTo($"/BrowseEdges/{GraphName}/{GraphId}");
+  }
+}
