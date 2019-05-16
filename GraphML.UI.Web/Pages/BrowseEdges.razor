@@ -1,6 +1,6 @@
 ﻿@page "/BrowseEdges/{GraphName}/{GraphId}"
+@inherits BrowseGraphItem
 
-@using GraphML
 @using GraphML.API.Server
 @using System.Web;
 
@@ -10,18 +10,8 @@
 <h1>Edges</h1>
 <h2>@HttpUtility.UrlDecode(GraphName)</h2>
 <h3>TODO BrowseEdges</h3>
-<button onclick="@((e) => BrowseGraph(@GraphName, @GraphId))">Back</button>
+<button onclick="@((e) => BrowseGraph())">Back</button>
 
 @functions
 {
-  [Parameter]
-  private string GraphName { get; set; }
-
-  [Parameter]
-  private string GraphId { get; set; }
-
-  private void BrowseGraph(string graphName, string graphId)
-  {
-    UriHelper.NavigateTo($"/BrowseGraph/{graphName}/{graphId}");
-  }
 }
