@@ -5,13 +5,13 @@ namespace GraphML.UI.Web.Pages
   public class BrowseGraphItem : ComponentBase
   {
     [Inject]
-    private IUriHelper UriHelper { get; set; }
+    private NavigationManager UriHelper { get; set; }
 
     [Parameter]
-    protected string GraphName { get; private set; }
+    public string GraphName { get; set; }
 
     [Parameter]
-    protected string GraphId { get; private set; }
+    public string GraphId { get; set; }
 
     protected void BrowseGraph()
     {

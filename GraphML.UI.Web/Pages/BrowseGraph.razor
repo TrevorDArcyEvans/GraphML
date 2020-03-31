@@ -5,27 +5,27 @@
 
 @inject IRepositoryServer _repoServer
 @inject IGraphServer _graphServer
-@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+@inject NavigationManager UriHelper
 
 <h1>Nodes &amp; Edges</h1>
 <h2>@HttpUtility.UrlDecode(GraphName)</h2>
 <ul class="list-group">
   <li class="list-group-item">
-    <span onclick="@((e) => BrowseNodes())">Browse nodes</span>
+    <span @onclick="((e) => BrowseNodes())">Browse nodes</span>
   </li>
   <li class="list-group-item">
-    <span onclick="@((e) => BrowseEdges())">Browse edges</span>
+    <span @onclick="((e) => BrowseEdges())">Browse edges</span>
   </li>
 </ul>
-<button onclick="@((e) => BrowseRepository())">Back</button>
+<button @onclick="((e) => BrowseRepository())">Back</button>
 
 @functions
 {
   [Parameter]
-  private string GraphName { get; set; }
+  public string GraphName { get; set; }
 
   [Parameter]
-  private string GraphId { get; set; }
+  public string GraphId { get; set; }
 
   private void BrowseNodes()
   {

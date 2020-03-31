@@ -4,7 +4,7 @@
 @using GraphML.API.Server
 
 @inject IOrganisationServer _orgServer
-@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+@inject NavigationManager UriHelper
 
 <h1>Organisations</h1>
 
@@ -18,7 +18,7 @@ else
     @foreach (var org in _orgs)
     {
       <li class="list-group-item">
-        <span onclick="@((e) => BrowseOrganisation(@org))">@org.Name</span>
+        <span @onclick="((e) => BrowseOrganisation(@org))">@org.Name</span>
       </li>
     }
   </ul>
@@ -28,7 +28,7 @@ else
 {
   private IEnumerable<Organisation> _orgs;
 
-  protected override async Task OnInitAsync()
+  protected override async Task OnInitializedAsync()
   {
     _orgs = await _orgServer.GetAll();
   }

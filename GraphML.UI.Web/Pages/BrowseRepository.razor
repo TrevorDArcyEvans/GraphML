@@ -7,7 +7,7 @@
 @inject IRepositoryManagerServer _repoMgrServer
 @inject IRepositoryServer _repoServer
 @inject IGraphServer _graphServer
-@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+@inject NavigationManager UriHelper
 
 <h1>Graphs</h1>
 @if (_graphs == null)
@@ -21,24 +21,24 @@ else
     @foreach (var graph in _graphs)
     {
       <li class="list-group-item">
-        <span onclick="@((e) => BrowseGraph(@graph))">@graph.Name</span>
+        <span @onclick="((e) => BrowseGraph(@graph))">@graph.Name</span>
       </li>
     }
   </ul>
-  <button onclick="@((e) => BrowseRepositoryManager())">Back</button>
+  <button @onclick="((e) => BrowseRepositoryManager())">Back</button>
 }
 
 @functions
 {
   [Parameter]
-  private string RepositoryName { get; set; }
+  public string RepositoryName { get; set; }
 
   [Parameter]
-  private string RepositoryId { get; set; }
+  public string RepositoryId { get; set; }
 
   private IEnumerable<Graph> _graphs;
 
-  protected override async Task OnInitAsync()
+  protected override async Task OnInitializedAsync()
   {
     _graphs = await _graphServer.ByOwners(new[] { RepositoryId });
   }

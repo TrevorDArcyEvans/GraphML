@@ -7,7 +7,7 @@
 @inject IOrganisationServer _orgServer
 @inject IRepositoryManagerServer _repoMgrServer
 @inject IRepositoryServer _repoServer
-@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+@inject NavigationManager UriHelper
 
 <h1>Repositories</h1>
 @if (_repos == null)
@@ -21,24 +21,24 @@ else
     @foreach (var repo in _repos)
     {
       <li class="list-group-item">
-        <span onclick="@((e) => BrowseRepository(@repo))">@repo.Name</span>
+        <span @onclick="((e) => BrowseRepository(@repo))">@repo.Name</span>
       </li>
     }
   </ul>
-  <button onclick="@((e) => BrowseOrganisation())">Back</button>
+  <button @onclick="((e) => BrowseOrganisation())">Back</button>
 }
 
 @functions
 {
   [Parameter]
-  private string RepositoryManagerName { get; set; }
+  public string RepositoryManagerName { get; set; }
 
   [Parameter]
-  private string RepositoryManagerId { get; set; }
+  public string RepositoryManagerId { get; set; }
 
   private IEnumerable<Repository> _repos;
 
-  protected override async Task OnInitAsync()
+  protected override async Task OnInitializedAsync()
   {
     _repos = await _repoServer.ByOwners(new[] { RepositoryManagerId });
   }

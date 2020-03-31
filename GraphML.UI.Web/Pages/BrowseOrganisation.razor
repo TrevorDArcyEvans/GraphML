@@ -5,7 +5,7 @@
 @using System.Web;
 
 @inject IRepositoryManagerServer _repoMgrServer
-@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+@inject NavigationManager UriHelper
 
 <h1>Repository Managers</h1>
 @if (_repoMgrs == null)
@@ -19,24 +19,24 @@ else
     @foreach (var repoMgr in _repoMgrs)
     {
       <li class="list-group-item">
-        <span onclick="@((e) => BrowseRepositoryManager(@repoMgr))">@repoMgr.Name</span>
+        <span @onclick="((e) => BrowseRepositoryManager(@repoMgr))">@repoMgr.Name</span>
       </li>
     }
   </ul>
-  <button onclick="@((e) => Browse())">Back</button>
+  <button @onclick="((e) => Browse())">Back</button>
 }
 
 @functions
 {
   [Parameter]
-  private string OrganisationName { get; set; }
+  public string OrganisationName { get; set; }
 
   [Parameter]
-  private string OrganisationId { get; set; }
+  public string OrganisationId { get; set; }
 
   private IEnumerable<RepositoryManager> _repoMgrs;
 
-  protected override async Task OnInitAsync()
+  protected override async Task OnInitializedAsync()
   {
     _repoMgrs = await _repoMgrServer.ByOwners(new[] { OrganisationId });
   }

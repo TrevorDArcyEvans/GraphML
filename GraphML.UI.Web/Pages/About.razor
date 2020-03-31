@@ -4,13 +4,13 @@
 
 <p>Current count: @currentCount</p>
 
-<button class="btn btn-primary" onclick="@IncrementCount">Decrement</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Decrement</button>
 
 @functions
 {
-  int currentCount = 100;
+  private int currentCount = 100;
 
-  void IncrementCount()
+  public void IncrementCount()
   {
     currentCount--;
   }
