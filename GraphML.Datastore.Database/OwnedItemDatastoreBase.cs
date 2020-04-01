@@ -32,7 +32,7 @@ namespace GraphML.Datastore.Database
       var dbType = _dbConnection.GetType().ToString();
       switch (dbType)
       {
-        case "Microsoft.Data.Sqlite.SqliteConnection":
+        case "System.Data.SQLite.SQLiteConnection":
           return $"{Environment.NewLine} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
 
         case "MySql.Data.MySqlClient.MySqlConnection":

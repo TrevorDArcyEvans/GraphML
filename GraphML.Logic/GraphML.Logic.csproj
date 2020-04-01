@@ -23,7 +23,6 @@
     <PackageReference Include="Dapper.Contrib" Version="1.50.4" />
     <PackageReference Include="FluentValidation" Version="7.5.2" />
     <PackageReference Include="IdentityModel" Version="3.7.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.2.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.2" />
     <PackageReference Include="MySql.Data" Version="8.0.11" />
@@ -33,6 +32,7 @@
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
     <PackageReference Include="westwind.utilities" Version="3.0.14" />
     <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.0" />
   </ItemGroup>
