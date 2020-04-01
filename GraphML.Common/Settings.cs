@@ -7,6 +7,7 @@ namespace GraphML.Common
 #pragma warning disable CS1591
   public static class Settings
   {
+    // used by GraphML.API.Server to retrieve data
     public static string API_URI(IConfiguration config) => Environment.GetEnvironmentVariable("API_URI") ?? config["API:Uri"];
     public static string API_USERNAME(IConfiguration config) => Environment.GetEnvironmentVariable("API_USERNAME") ?? config["API:UserName"];
     public static string API_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("API_PASSWORD") ?? config["API:Password"];
