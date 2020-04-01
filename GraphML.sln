@@ -17,10 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Datastore.Database"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Datastore.Database.Importer.CSV", "GraphML.Datastore.Database.Importer.CSV\GraphML.Datastore.Database.Importer.CSV.csproj", "{CB77FAD5-FF96-4250-8823-9F043BD52EDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.UI.Desktop", "GraphML.UI.Desktop\GraphML.UI.Desktop.csproj", "{99C7918A-AA6C-404B-B987-C9BEA3C815FB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.UI.Desktop.Designer", "GraphML.UI.Desktop.Designer\GraphML.UI.Desktop.Designer.csproj", "{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Analysis.SNA", "GraphML.Analysis.SNA\GraphML.Analysis.SNA.csproj", "{6F022EB1-FF63-41D9-ADA9-C2C7F2756261}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Analysis.SNA.Tests", "GraphML.Analysis.SNA.Tests\GraphML.Analysis.SNA.Tests.csproj", "{2873BF9F-61E7-465E-9C00-DFA64FBD321D}"
