@@ -8,38 +8,97 @@ namespace GraphML.Common
   public static class Settings
   {
     // used by GraphML.API.Server to retrieve data
-    public static string API_URI(IConfiguration config) => Environment.GetEnvironmentVariable("API_URI") ?? config["API:Uri"];
-    public static string API_USERNAME(IConfiguration config) => Environment.GetEnvironmentVariable("API_USERNAME") ?? config["API:UserName"];
-    public static string API_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("API_PASSWORD") ?? config["API:Password"];
+    public static string API_URI(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("API_URI") ?? 
+      config["API:Uri"];
+    public static string API_USERNAME(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("API_USERNAME") ?? 
+      config["API:UserName"];
+    public static string API_PASSWORD(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("API_PASSWORD") ?? 
+      config["API:Password"];
 
-    public static string OIDC_ISSUER_URL(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_ISSUER_URL") ?? config["OIDC:Issuer_URL"];
-    public static string OIDC_AUDIENCE(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? config["OIDC:Audience"];
-    public static string OIDC_USERINFO_URL(IConfiguration config) => Environment.GetEnvironmentVariable("OIDC_USERINFO_URL") ?? config["OIDC:UserInfo_URL"];
+    public static string OIDC_ISSUER_URL(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("OIDC_ISSUER_URL") ?? 
+      config["OIDC:Issuer_URL"];
+    public static string OIDC_AUDIENCE(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? 
+      config["OIDC:Audience"];
+    public static string OIDC_USERINFO_URL(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("OIDC_USERINFO_URL") ?? 
+      config["OIDC:UserInfo_URL"];
 
-    public static string LOG_CONNECTION_STRING(IConfiguration config) => (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ?? config["Log:ConnectionString"])?.Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
-    public static bool LOG_BEARER_AUTH(IConfiguration config) => bool.Parse(Environment.GetEnvironmentVariable("LOG_BEARER_AUTH") ?? config["Log:Bearer_Auth"] ?? false.ToString());
+    public static string LOG_CONNECTION_STRING(IConfiguration config) => 
+      (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ?? 
+      config["Log:ConnectionString"])?
+        .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
+    public static bool LOG_BEARER_AUTH(IConfiguration config) => 
+      bool.Parse(
+        Environment.GetEnvironmentVariable("LOG_BEARER_AUTH") ?? 
+        config["Log:Bearer_Auth"] ?? 
+        false.ToString());
 
-    public static string DATASTORE_CONNECTION(IConfiguration config) => Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? config["Datastore:Connection"];
-    public static string DATASTORE_CONNECTION_TYPE(IConfiguration config, string connection) => Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_TYPE") ?? config[$"Datastore:{connection}:Type"];
-    public static string DATASTORE_CONNECTION_STRING(IConfiguration config, string connection) => (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ?? config[$"Datastore:{connection}:ConnectionString"])?
-      .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory)
-      .Replace('\\', Path.DirectorySeparatorChar)
-      .Replace('/', Path.DirectorySeparatorChar)
-      .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
+    public static string DATASTORE_CONNECTION(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? 
+      config["Datastore:Connection"] ??
+      "SqLite";
+    public static string DATASTORE_CONNECTION_TYPE(IConfiguration config, string connection) => 
+      Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_TYPE") ?? 
+      config[$"Datastore:{connection}:Type"] ??
+      "SqLite";
+    public static string DATASTORE_CONNECTION_STRING(IConfiguration config, string connection) => 
+      (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ?? 
+      config[$"Datastore:{connection}:ConnectionString"] ??
+      "Data Source=|DataDirectory|Data/GraphML.sqlite3;")?
+        .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory)
+        .Replace('\\', Path.DirectorySeparatorChar)
+        .Replace('/', Path.DirectorySeparatorChar)
+        .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
-    public static string CACHE_HOST(IConfiguration config) => Environment.GetEnvironmentVariable("CACHE_HOST") ?? config["Cache:Host"] ?? "localhost";
+    public static string CACHE_HOST(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("CACHE_HOST") ?? 
+      config["Cache:Host"] ?? 
+      "localhost";
 
-    public static string RESULT_DATASTORE(IConfiguration config) => Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? config["Result:Datastore"] ?? "localhost:6379";
+    public static string RESULT_DATASTORE(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? 
+      config["Result:Datastore"] ?? 
+      "localhost:6379";
 
-    public static string KESTREL_CERTIFICATE_FILENAME(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_FILENAME") ?? config["Kestrel:Certificate_FileName"] ?? "GraphML.pfx";
-    public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? config["Kestrel:Certificate_Password"] ?? "DisruptTheMarket";
-    public static string KESTREL_URLS(IConfiguration config) => Environment.GetEnvironmentVariable("KESTREL_URLS") ?? config["Kestrel:Urls"] ?? "http://localhost:5000";
-    public static int KESTREL_HTTPS_PORT(IConfiguration config) => int.TryParse(Environment.GetEnvironmentVariable("KESTREL_HTTPS_PORT") ?? config["Kestrel:Https_Port"], out int result) ? result : 8000;
+    public static string KESTREL_CERTIFICATE_FILENAME(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_FILENAME") ?? 
+      config["Kestrel:Certificate_FileName"] ?? 
+      "GraphML.pfx";
+    public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? 
+      config["Kestrel:Certificate_Password"] ?? 
+      "DisruptTheMarket";
+    public static string KESTREL_URLS(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("KESTREL_URLS") ?? 
+      config["Kestrel:Urls"] ?? 
+      "http://localhost:5000";
+    public static int KESTREL_HTTPS_PORT(IConfiguration config) => 
+      int.TryParse(
+        Environment.GetEnvironmentVariable("KESTREL_HTTPS_PORT") ?? 
+        config["Kestrel:Https_Port"], out int result) ? result : 8000;
 
-    public static string MESSAGE_QUEUE_URL(IConfiguration config) => Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? config["Message_Queue:URL"] ?? "activemq:tcp://localhost:61616";
-    public static string MESSAGE_QUEUE_NAME(IConfiguration config) => Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ?? config["Message_Queue:Name"] ?? "GraphML";
-    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(IConfiguration config) => int.TryParse(Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ?? config["Message_Queue:Poll_Interval_s"], out int result) ? result : 5;
-    public static bool MESSAGE_QUEUE_USE_THREADS(IConfiguration config) => bool.Parse(Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ?? config["Message_Queue:Use_Threads"] ?? false.ToString());
+    public static string MESSAGE_QUEUE_URL(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? 
+      config["Message_Queue:URL"] ?? 
+      "activemq:tcp://localhost:61616";
+    public static string MESSAGE_QUEUE_NAME(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ?? 
+      config["Message_Queue:Name"] ?? 
+      "GraphML";
+    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(IConfiguration config) => 
+      int.TryParse(
+        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ?? 
+        config["Message_Queue:Poll_Interval_s"], out int result) ? result : 5;
+    public static bool MESSAGE_QUEUE_USE_THREADS(IConfiguration config) => 
+      bool.Parse(
+        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ?? 
+        config["Message_Queue:Use_Threads"] ?? 
+        false.ToString());
 
     public static void DumpSettings(IConfiguration config)
     {
@@ -78,8 +137,6 @@ namespace GraphML.Common
       Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(config)}");
       Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {Settings.MESSAGE_QUEUE_USE_THREADS(config)}");
     }
-
-
   }
 #pragma warning restore CS1591
 }
