@@ -264,6 +264,8 @@ __pycache__/
 
 GraphML.API/Logs/
 GraphML.Datastore.Database/Data/GraphML.sqlite3
+GraphML.cer
+GraphML.key
 
 .vscode
 /.project
