@@ -32,7 +32,7 @@ TODO description
   cd GraphML.API/bin/Debug/netcoreapp3.1 
   ./GraphML.API
 ```
-1. open [Swagger UI](http://localhost:5000)
+1. open [Swagger UI](http://localhost:5000/swagger/index.html)
 
 </details>
 
