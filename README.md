@@ -105,12 +105,14 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 
 ## Architecture
 <details>
-TODO
+
+  ![GraphML.Architecture](Docs/GraphML.Architecture.png "GraphML.Architecture")
+
 </details>
 
 ## Data Model
 <details>
-  
+
   <details>
     <summary>Classes</summary>
 
