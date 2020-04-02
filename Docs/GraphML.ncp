@@ -1,0 +1,395 @@
+<Project>
+  <Name>GraphML</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Classes</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Item</Name>
+        <Access>Public</Access>
+        <Location left="562" top="38" />
+        <Size width="203" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid Id { get; set; }</Member>
+        <Member type="Property">public string Name { get; set; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OwnedItem</Name>
+        <Access>Public</Access>
+        <Location left="407" top="257" />
+        <Size width="598" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid OwnerId { get; set; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Organisation</Name>
+        <Access>Public</Access>
+        <Location left="1042" top="257" />
+        <Size width="176" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Contact</Name>
+        <Access>Public</Access>
+        <Location left="956" top="444" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GraphItem</Name>
+        <Access>Public</Access>
+        <Location left="592" top="604" />
+        <Size width="185" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid Nextid { get; set; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Edge</Name>
+        <Access>Public</Access>
+        <Location left="657" top="754" />
+        <Size width="185" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid SourceId { get; set; }</Member>
+        <Member type="Property">public Guid TargetId { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ItemAttribute</Name>
+        <Access>Public</Access>
+        <Location left="841" top="604" />
+        <Size width="261" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string DataType { get; set; }</Member>
+        <Member type="Property">public string DataValueAsString { get; set; }</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EdgeItemAttribute</Name>
+        <Access>Public</Access>
+        <Location left="1071" top="778" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Graph</Name>
+        <Access>Public</Access>
+        <Location left="525" top="485" />
+        <Size width="192" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Directed { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GraphItemAttribute</Name>
+        <Access>Public</Access>
+        <Location left="868" top="999" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Node</Name>
+        <Access>Public</Access>
+        <Location left="458" top="754" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NodeItemAttribute</Name>
+        <Access>Public</Access>
+        <Location left="976" top="889" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Repository</Name>
+        <Access>Public</Access>
+        <Location left="351" top="587" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RepositoryItemAttribute</Name>
+        <Access>Public</Access>
+        <Location left="745" top="889" />
+        <Size width="194" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RepositoryManager</Name>
+        <Access>Public</Access>
+        <Location left="291" top="485" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>NextId to support merging of aliases</Text>
+        <Location left="271" top="754" />
+        <Size width="134" height="50" />
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>694</X>
+          <Y>724</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>694</X>
+          <Y>724</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>980</X>
+          <Y>417</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>980</X>
+          <Y>382</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1093</X>
+          <Y>753</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1093</X>
+          <Y>756</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>751</X>
+          <Y>394</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="9" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>898</X>
+          <Y>388</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>607</X>
+          <Y>729</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>607</X>
+          <Y>729</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="12" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>494</X>
+          <Y>562</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>494</X>
+          <Y>413</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="13" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>907</X>
+          <Y>864</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>907</X>
+          <Y>745</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="14" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>419</X>
+          <Y>376</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="15" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>370</X>
+          <Y>713</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>567</X>
+          <Y>682</Y>
+        </BendPoint>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Composition</Name>
+    <Language>EntityRelationshipDiagram</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Organisation</Name>
+        <Access>Public</Access>
+        <Location left="449" top="43" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RepositoryManager</Name>
+        <Access>Public</Access>
+        <Location left="449" top="197" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Contact</Name>
+        <Access>Public</Access>
+        <Location left="697" top="197" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Repository</Name>
+        <Access>Public</Access>
+        <Location left="449" top="347" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Graph</Name>
+        <Access>Public</Access>
+        <Location left="449" top="490" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Node</Name>
+        <Access>Public</Access>
+        <Location left="352" top="680" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Edge</Name>
+        <Access>Public</Access>
+        <Location left="618" top="680" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="EntityRelationship" first="0" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <StartMultiplicity>OneAndOnly</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="0" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>530</X>
+          <Y>148</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>780</X>
+          <Y>149</Y>
+        </BendPoint>
+        <StartMultiplicity>OneAndOnly</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="1" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>522</X>
+          <Y>322</Y>
+        </BendPoint>
+        <StartMultiplicity>OneAndOnly</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="3" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>545</X>
+          <Y>455</Y>
+        </BendPoint>
+        <StartMultiplicity>OneAndOnly</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="4" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <StartMultiplicity>OneAndOnly</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="4" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <StartMultiplicity>OneAndOnly</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="5" second="6">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <StartMultiplicity>ZeroOrMany</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

@@ -83,7 +83,21 @@ TODO
 
 ## Data Model
 <details>
-TODO
+  
+  <details>
+    <summary>Classes</summary>
+
+  ![GraphML.Classes](Docs/GraphML.Classes.png "GraphML.Classes")
+
+  </details>
+  
+  <details>
+    <summary>Composition</summary>
+
+  ![GraphML.Composition](Docs/GraphML.Composition.png "GraphML.Composition")
+
+  </details>
+
 </details>
 
 ## Notes
