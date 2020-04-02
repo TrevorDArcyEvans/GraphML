@@ -30,7 +30,7 @@ GraphML analyses graphs for the following measures:
     * Microsoft SQL Server
     * MySQL or MariaDB
     * PostgreSQL
-    *SQLite (local development only)
+    * SQLite (local development only)
   * message queue:
     * Apache ActiveMQ
 1. clone repo
