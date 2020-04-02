@@ -1,11 +1,38 @@
 # GraphML
 <details>
-TODO description
+  
+GraphML analyses graphs for the following measures:
+
+* ranked shortest paths
+* Social Network Analysis (SNA)
+  * closeness
+  * betweeness
+  * degree
+
 </details>
 
 ## Getting Started
 <details>
 
+1. Prerequisites:
+  * host:
+    * Linux
+    * Windows (not tested but should work)
+  * target;
+    * Linux
+  * .NET Core SDK v3.1
+  * git
+  * integrated development environment:
+    * Visual Studio Code (Linux or Windows)
+    * JetBrains Rider (Linux or Windows)
+    * Visual Studio (Windows)
+  * database:
+    * Microsoft SQL Server
+    * MySQL or MariaDB
+    * PostgreSQL
+    *SQLite (local development only)
+  * message queue:
+    * Apache ActiveMQ
 1. clone repo
 ```bash
   git clone https://github.com/TrevorDArcyEvans/GraphML.git
