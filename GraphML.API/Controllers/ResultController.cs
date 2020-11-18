@@ -4,6 +4,7 @@ using GraphML.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -45,7 +46,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Delete([FromRoute][Required] string correlationId)
+    public IActionResult Delete([FromRoute][Required] Guid correlationId)
     {
       _logic.Delete(correlationId);
 
@@ -55,7 +56,7 @@ namespace GraphML.API.Controllers
     /// <summary>
     /// List results for a person
     /// </summary>
-    /// <param name="contactId">Person</param>
+    /// <param name="contact">Person</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpGet]
@@ -63,9 +64,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult List([FromRoute][Required] string contactId)
+    public IActionResult List([FromRoute][Required] Contact contact)
     {
-      var retval = _logic.List(contactId);
+      var retval = _logic.List(contact);
 
       return new OkObjectResult(retval);
     }
@@ -81,7 +82,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IResult))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Retrieve([FromRoute][Required] string correlationId)
+    public IActionResult Retrieve([FromRoute][Required] Guid correlationId)
     {
       var retval = _logic.Retrieve(correlationId);
 

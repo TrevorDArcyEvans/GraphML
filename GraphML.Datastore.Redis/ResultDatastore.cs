@@ -54,20 +54,20 @@ namespace GraphML.Datastore.Redis
 
         // store ContactId|CorrelationId --> Request
         var jsonReq = JsonConvert.SerializeObject(request);
-        _db.StringSet($"{request.ContactId}|{request.CorrelationId}", jsonReq, Expiry);
+        _db.StringSet($"{request.Contact.Id}|{request.CorrelationId}", jsonReq, Expiry);
 
         return 0;
       });
     }
 
-    public void Delete(string correlationId)
+    public void Delete(Guid correlationId)
     {
       GetInternal(() =>
       {
         var keys = _server.Keys()
           .Where(x =>
-            x.ToString().StartsWith(correlationId) ||
-            x.ToString().EndsWith(correlationId))
+            x.ToString().StartsWith($"{correlationId}") ||
+            x.ToString().EndsWith($"{correlationId}"))
           .ToArray();
 
         _db.KeyDelete(keys);
@@ -76,12 +76,12 @@ namespace GraphML.Datastore.Redis
       });
     }
 
-    public IEnumerable<IRequest> List(string contactId)
+    public IEnumerable<IRequest> List(Contact contact)
     {
       return GetInternal(() =>
       {
         var keys = _server.Keys()
-          .Where(x => x.ToString().StartsWith(contactId))
+          .Where(x => x.ToString().StartsWith(contact.Id))
           .ToArray();
         var reqs = _db.StringGet(keys);
         var retval = new List<IRequest>();
@@ -100,16 +100,16 @@ namespace GraphML.Datastore.Redis
       });
     }
 
-    public IResult Retrieve(string correlationId)
+    public IResult Retrieve(Guid correlationId)
     {
       return GetInternal(() =>
       {
-        if (!_db.KeyExists(correlationId))
+        if (!_db.KeyExists($"{correlationId}"))
         {
           return null;
         }
 
-        var json = _db.StringGet(correlationId);
+        var json = _db.StringGet($"{correlationId}");
         var jobj = JObject.Parse(json);
         var resTypeStr = jobj["Type"].ToString();
         var resType = Type.GetType(resTypeStr);

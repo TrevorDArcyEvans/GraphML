@@ -23,7 +23,7 @@ namespace GraphML.Interfaces
     /// <summary>
     /// Person making this request
     /// </summary>
-    string ContactId { get; set; }
+    Contact Contact { get; set; }
 
     /// <summary>
     /// Description of this request

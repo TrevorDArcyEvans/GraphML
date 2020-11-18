@@ -1,5 +1,6 @@
 ﻿using GraphML.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace GraphML.Logic
@@ -23,19 +24,19 @@ namespace GraphML.Logic
       _datastore.Create(request, resultJson);
     }
 
-    public void Delete(string correlationId)
+    public void Delete(Guid correlationId)
     {
       // TODO   validation
       _datastore.Delete(correlationId);
     }
 
-    public IEnumerable<IRequest> List(string contactId)
+    public IEnumerable<IRequest> List(Contact contact)
     {
       // TODO   validation
-      return _datastore.List(contactId);
+      return _datastore.List(contact);
     }
 
-    public IResult Retrieve(string correlationId)
+    public IResult Retrieve(Guid correlationId)
     {
       // TODO   validation
       return _datastore.Retrieve(correlationId);

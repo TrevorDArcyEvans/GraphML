@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphML.Interfaces
 {
@@ -9,11 +10,11 @@ namespace GraphML.Interfaces
     /// <summary>
     /// List stored and completed requests for this person
     /// </summary>
-    /// <param name="contactId"></param>
+    /// <param name="contact"></param>
     /// <returns>list of CorrelationIds</returns>
-    IEnumerable<IRequest> List(string contactId);
+    IEnumerable<IRequest> List(Contact contact);
 
-    IResult Retrieve(string correlationId);
-    void Delete(string correlationId);
+    IResult Retrieve(Guid correlationId);
+    void Delete(Guid correlationId);
   }
 }
