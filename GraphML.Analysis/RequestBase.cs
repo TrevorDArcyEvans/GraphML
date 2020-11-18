@@ -7,7 +7,7 @@ namespace GraphML.Analysis
   {
     public string Type => GetType().AssemblyQualifiedName;
     public abstract string JobType { get; }
-    public string CorrelationId { get; set; }
+    public Guid CorrelationId { get; set; }
     public string ContactId { get; set; }
     public string Description { get; set; }
     public DateTime CreatedOnUtc { get; set; }

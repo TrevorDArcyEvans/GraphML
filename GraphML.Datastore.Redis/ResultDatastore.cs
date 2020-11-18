@@ -50,7 +50,7 @@ namespace GraphML.Datastore.Redis
       GetInternal(() =>
       {
         // store CorrelationId --> Result
-        _db.StringSet(request.CorrelationId, resultJson, Expiry);
+        _db.StringSet($"{request.CorrelationId}", resultJson, Expiry);
 
         // store ContactId|CorrelationId --> Request
         var jsonReq = JsonConvert.SerializeObject(request);

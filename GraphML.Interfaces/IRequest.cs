@@ -18,7 +18,7 @@ namespace GraphML.Interfaces
     /// <summary>
     /// Unique reference for this request
     /// </summary>
-    string CorrelationId { get; set; }
+    Guid CorrelationId { get; set; }
 
     /// <summary>
     /// Person making this request
