@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
@@ -14,7 +15,7 @@ namespace GraphML
     {
     }
 
-    public Graph(string repoId, string name) :
+    public Graph(Guid repoId, string name) :
       base(repoId, name)
     {
     }

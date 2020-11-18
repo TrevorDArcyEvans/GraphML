@@ -1,5 +1,6 @@
 ﻿using GraphML.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,8 +19,8 @@ namespace GraphML.API.Controllers
       _logic = logic;
     }
 
-    public abstract IActionResult ByIds([FromBody][Required] IEnumerable<string> ids);
-    protected IActionResult ByIdsInternal([FromBody][Required] IEnumerable<string> ids)
+    public abstract IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids);
+    protected IActionResult ByIdsInternal([FromBody][Required] IEnumerable<Guid> ids)
     {
       var ent = _logic.Ids(ids);
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();

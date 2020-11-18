@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace GraphML
 {
@@ -12,7 +13,7 @@ namespace GraphML
     {
     }
 
-    protected GraphItem(string graphId, string name) :
+    protected GraphItem(Guid graphId, string name) :
       base(graphId, name)
     {
     }

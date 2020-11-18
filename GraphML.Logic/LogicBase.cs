@@ -2,6 +2,7 @@
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace GraphML.Logic
@@ -25,7 +26,7 @@ namespace GraphML.Logic
       _filter = filter;
     }
 
-    public virtual IEnumerable<T> Ids(IEnumerable<string> ids)
+    public virtual IEnumerable<T> Ids(IEnumerable<Guid> ids)
     {
       var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.Ids));
       if (valRes.IsValid)

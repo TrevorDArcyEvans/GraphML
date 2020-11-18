@@ -1,5 +1,5 @@
-﻿using GraphML.Utils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GraphML.Views
@@ -8,17 +8,22 @@ namespace GraphML.Views
   {
     [Required]
     [JsonProperty(nameof(GraphItemId))]
-    public string GraphItemId { get; set; }
+    public Guid GraphItemId { get; set; } = Guid.NewGuid();
 
     public GraphViewItem() :
       base()
     {
     }
 
-    public GraphViewItem(string graphViewId, string graphItemId) :
+    public GraphViewItem(Guid graphViewId, string name) :
+      base(graphViewId, name)
+    {
+    }
+
+    public GraphViewItem(Guid graphViewId, Guid graphItemId) :
       base(graphViewId, nameof(GraphViewItem))
     {
-      GraphItemId = graphItemId.ThrowIfNullOrWhiteSpace(nameof(graphItemId));
+      GraphItemId = graphItemId;
     }
   }
 }

@@ -1,7 +1,9 @@
-﻿namespace GraphML.Interfaces
+﻿using System;
+
+namespace GraphML.Interfaces
 {
   public interface IBetweennessRequest : IRequest
   {
-    string GraphId { get; set; }
+    Guid GraphId { get; set; }
   }
 }

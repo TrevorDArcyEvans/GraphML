@@ -1,5 +1,6 @@
 ﻿using GraphML.Utils;
 using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GraphML
@@ -28,7 +29,7 @@ namespace GraphML
     {
     }
 
-    public ItemAttribute(string ownerId, string name, string dataType) :
+    public ItemAttribute(Guid ownerId, string name, string dataType) :
       base(ownerId, name)
     {
       DataType = dataType.ThrowIfNullOrWhiteSpace(nameof(dataType));

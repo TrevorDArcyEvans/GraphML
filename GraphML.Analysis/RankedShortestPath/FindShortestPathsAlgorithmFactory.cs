@@ -5,9 +5,9 @@ namespace GraphML.Analysis.RankedShortestPath
 {
   public sealed class FindShortestPathsAlgorithmFactory : IFindShortestPathsAlgorithmFactory
   {
-    public IFindShortestPathsAlgorithm<string, IEdge<string>> Create(IBidirectionalGraph<string, IEdge<string>> graph, Func<IEdge<string>, double> edgeWeights)
+    public IFindShortestPathsAlgorithm<Guid, IEdge<Guid>> Create(IBidirectionalGraph<Guid, IEdge<Guid>> graph, Func<IEdge<Guid>, double> edgeWeights)
     {
-      return new FindShortestPaths<string, IEdge<string>>(graph, edgeWeights);
+      return new FindShortestPaths<Guid, IEdge<Guid>>(graph, edgeWeights);
     }
   }
 }

@@ -81,7 +81,7 @@ namespace GraphML.Datastore.Redis
       return GetInternal(() =>
       {
         var keys = _server.Keys()
-          .Where(x => x.ToString().StartsWith(contact.Id))
+          .Where(x => x.ToString().StartsWith($"{contact.Id}"))
           .ToArray();
         var reqs = _db.StringGet(keys);
         var retval = new List<IRequest>();

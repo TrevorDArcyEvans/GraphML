@@ -1,4 +1,5 @@
-﻿using GraphML.Interfaces;
+﻿using System;
+using GraphML.Interfaces;
 
 namespace GraphML.Analysis.SNA.Centrality
 {
@@ -10,7 +11,7 @@ namespace GraphML.Analysis.SNA.Centrality
     /// <summary>
     /// Unique identifier of graph
     /// </summary>
-    public string GraphId { get; set; }
+    public Guid GraphId { get; set; }
 
     public override string JobType => typeof(IBetweennessJob).AssemblyQualifiedName;
   }

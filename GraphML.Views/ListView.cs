@@ -1,4 +1,5 @@
-﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML.Views
 {
@@ -10,7 +11,7 @@ namespace GraphML.Views
     {
     }
 
-    public ListView(string graphId, string name) :
+    public ListView(Guid graphId, string name) :
       base(graphId, name)
     {
       ViewType = typeof(ListView).ToString();

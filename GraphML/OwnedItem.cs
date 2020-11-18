@@ -1,5 +1,4 @@
-﻿using GraphML.Utils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,17 +11,17 @@ namespace GraphML
     /// </summary>
     [Required]
     [JsonProperty(nameof(OwnerId))]
-    public string OwnerId { get; set; } = Guid.Empty.ToString();
+    public Guid OwnerId { get; set; } = Guid.Empty;
 
     public OwnedItem() :
       base()
     {
     }
 
-    public OwnedItem(string ownerId, string name) :
+    public OwnedItem(Guid ownerId, string name) :
       base(name)
     {
-      OwnerId = ownerId.ThrowIfNullOrWhiteSpace(nameof(ownerId));
+      OwnerId = ownerId;
     }
   }
 }

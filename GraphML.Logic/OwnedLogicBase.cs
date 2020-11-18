@@ -2,6 +2,7 @@
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace GraphML.Logic
       _ownedDatastore = datastore;
     }
 
-    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds, int pageIndex, int pageSize)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
     {
       var valRes = _validator.Validate(new T(), ruleSet: nameof(IOwnedLogic<T>.ByOwners));
       if (valRes.IsValid)

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuickGraph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,7 +38,7 @@ namespace GraphML.Analysis.SNA.Centrality
     {
       var closeReq = (IClosenessRequest)req;
 
-      var graph = new AdjacencyGraph<string, IEdge<string>>();
+      var graph = new AdjacencyGraph<Guid, IEdge<Guid>>();
 
       // raw nodes from db
       var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
@@ -52,7 +53,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var edges = _edgeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
 
       // convert raw edges to QuickGraph edges
-      var qgEdges = edges.Select(e => new Edge<string>(e.SourceId, e.TargetId));
+      var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
 
       // add edges to graph
       graph.AddEdgeRange(qgEdges);
@@ -60,12 +61,12 @@ namespace GraphML.Analysis.SNA.Centrality
       // use unweighted edges
       var algo = _factory.Create(graph, e => 1.0);
 
-      var resultsList = new List<ClosenessVertexResult<string>>();
+      var resultsList = new List<ClosenessVertexResult<Guid>>();
       algo.VertexResult += vertexRes => resultsList.Add(vertexRes);
 
       algo.Compute();
 
-      var result = new ClosenessResult<string>(resultsList);
+      var result = new ClosenessResult<Guid>(resultsList);
       var resultJson = JsonConvert.SerializeObject(result);
 
       _resultLogic.Create(req, resultJson);

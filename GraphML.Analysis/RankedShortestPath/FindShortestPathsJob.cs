@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuickGraph;
+using System;
 using System.Linq;
 
 namespace GraphML.Analysis.RankedShortestPath
@@ -35,7 +36,7 @@ namespace GraphML.Analysis.RankedShortestPath
     {
       var shortPathReq = (IFindShortestPathsRequest)req;
 
-      var graph = new BidirectionalGraph<string, IEdge<string>>();
+      var graph = new BidirectionalGraph<Guid, IEdge<Guid>>();
 
       var rootNode = _nodeDatastore.ByIds(new[] { shortPathReq.RootNodeId }).Single();
       var graphId = rootNode.OwnerId;
@@ -54,8 +55,8 @@ namespace GraphML.Analysis.RankedShortestPath
 
       // convert raw edges to QuickGraph edges
       // NOTE:  we also create reverse edges
-      var qgEdges = edges.Select(e => new Edge<string>(e.SourceId, e.TargetId));
-      var qgRevEdges = edges.Select(e => new Edge<string>(e.TargetId, e.SourceId));
+      var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
+      var qgRevEdges = edges.Select(e => new Edge<Guid>(e.TargetId, e.SourceId));
 
       // add edges + reverse edges to graph
       graph.AddEdgeRange(qgEdges);

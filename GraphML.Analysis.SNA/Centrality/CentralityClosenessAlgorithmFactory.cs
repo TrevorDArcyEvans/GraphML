@@ -5,9 +5,9 @@ namespace GraphML.Analysis.SNA.Centrality
 {
   public sealed class CentralityClosenessAlgorithmFactory : ICentralityClosenessAlgorithmFactory
   {
-    public ICentralityClosenessAlgorithm<string> Create(IVertexListGraph<string, IEdge<string>> graph, Func<IEdge<string>, double> weights)
+    public ICentralityClosenessAlgorithm<Guid> Create(IVertexListGraph<Guid, IEdge<Guid>> graph, Func<IEdge<Guid>, double> weights)
     {
-      return new Closeness<string, IEdge<string>>(graph, weights);
+      return new Closeness<Guid, IEdge<Guid>>(graph, weights);
     }
   }
 }

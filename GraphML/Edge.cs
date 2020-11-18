@@ -1,5 +1,5 @@
-﻿using GraphML.Utils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,22 +10,22 @@ namespace GraphML
   {
     [Required]
     [JsonProperty(nameof(SourceId))]
-    public string SourceId { get; set; }
+    public Guid SourceId { get; set; }
 
     [Required]
     [JsonProperty(nameof(TargetId))]
-    public string TargetId { get; set; }
+    public Guid TargetId { get; set; }
 
     public Edge() :
       base()
     {
     }
 
-    public Edge(string graphId, string name, string source, string target) :
+    public Edge(Guid graphId, string name, Guid source, Guid target) :
       base(graphId, name)
     {
-      SourceId = source.ThrowIfNullOrWhiteSpace(nameof(source));
-      TargetId = target.ThrowIfNullOrWhiteSpace(nameof(target));
+      SourceId = source;
+      TargetId = target;
     }
   }
 }

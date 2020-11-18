@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GraphML.Views
@@ -14,7 +15,7 @@ namespace GraphML.Views
     {
     }
 
-    public GraphView(string graphId, string name) :
+    public GraphView(Guid graphId, string name) :
       base(graphId, name)
     {
     }

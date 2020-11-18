@@ -4,6 +4,7 @@ using System.Linq;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace GraphML.Logic
 {
@@ -21,7 +22,7 @@ namespace GraphML.Logic
       _edgeDatastore = datastore;
     }
 
-    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids, int pageIndex, int pageSize)
+    public IEnumerable<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
     {
       var valRes = _validator.Validate(new Edge(), ruleSet: nameof(IEdgeLogic.ByNodeIds));
       if (valRes.IsValid)

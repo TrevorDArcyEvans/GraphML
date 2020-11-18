@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuickGraph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,13 +35,13 @@ namespace GraphML.Analysis.SNA.Centrality
     {
       var degReq = (IDegreeRequest)req;
 
-      var graph = new EdgeListGraph<string, IEdge<string>>();
+      var graph = new EdgeListGraph<Guid, IEdge<Guid>>();
 
       // raw edges from db
       var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 1, int.MaxValue);
 
       // convert raw edges to QuickGraph edges
-      var qgEdges = edges.Select(e => new Edge<string>(e.SourceId, e.TargetId));
+      var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
 
       // add edges to graph
       graph.AddEdgeRange(qgEdges);
@@ -48,12 +49,12 @@ namespace GraphML.Analysis.SNA.Centrality
       // use unweighted edges
       var algo = _factory.Create(graph, e => 1.0);
 
-      var resultsList = new List<DegreeVertexResult<string>>();
+      var resultsList = new List<DegreeVertexResult<Guid>>();
       algo.VertexResult += vertexRes => resultsList.Add(vertexRes);
 
       algo.Compute();
 
-      var result = new DegreeResult<string>(resultsList);
+      var result = new DegreeResult<Guid>(resultsList);
       var resultJson = JsonConvert.SerializeObject(result);
 
       _resultLogic.Create(req, resultJson);

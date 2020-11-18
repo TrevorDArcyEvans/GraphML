@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuickGraph;
+using System;
 using System.Linq;
 
 namespace GraphML.Analysis.SNA.Centrality
@@ -36,7 +37,7 @@ namespace GraphML.Analysis.SNA.Centrality
     {
       var closeReq = (IBetweennessRequest)req;
 
-      var graph = new BidirectionalGraph<string, IEdge<string>>();
+      var graph = new BidirectionalGraph<Guid, IEdge<Guid>>();
 
       // raw nodes from db
       var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
@@ -52,8 +53,8 @@ namespace GraphML.Analysis.SNA.Centrality
 
       // convert raw edges to QuickGraph edges
       // NOTE:  we also create reverse edges
-      var qgEdges = edges.Select(e => new Edge<string>(e.SourceId, e.TargetId));
-      var qgRevEdges = edges.Select(e => new Edge<string>(e.TargetId, e.SourceId));
+      var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
+      var qgRevEdges = edges.Select(e => new Edge<Guid>(e.TargetId, e.SourceId));
 
       // add edges + reverse edges to graph
       graph.AddEdgeRange(qgEdges);

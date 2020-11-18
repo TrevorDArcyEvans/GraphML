@@ -32,7 +32,7 @@ namespace GraphML.Datastore.Database
       _policy = policy.Build(_logger);
     }
 
-    public IEnumerable<T> ByIds(IEnumerable<string> ids)
+    public IEnumerable<T> ByIds(IEnumerable<Guid> ids)
     {
       return GetInternal(() =>
       {
@@ -50,7 +50,7 @@ namespace GraphML.Datastore.Database
         {
           foreach (var ent in entity)
           {
-            ent.Id = ent.Id == Guid.Empty.ToString() ? Guid.NewGuid().ToString() : ent.Id;
+            ent.Id = ent.Id == Guid.Empty ? Guid.NewGuid() : ent.Id;
             _dbConnection.Insert(ent, trans);
           }
 
@@ -104,7 +104,7 @@ namespace GraphML.Datastore.Database
       return caller + " --> " + JObject.FromObject(info).ToString(Formatting.None);
     }
 
-    protected static string GetListIds(IEnumerable<string> ids)
+    protected static string GetListIds(IEnumerable<Guid> ids)
     {
       var quotedIds = ids.Select(id => $"'{id}'");
       var listIds = string.Join(',', quotedIds.ToArray());

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
@@ -16,7 +17,7 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public IEnumerable<Edge> ByNodeIds(IEnumerable<string> ids, int pageIndex, int pageSize)
+    public IEnumerable<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {

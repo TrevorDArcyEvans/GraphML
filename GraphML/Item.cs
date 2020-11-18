@@ -14,7 +14,7 @@ namespace GraphML
     [Required]
     [ExplicitKey]
     [JsonProperty(nameof(Id))]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     [JsonProperty(nameof(Name))]
     public string Name { get; set; }

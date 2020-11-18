@@ -1,8 +1,10 @@
-﻿namespace GraphML.Interfaces
+﻿using System;
+
+namespace GraphML.Interfaces
 {
   public interface IFindShortestPathsRequest : IRequest
   {
-    string RootNodeId { get; set; }
-    string GoalNodeId { get; set; }
+    Guid RootNodeId { get; set; }
+    Guid GoalNodeId { get; set; }
   }
 }

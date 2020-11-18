@@ -1,14 +1,7 @@
 ﻿using Flurl;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Polly;
-using RestSharp;
-using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace GraphML.API.Server
@@ -23,7 +16,7 @@ namespace GraphML.API.Server
     {
     }
 
-    public async Task<IEnumerable<T>> ByOwners(IEnumerable<string> ownerIds)
+    public async Task<IEnumerable<T>> ByOwners(IEnumerable<Guid> ownerIds)
     {
       var request = GetPostRequest(Url.Combine(ResourceBase, "ByOwners"), ownerIds);
       var retval = await GetResponse<IEnumerable<T>>(request);

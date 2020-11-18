@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using ZNetCS.AspNetCore.Authentication.Basic;
+using System;
 
 namespace GraphML.API.Controllers
 {
@@ -42,7 +43,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody][Required] IEnumerable<string> ids)
+    public override IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids)
     {
       return ByIdsInternal(ids);
     }
@@ -58,7 +59,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(ByOwners))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
-    public override IActionResult ByOwners([FromBody][Required] IEnumerable<string> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public override IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       return ByOwnersInternal(ownerIds, pageIndex, pageSize);
     }

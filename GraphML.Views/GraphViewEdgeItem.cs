@@ -1,4 +1,5 @@
-﻿using GraphML.Utils;
+﻿using System;
+using GraphML.Utils;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML.Views
@@ -11,10 +12,10 @@ namespace GraphML.Views
     {
     }
 
-    public GraphViewEdgeItem(string graphViewId, string edgeId) :
+    public GraphViewEdgeItem(Guid graphViewId, Guid edgeId) :
       base(graphViewId, nameof(GraphViewEdgeItem))
     {
-      GraphItemId = edgeId.ThrowIfNullOrWhiteSpace(nameof(edgeId));
+      GraphItemId = edgeId;
     }
   }
 }

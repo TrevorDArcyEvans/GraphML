@@ -5,9 +5,9 @@ namespace GraphML.Analysis.SNA.Centrality
 {
   public sealed class CentralityDegreeAlgorithmFactory : ICentralityDegreeAlgorithmFactory
   {
-    public ICentralityDegreeAlgorithm<string> Create(IEdgeSet<string, IEdge<string>> edgeSet, Func<IEdge<string>, double> weights)
+    public ICentralityDegreeAlgorithm<Guid> Create(IEdgeSet<Guid, IEdge<Guid>> edgeSet, Func<IEdge<Guid>, double> weights)
     {
-      return new Degree<string, IEdge<string>>(edgeSet, weights);
+      return new Degree<Guid, IEdge<Guid>>(edgeSet, weights);
     }
   }
 }

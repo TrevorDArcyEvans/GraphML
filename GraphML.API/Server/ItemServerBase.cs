@@ -1,5 +1,6 @@
 ﻿using Flurl;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace GraphML.API.Server
     {
     }
 
-    public async Task<IEnumerable<T>> ByIds(IEnumerable<string> ids)
+    public async Task<IEnumerable<T>> ByIds(IEnumerable<Guid> ids)
     {
       var request = GetPostRequest(Url.Combine(ResourceBase, "ByIds"), ids);
       var retval = await GetResponse<IEnumerable<T>>(request);

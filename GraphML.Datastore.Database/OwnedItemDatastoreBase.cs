@@ -17,7 +17,7 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public virtual IEnumerable<T> ByOwners(IEnumerable<string> ownerIds, int pageIndex, int pageSize)
+    public virtual IEnumerable<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {

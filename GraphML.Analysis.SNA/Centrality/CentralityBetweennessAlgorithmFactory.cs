@@ -5,9 +5,9 @@ namespace GraphML.Analysis.SNA.Centrality
 {
   public sealed class CentralityBetweennessAlgorithmFactory : ICentralityBetweennessAlgorithmFactory
   {
-    public ICentralityBetweennessAlgorithm<string> Create(IBidirectionalGraph<string, IEdge<string>> graph, Func<IEdge<string>, double> weights)
+    public ICentralityBetweennessAlgorithm<Guid> Create(IBidirectionalGraph<Guid, IEdge<Guid>> graph, Func<IEdge<Guid>, double> weights)
     {
-      return new Betweenness<string, IEdge<string>>(graph, weights);
+      return new Betweenness<Guid, IEdge<Guid>>(graph, weights);
     }
   }
 }

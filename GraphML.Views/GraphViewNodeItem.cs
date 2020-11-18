@@ -1,4 +1,4 @@
-﻿using GraphML.Utils;
+﻿using System;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML.Views
@@ -11,10 +11,10 @@ namespace GraphML.Views
     {
     }
 
-    public GraphViewNodeItem(string graphViewId, string nodeId) :
+    public GraphViewNodeItem(Guid graphViewId, Guid nodeId) :
       base(graphViewId, nameof(GraphViewNodeItem))
     {
-      GraphItemId = nodeId.ThrowIfNullOrWhiteSpace(nameof(nodeId));
+      GraphItemId = nodeId;
     }
   }
 }

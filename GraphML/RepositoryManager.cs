@@ -1,4 +1,5 @@
-﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
@@ -10,7 +11,7 @@ namespace GraphML
     {
     }
 
-    public RepositoryManager(string orgId, string name) :
+    public RepositoryManager(Guid orgId, string name) :
       base(orgId, name)
     {
     }
