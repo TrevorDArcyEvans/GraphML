@@ -33,6 +33,7 @@ GraphML analyses graphs for the following measures:
     * Redis
 1. Optional
   * Docker (Windows)
+  * [SwitchStartupProject for VS 2019](https://heptapod.host/thirteen/switchstartupproject/) (Visual Studio)
   * npm
   * Redis Commander
 
