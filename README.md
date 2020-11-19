@@ -37,6 +37,7 @@ GraphML analyses graphs for the following measures:
   * [SwitchStartupProject for VS 2019](https://heptapod.host/thirteen/switchstartupproject/) (Visual Studio)
   * [npm](https://www.npmjs.com/get-npm)
   * [Redis Commander](https://www.npmjs.com/package/redis-commander)
+  * [DBeaver](https://dbeaver.io/)
   * [SQLiteStudio](https://sqlitestudio.pl/)
   * Microsoft SQl Server Management Studio (Windows)
 
