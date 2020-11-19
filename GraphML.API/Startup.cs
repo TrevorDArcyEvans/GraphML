@@ -85,11 +85,6 @@ namespace GraphML.API
               })
               .AddControllersAsServices();
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
-
             if (CurrentEnvironment.IsDevelopment())
             {
                 // Register the Swagger generator, defining one or more Swagger documents
