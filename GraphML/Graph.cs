@@ -1,4 +1,5 @@
 ﻿using System;
+using Dapper.Contrib.Extensions;
 using Newtonsoft.Json;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,6 +10,13 @@ namespace GraphML
   {
     [JsonProperty(nameof(Directed))]
     public bool Directed { get; set; } = true;
+
+    [Write(false)]
+    public Guid RepositoryId
+    {
+      get => OwnerId;
+      set => OwnerId = value;
+    }
 
     public Graph() :
       base()

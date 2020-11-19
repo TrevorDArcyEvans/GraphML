@@ -1,4 +1,5 @@
 ﻿using System;
+using Dapper.Contrib.Extensions;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
@@ -6,6 +7,13 @@ namespace GraphML
   [Schema.Table(nameof(RepositoryManager))]
   public sealed class RepositoryManager : OwnedItem
   {
+    [Write(false)]
+    public Guid OrganisationId
+    {
+      get => OwnerId;
+      set => OwnerId = value;
+    }
+
     public RepositoryManager() :
       base()
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Dapper.Contrib.Extensions;
 using Newtonsoft.Json;
 
 namespace GraphML
@@ -7,6 +8,13 @@ namespace GraphML
   {
     [JsonProperty(nameof(NextId))]
     public string NextId { get; set; }
+
+    [Write(false)]
+    public Guid GraphId
+    {
+      get => OwnerId;
+      set => OwnerId = value;
+    }
 
     protected GraphItem() :
       base()
