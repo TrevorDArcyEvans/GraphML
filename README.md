@@ -33,6 +33,12 @@ GraphML analyses graphs for the following measures:
     * SQLite (local development only)
   * message queue:
     * Apache ActiveMQ
+  * results store:
+    * Redis
+1. Optional
+  * Docker
+  * npm
+  * Redis Commander
 1. clone repo
 ```bash
   git clone https://github.com/TrevorDArcyEvans/GraphML.git
@@ -60,6 +66,20 @@ GraphML analyses graphs for the following measures:
   ./GraphML.API
 ```
 1. open [Swagger UI](http://localhost:5000/swagger/index.html)
+1. start _Apache ActiveMQ_
+1. start _Redis_
+1. run analysis server
+```bash
+  export ASPNETCORE_ENVIRONMENT=Development
+  cd GraphML.API/bin/Debug/netcoreapp3.1 
+  ./GraphML.Analysis.Server
+```
+1. open [_Apache ActiveMQ_ management console](http://localhost:8161/admin)
+1. start _Redis Commander_
+```bash
+  redis-commander --port 8080
+```
+1. open [_Redis Commander_ management console](http://127.0.0.1:8080)
 
 </details>
 
@@ -110,6 +130,13 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 
 </details>
 
+## Analysis
+<details>
+
+  ![GraphML.Analysis](Docs/GraphML.Analysis.Sequence.png "GraphML.Analysis")
+
+</details>
+
 ## Data Model
 <details>
 
@@ -133,10 +160,48 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 <details>
 
 * enable `Development` mode by setting env var:  
-&nbsp;&nbsp;&nbsp;&nbsp;  `export ASPNETCORE_ENVIRONMENT=Development`
+```bash
+  export ASPNETCORE_ENVIRONMENT=Development
+```
 * SwaggerUI is only enabled in `Development` mode
 * Basic authentication (username/password) is only enabled in `Development` mode
 * Basic authentication is `username`=`password` eg `Admin/Admin`
 * For basic authentication, `role`=`username`
+
+</details>
+
+## Misc
+<details>
+
+### Port Allocations
+| Service | Port | Notes |
+|---------|------|-------|
+| GraphML.UI.Web | 5001 |
+| GraphML.API | 5000 |
+| Apache ActiveMQ | 61616 |
+| Apache ActiveMQ console | 8161 |
+| Redis | 6379 |
+| Redis Commander | 8080 | default port 8081
+| Microsoft SQL Server | 1443 |
+| MariaDB | 3306 |
+| PostgreSQL | 5432 |
+
+### Apache ActiveMQ
+You can monitor ActiveMQ using the Web Console by pointing your browser at http://localhost:8161/admin .  
+From ActiveMQ 5.8 onwards the web apps is secured out of the box.  
+The default username and password is `admin/admin`.
+
+### Redis on Windows
+Recommended method is to use a _Docker_ container:
+```bash
+  docker pull redis
+  docker run -p 6379:6379 redis
+```
+
+### Redis Commander
+```bash
+  npm install -g redis-commander
+  redis-commander --port 8080
+```
 
 </details>
