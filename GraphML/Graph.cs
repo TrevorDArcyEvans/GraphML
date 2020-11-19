@@ -23,8 +23,8 @@ namespace GraphML
     {
     }
 
-    public Graph(Guid repoId, string name) :
-      base(repoId, name)
+    public Graph(Guid repo, string name) :
+      base(repo, name)
     {
     }
   }

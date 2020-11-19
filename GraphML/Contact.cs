@@ -19,8 +19,8 @@ namespace GraphML
     {
     }
 
-    public Contact(Guid orgId, string email) :
-      base(orgId, email)
+    public Contact(Guid org, string email) :
+      base(org, email)
     {
     }
   }

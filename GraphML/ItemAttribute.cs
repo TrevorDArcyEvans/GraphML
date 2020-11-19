@@ -29,8 +29,8 @@ namespace GraphML
     {
     }
 
-    public ItemAttribute(Guid ownerId, string name, string dataType) :
-      base(ownerId, name)
+    public ItemAttribute(Guid owner, string name, string dataType) :
+      base(owner, name)
     {
       DataType = dataType.ThrowIfNullOrWhiteSpace(nameof(dataType));
     }

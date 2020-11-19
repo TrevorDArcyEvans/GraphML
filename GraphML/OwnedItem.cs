@@ -18,10 +18,10 @@ namespace GraphML
     {
     }
 
-    public OwnedItem(Guid ownerId, string name) :
+    public OwnedItem(Guid owner, string name) :
       base(name)
     {
-      OwnerId = ownerId;
+      OwnerId = owner;
     }
   }
 }
