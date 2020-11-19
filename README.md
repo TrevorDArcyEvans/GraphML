@@ -1,6 +1,4 @@
 # GraphML
-<details>
-  
 GraphML analyses graphs for the following measures:
 
 * ranked shortest paths
@@ -9,11 +7,9 @@ GraphML analyses graphs for the following measures:
   * betweeness
   * degree
 
-</details>
-
-## Getting Started
+## Prerequisites
 <details>
-
+  
 1. Prerequisites:
   * host:
     * Linux
@@ -36,19 +32,18 @@ GraphML analyses graphs for the following measures:
   * results store:
     * Redis
 1. Optional
-  * Docker
+  * Docker (Windows)
   * npm
   * Redis Commander
+
+</details>
+
+## Getting Started
+<details>
+
 1. clone repo
 ```bash
   git clone https://github.com/TrevorDArcyEvans/GraphML.git
-```
-1. generate self signed, https certificate
-```bash
-  cd GraphML.API
-  ./CreateCert.sh
-  cp GraphML.pfx Debug/netcoreapp3.1/
-  cd ..
 ```
 1. build
 ```bash
@@ -99,7 +94,7 @@ API_PASSWORD  | |
 ||
 DATASTORE_CONNECTION         | | SqLite
 DATASTORE_CONNECTION_TYPE    | | SqLite
-DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3;
+DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3; |
 ||
 LOG_CONNECTION_STRING | |
 LOG_BEARER_AUTH       | | False
@@ -110,10 +105,7 @@ OIDC_AUDIENCE     | |
 ||
 RESULT_DATASTORE | | localhost:6379
 ||
-KESTREL_CERTIFICATE_FILENAME  | | GraphML.pfx
-KESTREL_CERTIFICATE_PASSWORD  | | DisruptTheMarket
 KESTREL_URLS                  | | http://localhost:5000
-KESTREL_HTTPS_PORT            | | 8000
 ||
 MESSAGE_QUEUE_URL               | | activemq:tcp://localhost:61616
 MESSAGE_QUEUE_NAME              | | GraphML
