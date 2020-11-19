@@ -110,7 +110,7 @@ OIDC_AUDIENCE     | |
 ||
 RESULT_DATASTORE | | localhost:6379
 ||
-KESTREL_URLS                  | | http://localhost:5000
+KESTREL_URL                  | | http://localhost:5000
 ||
 MESSAGE_QUEUE_URL               | | activemq:tcp://localhost:61616
 MESSAGE_QUEUE_NAME              | | GraphML

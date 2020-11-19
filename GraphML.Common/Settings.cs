@@ -65,9 +65,9 @@ namespace GraphML.Common
       config["Result:Datastore"] ?? 
       "localhost:6379";
 
-    public static string KESTREL_URLS(IConfiguration config) => 
-      Environment.GetEnvironmentVariable("KESTREL_URLS") ?? 
-      config["Kestrel:Urls"] ?? 
+    public static string KESTREL_URL(IConfiguration config) => 
+      Environment.GetEnvironmentVariable("KESTREL_URL") ?? 
+      config["Kestrel:EndPoints:Http:Url"] ?? 
       "http://localhost:5000";
 
     public static string MESSAGE_QUEUE_URL(IConfiguration config) => 
@@ -114,10 +114,7 @@ namespace GraphML.Common
       Console.WriteLine($"    RESULT_DATASTORE : {Settings.RESULT_DATASTORE(config)}");
 
       Console.WriteLine($"  KESTREL:");
-      //Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(config)}");
-      //Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(config)}");
-      Console.WriteLine($"    KESTREL_URLS                  : {Settings.KESTREL_URLS(config)}");
-      //Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(config)}");
+      Console.WriteLine($"    KESTREL_URL                  : {Settings.KESTREL_URL(config)}");
 
       Console.WriteLine($"  MESSAGE_QUEUE:");
       Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(config)}");
