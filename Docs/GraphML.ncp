@@ -524,6 +524,20 @@
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
       </Relationship>
+      <Relationship type="EntityRelationship" first="7" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>272</X>
+          <Y>891</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>804</X>
+          <Y>541</Y>
+        </BendPoint>
+        <StartMultiplicity>ZeroOrMany</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
     </Relationships>
   </ProjectItem>
 </Project>
