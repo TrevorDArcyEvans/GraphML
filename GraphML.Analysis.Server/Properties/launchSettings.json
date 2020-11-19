@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "GraphML.Analysis.Server": {
+      "commandName": "Project"
+    }
+  }
+}
