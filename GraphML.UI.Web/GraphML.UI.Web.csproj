@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
+    <StartupObject>GraphML.UI.Web.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <SignAssembly>true</SignAssembly>
