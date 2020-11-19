@@ -65,22 +65,10 @@ namespace GraphML.Common
       config["Result:Datastore"] ?? 
       "localhost:6379";
 
-    public static string KESTREL_CERTIFICATE_FILENAME(IConfiguration config) => 
-      Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_FILENAME") ?? 
-      config["Kestrel:Certificate_FileName"] ?? 
-      "GraphML.pfx";
-    public static string KESTREL_CERTIFICATE_PASSWORD(IConfiguration config) => 
-      Environment.GetEnvironmentVariable("KESTREL_CERTIFICATE_PASSWORD") ?? 
-      config["Kestrel:Certificate_Password"] ?? 
-      "DisruptTheMarket";
     public static string KESTREL_URLS(IConfiguration config) => 
       Environment.GetEnvironmentVariable("KESTREL_URLS") ?? 
       config["Kestrel:Urls"] ?? 
       "http://localhost:5000";
-    public static int KESTREL_HTTPS_PORT(IConfiguration config) => 
-      int.TryParse(
-        Environment.GetEnvironmentVariable("KESTREL_HTTPS_PORT") ?? 
-        config["Kestrel:Https_Port"], out int result) ? result : 8000;
 
     public static string MESSAGE_QUEUE_URL(IConfiguration config) => 
       Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? 
@@ -126,10 +114,10 @@ namespace GraphML.Common
       Console.WriteLine($"    RESULT_DATASTORE : {Settings.RESULT_DATASTORE(config)}");
 
       Console.WriteLine($"  KESTREL:");
-      Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(config)}");
-      Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(config)}");
+      //Console.WriteLine($"    KESTREL_CERTIFICATE_FILENAME  : {Settings.KESTREL_CERTIFICATE_FILENAME(config)}");
+      //Console.WriteLine($"    KESTREL_CERTIFICATE_PASSWORD  : {Settings.KESTREL_CERTIFICATE_PASSWORD(config)}");
       Console.WriteLine($"    KESTREL_URLS                  : {Settings.KESTREL_URLS(config)}");
-      Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(config)}");
+      //Console.WriteLine($"    KESTREL_HTTPS_PORT            : {Settings.KESTREL_HTTPS_PORT(config)}");
 
       Console.WriteLine($"  MESSAGE_QUEUE:");
       Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(config)}");

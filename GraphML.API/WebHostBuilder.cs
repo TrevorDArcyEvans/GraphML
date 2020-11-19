@@ -26,43 +26,7 @@ namespace GraphML.API
 
       return WebHost.CreateDefaultBuilder(args)
         .UseStartup<Startup>()
-        .UseKestrel(options =>
-        {
-          var httpsInfos = new Dictionary<int, IPAddress>();
-          var allUrls = (Settings.KESTREL_URLS(config)).Split(';');
-          foreach (var url in allUrls)
-          {
-            var updatedUrl = url;
-            if (updatedUrl.Contains("*"))
-            {
-              updatedUrl = updatedUrl.Replace("*", "0.0.0.0");
-            }
-
-            var listenUrl = new Uri(updatedUrl);
-            if (listenUrl.Scheme == "https")
-            {
-              httpsInfos.Add(listenUrl.Port, IPAddress.Parse(listenUrl.Host));
-              continue;
-            }
-            options.Listen(listenUrl.IsLoopback ? IPAddress.Loopback : IPAddress.Any, listenUrl.Port);
-          }
-
-          var certFileName = Settings.KESTREL_CERTIFICATE_FILENAME(config);
-          if (!string.IsNullOrEmpty(certFileName) && File.Exists(certFileName))
-          {
-            var httpsPort = Settings.KESTREL_HTTPS_PORT(config);
-            httpsInfos.Add(httpsPort, IPAddress.Any);
-
-            foreach (var kvp in httpsInfos)
-            {
-              options.Listen(kvp.Value, kvp.Key, listenOptions =>
-            {
-                var certPassword = Settings.KESTREL_CERTIFICATE_PASSWORD(config);
-                listenOptions.UseHttps(certFileName, certPassword);
-              });
-            }
-          }
-        })
+        .UseKestrel()
         .ConfigureServices(services => services.AddAutofac())
         .UseConfiguration(config)
         .ConfigureLogging(logging =>
