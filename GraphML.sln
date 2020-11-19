@@ -35,6 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.Views", "GraphML.Vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.UI.Web", "GraphML.UI.Web\GraphML.UI.Web.csproj", "{5A886F72-B570-4373-AE89-96ADE25E7523}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{718EA4DD-B13A-407C-9330-CBDE6B35F3C8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,13 +74,6 @@ Global
 		{CB77FAD5-FF96-4250-8823-9F043BD52EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB77FAD5-FF96-4250-8823-9F043BD52EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB77FAD5-FF96-4250-8823-9F043BD52EDD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99C7918A-AA6C-404B-B987-C9BEA3C815FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AAE5C36-3E76-4ADC-9A1F-6E464CC22593}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F022EB1-FF63-41D9-ADA9-C2C7F2756261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F022EB1-FF63-41D9-ADA9-C2C7F2756261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F022EB1-FF63-41D9-ADA9-C2C7F2756261}.Release|Any CPU.ActiveCfg = Release|Any CPU
