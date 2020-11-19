@@ -14,7 +14,7 @@ GraphML analyses graphs for the following measures:
   * host:
     * Linux
     * Windows (not tested but should work)
-  * target;
+  * target:
     * Linux
   * .NET Core SDK v3.1
   * git
@@ -28,14 +28,17 @@ GraphML analyses graphs for the following measures:
     * PostgreSQL
     * SQLite (local development only)
   * message queue:
-    * Apache ActiveMQ
+    * [Apache ActiveMQ](http://activemq.apache.org/)
   * results store:
-    * Redis
+    * [Redis](https://redis.io/)
 1. Optional
-  * Docker (Windows)
+  * [Git Extensions](https://github.com/gitextensions/gitextensions) (Windows)
+  * [Docker](https://docs.docker.com/docker-for-windows/install/) (Windows)
   * [SwitchStartupProject for VS 2019](https://heptapod.host/thirteen/switchstartupproject/) (Visual Studio)
-  * npm
-  * Redis Commander
+  * [npm](https://www.npmjs.com/get-npm)
+  * [Redis Commander](https://www.npmjs.com/package/redis-commander)
+  * [SQLiteStudio](https://sqlitestudio.pl/)
+  * Microsoft SQl Server Management Studio (Windows)
 
 </details>
 
@@ -196,5 +199,6 @@ Recommended method is to use a _Docker_ container:
   npm install -g redis-commander
   redis-commander --port 8080
 ```
+open [_Redis Commander_ management console](http://127.0.0.1:8080)
 
 </details>
