@@ -1,14 +1,10 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
 
 namespace GraphML.API
 {
