@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using Dapper;
 using ZNetCS.AspNetCore.Authentication.Basic;
 using ZNetCS.AspNetCore.Authentication.Basic.Events;
 
@@ -66,6 +67,10 @@ namespace GraphML.API
         {
             services.AddSingleton(sp => Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            SqlMapper.RemoveTypeMap(typeof(Guid));
+            SqlMapper.RemoveTypeMap(typeof(Guid?));
 
             // Add controllers as services so they'll be resolved.
             services
