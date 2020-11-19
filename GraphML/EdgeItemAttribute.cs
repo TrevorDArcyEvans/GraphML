@@ -4,7 +4,7 @@ using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Schema.Table(nameof(ItemAttribute))]
+  [Schema.Table(nameof(EdgeItemAttribute))]
   public sealed class EdgeItemAttribute : ItemAttribute
   {
     [Write(false)]
