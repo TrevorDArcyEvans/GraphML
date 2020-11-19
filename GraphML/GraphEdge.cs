@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Schema.Table(nameof(Edge))]
-  public sealed class Edge : RepositoryItem
+  [Schema.Table(nameof(GraphEdge))]
+  public sealed class GraphEdge : GraphItem
   {
     [Required]
     [JsonProperty(nameof(SourceId))]
@@ -16,13 +16,13 @@ namespace GraphML
     [JsonProperty(nameof(TargetId))]
     public Guid TargetId { get; set; }
 
-    public Edge() :
+    public GraphEdge() :
       base()
     {
     }
 
-    public Edge(Guid repository, string name, Guid source, Guid target) :
-      base(repository, name)
+    public GraphEdge(Guid graph,Guid repositoryItem,  string name, Guid source, Guid target) :
+      base(graph, repositoryItem, name)
     {
       SourceId = source;
       TargetId = target;
