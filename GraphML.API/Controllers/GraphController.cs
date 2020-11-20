@@ -23,6 +23,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class GraphController : OwnedGraphMLController<Graph>
   {
+    private readonly IGraphLogic _graphLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -30,6 +32,7 @@ namespace GraphML.API.Controllers
     public GraphController(IGraphLogic logic) :
       base(logic)
     {
+      _graphLogic = logic;
     }
 
     /// <summary>
@@ -59,7 +62,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(ByOwners))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
-    public override IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public override IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return ByOwnersInternal(ownerIds, pageIndex, pageSize);
     }
@@ -107,6 +110,44 @@ namespace GraphML.API.Controllers
     public override IActionResult Update([FromBody][Required] IEnumerable<Graph> entity)
     {
       return UpdateInternal(entity);
+    }
+
+    /// <summary>
+    /// Retrieve Graphs which have specified item
+    /// </summary>
+    /// <param name="id">unique identifier</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpGet]
+    [Route(nameof(ByNodeId) + "/{id}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult ByNodeId([FromRoute][Required] Guid id, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    {
+      var ents = _graphLogic.ByNodeId(id, pageIndex, pageSize);
+      return new OkObjectResult(ents);
+    }
+
+    /// <summary>
+    /// Retrieve Graphs which have specified item
+    /// </summary>
+    /// <param name="id">unique identifier</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpGet]
+    [Route(nameof(ByEdgeId) + "/{id}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult ByEdgeId([FromRoute][Required] Guid id, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    {
+      var ents = _graphLogic.ByEdgeId(id, pageIndex, pageSize);
+      return new OkObjectResult(ents);
     }
   }
 }
