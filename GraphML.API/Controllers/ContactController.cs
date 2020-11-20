@@ -120,7 +120,7 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpGet]
-    [Route("ByEmail/{email}")]
+    [Route(nameof(ByEmail) + "/{email}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Contact))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
