@@ -7,7 +7,7 @@ namespace GraphML
   public abstract class RepositoryItem : OwnedItem
   {
     [JsonProperty(nameof(NextId))]
-    public Guid NextId { get; set; }
+    public Guid NextId { get; set; } = Guid.Empty;
 
     [Write(false)]
     public Guid RepositoryId
