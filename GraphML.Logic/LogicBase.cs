@@ -28,7 +28,7 @@ namespace GraphML.Logic
 
     public virtual IEnumerable<T> Ids(IEnumerable<Guid> ids)
     {
-      var valRes = _validator.Validate(new T(), ruleSet: nameof(ILogic<T>.Ids));
+      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.Ids)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_datastore.ByIds(ids));
@@ -41,7 +41,7 @@ namespace GraphML.Logic
     {
       foreach (var ent in entity)
       {
-        var valRes = _validator.Validate(ent, ruleSet: nameof(ILogic<T>.Create));
+        var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Create)));
         if (!valRes.IsValid)
         {
           return null;
@@ -55,7 +55,7 @@ namespace GraphML.Logic
     {
       foreach (var ent in entity)
       {
-        var valRes = _validator.Validate(ent, ruleSet: nameof(ILogic<T>.Delete));
+        var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Delete)));
         if (!valRes.IsValid)
         {
           return;
@@ -69,7 +69,7 @@ namespace GraphML.Logic
     {
       foreach (var ent in entity)
       {
-        var valRes = _validator.Validate(ent, ruleSet: nameof(ILogic<T>.Update));
+        var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Update)));
         if (!valRes.IsValid)
         {
           return;

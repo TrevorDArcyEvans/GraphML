@@ -24,7 +24,7 @@ namespace GraphML.Logic
 
     public virtual IEnumerable<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
     {
-      var valRes = _validator.Validate(new T(), ruleSet: nameof(IOwnedLogic<T>.ByOwners));
+      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(IOwnedLogic<T>.ByOwners)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_ownedDatastore.ByOwners(ownerIds, pageIndex, pageSize));

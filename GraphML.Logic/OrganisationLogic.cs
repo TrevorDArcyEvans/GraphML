@@ -23,7 +23,7 @@ namespace GraphML.Logic
 
     public IEnumerable<Organisation> GetAll()
     {
-      var valRes = _validator.Validate(new Organisation(), ruleSet: nameof(IOrganisationLogic.GetAll));
+      var valRes = _validator.Validate(new Organisation(), options => options.IncludeRuleSets(nameof(IOrganisationLogic.GetAll)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_orgDatastore.GetAll());

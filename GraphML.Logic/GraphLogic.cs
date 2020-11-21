@@ -24,7 +24,7 @@ namespace GraphML.Logic
 
     public IEnumerable<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
     {
-      var valRes = _validator.Validate(new Graph(), ruleSet: nameof(ByEdgeId));
+      var valRes = _validator.Validate(new Graph(), options => options.IncludeRuleSets(nameof(ByEdgeId)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_graphDatastore.ByEdgeId(id, pageIndex, pageSize));
@@ -35,7 +35,7 @@ namespace GraphML.Logic
 
     public IEnumerable<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
     {
-      var valRes = _validator.Validate(new Graph(), ruleSet: nameof(ByNodeId));
+      var valRes = _validator.Validate(new Graph(), options => options.IncludeRuleSets(nameof(ByNodeId)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_graphDatastore.ByNodeId(id, pageIndex, pageSize));

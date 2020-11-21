@@ -22,7 +22,7 @@ namespace GraphML.Logic
 
     public Contact ByEmail(string email)
     {
-      var valRes = _validator.Validate(new Contact(), ruleSet: nameof(IContactLogic.ByEmail));
+      var valRes = _validator.Validate(new Contact(), options => options.IncludeRuleSets(nameof(IContactLogic.ByEmail)));
       if (valRes.IsValid)
       {
         return _filter.Filter(new[] { _contactDatastore.ByEmail(email) }).SingleOrDefault();

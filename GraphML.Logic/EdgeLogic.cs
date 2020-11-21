@@ -24,7 +24,7 @@ namespace GraphML.Logic
 
     public IEnumerable<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
     {
-      var valRes = _validator.Validate(new Edge(), ruleSet: nameof(IEdgeLogic.ByNodeIds));
+      var valRes = _validator.Validate(new Edge(), options => options.IncludeRuleSets(nameof(IEdgeLogic.ByNodeIds)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_edgeDatastore.ByNodeIds(ids, pageIndex, pageSize));
