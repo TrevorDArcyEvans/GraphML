@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Globalization;
 
 namespace GraphML.Datastore.Database.Importer.CSV
 {
@@ -50,7 +51,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
       var sw = Stopwatch.StartNew();
       using (var tr = File.OpenText(_dataFilePath))
       {
-        var csvCfg = new Configuration
+        var csvCfg = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
         {
           Delimiter = Path.GetExtension(_dataFilePath).ToLowerInvariant() == ".csv" ? "," : "\t",
           AllowComments = true,
