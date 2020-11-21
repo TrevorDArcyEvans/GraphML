@@ -107,7 +107,7 @@ namespace GraphML.API.Server
 
     protected async Task<IRestResponse> GetRawResponse(IRestRequest request)
     {
-      var resp = await _client.ExecuteTaskAsync(request, new CancellationTokenSource().Token);
+      var resp = await _client.ExecuteAsync(request, new CancellationTokenSource().Token);
 
       // log here as may fail deserialisation
       var body = request.Parameters.SingleOrDefault(x => x.Type == ParameterType.RequestBody)?.Value?.ToString();

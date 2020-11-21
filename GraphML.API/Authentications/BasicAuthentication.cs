@@ -1,5 +1,5 @@
 ﻿using GraphML.Interfaces.Authentications;
-using GraphML.Common;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -12,11 +12,10 @@ namespace GraphML.API.Authentications
 #pragma warning disable CS1591
   public sealed class BasicAuthentication : IBasicAuthentication
   {
-    private readonly IHostingEnvironment _env;
+    private readonly IWebHostEnvironment _env;
 
     public BasicAuthentication(
-      IHostingEnvironment env
-      )
+      IWebHostEnvironment env)
     {
       _env = env;
     }
