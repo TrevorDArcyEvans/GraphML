@@ -29,7 +29,7 @@ namespace GraphML.API.Authentications
 
     public async Task Authenticate(TokenValidatedContext context)
     {
-      throw new NotImplementedException();
+      await Task.Run(() => throw new NotImplementedException());
     }
 
     private sealed class CachedUserInfoResponse
