@@ -5,11 +5,10 @@
     <StartupObject>GraphML.UI.Web.Program</StartupObject>
     <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="NLog"
-      Version="4.7.5" />
-    <PackageReference Include="NLog.Web.AspNetCore"
-      Version="4.9.3" />
+    <PackageReference Include="NLog" Version="4.7.5" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
   </ItemGroup>
 
 </Project>
