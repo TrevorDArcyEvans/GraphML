@@ -4,7 +4,17 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>GraphML.UI.Web.Program</StartupObject>
     <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\GraphML.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.7.5" />
