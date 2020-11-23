@@ -32,7 +32,7 @@ else
       }
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
+  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseGraphs())">Back</button>
 }
 
   @functions
@@ -53,7 +53,7 @@ else
     _repo = (await _repoServer.ByIds(new[] { graph.RepositoryId })).Single();
   }
 
-  private void GotoBrowseRepositories()
+  private void GotoBrowseGraphs()
   {
     UriHelper.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
   }
