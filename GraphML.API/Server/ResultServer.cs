@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.Interfaces;
+using GraphML.Interfaces.Server;
 using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Server

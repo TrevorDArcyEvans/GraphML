@@ -1,8 +1,7 @@
-﻿using GraphML.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GraphML.API.Server
+namespace GraphML.Interfaces.Server
 {
   public interface IResultServer : IServerBase
   {

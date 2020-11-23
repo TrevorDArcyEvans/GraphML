@@ -1,4 +1,4 @@
-﻿namespace GraphML.API.Server
+﻿namespace GraphML.Interfaces.Server
 {
   public interface IServerBase
   {

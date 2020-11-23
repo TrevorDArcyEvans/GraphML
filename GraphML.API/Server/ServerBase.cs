@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using GraphML.Interfaces.Server;
 
 namespace GraphML.API.Server
 {
