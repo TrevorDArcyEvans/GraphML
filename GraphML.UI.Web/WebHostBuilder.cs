@@ -15,6 +15,7 @@ namespace GraphML.UI.Web
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddJsonFile("hosting.json")
+        .AddJsonFile($"autofac.json", optional: true)
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
         .Build();

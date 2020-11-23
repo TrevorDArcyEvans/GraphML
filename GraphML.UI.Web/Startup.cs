@@ -1,31 +1,73 @@
+using System;
+using Autofac;
+using Autofac.Configuration;
+using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
+using NLog;
 
 namespace GraphML.UI.Web
 {
-  public class Startup
+	public class Startup
 	{
-		public IConfiguration Configuration { get; }
+		private IWebHostEnvironment CurrentEnvironment { get; }
+		private IConfiguration Configuration { get; }
 
-		public Startup(IConfiguration configuration)
+		public Startup(
+		IWebHostEnvironment env,
+		IConfiguration configuration)
 		{
+			// Environment variable:
+			//    ASPNETCORE_ENVIRONMENT == Development
+			CurrentEnvironment = env;
+
 			Configuration = configuration;
 
-      Settings.DumpSettings(Configuration);
+			// database connection string for nLog
+			GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(Configuration));
+
+			Settings.DumpSettings(Configuration);
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-		public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+			services.AddSingleton(sp => Configuration);
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 			services.AddRazorPages().AddNewtonsoftJson(options =>
-          options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+		  options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 			services.AddServerSideBlazor();
+
+      // Create the container builder.
+      var builder = new ContainerBuilder();
+
+      // Register dependencies, populate the services from
+      // the collection, and build the container.
+      //
+      // Note that Populate is basically a foreach to add things
+      // into Autofac that are in the collection. If you register
+      // things in Autofac BEFORE Populate then the stuff in the
+      // ServiceCollection can override those things; if you register
+      // AFTER Populate those registrations can override things
+      // in the ServiceCollection. Mix and match as needed.
+      builder.Populate(services);
+
+      // load configuration from autofac.json
+      var module = new ConfigurationModule(Configuration);
+      builder.RegisterModule(module);
+
+      var ApplicationContainer = builder.Build();
+
+      // Create the IServiceProvider based on the container.
+      return new AutofacServiceProvider(ApplicationContainer);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
