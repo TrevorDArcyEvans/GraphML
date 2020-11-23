@@ -1,4 +1,4 @@
-﻿@page "/BrowseRepositoryManager/{OrganisationId}/{OrganisationName}"
+﻿@page "/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}"
 
 @using GraphML
 @using System.Web;
@@ -15,15 +15,23 @@
 else
 {
   <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
-  <ul class="list-group">
-    @foreach (var repoMgr in _repoMgrs)
-    {
-      <li class="list-group-item">
-        <span>@repoMgr.Name</span>
-        <span @onclick="@(e => GotoRepository(@repoMgr))" class="fas fa-project-diagram" />
-      </li>
-    }
-  </ul>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Repositories</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var repoMgr in _repoMgrs)
+      {
+        <tr>
+          <th>@repoMgr.Name</th>
+          <th><span @onclick="@(e => GotoBrowseRepositories(@repoMgr))" class="fas fa-project-diagram" /></th>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
 
 @functions
@@ -41,8 +49,8 @@ else
     _repoMgrs = await _repoMgrServer.ByOwners(new[] { Guid.Parse(OrganisationId) });
   }
 
-  private void GotoRepository(RepositoryManager repoMgr)
+  private void GotoBrowseRepositories(RepositoryManager repoMgr)
   {
-    UriHelper.NavigateTo($"/BrowseRepository/{repoMgr.Id}/{repoMgr.Name}");
+    UriHelper.NavigateTo($"/BrowseRepositories/{repoMgr.Id}/{repoMgr.Name}");
   }
 }

@@ -1,4 +1,4 @@
-﻿@page "/BrowseContact/{OrganisationId}/{OrganisationName}"
+﻿@page "/BrowseContacts/{OrganisationId}/{OrganisationName}"
 
 @using GraphML
 @using System.Web;
@@ -7,7 +7,7 @@
 @inject IContactServer _contactServer
 @inject NavigationManager UriHelper
 
-<h1>Repository Managers</h1>
+<h1>Contacts</h1>
 @if (_contacts == null)
 {
   <p><em>Loading...</em></p>
@@ -15,14 +15,21 @@
 else
 {
   <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
-  <ul class="list-group">
-    @foreach (var contact in _contacts)
-    {
-      <li class="list-group-item">
-        <span>@contact.Name</span>
-      </li>
-    }
-  </ul>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var contact in _contacts)
+      {
+        <tr>
+          <th>@contact.Name</th>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
 
 @functions

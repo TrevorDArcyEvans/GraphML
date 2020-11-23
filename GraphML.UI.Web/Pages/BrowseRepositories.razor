@@ -1,0 +1,70 @@
+@page "/BrowseRepositories/{RepositoryManagerId}/{RepositoryManagerName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject IRepositoryServer _repoServer
+@inject NavigationManager UriHelper
+
+<h1>Repositories</h1>
+@if (_repos == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Graphs</th>
+        <th scope="col">Nodes</th>
+        <th scope="col">Edges</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var repo in _repos)
+      {
+        <tr>
+          <th>@repo.Name</th>
+          <th><span @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon" /></th>
+          <th><span @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle" /></th>
+          <th><span @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right" /></th>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@functions
+{
+  [Parameter]
+  public string RepositoryManagerName { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerId { get; set; }
+
+  private IEnumerable<Repository> _repos;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _repos = await _repoServer.ByOwners(new[] { Guid.Parse(RepositoryManagerId) });
+  }
+
+  private void GotoBrowseGraphs(Repository repo)
+  {
+    UriHelper.NavigateTo($"/BrowseGraphs/{repo.Id}/{repo.Name}");
+  }
+
+  private void GotoBrowseNodes(Repository repo)
+  {
+    UriHelper.NavigateTo($"/BrowseNodes/{repo.Id}/{repo.Name}");
+  }
+
+  private void GotoBrowseEdges(Repository repo)
+  {
+    UriHelper.NavigateTo($"/BrowseEdges/{repo.Id}/{repo.Name}");
+  }
+}

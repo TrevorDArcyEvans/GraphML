@@ -1,0 +1,57 @@
+@page "/BrowseOrganisations"
+
+@using GraphML
+@using GraphML.Interfaces.Server
+
+@inject IOrganisationServer _orgServer
+@inject NavigationManager UriHelper
+
+<h1>Organisations</h1>
+
+@if (_orgs == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Repository Managers</th>
+        <th scope="col">Contacts</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+    @foreach (var org in _orgs)
+    {
+      <tr>
+        <th scope="row">@org.Name</th>
+        <th><span @onclick="@(e => GotoBrowseRepositoryManagers(@org))" class="fas fa-database" /></th>
+        <th><span @onclick="@(e => GotoBrowseContacts(@org))" class="fas fa-users" /></th>
+      </tr>
+    }
+  </table>
+}
+
+@functions
+{
+  private IEnumerable<Organisation> _orgs;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _orgs = await _orgServer.GetAll();
+  }
+
+  private void GotoBrowseRepositoryManagers(Organisation org)
+  {
+    UriHelper.NavigateTo($"/BrowseRepositoryManagers/{org.Id}/{org.Name}");
+  }
+
+  private void GotoBrowseContacts(Organisation org)
+  {
+    UriHelper.NavigateTo($"/BrowseContacts/{org.Id}/{org.Name}");
+  }
+}
