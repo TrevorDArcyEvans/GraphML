@@ -2,6 +2,7 @@
 using System.Web;
 using Flurl;
 using GraphML.API.Controllers;
+using GraphML.Interfaces.Server;
 using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Server

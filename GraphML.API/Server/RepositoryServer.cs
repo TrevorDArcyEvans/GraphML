@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GraphML.Interfaces.Server;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Server
 {

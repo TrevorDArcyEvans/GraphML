@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using GraphML.API.Server;
 
-namespace GraphML.API.Server
+namespace GraphML.Interfaces.Server
 {
   public interface IContactServer : IOwnedItemServerBase<Contact>
   {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using GraphML.API.Server;
 
-namespace GraphML.API.Server
+namespace GraphML.Interfaces.Server
 {
   public interface IGraphServer : IOwnedItemServerBase<Graph>
   {
