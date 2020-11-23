@@ -32,6 +32,7 @@ else
       }
     </tbody>
   </table>
+  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseOrganisations())">Back</button>
 }
 
 @functions
@@ -52,5 +53,10 @@ else
   private void GotoBrowseRepositories(RepositoryManager repoMgr)
   {
     UriHelper.NavigateTo($"/BrowseRepositories/{repoMgr.Id}/{repoMgr.Name}");
+  }
+
+  private void GotoBrowseOrganisations()
+  {
+    UriHelper.NavigateTo($"/BrowseOrganisations");
   }
 }

@@ -5,6 +5,8 @@
 @using GraphML.Interfaces.Server
 
 @inject IRepositoryServer _repoServer
+@inject IRepositoryManagerServer _repoMgrServer
+@inject IOrganisationServer _orgServer
 @inject NavigationManager UriHelper
 
 <h1>Repositories</h1>
@@ -36,10 +38,11 @@ else
       }
     </tbody>
   </table>
+  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</button>
 }
 
-@functions
-{
+  @functions
+  {
   [Parameter]
   public string RepositoryManagerName { get; set; }
 
@@ -47,10 +50,13 @@ else
   public string RepositoryManagerId { get; set; }
 
   private IEnumerable<Repository> _repos;
+  private Organisation _org;
 
   protected override async Task OnInitializedAsync()
   {
     _repos = await _repoServer.ByOwners(new[] { Guid.Parse(RepositoryManagerId) });
+    var repoMgr = (await _repoMgrServer.ByIds(new[] { Guid.Parse(RepositoryManagerId) })).Single();
+    _org = (await _orgServer.ByIds(new[] { repoMgr.OrganisationId })).Single();
   }
 
   private void GotoBrowseGraphs(Repository repo)
@@ -66,5 +72,10 @@ else
   private void GotoBrowseEdges(Repository repo)
   {
     UriHelper.NavigateTo($"/BrowseEdges/{repo.Id}/{repo.Name}");
+  }
+
+  private void GotoBrowseRepositoryManagers()
+  {
+    UriHelper.NavigateTo($"/BrowseRepositoryManagers/{_org.Id}/{_org.Name}");
   }
 }
