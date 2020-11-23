@@ -1,3 +1,4 @@
+using GraphML.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,8 @@ namespace GraphML.UI.Web
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
+
+      Settings.DumpSettings(Configuration);
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.

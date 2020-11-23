@@ -22,4 +22,8 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
+  </ItemGroup>
+
 </Project>
