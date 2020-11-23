@@ -61,6 +61,12 @@
         "GraphML.Analysis.Server": {},
         "GraphML.UI.Web": {}
       }
+    },
+    "GraphML-no-anal": {
+      "Projects": {
+        "GraphML.API": {},
+        "GraphML.UI.Web": {}
+      }
     }
   }
 }

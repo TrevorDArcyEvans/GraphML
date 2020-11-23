@@ -1,0 +1,47 @@
+﻿@page "/BrowseRepositoryManager/{OrganisationId}/{OrganisationName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject IRepositoryManagerServer _repoMgrServer
+@inject NavigationManager UriHelper
+
+<h1>Repository Managers</h1>
+@if (_repoMgrs == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
+  <ul class="list-group">
+    @foreach (var repoMgr in _repoMgrs)
+    {
+      <li class="list-group-item">
+        <span @onclick="@(e => GotoRepository(@repoMgr))">@repoMgr.Name</span>
+      </li>
+    }
+  </ul>
+}
+
+@functions
+{
+  [Parameter]
+  public string OrganisationName { get; set; }
+
+  [Parameter]
+  public string OrganisationId { get; set; }
+
+  private IEnumerable<RepositoryManager> _repoMgrs;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _repoMgrs = await _repoMgrServer.ByOwners(new[] { Guid.Parse(OrganisationId) });
+  }
+
+  private void GotoRepository(RepositoryManager repoMgr)
+  {
+    UriHelper.NavigateTo($"/BrowseRepository/{repoMgr.Id}/{repoMgr.Name}");
+  }
+}
