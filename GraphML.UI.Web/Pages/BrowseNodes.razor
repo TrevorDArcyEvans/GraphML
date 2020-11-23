@@ -35,8 +35,8 @@ else
   <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
 }
 
-@functions
-{
+  @functions
+  {
   [Parameter]
   public string RepositoryName { get; set; }
 
@@ -50,7 +50,7 @@ else
   {
     _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) });
     var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
-    _repoMgr = (await _repoMgrServer.ByIds(new [] { repo.RepositoryManagerId})).Single();
+    _repoMgr = (await _repoMgrServer.ByIds(new[] { repo.RepositoryManagerId })).Single();
   }
 
   private void GotoBrowseRepositories()
