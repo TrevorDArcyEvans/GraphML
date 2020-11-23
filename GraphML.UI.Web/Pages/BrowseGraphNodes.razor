@@ -1,10 +1,12 @@
-@page "/BrowseGraphNodes/{RepositoryId}/{RepositoryName}"
+@page "/BrowseGraphNodes/{GraphId}/{GraphName}"
 
 @using GraphML
 @using System.Web;
 @using GraphML.Interfaces.Server
 
 @inject IGraphNodeServer _nodeServer
+@inject IGraphServer _graphServer;
+@inject IRepositoryServer _repoServer;
 @inject NavigationManager UriHelper
 
 <h1>Graph Nodes</h1>
@@ -14,7 +16,7 @@
 }
 else
 {
-  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+  <h2>@HttpUtility.UrlDecode(GraphName)</h2>
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -30,20 +32,29 @@ else
       }
     </tbody>
   </table>
+  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
 }
 
-@functions
-{
+  @functions
+  {
   [Parameter]
-  public string RepositoryName { get; set; }
+  public string GraphName { get; set; }
 
   [Parameter]
-  public string RepositoryId { get; set; }
+  public string GraphId { get; set; }
 
   private IEnumerable<GraphNode> _nodes;
+  private Repository _repo;
 
   protected override async Task OnInitializedAsync()
   {
-    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) });
+    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(GraphId) });
+    var graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
+    _repo = (await _repoServer.ByIds(new[] { graph.RepositoryId })).Single();
+  }
+
+  private void GotoBrowseRepositories()
+  {
+    UriHelper.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
   }
 }

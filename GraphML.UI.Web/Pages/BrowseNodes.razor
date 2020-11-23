@@ -5,6 +5,8 @@
 @using GraphML.Interfaces.Server
 
 @inject INodeServer _nodeServer
+@inject IRepositoryServer _repoServer;
+@inject IRepositoryManagerServer _repoMgrServer;
 @inject NavigationManager UriHelper
 
 <h1>Nodes</h1>
@@ -30,6 +32,7 @@ else
       }
     </tbody>
   </table>
+  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
 }
 
 @functions
@@ -41,9 +44,17 @@ else
   public string RepositoryId { get; set; }
 
   private IEnumerable<Node> _nodes;
+  private RepositoryManager _repoMgr;
 
   protected override async Task OnInitializedAsync()
   {
     _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) });
+    var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
+    _repoMgr = (await _repoMgrServer.ByIds(new [] { repo.RepositoryManagerId})).Single();
+  }
+
+  private void GotoBrowseRepositories()
+  {
+    UriHelper.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
   }
 }
