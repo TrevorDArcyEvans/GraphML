@@ -1,0 +1,49 @@
+@page "/BrowseNodes/{RepositoryId}/{RepositoryName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject INodeServer _nodeServer
+@inject NavigationManager UriHelper
+
+<h1>Nodes</h1>
+@if (_nodes == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var node in _nodes)
+      {
+        <tr>
+          <th>@node.Name</th>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@functions
+{
+  [Parameter]
+  public string RepositoryName { get; set; }
+
+  [Parameter]
+  public string RepositoryId { get; set; }
+
+  private IEnumerable<Node> _nodes;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) });
+  }
+}

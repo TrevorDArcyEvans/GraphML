@@ -1,0 +1,49 @@
+@page "/BrowseEdges/{RepositoryId}/{RepositoryName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject IEdgeServer _edgeServer
+@inject NavigationManager UriHelper
+
+<h1>Edges</h1>
+@if (_edges == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var edge in _edges)
+      {
+        <tr>
+          <th>@edge.Name</th>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@functions
+{
+  [Parameter]
+  public string RepositoryName { get; set; }
+
+  [Parameter]
+  public string RepositoryId { get; set; }
+
+  private IEnumerable<Edge> _edges;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(RepositoryId) });
+  }
+}
