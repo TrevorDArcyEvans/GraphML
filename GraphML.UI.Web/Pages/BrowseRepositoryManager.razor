@@ -19,7 +19,8 @@ else
     @foreach (var repoMgr in _repoMgrs)
     {
       <li class="list-group-item">
-        <span @onclick="@(e => GotoRepository(@repoMgr))">@repoMgr.Name</span>
+        <span>@repoMgr.Name</span>
+        <span @onclick="@(e => GotoRepository(@repoMgr))" class="fas fa-project-diagram" />
       </li>
     }
   </ul>

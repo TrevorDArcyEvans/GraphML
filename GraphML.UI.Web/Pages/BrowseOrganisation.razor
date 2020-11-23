@@ -19,8 +19,8 @@ else
     {
       <li class="list-group-item">
         <span>@org.Name</span>
-        <span @onclick="@(e => GotoRepositoryManager(@org))">[Repository Manager]</span>
-        <span @onclick="@(e => GotoContact(@org))">[Contacts]</span>
+        <span @onclick="@(e => GotoRepositoryManager(@org))" class="fas fa-database" />
+        <span @onclick="@(e => GotoContact(@org))" class="fas fa-users" />
       </li>
     }
   </ul>
