@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GraphML.API.Controllers;
 
 namespace GraphML.API.Server
 {
@@ -18,7 +19,7 @@ namespace GraphML.API.Server
 
     public async Task<IEnumerable<T>> ByIds(IEnumerable<Guid> ids)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, "ByIds"), ids);
+      var request = GetPostRequest(Url.Combine(ResourceBase, nameof(GraphMLController<T>.ByIds)), ids);
       var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
