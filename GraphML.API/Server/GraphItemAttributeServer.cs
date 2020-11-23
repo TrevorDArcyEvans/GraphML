@@ -12,6 +12,6 @@ namespace GraphML.API.Server
     {
     }
 
-    protected override string ResourceBase { get; } = "/api/GraphItemAttribute";
+    protected override string ResourceBase { get; } = $"/api/{nameof(GraphItemAttribute)}";
   }
 }
