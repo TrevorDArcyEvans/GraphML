@@ -1,0 +1,60 @@
+﻿@page "/BrowseWhereUsedNodes/{ItemId}/{ItemName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject IGraphServer _graphServer
+@inject INodeServer _itemServer
+@inject IRepositoryServer _repoServer
+@inject NavigationManager UriHelper
+
+<h1>Where Used - Nodes</h1>
+@if (_graphs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>@HttpUtility.UrlDecode(ItemName)</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var graph in _graphs)
+            {
+                <tr>
+                    <th>@graph.Name</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseItems())">Back</button>
+}
+
+@functions
+  {
+    [Parameter]
+    public string ItemId { get; set; }
+
+    [Parameter]
+    public string ItemName { get; set; }
+
+    private IEnumerable<Graph> _graphs;
+    private Repository _repo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _graphs = await _graphServer.ByNodeId(Guid.Parse(ItemId));
+        var item = (await _itemServer.ByIds(new[] { Guid.Parse(ItemId) })).Single();
+        _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
+    }
+
+    private void GotoBrowseItems()
+    {
+        UriHelper.NavigateTo($"/BrowseNodes/{_repo.Id}/{_repo.Name}");
+    }
+}
