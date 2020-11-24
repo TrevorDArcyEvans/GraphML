@@ -23,6 +23,7 @@ else
         <th scope="col">Name</th>
         <th scope="col">Graph Nodes</th>
         <th scope="col">Graph Edges</th>
+        <th scope="col">Analysis</th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +33,7 @@ else
           <th>@graph.Name</th>
           <th><span @onclick="@(e => GotoBrowseGraphNodes(graph))" class="fas fa-genderless" /></th>
           <th><span @onclick="@(e => GotoBrowseGraphEdges(graph))" class="fas fa-grip-lines-vertical" /></th>
+          <th><span @onclick="@(e => GotoBrowseAnalyses(graph))" class="fas fa-calculator" /></th>
         </tr>
       }
     </tbody>
@@ -65,6 +67,11 @@ else
   private void GotoBrowseGraphEdges(Graph graph)
   {
     UriHelper.NavigateTo($"/BrowseGraphEdges/{graph.Id}/{graph.Name}");
+  }
+
+  private void GotoBrowseAnalyses(Graph graph)
+  {
+    UriHelper.NavigateTo($"/BrowseAnalyses/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseRepositories()

@@ -1,0 +1,109 @@
+@page "/BrowseAnalyses/{GraphId}/{GraphName}"
+
+@using Analysis.RankedShortestPath
+@using Analysis.SNA.Centrality
+@using GraphML;
+@using System.Web;
+@using GraphML.Interfaces.Server;
+@using GraphML.API.Server;
+
+@inject IAnalysisServer _analysisServer
+@inject IGraphServer _graphServer;
+@inject IRepositoryServer _repoServer;
+@inject NavigationManager UriHelper
+
+<h1>Analyses</h1>
+@if (_repo == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(GraphName)</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th><span @onclick="@(e => SubmitShortestPath(_graph))" class="fas fa-bezier-curve">Shortest Path</span></th>
+      </tr>
+      <tr>
+        <th><span @onclick="@(e => SubmitBetweenness(_graph))" class="fas fa-retweet">Betweenness</span></th>
+      </tr>
+      <tr>
+        <th><span @onclick="@(e => SubmitCloseness(_graph))" class="fas fa-clone">Closeness</span></th>
+      </tr>
+      <tr>
+        <th><span @onclick="@(e => SubmitDegree(_graph))" class="fas fa-thermometer-three-quarters">Degree</span></th>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseGraphs())">Back</button>
+}
+
+  @functions
+  {
+  [Parameter]
+  public string GraphName { get; set; }
+
+  [Parameter]
+  public string GraphId { get; set; }
+
+  private Repository _repo;
+  private Graph _graph;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
+    _repo = (await _repoServer.ByIds(new[] { _graph.RepositoryId })).Single();
+  }
+
+  private void SubmitShortestPath(Graph graph)
+  {
+    // TODO
+    var req = new FindShortestPathsRequest
+    {
+      RootNodeId = Guid.NewGuid(),
+      GoalNodeId = Guid.NewGuid()
+    };
+    _analysisServer.FindShortestPaths(req);
+  }
+
+  private void SubmitBetweenness(Graph graph)
+  {
+    // TODO
+    var req = new BetweennessRequest
+    {
+      GraphId = graph.Id
+    };
+    _analysisServer.Betweenness(req);
+  }
+
+  private void SubmitCloseness(Graph graph)
+  {
+    // TODO
+    var req = new ClosenessRequest
+    {
+      GraphId = graph.Id
+    };
+    _analysisServer.Closeness(req);
+  }
+
+  private void SubmitDegree(Graph graph)
+  {
+    // TODO
+    var req = new DegreeRequest
+    {
+      GraphId = graph.Id
+    };
+    _analysisServer.Degree(req);
+  }
+
+  private void GotoBrowseGraphs()
+  {
+    UriHelper.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
+  }
+}
