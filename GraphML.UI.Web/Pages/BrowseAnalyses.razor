@@ -66,6 +66,7 @@ else
     // TODO
     var req = new FindShortestPathsRequest
     {
+      GraphId = graph.Id,
       RootNodeId = Guid.NewGuid(),
       GoalNodeId = Guid.NewGuid()
     };
