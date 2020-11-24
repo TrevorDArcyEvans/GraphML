@@ -4,6 +4,7 @@ using GraphML.Analysis.SNA.Centrality;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
+using System;
 
 namespace GraphML.API.Server
 {
@@ -19,34 +20,34 @@ namespace GraphML.API.Server
 
 		protected override string ResourceBase { get; } = "/api/Analysis";
 
-		public async Task<string> Betweenness(BetweennessRequest req)
+		public async Task<Guid> Betweenness(BetweennessRequest req)
 		{
 			var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Betweenness)}"), req);
-			var retval = await GetResponse<string>(request);
+			var retval = await GetResponse<Guid>(request);
 
 			return retval;
 		}
 
-		public async Task<string> Closeness(ClosenessRequest req)
+		public async Task<Guid> Closeness(ClosenessRequest req)
 		{
 			var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Closeness)}"), req);
-			var retval = await GetResponse<string>(request);
+			var retval = await GetResponse<Guid>(request);
 
 			return retval;
 		}
 
-		public async Task<string> Degree(DegreeRequest req)
+		public async Task<Guid> Degree(DegreeRequest req)
 		{
 			var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Degree)}"), req);
-			var retval = await GetResponse<string>(request);
+			var retval = await GetResponse<Guid>(request);
 
 			return retval;
 		}
 
-		public async Task<string> FindShortestPaths(FindShortestPathsRequest req)
+		public async Task<Guid> FindShortestPaths(FindShortestPathsRequest req)
 		{
 			var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.FindShortestPaths)}"), req);
-			var retval = await GetResponse<string>(request);
+			var retval = await GetResponse<Guid>(request);
 
 			return retval;
 		}
