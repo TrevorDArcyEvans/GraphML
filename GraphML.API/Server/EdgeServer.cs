@@ -7,7 +7,7 @@ using GraphML.Interfaces.Server;
 
 namespace GraphML.API.Server
 {
-  public sealed class EdgeServer : OwnedItemServerBase<Edge>, IEdgeServer
+  public sealed class EdgeServer : RepositoryItemServer<Edge>, IEdgeServer
   {
     public EdgeServer(
       IRestClientFactory clientFactory,

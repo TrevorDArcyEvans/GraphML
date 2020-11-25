@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GraphML.Interfaces.Server;
 
-namespace GraphML.API.Server
+namespace GraphML.Interfaces.Server
 {
   public interface IOwnedItemServerBase<T> : IItemServerBase<T>
   {

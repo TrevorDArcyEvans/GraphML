@@ -1,0 +1,61 @@
+@page "/BrowseParentNodes/{ItemId}/{ItemName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject INodeServer _itemServer
+@inject IRepositoryServer _repoServer;
+@inject IRepositoryManagerServer _repoMgrServer;
+@inject NavigationManager UriHelper
+
+<h1>Nodes</h1>
+@if (_items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>@HttpUtility.UrlDecode(ItemName)</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _items)
+            {
+                <tr>
+                    <th>@item.Name</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
+}
+
+@functions
+  {
+    [Parameter]
+    public string ItemName { get; set; }
+
+    [Parameter]
+    public string ItemId { get; set; }
+
+    private IEnumerable<Node> _items;
+    private RepositoryManager _repoMgr;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
+        _items = await _itemServer.GetParents(item);
+        var repo = (await _repoServer.ByIds(new[] { Guid.Parse(ItemId) })).Single();
+        _repoMgr = (await _repoMgrServer.ByIds(new[] { repo.RepositoryManagerId })).Single();
+    }
+
+    private void GotoBrowseRepositories()
+    {
+        UriHelper.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+    }
+}

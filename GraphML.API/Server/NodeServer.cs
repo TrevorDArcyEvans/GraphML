@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Server
 {
-  public sealed class NodeServer : OwnedItemServerBase<Node>, INodeServer
+  public sealed class NodeServer : RepositoryItemServer<Node>, INodeServer
   {
     public NodeServer(
       IRestClientFactory clientFactory,

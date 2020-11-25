@@ -22,6 +22,7 @@ else
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Where Used</th>
+                <th scope="col">Parents</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@ else
                 <tr>
                     <th>@node.Name</th>
                     <th><button @onclick="@(e => GotoBrowseWhereUsed(node))" class="fas fa-question btn btn-primary" /></th>
+                    <th><button @onclick="@(e => GotoBrowseParents(node))" class="fas fa-user-friends btn btn-primary" /></th>
                 </tr>
             }
         </tbody>
@@ -63,5 +65,10 @@ else
     private void GotoBrowseWhereUsed(Item item)
     {
         UriHelper.NavigateTo($"/BrowseWhereUsedNodes/{item.Id}/{item.Name}");
+    }
+
+    private void GotoBrowseParents(Item item)
+    {
+        UriHelper.NavigateTo($"/BrowseParentNodes/{item.Id}/{item.Name}");
     }
 }
