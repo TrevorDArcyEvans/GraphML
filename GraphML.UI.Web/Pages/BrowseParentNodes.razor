@@ -4,12 +4,12 @@
 @using System.Web;
 @using GraphML.Interfaces.Server
 
+@inject IGraphServer _graphServer
 @inject INodeServer _itemServer
 @inject IRepositoryServer _repoServer;
-@inject IRepositoryManagerServer _repoMgrServer;
 @inject NavigationManager UriHelper
 
-<h1>Nodes</h1>
+<h1>Parent Nodes</h1>
 @if (_items == null)
 {
     <p><em>Loading...</em></p>
@@ -32,7 +32,7 @@ else
             }
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
+    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseItems())">Back</button>
 }
 
 @functions
@@ -44,18 +44,17 @@ else
     public string ItemId { get; set; }
 
     private IEnumerable<Node> _items;
-    private RepositoryManager _repoMgr;
+    private Repository _repo;
 
     protected override async Task OnInitializedAsync()
     {
         var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
         _items = await _itemServer.GetParents(item);
-        var repo = (await _repoServer.ByIds(new[] { Guid.Parse(ItemId) })).Single();
-        _repoMgr = (await _repoMgrServer.ByIds(new[] { repo.RepositoryManagerId })).Single();
+        _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
     }
 
-    private void GotoBrowseRepositories()
+    private void GotoBrowseItems()
     {
-        UriHelper.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+        UriHelper.NavigateTo($"/BrowseNodes/{_repo.Id}/{_repo.Name}");
     }
 }
