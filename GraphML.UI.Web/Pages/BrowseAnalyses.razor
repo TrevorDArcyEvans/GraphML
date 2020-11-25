@@ -25,24 +25,29 @@ else
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Analyse</th>
+                <th scope="col">Correlation Id</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th>Shortest Path</th>
+                <th>Find Shortest Paths</th>
                 <th><span @onclick="@(async e => await SubmitShortestPath(_graph))" class="fas fa-bezier-curve" /></th>
+                <th>@FindShortestPathsCorrelationId</th>
             </tr>
             <tr>
                 <th>Betweenness</th>
                 <th><span @onclick="@(async e => await SubmitBetweenness(_graph))" class="fas fa-retweet" /></th>
+                <th>@BetweennessCorrelationId</th>
             </tr>
             <tr>
                 <th>Closeness</th>
                 <th><span @onclick="@(async e => await SubmitCloseness(_graph))" class="fas fa-clone" /></th>
+                <th>@ClosenessCorrelationId</th>
             </tr>
             <tr>
                 <th>Degree</th>
                 <th><span @onclick="@(async e => await SubmitDegree(_graph))" class="fas fa-thermometer-three-quarters" /></th>
+                <th>@DegreeCorrelationId</th>
             </tr>
         </tbody>
     </table>
@@ -57,6 +62,11 @@ else
     [Parameter]
     public string GraphId { get; set; }
 
+    public Guid FindShortestPathsCorrelationId { get; set; } = Guid.Empty;
+    public Guid BetweennessCorrelationId { get; set; } = Guid.Empty;
+    public Guid ClosenessCorrelationId { get; set; } = Guid.Empty;
+    public Guid DegreeCorrelationId { get; set; } = Guid.Empty;
+
     private Repository _repo;
     private Graph _graph;
 
@@ -68,44 +78,46 @@ else
 
     private async Task SubmitShortestPath(Graph graph)
     {
-        // TODO
+        // TODO     Contact
+        // TODO     RootNodeId
+        // TODO     GoalNodeId
         var req = new FindShortestPathsRequest
         {
             GraphId = graph.Id,
             RootNodeId = Guid.NewGuid(),
             GoalNodeId = Guid.NewGuid()
         };
-        var correlationId = await _analysisServer.FindShortestPaths(req);
+        FindShortestPathsCorrelationId = await _analysisServer.FindShortestPaths(req);
     }
 
     private async Task SubmitBetweenness(Graph graph)
     {
-        // TODO
+        // TODO     Contact
         var req = new BetweennessRequest
         {
             GraphId = graph.Id
         };
-        var correlationId = await _analysisServer.Betweenness(req);
+        BetweennessCorrelationId = await _analysisServer.Betweenness(req);
     }
 
     private async Task SubmitCloseness(Graph graph)
     {
-        // TODO
+        // TODO     Contact
         var req = new ClosenessRequest
         {
             GraphId = graph.Id
         };
-        var correlationId = await _analysisServer.Closeness(req);
+        ClosenessCorrelationId = await _analysisServer.Closeness(req);
     }
 
     private async Task SubmitDegree(Graph graph)
     {
-        // TODO
+        // TODO     Contact
         var req = new DegreeRequest
         {
             GraphId = graph.Id
         };
-        var correlationId = await _analysisServer.Degree(req);
+        DegreeCorrelationId = await _analysisServer.Degree(req);
     }
 
     private void GotoBrowseGraphs()
