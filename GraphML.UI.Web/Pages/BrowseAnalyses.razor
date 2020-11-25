@@ -15,96 +15,101 @@
 <h1>Analyses</h1>
 @if (_repo == null)
 {
-  <p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
-  <h2>@HttpUtility.UrlDecode(GraphName)</h2>
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th><span @onclick="@(e => SubmitShortestPath(_graph))" class="fas fa-bezier-curve">Shortest Path</span></th>
-      </tr>
-      <tr>
-        <th><span @onclick="@(e => SubmitBetweenness(_graph))" class="fas fa-retweet">Betweenness</span></th>
-      </tr>
-      <tr>
-        <th><span @onclick="@(e => SubmitCloseness(_graph))" class="fas fa-clone">Closeness</span></th>
-      </tr>
-      <tr>
-        <th><span @onclick="@(e => SubmitDegree(_graph))" class="fas fa-thermometer-three-quarters">Degree</span></th>
-      </tr>
-    </tbody>
-  </table>
-  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseGraphs())">Back</button>
+    <h2>@HttpUtility.UrlDecode(GraphName)</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Analyse</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Shortest Path</th>
+                <th><span @onclick="@(async e => await SubmitShortestPath(_graph))" class="fas fa-bezier-curve" /></th>
+            </tr>
+            <tr>
+                <th>Betweenness</th>
+                <th><span @onclick="@(async e => await SubmitBetweenness(_graph))" class="fas fa-retweet" /></th>
+            </tr>
+            <tr>
+                <th>Closeness</th>
+                <th><span @onclick="@(async e => await SubmitCloseness(_graph))" class="fas fa-clone" /></th>
+            </tr>
+            <tr>
+                <th>Degree</th>
+                <th><span @onclick="@(async e => await SubmitDegree(_graph))" class="fas fa-thermometer-three-quarters" /></th>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseGraphs())">Back</button>
 }
 
-  @functions
+@functions
   {
-  [Parameter]
-  public string GraphName { get; set; }
+    [Parameter]
+    public string GraphName { get; set; }
 
-  [Parameter]
-  public string GraphId { get; set; }
+    [Parameter]
+    public string GraphId { get; set; }
 
-  private Repository _repo;
-  private Graph _graph;
+    private Repository _repo;
+    private Graph _graph;
 
-  protected override async Task OnInitializedAsync()
-  {
-    _graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
-    _repo = (await _repoServer.ByIds(new[] { _graph.RepositoryId })).Single();
-  }
-
-  private void SubmitShortestPath(Graph graph)
-  {
-    // TODO
-    var req = new FindShortestPathsRequest
+    protected override async Task OnInitializedAsync()
     {
-      GraphId = graph.Id,
-      RootNodeId = Guid.NewGuid(),
-      GoalNodeId = Guid.NewGuid()
-    };
-    _analysisServer.FindShortestPaths(req);
-  }
+        _graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
+        _repo = (await _repoServer.ByIds(new[] { _graph.RepositoryId })).Single();
+    }
 
-  private void SubmitBetweenness(Graph graph)
-  {
-    // TODO
-    var req = new BetweennessRequest
+    private async Task SubmitShortestPath(Graph graph)
     {
-      GraphId = graph.Id
-    };
-    _analysisServer.Betweenness(req);
-  }
+        // TODO
+        var req = new FindShortestPathsRequest
+        {
+            GraphId = graph.Id,
+            RootNodeId = Guid.NewGuid(),
+            GoalNodeId = Guid.NewGuid()
+        };
+        var correlationId = await _analysisServer.FindShortestPaths(req);
+    }
 
-  private void SubmitCloseness(Graph graph)
-  {
-    // TODO
-    var req = new ClosenessRequest
+    private async Task SubmitBetweenness(Graph graph)
     {
-      GraphId = graph.Id
-    };
-    _analysisServer.Closeness(req);
-  }
+        // TODO
+        var req = new BetweennessRequest
+        {
+            GraphId = graph.Id
+        };
+        var correlationId = await _analysisServer.Betweenness(req);
+    }
 
-  private void SubmitDegree(Graph graph)
-  {
-    // TODO
-    var req = new DegreeRequest
+    private async Task SubmitCloseness(Graph graph)
     {
-      GraphId = graph.Id
-    };
-    _analysisServer.Degree(req);
-  }
+        // TODO
+        var req = new ClosenessRequest
+        {
+            GraphId = graph.Id
+        };
+        var correlationId = await _analysisServer.Closeness(req);
+    }
 
-  private void GotoBrowseGraphs()
-  {
-    UriHelper.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
-  }
+    private async Task SubmitDegree(Graph graph)
+    {
+        // TODO
+        var req = new DegreeRequest
+        {
+            GraphId = graph.Id
+        };
+        var correlationId = await _analysisServer.Degree(req);
+    }
+
+    private void GotoBrowseGraphs()
+    {
+        UriHelper.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
+    }
 }
