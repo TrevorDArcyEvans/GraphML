@@ -19,9 +19,42 @@ VALUES
   ('100fba96-f33d-4242-a551-722b73bc9c6d', '66852486-9780-4aad-863a-b7fb2e903192', 'Kool Organisation Repository 0'),
   ('45783182-4912-45c5-9589-11f66c69bddb', '66852486-9780-4aad-863a-b7fb2e903192', 'Kool Organisation Repository 1');
 
+--  node with a merged history
+--  
+--  
+--       z                         s
+--        \                         \
+--         \                         \
+--  y-------w------------A------------r-----p-------n--------m
+--         /            /            /
+--        /            /            /
+--       x      v     /            q
+--               \   /
+--                \ /
+--                 u
+--                /
+--               /
+--              t
 INSERT INTO Node(Id, OwnerId, NextId, Name)
 VALUES
-  ('c7718065-af28-40fa-8403-197bc6d23909', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'Kool Organisation Node A'),
+  ('eb74f27b-61e2-4b7a-ac01-af343ac3e29b', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'm'),
+  ('54f73a2b-13b1-4475-bcc3-5ce2105b4d35', '100fba96-f33d-4242-a551-722b73bc9c6d', 'eb74f27b-61e2-4b7a-ac01-af343ac3e29b', 'n'),
+  ('b647b099-d647-452c-8286-f57679a46df9', '100fba96-f33d-4242-a551-722b73bc9c6d', '54f73a2b-13b1-4475-bcc3-5ce2105b4d35', 'p'),
+  ('73084b35-377f-47ea-a369-713d31e2941d', '100fba96-f33d-4242-a551-722b73bc9c6d', 'b647b099-d647-452c-8286-f57679a46df9', 'r'),
+  ('646be06b-2b82-412e-a9ef-e60d287bcc17', '100fba96-f33d-4242-a551-722b73bc9c6d', '73084b35-377f-47ea-a369-713d31e2941d', 's'),
+  ('f5812247-2f58-4b05-a5a9-51e3ff72470e', '100fba96-f33d-4242-a551-722b73bc9c6d', '73084b35-377f-47ea-a369-713d31e2941d', 'q'),
+  ('c7718065-af28-40fa-8403-197bc6d23909', '100fba96-f33d-4242-a551-722b73bc9c6d', '73084b35-377f-47ea-a369-713d31e2941d', 'Kool Organisation Node A'),
+  ('51659a69-901e-4f72-b516-2c1f83f1499f', '100fba96-f33d-4242-a551-722b73bc9c6d', 'c7718065-af28-40fa-8403-197bc6d23909', 'u'),
+  ('8f1b1d7a-75dc-44ed-bc0b-24fe5e25b3fb', '100fba96-f33d-4242-a551-722b73bc9c6d', '51659a69-901e-4f72-b516-2c1f83f1499f', 'v'),
+  ('7e2304f6-7683-4e7a-8298-a2a2123c14c8', '100fba96-f33d-4242-a551-722b73bc9c6d', '51659a69-901e-4f72-b516-2c1f83f1499f', 't'),
+  ('d7b116ce-8fe9-4c32-b0fc-a76583082329', '100fba96-f33d-4242-a551-722b73bc9c6d', 'c7718065-af28-40fa-8403-197bc6d23909', 'w'),
+  ('6390449b-2eb7-4e84-97e5-4188ce7a9a74', '100fba96-f33d-4242-a551-722b73bc9c6d', 'd7b116ce-8fe9-4c32-b0fc-a76583082329', 'z'),
+  ('f226fc98-9b1c-45b0-931f-1b3f08f75ee2', '100fba96-f33d-4242-a551-722b73bc9c6d', 'd7b116ce-8fe9-4c32-b0fc-a76583082329', 'x'),
+  ('ef707a37-08e3-4918-bcb7-0a1a903f13d8', '100fba96-f33d-4242-a551-722b73bc9c6d', 'd7b116ce-8fe9-4c32-b0fc-a76583082329', 'y');
+
+INSERT INTO Node(Id, OwnerId, NextId, Name)
+VALUES
+--('c7718065-af28-40fa-8403-197bc6d23909', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'Kool Organisation Node A'),
   ('9505402f-a60f-4bd2-91dc-9a02845989fa', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'Kool Organisation Node B'),
   ('9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'Kool Organisation Node C'),
   ('2c962a0d-bff2-4f3d-8f8a-49c27418001b', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'Kool Organisation Node D'),
@@ -91,6 +124,4 @@ VALUES
   ('acced08b-fe29-4a1a-9b93-ca668e8b3482', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'Edge D-A', 'string', 'Edge D-A Attribute'),
   ('4dd0ffb3-6199-4e38-bfa9-dcc41cdedbca', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Edge D-A', 'string', 'Edge A-C Attribute'),
   ('9bfd22d6-757a-49e8-9ff2-c51ed59cdb76', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Edge D-A', 'string', 'Edge B-D Attribute');
-
-
 
