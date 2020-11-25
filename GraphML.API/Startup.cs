@@ -35,7 +35,7 @@ namespace GraphML.API
     private static readonly object _lock = new object();
 
     private IServiceProvider ServiceProvider { get; set; }
-    public IConfiguration Configuration { get; }
+    private IConfiguration Configuration { get; }
     private IWebHostEnvironment CurrentEnvironment { get; }
     private IContainer ApplicationContainer { get; set; }
 
