@@ -8,7 +8,7 @@ using System;
 
 namespace GraphML.Logic
 {
-	public sealed class EdgeLogic : OwnedLogicBase<Edge>, IEdgeLogic
+	public sealed class EdgeLogic : RepositoryItemLogic<Edge>, IEdgeLogic
 	{
 		private readonly IEdgeDatastore _edgeDatastore;
 
@@ -31,12 +31,6 @@ namespace GraphML.Logic
 			}
 
 			return Enumerable.Empty<Edge>();
-		}
-
-		public IEnumerable<Edge> GetParents(Edge entity, int pageIndex, int pageSize)
-		{
-			// TODO	  GetParents
-			throw new NotImplementedException();
 		}
 	}
 }
