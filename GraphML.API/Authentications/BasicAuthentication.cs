@@ -9,7 +9,6 @@ using ZNetCS.AspNetCore.Authentication.Basic.Events;
 
 namespace GraphML.API.Authentications
 {
-#pragma warning disable CS1591
   public sealed class BasicAuthentication : IBasicAuthentication
   {
     private readonly IWebHostEnvironment _env;
@@ -53,5 +52,4 @@ namespace GraphML.API.Authentications
       return Task.CompletedTask;
     }
   }
-#pragma warning restore CS1591
 }

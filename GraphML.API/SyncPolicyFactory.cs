@@ -5,7 +5,6 @@ using System;
 
 namespace GraphML.API
 {
-#pragma warning disable CS1591
   public sealed class SyncPolicyFactory : ISyncPolicyFactory
   {
     public ISyncPolicy Build(ILogger logger)
@@ -19,5 +18,4 @@ namespace GraphML.API
             });
     }
   }
-#pragma warning restore CS1591
 }

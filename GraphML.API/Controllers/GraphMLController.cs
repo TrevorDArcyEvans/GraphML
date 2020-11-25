@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GraphML.API.Controllers
 {
-#pragma warning disable CS1591
   public abstract class GraphMLController<T> : ControllerBase where T : Item
   {
     protected const int DefaultPageIndex = 1;
@@ -47,5 +46,4 @@ namespace GraphML.API.Controllers
       return new OkResult();
     }
   }
-#pragma warning restore CS1591
 }

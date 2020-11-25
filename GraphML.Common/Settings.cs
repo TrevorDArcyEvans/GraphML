@@ -4,7 +4,6 @@ using System.IO;
 
 namespace GraphML.Common
 {
-#pragma warning disable CS1591
   public static class Settings
   {
     // used by GraphML.API.Server to retrieve data
@@ -123,5 +122,4 @@ namespace GraphML.Common
       Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {Settings.MESSAGE_QUEUE_USE_THREADS(config)}");
     }
   }
-#pragma warning restore CS1591
 }

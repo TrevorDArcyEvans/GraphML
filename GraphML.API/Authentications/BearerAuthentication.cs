@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace GraphML.API.Authentications
 {
-#pragma warning disable CS1591
   public sealed class BearerAuthentication : IBearerAuthentication
   {
     private readonly IConfiguration _config;
@@ -43,6 +42,5 @@ namespace GraphML.API.Authentications
       }
     }
   }
-#pragma warning restore CS1591
 }
 

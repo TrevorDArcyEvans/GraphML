@@ -2,7 +2,6 @@
 
 namespace GraphML.API
 {
-#pragma warning disable CS1591
   public sealed class Program
   {
     public static void Main(string[] args)
@@ -18,5 +17,4 @@ namespace GraphML.API
       }
     }
   }
-#pragma warning restore CS1591
 }

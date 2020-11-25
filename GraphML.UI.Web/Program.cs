@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace GraphML.UI.Web
 {
-#pragma warning disable CS1591
   public sealed class Program
   {
     public static void Main(string[] args)
@@ -18,5 +17,4 @@ namespace GraphML.UI.Web
       }
     }
   }
-#pragma warning restore CS1591
 }
