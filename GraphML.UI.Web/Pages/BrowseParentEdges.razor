@@ -1,0 +1,60 @@
+@page "/BrowseParentEdges/{ItemId}/{ItemName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject IGraphServer _graphServer
+@inject IEdgeServer _itemServer
+@inject IRepositoryServer _repoServer;
+@inject NavigationManager UriHelper
+
+<h1>Parent Edges</h1>
+@if (_items == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>@HttpUtility.UrlDecode(ItemName)</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _items)
+            {
+                <tr>
+                    <th>@item.Name</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseItems())">Back</button>
+}
+
+@functions
+  {
+    [Parameter]
+    public string ItemName { get; set; }
+
+    [Parameter]
+    public string ItemId { get; set; }
+
+    private IEnumerable<Item> _items;
+    private Repository _repo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
+        _items = await _itemServer.GetParents(item);
+        _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
+    }
+
+    private void GotoBrowseItems()
+    {
+        UriHelper.NavigateTo($"/BrowseEdges/{_repo.Id}/{_repo.Name}");
+    }
+}
