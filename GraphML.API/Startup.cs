@@ -58,7 +58,7 @@ namespace GraphML.API
       Configuration = builder.Build();
 
       // database connection string for nLog
-      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(Configuration));
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
 
       Settings.DumpSettings(Configuration);
     }
@@ -158,8 +158,8 @@ namespace GraphML.API
         })
         .AddJwtBearer(options =>
         {
-          options.Authority = Settings.OIDC_ISSUER_URL(Configuration);
-          options.Audience = Settings.OIDC_AUDIENCE(Configuration);
+          options.Authority = Configuration.OIDC_ISSUER_URL();
+          options.Audience = Configuration.OIDC_AUDIENCE();
           options.RequireHttpsMetadata = !(CurrentEnvironment.IsDevelopment());
           options.Events = new JwtBearerEvents
           {

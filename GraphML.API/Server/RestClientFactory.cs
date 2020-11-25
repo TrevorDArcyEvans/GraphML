@@ -16,9 +16,9 @@ namespace GraphML.API.Server
 		public RestClientFactory(IConfiguration config)
 		{
 			// read out of user secret or environment
-			ApiUri = Settings.API_URI(config);
-			UserName = Settings.API_USERNAME(config);
-			Password = Settings.API_PASSWORD(config);
+			ApiUri = config.API_URI();
+			UserName = config.API_USERNAME();
+			Password = config.API_PASSWORD();
 
 			if (string.IsNullOrWhiteSpace(ApiUri) ||
 			  string.IsNullOrWhiteSpace(UserName) ||

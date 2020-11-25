@@ -21,13 +21,13 @@ namespace GraphML.MessageQueue.ActiveMQ
 
     public void Send(string json)
     {
-      var connecturi = new Uri(Settings.MESSAGE_QUEUE_URL(_config));
+      var connecturi = new Uri(_config.MESSAGE_QUEUE_URL());
       var factory = new ConnectionFactory(connecturi);
       using (var connection = factory.CreateConnection())
       {
         using (var session = connection.CreateSession())
         {
-          using (var destination = SessionUtil.GetQueue(session, Settings.MESSAGE_QUEUE_NAME(_config)))
+          using (var destination = SessionUtil.GetQueue(session, _config.MESSAGE_QUEUE_NAME()))
           {
             using (var producer = session.CreateProducer(destination))
             {

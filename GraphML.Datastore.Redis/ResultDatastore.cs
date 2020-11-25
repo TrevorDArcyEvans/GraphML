@@ -31,7 +31,7 @@ namespace GraphML.Datastore.Redis
       _logger = logger;
       _policy = policy.Build(_logger);
 
-      var dataStore = Settings.RESULT_DATASTORE(_config);
+      var dataStore = _config.RESULT_DATASTORE();
       var cfg = new ConfigurationOptions
       {
         EndPoints =

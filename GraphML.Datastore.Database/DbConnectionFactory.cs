@@ -20,8 +20,8 @@ namespace GraphML.Datastore.Database
 
     public IDbConnection Get()
     {
-      var connection = Settings.DATASTORE_CONNECTION(_config);
-      var connType = Settings.DATASTORE_CONNECTION_TYPE(_config, connection);
+      var connection = _config.DATASTORE_CONNECTION();
+      var connType = _config.DATASTORE_CONNECTION_TYPE(connection);
       var dbType = Enum.Parse<DataAccessProviderTypes>(connType);
 
       // HACK:  workaround for PostgreSql which puts table+column names in lower case
@@ -33,7 +33,7 @@ namespace GraphML.Datastore.Database
       var dbFact = DbProviderFactoryUtils.GetDbProviderFactory(dbType);
       var dbConn = dbFact.CreateConnection();
 
-      dbConn.ConnectionString = Settings.DATASTORE_CONNECTION_STRING(_config, connection);
+      dbConn.ConnectionString = _config.DATASTORE_CONNECTION_STRING(connection);
       dbConn.Open();
 
       return dbConn;

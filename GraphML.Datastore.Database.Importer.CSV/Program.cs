@@ -143,9 +143,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
       _logInfoAction($"  REPOSITORY:");
       _logInfoAction($"    NAME                        : {_repoName}");
       _logInfoAction($"  DATASTORE:");
-      _logInfoAction($"    DATASTORE_CONNECTION        : {Settings.DATASTORE_CONNECTION(config)}");
-      _logInfoAction($"    DATASTORE_CONNECTION_TYPE   : {Settings.DATASTORE_CONNECTION_TYPE(config, Settings.DATASTORE_CONNECTION(config))}");
-      _logInfoAction($"    DATASTORE_CONNECTION_STRING : {Settings.DATASTORE_CONNECTION_STRING(config, Settings.DATASTORE_CONNECTION(config))}");
+      _logInfoAction($"    DATASTORE_CONNECTION        : {config.DATASTORE_CONNECTION()}");
+      _logInfoAction($"    DATASTORE_CONNECTION_TYPE   : {config.DATASTORE_CONNECTION_TYPE(config.DATASTORE_CONNECTION())}");
+      _logInfoAction($"    DATASTORE_CONNECTION_STRING : {config.DATASTORE_CONNECTION_STRING(config.DATASTORE_CONNECTION())}");
     }
 
     private static string GetTableName<T>()

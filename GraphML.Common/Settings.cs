@@ -7,45 +7,45 @@ namespace GraphML.Common
   public static class Settings
   {
     // used by GraphML.API.Server to retrieve data
-    public static string API_URI(IConfiguration config) => 
+    public static string API_URI(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("API_URI") ?? 
       config["API:Uri"];
-    public static string API_USERNAME(IConfiguration config) => 
+    public static string API_USERNAME(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("API_USERNAME") ?? 
       config["API:UserName"];
-    public static string API_PASSWORD(IConfiguration config) => 
+    public static string API_PASSWORD(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("API_PASSWORD") ?? 
       config["API:Password"];
 
-    public static string OIDC_ISSUER_URL(IConfiguration config) => 
+    public static string OIDC_ISSUER_URL(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("OIDC_ISSUER_URL") ?? 
       config["OIDC:Issuer_URL"];
-    public static string OIDC_AUDIENCE(IConfiguration config) => 
+    public static string OIDC_AUDIENCE(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? 
       config["OIDC:Audience"];
-    public static string OIDC_USERINFO_URL(IConfiguration config) => 
+    public static string OIDC_USERINFO_URL(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("OIDC_USERINFO_URL") ?? 
       config["OIDC:UserInfo_URL"];
 
-    public static string LOG_CONNECTION_STRING(IConfiguration config) => 
+    public static string LOG_CONNECTION_STRING(this IConfiguration config) => 
       (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ?? 
       config["Log:ConnectionString"])?
         .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
-    public static bool LOG_BEARER_AUTH(IConfiguration config) => 
+    public static bool LOG_BEARER_AUTH(this IConfiguration config) => 
       bool.Parse(
         Environment.GetEnvironmentVariable("LOG_BEARER_AUTH") ?? 
         config["Log:Bearer_Auth"] ?? 
         false.ToString());
 
-    public static string DATASTORE_CONNECTION(IConfiguration config) => 
+    public static string DATASTORE_CONNECTION(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? 
       config["Datastore:Connection"] ??
       "SqLite";
-    public static string DATASTORE_CONNECTION_TYPE(IConfiguration config, string connection) => 
+    public static string DATASTORE_CONNECTION_TYPE(this IConfiguration config, string connection) => 
       Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_TYPE") ?? 
       config[$"Datastore:{connection}:Type"] ??
       "SqLite";
-    public static string DATASTORE_CONNECTION_STRING(IConfiguration config, string connection) => 
+    public static string DATASTORE_CONNECTION_STRING(this IConfiguration config, string connection) => 
       (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ?? 
       config[$"Datastore:{connection}:ConnectionString"] ??
       "Data Source=|DataDirectory|Data/GraphML.sqlite3;")?
@@ -54,34 +54,34 @@ namespace GraphML.Common
         .Replace('/', Path.DirectorySeparatorChar)
         .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
-    public static string CACHE_HOST(IConfiguration config) => 
+    public static string CACHE_HOST(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("CACHE_HOST") ?? 
       config["Cache:Host"] ?? 
       "localhost";
 
-    public static string RESULT_DATASTORE(IConfiguration config) => 
+    public static string RESULT_DATASTORE(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? 
       config["Result:Datastore"] ?? 
       "localhost:6379";
 
-    public static string KESTREL_URL(IConfiguration config) => 
+    public static string KESTREL_URL(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("KESTREL_URL") ?? 
       config["Kestrel:EndPoints:Http:Url"] ?? 
       "http://localhost:5000";
 
-    public static string MESSAGE_QUEUE_URL(IConfiguration config) => 
+    public static string MESSAGE_QUEUE_URL(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? 
       config["Message_Queue:URL"] ?? 
       "activemq:tcp://localhost:61616";
-    public static string MESSAGE_QUEUE_NAME(IConfiguration config) => 
+    public static string MESSAGE_QUEUE_NAME(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ?? 
       config["Message_Queue:Name"] ?? 
       "GraphML";
-    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(IConfiguration config) => 
+    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(this IConfiguration config) => 
       int.TryParse(
         Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ?? 
         config["Message_Queue:Poll_Interval_s"], out int result) ? result : 5;
-    public static bool MESSAGE_QUEUE_USE_THREADS(IConfiguration config) => 
+    public static bool MESSAGE_QUEUE_USE_THREADS(this IConfiguration config) => 
       bool.Parse(
         Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ?? 
         config["Message_Queue:Use_Threads"] ?? 
@@ -91,35 +91,35 @@ namespace GraphML.Common
     {
       Console.WriteLine("Settings:");
       Console.WriteLine($"  API:");
-      Console.WriteLine($"    API_URI       : {Settings.API_URI(config)}");
-      Console.WriteLine($"    API_USERNAME  : {Settings.API_USERNAME(config)}");
-      Console.WriteLine($"    API_PASSWORD  : {Settings.API_PASSWORD(config)}");
+      Console.WriteLine($"    API_URI       : {config.API_URI()}");
+      Console.WriteLine($"    API_USERNAME  : {config.API_USERNAME()}");
+      Console.WriteLine($"    API_PASSWORD  : {config.API_PASSWORD()}");
 
       Console.WriteLine($"  DATASTORE:");
-      Console.WriteLine($"    DATASTORE_CONNECTION         : {Settings.DATASTORE_CONNECTION(config)}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE    : {Settings.DATASTORE_CONNECTION_TYPE(config, Settings.DATASTORE_CONNECTION(config))}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_STRING  : {Settings.DATASTORE_CONNECTION_STRING(config, Settings.DATASTORE_CONNECTION(config))}");
+      Console.WriteLine($"    DATASTORE_CONNECTION         : {config.DATASTORE_CONNECTION()}");
+      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE    : {config.DATASTORE_CONNECTION_TYPE(config.DATASTORE_CONNECTION())}");
+      Console.WriteLine($"    DATASTORE_CONNECTION_STRING  : {config.DATASTORE_CONNECTION_STRING(config.DATASTORE_CONNECTION())}");
 
       Console.WriteLine($"  LOG:");
-      Console.WriteLine($"    LOG_CONNECTION_STRING : {Settings.LOG_CONNECTION_STRING(config)}");
-      Console.WriteLine($"    LOG_BEARER_AUTH       : {Settings.LOG_BEARER_AUTH(config)}");
+      Console.WriteLine($"    LOG_CONNECTION_STRING : {config.LOG_CONNECTION_STRING()}");
+      Console.WriteLine($"    LOG_BEARER_AUTH       : {config.LOG_BEARER_AUTH()}");
 
       Console.WriteLine($"  OIDC:");
-      Console.WriteLine($"    OIDC_USERINFO_URL : {Settings.OIDC_USERINFO_URL(config)}");
-      Console.WriteLine($"    OIDC_ISSUER_URL   : {Settings.OIDC_ISSUER_URL(config)}");
-      Console.WriteLine($"    OIDC_AUDIENCE     : {Settings.OIDC_AUDIENCE(config)}");
+      Console.WriteLine($"    OIDC_USERINFO_URL : {config.OIDC_USERINFO_URL()}");
+      Console.WriteLine($"    OIDC_ISSUER_URL   : {config.OIDC_ISSUER_URL()}");
+      Console.WriteLine($"    OIDC_AUDIENCE     : {config.OIDC_AUDIENCE()}");
 
       Console.WriteLine($"  RESULT:");
-      Console.WriteLine($"    RESULT_DATASTORE : {Settings.RESULT_DATASTORE(config)}");
+      Console.WriteLine($"    RESULT_DATASTORE  : {config.RESULT_DATASTORE()}");
 
       Console.WriteLine($"  KESTREL:");
-      Console.WriteLine($"    KESTREL_URL                  : {Settings.KESTREL_URL(config)}");
+      Console.WriteLine($"    KESTREL_URL       : {config.KESTREL_URL()}");
 
       Console.WriteLine($"  MESSAGE_QUEUE:");
-      Console.WriteLine($"    MESSAGE_QUEUE_URL               : {Settings.MESSAGE_QUEUE_URL(config)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {Settings.MESSAGE_QUEUE_NAME(config)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(config)}");
-      Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {Settings.MESSAGE_QUEUE_USE_THREADS(config)}");
+      Console.WriteLine($"    MESSAGE_QUEUE_URL               : {config.MESSAGE_QUEUE_URL()}");
+      Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {config.MESSAGE_QUEUE_NAME()}");
+      Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {config.MESSAGE_QUEUE_POLL_INTERVAL_S()}");
+      Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {config.MESSAGE_QUEUE_USE_THREADS()}");
     }
   }
 }

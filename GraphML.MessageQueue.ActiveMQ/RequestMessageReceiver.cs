@@ -21,18 +21,18 @@ namespace GraphML.MessageQueue.ActiveMQ
 
     public string Receive()
     {
-      var connecturi = new Uri(Settings.MESSAGE_QUEUE_URL(_config));
+      var connecturi = new Uri(_config.MESSAGE_QUEUE_URL());
       var factory = new ConnectionFactory(connecturi);
       using (var connection = factory.CreateConnection())
       {
         using (var session = connection.CreateSession())
         {
-          using (var destination = SessionUtil.GetQueue(session, Settings.MESSAGE_QUEUE_NAME(_config)))
+          using (var destination = SessionUtil.GetQueue(session, _config.MESSAGE_QUEUE_NAME()))
           {
             using (var consumer = session.CreateConsumer(destination))
             {
               connection.Start();
-              var msg = (ITextMessage)consumer.Receive(TimeSpan.FromSeconds(Settings.MESSAGE_QUEUE_POLL_INTERVAL_S(_config)));
+              var msg = (ITextMessage)consumer.Receive(TimeSpan.FromSeconds(_config.MESSAGE_QUEUE_POLL_INTERVAL_S()));
               return msg?.Text;
             }
           }

@@ -54,7 +54,7 @@ namespace GraphML.Analysis.Server
       Settings.DumpSettings(config);
 
       // database connection string for nLog
-      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Settings.LOG_CONNECTION_STRING(config));
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", config.LOG_CONNECTION_STRING());
 
       // The Microsoft.Extensions.DependencyInjection.ServiceCollection
       // has extension methods provided by other .NET Core libraries to
@@ -117,7 +117,7 @@ namespace GraphML.Analysis.Server
 
       while (true)
       {
-        if (Settings.MESSAGE_QUEUE_USE_THREADS(config))
+        if (config.MESSAGE_QUEUE_USE_THREADS())
         {
           ThreadPool.QueueUserWorkItem(x => { DoMessageLoop(); });
         }
