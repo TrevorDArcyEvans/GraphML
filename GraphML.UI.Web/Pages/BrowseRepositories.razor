@@ -31,9 +31,9 @@ else
       {
         <tr>
           <th>@repo.Name</th>
-          <th><span @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon" /></th>
-          <th><span @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle" /></th>
-          <th><span @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right" /></th>
+          <th><button @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon btn btn-primary" /></th>
+          <th><button @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle btn btn-primary" /></th>
+          <th><button @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right btn btn-primary" /></th>
         </tr>
       }
     </tbody>

@@ -31,22 +31,22 @@ else
         <tbody>
             <tr>
                 <th>Find Shortest Paths</th>
-                <th><span @onclick="@(async e => await SubmitShortestPath(_graph))" class="fas fa-bezier-curve" /></th>
+                <th><button @onclick="@(async e => await SubmitShortestPath(_graph))" class="fas fa-bezier-curve btn btn-primary" /></th>
                 <th>@FindShortestPathsCorrelationId</th>
             </tr>
             <tr>
                 <th>Betweenness</th>
-                <th><span @onclick="@(async e => await SubmitBetweenness(_graph))" class="fas fa-retweet" /></th>
+                <th><button @onclick="@(async e => await SubmitBetweenness(_graph))" class="fas fa-retweet btn btn-primary" /></th>
                 <th>@BetweennessCorrelationId</th>
             </tr>
             <tr>
                 <th>Closeness</th>
-                <th><span @onclick="@(async e => await SubmitCloseness(_graph))" class="fas fa-clone" /></th>
+                <th><button @onclick="@(async e => await SubmitCloseness(_graph))" class="fas fa-clone btn btn-primary" /></th>
                 <th>@ClosenessCorrelationId</th>
             </tr>
             <tr>
                 <th>Degree</th>
-                <th><span @onclick="@(async e => await SubmitDegree(_graph))" class="fas fa-thermometer-three-quarters" /></th>
+                <th><button @onclick="@(async e => await SubmitDegree(_graph))" class="fas fa-thermometer-three-quarters btn btn-primary" /></th>
                 <th>@DegreeCorrelationId</th>
             </tr>
         </tbody>

@@ -31,9 +31,9 @@ else
       {
         <tr>
           <th>@graph.Name</th>
-          <th><span @onclick="@(e => GotoBrowseGraphNodes(graph))" class="fas fa-genderless" /></th>
-          <th><span @onclick="@(e => GotoBrowseGraphEdges(graph))" class="fas fa-grip-lines-vertical" /></th>
-          <th><span @onclick="@(e => GotoBrowseAnalyses(graph))" class="fas fa-calculator" /></th>
+          <th><button @onclick="@(e => GotoBrowseGraphNodes(graph))" class="fas fa-genderless btn btn-primary" /></th>
+          <th><button @onclick="@(e => GotoBrowseGraphEdges(graph))" class="fas fa-grip-lines-vertical btn btn-primary" /></th>
+          <th><button @onclick="@(e => GotoBrowseAnalyses(graph))" class="fas fa-calculator btn btn-primary" /></th>
         </tr>
       }
     </tbody>
