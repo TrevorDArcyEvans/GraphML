@@ -21,7 +21,7 @@ namespace GraphML.API.Controllers
     Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
     AuthenticationSchemes = BasicAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
-  public sealed class EdgeController : OwnedGraphMLController<Edge>
+  public sealed class EdgeController : RepositoryItemController<Edge>
   {
     private readonly IEdgeLogic _edgeLogic;
 
@@ -128,6 +128,25 @@ namespace GraphML.API.Controllers
     public IActionResult ByNodeIds([FromBody][Required] IEnumerable<Guid> ids, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
       var ents = _edgeLogic.ByNodeIds(ids, pageIndex, pageSize);
+      return new OkObjectResult(ents);
+    }
+
+    /// <summary>
+    /// Retrieve parents of specified entity
+    /// </summary>
+    /// <param name="entity">child entity</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpGet]
+    [Route(nameof(GetParents))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public override IActionResult GetParents(Edge entity, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
+    {
+      var ents = GetParentsInternal(entity, pageIndex, pageSize);
       return new OkObjectResult(ents);
     }
   }

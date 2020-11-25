@@ -8,7 +8,7 @@ using GraphML.Interfaces.Server;
 
 namespace GraphML.API.Server
 {
-  public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T>
+  public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T> where T : Item
   {
     public ItemServerBase(
       IRestClientFactory clientFactory, 

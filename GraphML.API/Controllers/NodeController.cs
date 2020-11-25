@@ -21,7 +21,7 @@ namespace GraphML.API.Controllers
     Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
     AuthenticationSchemes = BasicAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
-  public sealed class NodeController : OwnedGraphMLController<Node>
+  public sealed class NodeController : RepositoryItemController<Node>
   {
     /// <summary>
     /// constructor
@@ -107,6 +107,25 @@ namespace GraphML.API.Controllers
     public override IActionResult Update([FromBody][Required] IEnumerable<Node> entity)
     {
       return UpdateInternal(entity);
+    }
+
+    /// <summary>
+    /// Retrieve parents of specified entity
+    /// </summary>
+    /// <param name="entity">child entity</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpGet]
+    [Route(nameof(GetParents))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Node>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public override IActionResult GetParents(Node entity, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
+    {
+        var ents = GetParentsInternal(entity, pageIndex, pageSize);
+        return new OkObjectResult(ents);
     }
   }
 }

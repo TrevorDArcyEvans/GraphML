@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace GraphML.API.Controllers
 {
 #pragma warning disable CS1591
-  public abstract class OwnedGraphMLController<T> : GraphMLController<T>
+  public abstract class OwnedGraphMLController<T> : GraphMLController<T> where T : OwnedItem
   {
     private readonly IOwnedLogic<T> _ownedLogic;
 

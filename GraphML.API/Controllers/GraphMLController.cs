@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace GraphML.API.Controllers
 {
 #pragma warning disable CS1591
-  public abstract class GraphMLController<T> : ControllerBase
+  public abstract class GraphMLController<T> : ControllerBase where T : Item
   {
     protected const int DefaultPageIndex = 1;
     protected const int DefaultPageSize = 20;

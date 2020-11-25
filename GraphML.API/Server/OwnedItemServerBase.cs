@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphML.API.Server
 {
-  public abstract class OwnedItemServerBase<T> : ItemServerBase<T>, IOwnedItemServerBase<T>
+  public abstract class OwnedItemServerBase<T> : ItemServerBase<T>, IOwnedItemServerBase<T> where T : Item
   {
     public OwnedItemServerBase(
       IRestClientFactory clientFactory,

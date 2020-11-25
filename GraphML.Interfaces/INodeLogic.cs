@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface INodeLogic : IOwnedLogic<Node>
+  public interface INodeLogic : IRepositoryItemLogic<Node>
   {
   }
 }
