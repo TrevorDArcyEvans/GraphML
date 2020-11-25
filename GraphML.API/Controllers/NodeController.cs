@@ -124,8 +124,7 @@ namespace GraphML.API.Controllers
 		[ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
 		public override IActionResult GetParents([FromBody][Required] Node entity, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
 		{
-			var ents = GetParentsInternal(entity, pageIndex, pageSize);
-			return new OkObjectResult(ents);
+			return GetParentsInternal(entity, pageIndex, pageSize);
 		}
 	}
 }
