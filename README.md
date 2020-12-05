@@ -173,8 +173,9 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 ### Port Allocations
 | Service | Port | Notes |
 |---------|------|-------|
-| GraphML.UI.Web | 5001 |
-| GraphML.API | 5000 |
+| IdentityServer | 5000 |
+| GraphML.API | 5001 |
+| GraphML.UI.Web | 5002 |
 | Apache ActiveMQ | 61616 |
 | Apache ActiveMQ console | 8161 |
 | Redis | 6379 |
