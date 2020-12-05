@@ -27,6 +27,7 @@ using Dapper;
 using ZNetCS.AspNetCore.Authentication.Basic;
 using ZNetCS.AspNetCore.Authentication.Basic.Events;
 using Newtonsoft.Json.Converters;
+using System.Net.Http;
 
 namespace GraphML.API
 {
@@ -96,6 +97,19 @@ namespace GraphML.API
       if (CurrentEnvironment.IsDevelopment())
       {
         services.AddSwaggerGenNewtonsoftSupport();
+
+        services.AddAuthentication("Bearer")
+          .AddIdentityServerAuthentication("Bearer", options =>
+          {
+            options.ApiName = "api1"; // TODO   IdentityServer ApiName
+            options.Authority = "https://localhost:5000"; // TODO   IdentityServer Authority
+
+              options.JwtBackChannelHandler = new HttpClientHandler
+              {
+                // accept (all) self-signed ssl certs for development
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+              };
+          });
 
         // Register the Swagger generator, defining one or more Swagger documents
         services.AddSwaggerGen(options =>
