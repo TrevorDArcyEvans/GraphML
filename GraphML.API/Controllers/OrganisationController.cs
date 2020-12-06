@@ -20,7 +20,7 @@ namespace GraphML.API.Controllers
   [Route("api/[controller]")]
   [Authorize(
     Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
-    AuthenticationSchemes = BasicAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
+    AuthenticationSchemes = /*BasicAuthenticationDefaults.AuthenticationScheme + "," +*/ JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
   public sealed class OrganisationController : GraphMLController<Organisation>
   {

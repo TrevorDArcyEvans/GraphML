@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityModel;
+using IdentityServer4.Models;
 using System.Collections.Generic;
 
 namespace IdentityServer
@@ -9,7 +10,9 @@ namespace IdentityServer
       new IdentityResource[]
       {
         new IdentityResources.OpenId(),
-        new IdentityResources.Profile()
+        new IdentityResources.Profile(),
+        new IdentityResources.Email(),
+        new IdentityResource(JwtClaimTypes.Role, new [] { JwtClaimTypes.Role })
       };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -21,12 +24,9 @@ namespace IdentityServer
     public static IEnumerable<ApiResource> ApiResources =>
       new[]
       {
-        new ApiResource("api1", "API #1")
+        new ApiResource("api1", "API #1", new[] { JwtClaimTypes.Role, JwtClaimTypes.Email })
         {
-          Scopes =
-          {
-            "api1"
-          }
+          Scopes = { "api1" }
         }
       };
 
@@ -40,20 +40,21 @@ namespace IdentityServer
             ClientName = "Swagger UI for GraphML API",
             ClientSecrets =
             {
-              new Secret("password".Sha256()) // TODO  password
+              new Secret("password".Sha256()) // TODO  GraphML password
             },
+            AlwaysIncludeUserClaimsInIdToken = true,
             AllowedGrantTypes = GrantTypes.Code,
             RequirePkce = true,
             RequireClientSecret = false,
-            RedirectUris = 
+            RedirectUris =
             {
               "https://localhost:5001/swagger/oauth2-redirect.html" // TODO   GraphML RedirectUris
             },
-            AllowedCorsOrigins = 
+            AllowedCorsOrigins =
             {
               "https://localhost:5001" // TODO    GraphML AllowedCorsOrigins
             },
-            AllowedScopes = 
+            AllowedScopes =
             {
               "api1"
             }

@@ -28,6 +28,7 @@ using ZNetCS.AspNetCore.Authentication.Basic;
 using ZNetCS.AspNetCore.Authentication.Basic.Events;
 using Newtonsoft.Json.Converters;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace GraphML.API
 {
@@ -104,11 +105,11 @@ namespace GraphML.API
             options.ApiName = "api1"; // TODO   IdentityServer ApiName
             options.Authority = "https://localhost:5000"; // TODO   IdentityServer Authority
 
-              options.JwtBackChannelHandler = new HttpClientHandler
-              {
-                // accept (all) self-signed ssl certs for development
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
-              };
+            options.JwtBackChannelHandler = new HttpClientHandler
+            {
+              // accept (all) self-signed ssl certs for development
+              ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+            };
           });
 
         // Register the Swagger generator, defining one or more Swagger documents
@@ -146,9 +147,29 @@ namespace GraphML.API
           //Set the comments path for the Swagger JSON and UI.
           var xmlPath = Path.Combine(AppContext.BaseDirectory, "GraphML.API.xml");
           options.IncludeXmlComments(xmlPath);
+
+          options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+          {
+            Type = SecuritySchemeType.OAuth2,
+            Flows = new OpenApiOAuthFlows
+            {
+              AuthorizationCode = new OpenApiOAuthFlow
+              {
+                AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
+                TokenUrl = new Uri("https://localhost:5000/connect/token"),
+                Scopes = new Dictionary<string, string>
+                {
+                  { "api1", "Full access to API #1" }
+                }
+              }
+            }
+          });
+
+          options.OperationFilter<AuthorizeCheckOperationFilter>();
         });
       }
 
+      /*
       services
         .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
         .AddBasicAuthentication(options =>
@@ -157,13 +178,12 @@ namespace GraphML.API
           options.Events = new BasicAuthenticationEvents
           {
             OnValidatePrincipal = context =>
-                  {
-                    var auth = ServiceProvider.GetService<IBasicAuthentication>();
-                    return auth.Authenticate(context);
-                  }
+            {
+              var auth = ServiceProvider.GetService<IBasicAuthentication>();
+              return auth.Authenticate(context);
+            }
           };
         });
-
       services
         .AddAuthentication(options =>
         {
@@ -178,12 +198,13 @@ namespace GraphML.API
           options.Events = new JwtBearerEvents
           {
             OnTokenValidated = async context =>
-                  {
-                    var auth = ServiceProvider.GetService<IBearerAuthentication>();
-                    await auth.Authenticate(context);
-                  }
+            {
+              var auth = ServiceProvider.GetService<IBearerAuthentication>();
+              await auth.Authenticate(context);
+            }
           };
         });
+      */
 
       // Create the container builder.
       var builder = new ContainerBuilder();
@@ -233,6 +254,7 @@ namespace GraphML.API
       }
 
       app.UseAuthentication();
+      app.UseAuthorization();
 
       if (CurrentEnvironment.IsDevelopment())
       {
@@ -243,6 +265,10 @@ namespace GraphML.API
         app.UseSwaggerUI(opts =>
         {
           opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API v1");
+
+          opts.OAuthClientId("graphml_api_swagger");
+          opts.OAuthAppName("Swagger UI for GraphML API");
+          opts.OAuthUsePkce();
 
           opts.DocExpansion(DocExpansion.None);
         });
