@@ -30,7 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="appsettings.json" />
-    <Content Remove="hosting.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
@@ -83,9 +82,6 @@
   <ItemGroup>
     <None Include="..\GraphML.snk" Link="GraphML.snk" />
     <None Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="hosting.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -21,9 +21,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\GraphML.API\hosting.json" Link="hosting.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Include="..\GraphML.API\nlog.config" Link="nlog.config">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
