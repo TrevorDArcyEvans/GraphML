@@ -8,7 +8,6 @@ using GraphML.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZNetCS.AspNetCore.Authentication.Basic;
 
 namespace GraphML.API.Controllers
 {
@@ -19,7 +18,7 @@ namespace GraphML.API.Controllers
   [Route("api/[controller]")]
   [Authorize(
       Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
-      AuthenticationSchemes = BasicAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
+      AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
   public sealed class GraphNodeController : OwnedGraphMLController<GraphNode>
   {

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
-using ZNetCS.AspNetCore.Authentication.Basic;
 using System;
 
 namespace GraphML.API.Controllers
@@ -20,7 +19,7 @@ namespace GraphML.API.Controllers
   [Route("api/[controller]")]
   [Authorize(
     Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
-    AuthenticationSchemes = /*BasicAuthenticationDefaults.AuthenticationScheme + "," +*/ JwtBearerDefaults.AuthenticationScheme)]
+    AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
   public sealed class OrganisationController : GraphMLController<Organisation>
   {

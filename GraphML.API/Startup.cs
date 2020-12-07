@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
-using GraphML.Interfaces.Authentications;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,8 +23,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using Dapper;
-using ZNetCS.AspNetCore.Authentication.Basic;
-using ZNetCS.AspNetCore.Authentication.Basic.Events;
 using Newtonsoft.Json.Converters;
 using System.Net.Http;
 using System.Collections.Generic;
@@ -156,8 +153,8 @@ namespace GraphML.API
 				});
 			}
 
-			services.AddAuthentication("Bearer")
-			  .AddIdentityServerAuthentication("Bearer", options =>
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			  .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, options =>
 			  {
 				  options.ApiName = "api1"; // TODO   IdentityServer ApiName --> Configuration.OIDC_AUDIENCE()?
 				  options.Authority = "https://localhost:5000"; // TODO   IdentityServer Authority --> Configuration.OIDC_ISSUER_URL()?
@@ -168,23 +165,6 @@ namespace GraphML.API
 					  ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
 				  };
 			  });
-
-			/*
-            services
-              .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
-              .AddBasicAuthentication(options =>
-              {
-                options.Realm = "GraphML";
-                options.Events = new BasicAuthenticationEvents
-                {
-                  OnValidatePrincipal = context =>
-                  {
-                    var auth = ServiceProvider.GetService<IBasicAuthentication>();
-                    return auth.Authenticate(context);
-                  }
-                };
-              });
-            */
 
 			// Create the container builder.
 			var builder = new ContainerBuilder();
