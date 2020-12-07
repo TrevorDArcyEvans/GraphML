@@ -32,269 +32,249 @@ using System.Collections.Generic;
 
 namespace GraphML.API
 {
-  internal sealed class Startup
-  {
-    private static readonly object _lock = new object();
+	internal sealed class Startup
+	{
+		private static readonly object _lock = new object();
 
-    private IServiceProvider ServiceProvider { get; set; }
-    private IConfiguration Configuration { get; }
-    private IWebHostEnvironment CurrentEnvironment { get; }
-    private IContainer ApplicationContainer { get; set; }
+		private IServiceProvider ServiceProvider { get; set; }
+		private IConfiguration Configuration { get; }
+		private IWebHostEnvironment CurrentEnvironment { get; }
+		private IContainer ApplicationContainer { get; set; }
 
-    public Startup(IWebHostEnvironment env)
-    {
-      // Environment variable:
-      //    ASPNETCORE_ENVIRONMENT == Development
-      CurrentEnvironment = env;
+		public Startup(IWebHostEnvironment env)
+		{
+			// Environment variable:
+			//    ASPNETCORE_ENVIRONMENT == Development
+			CurrentEnvironment = env;
 
-      AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
+			AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
 
-      var builder = new ConfigurationBuilder()
-        .SetBasePath(env.ContentRootPath)
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
-        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-        .AddEnvironmentVariables()
-        .AddUserSecrets<Program>();
+			var builder = new ConfigurationBuilder()
+			  .SetBasePath(env.ContentRootPath)
+			  .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+			  .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
+			  .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+			  .AddEnvironmentVariables()
+			  .AddUserSecrets<Program>();
 
-      Configuration = builder.Build();
+			Configuration = builder.Build();
 
-      // database connection string for nLog
-      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
+			// database connection string for nLog
+			GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
 
-      Settings.DumpSettings(Configuration);
-    }
+			Settings.DumpSettings(Configuration);
+		}
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public IServiceProvider ConfigureServices(IServiceCollection services)
-    {
-      services.AddSingleton(sp => Configuration);
-      services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public IServiceProvider ConfigureServices(IServiceCollection services)
+		{
+			services.AddSingleton(sp => Configuration);
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-      SqlMapper.AddTypeHandler(new GuidTypeHandler());
-      SqlMapper.RemoveTypeMap(typeof(Guid));
-      SqlMapper.RemoveTypeMap(typeof(Guid?));
+			SqlMapper.AddTypeHandler(new GuidTypeHandler());
+			SqlMapper.RemoveTypeMap(typeof(Guid));
+			SqlMapper.RemoveTypeMap(typeof(Guid?));
 
-      // Add controllers as services so they'll be resolved.
-      services
-        .AddMvc(o =>
-        {
-          o.RespectBrowserAcceptHeader = true;
-          o.EnableEndpointRouting = false;
+			// Add controllers as services so they'll be resolved.
+			services
+			  .AddMvc(o =>
+			  {
+				  o.RespectBrowserAcceptHeader = true;
+				  o.EnableEndpointRouting = false;
 
-          var settings = new JsonSerializerSettings()
-          {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Formatting = Formatting.Indented
-          };
-          var sp = services.BuildServiceProvider();
-          var logger = sp.GetService<ILoggerFactory>();
-          var objectPoolProvider = sp.GetService<ObjectPoolProvider>();
-        })
-        .AddControllersAsServices()
-        .AddNewtonsoftJson(options =>
-          options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+				  var settings = new JsonSerializerSettings()
+				  {
+					  ContractResolver = new CamelCasePropertyNamesContractResolver(),
+					  Formatting = Formatting.Indented
+				  };
+				  var sp = services.BuildServiceProvider();
+				  var logger = sp.GetService<ILoggerFactory>();
+				  var objectPoolProvider = sp.GetService<ObjectPoolProvider>();
+			  })
+			  .AddControllersAsServices()
+			  .AddNewtonsoftJson(options =>
+				options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
-      if (CurrentEnvironment.IsDevelopment())
-      {
-        services.AddSwaggerGenNewtonsoftSupport();
+			if (CurrentEnvironment.IsDevelopment())
+			{
+				services.AddSwaggerGenNewtonsoftSupport();
 
-        services.AddAuthentication("Bearer")
-          .AddIdentityServerAuthentication("Bearer", options =>
-          {
-            options.ApiName = "api1"; // TODO   IdentityServer ApiName
-            options.Authority = "https://localhost:5000"; // TODO   IdentityServer Authority
+				// Register the Swagger generator, defining one or more Swagger documents
+				services.AddSwaggerGen(options =>
+				{
+					options.SwaggerDoc("v1",
+			  new OpenApiInfo
+			  {
+				  Title = "GraphML API",
+				  Version = "v1",
+				  Description = "GraphML API"
+			  });
 
-            options.JwtBackChannelHandler = new HttpClientHandler
-            {
-              // accept (all) self-signed ssl certs for development
-              ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            };
-          });
+					options.DocInclusionPredicate((docName, apiDesc) =>
+			{
+				var controllerActionDescriptor = apiDesc.ActionDescriptor as ControllerActionDescriptor;
+				if (controllerActionDescriptor == null)
+				{
+					return false;
+				}
 
-        // Register the Swagger generator, defining one or more Swagger documents
-        services.AddSwaggerGen(options =>
-        {
-          options.SwaggerDoc("v1",
-            new OpenApiInfo
-            {
-              Title = "GraphML API",
-              Version = "v1",
-              Description = "GraphML API"
-            });
+				var versions = controllerActionDescriptor.MethodInfo.DeclaringType
+					.GetCustomAttributes(true)
+					.OfType<ApiVersionAttribute>()
+					.SelectMany(attr => attr.Versions);
+				var tags = controllerActionDescriptor.MethodInfo.DeclaringType
+					.GetCustomAttributes(true)
+					.OfType<ApiTagAttribute>();
 
-          options.DocInclusionPredicate((docName, apiDesc) =>
-          {
-            var controllerActionDescriptor = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-            if (controllerActionDescriptor == null)
-            {
-              return false;
-            }
+				return versions.Any(
+				  v => $"v{v.ToString()}" == docName) ||
+				  tags.Any(tag => tag.Tag == docName);
+			});
 
-            var versions = controllerActionDescriptor.MethodInfo.DeclaringType
-                        .GetCustomAttributes(true)
-                        .OfType<ApiVersionAttribute>()
-                        .SelectMany(attr => attr.Versions);
-            var tags = controllerActionDescriptor.MethodInfo.DeclaringType
-                        .GetCustomAttributes(true)
-                        .OfType<ApiTagAttribute>();
+					//Set the comments path for the Swagger JSON and UI.
+					var xmlPath = Path.Combine(AppContext.BaseDirectory, "GraphML.API.xml");
+					options.IncludeXmlComments(xmlPath);
 
-            return versions.Any(
-                      v => $"v{v.ToString()}" == docName) ||
-                      tags.Any(tag => tag.Tag == docName);
-          });
+					options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+					{
+						Type = SecuritySchemeType.OAuth2,
+						Flows = new OpenApiOAuthFlows
+						{
+							AuthorizationCode = new OpenApiOAuthFlow
+							{
+								AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
+								TokenUrl = new Uri("https://localhost:5000/connect/token"),
+								Scopes = new Dictionary<string, string>
+						{
+				  { "api1", "Full access to API #1" }
+						}
+							}
+						}
+					});
 
-          //Set the comments path for the Swagger JSON and UI.
-          var xmlPath = Path.Combine(AppContext.BaseDirectory, "GraphML.API.xml");
-          options.IncludeXmlComments(xmlPath);
+					options.OperationFilter<AuthorizeCheckOperationFilter>();
+				});
+			}
 
-          options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-          {
-            Type = SecuritySchemeType.OAuth2,
-            Flows = new OpenApiOAuthFlows
-            {
-              AuthorizationCode = new OpenApiOAuthFlow
+			services.AddAuthentication("Bearer")
+			  .AddIdentityServerAuthentication("Bearer", options =>
+			  {
+				  options.ApiName = "api1"; // TODO   IdentityServer ApiName --> Configuration.OIDC_AUDIENCE()?
+				  options.Authority = "https://localhost:5000"; // TODO   IdentityServer Authority --> Configuration.OIDC_ISSUER_URL()?
+
+				  options.JwtBackChannelHandler = new HttpClientHandler
+				  {
+					  // accept (all) self-signed ssl certs for development
+					  ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+				  };
+			  });
+
+			/*
+            services
+              .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+              .AddBasicAuthentication(options =>
               {
-                AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
-                TokenUrl = new Uri("https://localhost:5000/connect/token"),
-                Scopes = new Dictionary<string, string>
+                options.Realm = "GraphML";
+                options.Events = new BasicAuthenticationEvents
                 {
-                  { "api1", "Full access to API #1" }
-                }
-              }
-            }
-          });
+                  OnValidatePrincipal = context =>
+                  {
+                    var auth = ServiceProvider.GetService<IBasicAuthentication>();
+                    return auth.Authenticate(context);
+                  }
+                };
+              });
+            */
 
-          options.OperationFilter<AuthorizeCheckOperationFilter>();
-        });
-      }
+			// Create the container builder.
+			var builder = new ContainerBuilder();
 
-      /*
-      services
-        .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
-        .AddBasicAuthentication(options =>
-        {
-          options.Realm = "GraphML";
-          options.Events = new BasicAuthenticationEvents
-          {
-            OnValidatePrincipal = context =>
-            {
-              var auth = ServiceProvider.GetService<IBasicAuthentication>();
-              return auth.Authenticate(context);
-            }
-          };
-        });
-      services
-        .AddAuthentication(options =>
-        {
-          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-          options.Authority = Configuration.OIDC_ISSUER_URL();
-          options.Audience = Configuration.OIDC_AUDIENCE();
-          options.RequireHttpsMetadata = !(CurrentEnvironment.IsDevelopment());
-          options.Events = new JwtBearerEvents
-          {
-            OnTokenValidated = async context =>
-            {
-              var auth = ServiceProvider.GetService<IBearerAuthentication>();
-              await auth.Authenticate(context);
-            }
-          };
-        });
-      */
+			// Register dependencies, populate the services from
+			// the collection, and build the container.
+			//
+			// Note that Populate is basically a foreach to add things
+			// into Autofac that are in the collection. If you register
+			// things in Autofac BEFORE Populate then the stuff in the
+			// ServiceCollection can override those things; if you register
+			// AFTER Populate those registrations can override things
+			// in the ServiceCollection. Mix and match as needed.
+			builder.Populate(services);
 
-      // Create the container builder.
-      var builder = new ContainerBuilder();
+			// load all assemblies in same directory and register classes with interfaces
+			// Note that we have to explicitly add this (executing) assembly
+			var exeAssy = Assembly.GetExecutingAssembly();
+			var exeAssyPath = exeAssy.Location;
+			var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
+			var assyPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
 
-      // Register dependencies, populate the services from
-      // the collection, and build the container.
-      //
-      // Note that Populate is basically a foreach to add things
-      // into Autofac that are in the collection. If you register
-      // things in Autofac BEFORE Populate then the stuff in the
-      // ServiceCollection can override those things; if you register
-      // AFTER Populate those registrations can override things
-      // in the ServiceCollection. Mix and match as needed.
-      builder.Populate(services);
+			var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
+			assys.Add(exeAssy);
+			builder
+			  .RegisterAssemblyTypes(assys.ToArray())
+			  .PublicOnly()
+			  .AsImplementedInterfaces()
+			  .SingleInstance();
 
-      // load all assemblies in same directory and register classes with interfaces
-      // Note that we have to explicitly add this (executing) assembly
-      var exeAssy = Assembly.GetExecutingAssembly();
-      var exeAssyPath = exeAssy.Location;
-      var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
-      var assyPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
+			builder.Register(cc => Configuration).As<IConfiguration>();
 
-      var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
-      assys.Add(exeAssy);
-      builder
-        .RegisterAssemblyTypes(assys.ToArray())
-        .PublicOnly()
-        .AsImplementedInterfaces()
-        .SingleInstance();
+			ApplicationContainer = builder.Build();
 
-      builder.Register(cc => Configuration).As<IConfiguration>();
+			// Create the IServiceProvider based on the container.
+			return new AutofacServiceProvider(ApplicationContainer);
+		}
 
-      ApplicationContainer = builder.Build();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, ILoggerFactory logging)
+		{
+			ServiceProvider = app.ApplicationServices;
 
-      // Create the IServiceProvider based on the container.
-      return new AutofacServiceProvider(ApplicationContainer);
-    }
+			if (CurrentEnvironment.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, ILoggerFactory logging)
-    {
-      ServiceProvider = app.ApplicationServices;
+			app.UseAuthentication();
+			app.UseAuthorization();
 
-      if (CurrentEnvironment.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
+			if (CurrentEnvironment.IsDevelopment())
+			{
+				// Enable middleware to serve generated Swagger as a JSON endpoint.
+				app.UseSwagger();
 
-      app.UseAuthentication();
-      app.UseAuthorization();
+				// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+				app.UseSwaggerUI(opts =>
+				{
+					opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API v1");
 
-      if (CurrentEnvironment.IsDevelopment())
-      {
-        // Enable middleware to serve generated Swagger as a JSON endpoint.
-        app.UseSwagger();
+					opts.OAuthClientId("graphml_api_swagger");
+					opts.OAuthAppName("Swagger UI for GraphML API");
+					opts.OAuthUsePkce();
 
-        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-        app.UseSwaggerUI(opts =>
-        {
-          opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API v1");
+					opts.DocExpansion(DocExpansion.None);
+				});
+			}
 
-          opts.OAuthClientId("graphml_api_swagger");
-          opts.OAuthAppName("Swagger UI for GraphML API");
-          opts.OAuthUsePkce();
+			app.UseStaticFiles();
+			app.UseMvc();
+		}
 
-          opts.DocExpansion(DocExpansion.None);
-        });
-      }
-
-      app.UseStaticFiles();
-      app.UseMvc();
-    }
-
-    private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
-    {
-      lock (_lock)
-      {
-        AssemblyLoadContext.Default.Resolving -= OnAssemblyResolve;
-        try
-        {
-          var currAssyPath = Assembly.GetExecutingAssembly().Location;
-          var assyPath = Path.Combine(Path.GetDirectoryName(currAssyPath), $"{assemblyName.Name}.dll");
-          var assembly = File.Exists(assyPath) ? Assembly.LoadFile(assyPath) : null;
-          return assembly;
-        }
-        finally
-        {
-          AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
-        }
-      }
-    }
-  }
+		private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
+		{
+			lock (_lock)
+			{
+				AssemblyLoadContext.Default.Resolving -= OnAssemblyResolve;
+				try
+				{
+					var currAssyPath = Assembly.GetExecutingAssembly().Location;
+					var assyPath = Path.Combine(Path.GetDirectoryName(currAssyPath), $"{assemblyName.Name}.dll");
+					var assembly = File.Exists(assyPath) ? Assembly.LoadFile(assyPath) : null;
+					return assembly;
+				}
+				finally
+				{
+					AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
+				}
+			}
+		}
+	}
 }
