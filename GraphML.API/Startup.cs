@@ -108,7 +108,7 @@ namespace GraphML.API
             options.JwtBackChannelHandler = new HttpClientHandler
             {
               // accept (all) self-signed ssl certs for development
-              ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+              ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
             };
           });
 
