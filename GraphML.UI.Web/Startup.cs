@@ -42,6 +42,8 @@ namespace GraphML.UI.Web
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+		// TODO		integrate IdentityServer
+
 			services.AddSingleton(sp => Configuration);
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
