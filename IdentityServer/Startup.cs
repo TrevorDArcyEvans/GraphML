@@ -1,41 +1,57 @@
 ﻿using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer
 {
-    public class Startup
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
+	public class Startup
+	{
+		private IWebHostEnvironment CurrentEnvironment { get; }
+		private IConfiguration Configuration { get; }
 
-            services.AddIdentityServer(options =>
-                {
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
-                })
-                .AddTestUsers(TestUsers.Users)
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryApiResources(Config.ApiResources)
-                .AddInMemoryClients(Config.Clients)
-                .AddDeveloperSigningCredential();
-        }
+		public Startup(
+		IWebHostEnvironment env,
+		IConfiguration conf)
+		{
+			// Environment variable:
+			//    ASPNETCORE_ENVIRONMENT == Development
+			CurrentEnvironment = env;
+			Configuration = conf;
 
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseDeveloperExceptionPage();
+			Settings.DumpSettings(Configuration);
+		}
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddControllersWithViews();
 
-            app.UseStaticFiles();
-            app.UseRouting();
+			services.AddIdentityServer(options =>
+				{
+					options.Events.RaiseErrorEvents = true;
+					options.Events.RaiseInformationEvents = true;
+					options.Events.RaiseFailureEvents = true;
+					options.Events.RaiseSuccessEvents = true;
+				})
+				.AddTestUsers(TestUsers.Users)
+				.AddInMemoryIdentityResources(Config.IdentityResources)
+				.AddInMemoryApiScopes(Config.ApiScopes)
+				.AddInMemoryApiResources(Config.ApiResources)
+				.AddInMemoryClients(Config.Clients)
+				.AddDeveloperSigningCredential();
+		}
 
-            app.UseIdentityServer();
-            app.UseAuthorization();
+		public void Configure(IApplicationBuilder app)
+		{
+			app.UseDeveloperExceptionPage();
 
-            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
-        }
-    }
+			app.UseStaticFiles();
+			app.UseRouting();
+
+			app.UseIdentityServer();
+			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+		}
+	}
 }
