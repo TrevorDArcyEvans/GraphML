@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Autofac;
 using Autofac.Configuration;
 using Autofac.Extensions.DependencyInjection;
@@ -60,9 +63,22 @@ namespace GraphML.UI.Web
       // in the ServiceCollection. Mix and match as needed.
       builder.Populate(services);
 
-      // load configuration from autofac.json
-      var module = new ConfigurationModule(Configuration);
-      builder.RegisterModule(module);
+			// load all assemblies in same directory and register classes with interfaces
+			// Note that we have to explicitly add this (executing) assembly
+			var exeAssy = Assembly.GetExecutingAssembly();
+			var exeAssyPath = exeAssy.Location;
+			var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
+			var assyPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
+
+			var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
+			assys.Add(exeAssy);
+			builder
+			  .RegisterAssemblyTypes(assys.ToArray())
+			  .PublicOnly()
+			  .AsImplementedInterfaces()
+			  .SingleInstance();
+
+			builder.Register(cc => Configuration).As<IConfiguration>();
 
       var ApplicationContainer = builder.Build();
 

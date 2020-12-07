@@ -34,29 +34,22 @@ namespace GraphML.API
 		private static readonly object _lock = new object();
 
 		private IServiceProvider ServiceProvider { get; set; }
-		private IConfiguration Configuration { get; }
 		private IWebHostEnvironment CurrentEnvironment { get; }
+		private IConfiguration Configuration { get; }
 		private IContainer ApplicationContainer { get; set; }
 
-		public Startup(IWebHostEnvironment env)
+		public Startup(
+        IWebHostEnvironment env,
+        IConfiguration conf)
 		{
 			// Environment variable:
 			//    ASPNETCORE_ENVIRONMENT == Development
 			CurrentEnvironment = env;
+      Configuration = conf;
 
 			AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
 
-			var builder = new ConfigurationBuilder()
-			  .SetBasePath(env.ContentRootPath)
-			  .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-			  .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
-			  .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-			  .AddEnvironmentVariables()
-			  .AddUserSecrets<Program>();
-
-			Configuration = builder.Build();
-
-			// database connection string for nLog
+      // database connection string for nLog
 			GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
 
 			Settings.DumpSettings(Configuration);

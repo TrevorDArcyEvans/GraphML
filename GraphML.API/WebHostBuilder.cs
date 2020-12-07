@@ -1,10 +1,8 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
-using System.IO;
 
 namespace GraphML.API
 {
@@ -12,19 +10,10 @@ namespace GraphML.API
   {
     public static IWebHost BuildWebHost(string[] args)
     {
-      var config = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .AddJsonFile("hosting.json")
-        .AddEnvironmentVariables()
-        .AddUserSecrets<Program>()
-        .Build();
-
       return WebHost.CreateDefaultBuilder(args)
         .UseStartup<Startup>()
         .UseKestrel()
         .ConfigureServices(services => services.AddAutofac())
-        .UseConfiguration(config)
         .ConfigureLogging(logging =>
         {
           logging.SetMinimumLevel(LogLevel.Trace);
