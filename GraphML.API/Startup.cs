@@ -21,7 +21,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 using Dapper;
 using Newtonsoft.Json.Converters;
 using System.Net.Http;
@@ -31,25 +30,19 @@ namespace GraphML.API
 {
 	internal sealed class Startup
 	{
-		private static readonly object _lock = new object();
-
-		private IServiceProvider ServiceProvider { get; set; }
 		private IWebHostEnvironment CurrentEnvironment { get; }
 		private IConfiguration Configuration { get; }
-		private IContainer ApplicationContainer { get; set; }
 
 		public Startup(
-        IWebHostEnvironment env,
-        IConfiguration conf)
+		IWebHostEnvironment env,
+		IConfiguration conf)
 		{
 			// Environment variable:
 			//    ASPNETCORE_ENVIRONMENT == Development
 			CurrentEnvironment = env;
-      Configuration = conf;
+			Configuration = conf;
 
-			AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
-
-      // database connection string for nLog
+			// database connection string for nLog
 			GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
 
 			Settings.DumpSettings(Configuration);
@@ -190,17 +183,15 @@ namespace GraphML.API
 
 			builder.Register(cc => Configuration).As<IConfiguration>();
 
-			ApplicationContainer = builder.Build();
+			var ApplicationContainer = builder.Build();
 
 			// Create the IServiceProvider based on the container.
 			return new AutofacServiceProvider(ApplicationContainer);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, ILoggerFactory logging)
+		public void Configure(IApplicationBuilder app)
 		{
-			ServiceProvider = app.ApplicationServices;
-
 			if (CurrentEnvironment.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -229,25 +220,6 @@ namespace GraphML.API
 
 			app.UseStaticFiles();
 			app.UseMvc();
-		}
-
-		private Assembly OnAssemblyResolve(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
-		{
-			lock (_lock)
-			{
-				AssemblyLoadContext.Default.Resolving -= OnAssemblyResolve;
-				try
-				{
-					var currAssyPath = Assembly.GetExecutingAssembly().Location;
-					var assyPath = Path.Combine(Path.GetDirectoryName(currAssyPath), $"{assemblyName.Name}.dll");
-					var assembly = File.Exists(assyPath) ? Assembly.LoadFile(assyPath) : null;
-					return assembly;
-				}
-				finally
-				{
-					AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
-				}
-			}
 		}
 	}
 }
