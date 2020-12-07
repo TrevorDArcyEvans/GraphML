@@ -183,10 +183,10 @@ namespace GraphML.API
 
 			builder.Register(cc => Configuration).As<IConfiguration>();
 
-			var ApplicationContainer = builder.Build();
+			var applicationContainer = builder.Build();
 
 			// Create the IServiceProvider based on the container.
-			return new AutofacServiceProvider(ApplicationContainer);
+			return new AutofacServiceProvider(applicationContainer);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
