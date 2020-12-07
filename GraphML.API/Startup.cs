@@ -155,16 +155,16 @@ namespace GraphML.API
 
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			  .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, options =>
-			  {
-				  options.ApiName = "api1"; // TODO   IdentityServer ApiName --> Configuration.OIDC_AUDIENCE()?
-				  options.Authority = "https://localhost:5000"; // TODO   IdentityServer Authority --> Configuration.OIDC_ISSUER_URL()?
+			{
+				options.Authority = Configuration.IdentityServer_Authority();
+				options.ApiName = Configuration.IdentityServer_ApiName();
 
-				  options.JwtBackChannelHandler = new HttpClientHandler
-				  {
-					  // accept (all) self-signed ssl certs for development
-					  ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-				  };
-			  });
+				options.JwtBackChannelHandler = new HttpClientHandler
+				{
+					// accept (all) self-signed ssl certs for development
+					ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+				};
+			});
 
 			// Create the container builder.
 			var builder = new ContainerBuilder();

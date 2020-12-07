@@ -17,25 +17,17 @@ namespace GraphML.Common
       Environment.GetEnvironmentVariable("API_PASSWORD") ?? 
       config["API:Password"];
 
-    public static string OIDC_ISSUER_URL(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("OIDC_ISSUER_URL") ?? 
-      config["OIDC:Issuer_URL"];
-    public static string OIDC_AUDIENCE(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? 
-      config["OIDC:Audience"];
-    public static string OIDC_USERINFO_URL(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("OIDC_USERINFO_URL") ?? 
-      config["OIDC:UserInfo_URL"];
+    public static string IdentityServer_Authority(this IConfiguration config) => 
+      Environment.GetEnvironmentVariable("IDENTITYSERVER_AUTHORITY") ?? 
+      config["IdentityServer:Authority"];
+    public static string IdentityServer_ApiName(this IConfiguration config) => 
+      Environment.GetEnvironmentVariable("IDENTITYSERVER_APINAME") ?? 
+      config["IdentityServer:ApiName"];
 
     public static string LOG_CONNECTION_STRING(this IConfiguration config) => 
       (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ?? 
       config["Log:ConnectionString"])?
         .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
-    public static bool LOG_BEARER_AUTH(this IConfiguration config) => 
-      bool.Parse(
-        Environment.GetEnvironmentVariable("LOG_BEARER_AUTH") ?? 
-        config["Log:Bearer_Auth"] ?? 
-        false.ToString());
 
     public static string DATASTORE_CONNECTION(this IConfiguration config) => 
       Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? 
@@ -101,13 +93,11 @@ namespace GraphML.Common
       Console.WriteLine($"    DATASTORE_CONNECTION_STRING  : {config.DATASTORE_CONNECTION_STRING(config.DATASTORE_CONNECTION())}");
 
       Console.WriteLine($"  LOG:");
-      Console.WriteLine($"    LOG_CONNECTION_STRING : {config.LOG_CONNECTION_STRING()}");
-      Console.WriteLine($"    LOG_BEARER_AUTH       : {config.LOG_BEARER_AUTH()}");
+      Console.WriteLine($"    LOG_CONNECTION_STRING        : {config.LOG_CONNECTION_STRING()}");
 
       Console.WriteLine($"  OIDC:");
-      Console.WriteLine($"    OIDC_USERINFO_URL : {config.OIDC_USERINFO_URL()}");
-      Console.WriteLine($"    OIDC_ISSUER_URL   : {config.OIDC_ISSUER_URL()}");
-      Console.WriteLine($"    OIDC_AUDIENCE     : {config.OIDC_AUDIENCE()}");
+      Console.WriteLine($"    IDENTITYSERVER_AUTHORITY     : {config.IdentityServer_Authority()}");
+      Console.WriteLine($"    IDENTITYSERVER_APINAME       : {config.IdentityServer_ApiName()}");
 
       Console.WriteLine($"  RESULT:");
       Console.WriteLine($"    RESULT_DATASTORE  : {config.RESULT_DATASTORE()}");
