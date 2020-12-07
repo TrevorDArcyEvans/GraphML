@@ -31,6 +31,7 @@ namespace GraphML.API.Server
 
 		public IRestClient GetRestClient()
 		{
+		// TODO		support IdentityServer
 			var client = new RestClient(ApiUri)
 			{
 				Authenticator = new HttpBasicAuthenticator(UserName, Password),
