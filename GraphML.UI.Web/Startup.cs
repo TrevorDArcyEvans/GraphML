@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using Autofac.Configuration;
 using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
 using Microsoft.AspNetCore.Builder;
@@ -89,9 +88,9 @@ namespace GraphML.UI.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app)
 		{
-			if (env.IsDevelopment())
+			if (CurrentEnvironment.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
