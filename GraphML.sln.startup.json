@@ -59,13 +59,15 @@
       {
         "GraphML.API": {},
         "GraphML.Analysis.Server": {},
-        "GraphML.UI.Web": {}
+        "GraphML.UI.Web": {},
+        "IdentityServer": {}
       }
     },
     "GraphML-no-anal": {
       "Projects": {
         "GraphML.API": {},
-        "GraphML.UI.Web": {}
+        "GraphML.UI.Web": {},
+        "IdentityServer": {}
       }
     }
   }
