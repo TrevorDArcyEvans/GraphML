@@ -23,8 +23,10 @@ namespace GraphML.Logic
 
     public static bool HasRole(this IHttpContextAccessor context, string role)
     {
+      // ClaimTypes.Role --> 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'
+      // but some OIDC providers use 'role'
       return context.HttpContext.User.Claims
-        .Where(x => x.Type == ClaimTypes.Role)
+        .Where(x => x.Type == ClaimTypes.Role || x.Type.ToLowerInvariant() == "role")
         .Select(x => x.Value)
         .Any(x => x == role);
     }
