@@ -1,15 +1,34 @@
-# GraphML
+# GraphML ![](Docs/GraphML.icon.png)
 GraphML analyses graphs for the following measures:
 
 * ranked shortest paths
+  <details>
+These calculations help your users understand ways to travel through (or ‘traverse’) a network.<p/>
+The distance function measures how many hops apart two nodes are in a network. Shortest path highlights the route that passes through the lowest number of nodes. 
+Hops can also be weighted, meaning you can calculate actual distances, as well as the number of hops.
+  </details>
 * Social Network Analysis (SNA)
   * closeness
+    <details>
+This is the measure that helps you find the nodes that are closest to the other nodes in a network, based on their ability to reach them.<p/>
+To calculate this, the algorithm finds the shortest path between each node, then assigns each node a score based on the sum of all the paths.<p/>
+Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.
+    </details>
   * betweeness
+    <details>
+Nodes with a high betweenness centrality score are the ones that most frequently act as ‘bridges’ between other nodes. 
+They form the shortest pathways of communication within the network.<p/>
+Usually this would indicate important gatekeepers of information between groups.
+    </details>
   * degree
+    <details>
+The degree centrality measure finds nodes with the highest number of links to other nodes in the network.<p/>
+Nodes with a high degree centrality have the best connections to those around them – they might be influential, or just strategically well-placed.
+    </details>
 
 ## Prerequisites
 <details>
-  
+
 1. Prerequisites:
   * host:
     * Linux
@@ -143,7 +162,7 @@ MESSAGE_QUEUE_USE_THREADS       | | False
   ![GraphML.Classes](Docs/GraphML.Classes.png "GraphML.Classes")
 
   </details>
-  
+
   <details>
     <summary>Composition</summary>
 
