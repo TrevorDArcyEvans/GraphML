@@ -7,38 +7,38 @@ namespace GraphML.Common
   public static class Settings
   {
     // used by GraphML.API.Server to retrieve data
-    public static string API_URI(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("API_URI") ?? 
+    public static string API_URI(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("API_URI") ??
       config["API:Uri"];
-    public static string API_USERNAME(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("API_USERNAME") ?? 
+    public static string API_USERNAME(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("API_USERNAME") ??
       config["API:UserName"];
-    public static string API_PASSWORD(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("API_PASSWORD") ?? 
+    public static string API_PASSWORD(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("API_PASSWORD") ??
       config["API:Password"];
 
-    public static string IdentityServer_Authority(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("IDENTITYSERVER_AUTHORITY") ?? 
+    public static string IdentityServer_Authority(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("IDENTITYSERVER_AUTHORITY") ??
       config["IdentityServer:Authority"];
-    public static string IdentityServer_ApiName(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("IDENTITYSERVER_APINAME") ?? 
+    public static string IdentityServer_ApiName(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("IDENTITYSERVER_APINAME") ??
       config["IdentityServer:ApiName"];
 
-    public static string LOG_CONNECTION_STRING(this IConfiguration config) => 
-      (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ?? 
+    public static string LOG_CONNECTION_STRING(this IConfiguration config) =>
+      (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ??
       config["Log:ConnectionString"])?
         .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
 
-    public static string DATASTORE_CONNECTION(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ?? 
+    public static string DATASTORE_CONNECTION(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("DATASTORE_CONNECTION") ??
       config["Datastore:Connection"] ??
       "SqLite";
-    public static string DATASTORE_CONNECTION_TYPE(this IConfiguration config, string connection) => 
-      Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_TYPE") ?? 
+    public static string DATASTORE_CONNECTION_TYPE(this IConfiguration config, string connection) =>
+      Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_TYPE") ??
       config[$"Datastore:{connection}:Type"] ??
       "SqLite";
-    public static string DATASTORE_CONNECTION_STRING(this IConfiguration config, string connection) => 
-      (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ?? 
+    public static string DATASTORE_CONNECTION_STRING(this IConfiguration config, string connection) =>
+      (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ??
       config[$"Datastore:{connection}:ConnectionString"] ??
       "Data Source=|DataDirectory|Data/GraphML.sqlite3;")?
         .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory)
@@ -46,41 +46,46 @@ namespace GraphML.Common
         .Replace('/', Path.DirectorySeparatorChar)
         .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
-    public static string CACHE_HOST(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("CACHE_HOST") ?? 
-      config["Cache:Host"] ?? 
+    public static string CACHE_HOST(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("CACHE_HOST") ??
+      config["Cache:Host"] ??
       "localhost";
 
-    public static string RESULT_DATASTORE(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("RESULT_DATASTORE") ?? 
-      config["Result:Datastore"] ?? 
+    public static string RESULT_DATASTORE(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("RESULT_DATASTORE") ??
+      config["Result:Datastore"] ??
       "localhost:6379";
 
-    public static string KESTREL_URL(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("KESTREL_URL") ?? 
-      config["Kestrel:EndPoints:Http:Url"] ?? 
+    public static string KESTREL_URL(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("KESTREL_URL") ??
+      config["Kestrel:EndPoints:Http:Url"] ??
       "http://localhost:5000";
 
-    public static string MESSAGE_QUEUE_URL(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ?? 
-      config["Message_Queue:URL"] ?? 
+    public static string MESSAGE_QUEUE_URL(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ??
+      config["Message_Queue:URL"] ??
       "activemq:tcp://localhost:61616";
-    public static string MESSAGE_QUEUE_NAME(this IConfiguration config) => 
-      Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ?? 
-      config["Message_Queue:Name"] ?? 
+    public static string MESSAGE_QUEUE_NAME(this IConfiguration config) =>
+      Environment.GetEnvironmentVariable("MESSAGE_QUEUE_NAME") ??
+      config["Message_Queue:Name"] ??
       "GraphML";
-    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(this IConfiguration config) => 
+    public static int MESSAGE_QUEUE_POLL_INTERVAL_S(this IConfiguration config) =>
       int.TryParse(
-        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ?? 
+        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_POLL_INTERVAL_S") ??
         config["Message_Queue:Poll_Interval_s"], out int result) ? result : 5;
-    public static bool MESSAGE_QUEUE_USE_THREADS(this IConfiguration config) => 
+    public static bool MESSAGE_QUEUE_USE_THREADS(this IConfiguration config) =>
       bool.Parse(
-        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ?? 
-        config["Message_Queue:Use_Threads"] ?? 
+        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ??
+        config["Message_Queue:Use_Threads"] ??
         false.ToString());
 
     public static void DumpSettings(IConfiguration config)
     {
+      var root = (IConfigurationRoot)config;
+      var debugView = root.GetDebugView();
+      Console.WriteLine(debugView);
+      Console.WriteLine();
+
       Console.WriteLine("Settings:");
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");
