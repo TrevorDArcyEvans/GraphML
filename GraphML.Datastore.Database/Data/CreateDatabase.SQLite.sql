@@ -44,6 +44,7 @@ CREATE INDEX IDX_Timestamp ON Log(Timestamp);
 CREATE TABLE Role
 (
   Id TEXT NOT NULL UNIQUE,
+  Name TEXT NOT NULL,
   PRIMARY KEY (Id)
 );
 

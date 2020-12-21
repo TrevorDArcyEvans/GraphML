@@ -1,8 +1,8 @@
-INSERT INTO Role(Id)
+INSERT INTO Role(Id, Name)
 VALUES
-  ('User'),
-  ('UserAdmin'),
-  ('Admin');
+  ('7FC87DE7-BFD8-47A1-BBD4-95181A983F07', 'User'),
+  ('E56390B4-71B3-4850-82B4-EA65A497559E', 'UserAdmin'),
+  ('3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3', 'Admin');
 
 INSERT INTO Organisation(Id, Name)
 VALUES
@@ -134,5 +134,5 @@ VALUES
 -- roles
 INSERT INTO ContactsRoles(ContactId, RoleId)
 VALUES
-  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', 'Admin');
+  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3');
 
