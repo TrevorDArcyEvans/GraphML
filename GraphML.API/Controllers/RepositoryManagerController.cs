@@ -1,6 +1,5 @@
 ﻿using GraphML.API.Attributes;
 using GraphML.Interfaces;
-using GraphML.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +15,7 @@ namespace GraphML.API.Controllers
   /// </summary>
   [ApiVersion("1")]
   [Route("api/[controller]")]
-  [Authorize(
-    Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
-    AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
   public sealed class RepositoryManagerController : OwnedGraphMLController<RepositoryManager>
   {

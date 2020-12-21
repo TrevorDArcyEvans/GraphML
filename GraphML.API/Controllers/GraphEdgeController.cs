@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using GraphML.API.Attributes;
-using GraphML.Common;
 using GraphML.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,9 +15,7 @@ namespace GraphML.API.Controllers
     /// </summary>
     [ApiVersion("1")]
     [Route("api/[controller]")]
-    [Authorize(
-        Roles = Roles.Admin + "," + Roles.User + "," + Roles.UserAdmin,
-        AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Produces("application/json")]
     public sealed class GraphEdgeController : OwnedGraphMLController<GraphEdge>
     {
