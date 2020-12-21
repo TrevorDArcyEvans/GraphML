@@ -9,14 +9,9 @@ namespace GraphML.Logic
 	{
 		public static string Email(this IHttpContextAccessor context)
 		{
-			return context.HttpContext.Email();
-		}
-
-		public static string Email(this HttpContext context)
-		{
 			// ClaimTypes.Email --> 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
 			// JwtClaimTypes.Email --> email'
-			return context.User.Claims
+			return context.HttpContext.User.Claims
 			  .FirstOrDefault(x => x.Type == ClaimTypes.Email || x.Type == JwtClaimTypes.Email)
         ?.Value;
 		}
