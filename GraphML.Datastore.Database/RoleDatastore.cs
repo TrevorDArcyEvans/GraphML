@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
@@ -18,7 +19,12 @@ namespace GraphML.Datastore.Database
 
         public IEnumerable<Role> ByContactId(string id)
         {
-            throw new System.NotImplementedException();
+            const string sql = @"
+SELECT r.* FROM Role r
+JOIN ContactsRoles cr on cr.RoleId = r.Id
+WHERE cr.ContactId = @id
+";
+            return _dbConnection.Query<Role>(sql, new { id });
         }
 
         public IEnumerable<Role> GetAll()
