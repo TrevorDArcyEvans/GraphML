@@ -55,19 +55,18 @@
   {
     "GraphML-all":
     {
-      "Projects":
-      {
+      "Projects": {
         "GraphML.API": {},
         "GraphML.Analysis.Server": {},
         "GraphML.UI.Web": {},
-        "IdentityServer": {}
+        "IdentityServerAspNetIdentity": {}
       }
     },
     "GraphML-no-anal": {
       "Projects": {
         "GraphML.API": {},
         "GraphML.UI.Web": {},
-        "IdentityServer": {}
+        "IdentityServerAspNetIdentity": {}
       }
     }
   }

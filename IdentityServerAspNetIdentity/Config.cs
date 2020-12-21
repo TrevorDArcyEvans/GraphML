@@ -52,10 +52,10 @@ namespace IdentityServerAspNetIdentity
                     RequirePkce = true,
                 
                     // where to redirect to after login
-                    RedirectUris = { "https://localhost:44321/signin-oidc" },
+                    RedirectUris = { "https://localhost:5002/signin-oidc" },
 
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://localhost:44321/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
 
                     // allowed scopes - include Api Resources and Identity Resources that may be accessed by this client
                     AllowedScopes = { "openid", "profile", "email", "identityApi", "appuser_claim" },
