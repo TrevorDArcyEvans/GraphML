@@ -162,6 +162,15 @@
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Class">
+        <Name>Role</Name>
+        <Access>Public</Access>
+        <Location left="1187" top="444" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Id { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Generalization" first="2" second="0">
@@ -408,6 +417,14 @@
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Class">
+        <Name>Role</Name>
+        <Access>Public</Access>
+        <Location left="1004" top="203" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="EntityRelationship" first="0" second="1">
@@ -551,6 +568,14 @@
           <X>804</X>
           <Y>541</Y>
         </BendPoint>
+        <StartMultiplicity>ZeroOrMany</StartMultiplicity>
+        <EndMultiplicity>ZeroOrMany</EndMultiplicity>
+      </Relationship>
+      <Relationship type="EntityRelationship" first="2" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
         <StartMultiplicity>ZeroOrMany</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
