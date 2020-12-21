@@ -1,0 +1,51 @@
+﻿@page "/identityapi"
+
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+
+@inject IHttpContextAccessor _httpContextAccessor
+
+<h1>User Claims from API</h1>
+
+@if (userClaimsJson == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>These are the user claims that were presented to the API</p>
+    <pre> @userClaimsJson </pre>
+    <hr />
+
+    <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
+    <pre> @userInfo </pre>
+}
+
+@code {
+    private string userClaimsJson = "TODO   GetAPIUserClaimsJson";
+    private string userInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //userClaimsJson = await _identityService.GetAPIUserClaimsJson();
+        userInfo = await GetUserInfo();
+    }
+
+    private async Task<string> GetUserInfo()
+    {
+        var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        var client = new HttpClient
+        {
+            BaseAddress = new Uri("https://localhost:44387")
+        };
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+        var response = await client.GetAsync($"/connect/userinfo");
+        var userInfoStr = await response.Content.ReadAsStringAsync();
+        var jObj = JObject.Parse(userInfoStr);
+        var retval = JsonConvert.SerializeObject(jObj, Formatting.Indented);
+
+        return retval;
+    }
+}

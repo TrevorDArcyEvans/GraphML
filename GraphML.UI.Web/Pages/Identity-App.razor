@@ -1,0 +1,35 @@
+﻿@page "/identityapp"
+
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+
+@inject IHttpContextAccessor _httpContextAccessor
+
+@attribute [Authorize]
+
+<h1>User Claims from APP</h1>
+
+<p>These are the user claims that were presented to the Application</p>
+
+
+@if (userClaimsJson == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <pre> @userClaimsJson </pre>
+}
+
+@code {
+    private string userClaimsJson = string.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+        var claimsList = _httpContextAccessor.HttpContext.User.Claims;
+        var rawList = (from c in claimsList select new { c.Type, c.Value });
+        userClaimsJson = JsonConvert.SerializeObject(rawList, Formatting.Indented);
+
+        return Task.CompletedTask;
+    }
+}
