@@ -17,13 +17,6 @@ namespace GraphML.Common
       Environment.GetEnvironmentVariable("API_PASSWORD") ??
       config["API:Password"];
 
-    public static string IdentityServer_Authority(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("IDENTITYSERVER_AUTHORITY") ??
-      config["IdentityServer:Authority"];
-    public static string IdentityServer_ApiName(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("IDENTITYSERVER_APINAME") ??
-      config["IdentityServer:ApiName"];
-
     public static string LOG_CONNECTION_STRING(this IConfiguration config) =>
       (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ??
       config["Log:ConnectionString"])?
@@ -99,10 +92,6 @@ namespace GraphML.Common
 
       Console.WriteLine($"  LOG:");
       Console.WriteLine($"    LOG_CONNECTION_STRING        : {config.LOG_CONNECTION_STRING()}");
-
-      Console.WriteLine($"  OIDC:");
-      Console.WriteLine($"    IDENTITYSERVER_AUTHORITY     : {config.IdentityServer_Authority()}");
-      Console.WriteLine($"    IDENTITYSERVER_APINAME       : {config.IdentityServer_ApiName()}");
 
       Console.WriteLine($"  RESULT:");
       Console.WriteLine($"    RESULT_DATASTORE  : {config.RESULT_DATASTORE()}");
