@@ -38,7 +38,7 @@ else
         var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
         var client = new HttpClient
         {
-            BaseAddress = new Uri("https://localhost:44387")
+            BaseAddress = new Uri("https://localhost:44387") // TODO settings
         };
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
         var response = await client.GetAsync($"/connect/userinfo");

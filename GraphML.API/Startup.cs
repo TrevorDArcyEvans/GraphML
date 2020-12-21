@@ -28,211 +28,215 @@ using System.Collections.Generic;
 
 namespace GraphML.API
 {
-	internal sealed class Startup
-	{
-		private IWebHostEnvironment CurrentEnvironment { get; }
-		private IConfiguration Configuration { get; }
+  internal sealed class Startup
+  {
+    private IWebHostEnvironment CurrentEnvironment { get; }
+    private IConfiguration Configuration { get; }
 
-		public Startup(
-		IWebHostEnvironment env,
-		IConfiguration conf)
-		{
-			// Environment variable:
-			//    ASPNETCORE_ENVIRONMENT == Development
-			CurrentEnvironment = env;
-			Configuration = conf;
+    public Startup(
+    IWebHostEnvironment env,
+    IConfiguration conf)
+    {
+      // Environment variable:
+      //    ASPNETCORE_ENVIRONMENT == Development
+      CurrentEnvironment = env;
+      Configuration = conf;
 
-			// database connection string for nLog
-			GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
+      // database connection string for nLog
+      GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", Configuration.LOG_CONNECTION_STRING());
 
-			Settings.DumpSettings(Configuration);
-		}
+      Settings.DumpSettings(Configuration);
+    }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public IServiceProvider ConfigureServices(IServiceCollection services)
-		{
-			services.AddSingleton(sp => Configuration);
-			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public IServiceProvider ConfigureServices(IServiceCollection services)
+    {
+      services.AddSingleton(sp => Configuration);
+      services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			SqlMapper.AddTypeHandler(new GuidTypeHandler());
-			SqlMapper.RemoveTypeMap(typeof(Guid));
-			SqlMapper.RemoveTypeMap(typeof(Guid?));
+      SqlMapper.AddTypeHandler(new GuidTypeHandler());
+      SqlMapper.RemoveTypeMap(typeof(Guid));
+      SqlMapper.RemoveTypeMap(typeof(Guid?));
 
-			// Add controllers as services so they'll be resolved.
-			services
-			  .AddMvc(o =>
-			  {
-				  o.RespectBrowserAcceptHeader = true;
-				  o.EnableEndpointRouting = false;
+      // Add controllers as services so they'll be resolved.
+      services
+        .AddMvc(o =>
+        {
+          o.RespectBrowserAcceptHeader = true;
+          o.EnableEndpointRouting = false;
 
-				  var settings = new JsonSerializerSettings()
-				  {
-					  ContractResolver = new CamelCasePropertyNamesContractResolver(),
-					  Formatting = Formatting.Indented
-				  };
-				  var sp = services.BuildServiceProvider();
-				  var logger = sp.GetService<ILoggerFactory>();
-				  var objectPoolProvider = sp.GetService<ObjectPoolProvider>();
-			  })
-			  .AddControllersAsServices()
-			  .AddNewtonsoftJson(options =>
-					options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+          var settings = new JsonSerializerSettings()
+          {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            Formatting = Formatting.Indented
+          };
+          var sp = services.BuildServiceProvider();
+          var logger = sp.GetService<ILoggerFactory>();
+          var objectPoolProvider = sp.GetService<ObjectPoolProvider>();
+        })
+        .AddControllersAsServices()
+        .AddNewtonsoftJson(options =>
+          options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
-			if (CurrentEnvironment.IsDevelopment())
-			{
-				services.AddSwaggerGenNewtonsoftSupport();
+      if (CurrentEnvironment.IsDevelopment())
+      {
+        services.AddSwaggerGenNewtonsoftSupport();
 
-				// Register the Swagger generator, defining one or more Swagger documents
-				services.AddSwaggerGen(options =>
-				{
-					options.SwaggerDoc("v1",
-			  new OpenApiInfo
-			  {
-				  Title = "GraphML API",
-				  Version = "v1",
-				  Description = "GraphML API"
-			  });
+        // Register the Swagger generator, defining one or more Swagger documents
+        services.AddSwaggerGen(options =>
+        {
+          options.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+          Title = "GraphML API",
+          Version = "v1",
+          Description = "GraphML API"
+        });
 
-					options.DocInclusionPredicate((docName, apiDesc) =>
-			{
-				var controllerActionDescriptor = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-				if (controllerActionDescriptor == null)
-				{
-					return false;
-				}
+          options.DocInclusionPredicate((docName, apiDesc) =>
+      {
+        var controllerActionDescriptor = apiDesc.ActionDescriptor as ControllerActionDescriptor;
+        if (controllerActionDescriptor == null)
+        {
+          return false;
+        }
 
-				var versions = controllerActionDescriptor.MethodInfo.DeclaringType
-					.GetCustomAttributes(true)
-					.OfType<ApiVersionAttribute>()
-					.SelectMany(attr => attr.Versions);
-				var tags = controllerActionDescriptor.MethodInfo.DeclaringType
-					.GetCustomAttributes(true)
-					.OfType<ApiTagAttribute>();
+        var versions = controllerActionDescriptor.MethodInfo.DeclaringType
+          .GetCustomAttributes(true)
+          .OfType<ApiVersionAttribute>()
+          .SelectMany(attr => attr.Versions);
+        var tags = controllerActionDescriptor.MethodInfo.DeclaringType
+          .GetCustomAttributes(true)
+          .OfType<ApiTagAttribute>();
 
-				return versions.Any(
-				  v => $"v{v.ToString()}" == docName) ||
-				  tags.Any(tag => tag.Tag == docName);
-			});
+        return versions.Any(
+          v => $"v{v.ToString()}" == docName) ||
+          tags.Any(tag => tag.Tag == docName);
+      });
 
-					//Set the comments path for the Swagger JSON and UI.
-					var xmlPath = Path.Combine(AppContext.BaseDirectory, "GraphML.API.xml");
-					options.IncludeXmlComments(xmlPath);
+          //Set the comments path for the Swagger JSON and UI.
+          var xmlPath = Path.Combine(AppContext.BaseDirectory, "GraphML.API.xml");
+          options.IncludeXmlComments(xmlPath);
 
-					options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-					{
-						Type = SecuritySchemeType.OAuth2,
-						Flows = new OpenApiOAuthFlows
-						{
-							AuthorizationCode = new OpenApiOAuthFlow
-							{
-								AuthorizationUrl = new Uri("https://localhost:44387/connect/authorize"),
-								TokenUrl = new Uri("https://localhost:44387/connect/token"),
-								Scopes = new Dictionary<string, string>
-						{
-				  { "identityApi", "Full access to API #1" }
-						}
-							}
-						}
-					});
+          options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+          {
+            Type = SecuritySchemeType.OAuth2,
+            Flows = new OpenApiOAuthFlows
+            {
+              AuthorizationCode = new OpenApiOAuthFlow
+              {
+                AuthorizationUrl = new Uri("https://localhost:44387/connect/authorize"), // TODO settings
+                TokenUrl = new Uri("https://localhost:44387/connect/token"), // TODO settings
+                Scopes = new Dictionary<string, string>
+            {
+          { "identityApi", "Full access to API #1" } // TODO settings
+            }
+              }
+            }
+          });
 
-					options.OperationFilter<AuthorizeCheckOperationFilter>();
-				});
-			}
+          options.OperationFilter<AuthorizeCheckOperationFilter>();
+        });
+      }
 
-			services
-				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-				{
-					options.Authority = "https://localhost:44387";
-					options.RequireHttpsMetadata = false;
+      services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+          options.Authority = "https://localhost:44387"; // TODO settings
+          options.RequireHttpsMetadata = false;
 
-					options.Audience = "identityApi";
-				});
+          options.Audience = "identityApi"; // TODO settings
+        });
 
-			services
-				.AddCors(options =>
-				{
-					// this defines a CORS policy called "default"
-					options.AddPolicy("default", policy =>
-					{
-						policy.WithOrigins("https://localhost:5001")
-							.AllowAnyHeader()
-							.AllowAnyMethod();
-					});
-				});
+      services
+        .AddCors(options =>
+        {
+          // this defines a CORS policy called "default"
+          options.AddPolicy("default", policy =>
+          {
+            policy.WithOrigins("https://localhost:5001") // TODO settings
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+          });
+        });
 
-			// Create the container builder.
-			var builder = new ContainerBuilder();
+#region Autofac
 
-			// Register dependencies, populate the services from
-			// the collection, and build the container.
-			//
-			// Note that Populate is basically a foreach to add things
-			// into Autofac that are in the collection. If you register
-			// things in Autofac BEFORE Populate then the stuff in the
-			// ServiceCollection can override those things; if you register
-			// AFTER Populate those registrations can override things
-			// in the ServiceCollection. Mix and match as needed.
-			builder.Populate(services);
+      // Create the container builder.
+      var builder = new ContainerBuilder();
 
-			// load all assemblies in same directory and register classes with interfaces
-			// Note that we have to explicitly add this (executing) assembly
-			var exeAssy = Assembly.GetExecutingAssembly();
-			var exeAssyPath = exeAssy.Location;
-			var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
-			var assyPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
+      // Register dependencies, populate the services from
+      // the collection, and build the container.
+      //
+      // Note that Populate is basically a foreach to add things
+      // into Autofac that are in the collection. If you register
+      // things in Autofac BEFORE Populate then the stuff in the
+      // ServiceCollection can override those things; if you register
+      // AFTER Populate those registrations can override things
+      // in the ServiceCollection. Mix and match as needed.
+      builder.Populate(services);
 
-			var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
-			assys.Add(exeAssy);
-			builder
-			  .RegisterAssemblyTypes(assys.ToArray())
-			  .PublicOnly()
-			  .AsImplementedInterfaces()
-			  .SingleInstance();
+      // load all assemblies in same directory and register classes with interfaces
+      // Note that we have to explicitly add this (executing) assembly
+      var exeAssy = Assembly.GetExecutingAssembly();
+      var exeAssyPath = exeAssy.Location;
+      var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
+      var assyPaths = Directory.EnumerateFiles(exeAssyDir, "GraphML.*.dll");
 
-			builder.Register(cc => Configuration).As<IConfiguration>();
+      var assys = assyPaths.Select(filePath => Assembly.LoadFrom(filePath)).ToList();
+      assys.Add(exeAssy);
+      builder
+        .RegisterAssemblyTypes(assys.ToArray())
+        .PublicOnly()
+        .AsImplementedInterfaces()
+        .SingleInstance();
 
-			var applicationContainer = builder.Build();
+      builder.Register(cc => Configuration).As<IConfiguration>();
 
-			// Create the IServiceProvider based on the container.
-			return new AutofacServiceProvider(applicationContainer);
-		}
+      var applicationContainer = builder.Build();
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app)
-		{
-			if (CurrentEnvironment.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
+      // Create the IServiceProvider based on the container.
+      return new AutofacServiceProvider(applicationContainer);
 
-			app.UseRouting();
+#endregion
+    }
 
-			app.UseCors("default");
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app)
+    {
+      if (CurrentEnvironment.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+      app.UseRouting();
 
-			if (CurrentEnvironment.IsDevelopment())
-			{
-				// Enable middleware to serve generated Swagger as a JSON endpoint.
-				app.UseSwagger();
+      app.UseCors("default");
 
-				// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-				app.UseSwaggerUI(opts =>
-				{
-					opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API v1");
+      app.UseAuthentication();
+      app.UseAuthorization();
 
-					opts.OAuthClientId("graphml_api_swagger");
-					opts.OAuthAppName("Swagger UI for GraphML API");
-					opts.OAuthUsePkce();
+      if (CurrentEnvironment.IsDevelopment())
+      {
+        // Enable middleware to serve generated Swagger as a JSON endpoint.
+        app.UseSwagger();
 
-					opts.DocExpansion(DocExpansion.None);
-				});
-			}
+        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+        app.UseSwaggerUI(opts =>
+        {
+          opts.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphML API v1");
 
-			app.UseStaticFiles();
-			app.UseMvc();
-		}
-	}
+          opts.OAuthClientId("graphml_api_swagger");
+          opts.OAuthAppName("Swagger UI for GraphML API");
+          opts.OAuthUsePkce();
+
+          opts.DocExpansion(DocExpansion.None);
+        });
+      }
+
+      app.UseStaticFiles();
+      app.UseMvc();
+    }
+  }
 }
