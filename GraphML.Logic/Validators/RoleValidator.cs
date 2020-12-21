@@ -9,6 +9,9 @@ namespace GraphML.Logic.Validators
         public RoleValidator(IHttpContextAccessor context) :
             base(context)
         {
+            RuleSet(nameof(IRoleLogic.ByContactId), () =>
+            {
+            });
             RuleSet(nameof(IRoleLogic.GetAll), () =>
             {
             });
