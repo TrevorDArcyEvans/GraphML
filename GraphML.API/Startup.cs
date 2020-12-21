@@ -139,8 +139,6 @@ namespace GraphML.API
 				});
 			}
 
-
-
 			services
 				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -162,9 +160,6 @@ namespace GraphML.API
 							.AllowAnyMethod();
 					});
 				});
-
-
-
 
 			// Create the container builder.
 			var builder = new ContainerBuilder();
