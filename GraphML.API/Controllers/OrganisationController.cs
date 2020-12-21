@@ -21,6 +21,7 @@ namespace GraphML.API.Controllers
   public sealed class OrganisationController : GraphMLController<Organisation>
   {
     private readonly IOrganisationLogic _orgLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
