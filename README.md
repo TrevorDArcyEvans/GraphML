@@ -158,20 +158,16 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 
 ## Data Model
 <details>
+  <summary>Classes</summary>
 
-  <details>
-    <summary>Classes</summary>
+![GraphML.Classes](Docs/GraphML.Classes.png "GraphML.Classes")
 
-  ![GraphML.Classes](Docs/GraphML.Classes.png "GraphML.Classes")
+</details>
 
-  </details>
+<details>
+  <summary>Composition</summary>
 
-  <details>
-    <summary>Composition</summary>
-
-  ![GraphML.Composition](Docs/GraphML.Composition.png "GraphML.Composition")
-
-  </details>
+![GraphML.Composition](Docs/GraphML.Composition.png "GraphML.Composition")
 
 </details>
 
