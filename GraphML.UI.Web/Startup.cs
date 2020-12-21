@@ -43,8 +43,6 @@ namespace GraphML.UI.Web
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
-			// TODO		integrate IdentityServer
-
 			services.AddSingleton(sp => Configuration);
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -82,9 +80,7 @@ namespace GraphML.UI.Web
 					options.GetClaimsFromUserInfoEndpoint = true;
 				});
 
-
-
-			// Create the container builder.
+      // Create the container builder.
 			var builder = new ContainerBuilder();
 
 			// Register dependencies, populate the services from
