@@ -57,6 +57,7 @@ Nodes with a high degree centrality have the best connections to those around th
   * [npm](https://www.npmjs.com/get-npm)
   * [Redis Commander](https://www.npmjs.com/package/redis-commander)
   * [DBeaver](https://dbeaver.io/)
+  * [DB Browser for SQLite](https://sqlitebrowser.org/)
   * [SQLiteStudio](https://sqlitestudio.pl/)
   * Microsoft SQl Server Management Studio (Windows)
 
