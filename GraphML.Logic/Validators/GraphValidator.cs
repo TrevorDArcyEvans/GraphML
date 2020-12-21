@@ -6,8 +6,11 @@ namespace GraphML.Logic.Validators
 {
   public sealed class GraphValidator : OwnedValidatorBase<Graph>, IGraphValidator
   {
-    public GraphValidator(IHttpContextAccessor context) :
-      base(context)
+    public GraphValidator(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore,
+      IRoleDatastore roleDatastore) :
+      base(context, contactDatastore, roleDatastore)
     {
       RuleSet(nameof(IGraphLogic.ByNodeId), () =>
       {

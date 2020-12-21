@@ -5,7 +5,11 @@ namespace GraphML.Logic.Validators
 {
   public abstract class OwnedValidatorBase<T> : ValidatorBase<T>
   {
-    public OwnedValidatorBase(IHttpContextAccessor context) : base(context)
+    public OwnedValidatorBase(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore,
+      IRoleDatastore roleDatastore) :
+      base(context, contactDatastore, roleDatastore)
     {
       RuleSet(nameof(IOwnedLogic<T>.ByOwners), () =>
       {

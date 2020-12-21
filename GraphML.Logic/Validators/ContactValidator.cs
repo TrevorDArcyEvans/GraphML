@@ -6,8 +6,12 @@ namespace GraphML.Logic.Validators
 {
   public sealed class ContactValidator : OwnedValidatorBase<Contact>, IContactValidator
   {
-    public ContactValidator(IHttpContextAccessor context) :
-      base(context)
+    public ContactValidator(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore,
+      IRoleDatastore roleDatastore) :
+      base(context, contactDatastore, roleDatastore)
+
     {
       RuleSet(nameof(IContactLogic.ByEmail), () =>
       {

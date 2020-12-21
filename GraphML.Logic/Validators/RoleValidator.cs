@@ -6,8 +6,11 @@ namespace GraphML.Logic.Validators
 {
     public sealed class RoleValidator : ValidatorBase<Role>, IRoleValidator
     {
-        public RoleValidator(IHttpContextAccessor context) :
-            base(context)
+      public RoleValidator(
+        IHttpContextAccessor context,
+        IContactDatastore contactDatastore,
+        IRoleDatastore roleDatastore) :
+        base(context, contactDatastore, roleDatastore)
         {
             RuleSet(nameof(IRoleLogic.ByContactId), () =>
             {

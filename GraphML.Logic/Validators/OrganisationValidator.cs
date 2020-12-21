@@ -6,8 +6,11 @@ namespace GraphML.Logic.Validators
 {
   public sealed class OrganisationValidator : ValidatorBase<Organisation>, IOrganisationValidator
   {
-    public OrganisationValidator(IHttpContextAccessor context) :
-      base(context)
+    public OrganisationValidator(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore,
+      IRoleDatastore roleDatastore) :
+      base(context, contactDatastore, roleDatastore)
     {
       RuleSet(nameof(IOrganisationLogic.GetAll), () =>
       {

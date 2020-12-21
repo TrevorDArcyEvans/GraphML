@@ -6,8 +6,11 @@ namespace GraphML.Logic.Validators
 {
   public sealed class RepositoryManagerValidator : OwnedValidatorBase<RepositoryManager>, IRepositoryManagerValidator
   {
-    public RepositoryManagerValidator(IHttpContextAccessor context) :
-      base(context)
+    public RepositoryManagerValidator(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore,
+      IRoleDatastore roleDatastore) :
+      base(context, contactDatastore, roleDatastore)
     {
     }
   }

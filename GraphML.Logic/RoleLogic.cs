@@ -2,6 +2,7 @@
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace GraphML.Logic
 			_roleDatastore = datastore;
 		}
 
-		public IEnumerable<Role> ByContactId(string id)
+		public IEnumerable<Role> ByContactId(Guid id)
 		{
 			var valRes = _validator.Validate(new Role(), options => options.IncludeRuleSets(nameof(IRoleLogic.ByContactId)));
 			if (valRes.IsValid)

@@ -104,7 +104,7 @@ namespace GraphML.API.Controllers
 		[ValidateModelState]
 		[ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<Role>))]
 		[ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-		public IActionResult ByContactId([FromRoute][Required] string id)
+		public IActionResult ByContactId([FromRoute][Required] Guid id)
 		{
 			var retval = _roleLogic.ByContactId(id);
 

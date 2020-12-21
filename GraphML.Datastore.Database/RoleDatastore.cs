@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using GraphML.Datastore.Database.Interfaces;
@@ -17,7 +18,7 @@ namespace GraphML.Datastore.Database
         {
         }
 
-        public IEnumerable<Role> ByContactId(string id)
+        public IEnumerable<Role> ByContactId(Guid id)
         {
             const string sql = @"
 SELECT r.* FROM Role r
