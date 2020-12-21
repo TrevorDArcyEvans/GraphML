@@ -76,7 +76,7 @@ namespace GraphML.API
 			  })
 			  .AddControllersAsServices()
 			  .AddNewtonsoftJson(options =>
-				options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+					options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
 			if (CurrentEnvironment.IsDevelopment())
 			{
@@ -139,18 +139,32 @@ namespace GraphML.API
 				});
 			}
 
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-			  .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, options =>
-			{
-				options.Authority = Configuration.IdentityServer_Authority();
-				options.ApiName = Configuration.IdentityServer_ApiName();
 
-				options.JwtBackChannelHandler = new HttpClientHandler
+
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 				{
-					// accept (all) self-signed ssl certs for development
-					ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-				};
-			});
+					options.Authority = "https://localhost:44387";
+					options.RequireHttpsMetadata = false;
+
+					options.Audience = "identityApi";
+				});
+
+			services
+				.AddCors(options =>
+				{
+					// this defines a CORS policy called "default"
+					options.AddPolicy("default", policy =>
+					{
+						policy.WithOrigins("https://localhost:5001")
+							.AllowAnyHeader()
+							.AllowAnyMethod();
+					});
+				});
+
+
+
 
 			// Create the container builder.
 			var builder = new ContainerBuilder();
@@ -196,6 +210,10 @@ namespace GraphML.API
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseRouting();
+
+			app.UseCors("default");
 
 			app.UseAuthentication();
 			app.UseAuthorization();
