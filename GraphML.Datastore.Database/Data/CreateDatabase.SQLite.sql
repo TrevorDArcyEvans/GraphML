@@ -1,4 +1,8 @@
+
+
+
 -- drop relationship tables
+DROP TABLE IF EXISTS ContactsRoles;
 
 
 -- drop data tables
@@ -19,9 +23,14 @@ DROP TABLE IF EXISTS RepositoryManager;
 DROP TABLE IF EXISTS Contact;
 DROP TABLE IF EXISTS Organisation;
 
+DROP TABLE IF EXISTS Role;
+
 DROP TABLE IF EXISTS Log;
 
+
 -- create data tables
+
+
 
 CREATE TABLE Log 
 (
@@ -31,6 +40,12 @@ CREATE TABLE Log
   Message TEXT
 );
 CREATE INDEX IDX_Timestamp ON Log(Timestamp);
+
+CREATE TABLE Role
+(
+  Id TEXT NOT NULL UNIQUE,
+  PRIMARY KEY (Id)
+);
 
 CREATE TABLE Organisation
 (
@@ -185,3 +200,13 @@ CREATE TABLE EdgeItemAttribute
 );
 CREATE INDEX IDX_EdgeItemAttribute_Edge ON EdgeItemAttribute(OwnerId);
 
+
+-- create relationship tables
+CREATE TABLE ContactsRoles
+(
+  ContactId TEXT NOT NULL,
+  RoleId TEXT NOT NULL,
+  FOREIGN KEY (ContactId) REFERENCES Contact(Id) ON DELETE CASCADE,
+  FOREIGN KEY (RoleId) REFERENCES Role(Id) ON DELETE CASCADE,
+  PRIMARY KEY (ContactId, RoleId)
+);

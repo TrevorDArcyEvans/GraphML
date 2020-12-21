@@ -1,3 +1,9 @@
+INSERT INTO Role(Id)
+VALUES
+  ('User'),
+  ('UserAdmin'),
+  ('Admin');
+
 INSERT INTO Organisation(Id, Name)
 VALUES
   ('c018775d-ac42-46d2-bf8d-7fadced870d5', 'GraphML'),
@@ -124,4 +130,9 @@ VALUES
   ('acced08b-fe29-4a1a-9b93-ca668e8b3482', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'Edge D-A', 'string', 'Edge D-A Attribute'),
   ('4dd0ffb3-6199-4e38-bfa9-dcc41cdedbca', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Edge D-A', 'string', 'Edge A-C Attribute'),
   ('9bfd22d6-757a-49e8-9ff2-c51ed59cdb76', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Edge D-A', 'string', 'Edge B-D Attribute');
+
+-- roles
+INSERT INTO ContactsRoles(ContactId, RoleId)
+VALUES
+  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', 'Admin');
 

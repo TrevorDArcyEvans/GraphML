@@ -2,6 +2,7 @@
 --    Latin1_General_CI_AI
 
 -- drop relationship tables
+DROP TABLE IF EXISTS ContactsRoles;
 
 
 -- drop data tables
@@ -22,6 +23,8 @@ DROP TABLE IF EXISTS RepositoryManager;
 DROP TABLE IF EXISTS Contact;
 DROP TABLE IF EXISTS Organisation;
 
+DROP TABLE IF EXISTS Role;
+
 DROP TABLE IF EXISTS Log;
 
 
@@ -37,6 +40,12 @@ CREATE TABLE Log
   Message TEXT
 );
 CREATE INDEX IDX_Timestamp ON Log(Timestamp);
+
+CREATE TABLE Role
+(
+  Id NVARCHAR(36) NOT NULL UNIQUE,
+  PRIMARY KEY (Id)
+);
 
 CREATE TABLE Organisation
 (
@@ -190,3 +199,14 @@ CREATE TABLE EdgeItemAttribute
   FOREIGN KEY (OwnerId) REFERENCES Edge(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_EdgeItemAttribute_Edge ON EdgeItemAttribute(OwnerId);
+
+
+-- create relationship tables
+CREATE TABLE ContactsRoles
+(
+  ContactId NVARCHAR(36) NOT NULL,
+  RoleId NVARCHAR(36) NOT NULL,
+  FOREIGN KEY (ContactId) REFERENCES Contact(Id) ON DELETE CASCADE,
+  FOREIGN KEY (RoleId) REFERENCES Role(Id) ON DELETE CASCADE,
+  PRIMARY KEY (ContactId, RoleId)
+);
