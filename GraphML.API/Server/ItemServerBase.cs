@@ -5,16 +5,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
+using Microsoft.AspNetCore.Http;
 
 namespace GraphML.API.Server
 {
   public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T> where T : Item
   {
     public ItemServerBase(
+      IHttpContextAccessor httpContextAccessor,
       IRestClientFactory clientFactory, 
       ILogger<ItemServerBase<T>> logger, 
       ISyncPolicyFactory policy) : 
-      base(clientFactory, logger, policy)
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 

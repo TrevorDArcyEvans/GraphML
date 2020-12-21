@@ -5,18 +5,20 @@ using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
+using Microsoft.AspNetCore.Http;
 
 namespace GraphML.API.Server
 {
 	public sealed class GraphServer : OwnedItemServerBase<Graph>, IGraphServer
 	{
 		public GraphServer(
-		  IRestClientFactory clientFactory,
-		  ILogger<GraphServer> logger,
-		  ISyncPolicyFactory policy) :
-		  base(clientFactory, logger, policy)
-		{
-		}
+        IHttpContextAccessor httpContextAccessor,
+        IRestClientFactory clientFactory,
+        ILogger<GraphServer> logger,
+        ISyncPolicyFactory policy) :
+        base(httpContextAccessor, clientFactory, logger, policy)
+    {
+    }
 
 		protected override string ResourceBase { get; } = $"/api/{nameof(Graph)}";
 

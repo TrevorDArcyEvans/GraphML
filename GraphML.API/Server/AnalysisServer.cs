@@ -5,16 +5,18 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace GraphML.API.Server
 {
 	public sealed class AnalysisServer : ServerBase, IAnalysisServer
 	{
 		public AnalysisServer(
+      IHttpContextAccessor httpContextAccessor,
 		  IRestClientFactory clientFactory,
 		  ILogger<AnalysisServer> logger,
 		  ISyncPolicyFactory policy) :
-		  base(clientFactory, logger, policy)
+		  base(httpContextAccessor, clientFactory, logger, policy)
 		{
 		}
 

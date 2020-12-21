@@ -5,16 +5,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
+using Microsoft.AspNetCore.Http;
 
 namespace GraphML.API.Server
 {
 	public abstract class OwnedItemServerBase<T> : ItemServerBase<T>, IOwnedItemServerBase<T> where T : OwnedItem
 	{
 		public OwnedItemServerBase(
-		  IRestClientFactory clientFactory,
+      IHttpContextAccessor httpContextAccessor,
+      IRestClientFactory clientFactory,
 		  ILogger<OwnedItemServerBase<T>> logger,
 		  ISyncPolicyFactory policy) :
-		  base(clientFactory, logger, policy)
+		  base(httpContextAccessor, clientFactory, logger, policy)
 		{
 		}
 

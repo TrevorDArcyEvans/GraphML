@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
+using Microsoft.AspNetCore.Http;
 
 namespace GraphML.API.Server
 {
   public sealed class EdgeServer : RepositoryItemServer<Edge>, IEdgeServer
   {
     public EdgeServer(
-      IRestClientFactory clientFactory,
-      ILogger<EdgeServer> logger,
-      ISyncPolicyFactory policy) :
-      base(clientFactory, logger, policy)
+        IHttpContextAccessor httpContextAccessor,
+        IRestClientFactory clientFactory,
+        ILogger<EdgeServer> logger,
+        ISyncPolicyFactory policy) :
+        base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 
-    protected override string ResourceBase { get; } = $"/api/{nameof(Edge)}";
+        protected override string ResourceBase { get; } = $"/api/{nameof(Edge)}";
 
     public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<string> ids)
     {

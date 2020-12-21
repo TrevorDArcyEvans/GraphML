@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
+using Microsoft.AspNetCore.Http;
 
 namespace GraphML.API.Server
 {
   public sealed class OrganisationServer : ItemServerBase<Organisation>, IOrganisationServer
   {
     public OrganisationServer(
+      IHttpContextAccessor httpContextAccessor,
       IRestClientFactory clientFactory,
       ILogger<OrganisationServer> logger,
       ISyncPolicyFactory policy) :
-      base(clientFactory, logger, policy)
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 
