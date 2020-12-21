@@ -33,7 +33,7 @@ namespace GraphML.API
                 }
               ] = new[] 
               {
-                "api1"
+                "identityApi"
               }
           }
         };

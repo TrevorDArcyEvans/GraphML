@@ -125,11 +125,11 @@ namespace GraphML.API
 						{
 							AuthorizationCode = new OpenApiOAuthFlow
 							{
-								AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
-								TokenUrl = new Uri("https://localhost:5000/connect/token"),
+								AuthorizationUrl = new Uri("https://localhost:44387/connect/authorize"),
+								TokenUrl = new Uri("https://localhost:44387/connect/token"),
 								Scopes = new Dictionary<string, string>
 						{
-				  { "api1", "Full access to API #1" }
+				  { "identityApi", "Full access to API #1" }
 						}
 							}
 						}
