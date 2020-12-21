@@ -123,10 +123,6 @@ DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/Graph
 LOG_CONNECTION_STRING | |
 LOG_BEARER_AUTH       | | False
 ||
-OIDC_USERINFO_URL | |
-OIDC_ISSUER_URL   | |
-OIDC_AUDIENCE     | |
-||
 RESULT_DATASTORE | | localhost:6379
 ||
 KESTREL_URL                  | | http://localhost:5000
@@ -139,15 +135,22 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 </details>
 </details>
 
+## Overview
+<details><p/>
+
+  ![GraphML.Overview](Docs/GraphML.Overview.png "GraphML.Overview")
+
+</details>
+
 ## Architecture
-<details>
+<details><p/>
 
   ![GraphML.Architecture](Docs/GraphML.Architecture.png "GraphML.Architecture")
 
 </details>
 
 ## Analysis
-<details>
+<details><p/>
 
   ![GraphML.Analysis](Docs/GraphML.Analysis.Sequence.png "GraphML.Analysis")
 
@@ -192,7 +195,7 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 ### Port Allocations
 | Service | Port | Notes |
 |---------|------|-------|
-| IdentityServer | 5000 |
+| IdentityServerAspnetIdentity | 44387 |
 | GraphML.API | 5001 |
 | GraphML.UI.Web | 5002 |
 | Apache ActiveMQ | 61616 |
