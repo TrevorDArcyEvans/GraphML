@@ -16,7 +16,7 @@ namespace GraphML.API.Controllers
 	/// </summary>
 	[ApiVersion("1")]
 	[Route("api/[controller]")]
-	//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[Produces("application/json")]
 	public sealed class RoleController : GraphMLController<Role>
 	{
