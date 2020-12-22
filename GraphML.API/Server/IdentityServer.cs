@@ -22,7 +22,7 @@ namespace GraphML.API.Server
 
         public async Task<string> GetAPIUserClaimsJson()
         {
-            var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(IdentityController.Get)}"));
+            var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(IdentityController.GetAPIUserClaimsJson)}"));
 
             // have to get raw response as does not JSON deserialise
             var retval = await GetRawResponse(request);

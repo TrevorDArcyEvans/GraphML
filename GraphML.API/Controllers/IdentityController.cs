@@ -21,11 +21,11 @@ namespace GraphML.API.Controllers
         /// </summary>
         /// <response code="200">Success - if no Entities found, return empty list</response>
         [HttpGet]
-        [Route(nameof(Get))]
+        [Route(nameof(GetAPIUserClaimsJson))]
         [ValidateModelState]
         [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(JsonResult))]
         [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-        public IActionResult Get()
+        public IActionResult GetAPIUserClaimsJson()
         {
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
