@@ -1,0 +1,43 @@
+@page "/BrowseRoles"
+
+@using GraphML
+@using GraphML.Interfaces.Server
+
+@inject IRoleServer _roleServer
+@inject NavigationManager UriHelper
+
+<h1>Roles</h1>
+
+@if (_roles == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+    @foreach (var role in _roles)
+    {
+      <tr>
+        <th scope="row">@role.Name</th>
+      </tr>
+    }
+  </table>
+}
+
+@functions
+{
+    private IEnumerable<Role> _roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roles = await _roleServer.GetAll();
+    }
+}
