@@ -4,8 +4,10 @@
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using GraphML.Interfaces.Server
 
 @inject IHttpContextAccessor _httpContextAccessor
+@inject IIdentityServer _identityServer
 
 <h1>User Claims from API</h1>
 
@@ -29,7 +31,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        //userClaimsJson = await _identityService.GetAPIUserClaimsJson();
+        userClaimsJson = await _identityServer.GetAPIUserClaimsJson();
         userInfo = await GetUserInfo();
     }
 
