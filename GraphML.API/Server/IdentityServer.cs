@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace GraphML.API.Server
 {
@@ -27,7 +29,12 @@ namespace GraphML.API.Server
             // have to get raw response as does not JSON deserialise
             var retval = await GetRawResponse(request);
 
-            return retval.Content;
+
+            // format nicely
+            var jobjs = JsonConvert.DeserializeObject<List<object>>(retval.Content);
+            var json = JsonConvert.SerializeObject(jobjs, Formatting.Indented);
+
+            return json;
         }
     }
 }
