@@ -75,7 +75,15 @@ namespace GraphML.Common
     public static string IDENTITY_SERVER_BASE_URL(this IConfiguration config) =>
         Environment.GetEnvironmentVariable("IDENTITY_SERVER_BASE_URL") ??
         config["Identity_Server:Base_Url"] ??
-        false.ToString();
+        "https://localhost:44387";
+    public static string IDENTITY_SERVER_AUTHORIZATION_REL_URL(this IConfiguration config) =>
+        Environment.GetEnvironmentVariable("IDENTITY_SERVER_AUTHORIZATION_REL_URL") ??
+        config["Identity_Server:Authorization_Rel_Url"] ??
+        "/connect/authorize";
+    public static string IDENTITY_SERVER_TOKEN_REL_URL(this IConfiguration config) =>
+        Environment.GetEnvironmentVariable("IDENTITY_SERVER_TOKEN_REL_URL") ??
+        config["Identity_Server:Token_Rel_Url"] ??
+        "/connect/token";
 
 
     public static void DumpSettings(IConfiguration config)
@@ -87,7 +95,9 @@ namespace GraphML.Common
 
       Console.WriteLine("Settings:");
       Console.WriteLine($"  IDENTITY_SERVER:");
-      Console.WriteLine($"    BASE_URL      : {config.IDENTITY_SERVER_BASE_URL()}");
+      Console.WriteLine($"    BASE_URL                      : {config.IDENTITY_SERVER_BASE_URL()}");
+      Console.WriteLine($"    AUTHORIZATION_REL_URL         : {config.IDENTITY_SERVER_AUTHORIZATION_REL_URL()}");
+      Console.WriteLine($"    TOKEN_REL_URL                 : {config.IDENTITY_SERVER_TOKEN_REL_URL()}");
 
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");

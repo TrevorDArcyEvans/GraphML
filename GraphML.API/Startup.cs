@@ -25,6 +25,7 @@ using Dapper;
 using Newtonsoft.Json.Converters;
 using System.Net.Http;
 using System.Collections.Generic;
+using Flurl;
 
 namespace GraphML.API
 {
@@ -125,8 +126,8 @@ namespace GraphML.API
             {
               AuthorizationCode = new OpenApiOAuthFlow
               {
-                AuthorizationUrl = new Uri("https://localhost:44387/connect/authorize"), // TODO settings
-                TokenUrl = new Uri("https://localhost:44387/connect/token"), // TODO settings
+                AuthorizationUrl = new Uri(Url.Combine(Configuration.IDENTITY_SERVER_BASE_URL(), Configuration.IDENTITY_SERVER_AUTHORIZATION_REL_URL())),
+                TokenUrl = new Uri(Url.Combine(Configuration.IDENTITY_SERVER_BASE_URL(), Configuration.IDENTITY_SERVER_TOKEN_REL_URL())),
                 Scopes = new Dictionary<string, string>
             {
           { "identityApi", "Full access to API #1" } // TODO settings
