@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GraphML.Common
 {
@@ -96,6 +98,15 @@ namespace GraphML.Common
         Environment.GetEnvironmentVariable("IDENTITY_SERVER_CLIENT_SECRET") ??
         config["Identity_Server:Client_Secret"] ??
         "*** no Client Secret ***";
+    public static IEnumerable<string> IDENTITY_SERVER_SCOPES(this IConfiguration config)
+    {
+        var scopes = config
+            .GetSection("Identity_Server:Scopes")
+            .GetChildren()
+            .Select(child => child.Value);
+        return Environment.GetEnvironmentVariable("IDENTITY_SERVER_SCOPES")?.Split(',') ??
+               scopes;
+    }
 
 
     public static void DumpSettings(IConfiguration config)
@@ -113,6 +124,7 @@ namespace GraphML.Common
       Console.WriteLine($"    AUDIENCE                      : {config.IDENTITY_SERVER_AUDIENCE()}");
       Console.WriteLine($"    CLIENT_ID                     : {config.IDENTITY_SERVER_CLIENT_ID()}");
       Console.WriteLine($"    CLIENT_SECRET                 : {config.IDENTITY_SERVER_CLIENT_SECRET()}");
+      Console.WriteLine($"    SCOPES                        : {string.Join(',', config.IDENTITY_SERVER_SCOPES())}");
 
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");

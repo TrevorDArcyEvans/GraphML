@@ -127,10 +127,7 @@ namespace GraphML.API
               {
                 AuthorizationUrl = new Uri(Url.Combine(Configuration.IDENTITY_SERVER_BASE_URL(), Configuration.IDENTITY_SERVER_AUTHORIZATION_REL_URL())),
                 TokenUrl = new Uri(Url.Combine(Configuration.IDENTITY_SERVER_BASE_URL(), Configuration.IDENTITY_SERVER_TOKEN_REL_URL())),
-                Scopes = new Dictionary<string, string>
-            {
-          { "identityApi", "Full access to API #1" } // TODO settings
-            }
+                Scopes = Configuration.IDENTITY_SERVER_SCOPES().ToDictionary(x => x)
               }
             }
           });
