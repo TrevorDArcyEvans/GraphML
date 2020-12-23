@@ -143,7 +143,7 @@ namespace GraphML.API
         .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
-          options.Authority = "https://localhost:44387"; // TODO settings
+          options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
           options.RequireHttpsMetadata = false;
 
           options.Audience = "identityApi"; // TODO settings
