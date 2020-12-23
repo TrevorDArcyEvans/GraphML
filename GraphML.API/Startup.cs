@@ -155,7 +155,7 @@ namespace GraphML.API
           // this defines a CORS policy called "default"
           options.AddPolicy("default", policy =>
           {
-            policy.WithOrigins("https://localhost:5001") // TODO settings
+            policy.WithOrigins(Configuration.API_URI())
               .AllowAnyHeader()
               .AllowAnyMethod();
           });
