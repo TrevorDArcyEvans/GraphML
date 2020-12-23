@@ -12,12 +12,6 @@ namespace GraphML.Common
     public static string API_URI(this IConfiguration config) =>
       Environment.GetEnvironmentVariable("API_URI") ??
       config["API:Uri"];
-    public static string API_USERNAME(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("API_USERNAME") ??
-      config["API:UserName"];
-    public static string API_PASSWORD(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("API_PASSWORD") ??
-      config["API:Password"];
 
     public static string LOG_CONNECTION_STRING(this IConfiguration config) =>
       (Environment.GetEnvironmentVariable("LOG_CONNECTION_STRING") ??
@@ -128,8 +122,6 @@ namespace GraphML.Common
 
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");
-      Console.WriteLine($"    API_USERNAME  : {config.API_USERNAME()}");
-      Console.WriteLine($"    API_PASSWORD  : {config.API_PASSWORD()}");
 
       Console.WriteLine($"  DATASTORE:");
       Console.WriteLine($"    DATASTORE_CONNECTION         : {config.DATASTORE_CONNECTION()}");

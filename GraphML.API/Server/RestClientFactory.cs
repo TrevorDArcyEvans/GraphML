@@ -1,40 +1,22 @@
 ﻿using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
-using RestSharp.Authenticators;
-using System.Configuration;
 
 namespace GraphML.API.Server
 {
 	public sealed class RestClientFactory : IRestClientFactory
 	{
-		private readonly string ApiUri;
-
-		private readonly string UserName;
-		private readonly string Password;
+		private readonly string _apiUri;
 
 		public RestClientFactory(IConfiguration config)
 		{
-			// read out of user secret or environment
-			ApiUri = config.API_URI();
-			UserName = config.API_USERNAME();
-			Password = config.API_PASSWORD();
-
-			if (string.IsNullOrWhiteSpace(ApiUri) ||
-			  string.IsNullOrWhiteSpace(UserName) ||
-			  string.IsNullOrWhiteSpace(Password)
-			  )
-			{
-				throw new ConfigurationErrorsException("Missing API configuration - check UserSecrets or environment variables");
-			}
+			_apiUri = config.API_URI();
 		}
 
 		public IRestClient GetRestClient()
 		{
-		// TODO		support IdentityServer
-			var client = new RestClient(ApiUri)
+			var client = new RestClient(_apiUri)
 			{
-				Authenticator = new HttpBasicAuthenticator(UserName, Password),
 				RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
 			};
 
