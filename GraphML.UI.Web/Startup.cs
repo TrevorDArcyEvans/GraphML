@@ -64,16 +64,16 @@ namespace GraphML.UI.Web
           options.ClientSecret = "secret"; // TODO settings
           options.UsePkce = true;
           options.ResponseType = "code";
-          options.Scope.Add("openid");
-          options.Scope.Add("profile");
-          options.Scope.Add("email");
-          options.Scope.Add("offline_access");
+          options.Scope.Add("openid"); // TODO settings
+          options.Scope.Add("profile"); // TODO settings
+          options.Scope.Add("email"); // TODO settings
+          options.Scope.Add("offline_access"); // TODO settings
 
           // Scope for accessing API
-          options.Scope.Add("identityApi"); //invalid scope for client
+          options.Scope.Add("identityApi"); // TODO settings
 
           // Scope for custom user claim
-          options.Scope.Add("appuser_claim"); //invalid scope for client
+          options.Scope.Add("appuser_claim"); // TODO settings
 
           //options.CallbackPath = ...
           options.SaveTokens = true;
