@@ -64,16 +64,11 @@ namespace GraphML.UI.Web
           options.ClientSecret = Configuration.IDENTITY_SERVER_CLIENT_SECRET();
           options.UsePkce = true;
           options.ResponseType = "code";
-          options.Scope.Add("openid"); // TODO settings
-          options.Scope.Add("profile"); // TODO settings
-          options.Scope.Add("email"); // TODO settings
-          options.Scope.Add("offline_access"); // TODO settings
 
-          // Scope for accessing API
-          options.Scope.Add("identityApi"); // TODO settings
-
-          // Scope for custom user claim
-          options.Scope.Add("appuser_claim"); // TODO settings
+          Configuration
+              .IDENTITY_SERVER_SCOPES()
+              .ToList()
+              .ForEach(scope => options.Scope.Add(scope));
 
           //options.CallbackPath = ...
           options.SaveTokens = true;
