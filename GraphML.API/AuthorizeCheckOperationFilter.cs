@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using GraphML.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -8,7 +10,14 @@ namespace GraphML.API
 {
   public class AuthorizeCheckOperationFilter : IOperationFilter
   {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+      private readonly string[] _scopes;
+
+      public AuthorizeCheckOperationFilter(IConfiguration config)
+      {
+          _scopes = config.IDENTITY_SERVER_SCOPES().ToArray();
+      }
+
+      public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
       var hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any() ||
                          context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
@@ -31,10 +40,7 @@ namespace GraphML.API
                     Id = "oauth2"
                   }
                 }
-              ] = new[] 
-              {
-                "identityApi"
-              }
+              ] = _scopes
           }
         };
       }
