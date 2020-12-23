@@ -47,7 +47,7 @@ namespace GraphML.Analysis.Server
       var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .AddJsonFile("hosting.json")
+        .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
         .Build();
@@ -66,6 +66,8 @@ namespace GraphML.Analysis.Server
       // The Microsoft.Extensions.Logging package provides this one-liner
       // to add logging services.
       serviceCollection.AddLogging();
+
+#region Autofac
 
       // Create the container builder.
       var containerBuilder = new ContainerBuilder();
@@ -111,6 +113,8 @@ namespace GraphML.Analysis.Server
       // Create the IServiceProvider based on the container.
       var container = containerBuilder.Build();
       _serviceProvider = new AutofacServiceProvider(container);
+
+#endregion
 
       _receiver = _serviceProvider.GetRequiredService<IRequestMessageReceiver>();
       _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
