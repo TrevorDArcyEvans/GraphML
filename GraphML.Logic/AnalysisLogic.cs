@@ -9,6 +9,17 @@ namespace GraphML.Logic
     private readonly IHttpContextAccessor _context;
     private readonly IRequestMessageSender _sender;
 
+    // IGraphNodesRequestValidator --> all GraphNodes are in same graph
+    //    IGraphNodeDatastore.ByIds --> GraphNode.GraphId[]
+
+    // IGraphRequestValidator --> requester is same org as graph
+    //    IGraphNodeDatastore.ByIds --> GraphNode.GraphId
+    //    IGraphDatastore.ByIds --> Graph.RepositoryId
+    //    IRepositoryDatastore.ByIds --> Repository.RepositoryManagerId
+    //    IRepositoryManagerDatastore.ByIds --> RepositoruManager.OrganisationId
+    //    IOrganisationDatastore.ByIds --> Organisation.Id
+    //    IContactDatastore.ByEmail --> Contact.OrganisationId
+
     public AnalysisLogic(
       IHttpContextAccessor context,
       IRequestMessageSender sender)
@@ -20,24 +31,28 @@ namespace GraphML.Logic
     public void Degree(IDegreeRequest req)
     {
       // TODO   validation
+      // requester is same org as graph
       Send(req);
     }
 
     public void Closeness(IClosenessRequest req)
     {
       // TODO   validation
+      // requester is same org as graph
       Send(req);
     }
 
     public void Betweenness(IBetweennessRequest req)
     {
       // TODO   validation
+      // requester is same org as graph
       Send(req);
     }
 
     public void FindShortestPaths(IFindShortestPathsRequest req)
     {
       // TODO   validation
+      // requester is same org as graph
       // root and goal are in same graph (OwnerId)
       Send(req);
     }
