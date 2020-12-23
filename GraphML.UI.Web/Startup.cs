@@ -60,8 +60,8 @@ namespace GraphML.UI.Web
         options =>
         {
           options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
-          options.ClientId = "BlazorID_App"; // TODO settings
-          options.ClientSecret = "secret"; // TODO settings
+          options.ClientId = Configuration.IDENTITY_SERVER_CLIENT_ID();
+          options.ClientSecret = Configuration.IDENTITY_SERVER_CLIENT_SECRET();
           options.UsePkce = true;
           options.ResponseType = "code";
           options.Scope.Add("openid"); // TODO settings

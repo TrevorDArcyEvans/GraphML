@@ -87,7 +87,15 @@ namespace GraphML.Common
     public static string IDENTITY_SERVER_AUDIENCE(this IConfiguration config) =>
         Environment.GetEnvironmentVariable("IDENTITY_SERVER_AUDIENCE") ??
         config["Identity_Server:Audience"] ??
-        "** no Audience **";
+        "*** no Audience ***";
+    public static string IDENTITY_SERVER_CLIENT_ID(this IConfiguration config) =>
+        Environment.GetEnvironmentVariable("IDENTITY_SERVER_CLIENT_ID") ??
+        config["Identity_Server:Client_Id"] ??
+        "*** no Client Id ***";
+    public static string IDENTITY_SERVER_CLIENT_SECRET(this IConfiguration config) =>
+        Environment.GetEnvironmentVariable("IDENTITY_SERVER_CLIENT_SECRET") ??
+        config["Identity_Server:Client_Secret"] ??
+        "*** no Client Secret ***";
 
 
     public static void DumpSettings(IConfiguration config)
@@ -103,6 +111,8 @@ namespace GraphML.Common
       Console.WriteLine($"    AUTHORIZATION_REL_URL         : {config.IDENTITY_SERVER_AUTHORIZATION_REL_URL()}");
       Console.WriteLine($"    TOKEN_REL_URL                 : {config.IDENTITY_SERVER_TOKEN_REL_URL()}");
       Console.WriteLine($"    AUDIENCE                      : {config.IDENTITY_SERVER_AUDIENCE()}");
+      Console.WriteLine($"    CLIENT_ID                     : {config.IDENTITY_SERVER_CLIENT_ID()}");
+      Console.WriteLine($"    CLIENT_SECRET                 : {config.IDENTITY_SERVER_CLIENT_SECRET()}");
 
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");
