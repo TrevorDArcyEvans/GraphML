@@ -147,7 +147,7 @@ namespace GraphML.API
           options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
           options.RequireHttpsMetadata = false;
 
-          options.Audience = "identityApi"; // TODO settings
+          options.Audience = Configuration.IDENTITY_SERVER_AUDIENCE();
         });
 
       services

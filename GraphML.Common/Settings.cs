@@ -84,6 +84,10 @@ namespace GraphML.Common
         Environment.GetEnvironmentVariable("IDENTITY_SERVER_TOKEN_REL_URL") ??
         config["Identity_Server:Token_Rel_Url"] ??
         "/connect/token";
+    public static string IDENTITY_SERVER_AUDIENCE(this IConfiguration config) =>
+        Environment.GetEnvironmentVariable("IDENTITY_SERVER_AUDIENCE") ??
+        config["Identity_Server:Audience"] ??
+        "** no Audience **";
 
 
     public static void DumpSettings(IConfiguration config)
@@ -98,6 +102,7 @@ namespace GraphML.Common
       Console.WriteLine($"    BASE_URL                      : {config.IDENTITY_SERVER_BASE_URL()}");
       Console.WriteLine($"    AUTHORIZATION_REL_URL         : {config.IDENTITY_SERVER_AUTHORIZATION_REL_URL()}");
       Console.WriteLine($"    TOKEN_REL_URL                 : {config.IDENTITY_SERVER_TOKEN_REL_URL()}");
+      Console.WriteLine($"    AUDIENCE                      : {config.IDENTITY_SERVER_AUDIENCE()}");
 
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");
