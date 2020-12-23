@@ -72,6 +72,12 @@ namespace GraphML.Common
         config["Message_Queue:Use_Threads"] ??
         false.ToString());
 
+    public static string IDENTITY_SERVER_BASE_URL(this IConfiguration config) =>
+        Environment.GetEnvironmentVariable("IDENTITY_SERVER_BASE_URL") ??
+        config["Identity_Server:Base_Url"] ??
+        false.ToString();
+
+
     public static void DumpSettings(IConfiguration config)
     {
       var root = (IConfigurationRoot)config;
@@ -80,6 +86,9 @@ namespace GraphML.Common
       Console.WriteLine();
 
       Console.WriteLine("Settings:");
+      Console.WriteLine($"  IDENTITY_SERVER:");
+      Console.WriteLine($"    BASE_URL      : {config.IDENTITY_SERVER_BASE_URL()}");
+
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");
       Console.WriteLine($"    API_USERNAME  : {config.API_USERNAME()}");

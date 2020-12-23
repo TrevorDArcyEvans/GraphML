@@ -59,7 +59,7 @@ namespace GraphML.UI.Web
         .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme,
         options =>
         {
-          options.Authority = "https://localhost:44387/"; // TODO settings
+          options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
           options.ClientId = "BlazorID_App"; // TODO settings
           options.ClientSecret = "secret"; // TODO settings
           options.UsePkce = true;

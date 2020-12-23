@@ -5,9 +5,12 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using GraphML.Interfaces.Server
+@using Microsoft.Extensions.Configuration
+@using GraphML.Common
 
 @inject IHttpContextAccessor _httpContextAccessor
 @inject IIdentityServer _identityServer
+@inject IConfiguration _config
 
 <h1>User Claims from API</h1>
 
@@ -40,7 +43,7 @@ else
         var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
         var client = new HttpClient
         {
-            BaseAddress = new Uri("https://localhost:44387") // TODO settings
+            BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
         };
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
         var response = await client.GetAsync($"/connect/userinfo");
