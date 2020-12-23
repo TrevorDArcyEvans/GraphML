@@ -2,8 +2,7 @@
 
 namespace GraphML.Interfaces
 {
-  public interface IClosenessRequest : IRequest
+  public interface IClosenessRequest : IGraphRequest
   {
-    Guid GraphId { get; set; }
   }
 }

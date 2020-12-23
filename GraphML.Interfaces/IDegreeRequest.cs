@@ -2,8 +2,7 @@
 
 namespace GraphML.Interfaces
 {
-  public interface IDegreeRequest : IRequest
+  public interface IDegreeRequest : IGraphRequest
   {
-    Guid GraphId { get; set; }
   }
 }
