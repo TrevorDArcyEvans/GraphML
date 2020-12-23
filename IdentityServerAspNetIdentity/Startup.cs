@@ -23,6 +23,8 @@ namespace IdentityServerAspNetIdentity
 		{
 			Environment = environment;
 			Configuration = configuration;
+
+			Settings.DumpSettings(Configuration);
 		}
 
 		public void ConfigureServices(IServiceCollection services)
@@ -43,9 +45,9 @@ namespace IdentityServerAspNetIdentity
 					options.Events.RaiseFailureEvents = true;
 					options.Events.RaiseSuccessEvents = true;
 				})
-				.AddInMemoryIdentityResources(Config.Ids)
-				.AddInMemoryApiResources(Config.Apis)
-				.AddInMemoryClients(Config.Clients)
+				.AddInMemoryIdentityResources(Config.Ids(Configuration))
+				.AddInMemoryApiResources(Config.Apis(Configuration))
+				.AddInMemoryClients(Config.Clients(Configuration))
 				.AddAspNetIdentity<ApplicationUser>();
 
 			// not recommended for production - you need to store your key material somewhere secure
