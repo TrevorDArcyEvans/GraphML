@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using FluentValidation;
+using GraphML.Interfaces;
 
 namespace GraphML.Logic.Interfaces
 {
-  public interface IGraphNodesRequestValidator : IValidator<IEnumerable<GraphNode>>
+  public interface IGraphNodesRequestValidator : IValidator<IGraphNodesRequest>
   {
   }
 }

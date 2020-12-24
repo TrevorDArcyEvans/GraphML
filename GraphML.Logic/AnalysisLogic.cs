@@ -1,4 +1,5 @@
-﻿using GraphML.Interfaces;
+﻿using FluentValidation;
+using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -26,22 +27,37 @@ namespace GraphML.Logic
 
     public void Degree(IDegreeRequest req)
     {
-      // TODO   validation
       // requester is same org as graph
+      var valRes = _graphRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.Degree)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
+
       Send(req);
     }
 
     public void Closeness(IClosenessRequest req)
     {
-      // TODO   validation
       // requester is same org as graph
+      var valRes = _graphRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.Closeness)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
+
       Send(req);
     }
 
     public void Betweenness(IBetweennessRequest req)
     {
-      // TODO   validation
       // requester is same org as graph
+      var valRes = _graphRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.Betweenness)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
+
       Send(req);
     }
 
@@ -49,7 +65,12 @@ namespace GraphML.Logic
     {
       // TODO   validation
       // requester is same org as graph
-      // root and goal are in same graph (OwnerId)
+      // root and goal are in same graph
+      var valRes = _graphNodesRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.FindShortestPaths)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
       Send(req);
     }
 

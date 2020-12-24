@@ -9,7 +9,7 @@ namespace GraphML.Logic.Validators
   public abstract class ValidatorBase<T> : AbstractValidator<T>
   {
     protected readonly IHttpContextAccessor _context;
-    private readonly IContactDatastore _contactDatastore;
+    protected readonly IContactDatastore _contactDatastore;
     private readonly IRoleDatastore _roleDatastore;
 
     public ValidatorBase(
