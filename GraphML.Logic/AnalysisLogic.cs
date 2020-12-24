@@ -63,7 +63,6 @@ namespace GraphML.Logic
 
     public void FindShortestPaths(IFindShortestPathsRequest req)
     {
-      // TODO   validation
       // requester is same org as graph
       // root and goal are in same graph
       var valRes = _graphNodesRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.FindShortestPaths)));
