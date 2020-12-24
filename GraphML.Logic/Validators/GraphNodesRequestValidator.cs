@@ -18,7 +18,7 @@ namespace GraphML.Logic.Validators
 		  IHttpContextAccessor context,
 		  IContactDatastore contactDatastore,
 		  IRoleDatastore roleDatastore,
-	  IGraphDatastore graphDatastore,
+		IGraphDatastore graphDatastore,
 		  IGraphNodeDatastore graphNodeDatastore,
 		  IRepositoryDatastore repositoryDatastore,
 		  IRepositoryManagerDatastore repositoryManagerDatastore,
@@ -43,7 +43,6 @@ namespace GraphML.Logic.Validators
 			RuleFor(x => x)
 			  .Must(x => RequesterIsSameOrganisation(_context, x))
 			  .WithMessage("Must be in same Organisation");
-			throw new System.NotImplementedException();
 		}
 
 		public void MustBeInSameGraph()
