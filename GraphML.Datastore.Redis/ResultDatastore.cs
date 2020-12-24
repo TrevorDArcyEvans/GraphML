@@ -76,12 +76,12 @@ namespace GraphML.Datastore.Redis
       });
     }
 
-    public IEnumerable<IRequest> List(Contact contact)
+    public IEnumerable<IRequest> List(Guid contactId)
     {
       return GetInternal(() =>
       {
         var keys = _server.Keys()
-          .Where(x => x.ToString().StartsWith($"{contact.Id}"))
+          .Where(x => x.ToString().StartsWith($"{contactId}"))
           .ToArray();
         var reqs = _db.StringGet(keys);
         var retval = new List<IRequest>();

@@ -52,7 +52,7 @@ namespace GraphML.API.Controllers
     /// <summary>
     /// List results for a person
     /// </summary>
-    /// <param name="contact">Person</param>
+    /// <param name="contactId">Person</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpGet]
@@ -60,9 +60,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult List([FromRoute][Required] Contact contact)
+    public IActionResult List([FromRoute][Required] Guid contactId)
     {
-      var retval = _logic.List(contact);
+      var retval = _logic.List(contactId);
 
       return new OkObjectResult(retval);
     }

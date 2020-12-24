@@ -36,11 +36,11 @@ namespace GraphML.Logic
       _datastore.Delete(correlationId);
     }
 
-    public IEnumerable<IRequest> List(Contact contact)
+    public IEnumerable<IRequest> List(Guid contactId)
     {
       // TODO   validation
       // called by user
-      return _datastore.List(contact);
+      return _datastore.List(contactId);
     }
 
     public IResult Retrieve(Guid correlationId)

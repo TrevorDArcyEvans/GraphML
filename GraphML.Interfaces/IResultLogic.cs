@@ -10,9 +10,9 @@ namespace GraphML.Interfaces
     /// <summary>
     /// List stored and completed requests for this person
     /// </summary>
-    /// <param name="contact"></param>
+    /// <param name="contactId"></param>
     /// <returns>list of CorrelationIds</returns>
-    IEnumerable<IRequest> List(Contact contact);
+    IEnumerable<IRequest> List(Guid contactId);
 
     IResult Retrieve(Guid correlationId);
     void Delete(Guid correlationId);
