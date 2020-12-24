@@ -1,4 +1,5 @@
 ﻿using GraphML.Interfaces;
+using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -8,24 +9,19 @@ namespace GraphML.Logic
   {
     private readonly IHttpContextAccessor _context;
     private readonly IRequestMessageSender _sender;
-
-    // IGraphNodesRequestValidator --> all GraphNodes are in same graph
-    //    IGraphNodeDatastore.ByIds --> GraphNode.GraphId[]
-
-    // IGraphRequestValidator --> requester is same org as graph
-    //    IGraphNodeDatastore.ByIds --> GraphNode.GraphId
-    //    IGraphDatastore.ByIds --> Graph.RepositoryId
-    //    IRepositoryDatastore.ByIds --> Repository.RepositoryManagerId
-    //    IRepositoryManagerDatastore.ByIds --> RepositoruManager.OrganisationId
-    //    IOrganisationDatastore.ByIds --> Organisation.Id
-    //    IContactDatastore.ByEmail --> Contact.OrganisationId
+    private readonly IGraphRequestValidator _graphRequestValidator;
+    private readonly IGraphNodesRequestValidator _graphNodesRequestValidator;
 
     public AnalysisLogic(
       IHttpContextAccessor context,
-      IRequestMessageSender sender)
+      IRequestMessageSender sender,
+      IGraphRequestValidator graphRequestValidator,
+      IGraphNodesRequestValidator graphNodesRequestValidator)
     {
       _context = context;
       _sender = sender;
+      _graphRequestValidator = graphRequestValidator;
+      _graphNodesRequestValidator = graphNodesRequestValidator;
     }
 
     public void Degree(IDegreeRequest req)
