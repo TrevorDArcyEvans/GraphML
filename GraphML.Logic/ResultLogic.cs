@@ -1,8 +1,10 @@
-﻿using GraphML.Interfaces;
+﻿using FluentValidation;
+using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphML.Logic
 {
@@ -24,29 +26,49 @@ namespace GraphML.Logic
 
     public void Create(IRequest request, string resultJson)
     {
-      // TODO   validation
       // called by Analysis.Server to store results
+      var valRes = _validator.Validate(request.Contact.Id, options => options.IncludeRuleSets(nameof(IResultLogic.Create)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
+
       _datastore.Create(request, resultJson);
     }
 
     public void Delete(Guid correlationId)
     {
-      // TODO   validation
       // called by user
+      var valRes = _validator.Validate(correlationId, options => options.IncludeRuleSets(nameof(IResultLogic.Delete)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
+
       _datastore.Delete(correlationId);
     }
 
     public IEnumerable<IRequest> List(Guid contactId)
     {
-      // TODO   validation
       // called by user
+      var valRes = _validator.Validate(contactId, options => options.IncludeRuleSets(nameof(IResultLogic.List)));
+      if (!valRes.IsValid)
+      {
+        return Enumerable.Empty<IRequest>();
+      }
+
       return _datastore.List(contactId);
     }
 
     public IResult Retrieve(Guid correlationId)
     {
-      // TODO   validation
       // called by user
+      var valRes = _validator.Validate(correlationId, options => options.IncludeRuleSets(nameof(IResultLogic.Retrieve)));
+      if (!valRes.IsValid)
+      {
+        return null;
+      }
+
       return _datastore.Retrieve(correlationId);
     }
   }
