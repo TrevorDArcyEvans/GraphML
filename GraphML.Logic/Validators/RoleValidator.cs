@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-    public sealed class RoleValidator : ValidatorBase<Role>, IRoleValidator
+  public sealed class RoleValidator : ValidatorBase<Role>, IRoleValidator
     {
       public RoleValidator(
         IHttpContextAccessor context,
