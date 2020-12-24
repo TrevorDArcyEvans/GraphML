@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using FluentAssertions;
@@ -53,7 +54,7 @@ namespace GraphML.Logic.Tests.Validators
 			_graphNodeDatastore.Setup(x => x.ByIds(new[] { graphNodeRoot.Id, graphNodeTarget.Id })).Returns(graphNodes);
 			_graphDatastore.Setup(x => 
           x.ByIds(It.Is<IEnumerable<Guid>>(gns => 
-              true)))
+              gns.First() == graphNodeRoot.GraphId && gns.Last() == graphNodeTarget.GraphId)))
           .Returns(new[] { graph });
 			_repositoryDatastore.Setup(x => x.ByIds(new[] { graph.RepositoryId })).Returns(new[] { repo });
 			_repositoryManagerDatastore.Setup(x => x.ByIds(new[] { repo.RepositoryManagerId })).Returns(new[] { repoMgr });
