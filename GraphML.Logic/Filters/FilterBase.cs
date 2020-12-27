@@ -17,6 +17,7 @@ namespace GraphML.Logic.Filters
 
     public virtual T Filter(T input)
     {
+      // TODO   same org as contact OR HasRole(Admin)
       return input;
     }
 
