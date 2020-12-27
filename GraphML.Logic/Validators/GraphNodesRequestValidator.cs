@@ -61,7 +61,7 @@ namespace GraphML.Logic.Validators
     private bool AreInSameGraph(IGraphNodesRequest graphNodesRequest)
     {
       var graphNodes = _graphNodeDatastore.ByIds(graphNodesRequest.GraphNodes);
-      var numGraph = _graphDatastore.ByIds(graphNodes.Select(gn => gn.GraphId)).Count();
+      var numGraph = _graphDatastore.ByIds(graphNodes.Select(gn => gn.GraphId)).Distinct().Count();
 
       return numGraph == 1;
     }
