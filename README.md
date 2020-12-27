@@ -172,17 +172,28 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 
 </details>
 
-## Notes
+## Authentication & Authorisation
 <details>
 
 * enable `Development` mode by setting env var:  
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
 ```
+* authentication (who you are) is handled by IdentityServer
+* authorisation (what you can do) is handled by GraphML, based on an _email_ claim
+* security is role based:
+| Role        | Description |
+|-------------|-------------|
+| User        | An entity using GraphML |
+| UserAdmin   | An entity managing a subset of data within GraphML, typically data belonging to a single organisation |
+| Admin       | An entity managing all data within GraphML |
 * SwaggerUI is only enabled in `Development` mode
-* Basic authentication (username/password) is only enabled in `Development` mode
-* Basic authentication is `username`=`password` eg `Admin/Admin`
-* For basic authentication, `role`=`username`
+* SwaggerUI authentication will redirect to a login screen in IdentityServer
+* IdentityServer has some test users:
+| UserName | Password     | Email                           | Roles |
+|----------|--------------|---------------------------------|-------|
+| `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin |
+| `bob`    | `Pass123$`   | BobSmith@email.com              | none |
 
 </details>
 
