@@ -198,6 +198,8 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 </details>
 
 ## Multi-Tenancy
+<details>
+
 At this stage, multi-tenancy isolation is implemented in GraphML.Logic:
 * GraphML.Logic.Validators
   * does the initial call even make sense
@@ -209,6 +211,8 @@ Future work will change to a database-per-client type of isolation
 which is better suited to high security environments.
 This will make validators and filters redundnant as all calls are
 guaranteed to come from the same organisation.
+
+</details>
 
 ## Misc
 <details>
