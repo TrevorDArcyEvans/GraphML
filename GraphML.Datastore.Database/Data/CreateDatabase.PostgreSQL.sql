@@ -41,35 +41,42 @@ CREATE TABLE Log
 );
 CREATE INDEX IDX_Timestamp ON Log("Timestamp");
 
-CREATE TABLE Role
-(
-  "Id" CHAR(36) NOT NULL UNIQUE,
-  "Name" TEXT NOT NULL,
-  PRIMARY KEY (Id)
-);
-
 CREATE TABLE Organisation
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   PRIMARY KEY ("Id")
+);
+
+CREATE TABLE Role
+(
+  "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
+  "Name" TEXT NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE
 );
 
 CREATE TABLE Contact
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Organisation("Id") ON DELETE CASCADE
 );
 
 CREATE TABLE RepositoryManager
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Organisation("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_RepositoryManager_Organisation ON RepositoryManager("OwnerId");
@@ -77,9 +84,11 @@ CREATE INDEX IDX_RepositoryManager_Organisation ON RepositoryManager("OwnerId");
 CREATE TABLE Repository
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES RepositoryManager("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_Repository_RepositoryManager ON Repository("OwnerId");
@@ -87,12 +96,14 @@ CREATE INDEX IDX_Repository_RepositoryManager ON Repository("OwnerId");
 CREATE TABLE Node
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   "NextId" CHAR(36) DEFAULT NULL,
   PRIMARY KEY ("Id"),
-  FOREIGN KEY ("NextId") REFERENCES Node("Id"),
-  FOREIGN KEY ("OwnerId") REFERENCES Repository("Id") ON DELETE CASCADE
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("OwnerId") REFERENCES Repository("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("NextId") REFERENCES Node("Id")
 );
 CREATE INDEX IDX_Node_Node ON Node("NextId");
 CREATE INDEX IDX_Node_Graph ON Node("OwnerId");
@@ -100,14 +111,16 @@ CREATE INDEX IDX_Node_Graph ON Node("OwnerId");
 CREATE TABLE Edge
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   "NextId" CHAR(36) DEFAULT NULL,
   "SourceId" CHAR(36) NOT NULL,
   "TargetId" CHAR(36) NOT NULL,
   PRIMARY KEY ("Id"),
-  FOREIGN KEY ("NextId") REFERENCES Edge("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Repository("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("NextId") REFERENCES Edge("Id"),
   FOREIGN KEY ("SourceId") REFERENCES Node("Id") ON DELETE NO ACTION,
   FOREIGN KEY ("TargetId") REFERENCES Node("Id") ON DELETE NO ACTION
 );
@@ -119,10 +132,12 @@ CREATE INDEX IDX_Edge_TargetId ON Edge("TargetId");
 CREATE TABLE Graph
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" TEXT NOT NULL,
   "Directed" INTEGER DEFAULT 1,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Repository("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_Graph_Repository ON Graph("OwnerId");
@@ -130,10 +145,12 @@ CREATE INDEX IDX_Graph_Repository ON Graph("OwnerId");
 CREATE TABLE GraphNode
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" NVARCHAR(MAX) NOT NULL,
   "RepositoryItemId" CHAR(36) NOT NULL,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Graph("Id") ON DELETE NO ACTION,
   FOREIGN KEY ("RepositoryItemId") REFERENCES Node("Id") ON DELETE CASCADE
 );
@@ -142,10 +159,12 @@ CREATE INDEX IDX_GraphNode_Graph ON GraphNode("OwnerId");
 CREATE TABLE GraphEdge
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" NVARCHAR(MAX) NOT NULL,
   "RepositoryItemId" CHAR(36) NOT NULL,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Graph("Id") ON DELETE NO ACTION,
   FOREIGN KEY ("RepositoryItemId") REFERENCES Edge("Id") ON DELETE CASCADE
 );
@@ -156,11 +175,13 @@ CREATE INDEX IDX_GraphEdge_OwnerId ON GraphEdge("OwnerId");
 CREATE TABLE RepositoryItemAttribute
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
   "Name" NVARCHAR(MAX) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "DataType" NVARCHAR(MAX) NOT NULL,
   "DataValueAsString" NVARCHAR(MAX),
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Repository("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_RepositoryItemAttribute_Repository ON RepositoryItemAttribute("OwnerId");
@@ -168,11 +189,13 @@ CREATE INDEX IDX_RepositoryItemAttribute_Repository ON RepositoryItemAttribute("
 CREATE TABLE GraphItemAttribute
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
-  "Name" TEXT NOT NULL,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
+  "Name" TEXT NOT NULL,
   "DataType" TEXT NOT NULL,
   "DataValueAsString" TEXT,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Graph("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_GraphItemAttribute_Graph ON GraphItemAttribute("OwnerId");
@@ -180,11 +203,13 @@ CREATE INDEX IDX_GraphItemAttribute_Graph ON GraphItemAttribute("OwnerId");
 CREATE TABLE NodeItemAttribute
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
-  "Name" TEXT NOT NULL,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
+  "Name" TEXT NOT NULL,
   "DataType" TEXT NOT NULL,
   "DataValueAsString" TEXT,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Node("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_NodeItemAttribute_Node ON NodeItemAttribute("OwnerId");
@@ -192,11 +217,13 @@ CREATE INDEX IDX_NodeItemAttribute_Node ON NodeItemAttribute("OwnerId");
 CREATE TABLE EdgeItemAttribute
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
-  "Name" TEXT NOT NULL,
+  "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
+  "Name" TEXT NOT NULL,
   "DataType" TEXT NOT NULL,
   "DataValueAsString" TEXT,
   PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES Edge("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_EdgeItemAttribute_Edge ON EdgeItemAttribute("OwnerId");
