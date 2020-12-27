@@ -207,6 +207,7 @@ At this stage, multi-tenancy isolation is implemented in GraphML.Logic:
 * GraphML.Logic.Filters
   * only return items relevant to the caller
   * only return items caller is allowed to see
+
 Future work will change to a database-per-client type of isolation
 which is better suited to high security environments.
 This will make validators and filters redundnant as all calls are
