@@ -1,13 +1,16 @@
-﻿using GraphML.Logic.Interfaces;
+﻿using GraphML.Interfaces;
+using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Filters
 {
-    public sealed class GraphNodeFilter : FilterBase<GraphNode>, IGraphNodeFilter
+  public sealed class GraphNodeFilter : FilterBase<GraphNode>, IGraphNodeFilter
+  {
+    public GraphNodeFilter(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore) :
+      base(context, contactDatastore)
     {
-        public GraphNodeFilter(IHttpContextAccessor context) :
-            base(context)
-        {
-        }
     }
+  }
 }

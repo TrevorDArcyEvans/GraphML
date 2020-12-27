@@ -1,12 +1,15 @@
-﻿using GraphML.Logic.Interfaces;
+﻿using GraphML.Interfaces;
+using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Filters
 {
   public sealed class RepositoryItemAttributeFilter : FilterBase<RepositoryItemAttribute>, IRepositoryItemAttributeFilter
   {
-    public RepositoryItemAttributeFilter(IHttpContextAccessor context) :
-      base(context)
+    public RepositoryItemAttributeFilter(
+      IHttpContextAccessor context,
+      IContactDatastore contactDatastore) :
+      base(context, contactDatastore)
     {
     }
   }
