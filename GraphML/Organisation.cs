@@ -1,4 +1,5 @@
-﻿using Schema = System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
@@ -10,8 +11,8 @@ namespace GraphML
     {
     }
 
-    public Organisation(string name) :
-      base(name)
+    public Organisation(Guid org, string name) :
+      base(org, name)
     {
     }
   }

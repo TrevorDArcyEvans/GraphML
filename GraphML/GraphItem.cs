@@ -23,8 +23,8 @@ namespace GraphML
     {
     }
 
-    protected GraphItem(Guid graph, Guid repositoryItem, string name) :
-      base(graph, name)
+    protected GraphItem(Guid graph, Guid orgId, Guid repositoryItem, string name) :
+      base(graph, orgId, name)
     {
       RepositoryItemId = repositoryItem;
     }

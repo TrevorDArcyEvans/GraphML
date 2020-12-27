@@ -11,8 +11,8 @@ namespace GraphML
     {
     }
 
-    public GraphNode(Guid graph, Guid repositoryItem, string name) :
-      base(graph, repositoryItem, name)
+    public GraphNode(Guid graph, Guid orgId, Guid repositoryItem, string name) :
+      base(graph, orgId, repositoryItem, name)
     {
     }
   }

@@ -7,20 +7,13 @@ namespace GraphML
   [Schema.Table(nameof(RepositoryManager))]
   public sealed class RepositoryManager : OwnedItem
   {
-    [Write(false)]
-    public Guid OrganisationId
-    {
-      get => OwnerId;
-      set => OwnerId = value;
-    }
-
     public RepositoryManager() :
       base()
     {
     }
 
     public RepositoryManager(Guid org, string name) :
-      base(org, name)
+      base(org, org,name)
     {
     }
   }

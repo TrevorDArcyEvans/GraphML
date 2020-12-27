@@ -16,6 +16,13 @@ namespace GraphML
     [JsonProperty(nameof(Id))]
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    /// <summary>
+    /// Unique identifier of owner Organisation
+    /// </summary>
+    [Required]
+    [JsonProperty(nameof(OrganisationId))]
+    public Guid OrganisationId { get; set; } = Guid.NewGuid();
+
     [JsonProperty(nameof(Name))]
     public string Name { get; set; }
 
@@ -23,9 +30,10 @@ namespace GraphML
     {
     }
 
-    public Item(string name)
+    public Item(Guid org, string name)
     {
       Name = name.ThrowIfNullOrWhiteSpace(nameof(name));
+      OrganisationId = org;
     }
   }
 }

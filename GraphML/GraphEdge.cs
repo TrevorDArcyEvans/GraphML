@@ -11,8 +11,8 @@ namespace GraphML
     {
     }
 
-    public GraphEdge(Guid graph, Guid repositoryItem,  string name) :
-      base(graph, repositoryItem, name)
+    public GraphEdge(Guid graph, Guid orgId, Guid repositoryItem,  string name) :
+      base(graph, orgId, repositoryItem, name)
     {
     }
   }

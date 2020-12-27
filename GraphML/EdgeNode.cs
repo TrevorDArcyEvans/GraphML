@@ -10,8 +10,8 @@ namespace GraphML
         {
         }
 
-        public EdgeNode(Guid graph, Guid repositoryItem, string name) :
-            base(graph, repositoryItem, name)
+        public EdgeNode(Guid graph, Guid orgId, Guid repositoryItem, string name) :
+            base(graph, orgId, repositoryItem, name)
         {
         }
     }

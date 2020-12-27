@@ -67,7 +67,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
           using (var conn = dbConnFact.Get())
           {
             var repo = conn.GetAll<Repository>().Single(r => r.Name == _repoName);
-            var graph = new Graph(repo.Id, Path.GetFileNameWithoutExtension(_dataFilePath));
+            var graph = new Graph(repo.Id, repo.OrganisationId, Path.GetFileNameWithoutExtension(_dataFilePath));
 
             _logInfoAction($"Importing from:  {_dataFilePath}");
             _logInfoAction($"          into:  {conn.ConnectionString}");
@@ -75,11 +75,12 @@ namespace GraphML.Datastore.Database.Importer.CSV
             _logInfoAction($"         graph:  {graph.Name}");
             _logInfoAction(Environment.NewLine);
 
-            var modelNodes = nodes.Select(node => new Node(graph.Id, node)).ToList();
+            var modelNodes = nodes.Select(node => new Node(graph.Id, graph.OrganisationId, node)).ToList();
             var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
             var modelEdges = edges.Select(edge =>
               new Edge(
                 graph.Id,
+                graph.OrganisationId,
                 $"{edge.FromNode}-->{edge.ToNode}",
                 modelNodesMap[edge.FromNode].Id,
                 modelNodesMap[edge.ToNode].Id)).ToList();
