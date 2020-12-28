@@ -194,7 +194,7 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 |----------|--------------|---------------------------------|-------|
 | `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin |
 | `bob`    | `Pass123$`   | BobSmith@email.com              | none |
-| `carol`  | `Pass123$`   | carol@RandCorp.com              | UserAdmin |
+| `carol`  | `Pass123$`   | carol@KoolOrganisation.org      | UserAdmin |
 
 </details>
 

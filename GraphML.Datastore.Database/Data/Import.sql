@@ -13,7 +13,8 @@ VALUES
 INSERT INTO Contact(Id, OrganisationId, OwnerId, Name)
 VALUES
   ('907bf1ab-fb91-494b-b1a8-376f9a9f03d8', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'admin@GraphML.com'),
-  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'DrKool@KoolOrganisation.org');
+  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'DrKool@KoolOrganisation.org'),
+  ('33fbe12e-3aad-4238-bbcc-26ff6ea94ad1', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'carol@KoolOrganisation.org');
 
 INSERT INTO RepositoryManager(Id, OrganisationId, OwnerId, Name)
 VALUES
@@ -135,5 +136,6 @@ VALUES
 -- roles
 INSERT INTO ContactsRoles(ContactId, RoleId)
 VALUES
-  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3');
+  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3'),
+  ('33fbe12e-3aad-4238-bbcc-26ff6ea94ad1', 'E56390B4-71B3-4850-82B4-EA65A497559E');
 
