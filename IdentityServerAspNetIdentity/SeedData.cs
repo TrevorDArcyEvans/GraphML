@@ -109,6 +109,41 @@ namespace IdentityServerAspNetIdentity
             Log.Debug("bob already exists");
           }
           #endregion
+
+          #region Carol
+          var carol = userMgr.FindByNameAsync("carol").Result;
+          if (carol == null)
+          {
+            carol = new ApplicationUser
+            {
+              UserName = "carol"
+            };
+            var result = userMgr.CreateAsync(carol, "Pass123$").Result;
+            if (!result.Succeeded)
+            {
+              throw new Exception(result.Errors.First().Description);
+            }
+
+            result = userMgr.AddClaimsAsync(carol, new Claim[]{
+                        new Claim(JwtClaimTypes.Name, "Carol Connors"),
+                        new Claim(JwtClaimTypes.GivenName, "Carol"),
+                        new Claim(JwtClaimTypes.FamilyName, "Connors"),
+                        new Claim(JwtClaimTypes.Email, "carol@KoolOrganisation.org"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.WebSite, "http://www.KoolOrganisation.org"),
+                        new Claim("appuser_claim", "identity")
+                        }).Result;
+            if (!result.Succeeded)
+            {
+              throw new Exception(result.Errors.First().Description);
+            }
+            Log.Debug("carol created");
+          }
+          else
+          {
+            Log.Debug("carol already exists");
+          }
+          #endregion
         }
       }
     }
