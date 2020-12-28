@@ -42,6 +42,24 @@ namespace GraphML.Logic.Tests.Filters
       output.Should().NotBeNull().And.Be(input);
     }
 
+    [Test]
+    public void RequesterMustBeAdmin_Admin_Succeeds()
+    {
+      const string email = "DrStrangelove@USAF.com";
+
+      var role = new Role { Name = "Admin" };
+      var contact = new Contact();
+      _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
+      _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
+      _roleDatastore.Setup(x => x.ByContactId(contact.Id)).Returns(new [] { role });
+      var input = new DummyItem();
+      var filter = Create();
+
+      var output = filter.Filter(input);
+
+      output.Should().NotBeNull().And.Be(input);
+    }
+
     private DummyFilter Create()
     {
       return new DummyFilter(
