@@ -194,6 +194,7 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 |----------|--------------|---------------------------------|-------|
 | `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin |
 | `bob`    | `Pass123$`   | BobSmith@email.com              | none |
+| `carol`  | `Pass123$`   | carol@RandCorp.com              | UserAdmin |
 
 </details>
 
@@ -211,7 +212,8 @@ At this stage, multi-tenancy isolation is implemented in GraphML.Logic:
 Future work will change to a database-per-client type of isolation
 which is better suited to high security environments.
 This will make validators and filters redundnant as all calls are
-guaranteed to come from the same organisation.
+guaranteed to come from the same organisation.  In turn, this will
+make the Organisation entity redundant.
 
 </details>
 
