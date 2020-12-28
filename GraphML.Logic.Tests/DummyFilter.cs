@@ -8,8 +8,10 @@ namespace GraphML.Logic.Tests
   {
     public DummyFilter(
       IHttpContextAccessor context, 
-      IContactDatastore contactDatastore) : 
-      base(context, contactDatastore)
+      IContactDatastore contactDatastore,
+      IRoleDatastore roleDatastore) :
+      base(context, contactDatastore, roleDatastore)
+
     {
     }
   }
