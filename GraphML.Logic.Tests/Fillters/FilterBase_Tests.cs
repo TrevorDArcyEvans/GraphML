@@ -1,9 +1,5 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using FluentAssertions;
 using GraphML.Interfaces;
-using GraphML.Logic.Validators;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;

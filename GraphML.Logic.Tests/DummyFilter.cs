@@ -7,7 +7,7 @@ namespace GraphML.Logic.Tests
   public sealed class DummyFilter : FilterBase<DummyItem>
   {
     public DummyFilter(
-      IHttpContextAccessor context, 
+      IHttpContextAccessor context,
       IContactDatastore contactDatastore,
       IRoleDatastore roleDatastore) :
       base(context, contactDatastore, roleDatastore)
