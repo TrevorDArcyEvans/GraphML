@@ -2,9 +2,11 @@
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using GraphML.Utils;
+using IdentityModel;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace GraphML.Logic.Filters
 {
@@ -27,7 +29,7 @@ namespace GraphML.Logic.Filters
       var contact = _contactDatastore.ByEmail(email);
       var sameOrg = contact.OrganisationId == input.OrganisationId;
 
-      return sameOrg || _context.HasRole(Roles.Admin) ? input : null;
+      return sameOrg || HasRole(_context, Roles.Admin) ? input : null;
     }
 
     private T FilterInternal(T input)
@@ -46,5 +48,15 @@ namespace GraphML.Logic.Filters
     {
       return input.Select(x => FilterInternal(x)).Where(x => x != null);
     }
+
+		public static bool HasRole(IHttpContextAccessor context, string role)
+		{
+			// ClaimTypes.Role --> 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'
+			// JwtClaimTypes.Role --> 'role'
+			return context.HttpContext.User.Claims
+			    .Where(x => x.Type == ClaimTypes.Role || x.Type == JwtClaimTypes.Role)
+			    .Select(x => x.Value)
+			    .Any(x => x == role);
+		}
   }
 }

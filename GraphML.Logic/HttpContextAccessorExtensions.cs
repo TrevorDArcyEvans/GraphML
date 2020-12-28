@@ -15,15 +15,5 @@ namespace GraphML.Logic
 			  .FirstOrDefault(x => x.Type == ClaimTypes.Email || x.Type == JwtClaimTypes.Email)
         ?.Value;
 		}
-
-		public static bool HasRole(this IHttpContextAccessor context, string role)
-		{
-			// ClaimTypes.Role --> 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'
-			// JwtClaimTypes.Role --> 'role'
-			return context.HttpContext.User.Claims
-			    .Where(x => x.Type == ClaimTypes.Role || x.Type == JwtClaimTypes.Role)
-			    .Select(x => x.Value)
-			    .Any(x => x == role);
-		}
 	}
 }
