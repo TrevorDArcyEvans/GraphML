@@ -25,7 +25,10 @@ namespace GraphML.Logic.Validators
       _roleDatastore = roleDatastore;
       _resultDatastore = resultDatastore;
 
-      // TODO   IResultLogic.Create
+      RuleSet(nameof(IResultLogic.Create), () =>
+      {
+        RuleForCreate();
+      });
       RuleSet(nameof(IResultLogic.List), () =>
       {
         RuleForList();
@@ -34,6 +37,16 @@ namespace GraphML.Logic.Validators
       {
         RuleForRetrieve();
       });
+      RuleSet(nameof(IResultLogic.Delete), () =>
+      {
+        RuleForDelete();
+      });
+    }
+
+    public void RuleForCreate()
+    {
+      // called by Analysis.Server
+      //  Guid --> CorrelationId
     }
 
     public void RuleForList()
