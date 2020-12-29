@@ -12,7 +12,14 @@ namespace GraphML.Interfaces
     /// </summary>
     /// <param name="contactId"></param>
     /// <returns>list of CorrelationIds</returns>
-    IEnumerable<IRequest> List(Guid contactId);
+    IEnumerable<IRequest> ByContact(Guid contactId);
+
+    /// <summary>
+    /// List stored and completed requests for this organisation
+    /// </summary>
+    /// <param name="orgId"></param>
+    /// <returns>list of CorrelationIds</returns>
+    IEnumerable<IRequest> ByOrganisation(Guid orgId);
 
     IResult Retrieve(Guid correlationId);
     void Delete(Guid correlationId);

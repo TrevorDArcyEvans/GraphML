@@ -38,7 +38,7 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpDelete]
-    [Route("Delete/{correlationId}")]
+    [Route(nameof(Delete) + "/{correlationId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
@@ -56,13 +56,31 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpGet]
-    [Route("List/{contactId}")]
+    [Route(nameof(ByContact) + "/{contactId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult List([FromRoute][Required] Guid contactId)
+    public IActionResult ByContact([FromRoute][Required] Guid contactId)
     {
-      var retval = _logic.List(contactId);
+      var retval = _logic.ByContact(contactId);
+
+      return new OkObjectResult(retval);
+    }
+
+    /// <summary>
+    /// List results for an organisation
+    /// </summary>
+    /// <param name="orgId">Organisation</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpGet]
+    [Route(nameof(ByOrganisation) + "/{orgId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult ByOrganisation([FromRoute][Required] Guid orgId)
+    {
+      var retval = _logic.ByOrganisation(orgId);
 
       return new OkObjectResult(retval);
     }
@@ -74,7 +92,7 @@ namespace GraphML.API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Entity not found</response>
     [HttpGet]
-    [Route("Retrieve/{correlationId}")]
+    [Route(nameof(Retrieve) + "/{correlationId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IResult))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]

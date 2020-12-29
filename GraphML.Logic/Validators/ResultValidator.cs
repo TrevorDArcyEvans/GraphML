@@ -29,7 +29,7 @@ namespace GraphML.Logic.Validators
       {
         RuleForCreate();
       });
-      RuleSet(nameof(IResultLogic.List), () =>
+      RuleSet(nameof(IResultLogic.ByContact), () =>
       {
         RuleForList();
       });

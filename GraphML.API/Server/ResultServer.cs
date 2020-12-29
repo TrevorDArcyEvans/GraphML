@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl;
+using GraphML.API.Controllers;
 using GraphML.Interfaces;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
@@ -23,13 +24,21 @@ namespace GraphML.API.Server
 
     public async Task Delete(string correlationId)
     {
-      var request = GetDeleteRequest(Url.Combine(ResourceBase, "Delete", correlationId));
+      var request = GetDeleteRequest(Url.Combine(ResourceBase, nameof(ResultController.Delete), correlationId));
       var retval = await GetResponse<object>(request);
     }
 
-    public async Task<IEnumerable<IRequest>> List(string contactId)
+    public async Task<IEnumerable<IRequest>> ByContact(string contactId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, "List", contactId));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByContact), contactId));
+      var retval = await GetResponse<IEnumerable<IRequest>>(request);
+
+      return retval;
+    }
+
+    public async Task<IEnumerable<IRequest>> ByOrganisation(string orgId)
+    {
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByOrganisation), orgId));
       var retval = await GetResponse<IEnumerable<IRequest>>(request);
 
       return retval;
@@ -37,7 +46,7 @@ namespace GraphML.API.Server
 
     public async Task<IResult> Retrieve(string correlationId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, "Retrieve", correlationId));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId));
       var retval = await GetResponse<IResult>(request);
 
       return retval;

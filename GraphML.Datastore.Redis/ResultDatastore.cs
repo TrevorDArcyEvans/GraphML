@@ -52,9 +52,9 @@ namespace GraphML.Datastore.Redis
         // store CorrelationId --> Result
         _db.StringSet($"{request.CorrelationId}", resultJson, Expiry);
 
-        // store ContactId|CorrelationId --> Request
+        // store ContactId|OrganisationId|CorrelationId --> Request
         var jsonReq = JsonConvert.SerializeObject(request);
-        _db.StringSet($"{request.Contact.Id}|{request.CorrelationId}", jsonReq, Expiry);
+        _db.StringSet($"{request.Contact.Id}|{request.Contact.OrganisationId}|{request.CorrelationId}", jsonReq, Expiry);
 
         return 0;
       });
@@ -82,6 +82,30 @@ namespace GraphML.Datastore.Redis
       {
         var keys = _server.Keys()
           .Where(x => x.ToString().StartsWith($"{contactId}"))
+          .ToArray();
+        var reqs = _db.StringGet(keys);
+        var retval = new List<IRequest>();
+        foreach (var req in reqs)
+        {
+          var json = req.ToString();
+          var jobj = JObject.Parse(json);
+          var reqTypeStr = jobj["Type"].ToString();
+          var reqType = Type.GetType(reqTypeStr);
+          var request = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+
+          retval.Add(request);
+        }
+
+        return retval;
+      });
+    }
+
+    public IEnumerable<IRequest> ByOrganisation(Guid orgId)
+    {
+      return GetInternal(() =>
+      {
+        var keys = _server.Keys()
+          .Where(x => x.ToString().Contains($"{orgId}"))
           .ToArray();
         var reqs = _db.StringGet(keys);
         var retval = new List<IRequest>();

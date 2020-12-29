@@ -48,16 +48,28 @@ namespace GraphML.Logic
       _datastore.Delete(correlationId);
     }
 
-    public IEnumerable<IRequest> List(Guid contactId)
+    public IEnumerable<IRequest> ByContact(Guid contactId)
     {
       // called by user
-      var valRes = _validator.Validate(contactId, options => options.IncludeRuleSets(nameof(IResultLogic.List)));
+      var valRes = _validator.Validate(contactId, options => options.IncludeRuleSets(nameof(IResultLogic.ByContact)));
       if (!valRes.IsValid)
       {
         return Enumerable.Empty<IRequest>();
       }
 
       return _datastore.ByContact(contactId);
+    }
+
+    public IEnumerable<IRequest> ByOrganisation(Guid orgid)
+    {
+      // called by user
+      var valRes = _validator.Validate(orgid, options => options.IncludeRuleSets(nameof(IResultLogic.ByOrganisation)));
+      if (!valRes.IsValid)
+      {
+        return Enumerable.Empty<IRequest>();
+      }
+
+      return _datastore.ByOrganisation(orgid);
     }
 
     public IResult Retrieve(Guid correlationId)
