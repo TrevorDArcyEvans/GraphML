@@ -89,7 +89,7 @@ namespace GraphML.Logic.Validators
       var email = context.Email();
       var contact = _contactDatastore.ByEmail(email);
       var matchRequest = _resultDatastore
-        .List(contact.Id)
+        .ByContact(contact.Id)
         .Any(x =>
           x.CorrelationId == correlationId &&
           x.Contact.Id == contact.Id);

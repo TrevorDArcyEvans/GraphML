@@ -49,7 +49,7 @@ namespace GraphML.Logic.Tests.Validators
       _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
       var request = new DummyRequest { Contact = contact };
-      _resultDatastore.Setup(x => x.List(contact.Id)).Returns(new[] { request });
+      _resultDatastore.Setup(x => x.ByContact(contact.Id)).Returns(new[] { request });
       var validator = Create();
 
       validator.RuleForRetrieve();

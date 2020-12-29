@@ -76,7 +76,7 @@ namespace GraphML.Datastore.Redis
       });
     }
 
-    public IEnumerable<IRequest> List(Guid contactId)
+    public IEnumerable<IRequest> ByContact(Guid contactId)
     {
       return GetInternal(() =>
       {

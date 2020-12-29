@@ -57,7 +57,7 @@ namespace GraphML.Logic
         return Enumerable.Empty<IRequest>();
       }
 
-      return _datastore.List(contactId);
+      return _datastore.ByContact(contactId);
     }
 
     public IResult Retrieve(Guid correlationId)
