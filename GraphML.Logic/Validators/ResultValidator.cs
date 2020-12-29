@@ -31,7 +31,11 @@ namespace GraphML.Logic.Validators
       });
       RuleSet(nameof(IResultLogic.ByContact), () =>
       {
-        RuleForList();
+        RuleForByContact();
+      });
+      RuleSet(nameof(IResultLogic.ByOrganisation), () =>
+      {
+        RuleForByOrganisation();
       });
       RuleSet(nameof(IResultLogic.Retrieve), () =>
       {
@@ -49,13 +53,22 @@ namespace GraphML.Logic.Validators
       //  Guid --> CorrelationId
     }
 
-    public void RuleForList()
+    public void RuleForByContact()
     {
       // called by user
       //  Guid --> contactId
       RuleFor(x => x)
         .Must(x => MustBeSameContact(_context, x))
         .WithMessage("Must be same Contact");
+    }
+
+    public void RuleForByOrganisation()
+    {
+      // called by user
+      //  Guid --> orgId
+      RuleFor(x => x)
+        .Must(x => MustBeSameOrganisation(_context, x))
+        .WithMessage("Must be same Organisation");
     }
 
     public void RuleForRetrieve()
@@ -84,6 +97,15 @@ namespace GraphML.Logic.Validators
       return contact.Id == contactId;
     }
 
+
+    private bool MustBeSameOrganisation(IHttpContextAccessor context, Guid orgId)
+    {
+      var email = context.Email();
+      var contact = _contactDatastore.ByEmail(email);
+
+      return contact.OrganisationId == orgId;
+    }
+
     private bool MustBeSameContactAsRequest(IHttpContextAccessor context, Guid correlationId)
     {
       var email = context.Email();
@@ -95,6 +117,11 @@ namespace GraphML.Logic.Validators
           x.Contact.Id == contact.Id);
 
       return matchRequest;
+    }
+
+    private bool IsUserAdmin()
+    {
+      return true;
     }
   }
 }

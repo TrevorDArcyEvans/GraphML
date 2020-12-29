@@ -34,8 +34,25 @@ namespace GraphML.Logic.Tests.Validators
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
       var validator = Create();
 
-      validator.RuleForList();
+      validator.RuleForByContact();
       var valres = validator.Validate(contact.Id);
+
+      valres.Errors.Should().BeEmpty();
+    }
+
+    [Test]
+    public void MustBeSameOrganisation_SameOrganisation_Succeeds()
+    {
+      const string email = "DrStrangelove@USAF.com";
+
+      var org = new Organisation();
+      var contact = new Contact { OrganisationId = org.Id };
+      _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
+      _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
+      var validator = Create();
+
+      validator.RuleForByOrganisation();
+      var valres = validator.Validate(org.Id);
 
       valres.Errors.Should().BeEmpty();
     }
