@@ -108,7 +108,9 @@ namespace GraphML.Logic.Validators
       var contact = _contactDatastore.ByIds(new []{ contactId }).SingleOrDefault();
 
       return reqContact.Id == contactId || // requester must be asking for his results OR
-        (IsUserAdmin(contact.Id) && reqContact.OrganisationId == contact.OrganisationId); // requester must be UserAdmin for same org as contact
+        (IsUserAdmin(contact.Id) && // requester must be UserAdmin
+        reqContact.OrganisationId == contact.OrganisationId); // for same org as contact
+       
     }
 
     private bool MustBeSameOrganisation(IHttpContextAccessor context, Guid orgId)
@@ -129,9 +131,11 @@ namespace GraphML.Logic.Validators
         .Any(x =>
           x.CorrelationId == correlationId &&
           x.Contact.Id == reqContact.Id);
+      var corrRequest = _resultDatastore.ByCorrelation(correlationId);
 
       return matchRequest || // requester must be asking for his result OR
-        true; // TODO   requester must be UserAdmin for same org as result
+        (IsUserAdmin(reqContact.Id) &&  // requester must be UserAdmin
+        corrRequest.Contact.OrganisationId == reqContact.OrganisationId); // for same org as request
     }
 
     private bool IsUserAdmin(Guid contactId)
