@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-  public sealed class GraphNodesRequestValidator : ValidatorBase<IGraphNodesRequest>, IGraphNodesRequestValidator
+  public sealed class GraphNodesRequestValidator : AbstractValidator<IGraphNodesRequest>, IGraphNodesRequestValidator
   {
+    private readonly IHttpContextAccessor _context;
+    private readonly IContactDatastore _contactDatastore;
+    private readonly IRoleDatastore _roleDatastore;
     private readonly IGraphDatastore _graphDatastore;
     private readonly IGraphNodeDatastore _graphNodeDatastore;
 
@@ -16,9 +19,11 @@ namespace GraphML.Logic.Validators
       IContactDatastore contactDatastore,
       IRoleDatastore roleDatastore,
       IGraphDatastore graphDatastore,
-      IGraphNodeDatastore graphNodeDatastore) :
-      base(context, contactDatastore, roleDatastore)
+      IGraphNodeDatastore graphNodeDatastore)
     {
+      _context = context;
+      _contactDatastore = contactDatastore;
+      _roleDatastore = roleDatastore;
       _graphDatastore = graphDatastore;
       _graphNodeDatastore = graphNodeDatastore;
 

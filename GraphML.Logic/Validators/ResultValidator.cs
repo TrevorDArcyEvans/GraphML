@@ -7,19 +7,25 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-  public sealed class ResultValidator : ValidatorBase<Guid>, IResultValidator
+  public sealed class ResultValidator : AbstractValidator<Guid>, IResultValidator
   {
+    private readonly IHttpContextAccessor _context;
+    private readonly IContactDatastore _contactDatastore;
+    private readonly IRoleDatastore _roleDatastore;
     private readonly IResultDatastore _resultDatastore;
 
     public ResultValidator(
       IHttpContextAccessor context,
       IContactDatastore contactDatastore,
-      IRoleDatastore roleDatastore, 
-      IResultDatastore resultDatastore) :
-      base(context, contactDatastore, roleDatastore)
+      IRoleDatastore roleDatastore,
+      IResultDatastore resultDatastore)
     {
+      _context = context;
+      _contactDatastore = contactDatastore;
+      _roleDatastore = roleDatastore;
       _resultDatastore = resultDatastore;
 
+      // TODO   IResultLogic.Create
       RuleSet(nameof(IResultLogic.List), () =>
       {
         RuleForList();
@@ -48,7 +54,7 @@ namespace GraphML.Logic.Validators
         .WithMessage("Must be same Contact as Request");
     }
 
-    protected override void RuleForDelete()
+    public void RuleForDelete()
     {
       // called by user
       //  Guid --> correlationId
@@ -59,20 +65,20 @@ namespace GraphML.Logic.Validators
 
     private bool MustBeSameContact(IHttpContextAccessor context, Guid contactId)
     {
-			var email = context.Email();
-			var contact = _contactDatastore.ByEmail(email);
+      var email = context.Email();
+      var contact = _contactDatastore.ByEmail(email);
 
       return contact.Id == contactId;
     }
 
     private bool MustBeSameContactAsRequest(IHttpContextAccessor context, Guid correlationId)
     {
-			var email = context.Email();
-			var contact = _contactDatastore.ByEmail(email);
+      var email = context.Email();
+      var contact = _contactDatastore.ByEmail(email);
       var matchRequest = _resultDatastore
         .List(contact.Id)
-        .Any(x => 
-          x.CorrelationId == correlationId && 
+        .Any(x =>
+          x.CorrelationId == correlationId &&
           x.Contact.Id == contact.Id);
 
       return matchRequest;

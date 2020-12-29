@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GraphML.Logic.Validators
 {
-  public abstract class ValidatorBase<T> : AbstractValidator<T>
+  public abstract class ValidatorBase<T> : AbstractValidator<T> where T : Item
   {
     protected readonly IHttpContextAccessor _context;
     protected readonly IContactDatastore _contactDatastore;
