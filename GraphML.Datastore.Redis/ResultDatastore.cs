@@ -124,6 +124,24 @@ namespace GraphML.Datastore.Redis
       });
     }
 
+    public IRequest ByCorrelation(Guid corrId)
+    {
+      return GetInternal(() =>
+      {
+        var keys = _server.Keys()
+          .Where(x => x.ToString().EndsWith($"{corrId}"))
+          .ToArray();
+        var req = _db.StringGet(keys).SingleOrDefault();
+        var json = req.ToString();
+        var jobj = JObject.Parse(json);
+        var reqTypeStr = jobj["Type"].ToString();
+        var reqType = Type.GetType(reqTypeStr);
+        var retval = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+
+        return retval;
+      });
+    }
+
     public IResult Retrieve(Guid correlationId)
     {
       return GetInternal(() =>

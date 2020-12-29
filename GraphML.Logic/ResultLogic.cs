@@ -16,7 +16,7 @@ namespace GraphML.Logic
 
     public ResultLogic(
       IHttpContextAccessor context,
-      IResultDatastore datastore, 
+      IResultDatastore datastore,
       IResultValidator validator)
     {
       _context = context;
@@ -70,6 +70,18 @@ namespace GraphML.Logic
       }
 
       return _datastore.ByOrganisation(orgid);
+    }
+
+    public IRequest ByCorrelation(Guid corrId)
+    {
+      // called by user
+      var valRes = _validator.Validate(corrId, options => options.IncludeRuleSets(nameof(IResultLogic.ByCorrelation)));
+      if (!valRes.IsValid)
+      {
+        return null;
+      }
+
+      return _datastore.ByCorrelation(corrId);
     }
 
     public IResult Retrieve(Guid correlationId)

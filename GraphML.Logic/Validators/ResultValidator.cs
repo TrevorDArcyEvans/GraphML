@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using FluentValidation;
 using GraphML.Interfaces;
+using GraphML.Common;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -37,6 +38,10 @@ namespace GraphML.Logic.Validators
       {
         RuleForByOrganisation();
       });
+      RuleSet(nameof(IResultLogic.ByCorrelation), () =>
+      {
+        RuleForByCorrelation();
+      });
       RuleSet(nameof(IResultLogic.Retrieve), () =>
       {
         RuleForRetrieve();
@@ -71,6 +76,13 @@ namespace GraphML.Logic.Validators
         .WithMessage("Must be same Organisation");
     }
 
+    public void RuleForByCorrelation()
+    {
+      // called by user
+      //  Guid --> corrId
+      // TODO   RuleForByCorrelation
+    }
+
     public void RuleForRetrieve()
     {
       // called by user
@@ -91,37 +103,42 @@ namespace GraphML.Logic.Validators
 
     private bool MustBeSameContact(IHttpContextAccessor context, Guid contactId)
     {
-      var email = context.Email();
-      var contact = _contactDatastore.ByEmail(email);
+      var reqEmail = context.Email();
+      var reqContact = _contactDatastore.ByEmail(reqEmail);
+      var contact = _contactDatastore.ByIds(new []{ contactId }).SingleOrDefault();
 
-      return contact.Id == contactId;
+      return reqContact.Id == contactId || // requester must be asking for his results OR
+        (IsUserAdmin(contact.Id) && reqContact.OrganisationId == contact.OrganisationId); // requester must be UserAdmin for same org as contact
     }
-
 
     private bool MustBeSameOrganisation(IHttpContextAccessor context, Guid orgId)
     {
-      var email = context.Email();
-      var contact = _contactDatastore.ByEmail(email);
+      // requester must be in same org as results
+      var reqEmail = context.Email();
+      var reqContact = _contactDatastore.ByEmail(reqEmail);
 
-      return contact.OrganisationId == orgId;
+      return reqContact.OrganisationId == orgId;
     }
 
     private bool MustBeSameContactAsRequest(IHttpContextAccessor context, Guid correlationId)
     {
-      var email = context.Email();
-      var contact = _contactDatastore.ByEmail(email);
+      var reqEmail = context.Email();
+      var reqContact = _contactDatastore.ByEmail(reqEmail);
       var matchRequest = _resultDatastore
-        .ByContact(contact.Id)
+        .ByContact(reqContact.Id)
         .Any(x =>
           x.CorrelationId == correlationId &&
-          x.Contact.Id == contact.Id);
+          x.Contact.Id == reqContact.Id);
 
-      return matchRequest;
+      return matchRequest || // requester must be asking for his result OR
+        true; // TODO   requester must be UserAdmin for same org as result
     }
 
-    private bool IsUserAdmin()
+    private bool IsUserAdmin(Guid contactId)
     {
-      return true;
+      var roles = _roleDatastore.ByContactId(contactId);
+
+      return roles.Any(x => x.Name == Roles.UserAdmin);;
     }
   }
 }

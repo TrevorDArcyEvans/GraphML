@@ -44,6 +44,14 @@ namespace GraphML.API.Server
       return retval;
     }
 
+    public async Task<IRequest> ByCorrelation(string corrId)
+    {
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId));
+      var retval = await GetResponse<IRequest>(request);
+
+      return retval;
+    }
+
     public async Task<IResult> Retrieve(string correlationId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId));

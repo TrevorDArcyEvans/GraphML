@@ -86,7 +86,25 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Get results for a request
+    /// Get request for a job request
+    /// </summary>
+    /// <param name="correlationId">job request</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpGet]
+    [Route(nameof(ByCorrelation) + "/{correlationId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IRequest))]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    public IActionResult ByCorrelation([FromRoute][Required] Guid correlationId)
+    {
+      var retval = _logic.ByCorrelation(correlationId);
+
+      return new OkObjectResult(retval);
+    }
+
+    /// <summary>
+    /// Get results for a job request
     /// </summary>
     /// <param name="correlationId">Job request</param>
     /// <response code="200">Success</response>

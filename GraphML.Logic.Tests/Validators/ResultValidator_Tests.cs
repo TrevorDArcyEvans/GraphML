@@ -58,6 +58,12 @@ namespace GraphML.Logic.Tests.Validators
     }
 
     [Test]
+    public void RuleForByCorrelation_Succeeds()
+    {
+      Assert.Pass("TODO   RuleForByCorrelation_Succeeds");
+    }
+
+    [Test]
     public void MustBeSameContactAsRequest_SameContacAsRequest_Succeeds()
     {
       const string email = "DrStrangelove@USAF.com";
