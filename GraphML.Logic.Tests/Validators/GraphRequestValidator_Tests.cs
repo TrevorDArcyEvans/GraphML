@@ -25,7 +25,7 @@ namespace GraphML.Logic.Tests.Validators
 		}
 
 		[Test]
-		public void RequesterMustBeSameOrganisation_SameOrganisation_Succeeds()
+		public void RequesterIsSameOrganisation_SameOrganisation_ReturnsTrue()
 		{
 			const string email = "DrStrangelove@USAF.com";
 
@@ -38,10 +38,9 @@ namespace GraphML.Logic.Tests.Validators
 			var req = new DummyGraphRequest { GraphId = graph.Id };
 			var validator = Create();
 
-			validator.RequesterMustBeSameOrganisation();
-			var valres = validator.Validate(req);
+			var valres = validator.RequesterIsSameOrganisation(_context.Object, req);
 
-			valres.Errors.Should().BeEmpty();
+			valres.Should().BeTrue();
 		}
 
 		private GraphRequestValidator Create()

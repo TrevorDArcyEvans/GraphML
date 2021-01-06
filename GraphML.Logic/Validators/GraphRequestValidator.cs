@@ -49,7 +49,7 @@ namespace GraphML.Logic.Validators
         .WithMessage("Must be in same Organisation");
     }
 
-    private bool RequesterIsSameOrganisation(IHttpContextAccessor context, IGraphRequest graphRequest)
+    public bool RequesterIsSameOrganisation(IHttpContextAccessor context, IGraphRequest graphRequest)
     {
       var email = context.Email();
       var contact = _contactDatastore.ByEmail(email);
