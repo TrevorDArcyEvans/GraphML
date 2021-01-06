@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using GraphML.Interfaces;
 using GraphML.Logic.Validators;
@@ -7,7 +9,7 @@ using NUnit.Framework;
 
 namespace GraphML.Logic.Tests.Validators
 {
-  [TestFixture]
+    [TestFixture]
   public sealed class ResultValidator_Tests
   {
     private Mock<IHttpContextAccessor> _context;
@@ -25,7 +27,7 @@ namespace GraphML.Logic.Tests.Validators
     }
 
     [Test]
-    public void MustBeSameContact_SameContact_Succeeds()
+    public void MustBeSameContactOrUserAdmin_SameContact_ReturnsTrue()
     {
       const string email = "DrStrangelove@USAF.com";
 
@@ -34,14 +36,33 @@ namespace GraphML.Logic.Tests.Validators
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
       var validator = Create();
 
-      validator.RuleForByContact();
-      var valres = validator.Validate(contact.Id);
+      var valres = validator.MustBeSameContactOrUserAdmin(_context.Object, contact.Id);
 
-      valres.Errors.Should().BeEmpty();
+      valres.Should().BeTrue();
     }
 
     [Test]
-    public void MustBeSameOrganisation_SameOrganisation_Succeeds()
+    public void MustBeSameContactOrUserAdmin_UserAdmin_ReturnsTrue()
+    {
+      const string email = "DrStrangelove@USAF.com";
+
+      var org = new Organisation();
+      var reqContact = new Contact { OrganisationId = org.Id };
+      var contact = new Contact { OrganisationId = org.Id };
+      _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
+      _contactDatastore.Setup(x => x.ByEmail(email)).Returns(reqContact);
+      _contactDatastore.Setup(x => x.ByIds(new []{ contact.Id })).Returns(new []{ contact });
+      _roleDatastore.Setup(x => x.ByContactId(contact.Id))
+            .Returns(new []{ new Role { Name = "UserAdmin" }, new Role { Name = "Other role" } });
+      var validator = Create();
+
+      var valres = validator.MustBeSameContactOrUserAdmin(_context.Object, reqContact.Id);
+
+      valres.Should().BeTrue();
+    }
+
+    [Test]
+    public void MustBeSameOrganisation_SameOrganisation_ReturnsTrue()
     {
       const string email = "DrStrangelove@USAF.com";
 
@@ -51,10 +72,9 @@ namespace GraphML.Logic.Tests.Validators
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
       var validator = Create();
 
-      validator.RuleForByOrganisation();
-      var valres = validator.Validate(org.Id);
+      var valres = validator.MustBeSameOrganisation(_context.Object, org.Id);
 
-      valres.Errors.Should().BeEmpty();
+      valres.Should().BeTrue();
     }
 
     [Test]
@@ -64,7 +84,7 @@ namespace GraphML.Logic.Tests.Validators
     }
 
     [Test]
-    public void MustBeSameContactAsRequest_SameContacAsRequest_Succeeds()
+    public void MustBeSameContactAsRequestOrUserAdmin_SameContactAsRequest_ReturnsTrue()
     {
       const string email = "DrStrangelove@USAF.com";
 
@@ -75,10 +95,35 @@ namespace GraphML.Logic.Tests.Validators
       _resultDatastore.Setup(x => x.ByContact(contact.Id)).Returns(new[] { request });
       var validator = Create();
 
-      validator.RuleForRetrieve();
-      var valres = validator.Validate(request.CorrelationId);
+      var valres = validator.MustBeSameContactAsRequestOrUserAdmin(_context.Object,request.CorrelationId);
 
-      valres.Errors.Should().BeEmpty();
+      valres.Should().BeTrue();
+    }
+
+    [Test]
+    public void IsUserAdmin_IsUserAdmin_ReturnsTrue()
+    {
+      var contact = new Contact();
+      _roleDatastore.Setup(x => x.ByContactId(contact.Id))
+            .Returns(new []{ new Role { Name = "UserAdmin" }, new Role { Name = "Other role" } });
+      var validator = Create();
+
+      var valres = validator.IsUserAdmin(contact.Id);
+
+      valres.Should().BeTrue();
+    }
+
+    [Test]
+    public void IsUserAdmin_NotUserAdmin_ReturnsFalse()
+    {
+      var contact = new Contact();
+      _roleDatastore.Setup(x => x.ByContactId(contact.Id))
+            .Returns(new []{ new Role { Name = "NotUserAdmin" }, new Role { Name = "Other role" } });
+      var validator = Create();
+
+      var valres = validator.IsUserAdmin(contact.Id);
+
+      valres.Should().BeFalse();
     }
 
     private ResultValidator Create()

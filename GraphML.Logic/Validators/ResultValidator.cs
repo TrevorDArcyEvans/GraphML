@@ -63,7 +63,7 @@ namespace GraphML.Logic.Validators
       // called by user
       //  Guid --> contactId
       RuleFor(x => x)
-        .Must(x => MustBeSameContact(_context, x))
+        .Must(x => MustBeSameContactOrUserAdmin(_context, x))
         .WithMessage("Must be same Contact");
     }
 
@@ -88,7 +88,7 @@ namespace GraphML.Logic.Validators
       // called by user
       //  Guid --> correlationId
       RuleFor(x => x)
-        .Must(x => MustBeSameContactAsRequest(_context, x))
+        .Must(x => MustBeSameContactAsRequestOrUserAdmin(_context, x))
         .WithMessage("Must be same Contact as Request");
     }
 
@@ -97,11 +97,11 @@ namespace GraphML.Logic.Validators
       // called by user
       //  Guid --> correlationId
       RuleFor(x => x)
-        .Must(x => MustBeSameContactAsRequest(_context, x))
+        .Must(x => MustBeSameContactAsRequestOrUserAdmin(_context, x))
         .WithMessage("Must be same Contact as Request");
     }
 
-    private bool MustBeSameContact(IHttpContextAccessor context, Guid contactId)
+    public bool MustBeSameContactOrUserAdmin(IHttpContextAccessor context, Guid contactId)
     {
       var reqEmail = context.Email();
       var reqContact = _contactDatastore.ByEmail(reqEmail);
@@ -112,7 +112,7 @@ namespace GraphML.Logic.Validators
         reqContact.OrganisationId == contact.OrganisationId); // for same org as contact
     }
 
-    private bool MustBeSameOrganisation(IHttpContextAccessor context, Guid orgId)
+    public bool MustBeSameOrganisation(IHttpContextAccessor context, Guid orgId)
     {
       // requester must be in same org as results
       var reqEmail = context.Email();
@@ -121,7 +121,7 @@ namespace GraphML.Logic.Validators
       return reqContact.OrganisationId == orgId;
     }
 
-    private bool MustBeSameContactAsRequest(IHttpContextAccessor context, Guid correlationId)
+    public bool MustBeSameContactAsRequestOrUserAdmin(IHttpContextAccessor context, Guid correlationId)
     {
       var reqEmail = context.Email();
       var reqContact = _contactDatastore.ByEmail(reqEmail);
@@ -137,7 +137,7 @@ namespace GraphML.Logic.Validators
         corrRequest.Contact.OrganisationId == reqContact.OrganisationId); // for same org as request
     }
 
-    private bool IsUserAdmin(Guid contactId)
+    public bool IsUserAdmin(Guid contactId)
     {
       var roles = _roleDatastore.ByContactId(contactId);
 
