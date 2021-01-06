@@ -101,6 +101,26 @@ namespace GraphML.Logic.Tests.Validators
     }
 
     [Test]
+    public void MustBeSameContactAsRequestOrUserAdmin_UserAdmin_ReturnsTrue()
+    {
+      const string email = "DrStrangelove@USAF.com";
+
+      var org = new Organisation();
+      var reqContact = new Contact { OrganisationId = org.Id };
+      var contact = new Contact { OrganisationId = org.Id };
+      _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
+      _contactDatastore.Setup(x => x.ByEmail(email)).Returns(reqContact);
+      _contactDatastore.Setup(x => x.ByIds(new []{ contact.Id })).Returns(new []{ contact });
+      var request = new DummyRequest { Contact = reqContact };
+      _resultDatastore.Setup(x => x.ByContact(reqContact.Id)).Returns(new[] { request });
+      var validator = Create();
+
+      var valres = validator.MustBeSameContactAsRequestOrUserAdmin(_context.Object,request.CorrelationId);
+
+      valres.Should().BeTrue();
+    }
+
+    [Test]
     public void IsUserAdmin_IsUserAdmin_ReturnsTrue()
     {
       var contact = new Contact();
