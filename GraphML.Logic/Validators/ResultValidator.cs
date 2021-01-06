@@ -110,7 +110,6 @@ namespace GraphML.Logic.Validators
       return reqContact.Id == contactId || // requester must be asking for his results OR
         (IsUserAdmin(contact.Id) && // requester must be UserAdmin
         reqContact.OrganisationId == contact.OrganisationId); // for same org as contact
-       
     }
 
     private bool MustBeSameOrganisation(IHttpContextAccessor context, Guid orgId)
