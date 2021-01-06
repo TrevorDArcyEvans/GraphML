@@ -48,7 +48,7 @@ namespace GraphML.Logic.Validators
         .WithMessage("Must be in same Graph");
     }
 
-    private bool RequesterIsSameOrganisation(IHttpContextAccessor context, IGraphNodesRequest graphNodesRequest)
+    public bool RequesterIsSameOrganisation(IHttpContextAccessor context, IGraphNodesRequest graphNodesRequest)
     {
       var email = context.Email();
       var contact = _contactDatastore.ByEmail(email);
@@ -63,7 +63,7 @@ namespace GraphML.Logic.Validators
       return contact.OrganisationId == graph.OrganisationId;
     }
 
-    private bool AreInSameGraph(IGraphNodesRequest graphNodesRequest)
+    public bool AreInSameGraph(IGraphNodesRequest graphNodesRequest)
     {
       var graphNodes = _graphNodeDatastore.ByIds(graphNodesRequest.GraphNodes);
       var numGraph = _graphDatastore.ByIds(graphNodes.Select(gn => gn.GraphId)).Distinct().Count();

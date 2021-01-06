@@ -30,7 +30,7 @@ namespace GraphML.Logic.Tests.Validators
     }
 
     [Test]
-    public void RequesterMustBeSameOrganisation_SameOrganisation_Succeeds()
+    public void RequesterIsSameOrganisation_SameOrganisation_ReturnsTrue()
     {
       const string email = "DrStrangelove@USAF.com";
 
@@ -50,14 +50,13 @@ namespace GraphML.Logic.Tests.Validators
       var req = new DummyGraphNodesRequest { GraphNodes = new[] { graphNodeRoot.Id, graphNodeTarget.Id } };
       var validator = Create();
 
-      validator.RequesterMustBeSameOrganisation();
-      var valres = validator.Validate(req);
+      var valres = validator.RequesterIsSameOrganisation(_context.Object, req);
 
-      valres.Errors.Should().BeEmpty();
+      valres.Should().BeTrue();
     }
 
     [Test]
-    public void MustBeInSameGraph_SameGraph_Succeeds()
+    public void AreInSameGraph_SameGraph_ReturnsTrue()
     {
       var org = new Organisation();
       var graph = new Graph { OrganisationId = org.Id };
@@ -72,10 +71,9 @@ namespace GraphML.Logic.Tests.Validators
       var req = new DummyGraphNodesRequest { GraphNodes = new[] { graphNodeRoot.Id, graphNodeTarget.Id } };
       var validator = Create();
 
-      validator.MustBeInSameGraph();
-      var valres = validator.Validate(req);
+      var valres = validator.AreInSameGraph(req);
 
-      valres.Errors.Should().BeEmpty();
+      valres.Should().BeTrue();
     }
 
     private GraphNodesRequestValidator Create()
