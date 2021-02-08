@@ -1,10 +1,9 @@
 ﻿using System;
-using Dapper.Contrib.Extensions;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Schema.Table(nameof(RepositoryManager))]
+    [Schema.Table(nameof(RepositoryManager))]
   public sealed class RepositoryManager : OwnedItem
   {
     public RepositoryManager() :

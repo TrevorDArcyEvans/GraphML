@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace GraphML.Interfaces
+﻿namespace GraphML.Interfaces
 {
-  public interface IClosenessRequest : IGraphRequest
+    public interface IClosenessRequest : IGraphRequest
   {
   }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
-using Dapper.Contrib.Extensions;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-  [Schema.Table(nameof(Contact))]
+    [Schema.Table(nameof(Contact))]
   public sealed class Contact : OwnedItem
   {
     public Contact() :
