@@ -8,24 +8,24 @@ using Microsoft.Extensions.Configuration;
 
 namespace IdentityServerAspNetIdentity
 {
-    public static class Config
+  public static class Config
+  {
+    public static IEnumerable<IdentityResource> Ids(IConfiguration config)
     {
-      public static IEnumerable<IdentityResource> Ids(IConfiguration config)
-      {
-          var retval = new List<IdentityResource>(
-              new IdentityResource[]
-              {
+      var retval = new List<IdentityResource>(
+          new IdentityResource[]
+          {
                   new IdentityResources.OpenId(),
                   new IdentityResources.Profile(),
                   new IdentityResources.Email()
-              });
-          retval.AddRange(config.IDENTITY_SERVER_IDS());
+          });
+      retval.AddRange(config.IDENTITY_SERVER_IDS());
 
-          return retval;
-      }
-
-      public static IEnumerable<ApiResource> Apis(IConfiguration config) => config.IDENTITY_SERVER_APIS();
-
-      public static IEnumerable<Client> Clients(IConfiguration config) => config.IDENTITY_SERVER_CLIENTS();
+      return retval;
     }
+
+    public static IEnumerable<ApiResource> Apis(IConfiguration config) => config.IDENTITY_SERVER_APIS();
+
+    public static IEnumerable<Client> Clients(IConfiguration config) => config.IDENTITY_SERVER_CLIENTS();
+  }
 }
