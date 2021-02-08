@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace GraphML.Interfaces
 {
-    public interface IRoleLogic : ILogic<Role>
-    {
-        IEnumerable<Role> ByContactId(Guid id);
-        IEnumerable<Role> GetAll();
-    }
+  public interface IRoleLogic : ILogic<Role>
+  {
+    IEnumerable<Role> ByContactId(Guid id);
+    IEnumerable<Role> GetAll();
+  }
 }

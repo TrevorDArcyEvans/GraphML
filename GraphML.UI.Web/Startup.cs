@@ -24,8 +24,8 @@ namespace GraphML.UI.Web
     private IConfiguration Configuration { get; }
 
     public Startup(
-    IWebHostEnvironment env,
-    IConfiguration configuration)
+      IWebHostEnvironment env,
+      IConfiguration configuration)
     {
       // Environment variable:
       //    ASPNETCORE_ENVIRONMENT == Development
@@ -75,7 +75,7 @@ namespace GraphML.UI.Web
           options.GetClaimsFromUserInfoEndpoint = true;
         });
 
-#region Autofac
+      #region Autofac
 
       // Create the container builder.
       var builder = new ContainerBuilder();
@@ -113,7 +113,7 @@ namespace GraphML.UI.Web
       // Create the IServiceProvider based on the container.
       return new AutofacServiceProvider(applicationContainer);
 
-#endregion
+      #endregion
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

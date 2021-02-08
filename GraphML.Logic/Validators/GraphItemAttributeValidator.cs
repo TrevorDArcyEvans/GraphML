@@ -14,5 +14,4 @@ namespace GraphML.Logic.Validators
     {
     }
   }
-
 }

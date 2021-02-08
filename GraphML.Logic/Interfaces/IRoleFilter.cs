@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Logic.Interfaces
 {
-    public interface IRoleFilter : IFilter<Role>
-    {
-    }
+  public interface IRoleFilter : IFilter<Role>
+  {
+  }
 }

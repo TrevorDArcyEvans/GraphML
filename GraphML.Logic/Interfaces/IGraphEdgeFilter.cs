@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Logic.Interfaces
 {
-    public interface IGraphEdgeFilter : IFilter<GraphEdge>
-    {
-    }
+  public interface IGraphEdgeFilter : IFilter<GraphEdge>
+  {
+  }
 }

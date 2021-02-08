@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-    public interface IBetweennessRequest : IGraphRequest
+  public interface IBetweennessRequest : IGraphRequest
   {
   }
 }

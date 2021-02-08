@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace GraphML.Logic.Tests.Validators
 {
-    [TestFixture]
+  [TestFixture]
   public sealed class ResultValidator_Tests
   {
     private Mock<IHttpContextAccessor> _context;
@@ -49,9 +49,9 @@ namespace GraphML.Logic.Tests.Validators
       var contact = new Contact { OrganisationId = org.Id };
       _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(reqContact);
-      _contactDatastore.Setup(x => x.ByIds(new []{ contact.Id })).Returns(new []{ contact });
+      _contactDatastore.Setup(x => x.ByIds(new[] { contact.Id })).Returns(new[] { contact });
       _roleDatastore.Setup(x => x.ByContactId(contact.Id))
-            .Returns(new []{ new Role { Name = "UserAdmin" }, new Role { Name = "Other role" } });
+            .Returns(new[] { new Role { Name = "UserAdmin" }, new Role { Name = "Other role" } });
       var validator = Create();
 
       var valres = validator.MustBeSameContactOrUserAdmin(_context.Object, reqContact.Id);
@@ -93,7 +93,7 @@ namespace GraphML.Logic.Tests.Validators
       _resultDatastore.Setup(x => x.ByContact(contact.Id)).Returns(new[] { request });
       var validator = Create();
 
-      var valres = validator.MustBeSameContactAsRequestOrUserAdmin(_context.Object,request.CorrelationId);
+      var valres = validator.MustBeSameContactAsRequestOrUserAdmin(_context.Object, request.CorrelationId);
 
       valres.Should().BeTrue();
     }
@@ -108,12 +108,12 @@ namespace GraphML.Logic.Tests.Validators
       var contact = new Contact { OrganisationId = org.Id };
       _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(reqContact);
-      _contactDatastore.Setup(x => x.ByIds(new []{ contact.Id })).Returns(new []{ contact });
+      _contactDatastore.Setup(x => x.ByIds(new[] { contact.Id })).Returns(new[] { contact });
       var request = new DummyRequest { Contact = reqContact };
       _resultDatastore.Setup(x => x.ByContact(reqContact.Id)).Returns(new[] { request });
       var validator = Create();
 
-      var valres = validator.MustBeSameContactAsRequestOrUserAdmin(_context.Object,request.CorrelationId);
+      var valres = validator.MustBeSameContactAsRequestOrUserAdmin(_context.Object, request.CorrelationId);
 
       valres.Should().BeTrue();
     }
@@ -123,7 +123,7 @@ namespace GraphML.Logic.Tests.Validators
     {
       var contact = new Contact();
       _roleDatastore.Setup(x => x.ByContactId(contact.Id))
-            .Returns(new []{ new Role { Name = "UserAdmin" }, new Role { Name = "Other role" } });
+            .Returns(new[] { new Role { Name = "UserAdmin" }, new Role { Name = "Other role" } });
       var validator = Create();
 
       var valres = validator.IsUserAdmin(contact.Id);
@@ -136,7 +136,7 @@ namespace GraphML.Logic.Tests.Validators
     {
       var contact = new Contact();
       _roleDatastore.Setup(x => x.ByContactId(contact.Id))
-            .Returns(new []{ new Role { Name = "NotUserAdmin" }, new Role { Name = "Other role" } });
+            .Returns(new[] { new Role { Name = "NotUserAdmin" }, new Role { Name = "Other role" } });
       var validator = Create();
 
       var valres = validator.IsUserAdmin(contact.Id);

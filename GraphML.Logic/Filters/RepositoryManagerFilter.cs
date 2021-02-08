@@ -11,7 +11,6 @@ namespace GraphML.Logic.Filters
       IContactDatastore contactDatastore,
       IRoleDatastore roleDatastore) :
       base(context, contactDatastore, roleDatastore)
-
     {
     }
   }

@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-    public interface IDegreeRequest : IGraphRequest
+  public interface IDegreeRequest : IGraphRequest
   {
   }
 }

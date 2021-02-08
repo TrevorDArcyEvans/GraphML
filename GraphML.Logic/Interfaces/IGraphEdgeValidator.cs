@@ -2,7 +2,7 @@
 
 namespace GraphML.Logic.Interfaces
 {
-    public interface IGraphEdgeValidator : IValidator<GraphEdge>
-    {
-    }
+  public interface IGraphEdgeValidator : IValidator<GraphEdge>
+  {
+  }
 }

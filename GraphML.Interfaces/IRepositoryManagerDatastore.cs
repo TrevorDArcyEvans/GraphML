@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-    public interface IRepositoryManagerDatastore : IOwnedDatastore<RepositoryManager>
+  public interface IRepositoryManagerDatastore : IOwnedDatastore<RepositoryManager>
   {
   }
 }

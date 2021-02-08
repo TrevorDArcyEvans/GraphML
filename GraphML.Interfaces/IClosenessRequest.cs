@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-    public interface IClosenessRequest : IGraphRequest
+  public interface IClosenessRequest : IGraphRequest
   {
   }
 }
