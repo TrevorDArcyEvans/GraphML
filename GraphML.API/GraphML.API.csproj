@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <NoWarn>1591,AD0001</NoWarn>
     <StartupObject>GraphML.API.Program</StartupObject>
     <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
@@ -14,11 +14,11 @@
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp3.1\GraphML.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net5.0\GraphML.API.xml</DocumentationFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp3.1\GraphML.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net5.0\GraphML.API.xml</DocumentationFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

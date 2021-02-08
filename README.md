@@ -35,7 +35,7 @@ Nodes with a high degree centrality have the best connections to those around th
     * Windows (not tested but should work)
   * target:
     * Linux
-  * .NET Core SDK v3.1
+  * .NET Core SDK v5.0
   * git
   * integrated development environment:
     * Visual Studio Code (Linux or Windows)
@@ -82,7 +82,7 @@ Nodes with a high degree centrality have the best connections to those around th
 1. run API
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
-  cd GraphML.API/bin/Debug/netcoreapp3.1 
+  cd GraphML.API/bin/Debug/net5.0 
   ./GraphML.API
 ```
 1. open [Swagger UI](http://localhost:5000/swagger/index.html)
@@ -91,7 +91,7 @@ Nodes with a high degree centrality have the best connections to those around th
 1. run analysis server
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
-  cd GraphML.API/bin/Debug/netcoreapp3.1 
+  cd GraphML.API/bin/Debug/net5.0 
   ./GraphML.Analysis.Server
 ```
 1. open [_Apache ActiveMQ_ management console](http://localhost:8161/admin)
