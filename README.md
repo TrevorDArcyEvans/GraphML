@@ -60,6 +60,7 @@ Nodes with a high degree centrality have the best connections to those around th
   * [DB Browser for SQLite](https://sqlitebrowser.org/)
   * [SQLiteStudio](https://sqlitestudio.pl/)
   * Microsoft SQl Server Management Studio (Windows)
+  * [ReportGenerator](https://github.com/danielpalme/ReportGenerator)
 
 </details>
 
@@ -78,6 +79,10 @@ Nodes with a high degree centrality have the best connections to those around th
 1. run tests
 ```bash
   dotnet test
+```
+1. run code coverage
+```bash
+  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 ```
 1. run API
 ```bash
