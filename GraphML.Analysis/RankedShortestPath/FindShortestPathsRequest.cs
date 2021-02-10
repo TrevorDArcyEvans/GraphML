@@ -12,12 +12,12 @@ namespace GraphML.Analysis.RankedShortestPath
 
     public IEnumerable<Guid> GraphNodes
     {
-        get => new[] { RootNodeId, GoalNodeId };
-        set
-        {
-            RootNodeId = value.First();
-            GoalNodeId = value.Last();
-        }
+      get => new[] { RootNodeId, GoalNodeId };
+      set
+      {
+        RootNodeId = value.First();
+        GoalNodeId = value.Last();
+      }
     }
 
     public override string JobType => typeof(IFindShortestPathsJob).AssemblyQualifiedName;

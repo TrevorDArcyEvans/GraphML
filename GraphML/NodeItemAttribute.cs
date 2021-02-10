@@ -13,6 +13,5 @@ namespace GraphML
       get => OwnerId;
       set => OwnerId = value;
     }
-
   }
 }

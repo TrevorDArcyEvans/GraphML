@@ -8,16 +8,16 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace GraphML.API
 {
-  public class AuthorizeCheckOperationFilter : IOperationFilter
+  public sealed class AuthorizeCheckOperationFilter : IOperationFilter
   {
-      private readonly string[] _scopes;
+    private readonly string[] _scopes;
 
-      public AuthorizeCheckOperationFilter(IConfiguration config)
-      {
-          _scopes = config.IDENTITY_SERVER_SCOPES().ToArray();
-      }
+    public AuthorizeCheckOperationFilter(IConfiguration config)
+    {
+      _scopes = config.IDENTITY_SERVER_SCOPES().ToArray();
+    }
 
-      public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
       var hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any() ||
                          context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
@@ -32,11 +32,11 @@ namespace GraphML.API
           new OpenApiSecurityRequirement
           {
               [
-                new OpenApiSecurityScheme 
+                new OpenApiSecurityScheme
                 {
-                  Reference = new OpenApiReference 
+                  Reference = new OpenApiReference
                   {
-                    Type = ReferenceType.SecurityScheme, 
+                    Type = ReferenceType.SecurityScheme,
                     Id = "oauth2"
                   }
                 }

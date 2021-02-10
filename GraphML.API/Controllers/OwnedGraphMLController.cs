@@ -16,8 +16,8 @@ namespace GraphML.API.Controllers
       _ownedLogic = logic;
     }
 
-    public abstract IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize);
-    protected IActionResult ByOwnersInternal([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public abstract IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    protected IActionResult ByOwnersInternal([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize);
       return new OkObjectResult(result);
