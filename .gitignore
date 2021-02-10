@@ -268,3 +268,7 @@ GraphML.key
 
 .vscode
 /.project
+
+# Coverlet code coverage output
+**/coverage.json
+**/coverage.opencover.xml
