@@ -84,6 +84,10 @@ Nodes with a high degree centrality have the best connections to those around th
 ```bash
   dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 ```
+1. generate code coverage report
+``` bash
+  reportgenerator -reports:**/coverage.opencover.xml -targetdir:./CodeCoverage
+```
 1. run API
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development

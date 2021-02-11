@@ -272,3 +272,5 @@ GraphML.key
 # Coverlet code coverage output
 **/coverage.json
 **/coverage.opencover.xml
+CodeCoverage/
+
