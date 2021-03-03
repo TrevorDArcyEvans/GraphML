@@ -1,27 +1,27 @@
 # GraphML ![](Docs/GraphML.icon.png)
 GraphML analyses graphs for the following measures:
 
-* ranked shortest paths
-  <details>
+* <details>
+    <summary>ranked shortest paths</summary>
 These calculations help your users understand ways to travel through (or ‘traverse’) a network.<p/>
 The distance function measures how many hops apart two nodes are in a network. Shortest path highlights the route that passes through the lowest number of nodes. 
 Hops can also be weighted, meaning you can calculate actual distances, as well as the number of hops.
   </details>
 * Social Network Analysis (SNA)
-  * closeness
-    <details>
+  * <details>
+      <summary>closeness</summary>
 This is the measure that helps you find the nodes that are closest to the other nodes in a network, based on their ability to reach them.<p/>
 To calculate this, the algorithm finds the shortest path between each node, then assigns each node a score based on the sum of all the paths.<p/>
 Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.
     </details>
-  * betweeness
-    <details>
+  * <details>
+      <summary>betweeness</summary>
 Nodes with a high betweenness centrality score are the ones that most frequently act as ‘bridges’ between other nodes. 
 They form the shortest pathways of communication within the network.<p/>
 Usually this would indicate important gatekeepers of information between groups.
     </details>
-  * degree
-    <details>
+  * <details>
+      <summary>degree</summary>
 The degree centrality measure finds nodes with the highest number of links to other nodes in the network.<p/>
 Nodes with a high degree centrality have the best connections to those around them – they might be influential, or just strategically well-placed.
     </details>
@@ -34,13 +34,16 @@ Nodes with a high degree centrality have the best connections to those around th
     * Linux
     * Windows (not tested but should work)
   * target:
-    * Linux
+    * Linux (services)
+    * WebAssembly aka WASM (GUI)
   * .NET Core SDK v5.0
-  * git
   * integrated development environment:
     * Visual Studio Code (Linux or Windows)
     * JetBrains Rider (Linux or Windows)
     * Visual Studio (Windows)
+  * nodejs
+  * git
+  * Google Chrome web browser
   * database:
     * Microsoft SQL Server
     * MySQL or MariaDB
@@ -59,8 +62,9 @@ Nodes with a high degree centrality have the best connections to those around th
   * [DBeaver](https://dbeaver.io/)
   * [DB Browser for SQLite](https://sqlitebrowser.org/)
   * [SQLiteStudio](https://sqlitestudio.pl/)
-  * Microsoft SQl Server Management Studio (Windows)
+  * Microsoft SQL Server Management Studio (Windows)
   * [ReportGenerator](https://github.com/danielpalme/ReportGenerator)
+  * [python](https://www.python.org/downloads/windows/)
 
 </details>
 
