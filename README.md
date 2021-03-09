@@ -1,4 +1,4 @@
-# GraphML ![](Docs/GraphML.icon.png)
+# GraphML ![](Readme-Docs/GraphML.icon.png)
 GraphML analyses graphs for the following measures:
 
 * <details>
@@ -152,21 +152,21 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 ## Overview
 <details><p/>
 
-  ![GraphML.Overview](Docs/GraphML.Overview.png "GraphML.Overview")
+  ![GraphML.Overview](Readme-Docs/GraphML.Overview.png "GraphML.Overview")
 
 </details>
 
 ## Architecture
 <details><p/>
 
-  ![GraphML.Architecture](Docs/GraphML.Architecture.png "GraphML.Architecture")
+  ![GraphML.Architecture](Readme-Docs/GraphML.Architecture.png "GraphML.Architecture")
 
 </details>
 
 ## Analysis
 <details><p/>
 
-  ![GraphML.Analysis](Docs/GraphML.Analysis.Sequence.png "GraphML.Analysis")
+  ![GraphML.Analysis](Readme-Docs/GraphML.Analysis.Sequence.png "GraphML.Analysis")
 
 </details>
 
@@ -174,14 +174,14 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 <details>
   <summary>Classes</summary>
 
-![GraphML.Classes](Docs/GraphML.Classes.png "GraphML.Classes")
+![GraphML.Classes](Readme-Docs/GraphML.Classes.png "GraphML.Classes")
 
 </details>
 
 <details>
   <summary>Composition</summary>
 
-![GraphML.Composition](Docs/GraphML.Composition.png "GraphML.Composition")
+![GraphML.Composition](Readme-Docs/GraphML.Composition.png "GraphML.Composition")
 
 </details>
 
