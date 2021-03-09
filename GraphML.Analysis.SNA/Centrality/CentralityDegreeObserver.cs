@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphML.Analysis.SNA.Centrality
 {
-  public sealed class CentralityDegreeObserver<TVertex>: QuickGraph.Algorithms.Observers.IObserver<ICentralityDegreeAlgorithm<TVertex>>
+  public sealed class CentralityDegreeObserver<TVertex>: QuikGraph.Algorithms.Observers.IObserver<ICentralityDegreeAlgorithm<TVertex>>
   {
     private readonly List<DegreeVertexResult<TVertex>> _results = new List<DegreeVertexResult<TVertex>>();
 

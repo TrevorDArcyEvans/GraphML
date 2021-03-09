@@ -40,7 +40,7 @@
     <PackageReference Include="moq" Version="4.15.1" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="nunit3testadapter" Version="3.17.0" />
-    <PackageReference Include="Sandwych.QuickGraph.Core" Version="1.0.0" />
+    <PackageReference Include="QuikGraph" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>

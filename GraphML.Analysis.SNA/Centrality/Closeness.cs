@@ -1,6 +1,6 @@
-﻿using QuickGraph;
-using QuickGraph.Algorithms.Observers;
-using QuickGraph.Algorithms.ShortestPath;
+﻿using QuikGraph;
+using QuikGraph.Algorithms.Observers;
+using QuikGraph.Algorithms.ShortestPath;
 using System;
 using System.Linq;
 using System.Threading;

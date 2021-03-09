@@ -1,5 +1,5 @@
-﻿using QuickGraph;
-using QuickGraph.Algorithms.RankedShortestPath;
+﻿using QuikGraph;
+using QuikGraph.Algorithms.RankedShortestPath;
 using System;
 using System.Linq;
 

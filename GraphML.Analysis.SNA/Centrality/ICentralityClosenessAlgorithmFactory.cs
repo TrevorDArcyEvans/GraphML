@@ -1,5 +1,5 @@
 ﻿using System;
-using QuickGraph;
+using QuikGraph;
 
 namespace GraphML.Analysis.SNA.Centrality
 {

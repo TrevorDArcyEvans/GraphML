@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphML.Analysis.SNA.Centrality
 {
-  public sealed class CentralityClosenessObserver<TVertex> : QuickGraph.Algorithms.Observers.IObserver<ICentralityClosenessAlgorithm<TVertex>>
+  public sealed class CentralityClosenessObserver<TVertex> : QuikGraph.Algorithms.Observers.IObserver<ICentralityClosenessAlgorithm<TVertex>>
   {
     private readonly List<ClosenessVertexResult<TVertex>> _results = new List<ClosenessVertexResult<TVertex>>();
 

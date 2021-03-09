@@ -1,4 +1,4 @@
-﻿using QuickGraph;
+﻿using QuikGraph;
 using System;
 
 namespace GraphML.Analysis.RankedShortestPath

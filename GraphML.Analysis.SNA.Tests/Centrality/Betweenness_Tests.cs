@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using QuickGraph;
+using QuikGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using QuickGraph;
+using QuikGraph;
 using System;
 using System.Linq;
 
@@ -42,7 +42,7 @@ namespace GraphML.Analysis.SNA.Centrality
       // raw nodes from db
       var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
 
-      // convert raw nodes to QuickGraph nodes
+      // convert raw nodes to QuikGraph nodes
       var qgNodes = nodes.Select(n => n.Id);
 
       // add nodes to graph
@@ -51,7 +51,7 @@ namespace GraphML.Analysis.SNA.Centrality
       // raw edges from db
       var edges = _edgeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
 
-      // convert raw edges to QuickGraph edges
+      // convert raw edges to QuikGraph edges
       // NOTE:  we also create reverse edges
       var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
       var qgRevEdges = edges.Select(e => new Edge<Guid>(e.TargetId, e.SourceId));

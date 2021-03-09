@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using QuickGraph;
+using QuikGraph;
 using System;
 using System.Collections.Generic;
 
