@@ -51,7 +51,7 @@ namespace IdentityServerAspNetIdentity
                   .Select(cs => new Secret(cs.Value.Sha256()))
                   .ToList(),
 
-            AllowedGrantTypes = GrantTypes.Code,
+            AllowedGrantTypes = new [] { GrantType.AuthorizationCode, GrantType.ClientCredentials, GrantType.ResourceOwnerPassword },
             RequireConsent = false,
             RequirePkce = true,
 
