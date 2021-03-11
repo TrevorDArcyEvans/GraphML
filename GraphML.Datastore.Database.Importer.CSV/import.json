@@ -20,10 +20,14 @@
   "ImportSpecification": {
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
-    "Repository": "Test",
+    "Repository": "Reddit",
     "Graph": "DelMe",
+    "Directed": true,
 
-    "DataFile": "C:\\dev\\trevorde\\GraphML\\Docs\\p2p-Gnutella08-small.txt",
-    "HasHeaderRecord": false
+    "DataFile2": "C:\\dev\\trevorde\\GraphML\\Docs\\p2p-Gnutella08-small.txt",
+    "HasHeaderRecord2": false,
+
+    "DataFile": "C:\\dev\\trevorde\\GraphML\\Docs\\soc-redditHyperlinks-body.tsv",
+    "HasHeaderRecord": true
   }
 }

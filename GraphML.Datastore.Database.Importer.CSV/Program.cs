@@ -83,12 +83,16 @@ namespace GraphML.Datastore.Database.Importer.CSV
 								OrganisationId = org.Id,
 								RepositoryManagerId = repoMgr.Id
 							};
-              conn.Insert(repo);
-            }
+							conn.Insert(repo);
+						}
 
-						var graph = new Graph(repo.Id, repo.OrganisationId, Path.GetFileNameWithoutExtension(_importSpec.DataFile));
+						// TODO	  GetOrCreate	  graph
+            var graph = new Graph(repo.Id, repo.OrganisationId, _importSpec.Graph)
+            {
+                Directed = _importSpec.Directed
+            };
 
-						_logInfoAction($"Importing from:  {_importSpec.DataFile}");
+            _logInfoAction($"Importing from:  {_importSpec.DataFile}");
 						_logInfoAction($"          into:  {conn.ConnectionString}");
 						_logInfoAction($"    repository:  {repo.Name}");
 						_logInfoAction($"         graph:  {graph.Name}");
@@ -201,6 +205,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			public string RepositoryManager { get; set; }
 			public string Repository { get; set; }
 			public string Graph { get; set; }
+			public bool Directed { get; set; }
 
 			public string DataFile { get; set; }
 			public bool HasHeaderRecord { get; set; }
