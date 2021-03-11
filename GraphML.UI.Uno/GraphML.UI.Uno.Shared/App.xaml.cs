@@ -87,7 +87,7 @@ namespace GraphML.UI.Uno
 		/// </summary>
 		/// <param name="sender">The Frame which failed navigation</param>
 		/// <param name="e">Details about the navigation failure</param>
-		void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+    private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
 		{
 			throw new Exception($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
 		}
@@ -106,12 +106,11 @@ namespace GraphML.UI.Uno
 			deferral.Complete();
 		}
 
-
 		/// <summary>
 		/// Configures global logging
 		/// </summary>
 		/// <param name="factory"></param>
-		static void ConfigureFilters(ILoggerFactory factory)
+    private static void ConfigureFilters(ILoggerFactory factory)
 		{
 			factory
 				.WithFilter(new FilterLoggerSettings
