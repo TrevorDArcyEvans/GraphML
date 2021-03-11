@@ -43,8 +43,9 @@
 ```
 | Field | Description | Notes |
 |-------|-------------|-------|
-| ConnectionType | type of database | `SqLite\SqlServer\MySql\PostgreSql` |
-| ConnectionString | _.NET_ database connection string | examples at [ConnectonStrings.com](https://www.connectionstrings.com/) |
+| Datastore:Connection | name database configuration |  |
+| Datastore:[_Connection_]:Type | type of database | `SqLite\SqlServer\MySql\PostgreSql` |
+| Datastore:[_Connection_]:ConnectionString | _.NET_ database connection string | examples at [ConnectonStrings.com](https://www.connectionstrings.com/) |
 | Organisation | name of _Organisation_ | must exist |
 | RepositoryManager | name of _Repository Manager_ | must exist |
 | Repository | name of _Repository_ | will be created if it does not exist |
