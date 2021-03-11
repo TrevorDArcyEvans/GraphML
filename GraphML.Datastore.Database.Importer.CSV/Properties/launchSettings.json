@@ -2,7 +2,6 @@
   "profiles": {
     "GraphML.Datastore.Database.Importer.CSV": {
       "commandName": "Project",
-      "commandLineArgs": "\"GraphML Repository\" C:\\dev\\trevorde\\GraphML\\Docs\\p2p-Gnutella08.txt",
       "environmentVariables": {
         "REPOSITORY_NAME": "GraphML Repository 0",
         "DATASTORE_CONNECTION_TYPE": "SqLite",
