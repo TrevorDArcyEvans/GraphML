@@ -37,7 +37,6 @@ namespace GraphML.Datastore.Database.Importer.CSV
 		{
 			_config = new ConfigurationBuilder()
 			  .AddJsonFile(importSpecPath)
-			  .AddEnvironmentVariables()
 			  .Build();
 			_config.GetSection("ImportSpecification").Bind(_importSpec);
 			_logInfoAction = logInfoAction;
