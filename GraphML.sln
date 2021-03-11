@@ -62,11 +62,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0B371A
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{0bb32c37-baf2-4455-8dd5-09fbf8f96b25}*SharedItemsImports = 5
 		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{2181651d-a765-4caa-9802-2a5628452363}*SharedItemsImports = 4
 		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
-		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{97ade730-a9e4-4677-b247-707be951034c}*SharedItemsImports = 5
-		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{f68ccff1-5656-47c0-b93a-2c31e8d8365c}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -482,6 +479,7 @@ Global
 		{DCB9B720-7C6A-480E-A5B4-EE2F74EF19F9}.Release|x86.ActiveCfg = Release|Any CPU
 		{DCB9B720-7C6A-480E-A5B4-EE2F74EF19F9}.Release|x86.Build.0 = Release|Any CPU
 		{2181651D-A765-4CAA-9802-2A5628452363}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2181651D-A765-4CAA-9802-2A5628452363}.Debug|Any CPU.Build.0 = Debug|x86
 		{2181651D-A765-4CAA-9802-2A5628452363}.Debug|ARM.ActiveCfg = Debug|ARM
 		{2181651D-A765-4CAA-9802-2A5628452363}.Debug|ARM.Build.0 = Debug|ARM
 		{2181651D-A765-4CAA-9802-2A5628452363}.Debug|ARM.Deploy.0 = Debug|ARM
