@@ -2,11 +2,11 @@
   "profiles": {
     "GraphML.Datastore.Database.Importer.CSV": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Dev\\GraphML\\Data\\ChCh-Miner_drugbank-chem-chem.tsv",
+      "commandLineArgs": "\"GraphML Repository\" C:\\dev\\trevorde\\GraphML\\Docs\\p2p-Gnutella08.txt",
       "environmentVariables": {
         "REPOSITORY_NAME": "GraphML Repository 0",
-        "DATASTORE_CONNECTION_TYPE": "SqlServer",
-        "DATASTORE_CONNECTION_STRING": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
+        "DATASTORE_CONNECTION_TYPE": "SqLite",
+        "DATASTORE_CONNECTION_STRING": "Data Source=|DataDirectory|Data/GraphML.sqlite3;"
       }
     }
   }

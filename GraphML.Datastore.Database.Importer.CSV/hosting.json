@@ -1,7 +1,7 @@
 ﻿{
   "Datastore":
   {
-    "Connection": "SqlServer",
+    "Connection": "SqLite",
 
     "SqLite":
     {
