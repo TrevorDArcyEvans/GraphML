@@ -51,7 +51,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
       var sw = Stopwatch.StartNew();
       using (var tr = File.OpenText(_dataFilePath))
       {
-        var csvCfg = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+        var csvCfg = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
           Delimiter = Path.GetExtension(_dataFilePath).ToLowerInvariant() == ".csv" ? "," : "\t",
           AllowComments = true,
