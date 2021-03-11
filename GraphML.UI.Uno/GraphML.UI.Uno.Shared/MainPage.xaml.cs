@@ -1,65 +1,69 @@
-﻿using System.Net.Http;
-using IdentityModel.Client;
-using Newtonsoft.Json.Linq;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
+	using Autofac;
+	using IdentityModel.Client;
+	using Microsoft.Extensions.Configuration;
+	using Newtonsoft.Json.Linq;
 	using System;
+	using System.Net.Http;
+	using System.Security.Authentication;
 	using Windows.UI.Xaml.Controls;
 
 	public sealed partial class MainPage : Page
 	{
+		private readonly IConfigurationRoot _config;
+
 		public MainPage()
 		{
 			this.InitializeComponent();
 
-			dp.Date = new DateTime(2006, 2, 20);
+			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
 
-		private async void OnClick(object sender, object args)
+		private async void Login_Click(object sender, object args)
 		{
-			var dt = DateTime.Now.ToString("O");
-			txt.Text = dt;
-
 			var innerHandler = new HttpClientHandler
 			{
 				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 			};
 			var client = new HttpClient(innerHandler)
 			{
-				BaseAddress = new Uri("https://localhost:44387")
+				// TODO	GraphML.Common.Settings
+				BaseAddress = new Uri(_config["Identity_Server:Base_Url"])
 			};
 			var disco = await client.GetDiscoveryDocumentAsync();
 			if (disco.IsError)
 			{
-				throw new Exception(disco.Error);
+				throw new HttpRequestException(disco.Error);
 			}
 
 			var response = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
 			{
 				Address = disco.TokenEndpoint,
 
-				ClientId = "GraphML.UI.Uno",
-				ClientSecret = "secret",
+				// TODO	GraphML.Common.Settings
+				ClientId = _config["Identity_Server:Client_Id"],
+				ClientSecret = _config["Identity_Server:Client_Secret"],
 
-				UserName = "alice",
-				Password = "Pass123$"
+				UserName = _userName.Text,
+				Password = _password.Password
 			});
+			if (response.IsError)
+			{
+				throw new AuthenticationException(response.Error);
+			}
+
 
 			var api = new HttpClient(innerHandler)
 			{
-				BaseAddress = new Uri("https://localhost:5001/")
+				// TODO	GraphML.Common.Settings
+				BaseAddress = new Uri(_config["API:Uri"])
 			};
 			var token = response.AccessToken;
 			api.SetBearerToken(token);
 			var orgsResp = await api.GetAsync("api/Organisation/GetAll");
 			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
 			var orgs = JArray.Parse(orgsCont);
-		}
-
-		public void Menu_OnClick(object sender, object args)
-		{
-			txt.Text = "Reset";
 		}
 	}
 }

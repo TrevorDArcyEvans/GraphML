@@ -1,18 +1,22 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
+	using Microsoft.Extensions.Logging;
+	using System;
+	using Windows.ApplicationModel;
+	using Windows.ApplicationModel.Activation;
+	using Windows.UI.Xaml;
+	using Windows.UI.Xaml.Controls;
+	using Windows.UI.Xaml.Navigation;
+	using Autofac;
+	using Microsoft.Extensions.Configuration;
+
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
 	/// </summary>
 	public sealed partial class App : Application
 	{
+		public static IContainer Container { get; set; }
+
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -21,8 +25,11 @@ namespace GraphML.UI.Uno
 		{
 			ConfigureFilters(global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory);
 
-			this.InitializeComponent();
-			this.Suspending += OnSuspending;
+			InitializeComponent();
+
+			Container = ConfigureServices();
+
+			Suspending += OnSuspending;
 		}
 
 		/// <summary>
@@ -33,10 +40,10 @@ namespace GraphML.UI.Uno
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                // this.DebugSettings.EnableFrameRateCounter = true;
-            }
+			if (System.Diagnostics.Debugger.IsAttached)
+			{
+				// this.DebugSettings.EnableFrameRateCounter = true;
+			}
 #endif
 
 #if NET5_0 && WINDOWS
@@ -87,7 +94,7 @@ namespace GraphML.UI.Uno
 		/// </summary>
 		/// <param name="sender">The Frame which failed navigation</param>
 		/// <param name="e">Details about the navigation failure</param>
-    private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
 		{
 			throw new Exception($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
 		}
@@ -110,7 +117,7 @@ namespace GraphML.UI.Uno
 		/// Configures global logging
 		/// </summary>
 		/// <param name="factory"></param>
-    private static void ConfigureFilters(ILoggerFactory factory)
+		private static void ConfigureFilters(ILoggerFactory factory)
 		{
 			factory
 				.WithFilter(new FilterLoggerSettings
@@ -153,10 +160,32 @@ namespace GraphML.UI.Uno
                     }
 				)
 #if DEBUG
-                .AddConsole(LogLevel.Debug);
+				.AddConsole(LogLevel.Debug);
 #else
 				.AddConsole(LogLevel.Information);
 #endif
+		}
+
+		private IContainer ConfigureServices()
+		{
+			var containerBuilder = new ContainerBuilder();
+
+			containerBuilder.RegisterInstance(GetConfigurationRoot());
+
+			var container = containerBuilder.Build();
+
+			return container;
+		}
+
+		private IConfigurationRoot GetConfigurationRoot()
+		{
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(Package.Current.InstalledLocation.Path)
+				.AddJsonFile("appsettings.json", optional: false)
+				.AddJsonFile("appsettings.Development.json", optional: true);
+			var cfgRoot = builder.Build();
+
+			return cfgRoot;
 		}
 	}
 }
