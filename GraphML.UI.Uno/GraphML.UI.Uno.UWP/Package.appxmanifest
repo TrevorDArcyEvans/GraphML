@@ -14,8 +14,8 @@
   <mp:PhoneIdentity PhoneProductId="b2a5c1ff-623e-49cb-adac-90d98a34840a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>GraphML.UI.Uno</DisplayName>
-    <PublisherDisplayName>GraphML.UI.Uno</PublisherDisplayName>
+    <DisplayName>GraphML</DisplayName>
+    <PublisherDisplayName>GraphML</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,10 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="GraphML.UI.Uno.App">
       <uap:VisualElements
-        DisplayName="GraphML.UI.Uno"
+        DisplayName="GraphML"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="GraphML.UI.Uno"
+        Description="GraphML - network analysis but in the cloud!"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
