@@ -1,6 +1,7 @@
 ﻿namespace GraphML.UI.Uno
 {
 	using Autofac;
+	using GraphML.Common;
 	using IdentityModel.Client;
 	using Microsoft.Extensions.Configuration;
 	using Newtonsoft.Json.Linq;
@@ -28,8 +29,7 @@
 			};
 			var client = new HttpClient(innerHandler)
 			{
-				// TODO	GraphML.Common.Settings
-				BaseAddress = new Uri(_config["Identity_Server:Base_Url"])
+				BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
 			};
 			var disco = await client.GetDiscoveryDocumentAsync();
 			if (disco.IsError)
@@ -41,9 +41,8 @@
 			{
 				Address = disco.TokenEndpoint,
 
-				// TODO	GraphML.Common.Settings
-				ClientId = _config["Identity_Server:Client_Id"],
-				ClientSecret = _config["Identity_Server:Client_Secret"],
+				ClientId = _config.IDENTITY_SERVER_CLIENT_ID(),
+				ClientSecret = _config.IDENTITY_SERVER_CLIENT_SECRET(),
 
 				UserName = _userName.Text,
 				Password = _password.Password
@@ -56,14 +55,17 @@
 
 			var api = new HttpClient(innerHandler)
 			{
-				// TODO	GraphML.Common.Settings
-				BaseAddress = new Uri(_config["API:Uri"])
+				BaseAddress = new Uri(_config.API_URI())
 			};
-			var token = response.AccessToken;
-			api.SetBearerToken(token);
+      api.SetBearerToken(response.AccessToken);
+
 			var orgsResp = await api.GetAsync("api/Organisation/GetAll");
 			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
 			var orgs = JArray.Parse(orgsCont);
+
+	  var rolesResp= await api.GetAsync("api/Role/GetAll");
+			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
+			var roles = JArray.Parse(rolesCont);
 		}
 	}
 }
