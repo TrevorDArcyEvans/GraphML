@@ -11,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Globalization;
 using Dapper;
-using GraphML.API;
 
 namespace GraphML.Datastore.Database.Importer.CSV
 {

@@ -2,7 +2,7 @@
 using System.Data;
 using Dapper;
 
-namespace GraphML.API
+namespace GraphML.Common
 {
 	public sealed class GuidTypeHandler : SqlMapper.TypeHandler<Guid>
 	{
