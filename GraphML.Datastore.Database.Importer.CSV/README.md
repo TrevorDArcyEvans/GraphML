@@ -32,10 +32,23 @@
   "ImportSpecification": {
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
-    "Repository": "Reddit",
+    "Repository": "Bitcoin-Alpha",
 
-    "DataFile": "../../../Sample-Data/SNAP/soc-redditHyperlinks-body-small.tsv",
-    "HasHeaderRecord": true
+    "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
+    "HasHeaderRecord": false,
+    "NodeItemAttributeDefinition" : [],
+    "EdgeItemAttributeDefinitions": [
+      {
+        "Name": "Rating",
+        "DataType": "int",
+        "Column": 2
+      },
+      {
+        "Name": "Time",
+        "DataType": "DateTime",
+        "Column": 3
+      }
+    ]
   }
 }
 ```
@@ -49,15 +62,23 @@
 |                     | Repository | name of _Repository_ | will be created if it does not exist |
 |                     | DataFile | path to csv or tsv data file |  |
 |                     | HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
+|                     | NodeItemAttributeDefinition | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
+|                     | EdgeItemAttributeDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
+
+### Supported Attribute Data Types
+* string
+* bool
+* int
+* double
+* DateTime
+
+Default.NET parser is used to convert from a string using invariant culture
 
 ## Further Work
-* attributes
-  * string
-  * bool
-  * int
-  * double
-  * date-time
-  * date-interval
+* attribute data types
+    * DateInterval
+      * [Noda Time](https://nodatime.org/2.0.x/api/NodaTime.DateInterval.html)
+      * [ST-Software/Utils](https://github.com/ST-Software/Utils/blob/master/src/DateTimeUtils.cs)
 * edge weight (via attribute)
 * edge name
 
