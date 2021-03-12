@@ -185,6 +185,72 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 
 </details>
 
+<details>
+  <summary>Description</summary>
+
+  * Item
+    * Ultimate ancestor of all GraphML objects.
+    * Models something which can be persisted.
+    * Every item ultimately belongs to an Organisation
+  * Organisation
+    * Typically a company, organisation or other legal entity in which people work together.
+      * police force
+      * GCHQ
+      * FBI
+      * military
+      * bank
+    * Id and OrganisationId **must** be the same
+  * Contact
+    * A person identified by their email address.
+    * The email address (Name) is used to link authentication (IdentityServer) to Role.
+  * Role
+    * The function performed by a Contact in the context of GraphML.
+    * There are several, predefined functions in Roles
+    * A Contact may have one or more Roles
+  * Roles
+    * User roles within GraphML
+    * 
+  * OwnedItem
+    * Something which has an immediate owner, other than an Organisation
+  * RepositoryManager
+    * A means to group a subset of Repository in an Organisation in some logical manner.
+    * For example, repositories could be grouped at a departmental level eg 'Financial Fraud' or 'Credit Control'
+  * Repository
+    * A complete collection of Node and Edge representing an area of interest.
+  * GraphItem
+    * Something which is in a Graph, either a GraphNode or a GraphEdge
+  * Graph
+    * A subset of Node and Edge from a Repository which have been extracted for separate analysis.
+    * A Graph may be directed; in contract to a Repository, which has no notion of direction.
+  * RepositoryItem
+    * Something which is in a Repository, either a Node or an Edge
+  * ItemAttribute
+    * Additional data information attached to an Item
+  * GraphNode
+    * A Node which appears in a Graph.
+    * Name may be different to that of underlying Node
+  * GraphEdge
+    * An Edge which appears in a Graph.
+    * Name may be different to that of underlying Edge
+  * Node
+    * A vertex representing something of interest.
+    * A Node may be connected to zero or one other Nodes by an Edge
+    * A Node may have properties associated with it via an NodeItemAttribute
+  * Edge
+    * A link connecting two Node.
+    * An Edge may have a 'weight/s' (or other properties) associated with it via an EdgeItemAttribute
+    * An Edge is not directed 'per se'; this is set on the Graph
+  * RepositoryItemAttribute
+    * Additional data information attached to a Repository
+  * GraphItemAttribute
+    * Additional data information attached to a Graph
+  * NodeItemAttribute
+    * Additional data information attached to a Node
+  * EdgeItemAttribute
+    * Additional data information attached to an Edge
+
+</details>
+
 ## Authentication & Authorisation
 <details>
 
