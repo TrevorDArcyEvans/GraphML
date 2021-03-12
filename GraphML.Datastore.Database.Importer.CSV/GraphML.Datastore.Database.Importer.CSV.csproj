@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <None Update="Data\GraphML.sqlite3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="import-soc-sign-bitcoinalpha.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
