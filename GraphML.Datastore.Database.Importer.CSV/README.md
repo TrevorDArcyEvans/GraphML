@@ -33,26 +33,22 @@
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
     "Repository": "Reddit",
-    "Graph": "HyperLinks-body",
-    "Directed": true,
 
-    "DataFile": "Data\\soc-redditHyperlinks-body.tsv",
+    "DataFile": "../../../Sample-Data/SNAP/soc-redditHyperlinks-body-small.tsv",
     "HasHeaderRecord": true
   }
 }
 ```
-| Field | Description | Notes |
-|-------|-------------|-------|
-| Datastore:Connection | name database configuration |  |
-| Datastore:[_Connection_]:Type | type of database | `SqLite\SqlServer\MySql\PostgreSql` |
-| Datastore:[_Connection_]:ConnectionString | _.NET_ database connection string | examples at [ConnectonStrings.com](https://www.connectionstrings.com/) |
-| Organisation | name of _Organisation_ | must exist |
-| RepositoryManager | name of _Repository Manager_ | must exist |
-| Repository | name of _Repository_ | will be created if it does not exist |
-| Graph | name of _Graph_ | will be created if it does not exist<br/> Existing data will not be overwritten<br/> Data will be imported alongside existing data |
-| Directed | if graph is directed | `true/false` |
-| DataFile | path to csv or tsv data file |  |
-| HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
+| Section             | Field | Description | Notes |
+|---------------------|-------|-------------|-------|
+| Datastore           | Connection | name of database configuration |  |
+|                     | [_Connection_]:Type | type of database | `SqLite\SqlServer\MySql\PostgreSql` |
+|                     | [_Connection_]:ConnectionString | _.NET_ database connection string | examples at [ConnectonStrings.com](https://www.connectionstrings.com/) |
+| ImportSpecification | Organisation | name of _Organisation_ | must exist |
+|                     | RepositoryManager | name of _Repository Manager_ | must exist |
+|                     | Repository | name of _Repository_ | will be created if it does not exist |
+|                     | DataFile | path to csv or tsv data file |  |
+|                     | HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
 
 ## Further Work
 * attributes

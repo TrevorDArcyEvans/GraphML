@@ -86,28 +86,17 @@ namespace GraphML.Datastore.Database.Importer.CSV
 							conn.Insert(repo);
 						}
 
-						var graph = conn.GetAll<Graph>().SingleOrDefault(g => g.Name == _importSpec.Graph && g.RepositoryId == repo.Id);
-						if (graph is null)
-						{
-							graph = new Graph(repo.Id, repo.OrganisationId, _importSpec.Graph)
-							{
-								Directed = _importSpec.Directed
-							};
-							conn.Insert(graph);
-						}
-
 						_logInfoAction($"Importing from:  {_importSpec.DataFile}");
 						_logInfoAction($"          into:  {conn.ConnectionString}");
 						_logInfoAction($"    repository:  {repo.Name}");
-						_logInfoAction($"         graph:  {graph.Name}");
 						_logInfoAction(Environment.NewLine);
 
-						var modelNodes = nodes.Select(node => new Node(graph.Id, graph.OrganisationId, node)).ToList();
+						var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node)).ToList();
 						var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
 						var modelEdges = edges.Select(edge =>
 						  new Edge(
-							graph.Id,
-							graph.OrganisationId,
+				  repo.Id,
+				  repo.OrganisationId,
 							$"{edge.FromNode}-->{edge.ToNode}",
 							modelNodesMap[edge.FromNode].Id,
 							modelNodesMap[edge.ToNode].Id)).ToList();
@@ -116,11 +105,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 						using (var trans = conn.BeginTransaction())
 						{
-							if (conn is SqlConnection && trans is SqlTransaction)
+							if (conn is SqlConnection sqlConn && trans is SqlTransaction sqlTrans)
 							{
-								var bulky = new BulkUploadToMsSqlServer((SqlConnection)conn, (SqlTransaction)trans);
-
-								bulky.Commit(new[] { graph }, GetTableName<Graph>());
+								var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
 
 								_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
 								bulky.Commit(modelNodes, GetTableName<Node>());
@@ -132,8 +119,6 @@ namespace GraphML.Datastore.Database.Importer.CSV
 							}
 							else
 							{
-								conn.Insert(graph, trans);
-
 								_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
 								conn.Insert(modelNodes, trans);
 								_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
@@ -208,8 +193,6 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			public string Organisation { get; set; }
 			public string RepositoryManager { get; set; }
 			public string Repository { get; set; }
-			public string Graph { get; set; }
-			public bool Directed { get; set; }
 
 			public string DataFile { get; set; }
 			public bool HasHeaderRecord { get; set; }
