@@ -20,12 +20,9 @@
   "ImportSpecification": {
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
-    "Repository": "Reddit",
+    "Repository": "Bitcoin-Alpha",
 
-    "DataFile2": "../../../Sample-Data/SNAP/p2p-Gnutella08-small.txt",
-    "HasHeaderRecord2": false,
-
-    "DataFile": "../../../Sample-Data/SNAP/soc-redditHyperlinks-body-small.tsv",
-    "HasHeaderRecord": true
+    "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
+    "HasHeaderRecord": false
   }
 }
