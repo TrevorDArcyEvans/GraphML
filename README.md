@@ -98,7 +98,7 @@ Nodes with a high degree centrality have the best connections to those around th
   cd GraphML.API/bin/Debug/net5.0 
   ./GraphML.API
 ```
-1. open [Swagger UI](http://localhost:5000/swagger/index.html)
+1. open [Swagger UI](http://localhost:5001/swagger/index.html)
 1. start _Apache ActiveMQ_
 1. start _Redis_
 1. run analysis server
