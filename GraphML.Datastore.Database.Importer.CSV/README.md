@@ -57,7 +57,7 @@
   * int
   * double
   * date-time
-  * duration
+  * date-interval
 * edge weight (via attribute)
 * edge name
 

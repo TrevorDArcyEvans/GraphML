@@ -188,10 +188,23 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 <details>
   <summary>Description</summary>
 
+<details>
+  <summary>Base</summary>
+  Abstract entities which are ancestors for other GraphML entities.
+
   * Item
     * Ultimate ancestor of all GraphML objects.
     * Models something which can be persisted.
     * Every item ultimately belongs to an Organisation
+  * OwnedItem
+    * Something which has an immediate owner, other than an Organisation
+
+</details>
+
+<details>
+  <summary>Containers</summary>
+  Entities which serve as a holding place for other entities.
+  
   * Organisation
     * Typically a company, organisation or other legal entity in which people work together.
       * police force
@@ -199,7 +212,87 @@ MESSAGE_QUEUE_USE_THREADS       | | False
       * FBI
       * military
       * bank
+    * Used to isolate information between different Organisations
     * Id and OrganisationId **must** be the same
+  * RepositoryManager
+    * A means to group a subset of Repository in an Organisation in some logical manner.
+    * For example, repositories could be grouped at a departmental level eg 'Financial Fraud' or 'Credit Control'.
+    * ItemAttributeDefinition are held at RepositoryManager level so they can be shared across Repository.
+  * Repository
+    * A complete collection of Node and Edge representing an area of interest.
+  * Graph
+    * A subset of Node and Edge from a Repository which have been extracted for separate analysis.
+    * A Graph may be directed; in contract to a Repository, which has no notion of direction.
+
+</details>
+
+<details>
+  <summary>Graph</summary>
+
+  * RepositoryItem
+    * Something which is in a Repository, either a Node or an Edge
+  * Node
+    * A vertex representing something of interest.
+    * A Node may be connected to zero or one other Nodes by an Edge
+    * A Node may have properties associated with it via an NodeItemAttribute
+  * Edge
+    * A link connecting two Node.
+    * An Edge may have a 'weight/s' (or other properties) associated with it via an EdgeItemAttribute
+    * An Edge is not directed 'per se'; this is set on the Graph
+    <p/>
+  * GraphItem
+    * Something which is in a Graph, either a GraphNode or a GraphEdge
+  * GraphNode
+    * A Node which appears in a Graph.
+    * Name may be different to that of underlying Node
+  * GraphEdge
+    * An Edge which appears in a Graph.
+    * Name may be different to that of underlying Edge
+
+</details>
+
+<details>
+  <summary>Attributes</summary>
+  ItemAttributeDefinition are held at RepositoryManager level so they can be shared across Repository.
+
+  * ItemAttributeDefinition
+    * Defines shape (name and data type) of information in an ItemAttribute
+  * RepositoryItemAttributeDefinition
+    * Defines shape of information in a RepositoryItemAttribute
+  * GraphItemAttributeDefinition
+    * Defines shape of information in a GraphItemAttribute
+  * NodeItemAttributeDefinition
+    * Defines shape of information in a NodeItemAttribute
+  * EdgeItemAttributeDefinition
+    * Defines shape of information in an EdgeItemAttribute
+    <p/>
+  * ItemAttribute
+    * Additional information attached to an Item
+  * RepositoryItemAttribute
+    * Additional information attached to a Repository
+  * GraphItemAttribute
+    * Additional information attached to a Graph
+  * NodeItemAttribute
+    * Additional information attached to a Node
+  * EdgeItemAttribute
+    * Additional information attached to an Edge
+    <p/>
+  * Currently supported data types:
+    * string
+    * bool
+    * int
+    * double
+    * DateTime (UTC)
+  * To be supported:
+    * DateInterval
+      * [Noda Time](https://nodatime.org/2.0.x/api/NodaTime.DateInterval.html)
+      * [ST-Software/Utils](https://github.com/ST-Software/Utils/blob/master/src/DateTimeUtils.cs)
+
+</details>
+
+<details>
+  <summary>Support</summary>
+
   * Contact
     * A person identified by their email address.
     * The email address (Name) is used to link authentication (IdentityServer) to Role.
@@ -209,45 +302,8 @@ MESSAGE_QUEUE_USE_THREADS       | | False
     * A Contact may have one or more Roles
   * Roles
     * User roles within GraphML
-    * 
-  * OwnedItem
-    * Something which has an immediate owner, other than an Organisation
-  * RepositoryManager
-    * A means to group a subset of Repository in an Organisation in some logical manner.
-    * For example, repositories could be grouped at a departmental level eg 'Financial Fraud' or 'Credit Control'
-  * Repository
-    * A complete collection of Node and Edge representing an area of interest.
-  * GraphItem
-    * Something which is in a Graph, either a GraphNode or a GraphEdge
-  * Graph
-    * A subset of Node and Edge from a Repository which have been extracted for separate analysis.
-    * A Graph may be directed; in contract to a Repository, which has no notion of direction.
-  * RepositoryItem
-    * Something which is in a Repository, either a Node or an Edge
-  * ItemAttribute
-    * Additional data information attached to an Item
-  * GraphNode
-    * A Node which appears in a Graph.
-    * Name may be different to that of underlying Node
-  * GraphEdge
-    * An Edge which appears in a Graph.
-    * Name may be different to that of underlying Edge
-  * Node
-    * A vertex representing something of interest.
-    * A Node may be connected to zero or one other Nodes by an Edge
-    * A Node may have properties associated with it via an NodeItemAttribute
-  * Edge
-    * A link connecting two Node.
-    * An Edge may have a 'weight/s' (or other properties) associated with it via an EdgeItemAttribute
-    * An Edge is not directed 'per se'; this is set on the Graph
-  * RepositoryItemAttribute
-    * Additional data information attached to a Repository
-  * GraphItemAttribute
-    * Additional data information attached to a Graph
-  * NodeItemAttribute
-    * Additional data information attached to a Node
-  * EdgeItemAttribute
-    * Additional data information attached to an Edge
+
+</details>
 
 </details>
 
