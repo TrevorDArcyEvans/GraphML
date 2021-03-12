@@ -64,7 +64,7 @@
         <Location left="841" top="604" />
         <Size width="261" height="111" />
         <Collapsed>False</Collapsed>
-        <Member type="Property">public Guid Definition { get; set; }</Member>
+        <Member type="Property">public Guid DefinitionId { get; set; }</Member>
         <Member type="Property">public string DataValueAsString { get; set; }</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
