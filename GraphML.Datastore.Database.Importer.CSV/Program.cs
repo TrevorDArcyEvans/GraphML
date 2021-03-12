@@ -3,6 +3,7 @@ using Dapper.Contrib.Extensions;
 using GraphML.Common;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -187,6 +188,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				Map(m => m.ToNode).Index(1);
 			}
 		}
+	}
 
 		public sealed class ImportSpecification
 		{
@@ -196,6 +198,22 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 			public string DataFile { get; set; }
 			public bool HasHeaderRecord { get; set; }
+			public List<NodeItemAttributeDefinition> NodeItemAttributeDefinitions { get; set; } = new List<NodeItemAttributeDefinition>();
+			public List<EdgeItemAttributeDefinition> EdgeItemAttributeDefinitions { get; set; } = new List<EdgeItemAttributeDefinition>();
 		}
-	}
+
+		public abstract class ItemAttributeDefinition
+		{
+			public string Name { get; set; }
+			public string DataType { get; set; }
+			public int Column { get; set; }
+		}
+
+		public sealed class NodeItemAttributeDefinition : ItemAttributeDefinition
+		{
+		}
+
+		public sealed class EdgeItemAttributeDefinition : ItemAttributeDefinition
+		{
+		}
 }

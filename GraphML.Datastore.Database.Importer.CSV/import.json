@@ -23,6 +23,19 @@
     "Repository": "Bitcoin-Alpha",
 
     "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
-    "HasHeaderRecord": false
+    "HasHeaderRecord": false,
+    "NodeItemAttributeDefinition" : [],
+    "EdgeItemAttributeDefinitions": [
+      {
+        "Name": "Rating",
+        "DataType": "int",
+        "Column": 2
+      },
+      {
+        "Name": "Time",
+        "DataType": "DateTime",
+        "Column": 3
+      }
+    ]
   }
 }
