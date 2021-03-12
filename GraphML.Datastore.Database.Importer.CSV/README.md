@@ -60,6 +60,8 @@
   * bool
   * int
   * double
+  * date-time
+  * duration
 * edge weight (via attribute)
 * edge name
 
