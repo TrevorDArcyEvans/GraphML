@@ -21,13 +21,11 @@
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
     "Repository": "Reddit",
-    "Graph": "DelMe",
-    "Directed": true,
 
-    "DataFile2": "C:\\dev\\trevorde\\GraphML\\Docs\\p2p-Gnutella08-small.txt",
+    "DataFile2": "../../../Sample-Data/SNAP/p2p-Gnutella08-small.txt",
     "HasHeaderRecord2": false,
 
-    "DataFile": "C:\\dev\\trevorde\\GraphML\\Docs\\soc-redditHyperlinks-body.tsv",
+    "DataFile": "../../../Sample-Data/SNAP/soc-redditHyperlinks-body-small.tsv",
     "HasHeaderRecord": true
   }
 }
