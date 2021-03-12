@@ -73,7 +73,8 @@ namespace GraphML.Datastore.Database.Importer.CSV
 					{
 						var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
 						var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
-						var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository);
+
+						var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
 						if (repo is null)
 						{
 							repo = new Repository
@@ -85,13 +86,17 @@ namespace GraphML.Datastore.Database.Importer.CSV
 							conn.Insert(repo);
 						}
 
-						// TODO	  GetOrCreate	  graph
-            var graph = new Graph(repo.Id, repo.OrganisationId, _importSpec.Graph)
-            {
-                Directed = _importSpec.Directed
-            };
+						var graph = conn.GetAll<Graph>().SingleOrDefault(g => g.Name == _importSpec.Graph && g.RepositoryId == repo.Id);
+						if (graph is null)
+						{
+							graph = new Graph(repo.Id, repo.OrganisationId, _importSpec.Graph)
+							{
+								Directed = _importSpec.Directed
+							};
+							conn.Insert(graph);
+						}
 
-            _logInfoAction($"Importing from:  {_importSpec.DataFile}");
+						_logInfoAction($"Importing from:  {_importSpec.DataFile}");
 						_logInfoAction($"          into:  {conn.ConnectionString}");
 						_logInfoAction($"    repository:  {repo.Name}");
 						_logInfoAction($"         graph:  {graph.Name}");
