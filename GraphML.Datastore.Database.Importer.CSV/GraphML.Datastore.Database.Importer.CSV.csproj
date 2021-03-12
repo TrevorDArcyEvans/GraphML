@@ -42,6 +42,15 @@
     <None Update="Data\GraphML.sqlite3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="import-soc-sign-bitcoinalpha.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="import-soc-reddit-hyperlinks-body.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="import-p2p-Gnutella08.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="import.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
