@@ -1,0 +1,1472 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: http://snap.stanford.edu/data/soc-RedditHyperlinks.html
+Subject: SNAP: Social network: Reddit Hyperlink Network
+Date: Thu, 11 Mar 2021 17:43:10 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----"
+
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/html
+Content-ID: <frame-638AE36385689D22121C84C9A4E3A6F7@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://snap.stanford.edu/data/soc-RedditHyperlinks.html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns=3D"http://www.w3.=
+org/1999/xhtml" data-foxclocks-statusbar-vertical-position=3D"bottom" data-=
+foxclocks-statusbar-priority=3D"normal"><head><meta http-equiv=3D"Content-T=
+ype" content=3D"text/html; charset=3DUTF-8">
+
+
+
+
+
+<title>SNAP: Social network: Reddit Hyperlink Network</title>
+
+<!-- Standard reset, fonts and grids -->
+<link rel=3D"stylesheet" type=3D"text/css" href=3D"http://snap.stanford.edu=
+/styles/reset-fonts-grids.css">
+<!-- CSS for Menu -->
+<link rel=3D"stylesheet" type=3D"text/css" href=3D"http://snap.stanford.edu=
+/styles/sam/menu.css">
+<!-- Dependency source files -->
+ =20
+ =20
+  <!-- Menu source file -->
+ =20
+  <!-- styles for the whole website -->
+  <link href=3D"http://snap.stanford.edu/styles/styles.css" rel=3D"styleshe=
+et" type=3D"text/css">
+  <!-- javascript for the menu -->
+ =20
+</head><iframe id=3D"foxclocks-statusbar-iframe" class=3D"foxclocks-content=
+" src=3D"cid:frame-63FD864AFEECBFB3F0BAE87F8779A151@mhtml.blink"></iframe>
+
+<body class=3D"yui-skin-sam" id=3D"yahoo-com"><iframe id=3D"_yuiResizeMonit=
+or" style=3D"position: absolute; visibility: visible; width: 10em; height: =
+10em; top: -134px; left: -134px; border-width: 0px;"></iframe>
+
+<div id=3D"doc" class=3D"yui-t1">
+
+<div id=3D"hd">
+<!-- START: header -->
+<div id=3D"header"><a href=3D"http://cs.stanford.edu/~jure/"><img id=3D"by-=
+jure" src=3D"http://snap.stanford.edu/images/by_jure.gif" alt=3D"By Jure Le=
+skovec"></a><img id=3D"mld-logo" src=3D"http://snap.stanford.edu/images/emp=
+ty_logo.png" alt=3D""><a href=3D"http://www.stanford.edu/"><img id=3D"cmu-l=
+ogo" src=3D"http://snap.stanford.edu/images/stanford.png" alt=3D"Stanford U=
+niversity"></a></div>
+<!-- END: header -->
+</div>
+
+<!-- START: left column -->
+<div id=3D"left-column">
+<!--BEGIN left_column.html -->
+  <a href=3D"http://snap.stanford.edu/index.html"><img id=3D"snap-logo" src=
+=3D"http://snap.stanford.edu/images/snap_logo.png" alt=3D"SNAP logo"></a>
+
+  <div id=3D"graphgardenmainmenu" class=3D"yuimenu yui-module yui-overlay v=
+isible" style=3D"z-index: 0; position: static; display: block; visibility: =
+visible;">
+    <div class=3D"bd">
+      <ul class=3D"first-of-type">
+      <li class=3D"yuimenuitem first-of-type yuimenuitem-hassubmenu" id=3D"=
+yui-gen0" groupindex=3D"0" index=3D"0"><a class=3D"yuimenuitemlabel yuimenu=
+itemlabel-hassubmenu" href=3D"http://snap.stanford.edu/snap/index.html">SNA=
+P for C++</a>
+        <div id=3D"snapcpp" class=3D"yuimenu yui-module yui-overlay" style=
+=3D"z-index: 1; position: absolute; visibility: hidden;">
+          <div class=3D"bd">
+            <ul>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snap/index.html">SNAP C++ Main Page</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snap/download.html">SNAP C++ Download</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snap/doc.html">SNAP C++ Documentation</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class=3D"yuimenuitem first-of-type yuimenuitem-hassubmenu" id=3D"=
+yui-gen1" groupindex=3D"0" index=3D"1"><a class=3D"yuimenuitemlabel yuimenu=
+itemlabel-hassubmenu" href=3D"http://snap.stanford.edu/snappy/index.html">S=
+NAP for Python</a>
+        <div id=3D"snappy" class=3D"yuimenu yui-module yui-overlay" style=
+=3D"z-index: 1; position: absolute; visibility: hidden;">
+          <div class=3D"bd">
+            <ul>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snappy/index.html">Snap.py Python Main Page</a=
+></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snappy/index.html#download">Snap.py Python Dow=
+nload</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snappy/index.html#docs">Snap.py Python Documen=
+tation</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class=3D"yuimenuitem first-of-type yuimenuitem-hassubmenu" id=3D"=
+yui-gen2" groupindex=3D"0" index=3D"2"><a class=3D"yuimenuitemlabel yuimenu=
+itemlabel-hassubmenu" href=3D"http://snap.stanford.edu/data/index.html">SNA=
+P Datasets</a>
+        <div id=3D"datasets" class=3D"yuimenu yui-module yui-overlay" style=
+=3D"z-index: 1; position: absolute; visibility: hidden;">
+          <div class=3D"bd">
+            <ul>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/data/index.html">Large networks</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/data/other.html">Web datasets</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/data/links.html">Other resources</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class=3D"yuimenuitem first-of-type" id=3D"yui-gen3" groupindex=3D=
+"0" index=3D"3"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.=
+edu/biodata/index.html">BIOSNAP Datasets</a></li>
+      <li class=3D"yuimenuitem" id=3D"yui-gen4" groupindex=3D"0" index=3D"4=
+"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/news.html"=
+>What's new</a></li>
+	    <li class=3D"yuimenuitem" id=3D"yui-gen5" groupindex=3D"0" index=3D"5"=
+><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/people.html=
+">People</a></li>
+      <li class=3D"yuimenuitem" id=3D"yui-gen6" groupindex=3D"0" index=3D"6=
+"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/papers.htm=
+l">Papers</a></li>
+      <li class=3D"yuimenuitem yuimenuitem-hassubmenu" id=3D"yui-gen7" grou=
+pindex=3D"0" index=3D"7"><a class=3D"yuimenuitemlabel yuimenuitemlabel-hass=
+ubmenu" href=3D"http://snap.stanford.edu/projects.html">Projects</a>
+        <div id=3D"projects" class=3D"yuimenu yui-module yui-overlay" style=
+=3D"z-index: 1; position: absolute; visibility: hidden;">
+          <div class=3D"bd">
+            <ul>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/activity-inequality">Activity Inequality</a></=
+li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/agm">AGM</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/comet">COMET</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/conflict">Conflict</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/connie">ConNIe</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/counseling">Counseling</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/crank">CRank</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/decagon">Decagon</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/graphsage">GraphSAGE</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/graphwave">GraphWave</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/higher-order">Higher-order</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/hoax">Disinformation</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/infopath">InfoPath</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/lim">LIM</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/mappr">MAPPR</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/mambo">MAMBO</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/mars">MARS</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/memetracker">Memetracker</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/ncp">NCP</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/ne">NE</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/netinf">NETINF</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/nifty/">NIFTY</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/node2vec">node2vec</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/ohmnet">OhmNet</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/orca">ORCA</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/pathways">Pathways</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/quotus">QUOTUS</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/ringo">Ringo</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/seismic">SEISMIC</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snap">SNAP</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snappy">Snap.py</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/snapvx">SnapVX</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/temporal-motifs">Temporal Motifs</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/ticc">TICC</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/tipas">TIPAS</a></li>
+              <li class=3D"yuimenuitem"><a class=3D"yuimenuitemlabel" href=
+=3D"http://snap.stanford.edu/tvgl">TVGL</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class=3D"yuimenuitem" id=3D"yui-gen8" groupindex=3D"0" index=3D"8=
+"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/citing.htm=
+l">Citing SNAP</a></li>
+      <li class=3D"yuimenuitem" id=3D"yui-gen9" groupindex=3D"0" index=3D"9=
+"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/links.html=
+">Links</a></li>
+      <li class=3D"yuimenuitem" id=3D"yui-gen10" groupindex=3D"0" index=3D"=
+10"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/about.ht=
+ml">About</a></li>
+      <li class=3D"yuimenuitem" id=3D"yui-gen11" groupindex=3D"0" index=3D"=
+11"><a class=3D"yuimenuitemlabel" href=3D"http://snap.stanford.edu/contact.=
+html">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id=3D"graphgardenmainmenu" class=3D"yuimenu">
+    <div style=3D"color:#ff8b00; font-weight: bold; font-size: 1.2em; paddi=
+ng-top: 10px; padding-bottom: 3px;">Open positions</div>
+  </div>
+
+  <div id=3D"graphgardenmainmenu" class=3D"yuimenu">
+    <div class=3D"bd" style=3D"padding: 2px 4px 2px 4px; ">
+    Open research positions in <b>SNAP</b> group are available at
+    <b><a href=3D"http://snap.stanford.edu/apply/index.php">undergraduate, =
+graduate</a></b>
+    and
+    <b><a href=3D"http://snap.stanford.edu/apply/index-postdoc.php">postdoc=
+toral</a></b>
+    levels.
+    </div>
+  </div>
+
+<!--END left_column.html -->
+
+</div>
+<!-- END: left column -->
+
+<!-- START: right column -->
+<div id=3D"right-column">
+
+<h1>Social Network: Reddit Hyperlink Network</h1>
+
+<h3>Dataset information</h3>
+
+<p>The hyperlink network represents the directed connections between two su=
+breddits (a subreddit is a community on <a href=3D"http://www.reddit.com/">=
+Reddit</a>). We also provide subreddit embeddings. The network is extracted=
+ from publicly available Reddit data of 2.5 years from Jan 2014 to April 20=
+17.</p>
+
+<p><b>Subreddit Hyperlink Network:</b> the subreddit-to-subreddit hyperlink=
+ network is extracted from the posts that create hyperlinks from one subred=
+dit to another. We say a hyperlink originates from a post in the source com=
+munity and links to a post in the target community. Each hyperlink is annot=
+ated with three properties: the timestamp, the sentiment of the source comm=
+unity post towards the target community post, and the text property vector =
+of the source post. <b>The network is directed, signed, temporal, and attri=
+buted.</b></p>
+
+<p>Note that each post has a title and a body. The hyperlink can be present=
+ in either the title of the post or in the body. Therefore, we provide one =
+network file for each.</p>
+
+<p><b>Subreddit Embeddings:</b> We have also provided embedding vectors rep=
+resenting each subreddit. These can be found in this dataset link: <a href=
+=3D"http://snap.stanford.edu/data/web-RedditEmbeddings.html">subreddit embe=
+dding dataset</a>. Please note that some subreddit embeddings could not be =
+generated, so this file has 51,278 embeddings.</p>
+
+<p><b>Project website:</b> These files have been generated as part of the r=
+esearch project on how subreddits attack one another. <a href=3D"http://sna=
+p.stanford.edu/conflict">The details of the project can be found here</a>.<=
+/p>
+
+<br>
+  <table id=3D"datatab" summary=3D"Dataset statistics">
+  <tbody><tr> <th colspan=3D"2">Dataset statistics</th> </tr>
+  <tr><td>Number of nodes (subreddits)</td> <td>55,863</td></tr>
+  <tr><td>Number of edges (hyperlink between subreddits)</td> <td>858,490</=
+td> </tr>
+  <tr><td>Edge weights (label of hyperlink)</td> <td>-1 or +1 </td></tr>
+  <tr><td>Edge attributes</td> <td>Text property vectors</td></tr>
+  <tr><td>Timespan</td> <td>Jan 2014 - April 2017</td> </tr>
+</tbody></table>
+
+
+<br>
+
+<h3>Source (citation)</h3>
+<ul>
+  <li>S. Kumar, W.L. Hamilton, J. Leskovec, D. Jurafsky. <a href=3D"https:/=
+/cs.stanford.edu/~srijan/pubs/conflict-paper-www18.pdf"> Community Interact=
+ion and Conflict on the Web</a>. World Wide Web Conference, 2018.</li>
+</ul>
+The following BibTeX citation can be used:
+
+<pre style=3D"background-color:#eeeeee;padding: 5px 10px 5px 10px;font-fami=
+ly: consolas, courier, monospace;overflow-x: scroll;">@inproceedings{kumar2=
+018community,
+  title=3D{Community interaction and conflict on the web},
+  author=3D{Kumar, Srijan and Hamilton, William L and Leskovec, Jure and Ju=
+rafsky, Dan},
+  booktitle=3D{Proceedings of the 2018 World Wide Web Conference on World W=
+ide Web},
+  pages=3D{933--943},
+  year=3D{2018},
+  organization=3D{International World Wide Web Conferences Steering Committ=
+ee}
+}
+</pre>
+<br>
+
+
+<h3>Files</h3>
+<table id=3D"datatab" summary=3D"Table of datasets">
+<tbody><tr>
+  <th>File</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td><a href=3D"http://snap.stanford.edu/data/soc-redditHyperlinks-body.ts=
+v">soc-redditHyperlinks-body.tsv</a></td>
+  <td>Network of subreddit-to-subreddit hyperlinks extracted from hyperlink=
+s in the body of the post.</td>
+</tr>
+<tr>
+  <td><a href=3D"http://snap.stanford.edu/data/soc-redditHyperlinks-title.t=
+sv">soc-redditHyperlinks-title.tsv</a></td>
+  <td>Network of subreddit-to-subreddit hyperlinks extracted from hyperlink=
+s in the title of the post.</td>
+</tr>
+</tbody></table>
+
+
+<h3>Data format</h3>
+The data file is in tab separated format.
+<div class=3D"code" style=3D"overflow-x: scroll;">
+SOURCE_SUBREDDIT tab TARGET_SUBREDDIT tab POST_ID tab TIMESTAMP tab POST_LA=
+BEL tab POST_PROPERTIES
+leagueoflegends teamredditteams 1u4nrps 2013-12-31 16:39:58     1       345=
+.0,298.0,0.75652173913,0.0173913043478,0.0869565217391,0.150724637681,0.075=
+3623188406,57.0,53.0,10.0,4.78947368421,15.0,0.315789473684,1.0,1.0,345.0,5=
+7.0,35.5778947368,0.073,0.08,0.1748,0.3448275862068966,0.05172413793103448,=
+0.034482758620689655,0.0,0.034482758620689655,0.0,0.0,0.0,0.017241379310344=
+827,0.05172413793103448,0.10344827586206896,0.05172413793103448,0.0,0.10344=
+827586206896,0.0,0.034482758620689655,0.034482758620689655,0.06896551724137=
+931,0.017241379310344827,0.034482758620689655,0.0,0.0,0.10344827586206896,0=
+.0,0.0,0.0,0.05172413793103448,0.017241379310344827,0.034482758620689655,0.=
+0,0.0,0.017241379310344827,0.1896551724137931,0.034482758620689655,0.0,0.03=
+4482758620689655,0.034482758620689655,0.0,0.0,0.06896551724137931,0.0517241=
+3793103448,0.034482758620689655,0.034482758620689655,0.0,0.0,0.017241379310=
+344827,0.017241379310344827,0.0,0.0,0.0,0.06896551724137931,0.0172413793103=
+44827,0.05172413793103448,0.0,0.05172413793103448,0.06896551724137931,0.034=
+482758620689655,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+theredlion      soccer  1u4qkd  2013-12-31 18:18:37     -1      101.0,98.0,=
+0.742574257426,0.019801980198,0.049504950495,0.0594059405941,0.178217821782=
+,14.0,14.0,2.0,5.71428571429,1.0,0.0714285714286,2.0,0.0,49.5,7.0,16.049285=
+7143,0.472,0.0,0.5538,0.06666666666666667,0.06666666666666667,0.06666666666=
+666667,0.06666666666666667,0.0,0.0,0.0,0.0,0.0,0.0,0.06666666666666667,0.0,=
+0.0,0.06666666666666667,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13333333333333333=
+,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06666666666666667,0.0,0.0,0.06666666=
+666666667,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06666666666666667,0.0666666=
+6666666667,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06666666666666667,0.0,0.0666666666=
+6666667,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+inlandempire    bikela  1u4qlzs 2014-01-01 14:54:35     1       85.0,85.0,0=
+.752941176471,0.0235294117647,0.0823529411765,0.0117647058824,0.21176470588=
+2,10.0,10.0,2.0,7.2,0.0,0.0,1.0,0.0,85.0,10.0,23.605,0.0,0.0,0.0,0.0,0.0,0.=
+0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0=
+.0,0.09090909090909091,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,=
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09090909090909091,0.09090909090909091=
+,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.09090909090909091,0.0,0.0,0.0,0.0,0.0,0.0,0.=
+0,0.0,0.0,0.0
+</div>
+
+<p>where
+  </p><ul>
+    <li><tt>SOURCE_SUBREDDIT</tt>: the subreddit where the link originates<=
+/li>
+    <li><tt>TARGET_SUBREDDIT</tt>: the subreddit where the link ends</li>
+    <li><tt>POST_ID</tt>: the post in the source subreddit that starts the =
+link</li>
+    <li><tt>TIMESTAMP</tt>: time time of the post </li>
+    <li><tt>POST_LABEL</tt>: label indicating if the source post is explici=
+tly negative towards the target post.   The value is -1 if the source is ne=
+gative towards the target, and 1 if it is neutral or positive. The label is=
+ created using crowd-sourcing and training a text based classifier, and is =
+better than simple sentiment analysis of the posts. Please see the referenc=
+e paper for details. </li>
+    <li><tt>POST_PROPERTIES</tt>: a vector representing the text properties=
+ of the source post, listed as a list of comma separated numbers. The vecto=
+r elements are the following:<br>
+    1. Number of characters<br>
+    2. Number of characters without counting white space<br>
+    3. Fraction of alphabetical characters<br>
+    4. Fraction of digits<br>
+    5. Fraction of uppercase characters<br>
+    6. Fraction of white spaces<br>
+    7. Fraction of special characters, such as comma, exclamation mark, etc=
+.<br>
+    8. Number of words<br>
+    9. Number of unique works<br>
+    10. Number of long words (at least 6 characters)<br>
+    11. Average word length<br>
+    12. Number of unique stopwords<br>
+    13. Fraction of stopwords<br>
+    14. Number of sentences<br>
+    15. Number of long sentences (at least 10 words)<br>
+    16. Average number of characters per sentence<br>
+    17. Average number of words per sentence<br>
+    18. Automated readability index<br>
+    19. Positive sentiment calculated by VADER<br>
+    20. Negative sentiment calculated by VADER<br>
+    21. Compound sentiment calculated by VADER<br>
+    22. LIWC_Funct<br>
+    23. LIWC_Pronoun<br>
+    24. LIWC_Ppron<br>
+    25. LIWC_I<br>
+    26. LIWC_We<br>
+    27. LIWC_You<br>
+    28. LIWC_SheHe<br>
+    29. LIWC_They<br>
+    30. LIWC_Ipron<br>
+    31. LIWC_Article<br>
+    32. LIWC_Verbs<br>
+    33. LIWC_AuxVb<br>
+    34. LIWC_Past<br>
+    35. LIWC_Present<br>
+    36. LIWC_Future<br>
+    37. LIWC_Adverbs<br>
+    38. LIWC_Prep<br>
+    39. LIWC_Conj<br>
+    40. LIWC_Negate<br>
+    41. LIWC_Quant<br>
+    42. LIWC_Numbers<br>
+    43. LIWC_Swear<br>
+    44. LIWC_Social<br>
+    45. LIWC_Family<br>
+    46. LIWC_Friends<br>
+    47. LIWC_Humans<br>
+    48. LIWC_Affect<br>
+    49. LIWC_Posemo<br>
+    50. LIWC_Negemo<br>
+    51. LIWC_Anx<br>
+    52. LIWC_Anger<br>
+    53. LIWC_Sad<br>
+    54. LIWC_CogMech<br>
+    55. LIWC_Insight<br>
+    56. LIWC_Cause<br>
+    57. LIWC_Discrep<br>
+    58. LIWC_Tentat<br>
+    59. LIWC_Certain<br>
+    60. LIWC_Inhib<br>
+    61. LIWC_Incl<br>
+    62. LIWC_Excl<br>
+    63. LIWC_Percept<br>
+    64. LIWC_See<br>
+    65. LIWC_Hear<br>
+    66. LIWC_Feel<br>
+    67. LIWC_Bio<br>
+    68. LIWC_Body<br>
+    69. LIWC_Health<br>
+    70. LIWC_Sexual<br>
+    71. LIWC_Ingest<br>
+    72. LIWC_Relativ<br>
+    73. LIWC_Motion<br>
+    74. LIWC_Space<br>
+    75. LIWC_Time<br>
+    76. LIWC_Work<br>
+    77. LIWC_Achiev<br>
+    78. LIWC_Leisure<br>
+    79. LIWC_Home<br>
+    80. LIWC_Money<br>
+    81. LIWC_Relig<br>
+    82. LIWC_Death<br>
+    83. LIWC_Assent<br>
+    84. LIWC_Dissent<br>
+    85. LIWC_Nonflu<br>
+    86. LIWC_Filler<br>
+  </li></ul>
+<p></p>
+
+
+</div>
+<!-- END: right column -->
+
+<div id=3D"footer">
+<!-- you can put something here -->
+</div>
+</div>
+
+
+
+</body></html>
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://snap.stanford.edu/styles/reset-fonts-grids.css
+
+@charset "utf-8";
+
+html { color: rgb(0, 0, 0); background: rgb(255, 255, 255); }
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,=
+ fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0px; pa=
+dding: 0px; }
+
+table { border-collapse: collapse; border-spacing: 0px; }
+
+fieldset, img { border: 0px; }
+
+address, caption, cite, code, dfn, em, strong, th, var { font-style: normal=
+; font-weight: normal; }
+
+li { list-style: none; }
+
+caption, th { text-align: left; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+
+q::before, q::after { content: ""; }
+
+abbr, acronym { border: 0px; font-variant: normal; }
+
+sup { vertical-align: text-top; }
+
+sub { vertical-align: text-bottom; }
+
+input, textarea, select { font-family: inherit; font-size: inherit; font-we=
+ight: inherit; }
+
+input, textarea, select { }
+
+legend { color: rgb(0, 0, 0); }
+
+body { font: 13px / 1.231 arial, helvetica, clean, sans-serif; }
+
+table { font-size: inherit; }
+
+pre, code, kbd, samp, tt { font-family: monospace; line-height: 100%; }
+
+body { text-align: center; }
+
+#ft { clear: both; }
+
+#doc, #doc2, #doc3, #doc4, .yui-t1, .yui-t2, .yui-t3, .yui-t4, .yui-t5, .yu=
+i-t6, .yui-t7 { margin: auto; text-align: left; width: 57.69em; min-width: =
+750px; }
+
+#doc2 { width: 73.076em; }
+
+#doc3 { margin: auto 10px; width: auto; }
+
+#doc4 { width: 74.923em; }
+
+.yui-b { position: relative; }
+
+.yui-b { }
+
+#yui-main .yui-b { position: static; }
+
+#yui-main { width: 100%; }
+
+.yui-t1 #yui-main, .yui-t2 #yui-main, .yui-t3 #yui-main { float: right; mar=
+gin-left: -25em; }
+
+.yui-t4 #yui-main, .yui-t5 #yui-main, .yui-t6 #yui-main { float: left; marg=
+in-right: -25em; }
+
+.yui-t1 .yui-b { float: left; width: 12.3077em; }
+
+.yui-t1 #yui-main .yui-b { margin-left: 13.3077em; }
+
+.yui-t2 .yui-b { float: left; width: 13.8461em; }
+
+.yui-t2 #yui-main .yui-b { margin-left: 14.8461em; }
+
+.yui-t3 .yui-b { float: left; width: 23.0769em; }
+
+.yui-t3 #yui-main .yui-b { margin-left: 24.0769em; }
+
+.yui-t4 .yui-b { float: right; width: 13.8456em; }
+
+.yui-t4 #yui-main .yui-b { margin-right: 14.8456em; }
+
+.yui-t5 .yui-b { float: right; width: 18.4615em; }
+
+.yui-t5 #yui-main .yui-b { margin-right: 19.4615em; }
+
+.yui-t6 .yui-b { float: right; width: 23.0769em; }
+
+.yui-t6 #yui-main .yui-b { margin-right: 24.0769em; }
+
+.yui-t7 #yui-main .yui-b { display: block; margin: 0px 0px 1em; }
+
+#yui-main .yui-b { float: none; width: auto; }
+
+.yui-gb .yui-u, .yui-g .yui-gb .yui-u, .yui-gb .yui-g, .yui-gb .yui-gb, .yu=
+i-gb .yui-gc, .yui-gb .yui-gd, .yui-gb .yui-ge, .yui-gb .yui-gf, .yui-gc .y=
+ui-u, .yui-gc .yui-g, .yui-gd .yui-u { float: left; }
+
+.yui-g .yui-u, .yui-g .yui-g, .yui-g .yui-gb, .yui-g .yui-gc, .yui-g .yui-g=
+d, .yui-g .yui-ge, .yui-g .yui-gf, .yui-gc .yui-u, .yui-gd .yui-g, .yui-g .=
+yui-gc .yui-u, .yui-ge .yui-u, .yui-ge .yui-g, .yui-gf .yui-g, .yui-gf .yui=
+-u { float: right; }
+
+.yui-g div.first, .yui-gb div.first, .yui-gc div.first, .yui-gd div.first, =
+.yui-ge div.first, .yui-gf div.first, .yui-g .yui-gc div.first, .yui-g .yui=
+-ge div.first, .yui-gc div.first div.first { float: left; }
+
+.yui-g .yui-u, .yui-g .yui-g, .yui-g .yui-gb, .yui-g .yui-gc, .yui-g .yui-g=
+d, .yui-g .yui-ge, .yui-g .yui-gf { width: 49.1%; }
+
+.yui-gb .yui-u, .yui-g .yui-gb .yui-u, .yui-gb .yui-g, .yui-gb .yui-gb, .yu=
+i-gb .yui-gc, .yui-gb .yui-gd, .yui-gb .yui-ge, .yui-gb .yui-gf, .yui-gc .y=
+ui-u, .yui-gc .yui-g, .yui-gd .yui-u { width: 32%; margin-left: 1.99%; }
+
+.yui-gb .yui-u { }
+
+.yui-gc div.first, .yui-gd .yui-u { width: 66%; }
+
+.yui-gd div.first { width: 32%; }
+
+.yui-ge div.first, .yui-gf .yui-u { width: 74.2%; }
+
+.yui-ge .yui-u, .yui-gf div.first { width: 24%; }
+
+.yui-g .yui-gb div.first, .yui-gb div.first, .yui-gc div.first, .yui-gd div=
+.first { margin-left: 0px; }
+
+.yui-g .yui-g .yui-u, .yui-gb .yui-g .yui-u, .yui-gc .yui-g .yui-u, .yui-gd=
+ .yui-g .yui-u, .yui-ge .yui-g .yui-u, .yui-gf .yui-g .yui-u { width: 49%; =
+}
+
+.yui-g .yui-gb div.first, .yui-gb .yui-gb div.first { }
+
+.yui-g .yui-gc div.first, .yui-gd .yui-g { width: 66%; }
+
+.yui-gb .yui-g div.first { }
+
+.yui-gb .yui-gc div.first, .yui-gb .yui-gd div.first { }
+
+.yui-gb .yui-gb .yui-u, .yui-gb .yui-gc .yui-u { }
+
+.yui-g .yui-gb .yui-u { }
+
+.yui-gb .yui-gd .yui-u { }
+
+.yui-gb .yui-gd div.first { }
+
+.yui-g .yui-gc .yui-u, .yui-gb .yui-gc .yui-u { width: 32%; margin-right: 0=
+px; }
+
+.yui-gb .yui-gc div.first { width: 66%; }
+
+.yui-gb .yui-ge .yui-u, .yui-gb .yui-gf .yui-u { margin: 0px; }
+
+.yui-gb .yui-gb .yui-u { }
+
+.yui-gb .yui-g div.first, .yui-gb .yui-gb div.first { }
+
+.yui-gc .yui-g .yui-u, .yui-gd .yui-g .yui-u { }
+
+s .yui-gb .yui-gd div.first { width: 32%; }
+
+.yui-g .yui-gd div.first { }
+
+.yui-ge .yui-g { width: 24%; }
+
+.yui-gf .yui-g { width: 74.2%; }
+
+.yui-gb .yui-ge div.yui-u, .yui-gb .yui-gf div.yui-u { float: right; }
+
+.yui-gb .yui-ge div.first, .yui-gb .yui-gf div.first { float: left; }
+
+.yui-gb .yui-ge .yui-u, .yui-gb .yui-gf div.first { }
+
+.yui-gb .yui-ge div.first, .yui-gb .yui-gf .yui-u { }
+
+.yui-ge div.first .yui-gd .yui-u { width: 65%; }
+
+.yui-ge div.first .yui-gd div.first { width: 32%; }
+
+#bd::after, .yui-g::after, .yui-gb::after, .yui-gc::after, .yui-gd::after, =
+.yui-ge::after, .yui-gf::after { content: "."; display: block; height: 0px;=
+ clear: both; visibility: hidden; }
+
+#bd, .yui-g, .yui-gb, .yui-gc, .yui-gd, .yui-ge, .yui-gf { zoom: 1; }
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://snap.stanford.edu/styles/sam/menu.css
+
+@charset "utf-8";
+
+.yuimenubar { visibility: visible; position: static; }
+
+.yuimenu .yuimenu, .yuimenubar .yuimenu { visibility: hidden; position: abs=
+olute; top: -10000px; left: -10000px; }
+
+.yuimenubar li, .yuimenu li { list-style-type: none; }
+
+.yuimenubar ul, .yuimenu ul, .yuimenubar li, .yuimenu li, .yuimenu h6, .yui=
+menubar h6 { margin: 0px; padding: 0px; }
+
+.yuimenuitemlabel, .yuimenubaritemlabel { text-align: left; white-space: no=
+wrap; }
+
+.yuimenubar ul { }
+
+.yuimenubar .yuimenu ul { }
+
+.yuimenubar > .bd > ul::after { content: "."; display: block; clear: both; =
+visibility: hidden; height: 0px; line-height: 0; }
+
+.yuimenubaritem { float: left; }
+
+.yuimenubaritemlabel, .yuimenuitemlabel { display: block; }
+
+.yuimenuitemlabel .helptext { font-style: normal; display: block; margin: -=
+1em 0px 0px 10em; }
+
+.yui-menu-shadow { position: absolute; visibility: hidden; z-index: -1; }
+
+.yui-menu-shadow-visible { inset: 2px -3px -3px; visibility: visible; }
+
+.hide-scrollbars * { overflow: hidden; }
+
+.hide-scrollbars select { display: none; }
+
+.yuimenu.show-scrollbars, .yuimenubar.show-scrollbars { overflow: visible; =
+}
+
+.yuimenu.hide-scrollbars .yui-menu-shadow, .yuimenubar.hide-scrollbars .yui=
+-menu-shadow { overflow: hidden; }
+
+.yuimenu.show-scrollbars .yui-menu-shadow, .yuimenubar.show-scrollbars .yui=
+-menu-shadow { overflow: auto; }
+
+.yui-skin-sam .yuimenubar { font-size: 93%; line-height: 2; border: 1px sol=
+id rgb(128, 128, 128); background: url("sprite.png") 0px 0px repeat-x; }
+
+.yui-skin-sam .yuimenubarnav .yuimenubaritem { border-right: 1px solid rgb(=
+204, 204, 204); }
+
+.yui-skin-sam .yuimenubaritemlabel { padding: 0px 10px; color: rgb(0, 0, 0)=
+; text-decoration: none; cursor: default; border-style: solid; border-color=
+: rgb(128, 128, 128); border-width: 1px 0px; margin: -1px 0px; }
+
+.yui-skin-sam .yuimenubarnav .yuimenubaritemlabel { padding-right: 20px; }
+
+.yui-skin-sam .yuimenubarnav .yuimenubaritemlabel-hassubmenu { background: =
+url("menubaritem_submenuindicator.png") right center no-repeat; }
+
+.yui-skin-sam .yuimenubaritem-selected { background: url("sprite.png") 0px =
+-1700px repeat-x; }
+
+.yui-skin-sam .yuimenubaritemlabel-selected { border-color: rgb(125, 152, 1=
+84); }
+
+.yui-skin-sam .yuimenubarnav .yuimenubaritemlabel-selected { border-left-wi=
+dth: 1px; margin-left: -1px; }
+
+.yui-skin-sam .yuimenubaritemlabel-disabled { cursor: default; color: rgb(1=
+66, 166, 166); }
+
+.yui-skin-sam .yuimenubarnav .yuimenubaritemlabel-hassubmenu-disabled { bac=
+kground-image: url("menubaritem_submenuindicator_disabled.png"); }
+
+.yui-skin-sam .yuimenu { font-size: 93%; line-height: 1.5; }
+
+.yui-skin-sam .yuimenubar .yuimenu, .yui-skin-sam .yuimenu .yuimenu { font-=
+size: 100%; }
+
+.yui-skin-sam .yuimenu .bd { border: 1px solid rgb(128, 128, 128); backgrou=
+nd-color: rgb(255, 255, 255); }
+
+.yui-skin-sam .yuimenu ul { padding: 3px 0px; border-width: 1px 0px 0px; bo=
+rder-color: rgb(204, 204, 204); border-style: solid; }
+
+.yui-skin-sam .yuimenu ul.first-of-type { border-width: 0px; }
+
+.yui-skin-sam .yuimenu h6 { font-weight: bold; border-style: solid; border-=
+color: rgb(204, 204, 204); border-width: 1px 0px 0px; color: rgb(164, 164, =
+164); padding: 3px 10px 0px; }
+
+.yui-skin-sam .yuimenu ul.hastitle, .yui-skin-sam .yuimenu h6.first-of-type=
+ { border-width: 0px; }
+
+.yui-skin-sam .yuimenu .yui-menu-body-scrolled { border-color: rgb(204, 204=
+, 204) rgb(128, 128, 128); overflow: hidden; }
+
+.yui-skin-sam .yuimenu .topscrollbar, .yui-skin-sam .yuimenu .bottomscrollb=
+ar { height: 16px; border: 1px solid rgb(128, 128, 128); background: url("s=
+prite.png") 0px 0px no-repeat rgb(255, 255, 255); }
+
+.yui-skin-sam .yuimenu .topscrollbar { border-bottom-width: 0px; background=
+-position: center -950px; }
+
+.yui-skin-sam .yuimenu .topscrollbar_disabled { background-position: center=
+ -975px; }
+
+.yui-skin-sam .yuimenu .bottomscrollbar { border-top-width: 0px; background=
+-position: center -850px; }
+
+.yui-skin-sam .yuimenu .bottomscrollbar_disabled { background-position: cen=
+ter -875px; }
+
+.yui-skin-sam .yuimenuitem { }
+
+.yui-skin-sam .yuimenuitemlabel { padding: 0px 20px; color: rgb(0, 0, 0); t=
+ext-decoration: none; cursor: default; }
+
+.yui-skin-sam .yuimenuitemlabel .helptext { margin-top: -1.5em; }
+
+.yui-skin-sam .yuimenuitem-hassubmenu { background-image: url("menuitem_sub=
+menuindicator.png"); background-position: right center; background-repeat: =
+no-repeat; }
+
+.yui-skin-sam .yuimenuitem-checked { background-image: url("menuitem_checkb=
+ox.png"); background-position: left center; background-repeat: no-repeat; }
+
+.yui-skin-sam .yui-menu-shadow-visible { background-color: rgb(0, 0, 0); op=
+acity: 0.12; }
+
+.yui-skin-sam .yuimenuitem-selected { background-color: rgb(179, 212, 255);=
+ }
+
+.yui-skin-sam .yuimenuitemlabel-disabled { cursor: default; color: rgb(166,=
+ 166, 166); }
+
+.yui-skin-sam .yuimenuitem-hassubmenu-disabled { background-image: url("men=
+uitem_submenuindicator_disabled.png"); }
+
+.yui-skin-sam .yuimenuitem-checked-disabled { background-image: url("menuit=
+em_checkbox_disabled.png"); }
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/styles/sam/menuitem_submenuindicator.png
+
+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
+gwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAMAUExURQAAAP///wICAgMDAwQEBAUFBQYG
+BgcHBwgICAkJCQoKCgsLCwwMDA0NDQ4ODg8PDxAQEBERERISEhMTExQUFBUVFRYWFhcXFxgYGBkZ
+GRoaGhsbGxwcHB0dHR4eHh8fHyAgICEhISIiIiMjIyQkJCUlJSYmJicnJygoKCkpKSoqKisrKyws
+LC0tLS4uLi8vLzAwMDExMTIyMjMzMzQ0NDU1NTY2Njc3Nzg4ODk5OTo6Ojs7Ozw8PD09PT4+Pj8/
+P0BAQEFBQUJCQkNDQ0REREVFRUZGRkdHR0hISElJSUpKSktLS0xMTE1NTU5OTk9PT1BQUFFRUVJS
+UlNTU1RUVFVVVVZWVldXV1hYWFlZWVpaWltbW1xcXF1dXV5eXl9fX2BgYGFhYWJiYmNjY2RkZGVl
+ZWZmZmdnZ2hoaGlpaWpqamtra2xsbG1tbW5ubm9vb3BwcHFxcXJycnNzc3R0dHV1dXZ2dnd3d3h4
+eHl5eXp6ent7e3x8fH19fX5+fn9/f4CAgIGBgYKCgoODg4SEhIWFhYaGhoeHh4iIiImJiYqKiouL
+i4yMjI2NjY6Ojo+Pj5CQkJGRkZKSkpOTk5SUlJWVlZaWlpeXl5iYmJmZmZqampubm5ycnJ2dnZ6e
+np+fn6CgoKGhoaKioqOjo6SkpKWlpaampqenp6ioqKmpqaqqqqurq6ysrK2tra6urq+vr7CwsLGx
+sbKysrOzs7S0tLW1tba2tre3t7i4uLm5ubq6uru7u7y8vL29vb6+vr+/v8DAwMHBwcLCwsPDw8TE
+xMXFxcbGxsfHx8jIyMnJycrKysvLy8zMzM3Nzc7Ozs/Pz9DQ0NHR0dLS0tPT09TU1NXV1dbW1tfX
+19jY2NnZ2dra2tvb29zc3N3d3d7e3t/f3+Dg4OHh4eLi4uPj4+Tk5OXl5ebm5ufn5+jo6Onp6erq
+6uvr6+zs7O3t7e7u7u/v7/Dw8PHx8fLy8vPz8/T09PX19fb29vf39/j4+Pn5+fr6+vv7+/z8/P39
+/f7+/v////kkudwAAAACdFJOU/8A5bcwSgAAACJJREFUeNpiYGBEAAYGBhQOAwqHAZcMsh4k0wAA
+AAD//wMADCcARTKlFSkAAAAASUVORK5CYII=
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://snap.stanford.edu/styles/styles.css
+
+@charset "utf-8";
+
+a { color: rgb(38, 126, 213); text-decoration: none; }
+
+a:hover { text-decoration: underline; }
+
+html { background-color: rgb(178, 178, 178); }
+
+#doc { width: 1000px; background-color: rgb(255, 255, 255); margin-top: 15p=
+x; margin-bottom: 15px; }
+
+#footer { background-color: rgb(68, 68, 68); color: rgb(255, 255, 255); pad=
+ding: 5px 10px; margin-top: 25px; }
+
+#header { background-color: rgb(68, 68, 68); color: rgb(255, 255, 255); }
+
+#by-jure { margin-left: 10px; margin-right: 506px; }
+
+#mld-logo { margin-right: 20px; }
+
+#snap-logo { display: block; margin: 10px 20px; }
+
+#right-column { margin-left: 250px; padding-right: 30px; }
+
+#left-column { float: left; width: 250px; }
+
+#graphgardenmainmenu { width: 150px; margin: 0px 15px 0px 30px; }
+
+#links-under-menu { width: 150px; margin: 20px 0px 20px 50px; }
+
+#links-under-menu li { list-style-type: none; color: rgb(255, 139, 0); font=
+-weight: normal; margin-left: 0px; }
+
+#links-under-menu2 li { list-style-type: square; color: gray; font-weight: =
+normal; }
+
+h1 { background-image: url("../images/h1_img.gif"); background-repeat: no-r=
+epeat; text-indent: 42px; font-size: 24px; font-family: Arial, Helvetica, s=
+ans-serif; font-weight: bold; line-height: 1.5em; margin: 18px 0px 14px; co=
+lor: rgb(41, 104, 208); }
+
+h2 { background-image: url("../images/h2_img.gif"); background-repeat: no-r=
+epeat; text-indent: 33px; font-size: 20px; font-family: Arial, Helvetica, s=
+ans-serif; line-height: 1.4em; margin: 17px 0px 13px; color: rgb(110, 175, =
+47); }
+
+h3 { background-image: url("../images/h3_img.gif"); background-repeat: no-r=
+epeat; text-indent: 26px; font-size: 17px; font-family: Arial, Helvetica, s=
+ans-serif; line-height: 1.2em; font-weight: bold; margin: 16px 0px 12px; co=
+lor: rgb(255, 139, 0); }
+
+p { margin: 10px 0px; line-height: 1.5em; }
+
+td { padding: 3px; }
+
+.code { font-family: "Courier New", Courier, monospace; white-space: pre; b=
+ackground: rgb(238, 238, 238); border: 1px solid rgb(136, 136, 136); color:=
+ black; padding: 1em; }
+
+.code2 { font-family: "Courier New", Courier, monospace; white-space: pre; =
+background: rgb(238, 238, 238); border: 1px solid rgb(136, 136, 136); color=
+: black; padding: 1em; line-height: 120%; }
+
+.fixed-width { font-family: "Courier New", Courier, monospace; white-space:=
+ pre; }
+
+b, strong { font-weight: bold; }
+
+i, em { font-style: italic; }
+
+ul, ol { margin-left: 25px; margin-top: 10px; margin-bottom: 10px; }
+
+ul li { list-style-type: disc; margin: 5px; }
+
+ol li { list-style-type: decimal; margin: 5px; }
+
+#datatab { background: white; margin: 10px; border-collapse: collapse; text=
+-align: left; }
+
+#datatab th { font-size: 14px; font-weight: normal; color: white; backgroun=
+d: rgb(116, 167, 67); padding: 5px 10px; text-align: left; }
+
+#datatab td { border-bottom: 1px solid rgb(204, 204, 204); color: black; pa=
+dding: 3px 8px; }
+
+#datatab tbody tr:hover td { color: rgb(0, 0, 0); background: rgb(238, 238,=
+ 238); }
+
+#datatab2 { background: white; margin: 10px; border-collapse: collapse; tex=
+t-align: left; width: 680px; }
+
+#datatab2 th { font-size: 14px; font-weight: normal; color: white; backgrou=
+nd: rgb(116, 167, 67); padding: 5px 10px; text-align: left; }
+
+#datatab2 td { border-bottom: 1px solid rgb(204, 204, 204); color: black; p=
+adding: 3px 8px; }
+
+#datatab2 tbody tr:hover td { color: rgb(0, 0, 0); background: rgb(238, 238=
+, 238); }
+
+#graphgardenmainmenu { position: static; }
+
+#graphgardenmainmenu .yuimenuitemlabel { }
+
+#graphgardenmainmenu .yuimenu .yuimenuitemlabel { }
+
+.call-out-green, .call-out-blue, .call-out-orange { margin: 20px 0px; color=
+: rgb(255, 255, 255); padding: 13px 20px; font-size: 16px; font-family: Ari=
+al, Helvetica, sans-serif; line-height: 1.4em; }
+
+.call-out-green { background: rgb(116, 167, 67); }
+
+.call-out-blue { background: rgb(69, 163, 255); }
+
+.call-out-orange { background: rgb(255, 139, 0); }
+
+.call-out-green strong, .call-out-blue strong, .call-out-orange strong { fo=
+nt-weight: bold; }
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/images/h1_img.gif
+
+R0lGODlhJAAlAPcAAP///////ylo0Ctp0P3+//X4/cPV8vr7/pi107bL7/z9/mSR3cfX89Xh9kV8
+1jBt0c3c9H6k4/j6/El/15251cLU8vf5/cra8zhz06nC7GaT3f7+/o2u0kl+1Nzm9y5s0VWH2sbX
+8r/S8Yqs5bjN79Pf7J+76sHT5Iyu5tvm9+Xt9F2N26/H7T121PL2/PP3/KS+2O/z+EyB2KK969rl
+99fj9l+N0u3z+3ui4E6C2Hqh4qvD29Pg7Pr8/e3y+zNv0qXA663E2+7z++7z+MPU5Z+61S9s0X2i
+24+w5ixq0UN61tLf9fz9/WSR2uzx+8DT8W+a35266UR71uvx+5q46VuM27TK7z531Xyj4qjB7J+7
+5a7F4P39/qO91/X4+s/d6snY6H6j05666XOc122Y387d9LzQ8K3F7Zi26NDe9cPU8m+Z36G96gAA
+APipvAAAAAAAABCqvAAAAAAAAJCtvAAAAAAAAGCuvAAAAAAAAHiuvAAAAAAAAJCuvAAAAAAAAKiu
+vAAAAAAAAMCuvAAAAAAAANiuvAAAAAAAAPCuvAAAAAAAAAivvAAAAAAAACCvvAAAAAAAADivvAAA
+AAAAAFCvvAAAAAAAAGivvAAAAAAAAICvvAAAAAAAACCyvAAAAAAAADiyvAAAAAAAAFCyvAAAAAAA
+AGiyvAAAAAAAAICyvAAAAAAAAJiyvAAAAAAAALCyvAAAAAAAAFCzvAAAAAAAAGizvAAAAAAAAICz
+vAAAAAAAAJizvAAAAAAAALCzvAAAAAAAAMizvAAAAAAAAOCzvAAAAAAAAPizvAAAAAAAABC0vAAA
+AAAAACi0vAAAAAAAAEC0vAAAAAAAABi5vAAAAAAAADC5vAAAAAAAAEi5vAAAAAAAAGC5vAAAAAAA
+AEiYvAAAAAAAANiWvAMAAAAAAICpvAMAAAAAAGipvAMAAAAAABCpvAMAAAAAAPiovAMAAAAAAOCo
+vAMAAAAAAMiovAMAAAAAALCovAMAAAAAAJiovAMAAAAAAGiovAMAACH5BAEAAAAALAAAAAAkACUA
+AAj/AAMIHEiwoMGDCBMqXMiwIcE0bEI4nDgwwoCLZCg6THOxo0SNC890vIgG5EKOI82YXGgR40qG
+YaJ8fJnQAgWaDL+AwbmwixeeChEANdgjBJAoW4YSJHFlJA4LSkWOvFilB1AnRqZ2pAI0itaOShw6
+eZIGIZmvHaEuRAG2gUENaC+qTSi1IwYXAWKAoUABR9wODDtoHYNgSwmrWNECYfgVh0ESXzU0lKF1
+scEQSjoasWGVYd2LdxM2IBHCQpcYDqNkHSDDg0MVSR1aSOOaIoK5SgmWOBHAA2ncQznABU0idwDB
+UxkoffIVhFK2X5+jVRria5XcwzW7VWrB70UlygcCDhhPvrz58+ddpKkRwHxAADs=
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/images/h3_img.gif
+
+R0lGODlhFQAVAPcAAP////////+LAP/8+f+PCP/58f/Yqv/+/f/XqP+MAv+QCv/37f+NBP+2Xv+2
+X//s1f+aIv+pQf+sSf/w3v+0Wf/mx//De//UoP+VFf/Ggv/Nkv+VFv/u2f/u2v+qRf/9+/+dKP/F
+f//DfP/ZrP/27P/q0f+YHP/16P/ny//JiP+vT//dtP/37v/68/+4Y/+0Wv/w3f/ozf/Sm/+wUv/y
+4/+RDv/etv+UFP+MA//Ihf/r0//Kiv/69f/26//br//hvP+WGP+qRP/47/+hMP/Ih/+xVP/arf/O
+k//arv///////9Xs/wCL/wCL/wCL/wCL/162////////////////////////////////////////
+/////////////////////+33/wSN/wCL/wCL/wCL/3vD////////////////////////////////
+/////////////////////////////////1m0/wiP/wCL/0Gp//H5//////////////////////v9
+/////////////////////////////////////9Hq/8fm//n8/+j1/////////////////////7Td
+/xWV/wiP/4LG/////////////////////////////////5LN////////////////////////////
+/////xaV/wCL/wCL/wCL/9nu/////////////9ru/0Wq/wqQ/yid/3/F////////////////////
+/////////////wqQ/wCL/wCL/wCL/3zD/6zZ/+z2//P6/xyY/wCL/wCL/wCL/wKM/8vn////////
+/////////////////////4jJ/wKM/wCL/0+v//3+/+73/6rY/2O4/wCL/wCL/wCL/wCL/wCL/1q0
+/////////////////////////////////93w/83o//3+/////////////5vS/wCL/wCL/wCL/wCL
+/wCL/1Kw/////////////////////////////////////////////yH5BAEAAAAALAAAAAAVABUA
+AAiZAAMIHEhQoJAjPgoqXFhEgICECyMGGOIwg8SIP4AEEXJxoRCIHRUi4BGy4AAOO0oStFGjosoA
+NFo6FDAi4oQYBGXMdDhj4Q6eAYSMcLFTwIuFCmZaGCGEB5CdOBU+dchh4IQgCkBYiGgDCAGLC4+8
+LBijwoATYwW+ICBg40shO7eq5LDzqMoBEGYiGDvBhQQZAwEIHky4sOGAADs=
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/gif
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/images/by_jure.gif
+
+R0lGODlhkQAoAPcAAP///0RERP///1VVVf7+/vn5+UVFRUhISLy8vO7u7k5OTkdHR+/v7/X19YiI
+iEpKSvz8/Hd3d/v7+01NTWFhYd3d3VFRUUtLS/b29rGxsYqKiru7u2ZmZqqqquXl5VdXV4WFhV5e
+XmRkZO3t7ejo6MnJyaioqOrq6np6eo2NjZiYmLq6us/Pz8zMzFpaWnx8fNra2nR0dFRUVIGBgVZW
+VtTU1Ofn5+Li4qenp1tbW2pqarm5uZmZmU9PT/Dw8J2dnVBQUGNjY8TExFNTU4KCgtnZ2ZWVlZub
+m9zc3FlZWbOzs9fX14yMjKurq4CAgKampuDg4KOjo/Ly8pKSkoeHh8HBwXFxcaWlpePj42dnZ66u
+rtbW1o6Ojmlpab29vZqamnBwcF1dXaSkpIuLi+np6bKysvj4+K2treHh4cvLy+bm5q+vr87Ozuzs
+7MfHx9jY2HNzc8LCwrS0tOTk5LCwsGBgYIODg39/f8rKytPT0+vr69DQ0G1tbX5+fnJycqCgoJ+f
+n3Z2dqGhoX19fWxsbJCQkJGRkW9vb3l5eVJSUnh4eLi4uL6+vqmpqV9fX5SUlGVlZbW1tfPz82Ji
+YpaWloaGhsXFxba2tqysrHt7e9/f397e3pOTk8PDw3V1dbe3t1hYWDiyvAAAAAAAAFCyvAAAAAAA
+AGiyvAAAAAAAAICyvAAAAAAAAJiyvAAAAAAAALCyvAAAAAAAAFCzvAAAAAAAAGizvAAAAAAAAICz
+vAAAAAAAAJizvAAAAAAAALCzvAAAAAAAAMizvAAAAAAAAOCzvAAAAAAAAPizvAAAAAAAABC0vAAA
+AAAAACi0vAAAAAAAAEC0vAAAAAAAABi5vAAAAAAAADC5vAAAAAAAAEi5vAAAAAAAAGC5vAAAAAAA
+AEiYvAAAAAAAAGiovAMAAAAAAHimvAMAAAAAAPiUvAMAAAAAAACYvAQAAAAAANiWvAQAAAAAABiY
+vAUAAAAAACCidAUAAAEAAFDnnQUAAAEAAOgacgUAAAEAAKimvAYAACH5BAEAAAAALAAAAACRACgA
+AAj/AAEEGEiwoMGDCBMqXMiwocOHECMmFCixosWLGDNqJEhxo8ePIEM27CiypMmTFkmiXMmy5UCV
+LmPK9Ahzps2bEGvi3MnToM6eQHH+DEo05tCiSFEeTco05NKmUDX+tHOm6pkjcDIyOSIy0RlCGgld
+AfrTi4BNaG0IsITRBtuQcARkzRhpE1mFXhgUfCTX4gMBXEMeEfBA4yYvdxPmLfj3UYBMcwfCiYww
+btYgdggmYpIoACE4iY44fmDnypUgCdnYrWyacqJHZx51DvCXyUBCTFwMzNR64APOBH+jfmx6uO/S
+R3QrLKuXoB0BqK+YKUzbjGOFgwvXdU44ABsvNjZF/0q0hUEkSwIyIWSA2OCDSGa8wB8bIBEDNme2
+mEFNSADYTAKM9UB5kZgloACZDXSEGYmQZ55ZCbqwiQ1ebGKGcgiVJQAbHG4igG0BuIDgQHZMt5Al
+qx1G0Bk2DMQAA3OhSN0ZqxUkIogFLTjcc50x0dwDNkQSwCPTZWIGiOApx5dum9CXiBlcgTfbFS16
+t0lhDzBwxnJ4xeeFF5YwYMNwW7z1HUPs0fYhQVsgJmJg/am3W3cFPQcWYwzQp2ZWAJ7RWYMBeLEF
+E+kNJGKCIRZqyVssPhDEiJIJkMijkQWB4UHMMWbDFgMRmoiIlB0komP9DfeAdY9JqqAArLYqwEFn
+mP9YUFyusjrXgmaMN9CEDEBKKHUBUBrAFXaJqB5ftRK2ILAMZVpQJK9Wx8QjzTF2xHAAgkUkdXGB
+RSNBkdjQ4LizFcQGpwY9FwS5iQD7wIKc/rWJC+cOdEW1ARCq23MBWMLGQCyy21m4wTGLKV74PjAh
+QV6cu6VBxg4En3Y1btHdmfbK6oINchZkxsOz+sfmWAR3KmlcqKk7JJ0K/xssgtANtO1AidiQ2b0E
+3WtwQWVBecTPFuNIq3HBmcEGISU+HAkDQQTBRngDHUnQo5G4AMcmWxhMNRNcc93upk2HqRuhjzzg
+giUtEumbeSHG96kl+/kmQJAEuRCf1WgV1l/ZhOKimKFCS78opiWIDgQ1Qpn0+jF1G89thxdbusB0
+QZmotfhBdgiueWdBWLwhhtSyygZq5+VsQ2FXs2oJ0VuIS7nlunbaqw1+/31RlrUbVG5Buy/Ue0QP
+7Eyb8AgFD9Hvvjn01EFmS0d8VFEtb1B/a0JvvU8XEXLp9ddLz/33E4Evfkrjl5+T+eg3m/76trPv
+fgDevx+9/O7HTz9T9t+PVP76ExUQADs=
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/images/empty_logo.png
+
+iVBORw0KGgoAAAANSUhEUgAAAIMAAAAoCAIAAABSJN4cAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA
+p0lEQVRoQ+3VQREAIAzEwOKt/jUBLvaRKsgkc3B2dzrBwCvRCQZGgIjhv0xZQAxUAgnRJpQQlagE
+Y0AB6Z+ohGJA4WgTlVAMKBxtohKKAYWjTVRCMaBwtIlKKAYUjjZRCcWAwtEmKqEYUDjaRCUUAwpH
+m6iEYkDhaBOVUAwoHG2iEooBhaNNVEIxoHC0iUooBhSONlEJxYDC0SYqoRhQONpEJRQDCscFQcbo
+67H6tTQAAAAASUVORK5CYII=
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/images/stanford.png
+
+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
+EEP9AAAAAElFTkSuQmCC
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://snap.stanford.edu/images/snap_logo.png
+
+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
+ooz/AMsWd3GPL58KAAAAAElFTkSuQmCC
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/html
+Content-ID: <frame-63FD864AFEECBFB3F0BAE87F8779A151@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: chrome-extension://obcbigljfpgappaaofailjjoabiikckk/html/statusbar.html?origin=http%3A%2F%2Fsnap.stanford.edu
+
+<!DOCTYPE html><!-- Copyright (c) 2020 Andy McDonald. All rights reserved. =
+--><html id=3D"statusbar" class=3D"Chrome"><head><meta http-equiv=3D"Conten=
+t-Type" content=3D"text/html; charset=3DUTF-8">
+   =20
+
+    <link href=3D"chrome-extension://obcbigljfpgappaaofailjjoabiikckk/css/s=
+tatusbar.css" rel=3D"stylesheet">
+
+   =20
+   =20
+
+   =20
+   =20
+  </head>
+
+  <body style=3D"text-align: right;">
+    <span id=3D"closer">=C3=97</span>
+ =20
+
+<span class=3D"clock" id=3D"statusbar-clock-0"><img src=3D"chrome-extension=
+://obcbigljfpgappaaofailjjoabiikckk/images/flags/au.png"><span class=3D"tim=
+e">Perth: 1:43 am</span></span></body></html>
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: chrome-extension://obcbigljfpgappaaofailjjoabiikckk/css/statusbar.css
+
+@charset "utf-8";
+
+body { margin: 0px; padding: 0px; border: 0px; overflow: hidden; cursor: po=
+inter; background-color: rgb(238, 238, 238); font-size: 13px; font-family: =
+-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cant=
+arell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important; =
+}
+
+span.clock { padding-left: 7px; padding-right: 5px; border-style: solid; bo=
+rder-color: rgba(0, 0, 0, 0.4); border-width: 0px 0px 0px 1px; }
+
+span.clock#statusbar-clock-0 { padding-left: 0px; border-width: 0px; }
+
+span.clock.bold { font-weight: bold; }
+
+span.clock.italic { font-style: italic; }
+
+span.clock.underline { text-decoration: underline; }
+
+span.clock img { vertical-align: middle; margin: 0px 3px 3px 0px; }
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: chrome-extension://obcbigljfpgappaaofailjjoabiikckk/images/flags/au.png
+
+iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIzSURBVHjaYjxe3nyAQ6Vyx7veD+tY/v3L
+/+dWKvXIyUTOc9Ybhq8fGBj+AJFnssv2uZsYGN4xMPwCCAAxAM7/AUtNjZ95PPsXHfjPzf/49wEf
+IhAVELzd+MzU5v38/vf6+1tNLQQEAd7j77fB3KOMjwIAMQDO/wHNCQkZhYYD7Or78vL++fkFDAv5
+/gH29/qJCD3w/AH6+PodGQ9GOyGJm8UgHRGrko8CiOmQjg+Ttj6HluZfYVEGWQUuM7Pfsop3ZfR+
+/Pnv56jCwMBw4/5roOrKdBsJYW4Ghm8AAcT0ISSJQVh4wz+F5zziL1gF1gmZMevofuQTcbZTlRXn
+LUyy+P7jd4SXFisLo6uVIgPDD4AAADEAzv8DLAEa6w0YwN/4+/b43/UCuNbx2/QDEP73rcbkJSIU
+q7fV6ev07O/3EQ8IqLXU3NDDAgAxAM7/A8veKS1ELvXw9N77Cd76BwT8+ujr9M/o+/3//8bN4+nt
+9P///1dLK6Cu0QkIBd7RvgKICRRwf/79/vMvyF6pNsX81++/f/7+Y/j39/evP//+/fv/9//Pn396
+5hz7+Onbv79/gYoBAgio4devP0Dj/psbSMtJ8gW4afz89fvX7z9g9BcYrNISfOWpVj9///379z9Q
+A0AAsQA1AE0S4ufceeSuvprowZMPZCX4fv4Eyv778+f/9x+/ihLNtZTFfv76u2bnNaCnAQKIkYHB
+FxydP4A6kdAfZK6qY9nt/U0MDP+AoQwQYAAK+BukFnf4xAAAAABJRU5ErkJggg==
+
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt----
+Content-Type: text/html
+Content-ID: <frame-A3D73CFD8E1EA60802F9D655721657A5@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://snap.stanford.edu/data/soc-RedditHyperlinks.html
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8"></head><body></body></html>
+------MultipartBoundary--Z817pO98HSOdyiDSHvdUkmOY3TCM9fX3Q7ZUzTUHbt------

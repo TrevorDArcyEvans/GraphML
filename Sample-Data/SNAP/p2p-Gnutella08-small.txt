@@ -1,0 +1,35 @@
+# Directed graph (each unordered pair of nodes is saved once): p2p-Gnutella08.txt 
+# Directed Gnutella P2P network from August 8 2002
+# Nodes: 6301 Edges: 20777
+# FromNodeId	ToNodeId
+0	1
+0	2
+0	3
+0	4
+0	5
+0	6
+0	7
+0	8
+0	9
+0	10
+3	703
+3	826
+3	1097
+3	1287
+3	1591
+3	1895
+3	1896
+3	1897
+3	1898
+3	1899
+4	144
+4	258
+4	491
+4	1021
+4	1418
+4	1669
+4	1900
+4	1901
+4	1902
+4	1903
+
