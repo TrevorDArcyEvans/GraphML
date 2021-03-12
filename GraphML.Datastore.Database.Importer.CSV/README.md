@@ -52,18 +52,25 @@
   }
 }
 ```
-| Section             | Field | Description | Notes |
-|---------------------|-------|-------------|-------|
-| Datastore           | Connection | name of database configuration |  |
-|                     | [_Connection_]:Type | type of database | `SqLite\SqlServer\MySql\PostgreSql` |
-|                     | [_Connection_]:ConnectionString | _.NET_ database connection string | examples at [ConnectonStrings.com](https://www.connectionstrings.com/) |
-| ImportSpecification | Organisation | name of _Organisation_ | must exist |
-|                     | RepositoryManager | name of _Repository Manager_ | must exist |
-|                     | Repository | name of _Repository_ | will be created if it does not exist |
-|                     | DataFile | path to csv or tsv data file |  |
-|                     | HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
-|                     | NodeItemAttributeDefinition | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
-|                     | EdgeItemAttributeDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
+**Datastore**
+
+| Field | Description | Notes |
+|-------|-------------|-------|
+| Connection | name of database configuration |  |
+| [_Connection_]:Type | type of database | `SqLite\SqlServer\MySql\PostgreSql` |
+| [_Connection_]:ConnectionString | _.NET_ database connection string | examples at [ConnectonStrings.com](https://www.connectionstrings.com/) |
+
+**ImportSpecification**
+
+| Field | Description | Notes |
+|-------|-------------|-------|
+| Organisation | name of _Organisation_ | must exist |
+| RepositoryManager | name of _Repository Manager_ | must exist |
+| Repository | name of _Repository_ | will be created if it does not exist |
+| DataFile | path to csv or tsv data file |  |
+| HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
+| NodeItemAttributeDefinition | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
+| EdgeItemAttributeDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
 
 ### Supported Attribute Data Types
 * string
