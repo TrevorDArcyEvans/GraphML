@@ -11,6 +11,11 @@ DROP TABLE IF EXISTS NodeItemAttribute;
 DROP TABLE IF EXISTS GraphItemAttribute;
 DROP TABLE IF EXISTS RepositoryItemAttribute;
 
+DROP TABLE IF EXISTS EdgeItemAttributeDefinition;
+DROP TABLE IF EXISTS NodeItemAttributeDefinition;
+DROP TABLE IF EXISTS GraphItemAttributeDefinition;
+DROP TABLE IF EXISTS RepositoryItemAttributeDefinition;
+
 DROP TABLE IF EXISTS GraphEdge;
 DROP TABLE IF EXISTS GraphNode;
 DROP TABLE IF EXISTS Graph;
@@ -171,6 +176,60 @@ CREATE TABLE GraphEdge
 CREATE INDEX IDX_GraphEdge_OwnerId ON GraphEdge(OwnerId);
 
 
+-- item attribute definitions
+CREATE TABLE RepositoryItemAttributeDefinition
+(
+  Id NVARCHAR(36) NOT NULL UNIQUE,
+  OrganisationId NVARCHAR(36) NOT NULL,
+  OwnerId NVARCHAR(36) NOT NULL,
+  Name NVARCHAR(MAX) NOT NULL,
+  DataType NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES RepositoryManager(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_RepositoryItemAttributeDefinition_RepositoryManager ON RepositoryItemAttributeDefinition(OwnerId);
+
+CREATE TABLE GraphItemAttributeDefinition
+(
+  Id NVARCHAR(36) NOT NULL UNIQUE,
+  OrganisationId NVARCHAR(36) NOT NULL,
+  OwnerId NVARCHAR(36) NOT NULL,
+  Name NVARCHAR(MAX) NOT NULL,
+  DataType NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES RepositoryManager(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_GraphItemAttributeDefinition_RepositoryManager ON GraphItemAttributeDefinition(OwnerId);
+
+CREATE TABLE NodeItemAttributeDefinition
+(
+  Id NVARCHAR(36) NOT NULL UNIQUE,
+  OrganisationId NVARCHAR(36) NOT NULL,
+  OwnerId NVARCHAR(36) NOT NULL,
+  Name NVARCHAR(MAX) NOT NULL,
+  DataType NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES RepositoryManager(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_NodeItemAttributeDefinition_RepositoryManager ON NodeItemAttributeDefinition(OwnerId);
+
+CREATE TABLE EdgeItemAttributeDefinition
+(
+  Id NVARCHAR(36) NOT NULL UNIQUE,
+  OrganisationId NVARCHAR(36) NOT NULL,
+  OwnerId NVARCHAR(36) NOT NULL,
+  Name NVARCHAR(MAX) NOT NULL,
+  DataType NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES RepositoryManager(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_EdgeItemAttributeDefinition_RepositoryManager ON EdgeItemAttributeDefinition(OwnerId);
+
+
 -- item attributes
 CREATE TABLE RepositoryItemAttribute
 (
@@ -178,11 +237,12 @@ CREATE TABLE RepositoryItemAttribute
   OrganisationId NVARCHAR(36) NOT NULL,
   OwnerId NVARCHAR(36) NOT NULL,
   Name NVARCHAR(MAX) NOT NULL,
-  DataType NVARCHAR(MAX) NOT NULL,
+  DefinitionId NVARCHAR(36) NOT NULL,
   DataValueAsString NVARCHAR(MAX),
   PRIMARY KEY (Id),
   FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
-  FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE
+  FOREIGN KEY (OwnerId) REFERENCES Repository(Id) ON DELETE CASCADE,
+  FOREIGN KEY (DefinitionId) REFERENCES RepositoryItemAttributeDefinition(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_RepositoryItemAttribute_Repository ON RepositoryItemAttribute(OwnerId);
 
@@ -192,11 +252,12 @@ CREATE TABLE GraphItemAttribute
   OrganisationId NVARCHAR(36) NOT NULL,
   OwnerId NVARCHAR(36) NOT NULL,
   Name NVARCHAR(MAX) NOT NULL,
-  DataType NVARCHAR(MAX) NOT NULL,
+  DefinitionId NVARCHAR(36) NOT NULL,
   DataValueAsString NVARCHAR(MAX),
   PRIMARY KEY (Id),
   FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
-  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
+  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE,
+  FOREIGN KEY (DefinitionId) REFERENCES GraphItemAttributeDefinition(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_GraphItemAttribute_Graph ON GraphItemAttribute(OwnerId);
 
@@ -206,11 +267,12 @@ CREATE TABLE NodeItemAttribute
   OrganisationId NVARCHAR(36) NOT NULL,
   OwnerId NVARCHAR(36) NOT NULL,
   Name NVARCHAR(MAX) NOT NULL,
-  DataType NVARCHAR(MAX) NOT NULL,
+  DefinitionId NVARCHAR(36) NOT NULL,
   DataValueAsString NVARCHAR(MAX),
   PRIMARY KEY (Id),
   FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
-  FOREIGN KEY (OwnerId) REFERENCES Node(Id) ON DELETE CASCADE
+  FOREIGN KEY (OwnerId) REFERENCES Node(Id) ON DELETE CASCADE,
+  FOREIGN KEY (DefinitionId) REFERENCES NodeItemAttributeDefinition(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_NodeItemAttribute_Node ON NodeItemAttribute(OwnerId);
 
@@ -220,11 +282,12 @@ CREATE TABLE EdgeItemAttribute
   OrganisationId NVARCHAR(36) NOT NULL,
   OwnerId NVARCHAR(36) NOT NULL,
   Name NVARCHAR(MAX) NOT NULL,
-  DataType NVARCHAR(MAX) NOT NULL,
+  DefinitionId NVARCHAR(36) NOT NULL,
   DataValueAsString NVARCHAR(MAX),
   PRIMARY KEY (Id),
   FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
-  FOREIGN KEY (OwnerId) REFERENCES Edge(Id) ON DELETE CASCADE
+  FOREIGN KEY (OwnerId) REFERENCES Edge(Id) ON DELETE CASCADE,
+  FOREIGN KEY (DefinitionId) REFERENCES EdgeItemAttributeDefinition(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_EdgeItemAttribute_Edge ON EdgeItemAttribute(OwnerId);
 
