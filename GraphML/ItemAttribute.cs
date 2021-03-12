@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace GraphML
 {
   /// <summary>
-  /// Additional data information attached to an Item
+  /// Additional data information attached to an <see cref="Item"/>
   /// </summary>
   public abstract class ItemAttribute : OwnedItem
   {
