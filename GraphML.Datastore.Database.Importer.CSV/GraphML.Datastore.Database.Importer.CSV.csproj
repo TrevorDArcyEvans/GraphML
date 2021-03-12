@@ -35,13 +35,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\GraphML.Datastore.Database\Data\GraphML.sqlite3" Link="Data\GraphML.sqlite3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\GraphML.snk" Link="GraphML.snk" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\GraphML.sqlite3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="import-soc-sign-bitcoinalpha.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -54,6 +54,10 @@
     <None Update="import.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
