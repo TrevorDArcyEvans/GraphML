@@ -64,6 +64,7 @@
   }
 }
 ```
+
 **Datastore**
 
 | Field | Description | Notes |
@@ -81,8 +82,16 @@
 | Repository | name of _Repository_ | will be created if it does not exist |
 | DataFile | path to csv or tsv data file |  |
 | HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
+| SourceNodeColumn | zero based column index for SourceNode name/identifier | defaults to 0 |
+| TargetNodeColumn | zero based column index for TargetNode name/identifier | defaults to 1 |
 | NodeItemAttributeImportDefinitions | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
 | EdgeItemAttributeImportDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
+
+**ItemAttributeImportDefinition**
+
+| Field   | Description | Notes |
+|---------|-------------|-------|
+| Columns | zero based array column index for attribute value | for _DateTimeInterval_:<p/>first index is _Start_<p/>second index is _End_ |
 
 **NodeItemAttributeImportDefinition**
 
@@ -90,8 +99,6 @@ Note that a node attribute may be applied multiple times.
 
 | Field | Description | Notes |
 |-------|-------------|-------|
-| SourceNodeColumn | zero based column index for SourceNode name/identifier | defaults to 0 |
-| TargetNodeColumn | zero based column index for TargetNode name/identifier | defaults to 1 |
 | ApplyTo | to which node/s to add attribute | defaults to `SourceNode` |
 
 ### Supported Attribute Data Types
