@@ -1,17 +1,14 @@
 ﻿{
   "Datastore": {
     "Connection": "SqLite",
-
     "SqLite": {
       "Type": "SqLite",
       "ConnectionString": "Data Source=|DataDirectory|Data/GraphML.sqlite3;"
     },
-
     "SqlServer": {
       "Type": "SqlServer",
       "ConnectionString": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
     },
-
     "MySql": {
       "Type": "MySql",
       "ConnectionString": "server=127.0.0.1;uid=GraphML;pwd=DisruptTheMarket;database=GraphML;SslMode=none"
@@ -21,19 +18,22 @@
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
     "Repository": "Reddit-Hyperlinks-Body",
-
     "DataFile": "../../../Sample-Data/SNAP/soc-reddit-hyperlinks-body-small.tsv",
     "HasHeaderRecord": true,
     "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "PostId",
         "DataType": "string",
-        "Columns": 2
+        "Columns": [
+          2
+        ]
       },
       {
         "Name": "TimeStamp",
         "DataType": "DateTime",
-        "Columns": 3
+        "Columns": [
+          3
+        ]
       }
     ],
     "NodeItemAttributeImportDefinitions": []

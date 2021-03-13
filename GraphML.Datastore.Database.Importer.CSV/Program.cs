@@ -168,7 +168,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
         foreach (var kvp in nodeAttrDefsMap)
         {
-          var valStr = GetJson(csv, new[] { kvp.Key.Columns }, kvp.Value.DataType, kvp.Key.DateTimeFormat);
+          var valStr = GetJson(csv, kvp.Key.Columns, kvp.Value.DataType, kvp.Key.DateTimeFormat);
           switch (kvp.Key.ApplyTo)
           {
             case ApplyTo.SourceNode:
@@ -231,7 +231,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
         foreach (var kvp in edgeAttrDefsMap)
         {
-          var valStr = GetJson(csv, new[] { kvp.Key.Columns }, kvp.Value.DataType, kvp.Key.DateTimeFormat);
+          var valStr = GetJson(csv, kvp.Key.Columns, kvp.Value.DataType, kvp.Key.DateTimeFormat);
           var edgeAttr = new EdgeItemAttribute
           {
             Name = kvp.Value.Name,
