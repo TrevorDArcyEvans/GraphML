@@ -24,7 +24,6 @@
 
     "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
     "HasHeaderRecord": false,
-    "NodeItemAttributeImportDefinitions" : [],
     "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "Rating",
@@ -36,6 +35,7 @@
         "DataType": "DateTime",
         "Column": 3
       }
-    ]
+    ],
+    "NodeItemAttributeImportDefinitions" : []
   }
 }
