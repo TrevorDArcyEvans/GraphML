@@ -25,6 +25,12 @@ namespace GraphML.Utils
       End = end;
     }
 
+    public static DateTimeInterval Parse(string data)
+    {
+      // TODO   Parse
+      return null;
+    }
+
     public bool Contains(DateTime date)
     {
       if (date.Kind != Start.Kind)
