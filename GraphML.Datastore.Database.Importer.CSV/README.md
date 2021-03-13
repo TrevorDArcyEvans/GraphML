@@ -1,11 +1,8 @@
 # GraphML Database Importer
 * import csv or tsv data
 * super fast import with _Microsoft SQL Server_!
-
-## Details
 * each data row is an edge between two nodes
-* column[0] --> Source
-* column[1] --> Target
+* add attributes to nodes and edges
 
 ## Import Specification
 
@@ -87,6 +84,8 @@ Note that a node attribute may be applied multiple times.
 
 | Field | Description | Notes |
 |-------|-------------|-------|
+| SourceNodeColumn | zero based column index for SourceNode name/identifier | defaults to 0 |
+| TargetNodeColumn | zero based column index for TargetNode name/identifier | defaults to 1 |
 | ApplyTo | to which node/s to add attribute | defaults to `SourceNode` |
 
 ### Supported Attribute Data Types
@@ -95,11 +94,14 @@ Note that a node attribute may be applied multiple times.
 * int
 * double
 * DateTime
-
+  * assumed to be in UTC
+  * stored in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format
+  
 ### Supported Attribute DateTimeFormat
 * all [.NET Standard date and time format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings) using invariant culture
 * SecondsSinceUnixEpoch
-  * number of seconds since Jan 1st, 1970
+  * number of seconds since January 1, 1970, at 12:00 AM UTC
+* if not specified, will try generic parse using invariant culture
 
 ### ApplyTo
 * SourceNode
@@ -112,4 +114,4 @@ Note that a node attribute may be applied multiple times.
       * [Noda Time](https://nodatime.org/2.0.x/api/NodaTime.DateInterval.html)
       * [ST-Software/Utils](https://github.com/ST-Software/Utils/blob/master/src/DateTimeUtils.cs)
 * edge name
-
+  * currently $"{SourceNode.Name}-->{TargetNode.Name}"
