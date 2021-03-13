@@ -26,12 +26,12 @@
     "HasHeaderRecord": true,
     "EdgeItemAttributeImportDefinitions": [
         {
-            "Name": "User",
+            "Name": "PostId",
             "DataType": "string",
             "Column": 2
         },
         {
-            "Name": "Time",
+            "Name": "TimeStamp",
             "DataType": "DateTime",
             "Column": 3
         }
