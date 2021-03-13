@@ -26,8 +26,8 @@ namespace GraphML
 		{
 		}
 
-		public Edge(Guid repository, Guid orgId, string name, Guid source, Guid target) :
-		  base(repository, orgId, name)
+		public Edge(Guid repo, Guid orgId, string name, Guid source, Guid target) :
+		  base(repo, orgId, name)
 		{
 			SourceId = source;
 			TargetId = target;
