@@ -23,6 +23,19 @@
     "Repository": "Reddit-Hyperlinks-Body",
 
     "DataFile": "../../../Sample-Data/SNAP/soc-reddit-hyperlinks-body-small.tsv",
-    "HasHeaderRecord": true
+    "HasHeaderRecord": true,
+    "EdgeItemAttributeImportDefinitions": [
+        {
+            "Name": "User",
+            "DataType": "string",
+            "Column": 2
+        },
+        {
+            "Name": "Time",
+            "DataType": "DateTime",
+            "Column": 3
+        }
+    ],
+    "NodeItemAttributeImportDefinitions": []
   }
 }
