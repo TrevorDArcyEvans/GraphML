@@ -1,6 +1,8 @@
-﻿using CsvHelper.Configuration;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
 using Dapper.Contrib.Extensions;
 using GraphML.Common;
+using GraphML.Utils;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -166,7 +168,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
         foreach (var kvp in nodeAttrDefsMap)
         {
-          var valStr = GetJson(csv[kvp.Key.Column], kvp.Value.DataType, kvp.Key.DateTimeFormat);
+          var valStr = GetJson(csv, new[] { kvp.Key.Column }, kvp.Value.DataType, kvp.Key.DateTimeFormat);
           switch (kvp.Key.ApplyTo)
           {
             case ApplyTo.SourceNode:
@@ -229,7 +231,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
         foreach (var kvp in edgeAttrDefsMap)
         {
-          var valStr = GetJson(csv[kvp.Key.Column], kvp.Value.DataType, kvp.Key.DateTimeFormat);
+          var valStr = GetJson(csv, new[] { kvp.Key.Column }, kvp.Value.DataType, kvp.Key.DateTimeFormat);
           var edgeAttr = new EdgeItemAttribute
           {
             Name = kvp.Value.Name,
@@ -330,8 +332,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
       Console.WriteLine(message ?? Environment.NewLine);
     }
 
-    private static string GetJson(string raw, string dataType, string dateTimeFormat)
+    private static string GetJson(IReaderRow reader, int[] cols, string dataType, string dateTimeFormat)
     {
+      var raw = reader[cols[0]];
       switch (dataType)
       {
         case "string":
@@ -386,5 +389,4 @@ namespace GraphML.Datastore.Database.Importer.CSV
       return DateTime.UnixEpoch.AddSeconds(timestamp);
     }
   }
-};
-
+}
