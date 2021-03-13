@@ -124,22 +124,22 @@ Nodes with a high degree centrality have the best connections to those around th
 
 |Variable | Description | Example Value|
 |---------|-------|--------------|
-ASPNETCORE_ENVIRONMENT | ASP.NET Core runtime environment | `Production`, `Development`, `Test`
+| ASPNETCORE_ENVIRONMENT | ASP.NET Core runtime environment | `Production`, `Development`, `Test` |
 ||
-API_URI       | |
+| API_URI       | API server URL<p/>used by GraphML.API.Server to retrieve data |
 ||
-DATASTORE_CONNECTION         | | SqLite
-DATASTORE_CONNECTION_TYPE    | | SqLite
-DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3; |
+| DATASTORE_CONNECTION         | | SqLite |
+| DATASTORE_CONNECTION_TYPE    | | SqLite |
+| DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3; |
 ||
-LOG_CONNECTION_STRING | |
+| LOG_CONNECTION_STRING | .NET connection string for database logging |
 ||
-RESULT_DATASTORE | | localhost:6379
+| RESULT_DATASTORE | _Redis_ URL | localhost:6379 |
 ||
-MESSAGE_QUEUE_URL               | | activemq:tcp://localhost:61616
-MESSAGE_QUEUE_NAME              | | GraphML
-MESSAGE_QUEUE_POLL_INTERVAL_S   | | 5
-MESSAGE_QUEUE_USE_THREADS       | | False
+| MESSAGE_QUEUE_URL               | _Apache ActiveMQ_ URL | activemq:tcp://localhost:61616 |
+| MESSAGE_QUEUE_NAME              | | GraphML |
+| MESSAGE_QUEUE_POLL_INTERVAL_S   | time in seconds between checking for new analysis jobs | 5 |
+| MESSAGE_QUEUE_USE_THREADS       | | False |
 
 </details>
 </details>
@@ -311,12 +311,13 @@ MESSAGE_QUEUE_USE_THREADS       | | False
 ```
 * authentication (who you are) is handled by IdentityServer
 * authorisation (what you can do) is handled by GraphML, based on an _email_ claim
-* security is role based:
+* security is role based, with the following predefined roles:
 | Role        | Description |
 |-------------|-------------|
 | User        | An entity using GraphML |
 | UserAdmin   | An entity managing a subset of data within GraphML, typically data belonging to a single organisation |
 | Admin       | An entity managing all data within GraphML |
+* the above roles are owned by _System_ organisation
 * SwaggerUI is only enabled in `Development` mode
 * SwaggerUI authentication will redirect to a login screen in IdentityServer
 * IdentityServer has some test users:
