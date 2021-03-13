@@ -110,9 +110,5 @@ Note that a node attribute may be applied multiple times.
 * BothNodes
 
 ## Further Work
-* attribute data types
-    * DateInterval
-      * [Noda Time](https://nodatime.org/2.0.x/api/NodaTime.DateInterval.html)
-      * [ST-Software/Utils](https://github.com/ST-Software/Utils/blob/master/src/DateTimeUtils.cs)
 * edge name
   * currently $"{SourceNode.Name}-->{TargetNode.Name}"
