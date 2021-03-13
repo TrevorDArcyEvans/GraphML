@@ -70,7 +70,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				conn.Insert(repo, trans);
 			}
 
-			var edgeAttrDef = new List<EdgeItemAttributeDefinition>();
+			var edgeAttrDefsMap = new Dictionary<EdgeItemAttributeImportDefinition, EdgeItemAttributeDefinition>();
 			foreach (var def in _importSpec.EdgeItemAttributeImportDefinitions)
 			{
 				var repoDef = conn.GetAll<EdgeItemAttributeDefinition>().SingleOrDefault(x => x.Name == def.Name && x.RepositoryManagerId == repoMgr.Id);
@@ -86,7 +86,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 					conn.Insert(repoDef, trans);
 				}
 
-				edgeAttrDef.Add(repoDef);
+				edgeAttrDefsMap.Add(def, repoDef);
 			}
 
 			// TODO   getOrCreate NodeItemAttributeDefinition
@@ -106,32 +106,51 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				csv.ReadHeader();
 			}
 
-			// TODO   iterate by hand
-			var edges = new List<ImportEdge>();
+			var nodeMap = new Dictionary<string, Node>();
+			var edges = new List<Edge>();
 			while (csv.Read())
 			{
-				var record = new ImportEdge
+				var srcNodeName = csv[_importSpec.SourceNodeColumn];
+				if (!nodeMap.TryGetValue(srcNodeName, out var srcNode))
 				{
-					SourceNode = csv[_importSpec.SourceNodeColumn],
-					TargetNode = csv[_importSpec.TargetNodeColumn]
+					srcNode = new Node
+					{
+						Name = srcNodeName,
+						OrganisationId = org.Id,
+						RepositoryId = repo.Id
+					};
+					nodeMap.Add(srcNode.Name, srcNode);
+				}
+
+				var tarNodeName = csv[_importSpec.TargetNodeColumn];
+				if (!nodeMap.TryGetValue(tarNodeName, out var tarNode))
+				{
+					tarNode = new Node
+					{
+						Name = tarNodeName,
+						OrganisationId = org.Id,
+						RepositoryId = repo.Id
+					};
+					nodeMap.Add(tarNode.Name, tarNode);
+				}
+
+				var edge = new Edge
+				{
+					SourceId = srcNode.Id,
+					TargetId = tarNode.Id,
+					Name = $"{srcNode.Name}-->{tarNode.Name}",
+					OrganisationId = org.Id,
+					RepositoryId = repo.Id
 				};
-				edges.Add(record);
+				edges.Add(edge);
+
+				foreach (var kvp in edgeAttrDefsMap)
+				{
+					// TODO   EdgeItemAttribute
+				}
 			}
 
-			var nodes = edges
-				.SelectMany(edge => new[] { edge.SourceNode, edge.TargetNode })
-				.Distinct()
-				.Select(x => new ImportNode { Name = x });
-
-			var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node.Name)).ToList();
-			var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
-			var modelEdges = edges.Select(edge =>
-				new Edge(
-					repo.Id,
-					repo.OrganisationId,
-					edge.Name,
-					modelNodesMap[edge.SourceNode].Id,
-					modelNodesMap[edge.TargetNode].Id)).ToList();
+			var nodes = nodeMap.Values.ToList();
 
 			_logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
 
@@ -140,21 +159,21 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
 
 				_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
-				bulky.Commit(modelNodes, GetTableName<Node>());
+				bulky.Commit(nodes, GetTableName<Node>());
 				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 
 				_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
-				bulky.Commit(modelEdges, GetTableName<Edge>());
+				bulky.Commit(edges, GetTableName<Edge>());
 				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 			}
 			else
 			{
 				_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
-				conn.Insert(modelNodes, trans);
+				conn.Insert(nodes, trans);
 				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 
 				_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
-				conn.Insert(modelEdges, trans);
+				conn.Insert(edges, trans);
 				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 			}
 
@@ -164,7 +183,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 			_logInfoAction(Environment.NewLine);
 			_logInfoAction($"Finished!");
-			_logInfoAction($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
+			_logInfoAction($"  Imported {nodes.Count()} nodes and {edges.Count()} edges in {sw.ElapsedMilliseconds} ms");
 		}
 
 		private static void Usage()
@@ -201,26 +220,6 @@ namespace GraphML.Datastore.Database.Importer.CSV
 		{
 			Console.WriteLine(message ?? Environment.NewLine);
 		}
-
-		private abstract class ImportItem
-		{
-			public virtual string Name { get; set; }
-		}
-
-		private sealed class ImportNode : ImportItem
-		{
-		}
-
-		private sealed class ImportEdge : ImportItem
-		{
-			public override string Name
-			{
-				get => $"{SourceNode}-->{TargetNode}";
-			}
-
-			public string SourceNode { get; set; }
-			public string TargetNode { get; set; }
-		}
 	}
 
 	public sealed class ImportSpecification
@@ -232,8 +231,8 @@ namespace GraphML.Datastore.Database.Importer.CSV
 		public string DataFile { get; set; }
 		public bool HasHeaderRecord { get; set; }
 
-    public int SourceNodeColumn { get; set; } = 0;
-    public int TargetNodeColumn { get; set; } = 1;
+		public int SourceNodeColumn { get; set; } = 0;
+		public int TargetNodeColumn { get; set; } = 1;
 
 		public List<NodeItemAttributeImportDefinition> NodeItemAttributeImportDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
 		public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeImportDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
