@@ -334,48 +334,50 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
     private static string GetJson(IReaderRow reader, int[] cols, string dataType, string dateTimeFormat)
     {
-      var raw = reader[cols[0]];
       switch (dataType)
       {
         case "string":
           {
+            var raw = reader[cols[0]];
             var data = raw;
             return JsonConvert.SerializeObject(data);
           }
 
         case "bool":
           {
+            var raw = reader[cols[0]];
             var data = bool.Parse(raw);
             return JsonConvert.SerializeObject(data);
           }
 
         case "int":
           {
+            var raw = reader[cols[0]];
             var data = int.Parse(raw);
             return JsonConvert.SerializeObject(data);
           }
 
         case "double":
           {
+            var raw = reader[cols[0]];
             var data = double.Parse(raw);
             return JsonConvert.SerializeObject(data);
           }
 
         case "DateTime":
           {
-            if (dateTimeFormat == "SecondsSinceUnixEpoch")
-            {
-              var secs = double.Parse(raw);
-              var dt = ConvertFromUnixTimestamp(secs);
-              return JsonConvert.SerializeObject(dt);
-            }
-            var data = dateTimeFormat is null ? DateTime.Parse(raw, CultureInfo.InvariantCulture) : DateTime.ParseExact(raw, dateTimeFormat, CultureInfo.InvariantCulture);
+            var raw = reader[cols[0]];
+            var data = ParseDateTime(raw, dateTimeFormat);
             return JsonConvert.SerializeObject(data);
           }
 
         case "DateTimeInterval":
           {
-            var data = DateTimeInterval.Parse(raw);
+            var startStr = reader[cols[0]];
+            var endStr = reader[cols[1]];
+            var start = ParseDateTime(startStr, dateTimeFormat);
+            var end = ParseDateTime(endStr, dateTimeFormat);
+            var data = new DateTimeInterval(start, end);
             return JsonConvert.SerializeObject(data);
           }
 
@@ -384,9 +386,23 @@ namespace GraphML.Datastore.Database.Importer.CSV
       }
     }
 
+    private static DateTime ParseDateTime(string raw, string dateTimeFormat)
+    {
+      if (dateTimeFormat == "SecondsSinceUnixEpoch")
+      {
+        var secs = double.Parse(raw);
+        var dt = ConvertFromUnixTimestamp(secs);
+        return dt;
+      }
+      var data = dateTimeFormat is null ? DateTime.Parse(raw, CultureInfo.InvariantCulture) : DateTime.ParseExact(raw, dateTimeFormat, CultureInfo.InvariantCulture);
+      return data;
+    }
+
     private static DateTime ConvertFromUnixTimestamp(double timestamp)
     {
       return DateTime.UnixEpoch.AddSeconds(timestamp);
     }
   }
-}
+  ;
+};
+
