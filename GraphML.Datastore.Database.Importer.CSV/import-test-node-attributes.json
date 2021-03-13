@@ -30,7 +30,7 @@
         "Name": "Depth",
         "DataType": "int",
         "ApplyTo": "SourceNode",
-        "Column": 2
+        "Columns": 2
       }
     ]
   }

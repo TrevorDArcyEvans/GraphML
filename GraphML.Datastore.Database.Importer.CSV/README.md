@@ -39,20 +39,20 @@
         "Name": "Depth",
         "DataType": "int",
         "ApplyTo": "SourceNode",
-        "Column": 2
+        "Columns": 2
       }
     ],
     "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "Rating",
         "DataType": "int",
-        "Column": 2
+        "Columns": 2
       },
       {
         "Name": "Time",
         "DataType": "DateTime",
         "DateTimeFormat": "SecondsSinceUnixEpoch",
-        "Column": 3
+        "Columns": 3
       }
     ]
   }

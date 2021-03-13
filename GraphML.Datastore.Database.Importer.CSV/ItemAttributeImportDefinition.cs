@@ -5,6 +5,6 @@
 		public string Name { get; set; }
 		public string DataType { get; set; }
 		public string DateTimeFormat { get; set; }
-		public int Column { get; set; }
+		public int Columns { get; set; }
 	}
 }

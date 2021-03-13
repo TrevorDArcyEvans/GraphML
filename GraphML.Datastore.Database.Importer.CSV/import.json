@@ -28,12 +28,12 @@
       {
         "Name": "Rating",
         "DataType": "int",
-        "Column": 2
+        "Columns": 2
       },
       {
         "Name": "Time",
         "DataType": "DateTime",
-        "Column": 3
+        "Columns": 3
       }
     ],
     "NodeItemAttributeImportDefinitions" : []
