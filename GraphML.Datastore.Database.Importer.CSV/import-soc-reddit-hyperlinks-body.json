@@ -25,16 +25,16 @@
     "DataFile": "../../../Sample-Data/SNAP/soc-reddit-hyperlinks-body-small.tsv",
     "HasHeaderRecord": true,
     "EdgeItemAttributeImportDefinitions": [
-        {
-            "Name": "PostId",
-            "DataType": "string",
-            "Column": 2
-        },
-        {
-            "Name": "TimeStamp",
-            "DataType": "DateTime",
-            "Column": 3
-        }
+      {
+        "Name": "PostId",
+        "DataType": "string",
+        "Column": 2
+      },
+      {
+        "Name": "TimeStamp",
+        "DataType": "DateTime",
+        "Column": 3
+      }
     ],
     "NodeItemAttributeImportDefinitions": []
   }
