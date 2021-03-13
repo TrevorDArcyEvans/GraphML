@@ -1,0 +1,36 @@
+﻿{
+  "Datastore": {
+    "Connection": "SqLite",
+    "SqLite": {
+      "Type": "SqLite",
+      "ConnectionString": "Data Source=|DataDirectory|Data/GraphML.sqlite3;"
+    },
+    "SqlServer": {
+      "Type": "SqlServer",
+      "ConnectionString": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
+    },
+    "MySql": {
+      "Type": "MySql",
+      "ConnectionString": "server=127.0.0.1;uid=GraphML;pwd=DisruptTheMarket;database=GraphML;SslMode=none"
+    }
+  },
+  "ImportSpecification": {
+    "Organisation": "GraphML",
+    "RepositoryManager": "GraphML Repository Manager",
+    "Repository": "import-test-date-time-interval",
+    "DataFile": "../../../Sample-Data/import-test-date-time-interval.txt",
+    "HasHeaderRecord": false,
+    "NodeItemAttributeImportDefinition": [],
+    "EdgeItemAttributeImportDefinitions": [
+      {
+        "Name": "TimeWindow",
+        "DataType": "DateTimeInterval",
+        "DateTimeFormat": "SecondsSinceUnixEpoch",
+        "Columns": [
+          3,
+          4
+        ]
+      }
+    ]
+  }
+}
