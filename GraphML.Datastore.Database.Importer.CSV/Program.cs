@@ -52,111 +52,119 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			DumpSettings(_config, _importSpec);
 
 			var sw = Stopwatch.StartNew();
-			using (var tr = File.OpenText(_importSpec.DataFile))
+			var dbConnFact = new DbConnectionFactory(_config);
+			using var conn = dbConnFact.Get();
+			using var trans = conn.BeginTransaction();
+			var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
+			var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
+
+			var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
+			if (repo is null)
 			{
-				var csvCfg = new CsvConfiguration(CultureInfo.InvariantCulture)
+				repo = new Repository
 				{
-					Delimiter = Path.GetExtension(_importSpec.DataFile).ToLowerInvariant() == ".csv" ? "," : "\t",
-					AllowComments = true,
-					HeaderValidated = null,
-					HasHeaderRecord = _importSpec.HasHeaderRecord
+					Name = _importSpec.Repository,
+					OrganisationId = org.Id,
+					RepositoryManagerId = repoMgr.Id
 				};
-				using (var csv = new CsvHelper.CsvReader(tr, csvCfg))
-				{
-					if (_importSpec.HasHeaderRecord)
-					{
-						csv.Read();
-						csv.ReadHeader();
-					}
-
-					var edges = new List<ImportEdge>();
-					while (csv.Read())
-					{
-						var record = new ImportEdge
-						{
-							SourceNode = csv[0],
-							TargetNode = csv[1]
-						};
-						edges.Add(record);
-					}
-
-					var nodes = edges
-					  .SelectMany(edge => new[] { edge.SourceNode, edge.TargetNode })
-					  .Distinct()
-					  .Select(x => new ImportNode { Name = x });
-
-					var dbConnFact = new DbConnectionFactory(_config);
-					using (var conn = dbConnFact.Get())
-					{
-						using (var trans = conn.BeginTransaction())
-						{
-							var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
-							var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
-
-							var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
-							if (repo is null)
-							{
-								repo = new Repository
-								{
-									Name = _importSpec.Repository,
-									OrganisationId = org.Id,
-									RepositoryManagerId = repoMgr.Id
-								};
-								conn.Insert(repo, trans);
-							}
-
-							// TODO   getOrCreate NodeItemAttributeDefinition
-							// TODO   getOrCreate EdgeItemAttributeDefinition
-
-							// TODO   iterate by hand
-							//          https://joshclose.github.io/CsvHelper/examples/reading/reading-by-hand
-
-							var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node.Name)).ToList();
-							var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
-							var modelEdges = edges.Select(edge =>
-							  new Edge(
-								repo.Id,
-								repo.OrganisationId,
-								edge.Name,
-								modelNodesMap[edge.SourceNode].Id,
-								modelNodesMap[edge.TargetNode].Id)).ToList();
-
-							_logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
-
-							if (conn is SqlConnection sqlConn && trans is SqlTransaction sqlTrans)
-							{
-								var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
-
-								_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
-								bulky.Commit(modelNodes, GetTableName<Node>());
-								_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
-
-								_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
-								bulky.Commit(modelEdges, GetTableName<Edge>());
-								_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
-							}
-							else
-							{
-								_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
-								conn.Insert(modelNodes, trans);
-								_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
-
-								_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
-								conn.Insert(modelEdges, trans);
-								_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
-							}
-
-							_logInfoAction($"Started database commit     : {sw.ElapsedMilliseconds} ms");
-							trans.Commit();
-							_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
-
-							_logInfoAction(Environment.NewLine);
-							_logInfoAction($"Finished!");
-							_logInfoAction($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
-						}
-					}
-				}
+				conn.Insert(repo, trans);
 			}
+
+			var edgeAttrDef = new List<EdgeItemAttributeDefinition>();
+			foreach (var def in _importSpec.EdgeItemAttributeImportDefinitions)
+			{
+				var repoDef = conn.GetAll<EdgeItemAttributeDefinition>().SingleOrDefault(x => x.Name == def.Name && x.RepositoryManagerId == repoMgr.Id);
+				if (repoDef is null)
+				{
+					repoDef = new EdgeItemAttributeDefinition
+					{
+						Name = def.Name,
+						DataType = def.DataType,
+						OrganisationId = org.Id,
+						RepositoryManagerId = repoMgr.Id
+					};
+					conn.Insert(repoDef, trans);
+				}
+
+				edgeAttrDef.Add(repoDef);
+			}
+
+			// TODO   getOrCreate NodeItemAttributeDefinition
+
+			using var tr = File.OpenText(_importSpec.DataFile);
+			var csvCfg = new CsvConfiguration(CultureInfo.InvariantCulture)
+			{
+				Delimiter = Path.GetExtension(_importSpec.DataFile).ToLowerInvariant() == ".csv" ? "," : "\t",
+				AllowComments = true,
+				HeaderValidated = null,
+				HasHeaderRecord = _importSpec.HasHeaderRecord
+			};
+			using var csv = new CsvHelper.CsvReader(tr, csvCfg);
+			if (_importSpec.HasHeaderRecord)
+			{
+				csv.Read();
+				csv.ReadHeader();
+			}
+
+			// TODO   iterate by hand
+			var edges = new List<ImportEdge>();
+			while (csv.Read())
+			{
+				var record = new ImportEdge
+				{
+					SourceNode = csv[_importSpec.SourceNodeColumn],
+					TargetNode = csv[_importSpec.TargetNodeColumn]
+				};
+				edges.Add(record);
+			}
+
+			var nodes = edges
+				.SelectMany(edge => new[] { edge.SourceNode, edge.TargetNode })
+				.Distinct()
+				.Select(x => new ImportNode { Name = x });
+
+			var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node.Name)).ToList();
+			var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
+			var modelEdges = edges.Select(edge =>
+				new Edge(
+					repo.Id,
+					repo.OrganisationId,
+					edge.Name,
+					modelNodesMap[edge.SourceNode].Id,
+					modelNodesMap[edge.TargetNode].Id)).ToList();
+
+			_logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
+
+			if (conn is SqlConnection sqlConn && trans is SqlTransaction sqlTrans)
+			{
+				var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
+
+				_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+				bulky.Commit(modelNodes, GetTableName<Node>());
+				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+				_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+				bulky.Commit(modelEdges, GetTableName<Edge>());
+				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+			}
+			else
+			{
+				_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+				conn.Insert(modelNodes, trans);
+				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+				_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+				conn.Insert(modelEdges, trans);
+				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+			}
+
+			_logInfoAction($"Started database commit     : {sw.ElapsedMilliseconds} ms");
+			trans.Commit();
+			_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+
+			_logInfoAction(Environment.NewLine);
+			_logInfoAction($"Finished!");
+			_logInfoAction($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
 		}
 
 		private static void Usage()
@@ -223,6 +231,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 		public string DataFile { get; set; }
 		public bool HasHeaderRecord { get; set; }
+
+    public int SourceNodeColumn { get; set; } = 0;
+    public int TargetNodeColumn { get; set; } = 1;
 
 		public List<NodeItemAttributeImportDefinition> NodeItemAttributeImportDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
 		public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeImportDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
