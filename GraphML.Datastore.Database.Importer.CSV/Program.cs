@@ -79,9 +79,6 @@ namespace GraphML.Datastore.Database.Importer.CSV
               var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
               var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
 
-              // TODO   getOrCreate NodeItemAttributeDefinition
-              // TODO   getOrCreate EdgeItemAttributeDefinition
-
               var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
               if (repo is null)
               {
@@ -93,6 +90,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
                 };
                 conn.Insert(repo, trans);
               }
+
+              // TODO   getOrCreate NodeItemAttributeDefinition
+              // TODO   getOrCreate EdgeItemAttributeDefinition
 
               // TODO   iterate by hand
               //          https://joshclose.github.io/CsvHelper/examples/reading/reading-by-hand
@@ -158,9 +158,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
     {
       _logInfoAction("Settings:");
       _logInfoAction($"  DATA_FILE:");
-      _logInfoAction($"    PATH                        : {_importSpec.DataFile}");
+      _logInfoAction($"    PATH                        : {importSpec.DataFile}");
       _logInfoAction($"  REPOSITORY:");
-      _logInfoAction($"    NAME                        : {_importSpec.Repository}");
+      _logInfoAction($"    NAME                        : {importSpec.Repository}");
       _logInfoAction($"  DATASTORE:");
       _logInfoAction($"    DATASTORE_CONNECTION        : {config.DATASTORE_CONNECTION()}");
       _logInfoAction($"    DATASTORE_CONNECTION_TYPE   : {config.DATASTORE_CONNECTION_TYPE(config.DATASTORE_CONNECTION())}");
@@ -219,8 +219,8 @@ namespace GraphML.Datastore.Database.Importer.CSV
     public string DataFile { get; set; }
     public bool HasHeaderRecord { get; set; }
 
-    public List<NodeItemAttributeImportDefinition> NodeItemAttributeDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
-    public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
+    public List<NodeItemAttributeImportDefinition> NodeItemAttributeImportDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
+    public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeImportDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
   }
 
   public enum ApplyTo
