@@ -66,13 +66,16 @@ namespace GraphML.Datastore.Database.Importer.CSV
           csv.Context.RegisterClassMap<ImportEdgeClassMap>();
 
           var edges = csv.GetRecords<ImportEdge>().ToList();
-          var nodes = edges.SelectMany(edge => new[] { edge.FromNode, edge.ToNode }).Distinct();
+          var nodes = edges.SelectMany(edge => new[] { edge.SourceNode, edge.TargetNode }).Distinct();
 
           var dbConnFact = new DbConnectionFactory(_config);
           using (var conn = dbConnFact.Get())
           {
             var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
             var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
+
+            // TODO   getOrCreate NodeItemAttributeDefinition
+            // TODO   getOrCreate EdgeItemAttributeDefinition
 
             var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
             if (repo is null)
@@ -86,15 +89,18 @@ namespace GraphML.Datastore.Database.Importer.CSV
               conn.Insert(repo);
             }
 
+            // TODO   iterate by hand
+            //          https://joshclose.github.io/CsvHelper/examples/reading/reading-by-hand
+
             var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node)).ToList();
             var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
             var modelEdges = edges.Select(edge =>
               new Edge(
                 repo.Id,
                 repo.OrganisationId,
-                $"{edge.FromNode}-->{edge.ToNode}",
-                modelNodesMap[edge.FromNode].Id,
-                modelNodesMap[edge.ToNode].Id)).ToList();
+                $"{edge.SourceNode}-->{edge.TargetNode}",
+                modelNodesMap[edge.SourceNode].Id,
+                modelNodesMap[edge.TargetNode].Id)).ToList();
 
             _logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
 
@@ -173,16 +179,16 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
     private sealed class ImportEdge
     {
-      public string FromNode { get; set; }
-      public string ToNode { get; set; }
+      public string SourceNode { get; set; }
+      public string TargetNode { get; set; }
     }
 
     private sealed class ImportEdgeClassMap : ClassMap<ImportEdge>
     {
       public ImportEdgeClassMap()
       {
-        Map(m => m.FromNode).Index(0);
-        Map(m => m.ToNode).Index(1);
+        Map(m => m.SourceNode).Index(0);
+        Map(m => m.TargetNode).Index(1);
       }
     }
   }
@@ -195,22 +201,31 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
     public string DataFile { get; set; }
     public bool HasHeaderRecord { get; set; }
-    public List<NodeItemAttributeDefinition> NodeItemAttributeDefinitions { get; set; } = new List<NodeItemAttributeDefinition>();
-    public List<EdgeItemAttributeDefinition> EdgeItemAttributeDefinitions { get; set; } = new List<EdgeItemAttributeDefinition>();
+    
+    public List<NodeItemAttributeImportDefinition> NodeItemAttributeDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
+    public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
   }
 
-  public abstract class ItemAttributeDefinition
+  public enum ApplyTo
+  {
+    SourceNode,
+    TargetNode,
+    BothNodes
+  }
+
+  public abstract class ItemAttributeImportDefinition
   {
     public string Name { get; set; }
     public string DataType { get; set; }
     public int Column { get; set; }
   }
 
-  public sealed class NodeItemAttributeDefinition : ItemAttributeDefinition
+  public sealed class NodeItemAttributeImportDefinition : ItemAttributeImportDefinition
   {
+    public ApplyTo ApplyTo { get; set; }
   }
 
-  public sealed class EdgeItemAttributeDefinition : ItemAttributeDefinition
+  public sealed class EdgeItemAttributeImportDefinition : ItemAttributeImportDefinition
   {
   }
 }
