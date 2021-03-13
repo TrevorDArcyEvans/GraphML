@@ -74,41 +74,41 @@ namespace GraphML.Datastore.Database.Importer.CSV
           var dbConnFact = new DbConnectionFactory(_config);
           using (var conn = dbConnFact.Get())
           {
-            var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
-            var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
-
-            // TODO   getOrCreate NodeItemAttributeDefinition
-            // TODO   getOrCreate EdgeItemAttributeDefinition
-
-            var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
-            if (repo is null)
-            {
-              repo = new Repository
-              {
-                Name = _importSpec.Repository,
-                OrganisationId = org.Id,
-                RepositoryManagerId = repoMgr.Id
-              };
-              conn.Insert(repo);
-            }
-
-            // TODO   iterate by hand
-            //          https://joshclose.github.io/CsvHelper/examples/reading/reading-by-hand
-
-            var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node.Name)).ToList();
-            var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
-            var modelEdges = edges.Select(edge =>
-              new Edge(
-                repo.Id,
-                repo.OrganisationId,
-                edge.Name,
-                modelNodesMap[edge.SourceNode].Id,
-                modelNodesMap[edge.TargetNode].Id)).ToList();
-
-            _logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
-
             using (var trans = conn.BeginTransaction())
             {
+              var org = conn.GetAll<Organisation>().Single(o => o.Name == _importSpec.Organisation);
+              var repoMgr = conn.GetAll<RepositoryManager>().Single(rm => rm.Name == _importSpec.RepositoryManager && rm.OrganisationId == org.Id);
+
+              // TODO   getOrCreate NodeItemAttributeDefinition
+              // TODO   getOrCreate EdgeItemAttributeDefinition
+
+              var repo = conn.GetAll<Repository>().SingleOrDefault(r => r.Name == _importSpec.Repository && r.RepositoryManagerId == repoMgr.Id);
+              if (repo is null)
+              {
+                repo = new Repository
+                {
+                  Name = _importSpec.Repository,
+                  OrganisationId = org.Id,
+                  RepositoryManagerId = repoMgr.Id
+                };
+                conn.Insert(repo, trans);
+              }
+
+              // TODO   iterate by hand
+              //          https://joshclose.github.io/CsvHelper/examples/reading/reading-by-hand
+
+              var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node.Name)).ToList();
+              var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
+              var modelEdges = edges.Select(edge =>
+                new Edge(
+                  repo.Id,
+                  repo.OrganisationId,
+                  edge.Name,
+                  modelNodesMap[edge.SourceNode].Id,
+                  modelNodesMap[edge.TargetNode].Id)).ToList();
+
+              _logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
+
               if (conn is SqlConnection sqlConn && trans is SqlTransaction sqlTrans)
               {
                 var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
@@ -137,9 +137,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
               _logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
 
               _logInfoAction(Environment.NewLine);
+              _logInfoAction($"Finished!");
+              _logInfoAction($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
             }
-            _logInfoAction($"Finished!");
-            _logInfoAction($"  Imported {modelNodes.Count()} nodes and {modelEdges.Count()} edges in {sw.ElapsedMilliseconds} ms");
           }
         }
       }
@@ -191,9 +191,9 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
     private sealed class ImportEdge : ImportItem
     {
-      public override string Name 
-      { 
-        get => $"{SourceNode}-->{TargetNode}"; 
+      public override string Name
+      {
+        get => $"{SourceNode}-->{TargetNode}";
       }
 
       public string SourceNode { get; set; }
