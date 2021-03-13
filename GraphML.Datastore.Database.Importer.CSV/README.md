@@ -96,6 +96,7 @@ Note that a node attribute may be applied multiple times.
 * DateTime
   * assumed to be in UTC
   * stored in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format
+* DateTimeInterval
   
 ### Supported Attribute DateTimeFormat
 * all [.NET Standard date and time format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings) using invariant culture
