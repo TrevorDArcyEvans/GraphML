@@ -2,7 +2,7 @@
   "profiles": {
     "GraphML.Datastore.Database.Importer.CSV": {
       "commandName": "Project",
-      "commandLineArgs": "import-p2p-Gnutella08.json"
+      "commandLineArgs": "import-soc-reddit-hyperlinks-body.json"
     }
   }
 }
