@@ -35,20 +35,10 @@ namespace GraphML.Common
         .Replace('/', Path.DirectorySeparatorChar)
         .Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar.ToString(), Path.DirectorySeparatorChar.ToString());
 
-    public static string CACHE_HOST(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("CACHE_HOST") ??
-      config["Cache:Host"] ??
-      "localhost";
-
     public static string RESULT_DATASTORE(this IConfiguration config) =>
       Environment.GetEnvironmentVariable("RESULT_DATASTORE") ??
       config["Result:Datastore"] ??
       "localhost:6379";
-
-    public static string KESTREL_URL(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("KESTREL_URL") ??
-      config["Kestrel:EndPoints:Http:Url"] ??
-      "http://localhost:5000";
 
     public static string MESSAGE_QUEUE_URL(this IConfiguration config) =>
       Environment.GetEnvironmentVariable("MESSAGE_QUEUE_URL") ??
@@ -133,9 +123,6 @@ namespace GraphML.Common
 
       Console.WriteLine($"  RESULT:");
       Console.WriteLine($"    RESULT_DATASTORE  : {config.RESULT_DATASTORE()}");
-
-      Console.WriteLine($"  KESTREL:");
-      Console.WriteLine($"    KESTREL_URL       : {config.KESTREL_URL()}");
 
       Console.WriteLine($"  MESSAGE_QUEUE:");
       Console.WriteLine($"    MESSAGE_QUEUE_URL               : {config.MESSAGE_QUEUE_URL()}");

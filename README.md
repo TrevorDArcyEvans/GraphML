@@ -127,19 +127,14 @@ Nodes with a high degree centrality have the best connections to those around th
 ASPNETCORE_ENVIRONMENT | ASP.NET Core runtime environment | `Production`, `Development`, `Test`
 ||
 API_URI       | |
-API_USERNAME  | |
-API_PASSWORD  | |
 ||
 DATASTORE_CONNECTION         | | SqLite
 DATASTORE_CONNECTION_TYPE    | | SqLite
 DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3; |
 ||
 LOG_CONNECTION_STRING | |
-LOG_BEARER_AUTH       | | False
 ||
 RESULT_DATASTORE | | localhost:6379
-||
-KESTREL_URL                  | | http://localhost:5000
 ||
 MESSAGE_QUEUE_URL               | | activemq:tcp://localhost:61616
 MESSAGE_QUEUE_NAME              | | GraphML

@@ -8,11 +8,6 @@ namespace IdentityServerAspNetIdentity
 {
   public static class Settings
   {
-    public static string KESTREL_URL(this IConfiguration config) =>
-      Environment.GetEnvironmentVariable("KESTREL_URL") ??
-      config["Kestrel:EndPoints:Http:Url"] ??
-      "http://localhost:5000";
-
     public static IEnumerable<IdentityResource> IDENTITY_SERVER_IDS(this IConfiguration config)
     {
       var ids = config
@@ -153,9 +148,6 @@ namespace IdentityServerAspNetIdentity
           Console.WriteLine($"          {cs}");
         }
       }
-
-      Console.WriteLine($"  KESTREL:");
-      Console.WriteLine($"    KESTREL_URL                   : {config.KESTREL_URL()}");
 
       Console.WriteLine($"  CONNECTION_STRINGS:");
       Console.WriteLine($"    DEFAULT_CONNECTION            : {config.GetConnectionString("DefaultConnection")}");
