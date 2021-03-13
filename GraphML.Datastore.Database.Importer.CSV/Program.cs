@@ -66,7 +66,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
           csv.Context.RegisterClassMap<ImportEdgeClassMap>();
 
           var edges = csv.GetRecords<ImportEdge>().ToList();
-          var nodes = edges.SelectMany(edge => new[] { edge.SourceNode, edge.TargetNode }).Distinct();
+          var nodes = edges
+            .SelectMany(edge => new[] { edge.SourceNode, edge.TargetNode })
+            .Distinct()
+            .Select(x => new ImportNode { Name = x });
 
           var dbConnFact = new DbConnectionFactory(_config);
           using (var conn = dbConnFact.Get())
@@ -92,13 +95,13 @@ namespace GraphML.Datastore.Database.Importer.CSV
             // TODO   iterate by hand
             //          https://joshclose.github.io/CsvHelper/examples/reading/reading-by-hand
 
-            var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node)).ToList();
+            var modelNodes = nodes.Select(node => new Node(repo.Id, repo.OrganisationId, node.Name)).ToList();
             var modelNodesMap = modelNodes.ToDictionary(node => node.Name);
             var modelEdges = edges.Select(edge =>
               new Edge(
                 repo.Id,
                 repo.OrganisationId,
-                $"{edge.SourceNode}-->{edge.TargetNode}",
+                edge.Name,
                 modelNodesMap[edge.SourceNode].Id,
                 modelNodesMap[edge.TargetNode].Id)).ToList();
 
@@ -177,8 +180,22 @@ namespace GraphML.Datastore.Database.Importer.CSV
       Console.WriteLine(message ?? Environment.NewLine);
     }
 
-    private sealed class ImportEdge
+    private abstract class ImportItem
     {
+      public virtual string Name { get; set; }
+    }
+
+    private sealed class ImportNode : ImportItem
+    {
+    }
+
+    private sealed class ImportEdge : ImportItem
+    {
+      public override string Name 
+      { 
+        get => $"{SourceNode}-->{TargetNode}"; 
+      }
+
       public string SourceNode { get; set; }
       public string TargetNode { get; set; }
     }
@@ -201,7 +218,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
     public string DataFile { get; set; }
     public bool HasHeaderRecord { get; set; }
-    
+
     public List<NodeItemAttributeImportDefinition> NodeItemAttributeDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
     public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
   }
