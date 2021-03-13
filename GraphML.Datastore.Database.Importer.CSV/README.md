@@ -36,8 +36,9 @@
 
     "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
     "HasHeaderRecord": false,
-    "NodeItemAttributeDefinition" : [],
-    "EdgeItemAttributeDefinitions": [
+
+    "NodeItemAttributeImportDefinition" : [],
+    "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "Rating",
         "DataType": "int",
@@ -46,6 +47,7 @@
       {
         "Name": "Time",
         "DataType": "DateTime",
+        "DateTimeFormat": "SecondsSinceUnixEpoch",
         "Column": 3
       }
     ]
@@ -69,8 +71,8 @@
 | Repository | name of _Repository_ | will be created if it does not exist |
 | DataFile | path to csv or tsv data file |  |
 | HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
-| NodeItemAttributeDefinition | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
-| EdgeItemAttributeDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
+| NodeItemAttributeImportDefinitions | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
+| EdgeItemAttributeImportDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
 
 ### Supported Attribute Data Types
 * string
@@ -79,7 +81,10 @@
 * double
 * DateTime
 
-Default.NET parser is used to convert from a string using invariant culture
+### Supported Attribute DateTimeFormat
+* all [.NET Standard date and time format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings) using invariant culture
+* SecondsSinceUnixEpoch
+  * number of seconds since Jan 1st, 1970
 
 ## Further Work
 * attribute data types

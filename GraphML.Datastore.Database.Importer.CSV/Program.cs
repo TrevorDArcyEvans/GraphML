@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Globalization;
 using Dapper;
+using Newtonsoft.Json;
 
 namespace GraphML.Datastore.Database.Importer.CSV
 {
@@ -108,6 +109,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 			var nodeMap = new Dictionary<string, Node>();
 			var edges = new List<Edge>();
+			var edgeAttrs = new List<EdgeItemAttribute>();
 			while (csv.Read())
 			{
 				var srcNodeName = csv[_importSpec.SourceNodeColumn];
@@ -146,7 +148,17 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 				foreach (var kvp in edgeAttrDefsMap)
 				{
-					// TODO   EdgeItemAttribute
+					var valStr = GetJson(csv[kvp.Key.Column], kvp.Value.DataType, kvp.Key.DateTimeFormat);
+					var edgeAttr = new EdgeItemAttribute
+					{
+						Name = kvp.Value.Name,
+						DataValueAsString = valStr,
+						DefinitionId = kvp.Value.Id,
+						EdgeId = edge.Id,
+						OrganisationId = org.Id,
+					};
+
+					edgeAttrs.Add(edgeAttr);
 				}
 			}
 
@@ -158,28 +170,36 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			{
 				var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
 
-				_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"Started node import at            : {sw.ElapsedMilliseconds} ms");
 				bulky.Commit(nodes, GetTableName<Node>());
-				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 
-				_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"Started edge import at            : {sw.ElapsedMilliseconds} ms");
 				bulky.Commit(edges, GetTableName<Edge>());
-				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+				_logInfoAction($"Started edge attribute import at  : {sw.ElapsedMilliseconds} ms");
+				bulky.Commit(edgeAttrs, GetTableName<EdgeItemAttribute>());
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 			}
 			else
 			{
-				_logInfoAction($"Started node import at      : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"Started node import at            : {sw.ElapsedMilliseconds} ms");
 				conn.Insert(nodes, trans);
-				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 
-				_logInfoAction($"Started edge import at      : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"Started edge import at            : {sw.ElapsedMilliseconds} ms");
 				conn.Insert(edges, trans);
-				_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+				_logInfoAction($"Started edge attribute import at  : {sw.ElapsedMilliseconds} ms");
+				conn.Insert(edgeAttrs, trans);
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 			}
 
-			_logInfoAction($"Started database commit     : {sw.ElapsedMilliseconds} ms");
+			_logInfoAction($"Started database commit             : {sw.ElapsedMilliseconds} ms");
 			trans.Commit();
-			_logInfoAction($"  finished at               : {sw.ElapsedMilliseconds} ms");
+			_logInfoAction($"  finished at                       : {sw.ElapsedMilliseconds} ms");
 
 			_logInfoAction(Environment.NewLine);
 			_logInfoAction($"Finished!");
@@ -220,6 +240,56 @@ namespace GraphML.Datastore.Database.Importer.CSV
 		{
 			Console.WriteLine(message ?? Environment.NewLine);
 		}
+
+		private static string GetJson(string raw, string dataType, string dateTimeFormat)
+		{
+			switch (dataType)
+			{
+				case "string":
+					{
+						var data = raw;
+						return JsonConvert.SerializeObject(data);
+					}
+
+				case "bool":
+					{
+						var data = bool.Parse(raw);
+						return JsonConvert.SerializeObject(data);
+					}
+
+				case "int":
+					{
+						var data = int.Parse(raw);
+						return JsonConvert.SerializeObject(data);
+					}
+
+				case "double":
+					{
+						var data = double.Parse(raw);
+						return JsonConvert.SerializeObject(data);
+					}
+
+				case "DateTime":
+					{
+						if (dateTimeFormat == "SecondsSinceUnixEpoch")
+						{
+							var secs = double.Parse(raw);
+							var dt = ConvertFromUnixTimestamp(secs);
+							return JsonConvert.SerializeObject(dt);
+						}
+						var data = dateTimeFormat is null ? DateTime.Parse(raw, CultureInfo.InvariantCulture) : DateTime.ParseExact(raw, dateTimeFormat, CultureInfo.InvariantCulture);
+						return JsonConvert.SerializeObject(data);
+					}
+
+				default:
+					throw new ArgumentOutOfRangeException($"Unknown DataType:  {dataType}");
+			}
+		}
+
+		private static DateTime ConvertFromUnixTimestamp(double timestamp)
+		{
+			return DateTime.UnixEpoch.AddSeconds(timestamp);
+		}
 	}
 
 	public sealed class ImportSpecification
@@ -249,6 +319,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 	{
 		public string Name { get; set; }
 		public string DataType { get; set; }
+		public string DateTimeFormat { get; set; }
 		public int Column { get; set; }
 	}
 
