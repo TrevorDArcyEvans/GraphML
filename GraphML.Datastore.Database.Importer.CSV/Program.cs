@@ -90,7 +90,24 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				edgeAttrDefsMap.Add(def, repoDef);
 			}
 
-			// TODO   getOrCreate NodeItemAttributeDefinition
+			var nodeAttrDefsMap = new Dictionary<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition>();
+			foreach (var def in _importSpec.NodeItemAttributeImportDefinitions)
+			{
+				var repoDef = conn.GetAll<NodeItemAttributeDefinition>().SingleOrDefault(x => x.Name == def.Name && x.RepositoryManagerId == repoMgr.Id);
+				if (repoDef is null)
+				{
+					repoDef = new NodeItemAttributeDefinition
+					{
+						Name = def.Name,
+						DataType = def.DataType,
+						OrganisationId = org.Id,
+						RepositoryManagerId = repoMgr.Id
+					};
+					conn.Insert(repoDef, trans);
+				}
+
+				nodeAttrDefsMap.Add(def, repoDef);
+			}
 
 			using var tr = File.OpenText(_importSpec.DataFile);
 			var csvCfg = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -110,6 +127,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			var nodeMap = new Dictionary<string, Node>();
 			var edges = new List<Edge>();
 			var edgeAttrs = new List<EdgeItemAttribute>();
+			var nodeAttrs = new List<NodeItemAttribute>();
 			while (csv.Read())
 			{
 				var srcNodeName = csv[_importSpec.SourceNodeColumn];
@@ -146,6 +164,69 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				};
 				edges.Add(edge);
 
+				foreach (var kvp in nodeAttrDefsMap)
+				{
+					var valStr = GetJson(csv[kvp.Key.Column], kvp.Value.DataType, kvp.Key.DateTimeFormat);
+					switch (kvp.Key.ApplyTo)
+					{
+						case ApplyTo.SourceNode:
+							{
+								var nodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = srcNode.Id,
+									OrganisationId = org.Id,
+								};
+
+								nodeAttrs.Add(nodeAttr);
+								break;
+							}
+
+						case ApplyTo.TargetNode:
+							{
+								var nodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = tarNode.Id,
+									OrganisationId = org.Id,
+								};
+
+								nodeAttrs.Add(nodeAttr);
+								break;
+							}
+
+						case ApplyTo.BothNodes:
+							{
+								var srcNodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = srcNode.Id,
+									OrganisationId = org.Id,
+								};
+								var tarNodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = tarNode.Id,
+									OrganisationId = org.Id,
+								};
+
+								nodeAttrs.AddRange(new[] { srcNodeAttr, tarNodeAttr });
+								break;
+							}
+
+						default:
+							throw new ArgumentOutOfRangeException($"Unknown option:  {kvp.Key.ApplyTo}");
+					}
+				}
+
 				foreach (var kvp in edgeAttrDefsMap)
 				{
 					var valStr = GetJson(csv[kvp.Key.Column], kvp.Value.DataType, kvp.Key.DateTimeFormat);
@@ -178,6 +259,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				bulky.Commit(edges, GetTableName<Edge>());
 				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 
+				_logInfoAction($"Started node attribute import at  : {sw.ElapsedMilliseconds} ms");
+				bulky.Commit(nodeAttrs, GetTableName<NodeItemAttribute>());
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
 				_logInfoAction($"Started edge attribute import at  : {sw.ElapsedMilliseconds} ms");
 				bulky.Commit(edgeAttrs, GetTableName<EdgeItemAttribute>());
 				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
@@ -190,6 +275,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 				_logInfoAction($"Started edge import at            : {sw.ElapsedMilliseconds} ms");
 				conn.Insert(edges, trans);
+				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+				_logInfoAction($"Started node attribute import at  : {sw.ElapsedMilliseconds} ms");
+				conn.Insert(nodeAttrs, trans);
 				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 
 				_logInfoAction($"Started edge attribute import at  : {sw.ElapsedMilliseconds} ms");

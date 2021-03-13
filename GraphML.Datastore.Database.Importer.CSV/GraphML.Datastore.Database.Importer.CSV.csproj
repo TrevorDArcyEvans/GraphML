@@ -42,6 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="import-test-node-attributes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="import-soc-sign-bitcoinalpha.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
