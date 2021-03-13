@@ -403,6 +403,4 @@ namespace GraphML.Datastore.Database.Importer.CSV
       return DateTime.UnixEpoch.AddSeconds(timestamp);
     }
   }
-  ;
-};
-
+}
