@@ -37,7 +37,14 @@
     "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
     "HasHeaderRecord": false,
 
-    "NodeItemAttributeImportDefinition" : [],
+    "NodeItemAttributeImportDefinitions": [
+      {
+        "Name": "Depth",
+        "DataType": "int",
+        "ApplyTo": "SourceNode",
+        "Column": 2
+      }
+    ],
     "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "Rating",
@@ -74,6 +81,14 @@
 | NodeItemAttributeImportDefinitions | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
 | EdgeItemAttributeImportDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
 
+**NodeItemAttributeImportDefinition**
+
+Note that a node attribute may be applied multiple times.
+
+| Field | Description | Notes |
+|-------|-------------|-------|
+| ApplyTo | to which node/s to add attribute | defaults to `SourceNode` |
+
 ### Supported Attribute Data Types
 * string
 * bool
@@ -86,11 +101,15 @@
 * SecondsSinceUnixEpoch
   * number of seconds since Jan 1st, 1970
 
+### ApplyTo
+* SourceNode
+* TargetNode
+* BothNodes
+
 ## Further Work
 * attribute data types
     * DateInterval
       * [Noda Time](https://nodatime.org/2.0.x/api/NodaTime.DateInterval.html)
       * [ST-Software/Utils](https://github.com/ST-Software/Utils/blob/master/src/DateTimeUtils.cs)
-* edge weight (via attribute)
 * edge name
 
