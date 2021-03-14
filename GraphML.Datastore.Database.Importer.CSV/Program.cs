@@ -98,30 +98,8 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			var nodeAttrs = new List<NodeItemAttribute>();
 			while (csv.Read())
 			{
-				var srcNodeName = csv[_importSpec.SourceNodeColumn];
-				if (!nodeMap.TryGetValue(srcNodeName, out var srcNode))
-				{
-					srcNode = new Node
-					{
-						Name = srcNodeName,
-						OrganisationId = org.Id,
-						RepositoryId = repo.Id
-					};
-					nodeMap.Add(srcNode.Name, srcNode);
-				}
-
-				var tarNodeName = csv[_importSpec.TargetNodeColumn];
-				if (!nodeMap.TryGetValue(tarNodeName, out var tarNode))
-				{
-					tarNode = new Node
-					{
-						Name = tarNodeName,
-						OrganisationId = org.Id,
-						RepositoryId = repo.Id
-					};
-					nodeMap.Add(tarNode.Name, tarNode);
-				}
-
+				var srcNode = GetOrCreateNode(csv, _importSpec.SourceNodeColumn, org, repo, nodeMap);
+				var tarNode = GetOrCreateNode(csv, _importSpec.TargetNodeColumn, org, repo, nodeMap);
 				var edge = new Edge
 				{
 					SourceId = srcNode.Id,
@@ -133,7 +111,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				edges.Add(edge);
 
 				ProcessNodeItemAttributes(nodeAttrDefsMap, csv, srcNode, tarNode, org, nodeAttrs);
-        ProcessEdgeItemAttributes(edgeAttrDefsMap, csv, edge, org, edgeAttrs);
+				ProcessEdgeItemAttributes(edgeAttrDefsMap, csv, edge, org, edgeAttrs);
 			}
 
 			var nodes = nodeMap.Values.ToList();
@@ -188,83 +166,107 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			_logInfoAction($"  Imported {nodes.Count()} nodes and {edges.Count()} edges in {sw.ElapsedMilliseconds} ms");
 		}
 
-    private static void ProcessNodeItemAttributes(
-        Dictionary<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> nodeAttrDefsMap, 
-        CsvReader csv, 
-        Node srcNode, Node tarNode,
-        Organisation org, 
-        List<NodeItemAttribute> nodeAttrs)
-    {
-        foreach (var kvp in nodeAttrDefsMap)
-        {
-            var valStr = GetJson(csv, kvp.Key.Columns, kvp.Value.DataType, kvp.Key.DateTimeFormat);
-            switch (kvp.Key.ApplyTo)
-            {
-                case ApplyTo.SourceNode:
-                {
-                    var nodeAttr = new NodeItemAttribute
-                    {
-                        Name = kvp.Value.Name,
-                        DataValueAsString = valStr,
-                        DefinitionId = kvp.Value.Id,
-                        NodeId = srcNode.Id,
-                        OrganisationId = org.Id,
-                    };
-
-                    nodeAttrs.Add(nodeAttr);
-                    break;
-                }
-
-                case ApplyTo.TargetNode:
-                {
-                    var nodeAttr = new NodeItemAttribute
-                    {
-                        Name = kvp.Value.Name,
-                        DataValueAsString = valStr,
-                        DefinitionId = kvp.Value.Id,
-                        NodeId = tarNode.Id,
-                        OrganisationId = org.Id,
-                    };
-
-                    nodeAttrs.Add(nodeAttr);
-                    break;
-                }
-
-                case ApplyTo.BothNodes:
-                {
-                    var srcNodeAttr = new NodeItemAttribute
-                    {
-                        Name = kvp.Value.Name,
-                        DataValueAsString = valStr,
-                        DefinitionId = kvp.Value.Id,
-                        NodeId = srcNode.Id,
-                        OrganisationId = org.Id,
-                    };
-                    var tarNodeAttr = new NodeItemAttribute
-                    {
-                        Name = kvp.Value.Name,
-                        DataValueAsString = valStr,
-                        DefinitionId = kvp.Value.Id,
-                        NodeId = tarNode.Id,
-                        OrganisationId = org.Id,
-                    };
-
-                    nodeAttrs.AddRange(new[] {srcNodeAttr, tarNodeAttr});
-                    break;
-                }
-
-                default:
-                    throw new ArgumentOutOfRangeException($"Unknown option:  {kvp.Key.ApplyTo}");
-            }
-        }
-    }
-
-    private static void ProcessEdgeItemAttributes(
-			Dictionary<EdgeItemAttributeImportDefinition, EdgeItemAttributeDefinition> edgeAttrDefsMap,
+		private Node GetOrCreateNode(
 			CsvReader csv,
-			Edge edge,
+			int importSpecNodeColumn,
 			Organisation org,
-			List<EdgeItemAttribute> edgeAttrs)
+			Repository repo,
+			Dictionary<string, Node> nodeMap)
+		{
+			var nodeName = csv[importSpecNodeColumn];
+			if (nodeMap.TryGetValue(nodeName, out var node))
+			{
+				return node;
+			}
+
+			node = new Node
+			{
+				Name = nodeName,
+				OrganisationId = org.Id,
+				RepositoryId = repo.Id
+			};
+			nodeMap.Add(node.Name, node);
+
+			return node;
+		}
+
+		private static void ProcessNodeItemAttributes(
+				Dictionary<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> nodeAttrDefsMap,
+				CsvReader csv,
+				Node srcNode, Node tarNode,
+				Organisation org,
+				List<NodeItemAttribute> nodeAttrs)
+		{
+			foreach (var kvp in nodeAttrDefsMap)
+			{
+				var valStr = GetJson(csv, kvp.Key.Columns, kvp.Value.DataType, kvp.Key.DateTimeFormat);
+				switch (kvp.Key.ApplyTo)
+				{
+					case ApplyTo.SourceNode:
+						{
+							var nodeAttr = new NodeItemAttribute
+							{
+								Name = kvp.Value.Name,
+								DataValueAsString = valStr,
+								DefinitionId = kvp.Value.Id,
+								NodeId = srcNode.Id,
+								OrganisationId = org.Id,
+							};
+
+							nodeAttrs.Add(nodeAttr);
+							break;
+						}
+
+					case ApplyTo.TargetNode:
+						{
+							var nodeAttr = new NodeItemAttribute
+							{
+								Name = kvp.Value.Name,
+								DataValueAsString = valStr,
+								DefinitionId = kvp.Value.Id,
+								NodeId = tarNode.Id,
+								OrganisationId = org.Id,
+							};
+
+							nodeAttrs.Add(nodeAttr);
+							break;
+						}
+
+					case ApplyTo.BothNodes:
+						{
+							var srcNodeAttr = new NodeItemAttribute
+							{
+								Name = kvp.Value.Name,
+								DataValueAsString = valStr,
+								DefinitionId = kvp.Value.Id,
+								NodeId = srcNode.Id,
+								OrganisationId = org.Id,
+							};
+							var tarNodeAttr = new NodeItemAttribute
+							{
+								Name = kvp.Value.Name,
+								DataValueAsString = valStr,
+								DefinitionId = kvp.Value.Id,
+								NodeId = tarNode.Id,
+								OrganisationId = org.Id,
+							};
+
+							nodeAttrs.AddRange(new[] { srcNodeAttr, tarNodeAttr });
+							break;
+						}
+
+					default:
+						throw new ArgumentOutOfRangeException($"Unknown option:  {kvp.Key.ApplyTo}");
+				}
+			}
+		}
+
+		private static void ProcessEdgeItemAttributes(
+				Dictionary<EdgeItemAttributeImportDefinition, EdgeItemAttributeDefinition> edgeAttrDefsMap,
+				CsvReader csv,
+				Edge edge,
+				Organisation org,
+				List<EdgeItemAttribute> edgeAttrs)
 		{
 			foreach (var kvp in edgeAttrDefsMap)
 			{
