@@ -18,7 +18,7 @@
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
     "Repository": "import-test-date-time-interval",
-    "DataFile": "../../../Sample-Data/import-test-date-time-interval.txt",
+    "DataFile": "../../../Sample-Data/import-test-date-time-interval.csv",
     "HasHeaderRecord": false,
     "NodeItemAttributeImportDefinition": [],
     "EdgeItemAttributeImportDefinitions": [
