@@ -119,7 +119,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
         HeaderValidated = null,
         HasHeaderRecord = _importSpec.HasHeaderRecord
       };
-      using var csv = new CsvHelper.CsvReader(tr, csvCfg);
+      using var csv = new CsvReader(tr, csvCfg);
       if (_importSpec.HasHeaderRecord)
       {
         csv.Read();
