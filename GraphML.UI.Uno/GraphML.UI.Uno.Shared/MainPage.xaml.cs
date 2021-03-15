@@ -26,14 +26,16 @@ namespace GraphML.UI.Uno
 
 		private async void Login_Click(object sender, object args)
 		{
-			var innerHandler = new HttpClientHandler
-			{
-#if !__WASM__
-        // not supported on WASM
+#if __WASM__
+
+			var innerHandler = new Uno.UI.Wasm.WasmHttpHandler();
+#else
+      var innerHandler = new HttpClientHandler
+	    {
 				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+      };
 #endif
-			};
-			var client = new HttpClient(innerHandler)
+        var client = new HttpClient(innerHandler)
 			{
 				BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
 			};
