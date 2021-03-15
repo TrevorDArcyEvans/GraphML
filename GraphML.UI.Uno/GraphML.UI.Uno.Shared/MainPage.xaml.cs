@@ -1,7 +1,4 @@
-﻿using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
 	using Autofac;
 	using GraphML.Common;
@@ -10,7 +7,9 @@ namespace GraphML.UI.Uno
 	using Newtonsoft.Json.Linq;
 	using System;
 	using System.Net.Http;
-	using System.Security.Authentication;
+  using System.Net.Security;
+ 	using System.Security.Authentication;
+  using System.Security.Cryptography.X509Certificates;
 	using Windows.UI.Xaml.Controls;
 
 	public sealed partial class MainPage : Page
