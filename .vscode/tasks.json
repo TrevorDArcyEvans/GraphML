@@ -2,6 +2,18 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "buildLinux",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/GraphML.UI.Uno.Skia.Gtk.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "build",
       "command": "dotnet",
       "type": "process",
