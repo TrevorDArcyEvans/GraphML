@@ -1,4 +1,7 @@
-﻿namespace GraphML.UI.Uno
+﻿using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+
+namespace GraphML.UI.Uno
 {
 	using Autofac;
 	using GraphML.Common;
@@ -25,7 +28,10 @@
 		{
 			var innerHandler = new HttpClientHandler
 			{
+#if !__WASM__
+        // not supported on WASM
 				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+#endif
 			};
 			var client = new HttpClient(innerHandler)
 			{
@@ -52,18 +58,17 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-
 			var api = new HttpClient(innerHandler)
 			{
 				BaseAddress = new Uri(_config.API_URI())
 			};
-      api.SetBearerToken(response.AccessToken);
+			api.SetBearerToken(response.AccessToken);
 
 			var orgsResp = await api.GetAsync("api/Organisation/GetAll");
 			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
 			var orgs = JArray.Parse(orgsCont);
 
-	  var rolesResp= await api.GetAsync("api/Role/GetAll");
+			var rolesResp = await api.GetAsync("api/Role/GetAll");
 			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
 			var roles = JArray.Parse(rolesCont);
 		}

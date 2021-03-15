@@ -180,9 +180,13 @@
 		private IConfigurationRoot GetConfigurationRoot()
 		{
 			var builder = new ConfigurationBuilder()
+#if __WASM__
+			  .AddEnvironmentVariables();
+#else
 				.SetBasePath(Package.Current.InstalledLocation.Path)
 				.AddJsonFile("appsettings.json", optional: false)
 				.AddJsonFile("appsettings.Development.json", optional: true);
+#endif
 			var cfgRoot = builder.Build();
 
 			return cfgRoot;
