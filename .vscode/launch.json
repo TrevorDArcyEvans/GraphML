@@ -5,26 +5,37 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "OS-COMMENT1": "Use IntelliSense to find out which attributes exist for C# debugging",
-      "OS-COMMENT2": "Use hover for the description of the existing attributes",
-      "OS-COMMENT3": "For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md",
-      "name": ".NET Core Launch (console)",
+      "name": "GTK Linux",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
-      "OS-COMMENT4": "If you have changed target frameworks, make sure to update the program path.",
-      "program": "${workspaceFolder}/GraphML.API/bin/Debug/net5.0/GraphML.API.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}/GraphML.API",
-      "OS-COMMENT5": "For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console",
-      "console": "internalConsole",
-      "stopAtEntry": false
+      "preLaunchTask": "buildLinux",
+      "program": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/bin/Debug/net5.0/GraphML.UI.Uno.Skia.Gtk.dll",
+      "args": [
+        "run"
+      ],
+      "cwd": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk"
     },
     {
-      "name": ".NET Core Attach",
+      "name": ".NET Core Launch (Uno Platform App)",
       "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:pickProcess}"
+      "request": "launch",
+      "program": "dotnet",
+      "args": [
+        "run"
+      ],
+      "cwd": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Wasm",
+      "env": {}
+    },
+    {
+      "name": ".NET Core Debug Uno Platform WebAssembly in Chrome",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "timeout": 30000,
+      // If you have changed the default port / launch URL make sure to update the expectation below
+      "url": "http://localhost:5000",
+      "webRoot": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Wasm",
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "runtimeExecutable": "/usr/bin/google-chrome-stable"
     }
   ]
 }
