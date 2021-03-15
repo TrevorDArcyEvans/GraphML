@@ -2,6 +2,8 @@
 {
 	using Microsoft.Extensions.Logging;
 	using System;
+	using System.Collections.Generic;
+  using System.Linq;
 	using Windows.ApplicationModel;
 	using Windows.ApplicationModel.Activation;
 	using Windows.UI.Xaml;
@@ -170,7 +172,8 @@
 		{
 			var containerBuilder = new ContainerBuilder();
 
-			containerBuilder.RegisterInstance(GetConfigurationRoot());
+      var cfg = GetConfigurationRoot();
+			containerBuilder.RegisterInstance(cfg);
 
 			var container = containerBuilder.Build();
 
@@ -181,8 +184,9 @@
 		{
 			var builder = new ConfigurationBuilder()
 #if __WASM__
-			  .AddEnvironmentVariables();
+        .AddInMemoryCollection(Enumerable.Empty<KeyValuePair<string, string>>());
 #else
+			  .AddEnvironmentVariables()
 				.SetBasePath(Package.Current.InstalledLocation.Path)
 				.AddJsonFile("appsettings.json", optional: false)
 				.AddJsonFile("appsettings.Development.json", optional: true);
