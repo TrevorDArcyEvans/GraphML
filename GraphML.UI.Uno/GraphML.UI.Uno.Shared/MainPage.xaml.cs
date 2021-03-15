@@ -28,7 +28,7 @@ namespace GraphML.UI.Uno
 		{
 #if __WASM__
 
-			var innerHandler = new Uno.UI.Wasm.WasmHttpHandler();
+			var innerHandler = new global::Uno.UI.Wasm.WasmHttpHandler();
 #else
       var innerHandler = new HttpClientHandler
 	    {
