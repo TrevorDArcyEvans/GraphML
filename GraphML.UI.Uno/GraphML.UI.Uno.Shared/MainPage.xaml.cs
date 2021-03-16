@@ -7,8 +7,8 @@
 	using Newtonsoft.Json.Linq;
 	using System;
 	using System.Net.Http;
-  using System.Security.Authentication;
-  using Windows.UI.Xaml.Controls;
+	using System.Security.Authentication;
+	using Windows.UI.Xaml.Controls;
 
 	public sealed partial class MainPage : Page
 	{
@@ -32,7 +32,7 @@
 				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
       };
 #endif
-        var client = new HttpClient(innerHandler)
+			var client = new HttpClient(innerHandler)
 			{
 				BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
 			};
@@ -70,6 +70,9 @@
 			var rolesResp = await api.GetAsync("api/Role/GetAll");
 			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
 			var roles = JArray.Parse(rolesCont);
+
+			var rootOrg = orgs[0];
+			Console.WriteLine(rootOrg.ToString());
 		}
 	}
 }
