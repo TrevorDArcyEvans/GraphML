@@ -168,7 +168,7 @@
 #endif
 		}
 
-		private IContainer ConfigureServices()
+		private static IContainer ConfigureServices()
 		{
 			var containerBuilder = new ContainerBuilder();
 
@@ -180,7 +180,7 @@
 			return container;
 		}
 
-		private IConfigurationRoot GetConfigurationRoot()
+		private static IConfigurationRoot GetConfigurationRoot()
 		{
 			var builder = new ConfigurationBuilder()
 #if __WASM__
