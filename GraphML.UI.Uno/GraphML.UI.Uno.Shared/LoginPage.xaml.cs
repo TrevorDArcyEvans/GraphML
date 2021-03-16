@@ -10,11 +10,11 @@
 	using System.Security.Authentication;
 	using Windows.UI.Xaml.Controls;
 
-	public sealed partial class MainPage : Page
+	public sealed partial class LoginPage : Page
 	{
 		private readonly IConfigurationRoot _config;
 
-		public MainPage()
+		public LoginPage()
 		{
 			this.InitializeComponent();
 
