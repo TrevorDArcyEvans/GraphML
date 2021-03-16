@@ -4,7 +4,6 @@
 	using GraphML.Common;
 	using IdentityModel.Client;
 	using Microsoft.Extensions.Configuration;
-	using Newtonsoft.Json.Linq;
 	using System;
 	using System.Net.Http;
 	using System.Security.Authentication;
@@ -24,13 +23,12 @@
 		private async void Login_Click(object sender, object args)
 		{
 #if __WASM__
-
 			var innerHandler = new global::Uno.UI.Wasm.WasmHttpHandler();
 #else
-      var innerHandler = new HttpClientHandler
-	    {
+			var innerHandler = new HttpClientHandler
+			{
 				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-      };
+			};
 #endif
 			var client = new HttpClient(innerHandler)
 			{
@@ -57,22 +55,7 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-			var api = new HttpClient(innerHandler)
-			{
-				BaseAddress = new Uri(_config.API_URI())
-			};
-			api.SetBearerToken(response.AccessToken);
-
-			var orgsResp = await api.GetAsync("api/Organisation/GetAll");
-			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
-			var orgs = JArray.Parse(orgsCont);
-
-			var rolesResp = await api.GetAsync("api/Role/GetAll");
-			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
-			var roles = JArray.Parse(rolesCont);
-
-			var rootOrg = orgs[0];
-			Console.WriteLine(rootOrg.ToString());
+			this.Frame.Navigate(typeof(MainPage), response.AccessToken);
 		}
 	}
 }
