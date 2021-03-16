@@ -70,6 +70,7 @@ Nodes with a high degree centrality have the best connections to those around th
 
 ## Getting Started
 <details>
+  <summary>Building</summary>
 
 1. clone repo
 ```bash
@@ -92,7 +93,13 @@ Nodes with a high degree centrality have the best connections to those around th
 ``` bash
   reportgenerator -reports:**/coverage.opencover.xml -targetdir:./CodeCoverage
 ```
-1. run API
+
+</details>
+
+<details>
+  <summary>Back End</summary>
+
+1. run _API_
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
   cd GraphML.API/bin/Debug/net5.0 
@@ -101,7 +108,14 @@ Nodes with a high degree centrality have the best connections to those around th
 1. open [Swagger UI](http://localhost:5001/swagger/index.html)
 1. start _Apache ActiveMQ_
 1. start _Redis_
-1. run analysis server
+1. run _IdentityServer4_
+```bash
+  export ASPNETCORE_ENVIRONMENT=Development
+  cd IdentityServerAspNetIdentity/bin/Debug/net5.0
+  ./IdentityServerAspNetIdentity.exe
+```
+1. open [IdentityServer4 Login](https://localhost:44387/Account/Login)
+1. run _Analysis Server_
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
   cd GraphML.API/bin/Debug/net5.0 
@@ -113,6 +127,38 @@ Nodes with a high degree centrality have the best connections to those around th
   redis-commander --port 8080
 ```
 1. open [_Redis Commander_ management console](http://127.0.0.1:8080)
+
+</details>
+
+<details>
+  <summary>Front End/s</summary>
+
+### GraphML.UI.Web
+```bash
+  export ASPNETCORE_ENVIRONMENT=Development
+  cd GraphML.UI.Web/bin/Debug/net5.0
+  ./GraphML.UI.Web.exe
+```
+open https://localhost:5002/
+
+### GraphML.UI.Uno.UWP
+* best to run from _Visual Studio_
+* additional information:
+  * [Command-Line Activation of Universal Windows Apps](https://blogs.windows.com/windowsdeveloper/2017/07/05/command-line-activation-universal-windows-apps/)
+  * [Launching a Windows 10 UWP app from the command line cmd](https://stackoverflow.com/questions/51911405/launching-a-windows-10-uwp-app-from-the-command-line-cmd/51914388)
+
+### GraphML.UI.Uno.Skia.Gtk
+```bash
+cd GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/bin/Debug/net5.0
+./GraphML.UI.Uno.Skia.Gtk.exe
+```
+
+### GraphML.UI.Uno.Wasm
+```bash
+cd GraphML.UI.Uno\GraphML.UI.Uno.Wasm\bin\Debug\net5.0\dist
+python3 -m http.server 8000
+```
+open http://localhost:8000/
 
 </details>
 
@@ -140,6 +186,27 @@ Nodes with a high degree centrality have the best connections to those around th
 | MESSAGE_QUEUE_NAME              | | GraphML |
 | MESSAGE_QUEUE_POLL_INTERVAL_S   | time in seconds between checking for new analysis jobs | 5 |
 | MESSAGE_QUEUE_USE_THREADS       | | False |
+
+</details>
+
+### GraphML.UI.Uno.Wasm
+<details>
+
+We use a custom `index.html`:<br/>
+  `GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\wwwroot\index.html`
+
+to load environment variables through:<br/>
+  `GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\WasmScripts\config-env-vars.js`
+
+```javascript
+//  How\where to configure BaseURL for Wasm app that uses WasmHttpHandler
+//    https://github.com/unoplatform/uno/issues/1481#issuecomment-531480543
+//  [wasm] Store AppSettings externally in some sort of editable text file such as .config, .json or .xml so these values can be changed depending the on the deployment hosting target
+//    https://github.com/unoplatform/uno/issues/1500
+config.environmentVariables["IDENTITY_SERVER_CLIENT_ID"] = "GraphML.UI.Uno.Wasm";
+config.environmentVariables["IDENTITY_SERVER_CLIENT_SECRET"] = "secret";
+config.environmentVariables["API_URI"] = "https://localhost:5001";
+```
 
 </details>
 </details>
@@ -357,6 +424,7 @@ make the Organisation entity redundant.
 | IdentityServerAspnetIdentity | 44387 |
 | GraphML.API | 5001 |
 | GraphML.UI.Web | 5002 |
+| GraphML.UI.Uno.Wasm | 8001 | when running from _Visual Studio_, port is set in:<p/>`GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\Properties\launchSettings.json` |
 | Apache ActiveMQ | 61616 |
 | Apache ActiveMQ console | 8161 |
 | Redis | 6379 |
