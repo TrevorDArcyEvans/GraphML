@@ -7,10 +7,8 @@
 	using Newtonsoft.Json.Linq;
 	using System;
 	using System.Net.Http;
-  using System.Net.Security;
- 	using System.Security.Authentication;
-  using System.Security.Cryptography.X509Certificates;
-	using Windows.UI.Xaml.Controls;
+  using System.Security.Authentication;
+  using Windows.UI.Xaml.Controls;
 
 	public sealed partial class MainPage : Page
 	{
