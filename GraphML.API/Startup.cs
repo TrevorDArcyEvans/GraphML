@@ -153,7 +153,8 @@ namespace GraphML.API
           {
             policy.WithOrigins(Configuration.API_URI())
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowAnyOrigin();
           });
         });
 
