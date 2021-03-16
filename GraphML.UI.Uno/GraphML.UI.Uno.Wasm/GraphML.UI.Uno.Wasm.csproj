@@ -8,6 +8,7 @@
 		<WasmHead>true</WasmHead>
 		<DefineConstants>__WASM__</DefineConstants>
 		<UnoUIUseRoslynSourceGenerators>false</UnoUIUseRoslynSourceGenerators>
+      <WasmShellIndexHtmlPath>wwwroot\index.html</WasmShellIndexHtmlPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -57,6 +58,7 @@
     -->
     <None Include="Program.cs" />
     <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\index.html" />
     <None Include="wwwroot\web.config" />
   </ItemGroup>
 
