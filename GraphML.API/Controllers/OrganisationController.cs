@@ -14,9 +14,7 @@ namespace GraphML.API.Controllers
   /// <summary>
   /// Manage Organisation
   /// </summary>
-#if !__WASM__
   [ApiVersion("1")]
-#endif
     [Route("api/[controller]")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]

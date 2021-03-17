@@ -1,7 +1,7 @@
 <linker>
   <assembly fullname="GraphML.UI.Uno.Wasm" />
   <assembly fullname="Uno.UI" />
-  <assembly fullname="Microsoft.Extensions.Logging.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" />
+  <assembly fullname="Microsoft.AspNetCore.Mvc.Core" />
 
   <assembly fullname="System.Core">
     <!-- This is required by JSon.NET and any expression.Compile caller -->

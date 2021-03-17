@@ -79,23 +79,8 @@
       <Link>GraphML.Common\Settings.cs</Link>
     </Compile>
     
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IContactDatastore.cs">
-      <Link>GraphML.Interfaces\IContactDatastore.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IDatastore.cs">
-      <Link>GraphML.Interfaces\IDatastore.cs</Link>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\ILogic.cs">
       <Link>GraphML.Interfaces\ILogic.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IOrganisationDatastore.cs">
-      <Link>GraphML.Interfaces\IOrganisationDatastore.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IOwnedDatastore.cs">
-      <Link>GraphML.Interfaces\IOwnedDatastore.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IRoleDatastore.cs">
-      <Link>GraphML.Interfaces\IRoleDatastore.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IOrganisationLogic.cs">
       <Link>GraphML.Interfaces\IOrganisationLogic.cs</Link>
@@ -108,19 +93,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\Server\IOrganisationServer.cs">
       <Link>GraphML.Interfaces\Server\IOrganisationServer.cs</Link>
-    </Compile>
-    
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IFilter.cs">
-      <Link>GraphML.Logic\Interfaces\IFilter.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IOrganisationValidator.cs">
-      <Link>GraphML.Logic\Interfaces\IOrganisationValidator.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IOrganisationFilter.cs">
-      <Link>GraphML.Logic\Interfaces\IOrganisationFilter.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IValidatorBase.cs">
-      <Link>GraphML.Logic\Interfaces\IValidatorBase.cs</Link>
     </Compile>
     
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Utils\ObjectExtensions.cs">
