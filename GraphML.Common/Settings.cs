@@ -108,7 +108,7 @@ namespace GraphML.Common
       Console.WriteLine($"    AUDIENCE                      : {config.IDENTITY_SERVER_AUDIENCE()}");
       Console.WriteLine($"    CLIENT_ID                     : {config.IDENTITY_SERVER_CLIENT_ID()}");
       Console.WriteLine($"    CLIENT_SECRET                 : {config.IDENTITY_SERVER_CLIENT_SECRET()}");
-      Console.WriteLine($"    SCOPES                        : {string.Join(',', config.IDENTITY_SERVER_SCOPES())}");
+      Console.WriteLine($"    SCOPES                        : {string.Join(','.ToString(), config.IDENTITY_SERVER_SCOPES())}");
 
       Console.WriteLine($"  API:");
       Console.WriteLine($"    API_URI       : {config.API_URI()}");
