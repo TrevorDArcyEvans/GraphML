@@ -8,7 +8,9 @@ using Autofac;
 using GraphML.Common;
 using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace GraphML.UI.Uno
 {
@@ -24,8 +26,8 @@ namespace GraphML.UI.Uno
 			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
 
-		public ObservableCollection<string> Organisations { get; set; } = new ObservableCollection<string>();
-		public string SelectedOrganisation { get; set; }
+		public ObservableCollection<Organisation> Organisations { get; set; } = new ObservableCollection<Organisation>();
+		public Organisation SelectedOrganisation { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -62,8 +64,8 @@ namespace GraphML.UI.Uno
 
 			var orgsResp = await api.GetAsync("api/Organisation/GetAll");
 			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
-			var orgs = JArray.Parse(orgsCont).ToList();
-			orgs.ForEach(org => Organisations.Add(org["Name"].ToString()));
+			var orgs = JsonConvert.DeserializeObject<List<Organisation>>(orgsCont);
+			orgs.ForEach(org => Organisations.Add(org));
 
 			var rolesResp = await api.GetAsync("api/Role/GetAll");
 			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
