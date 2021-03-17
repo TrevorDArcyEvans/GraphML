@@ -15,7 +15,7 @@
 
 		public LoginPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
@@ -55,7 +55,7 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-			this.Frame.Navigate(typeof(MainPage), response.AccessToken);
+			Frame.Navigate(typeof(MainPage), response.AccessToken);
 		}
 	}
 }
