@@ -1,7 +1,7 @@
 <linker>
   <assembly fullname="GraphML.UI.Uno.Wasm" />
+  <assembly fullname="GraphML.UI.Uno.Server" />
   <assembly fullname="Uno.UI" />
-  <assembly fullname="Microsoft.AspNetCore.Mvc.Core" />
 
   <assembly fullname="System.Core">
     <!-- This is required by JSon.NET and any expression.Compile caller -->
