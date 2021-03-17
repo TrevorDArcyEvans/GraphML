@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+  <!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+	-->
+  <PropertyGroup>
+    <TargetFrameworks>uap10.0.17763;netstandard2.0</TargetFrameworks>
+    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.78" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Polly-Signed" Version="5.9.0" />
+    <PackageReference Include="RestSharp" Version="106.11.7" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Uno.UI" Version="3.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\GraphML.Common\Settings.cs" Link="GraphML.Common\Settings.cs" />
+    <Compile Include="..\..\GraphML.Interfaces\Server\IItemServerBase.cs" Link="GraphML.Interfaces\Server\IItemServerBase.cs" />
+    <Compile Include="..\..\GraphML.Interfaces\Server\IOrganisationServer.cs" Link="GraphML.Interfaces\Server\IOrganisationServer.cs" />
+    <Compile Include="..\..\GraphML.Utils\ObjectExtensions.cs" Link="GraphML.Utils\ObjectExtensions.cs" />
+    <Compile Include="..\..\GraphML\Item.cs" Link="GraphML\Item.cs" />
+    <Compile Include="..\..\GraphML\Organisation.cs" Link="GraphML\Organisation.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GraphML.Interfaces\Server\" />
+    <Folder Include="GraphML\" />
+    <Folder Include="GraphML.Utils\" />
+    <Folder Include="GraphML.Common\" />
+  </ItemGroup>
+</Project>

@@ -27,45 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Item.cs">
-      <Link>GraphML\Item.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\OwnedItem.cs">
-      <Link>GraphML\OwnedItem.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Contact.cs">
-      <Link>GraphML\Contact.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Role.cs">
-      <Link>GraphML\Role.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Roles.cs">
-      <Link>GraphML\Roles.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Organisation.cs">
-      <Link>GraphML\Organisation.cs</Link>
-    </Compile>
-
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\IRestClientFactory.cs">
-      <Link>GraphML.API\Server\IRestClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\ISyncPolicyFactory.cs">
-      <Link>GraphML.API\Server\ISyncPolicyFactory.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\RestClientFactory.cs">
-      <Link>GraphML.API\Server\RestClientFactory.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\SyncPolicyFactory.cs">
-      <Link>GraphML.API\Server\SyncPolicyFactory.cs</Link>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Common\Settings.cs">
-      <Link>GraphML.Common\Settings.cs</Link>
-    </Compile>
-
-    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Utils\ObjectExtensions.cs">
-      <Link>GraphML.Utils\ObjectExtensions.cs</Link>
-    </Compile>
   </ItemGroup>
   
   <ItemGroup>
