@@ -130,7 +130,11 @@ namespace GraphML.API.Server
 			if (resp.StatusCode >= HttpStatusCode.BadRequest)
 			{
 				_logger.LogError(msg);
+#if __WASM__
+				throw new Exception($"HttpResponseException: {resp.StatusCode} --> {resp.Content}");
+#else
 				throw new HttpResponseException(resp.StatusCode, resp.Content);
+#endif
 			}
 
 			return resp;

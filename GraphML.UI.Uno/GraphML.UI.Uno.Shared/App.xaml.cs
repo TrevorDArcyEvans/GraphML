@@ -162,7 +162,9 @@
                     }
 				)
 #if DEBUG
-				.AddConsole(LogLevel.Debug);
+				;
+			// TODO	support __WASM__
+            // .AddConsole(LogLevel.Debug);
 #else
 				.AddConsole(LogLevel.Information);
 #endif

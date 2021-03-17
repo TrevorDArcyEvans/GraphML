@@ -5,15 +5,18 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
   </PropertyGroup>
+  
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>GraphML.UI.Uno.Shared</Import_RootNamespace>
   </PropertyGroup>
+  
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
   </ItemGroup>
+  
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -21,13 +24,114 @@
     <Compile Include="$(MSBuildThisFileDirectory)LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Item.cs">
+      <Link>GraphML\Item.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\OwnedItem.cs">
+      <Link>GraphML\OwnedItem.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Contact.cs">
+      <Link>GraphML\Contact.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Role.cs">
+      <Link>GraphML\Role.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Roles.cs">
+      <Link>GraphML\Roles.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML\Organisation.cs">
+      <Link>GraphML\Organisation.cs</Link>
+    </Compile>
+    
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Attributes\ValidateModelStateAttribute.cs">
+      <Link>GraphML.API\Attributes\ValidateModelStateAttribute.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Controllers\GraphMLController.cs">
+      <Link>GraphML.API\Controllers\GraphMLController.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Controllers\OrganisationController.cs">
+      <Link>GraphML.API\Controllers\OrganisationController.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\ItemServerBase.cs">
+      <Link>GraphML.API\Server\ItemServerBase.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\IRestClientFactory.cs">
+      <Link>GraphML.API\Server\IRestClientFactory.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\ISyncPolicyFactory.cs">
+      <Link>GraphML.API\Server\ISyncPolicyFactory.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\OrganisationServer.cs">
+      <Link>GraphML.API\Server\OrganisationServer.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\RestClientFactory.cs">
+      <Link>GraphML.API\Server\RestClientFactory.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\ServerBase.cs">
+      <Link>GraphML.API\Server\ServerBase.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.API\Server\SyncPolicyFactory.cs">
+      <Link>GraphML.API\Server\SyncPolicyFactory.cs</Link>
+    </Compile>
+    
     <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Common\Settings.cs">
       <Link>GraphML.Common\Settings.cs</Link>
     </Compile>
+    
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IContactDatastore.cs">
+      <Link>GraphML.Interfaces\IContactDatastore.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IDatastore.cs">
+      <Link>GraphML.Interfaces\IDatastore.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\ILogic.cs">
+      <Link>GraphML.Interfaces\ILogic.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IOrganisationDatastore.cs">
+      <Link>GraphML.Interfaces\IOrganisationDatastore.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IOwnedDatastore.cs">
+      <Link>GraphML.Interfaces\IOwnedDatastore.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IRoleDatastore.cs">
+      <Link>GraphML.Interfaces\IRoleDatastore.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\IOrganisationLogic.cs">
+      <Link>GraphML.Interfaces\IOrganisationLogic.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\Server\IItemServerBase.cs">
+      <Link>GraphML.Interfaces\Server\IItemServerBase.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\Server\IServerBase.cs">
+      <Link>GraphML.Interfaces\Server\IServerBase.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Interfaces\Server\IOrganisationServer.cs">
+      <Link>GraphML.Interfaces\Server\IOrganisationServer.cs</Link>
+    </Compile>
+    
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IFilter.cs">
+      <Link>GraphML.Logic\Interfaces\IFilter.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IOrganisationValidator.cs">
+      <Link>GraphML.Logic\Interfaces\IOrganisationValidator.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IOrganisationFilter.cs">
+      <Link>GraphML.Logic\Interfaces\IOrganisationFilter.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Logic\Interfaces\IValidatorBase.cs">
+      <Link>GraphML.Logic\Interfaces\IValidatorBase.cs</Link>
+    </Compile>
+    
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GraphML.Utils\ObjectExtensions.cs">
+      <Link>GraphML.Utils\ObjectExtensions.cs</Link>
+    </Compile>
+    
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
+  
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)LoginPage.xaml">
       <SubType>Designer</SubType>
@@ -38,15 +142,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
   </ItemGroup>
+  
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
+  
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
