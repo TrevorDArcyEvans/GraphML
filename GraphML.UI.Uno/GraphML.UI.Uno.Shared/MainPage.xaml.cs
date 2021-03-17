@@ -25,6 +25,7 @@ namespace GraphML.UI.Uno
 		}
 
 		public ObservableCollection<string> Organisations { get; set; } = new ObservableCollection<string>();
+		public string SelectedOrganisation { get; set; }
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -67,11 +68,11 @@ namespace GraphML.UI.Uno
 			var rolesResp = await api.GetAsync("api/Role/GetAll");
 			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
 			var roles = JArray.Parse(rolesCont);
-    }
+		}
 
 		private void Logout_Click(object sender, object args)
 		{
-			this.Frame.Navigate(typeof(LoginPage));
+			Frame.Navigate(typeof(LoginPage));
 		}
 	}
 }

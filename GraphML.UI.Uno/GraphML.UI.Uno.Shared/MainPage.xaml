@@ -8,7 +8,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Orientation="Vertical">
-        <ListView ItemsSource="{x:Bind Organisations, Mode=OneWay}" />
+        <ListView ItemsSource="{x:Bind Organisations, Mode=OneWay}" SelectedItem="{x:Bind SelectedOrganisation}" />
         <Button Content="Logout" Click="Logout_Click" />
     </StackPanel>
 </Page>
