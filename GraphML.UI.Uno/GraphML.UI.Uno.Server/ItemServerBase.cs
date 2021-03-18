@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
-using GraphML.API.Server;
 using GraphML.Interfaces.Server;
 using Microsoft.Extensions.Configuration;
 
