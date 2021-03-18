@@ -111,6 +111,8 @@ namespace GraphML.UI.Uno.Server
 
 		protected async Task<HttpResponseMessage> GetRawResponse(HttpRequestMessage request)
 		{
+      // TODO   Polly
+      //          https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
 			var resp = await _client.SendAsync(request);
 
 			// log here as may fail deserialisation
