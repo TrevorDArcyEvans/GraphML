@@ -393,6 +393,7 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
 | `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin |
 | `bob`    | `Pass123$`   | BobSmith@email.com              | none |
 | `carol`  | `Pass123$`   | carol@KoolOrganisation.org      | UserAdmin |
+| `dave`   | `Pass123$`   | dave@KoolOrganisation.org       | User |
 
 </details>
 

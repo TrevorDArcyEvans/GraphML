@@ -144,6 +144,41 @@ namespace IdentityServerAspNetIdentity
             Log.Debug("carol already exists");
           }
           #endregion
+
+          #region Dave
+          var dave = userMgr.FindByNameAsync("dave").Result;
+          if (dave == null)
+          {
+              dave = new ApplicationUser
+            {
+              UserName = "dave"
+              };
+            var result = userMgr.CreateAsync(dave, "Pass123$").Result;
+            if (!result.Succeeded)
+            {
+              throw new Exception(result.Errors.First().Description);
+            }
+
+            result = userMgr.AddClaimsAsync(dave, new Claim[]{
+                        new Claim(JwtClaimTypes.Name, "Dave Cummings"),
+                        new Claim(JwtClaimTypes.GivenName, "Dave"),
+                        new Claim(JwtClaimTypes.FamilyName, "Cummings"),
+                        new Claim(JwtClaimTypes.Email, "dave@KoolOrganisation.org"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.WebSite, "http://www.KoolOrganisation.org"),
+                        new Claim("appuser_claim", "identity")
+                        }).Result;
+            if (!result.Succeeded)
+            {
+              throw new Exception(result.Errors.First().Description);
+            }
+            Log.Debug("dave created");
+          }
+          else
+          {
+            Log.Debug("dave already exists");
+          }
+          #endregion
         }
       }
     }
