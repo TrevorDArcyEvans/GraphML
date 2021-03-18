@@ -11,7 +11,7 @@ namespace GraphML.UI.Uno.Server
 {
 	public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T> where T : Item
 	{
-		private string UriBase { get; }
+		private string UriResourceBase { get; }
 		protected abstract string ResourceBase { get; }
 
 		protected ItemServerBase(
@@ -20,12 +20,12 @@ namespace GraphML.UI.Uno.Server
 			HttpMessageHandler innerHandler) :
 			base(token, innerHandler)
 		{
-			UriBase = config.API_URI();
+			UriResourceBase = Url.Combine(config.API_URI(), ResourceBase);
     }
 
 		public async Task<IEnumerable<T>> ByIds(IEnumerable<Guid> ids)
 		{
-      var request = GetPostRequest(Url.Combine(UriBase, ResourceBase, "ByIds"), ids);
+      var request = GetPostRequest(Url.Combine(UriResourceBase, "ByIds"), ids);
       var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
@@ -33,7 +33,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<T>> Create(IEnumerable<T> entity)
 		{
-      var request = GetPostRequest(Url.Combine(UriBase, ResourceBase), entity);
+      var request = GetPostRequest(UriResourceBase, entity);
       var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
@@ -41,7 +41,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<T>> Delete(IEnumerable<T> entity)
 		{
-      var request = GetDeleteRequest(Url.Combine(UriBase, ResourceBase), entity);
+      var request = GetDeleteRequest(UriResourceBase, entity);
       var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
@@ -49,7 +49,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<T>> Update(IEnumerable<T> entity)
 		{
-      var request = GetPutRequest(Url.Combine(UriBase, ResourceBase), entity);
+      var request = GetPutRequest(UriResourceBase, entity);
       var retval = await GetResponse<IEnumerable<T>>(request);
 
       return retval;
@@ -57,7 +57,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<T>> GetAll()
 		{
-			var request = GetAllRequest(Url.Combine(UriBase, ResourceBase, "GetAll"));
+			var request = GetAllRequest(Url.Combine(UriResourceBase, "GetAll"));
 			var retval = await GetResponse<IEnumerable<T>>(request);
 
 			return retval;
