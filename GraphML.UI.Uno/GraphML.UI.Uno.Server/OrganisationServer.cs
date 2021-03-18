@@ -1,37 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GraphML.Interfaces.Server;
+using IdentityModel.Client;
+using Newtonsoft.Json;
 
 namespace GraphML.UI.Uno.Server
 {
-    public class OrganisationServer : IOrganisationServer
-    {
-        public Task<IEnumerable<Organisation>> ByIds(IEnumerable<Guid> ids)
-        {
-            throw new NotImplementedException();
-        }
+	public sealed class OrganisationServer : IOrganisationServer
+	{
+		private readonly HttpClient _api;
 
-        public Task<IEnumerable<Organisation>> Create(IEnumerable<Organisation> entity)
-        {
-            throw new NotImplementedException();
-        }
+		public OrganisationServer(
+			HttpMessageHandler innerHandler,
+	  Uri baseUri,
+			string token)
+		{
+			_api = new HttpClient(innerHandler)
+			{
+				BaseAddress = baseUri
+			};
+			_api.SetBearerToken(token);
+		}
 
-        public Task<IEnumerable<Organisation>> Delete(IEnumerable<Organisation> entity)
-        {
-            throw new NotImplementedException();
-        }
+		public Task<IEnumerable<Organisation>> ByIds(IEnumerable<Guid> ids)
+		{
+			throw new NotImplementedException();
+		}
 
-        public System.Threading.Tasks.Task<IEnumerable<Organisation>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+		public Task<IEnumerable<Organisation>> Create(IEnumerable<Organisation> entity)
+		{
+			throw new NotImplementedException();
+		}
 
-        public Task<IEnumerable<Organisation>> Update(IEnumerable<Organisation> entity)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public Task<IEnumerable<Organisation>> Delete(IEnumerable<Organisation> entity)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<IEnumerable<Organisation>> GetAll()
+		{
+			var orgsResp = await _api.GetAsync("api/Organisation/GetAll");
+			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
+			var orgs = JsonConvert.DeserializeObject<List<Organisation>>(orgsCont);
+			return orgs;
+		}
+
+		public Task<IEnumerable<Organisation>> Update(IEnumerable<Organisation> entity)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

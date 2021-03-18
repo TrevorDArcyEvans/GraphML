@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+#if !__WASM__
 using System.Net.Http;
+#endif
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
 using GraphML.Common;
-using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+using GraphML.UI.Uno.Server;
 
 namespace GraphML.UI.Uno
 {
@@ -56,20 +55,14 @@ namespace GraphML.UI.Uno
 			};
 #endif
 
-			var api = new HttpClient(innerHandler)
-			{
-				BaseAddress = new Uri(_config.API_URI())
-			};
-			api.SetBearerToken(_token);
+			var orgServer = new OrganisationServer(innerHandler, new Uri(_config.API_URI()), _token);
+			var orgs = await orgServer.GetAll();
+			orgs.ToList()
+		  .ForEach(org => Organisations.Add(org));
 
-			var orgsResp = await api.GetAsync("api/Organisation/GetAll");
-			var orgsCont = await orgsResp.Content.ReadAsStringAsync();
-			var orgs = JsonConvert.DeserializeObject<List<Organisation>>(orgsCont);
-			orgs.ForEach(org => Organisations.Add(org));
-
-			var rolesResp = await api.GetAsync("api/Role/GetAll");
-			var rolesCont = await rolesResp.Content.ReadAsStringAsync();
-			var roles = JArray.Parse(rolesCont);
+			//var rolesResp = await api.GetAsync("api/Role/GetAll");
+			//var rolesCont = await rolesResp.Content.ReadAsStringAsync();
+			//var roles = JArray.Parse(rolesCont);
 		}
 
 		private void Logout_Click(object sender, object args)
