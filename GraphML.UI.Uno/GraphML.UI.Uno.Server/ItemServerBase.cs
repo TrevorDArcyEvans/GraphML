@@ -11,7 +11,7 @@ namespace GraphML.UI.Uno.Server
 {
 	public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T> where T : Item
 	{
-		private string UriResourceBase { get; }
+		protected string UriResourceBase { get; }
 		protected abstract string ResourceBase { get; }
 
 		protected ItemServerBase(
