@@ -29,7 +29,7 @@
     <Compile Include="..\..\GraphML.Common\Settings.cs" Link="GraphML.Common\Settings.cs" />
     <Compile Include="..\..\GraphML.Interfaces\Server\IItemServerBase.cs" Link="GraphML.Interfaces\Server\IItemServerBase.cs" />
     <Compile Include="..\..\GraphML.Interfaces\Server\IOrganisationServer.cs" Link="GraphML.Interfaces\Server\IOrganisationServer.cs" />
-    <Compile Include="..\..\GraphML.Interfaces\Server\IServerBase.cs" Link="IServerBase.cs" />
+    <Compile Include="..\..\GraphML.Interfaces\Server\IServerBase.cs" Link="GraphML.Interfaces\Server\IServerBase.cs" />
     <Compile Include="..\..\GraphML.Utils\ObjectExtensions.cs" Link="GraphML.Utils\ObjectExtensions.cs" />
     <Compile Include="..\..\GraphML\Item.cs" Link="GraphML\Item.cs" />
     <Compile Include="..\..\GraphML\Organisation.cs" Link="GraphML\Organisation.cs" />
