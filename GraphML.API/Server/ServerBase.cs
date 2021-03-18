@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Polly;
 using RestSharp;
 using System;
 using System.Globalization;
@@ -12,6 +11,7 @@ using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using RestSharp.Authenticators;
+using Polly.Retry;
 
 namespace GraphML.API.Server
 {
@@ -21,7 +21,7 @@ namespace GraphML.API.Server
 		private readonly IRestClient _client;
 		private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
 		protected readonly ILogger<ServerBase> _logger;
-		private readonly ISyncPolicy _policy;
+		private readonly RetryPolicy _policy;
 
 		protected abstract string ResourceBase { get; }
 
@@ -34,7 +34,7 @@ namespace GraphML.API.Server
 			_httpContextAccessor = httpContextAccessor;
 			_client = clientFactory.GetRestClient();
 			_logger = logger;
-			_policy = policy.Build(_logger);
+			_policy = (RetryPolicy)policy.Build(_logger);
 		}
 
 		protected IRestRequest GetRequest(string path)
@@ -119,25 +119,28 @@ namespace GraphML.API.Server
 
 		protected async Task<IRestResponse> GetRawResponse(IRestRequest request)
 		{
-			var resp = await _client.ExecuteAsync(request, new CancellationTokenSource().Token);
+      return await GetInternal(async () =>
+      {
+  			var resp = await _client.ExecuteAsync(request, new CancellationTokenSource().Token);
 
-			// log here as may fail deserialisation
-			var body = request.Parameters.SingleOrDefault(x => x.Type == ParameterType.RequestBody)?.Value?.ToString();
-			var msg = $"[{request.Resource}] {body} --> [{resp.StatusCode}] {resp.Content}";
-			LogInformation(msg);
+  			// log here as may fail deserialisation
+  			var body = request.Parameters.SingleOrDefault(x => x.Type == ParameterType.RequestBody)?.Value?.ToString();
+  			var msg = $"[{request.Resource}] {body} --> [{resp.StatusCode}] {resp.Content}";
+  			LogInformation(msg);
 
-			// relog errors explicitly so they are more prominent
-			if (resp.StatusCode >= HttpStatusCode.BadRequest)
-			{
-				_logger.LogError(msg);
-#if __WASM__
-				throw new Exception($"HttpResponseException: {resp.StatusCode} --> {resp.Content}");
-#else
-				throw new HttpResponseException(resp.StatusCode, resp.Content);
-#endif
-			}
+  			// relog errors explicitly so they are more prominent
+  			if (resp.StatusCode >= HttpStatusCode.BadRequest)
+  			{
+  				_logger.LogError(msg);
+  #if __WASM__
+  				throw new Exception($"HttpResponseException: {resp.StatusCode} --> {resp.Content}");
+  #else
+  				throw new HttpResponseException(resp.StatusCode, resp.Content);
+  #endif
+  			}
 
-			return resp;
+  			return resp;
+      });
 		}
 
 		protected TOther GetInternal<TOther>(Func<TOther> get)
