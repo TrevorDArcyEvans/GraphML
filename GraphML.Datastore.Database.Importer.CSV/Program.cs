@@ -83,7 +83,8 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				Delimiter = Path.GetExtension(_importSpec.DataFile).ToLowerInvariant() == ".csv" ? "," : "\t",
 				AllowComments = true,
 				HeaderValidated = null,
-				HasHeaderRecord = _importSpec.HasHeaderRecord
+				HasHeaderRecord = _importSpec.HasHeaderRecord,
+				MissingFieldFound = null
 			};
 			using var csv = new CsvReader(tr, csvCfg);
 			if (_importSpec.HasHeaderRecord)
@@ -100,18 +101,21 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			{
 				var srcNode = GetOrCreateNode(csv, _importSpec.SourceNodeColumn, org, repo, nodeMap);
 				var tarNode = GetOrCreateNode(csv, _importSpec.TargetNodeColumn, org, repo, nodeMap);
-				var edge = new Edge
+				if (!(srcNode is null) && !(tarNode is null))
 				{
-					SourceId = srcNode.Id,
-					TargetId = tarNode.Id,
-					Name = $"{srcNode.Name}-->{tarNode.Name}",
-					OrganisationId = org.Id,
-					RepositoryId = repo.Id
-				};
-				edges.Add(edge);
+					var edge = new Edge
+					{
+						SourceId = srcNode.Id,
+						TargetId = tarNode.Id,
+						Name = $"{srcNode.Name}-->{tarNode.Name}",
+						OrganisationId = org.Id,
+						RepositoryId = repo.Id
+					};
+					edges.Add(edge);
+					ProcessEdgeItemAttributes(edgeAttrDefsMap, csv, edge, org, edgeAttrs);
+				}
 
 				ProcessNodeItemAttributes(nodeAttrDefsMap, csv, srcNode, tarNode, org, nodeAttrs);
-				ProcessEdgeItemAttributes(edgeAttrDefsMap, csv, edge, org, edgeAttrs);
 			}
 
 			var nodes = nodeMap.Values.ToList();
@@ -174,6 +178,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			Dictionary<string, Node> nodeMap)
 		{
 			var nodeName = csv[importSpecNodeColumn];
+			if (nodeName is null)
+			{
+				return null;
+			}
 			if (nodeMap.TryGetValue(nodeName, out var node))
 			{
 				return node;
@@ -200,58 +208,75 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			foreach (var kvp in nodeAttrDefsMap)
 			{
 				var valStr = GetJson(csv, kvp.Key.Columns, kvp.Value.DataType, kvp.Key.DateTimeFormat);
+				if (valStr is null)
+				{
+					continue;
+				}
 				switch (kvp.Key.ApplyTo)
 				{
 					case ApplyTo.SourceNode:
 						{
-							var nodeAttr = new NodeItemAttribute
+							if (srcNode is not null)
 							{
-								Name = kvp.Value.Name,
-								DataValueAsString = valStr,
-								DefinitionId = kvp.Value.Id,
-								NodeId = srcNode.Id,
-								OrganisationId = org.Id,
-							};
+								var nodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = srcNode.Id,
+									OrganisationId = org.Id,
+								};
 
-							nodeAttrs.Add(nodeAttr);
+								nodeAttrs.Add(nodeAttr);
+							}
 							break;
 						}
 
 					case ApplyTo.TargetNode:
 						{
-							var nodeAttr = new NodeItemAttribute
+							if (tarNode is not null)
 							{
-								Name = kvp.Value.Name,
-								DataValueAsString = valStr,
-								DefinitionId = kvp.Value.Id,
-								NodeId = tarNode.Id,
-								OrganisationId = org.Id,
-							};
+								var nodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = tarNode.Id,
+									OrganisationId = org.Id,
+								};
 
-							nodeAttrs.Add(nodeAttr);
+								nodeAttrs.Add(nodeAttr);
+							}
 							break;
 						}
 
 					case ApplyTo.BothNodes:
 						{
-							var srcNodeAttr = new NodeItemAttribute
+							if (srcNode is not null)
 							{
-								Name = kvp.Value.Name,
-								DataValueAsString = valStr,
-								DefinitionId = kvp.Value.Id,
-								NodeId = srcNode.Id,
-								OrganisationId = org.Id,
-							};
-							var tarNodeAttr = new NodeItemAttribute
+								var nodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = srcNode.Id,
+									OrganisationId = org.Id,
+								};
+								nodeAttrs.Add(nodeAttr);
+							}
+							if (tarNode is not null)
 							{
-								Name = kvp.Value.Name,
-								DataValueAsString = valStr,
-								DefinitionId = kvp.Value.Id,
-								NodeId = tarNode.Id,
-								OrganisationId = org.Id,
-							};
+								var nodeAttr = new NodeItemAttribute
+								{
+									Name = kvp.Value.Name,
+									DataValueAsString = valStr,
+									DefinitionId = kvp.Value.Id,
+									NodeId = tarNode.Id,
+									OrganisationId = org.Id,
+								};
+								nodeAttrs.Add(nodeAttr);
+							}
 
-							nodeAttrs.AddRange(new[] { srcNodeAttr, tarNodeAttr });
 							break;
 						}
 
@@ -271,6 +296,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			foreach (var kvp in edgeAttrDefsMap)
 			{
 				var valStr = GetJson(csv, kvp.Key.Columns, kvp.Value.DataType, kvp.Key.DateTimeFormat);
+				if (valStr is null)
+				{
+					continue;
+				}
 				var edgeAttr = new EdgeItemAttribute
 				{
 					Name = kvp.Value.Name,
@@ -384,6 +413,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				case "string":
 					{
 						var raw = reader[cols[0]];
+						if (raw is null)
+						{
+							return null;
+						}
 						var data = raw;
 						return JsonConvert.SerializeObject(data);
 					}
@@ -391,6 +424,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				case "bool":
 					{
 						var raw = reader[cols[0]];
+						if (raw is null)
+						{
+							return null;
+						}
 						var data = bool.Parse(raw);
 						return JsonConvert.SerializeObject(data);
 					}
@@ -398,6 +435,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				case "int":
 					{
 						var raw = reader[cols[0]];
+						if (raw is null)
+						{
+							return null;
+						}
 						var data = int.Parse(raw);
 						return JsonConvert.SerializeObject(data);
 					}
@@ -405,6 +446,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				case "double":
 					{
 						var raw = reader[cols[0]];
+						if (raw is null)
+						{
+							return null;
+						}
 						var data = double.Parse(raw);
 						return JsonConvert.SerializeObject(data);
 					}
@@ -412,6 +457,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				case "DateTime":
 					{
 						var raw = reader[cols[0]];
+						if (raw is null)
+						{
+							return null;
+						}
 						var data = ParseDateTime(raw, dateTimeFormat);
 						return JsonConvert.SerializeObject(data);
 					}
@@ -420,6 +469,10 @@ namespace GraphML.Datastore.Database.Importer.CSV
 					{
 						var startStr = reader[cols[0]];
 						var endStr = reader[cols[1]];
+						if (startStr is null || endStr is null)
+						{
+							return null;
+						}
 						var start = ParseDateTime(startStr, dateTimeFormat);
 						var end = ParseDateTime(endStr, dateTimeFormat);
 						var data = new DateTimeInterval(start, end);

@@ -1,0 +1,34 @@
+﻿{
+  "Datastore": {
+    "Connection": "SqLite",
+    "SqLite": {
+      "Type": "SqLite",
+      "ConnectionString": "Data Source=|DataDirectory|Data/GraphML.sqlite3;"
+    },
+    "SqlServer": {
+      "Type": "SqlServer",
+      "ConnectionString": "Data Source=localhost;Initial Catalog=GraphML;Integrated Security=True;MultipleActiveResultSets=True;"
+    },
+    "MySql": {
+      "Type": "MySql",
+      "ConnectionString": "server=127.0.0.1;uid=GraphML;pwd=DisruptTheMarket;database=GraphML;SslMode=none"
+    }
+  },
+  "ImportSpecification": {
+    "Organisation": "GraphML",
+    "RepositoryManager": "GraphML Repository Manager",
+    "Repository": "import-test-node-attributes",
+    "DataFile": "../../../Sample-Data/import-test-optional-node.txt",
+    "HasHeaderRecord": false,
+    "NodeItemAttributeImportDefinitions": [
+      {
+        "Name": "Depth",
+        "DataType": "int",
+        "ApplyTo": "SourceNode",
+        "Columns": [
+          2
+        ]
+      }
+    ]
+  }
+}
