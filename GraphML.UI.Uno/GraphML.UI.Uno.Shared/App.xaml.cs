@@ -3,7 +3,7 @@
 	using Microsoft.Extensions.Logging;
 	using System;
 	using System.Collections.Generic;
-  using System.Linq;
+	using System.Linq;
 	using Windows.ApplicationModel;
 	using Windows.ApplicationModel.Activation;
 	using Windows.UI.Xaml;
@@ -162,9 +162,7 @@
                     }
 				)
 #if DEBUG
-				;
-			// TODO	support __WASM__
-            // .AddConsole(LogLevel.Debug);
+			 .AddConsole(LogLevel.Debug);
 #else
 				.AddConsole(LogLevel.Information);
 #endif
@@ -174,7 +172,7 @@
 		{
 			var containerBuilder = new ContainerBuilder();
 
-      var cfg = GetConfigurationRoot();
+			var cfg = GetConfigurationRoot();
 			containerBuilder.RegisterInstance(cfg);
 
 			var container = containerBuilder.Build();
@@ -186,7 +184,7 @@
 		{
 			var builder = new ConfigurationBuilder()
 #if __WASM__
-        .AddInMemoryCollection(Enumerable.Empty<KeyValuePair<string, string>>());
+		.AddInMemoryCollection(Enumerable.Empty<KeyValuePair<string, string>>());
 #else
 			  .AddEnvironmentVariables()
 				.SetBasePath(Package.Current.InstalledLocation.Path)
