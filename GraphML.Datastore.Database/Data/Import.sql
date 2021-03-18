@@ -4,19 +4,6 @@ VALUES
   ('c018775d-ac42-46d2-bf8d-7fadced870d5', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'GraphML'),
   ('05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'Kool Organisation');
 
-INSERT INTO Role(Id, OrganisationId, Name)
-VALUES
-  ('7FC87DE7-BFD8-47A1-BBD4-95181A983F07', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'User'),
-  ('E56390B4-71B3-4850-82B4-EA65A497559E', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'UserAdmin'),
-  ('3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'Admin');
-
-INSERT INTO Contact(Id, OrganisationId, OwnerId, Name)
-VALUES
-  ('907bf1ab-fb91-494b-b1a8-376f9a9f03d8', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'admin@GraphML.com'),
-  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'DrKool@KoolOrganisation.org'),
-  ('33fbe12e-3aad-4238-bbcc-26ff6ea94ad1', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'carol@KoolOrganisation.org'),
-  ('a7753555-e1f8-4569-a9ac-6f059dbc771f', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'dave@KoolOrganisation.org');
-
 INSERT INTO RepositoryManager(Id, OrganisationId, OwnerId, Name)
 VALUES
   ('874852c8-794a-4748-89bc-68ce50823093', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'GraphML Repository Manager'),
@@ -152,9 +139,21 @@ VALUES
   ('9bfd22d6-757a-49e8-9ff2-c51ed59cdb76', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge B-D Attribute');
 
 -- roles
+INSERT INTO Role(Id, OrganisationId, Name)
+VALUES
+  ('7FC87DE7-BFD8-47A1-BBD4-95181A983F07', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'User'),
+  ('E56390B4-71B3-4850-82B4-EA65A497559E', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'UserAdmin'),
+  ('3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'Admin');
+
+INSERT INTO Contact(Id, OrganisationId, OwnerId, Name)
+VALUES
+  ('907bf1ab-fb91-494b-b1a8-376f9a9f03d8', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'admin@GraphML.com'),
+  ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'DrKool@KoolOrganisation.org'),
+  ('33fbe12e-3aad-4238-bbcc-26ff6ea94ad1', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'carol@KoolOrganisation.org'),
+  ('a7753555-e1f8-4569-a9ac-6f059dbc771f', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'dave@KoolOrganisation.org');
+
 INSERT INTO ContactsRoles(ContactId, RoleId)
 VALUES
   ('db9d2dc4-cf7f-4177-8f72-c04da623f1be', '3127AD16-8AF9-4679-AF33-F5DF1A9BD3F3'),
   ('33fbe12e-3aad-4238-bbcc-26ff6ea94ad1', 'E56390B4-71B3-4850-82B4-EA65A497559E'),
   ('a7753555-e1f8-4569-a9ac-6f059dbc771f', '7FC87DE7-BFD8-47A1-BBD4-95181A983F07');
-
