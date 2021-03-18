@@ -14,7 +14,6 @@ namespace GraphML.Logic.Validators
     {
       RuleSet(nameof(IOrganisationLogic.GetAll), () =>
       {
-        MustBeAdmin();
       });
     }
 
