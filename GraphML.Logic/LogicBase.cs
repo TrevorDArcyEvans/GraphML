@@ -26,9 +26,9 @@ namespace GraphML.Logic
       _filter = filter;
     }
 
-    public virtual IEnumerable<T> Ids(IEnumerable<Guid> ids)
+    public virtual IEnumerable<T> ByIds(IEnumerable<Guid> ids)
     {
-      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.Ids)));
+      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.ByIds)));
       if (valRes.IsValid)
       {
         return _filter.Filter(_datastore.ByIds(ids));

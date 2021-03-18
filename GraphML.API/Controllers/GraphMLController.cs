@@ -21,7 +21,7 @@ namespace GraphML.API.Controllers
     public abstract IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids);
     protected IActionResult ByIdsInternal([FromBody][Required] IEnumerable<Guid> ids)
     {
-      var ent = _logic.Ids(ids);
+      var ent = _logic.ByIds(ids);
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
     }
 
