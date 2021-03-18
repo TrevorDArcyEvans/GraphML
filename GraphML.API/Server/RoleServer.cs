@@ -37,5 +37,13 @@ namespace GraphML.API.Server
 
             return retval;
         }
+
+        public async Task<IEnumerable<Role>> Get()
+        {
+            var request = GetAllRequest(Url.Combine(ResourceBase, $"{nameof(RoleController.Get)}"));
+            var retval = await GetResponse<IEnumerable<Role>>(request);
+
+            return retval;
+        }
     }
 }

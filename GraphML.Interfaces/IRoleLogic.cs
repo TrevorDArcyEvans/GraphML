@@ -7,5 +7,6 @@ namespace GraphML.Interfaces
   {
     IEnumerable<Role> ByContactId(Guid id);
     IEnumerable<Role> GetAll();
+    IEnumerable<Role> Get();
   }
 }

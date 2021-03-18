@@ -129,5 +129,24 @@ namespace GraphML.API.Controllers
 				.Take(pageSize);
 			return new OkObjectResult(result);
 		}
+
+		/// <summary>
+		/// List all roles for the calling user
+		/// </summary>
+		/// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+		/// <param name="pageSize">number of items per page.  Defaults to 20</param>
+		/// <response code="200">Success - if no Entities found, return empty list</response>
+		[HttpGet]
+		[Route(nameof(Get))]
+		[ValidateModelState]
+		[ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<Role>))]
+		[ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+		public IActionResult Get([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+		{
+			var result = _roleLogic.Get()
+				.Skip((pageIndex - 1) * pageSize)
+				.Take(pageSize);
+			return new OkObjectResult(result);
+		}
 	}
 }

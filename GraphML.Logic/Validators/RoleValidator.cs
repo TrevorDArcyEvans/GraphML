@@ -18,6 +18,9 @@ namespace GraphML.Logic.Validators
       RuleSet(nameof(IRoleLogic.GetAll), () =>
       {
       });
+      RuleSet(nameof(IRoleLogic.Get), () =>
+      {
+      });
     }
 
     protected override void RuleForCreate()

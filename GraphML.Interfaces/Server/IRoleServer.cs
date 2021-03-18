@@ -8,5 +8,6 @@ namespace GraphML.Interfaces.Server
     {
         Task<IEnumerable<Role>> ByContactId(Guid id);
         Task<IEnumerable<Role>> GetAll();
+        Task<IEnumerable<Role>> Get();
     }
 }
