@@ -66,6 +66,10 @@ namespace GraphML.Logic.Validators
     {
       var email = _context.Email();
       var contact = _contactDatastore.ByEmail(email);
+      if (contact is null)
+      {
+        return false;
+      }
       var roles = _roleDatastore.ByContactId(contact.Id);
 
       return roles.Any(x => x.Name == role);
