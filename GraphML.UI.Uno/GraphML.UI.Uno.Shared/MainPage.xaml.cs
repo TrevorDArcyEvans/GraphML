@@ -7,9 +7,12 @@ using System.Net.Http;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Autofac;
+using GraphML.API.Server;
 using GraphML.Common;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using GraphML.UI.Uno.Server;
+using Uno.Extensions;
 
 namespace GraphML.UI.Uno
 {
@@ -55,7 +58,8 @@ namespace GraphML.UI.Uno
 			};
 #endif
 
-			var orgServer = new OrganisationServer(innerHandler, new Uri(_config.API_URI()), _token);
+			var spf = new SyncPolicyFactory();
+			var orgServer = new OrganisationServer(_config, _token, innerHandler, spf);
 			var orgs = await orgServer.GetAll();
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));
