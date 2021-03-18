@@ -26,11 +26,7 @@ namespace GraphML.UI.Uno.Server
 		private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
 		private readonly ISyncPolicy _policy;
 
-		protected string UriBase { get; }
-		protected abstract string ResourceBase { get; }
-
 		public ServerBase(
-			IConfiguration config,
 			string token,
 			HttpMessageHandler innerHandler)
 		{
@@ -41,8 +37,6 @@ namespace GraphML.UI.Uno.Server
 				.Accept
 				.Add(new MediaTypeWithQualityHeaderValue("application/json"));//ACCEPT header
 			_policy = new SyncPolicyFactory().Build(this.Log());
-
-			UriBase = config.API_URI();
 		}
 
 		protected HttpRequestMessage GetRequest(string path)
