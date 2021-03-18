@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Polly;
 using RestSharp.Authenticators;
-using Polly.Retry;
 
 namespace GraphML.API.Server
 {
@@ -21,7 +21,7 @@ namespace GraphML.API.Server
 		private readonly IRestClient _client;
 		private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
 		protected readonly ILogger<ServerBase> _logger;
-		private readonly RetryPolicy _policy;
+		private readonly ISyncPolicy _policy;
 
 		protected abstract string ResourceBase { get; }
 
@@ -34,7 +34,7 @@ namespace GraphML.API.Server
 			_httpContextAccessor = httpContextAccessor;
 			_client = clientFactory.GetRestClient();
 			_logger = logger;
-			_policy = (RetryPolicy)policy.Build(_logger);
+			_policy = policy.Build(_logger);
 		}
 
 		protected IRestRequest GetRequest(string path)
