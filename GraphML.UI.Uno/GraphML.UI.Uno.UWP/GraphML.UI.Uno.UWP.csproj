@@ -40,7 +40,7 @@
       <Version>106.11.7</Version>
     </PackageReference>
     <PackageReference Include="Uno.Core" Version="2.2.0" />
-    <PackageReference Include="Uno.UI" Version="3.5.1" />
+    <PackageReference Include="Uno.UI" Version="3.6.0-dev.275" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
   </ItemGroup>
