@@ -14,9 +14,8 @@ namespace GraphML.UI.Uno.Server
 		protected ItemServerBase(
 			IConfiguration config,
 			string token,
-			HttpMessageHandler innerHandler,
-			ISyncPolicyFactory policy) :
-			base(config, token, innerHandler, policy)
+			HttpMessageHandler innerHandler) :
+			base(config, token, innerHandler)
 		{
 		}
 

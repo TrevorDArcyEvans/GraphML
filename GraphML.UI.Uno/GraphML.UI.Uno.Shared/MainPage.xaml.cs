@@ -58,8 +58,7 @@ namespace GraphML.UI.Uno
 			};
 #endif
 
-			var spf = new SyncPolicyFactory();
-			var orgServer = new OrganisationServer(_config, _token, innerHandler, spf);
+			var orgServer = new OrganisationServer(_config, _token, innerHandler);
 			var orgs = await orgServer.GetAll();
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));

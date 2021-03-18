@@ -32,8 +32,7 @@ namespace GraphML.UI.Uno.Server
 		public ServerBase(
 			IConfiguration config,
 			string token,
-			HttpMessageHandler innerHandler,
-			ISyncPolicyFactory policy)
+			HttpMessageHandler innerHandler)
 		{
 			_token = token;
 			_client = new HttpClient(innerHandler);
@@ -41,7 +40,7 @@ namespace GraphML.UI.Uno.Server
 			_client.DefaultRequestHeaders
 				.Accept
 				.Add(new MediaTypeWithQualityHeaderValue("application/json"));//ACCEPT header
-			_policy = policy.Build(this.Log());
+			_policy = new SyncPolicyFactory().Build(this.Log());
 
 			UriBase = config.API_URI();
 		}

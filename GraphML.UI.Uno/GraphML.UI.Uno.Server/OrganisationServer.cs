@@ -10,9 +10,8 @@ namespace GraphML.UI.Uno.Server
 		public OrganisationServer(
 	  IConfiguration config,
 			string token,
-	  HttpMessageHandler innerHandler,
-	  ISyncPolicyFactory policy) :
-	  base(config, token, innerHandler, policy)
+	  HttpMessageHandler innerHandler) :
+	  base(config, token, innerHandler)
 		{
 		}
 
