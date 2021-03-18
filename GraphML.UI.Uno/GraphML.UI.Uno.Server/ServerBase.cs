@@ -111,25 +111,28 @@ namespace GraphML.UI.Uno.Server
 
 		protected async Task<HttpResponseMessage> GetRawResponse(HttpRequestMessage request)
 		{
-      // TODO   Polly
-      //          https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
-			var resp = await _client.SendAsync(request);
+      return await GetInternal(async () =>
+      {
+        // TODO   Polly
+        //          https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
+  			var resp = await _client.SendAsync(request);
 
-			// log here as may fail deserialisation
-			this.Log().LogInformation(request.ToString());
+  			// log here as may fail deserialisation
+  			this.Log().LogInformation(request.ToString());
 
-			// relog errors explicitly so they are more prominent
-			if (resp.StatusCode >= HttpStatusCode.BadRequest)
-			{
-				this.Log().LogError(resp.ToString());
-#if __WASM__
-				throw new Exception($"HttpResponseException: {resp.StatusCode} --> {resp.Content}");
-#else
-				throw new HttpResponseException(resp.StatusCode);
-#endif
-			}
+  			// relog errors explicitly so they are more prominent
+  			if (resp.StatusCode >= HttpStatusCode.BadRequest)
+  			{
+  				this.Log().LogError(resp.ToString());
+  #if __WASM__
+  				throw new Exception($"HttpResponseException: {resp.StatusCode} --> {resp.Content}");
+  #else
+  				throw new HttpResponseException(resp.StatusCode);
+  #endif
+  			}
 
-			return resp;
+  			return resp;
+      });
 		}
 
 		protected TOther GetInternal<TOther>(Func<TOther> get)
