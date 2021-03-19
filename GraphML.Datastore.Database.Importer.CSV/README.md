@@ -2,6 +2,7 @@
 * import csv or tsv data
 * super fast import with _Microsoft SQL Server_!
 * each data row is an edge between two nodes
+  * or a single node
 * add attributes to nodes and edges
 
 ## Import Specification
