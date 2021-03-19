@@ -163,10 +163,9 @@ open http://localhost:8000/
 </details>
 
 ## Environment Variables
-<details>
 
-### Backend API
 <details>
+  <summary>Backend API</summary>
 
 |Variable | Description | Example Value|
 |---------|-------|--------------|
@@ -189,8 +188,8 @@ open http://localhost:8000/
 
 </details>
 
-### GraphML.UI.Uno.Wasm
 <details>
+  <summary>GraphML.UI.Uno.Wasm</summary>
 
 We use a custom `index.html`:<br/>
   `GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\wwwroot\index.html`
@@ -208,7 +207,6 @@ config.environmentVariables["IDENTITY_SERVER_CLIENT_SECRET"] = "secret";
 config.environmentVariables["API_URI"] = "https://localhost:5001";
 ```
 
-</details>
 </details>
 
 ## Overview
@@ -345,10 +343,7 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
     * int
     * double
     * DateTime (UTC)
-  * To be supported:
-    * DateInterval
-      * [Noda Time](https://nodatime.org/2.0.x/api/NodaTime.DateInterval.html)
-      * [ST-Software/Utils](https://github.com/ST-Software/Utils/blob/master/src/DateTimeUtils.cs)
+    * DateInterval (UTC)
 
 </details>
 
@@ -357,7 +352,7 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
 
   * Contact
     * A person identified by their email address.
-    * The email address (Name) is used to link authentication (IdentityServer) to Role.
+    * The email address (Name) is used to link authentication (IdentityServer4) to Role.
   * Role
     * The function performed by a Contact in the context of GraphML.
     * There are several, predefined functions in Roles
@@ -370,7 +365,9 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
 </details>
 
 ## Authentication & Authorisation
+
 <details>
+  <summary>Roles and Users</summary>
 
 * enable `Development` mode by setting env var:  
 ```bash
@@ -387,13 +384,30 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
 * the above roles are owned by _System_ organisation
 * SwaggerUI is only enabled in `Development` mode
 * SwaggerUI authentication will redirect to a login screen in IdentityServer
-* IdentityServer has some test users:
-| UserName | Password     | Email                           | Roles |
-|----------|--------------|---------------------------------|-------|
-| `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin |
-| `bob`    | `Pass123$`   | BobSmith@email.com              | none |
+* GraphML and IdentityServer4 have some test users:
+| UserName | Password     | Email                           | Roles | Notes |
+|----------|--------------|---------------------------------|-------|-------|
+| `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin | system wide admin |
+| `bob`    | `Pass123$`   | BobSmith@email.com              | none | known to _IdentityServer4_ but not _GraphML_ |
 | `carol`  | `Pass123$`   | carol@KoolOrganisation.org      | UserAdmin |
 | `dave`   | `Pass123$`   | dave@KoolOrganisation.org       | User |
+
+</details>
+
+<details>
+  <summary>How to add a new user</summary>
+
+* add user to _GraphML_
+  * `GraphML:./GraphML.Datastore.Database/Data/Import.sql`
+  * import into database
+* add user to _IdentityServer4_
+  * `GraphML:./IdentityServerAspNetIdentity/SeedData.cs`
+  * import into database
+    ```bash
+    ./IdentityServerAspNetIdentity.exe /seed
+    ```
+
+</details>
 
 </details>
 
@@ -418,8 +432,8 @@ make the Organisation entity redundant.
 
 ## Misc
 <details>
+  <summary>Port Allocations</summary>
 
-### Port Allocations
 | Service | Port | Notes |
 |---------|------|-------|
 | IdentityServerAspnetIdentity | 44387 |
@@ -434,10 +448,19 @@ make the Organisation entity redundant.
 | MariaDB | 3306 |
 | PostgreSQL | 5432 |
 
-### Apache ActiveMQ
+</details>
+
+<details>
+  <summary>Apache ActiveMQ</summary>
+
 You can monitor ActiveMQ using the Web Console by pointing your browser at http://localhost:8161/admin .  
 From ActiveMQ 5.8 onwards the web apps is secured out of the box.  
 The default username and password is `admin/admin`.
+
+</details>
+
+<details>
+  <summary>Redis</summary>
 
 ### Redis on Windows
 Recommended method is to use a _Docker_ container:
