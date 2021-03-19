@@ -29,6 +29,7 @@ namespace GraphML.UI.Uno.Server
 			HttpMessageHandler innerHandler)
 		{
 			_token = token;
+    // TODO   https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
 			_client = new HttpClient(innerHandler);
 			_client.SetBearerToken(_token);
 			_client.DefaultRequestHeaders
@@ -113,8 +114,6 @@ namespace GraphML.UI.Uno.Server
 		{
       return await GetInternal(async () =>
       {
-        // TODO   Polly
-        //          https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory
   			var resp = await _client.SendAsync(request);
 
   			// log here as may fail deserialisation
