@@ -55,7 +55,7 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-			Frame.Navigate(typeof(MainPage), response.AccessToken);
+			Frame.Navigate(typeof(OrganisationPage), response.AccessToken);
 		}
 	}
 }
