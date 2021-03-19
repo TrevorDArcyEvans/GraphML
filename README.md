@@ -168,7 +168,7 @@ open http://localhost:8000/
   <summary>Backend API</summary>
 
 |Variable | Description | Example Value|
-|---------|-------|--------------|
+|---------|-------|--------------|-----|
 | ASPNETCORE_ENVIRONMENT | ASP.NET Core runtime environment | `Production`, `Development`, `Test` |
 ||
 | API_URI       | API server URL<p/>used by GraphML.API.Server to retrieve data |
