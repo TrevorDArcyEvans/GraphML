@@ -1,4 +1,6 @@
-﻿namespace GraphML.UI.Uno
+﻿using System.Collections.Generic;
+
+namespace GraphML.UI.Uno
 {
 	using Autofac;
 	using GraphML.Common;
@@ -55,7 +57,11 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-			Frame.Navigate(typeof(OrganisationPage), response.AccessToken);
+			var navArgs = new Dictionary<string, object>
+	  {
+		  { "Token", response.AccessToken }
+	  };
+			Frame.Navigate(typeof(OrganisationPage), navArgs);
 		}
 	}
 }

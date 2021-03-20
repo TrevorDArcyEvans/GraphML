@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 #if !__WASM__
@@ -9,6 +9,8 @@ using Windows.UI.Xaml.Navigation;
 using Autofac;
 using Microsoft.Extensions.Configuration;
 using GraphML.UI.Uno.Server;
+using GraphML.UI.Uno.Shared;
+using Newtonsoft.Json;
 
 namespace GraphML.UI.Uno
 {
@@ -29,15 +31,9 @@ namespace GraphML.UI.Uno
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			if (e.Parameter is string token &&
-				!string.IsNullOrWhiteSpace(token))
-			{
-				_token = token;
-			}
-			else
-			{
-				throw new ArgumentNullException("null token");
-			}
+			var navArgs = (Dictionary<string, object>)e.Parameter;
+			_token = (string)navArgs["Token"];
+
 			base.OnNavigatedTo(e);
 
 			Initialise();
@@ -67,6 +63,20 @@ namespace GraphML.UI.Uno
 		private void Logout_Click(object sender, object args)
 		{
 			Frame.Navigate(typeof(LoginPage));
+		}
+
+		private void Organisations_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			// TODO	  broken on WASM
+			//						[ListView] SelectedItem property gets updated after SelectionChanged fires
+			//					  https://github.com/unoplatform/uno/issues/534
+			// TODO	  add button
+			var navArgs = new Dictionary<string, string>
+	  {
+		  { "Token", _token },
+		  { "SelectedOrganisation", JsonConvert.SerializeObject(SelectedOrganisation) }
+	  };
+			Frame.Navigate(typeof(RepositoryManagerPage), JsonConvert.SerializeObject(navArgs));
 		}
 	}
 }
