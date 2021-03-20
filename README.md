@@ -376,6 +376,7 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
 * authentication (who you are) is handled by IdentityServer
 * authorisation (what you can do) is handled by GraphML, based on an _email_ claim
 * security is role based, with the following predefined roles:
+
 | Role        | Description |
 |-------------|-------------|
 | User        | An entity using GraphML |
@@ -385,6 +386,7 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
 * SwaggerUI is only enabled in `Development` mode
 * SwaggerUI authentication will redirect to a login screen in IdentityServer
 * GraphML and IdentityServer4 have some test users:
+
 | UserName | Password     | Email                           | Roles | Notes |
 |----------|--------------|---------------------------------|-------|-------|
 | `alice`  | `Pass123$`   | DrKool@KoolOrganisation.org     | Admin | system wide admin |
