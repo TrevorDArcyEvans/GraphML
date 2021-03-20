@@ -20,7 +20,7 @@ namespace GraphML.UI.Uno.Shared
 
 		public RepositoryManagerPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
