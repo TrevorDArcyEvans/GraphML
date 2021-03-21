@@ -9,13 +9,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock 
-            x:Name="SelectedOrganisation"
-            TextWrapping="Wrap" />
         <ListView
             ItemsSource="{x:Bind RepositoryManagers, Mode=OneWay}"
             SelectedItem="{x:Bind SelectedRepositoryManager}"
             DisplayMemberPath="Name" />
+        <Button
+            Content="Go"
+            Click="Repository_Click" />
         <Button
             Content="Back"
             Click="Back_Click" />

@@ -30,11 +30,9 @@ namespace GraphML.UI.Uno.Shared
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var navArgs = JsonConvert.DeserializeObject<Dictionary<string, string>>((string)e.Parameter);
-			_token = navArgs["Token"];
-			var selOrg = JsonConvert.DeserializeObject<Organisation>(navArgs["SelectedOrganisation"]);
-
-      SelectedOrganisation.Text = $"SelectedOrganisation:  " + (string)e.Parameter;//selOrg.Name;
+			var navArgs = (Dictionary<string, object>)e.Parameter;
+			_token = (string)navArgs["Token"];
+			var selOrg = (Organisation)navArgs["SelectedOrganisation"];
 
 			base.OnNavigatedTo(e);
 
@@ -56,6 +54,16 @@ namespace GraphML.UI.Uno.Shared
 			var repoMgrs = await repoMgrServer.ByOwners(new[] { selOrg.Id });
 			repoMgrs.ToList()
 		  .ForEach(repoMgr => RepositoryManagers.Add(repoMgr));
+		}
+
+    private void Repository_Click(object sender, object args)
+		{
+			var navArgs = new Dictionary<string, object>
+	  {
+		  { "Token", _token },
+		  { "SelectedRepositoryManager", SelectedRepositoryManager }
+	  };
+			// TODO   Frame.Navigate(typeof(RepositoryPage), navArgs);
 		}
 
 		private void Back_Click(object sender, object args)

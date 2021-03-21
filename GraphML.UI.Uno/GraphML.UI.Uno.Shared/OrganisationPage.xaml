@@ -11,8 +11,10 @@
         <ListView 
             ItemsSource="{x:Bind Organisations, Mode=OneWay}"
             SelectedItem="{x:Bind SelectedOrganisation, Mode=TwoWay}" 
-            DisplayMemberPath="Name" 
-            SelectionChanged="Organisations_OnSelectionChanged" />
+            DisplayMemberPath="Name" />
+        <Button
+            Content="Go"
+            Click="Organisation_Click" />
         <Button 
             Content="Logout" 
             Click="Logout_Click" />

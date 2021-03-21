@@ -65,18 +65,14 @@ namespace GraphML.UI.Uno
 			Frame.Navigate(typeof(LoginPage));
 		}
 
-		private void Organisations_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void Organisation_Click(object sender, object args)
 		{
-			// TODO	  broken on WASM
-			//						[ListView] SelectedItem property gets updated after SelectionChanged fires
-			//					  https://github.com/unoplatform/uno/issues/534
-			// TODO	  add button
-			var navArgs = new Dictionary<string, string>
+			var navArgs = new Dictionary<string, object>
 	  {
 		  { "Token", _token },
-		  { "SelectedOrganisation", JsonConvert.SerializeObject(SelectedOrganisation) }
+		  { "SelectedOrganisation", SelectedOrganisation }
 	  };
-			Frame.Navigate(typeof(RepositoryManagerPage), JsonConvert.SerializeObject(navArgs));
+			Frame.Navigate(typeof(RepositoryManagerPage), navArgs);
 		}
 	}
 }
