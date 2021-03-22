@@ -16,7 +16,6 @@
 	public sealed partial class OrganisationPage : Page
 	{
 		private readonly IConfigurationRoot _config;
-		private string _token;
 		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
 
 		public OrganisationPage()
@@ -32,7 +31,6 @@
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			_navArgs = (Dictionary<string, object>)e.Parameter;
-			_token = (string)_navArgs["Token"];
 
 			base.OnNavigatedTo(e);
 
@@ -50,14 +48,10 @@
 			};
 #endif
 
-			var orgServer = new OrganisationServer(_config, _token, innerHandler);
+			var orgServer = new OrganisationServer(_config, (string)_navArgs["Token"], innerHandler);
 			var orgs = await orgServer.GetAll();
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));
-
-			//var rolesResp = await api.GetAsync("api/Role/GetAll");
-			//var rolesCont = await rolesResp.Content.ReadAsStringAsync();
-			//var roles = JArray.Parse(rolesCont);
 		}
 
 		private void Logout_Click(object sender, object args)

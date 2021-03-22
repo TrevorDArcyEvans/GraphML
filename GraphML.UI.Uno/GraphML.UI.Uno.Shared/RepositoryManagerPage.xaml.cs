@@ -16,7 +16,6 @@
 	{
 		private readonly IConfigurationRoot _config;
     private Organisation SelectedOrganisation;
-		private string _token;
 		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
 
 		public RepositoryManagerPage()
@@ -32,7 +31,6 @@
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			_navArgs = (Dictionary<string, object>)e.Parameter;
-			_token = (string)_navArgs["Token"];
       SelectedOrganisation = (Organisation)_navArgs["SelectedOrganisation"];
 
 			base.OnNavigatedTo(e);
@@ -51,7 +49,7 @@
 			};
 #endif
 
-			var repoMgrServer = new RepositoryManagerServer(_config, _token, innerHandler);
+			var repoMgrServer = new RepositoryManagerServer(_config, (string)_navArgs["Token"], innerHandler);
 			var repoMgrs = await repoMgrServer.ByOwners(new[] { selOrg.Id });
 			repoMgrs.ToList()
 		  .ForEach(repoMgr => RepositoryManagers.Add(repoMgr));
