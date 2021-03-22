@@ -1,7 +1,6 @@
 ﻿namespace GraphML.UI.Uno
 {
-	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
+    using System.Collections.ObjectModel;
 	using System.Linq;
 #if !__WASM__
 	using System.Net.Http;
@@ -16,7 +15,7 @@
 	public sealed partial class OrganisationPage : Page
 	{
 		private readonly IConfigurationRoot _config;
-		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
+    private BreadcrumbTrail _navArgs = new BreadcrumbTrail();
 
 		public OrganisationPage()
 		{
@@ -30,7 +29,7 @@
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			_navArgs = (Dictionary<string, object>)e.Parameter;
+			_navArgs = (BreadcrumbTrail)e.Parameter;
 
 			base.OnNavigatedTo(e);
 
@@ -48,7 +47,7 @@
 			};
 #endif
 
-			var orgServer = new OrganisationServer(_config, (string)_navArgs["Token"], innerHandler);
+			var orgServer = new OrganisationServer(_config, _navArgs.Token, innerHandler);
 			var orgs = await orgServer.GetAll();
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));
@@ -61,7 +60,7 @@
 
 		private void Organisation_Click(object sender, object args)
 		{
-			_navArgs["SelectedOrganisation"] = SelectedOrganisation;
+			_navArgs.SelectedOrganisation = SelectedOrganisation;
 			Frame.Navigate(typeof(RepositoryManagerPage), _navArgs);
 		}
 	}

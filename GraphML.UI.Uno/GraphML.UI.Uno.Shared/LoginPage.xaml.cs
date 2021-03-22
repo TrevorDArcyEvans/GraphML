@@ -5,15 +5,14 @@
 	using IdentityModel.Client;
 	using Microsoft.Extensions.Configuration;
 	using System;
-	using System.Collections.Generic;
-	using System.Net.Http;
+  using System.Net.Http;
 	using System.Security.Authentication;
 	using Windows.UI.Xaml.Controls;
 
 	public sealed partial class LoginPage : Page
 	{
 		private readonly IConfigurationRoot _config;
-    private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
+    private BreadcrumbTrail _navArgs = new BreadcrumbTrail();
 
 		public LoginPage()
 		{
@@ -57,7 +56,7 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-      _navArgs["Token"] = response.AccessToken;
+      _navArgs.Token = response.AccessToken;
 			Frame.Navigate(typeof(OrganisationPage), _navArgs);
 		}
 	}

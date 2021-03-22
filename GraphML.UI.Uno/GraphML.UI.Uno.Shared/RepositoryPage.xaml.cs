@@ -1,7 +1,6 @@
 ﻿namespace GraphML.UI.Uno.Shared
 {
-	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
+    using System.Collections.ObjectModel;
 	using System.Linq;
 #if !__WASM__
 	using System.Net.Http;
@@ -15,9 +14,7 @@
 	public sealed partial class RepositoryPage : Page
 	{
 		private readonly IConfigurationRoot _config;
-    private Organisation SelectedOrganisation;
-		private RepositoryManager SelectedRepositoryManager;
-		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
+    private BreadcrumbTrail _navArgs = new BreadcrumbTrail();
 
 		public RepositoryPage()
 		{
@@ -31,13 +28,11 @@
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			_navArgs = (Dictionary<string, object>)e.Parameter;
-      SelectedOrganisation = (Organisation)_navArgs["SelectedOrganisation"];
-      SelectedRepositoryManager = (RepositoryManager)_navArgs["SelectedRepositoryManager"];
+			_navArgs = (BreadcrumbTrail)e.Parameter;
 
 			base.OnNavigatedTo(e);
 
-			Initialise(SelectedRepositoryManager);
+			Initialise(_navArgs.SelectedRepositoryManager);
 		}
 
 		private async void Initialise(RepositoryManager repoMgr)
@@ -51,7 +46,7 @@
 			};
 #endif
 
-			var repoServer = new RepositoryServer(_config, (string)_navArgs["Token"], innerHandler);
+			var repoServer = new RepositoryServer(_config, _navArgs.Token, innerHandler);
 			var repos = await repoServer.ByOwners(new[] { repoMgr.Id });
 			repos.ToList()
 		  .ForEach(repo => Repositories.Add(repo));
@@ -59,7 +54,7 @@
 
 		private void Repository_Click(object sender, object args)
 		{
-			_navArgs["SelectedRepository"] = SelectedRepository;
+			_navArgs.SelectedRepository = SelectedRepository;
 			// TODO	  Frame.Navigate(typeof(GraphPage), navArgs);
 		}
 
