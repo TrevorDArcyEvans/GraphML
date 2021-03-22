@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)OrganisationPage.xaml.cs">
       <DependentUpon>OrganisationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)PageBase.xaml.cs">
+      <DependentUpon>PageBase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)RepositoryManagerPage.xaml.cs">
       <DependentUpon>RepositoryManagerPage.xaml</DependentUpon>
     </Compile>
@@ -38,6 +41,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)OrganisationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)PageBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

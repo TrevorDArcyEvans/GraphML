@@ -1,27 +1,19 @@
 ﻿namespace GraphML.UI.Uno
 {
-    using System.Collections.ObjectModel;
+	using System.Collections.ObjectModel;
 	using System.Linq;
 #if !__WASM__
 	using System.Net.Http;
 #endif
-	using Windows.UI.Xaml.Controls;
-	using Windows.UI.Xaml.Navigation;
-	using Autofac;
-	using Microsoft.Extensions.Configuration;
-	using GraphML.UI.Uno.Server;
-	using GraphML.UI.Uno.Shared;
+  using Windows.UI.Xaml.Navigation;
+  using GraphML.UI.Uno.Server;
 
-	public sealed partial class OrganisationPage : Page
+	public sealed partial class OrganisationPage : PageBase
 	{
-		private readonly IConfigurationRoot _config;
-    private BreadcrumbTrail _navArgs = new BreadcrumbTrail();
-
-		public OrganisationPage()
+		public OrganisationPage() :
+			base()
 		{
 			InitializeComponent();
-
-			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
 
 		public ObservableCollection<Organisation> Organisations { get; set; } = new ObservableCollection<Organisation>();

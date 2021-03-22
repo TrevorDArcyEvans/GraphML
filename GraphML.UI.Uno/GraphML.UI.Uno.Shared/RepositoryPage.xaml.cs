@@ -1,26 +1,19 @@
-﻿namespace GraphML.UI.Uno.Shared
+﻿namespace GraphML.UI.Uno
 {
-    using System.Collections.ObjectModel;
+	using System.Collections.ObjectModel;
 	using System.Linq;
 #if !__WASM__
 	using System.Net.Http;
 #endif
-	using Windows.UI.Xaml.Controls;
 	using Windows.UI.Xaml.Navigation;
-	using Autofac;
 	using GraphML.UI.Uno.Server;
-	using Microsoft.Extensions.Configuration;
 
-	public sealed partial class RepositoryPage : Page
+	public sealed partial class RepositoryPage : PageBase
 	{
-		private readonly IConfigurationRoot _config;
-    private BreadcrumbTrail _navArgs = new BreadcrumbTrail();
-
-		public RepositoryPage()
+		public RepositoryPage() :
+			base()
 		{
 			this.InitializeComponent();
-
-			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
 
 		public ObservableCollection<Repository> Repositories { get; set; } = new ObservableCollection<Repository>();
@@ -37,16 +30,7 @@
 
 		private async void Initialise(RepositoryManager repoMgr)
 		{
-#if __WASM__
-			var innerHandler = new global::Uno.UI.Wasm.WasmHttpHandler();
-#else
-			var innerHandler = new HttpClientHandler
-			{
-				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-			};
-#endif
-
-			var repoServer = new RepositoryServer(_config, _navArgs.Token, innerHandler);
+			var repoServer = new RepositoryServer(_config, _navArgs.Token, _innerHandler);
 			var repos = await repoServer.ByOwners(new[] { repoMgr.Id });
 			repos.ToList()
 		  .ForEach(repo => Repositories.Add(repo));

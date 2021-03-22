@@ -1,37 +1,22 @@
 ﻿namespace GraphML.UI.Uno
 {
-	using Autofac;
 	using GraphML.Common;
 	using IdentityModel.Client;
-	using Microsoft.Extensions.Configuration;
 	using System;
-  using System.Net.Http;
+	using System.Net.Http;
 	using System.Security.Authentication;
-	using Windows.UI.Xaml.Controls;
 
-	public sealed partial class LoginPage : Page
-	{
-		private readonly IConfigurationRoot _config;
-    private BreadcrumbTrail _navArgs = new BreadcrumbTrail();
-
-		public LoginPage()
+	public sealed partial class LoginPage : PageBase
+  {
+		public LoginPage() :
+			base()
 		{
 			InitializeComponent();
-
-			_config = App.Container.Resolve<IConfigurationRoot>();
 		}
 
 		private async void Login_Click(object sender, object args)
 		{
-#if __WASM__
-			var innerHandler = new global::Uno.UI.Wasm.WasmHttpHandler();
-#else
-			var innerHandler = new HttpClientHandler
-			{
-				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-			};
-#endif
-			var client = new HttpClient(innerHandler)
+			var client = new HttpClient(_innerHandler)
 			{
 				BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
 			};
@@ -56,7 +41,7 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-      _navArgs.Token = response.AccessToken;
+			_navArgs.Token = response.AccessToken;
 			Frame.Navigate(typeof(OrganisationPage), _navArgs);
 		}
 	}
