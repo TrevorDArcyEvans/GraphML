@@ -1,4 +1,6 @@
-﻿namespace GraphML.UI.Uno
+﻿using Windows.UI.Xaml;
+
+namespace GraphML.UI.Uno
 {
 	using GraphML.Common;
 	using IdentityModel.Client;
@@ -7,7 +9,7 @@
 	using System.Security.Authentication;
 
 	public sealed partial class LoginPage : PageBase
-  {
+	{
 		public LoginPage() :
 			base()
 		{
@@ -23,7 +25,9 @@
 			var disco = await client.GetDiscoveryDocumentAsync();
 			if (disco.IsError)
 			{
-				throw new HttpRequestException(disco.Error);
+				_errors.Text = disco.Error;
+				_errors.Visibility = Visibility.Visible;
+				return;
 			}
 
 			var response = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
@@ -38,7 +42,9 @@
 			});
 			if (response.IsError)
 			{
-				throw new AuthenticationException(response.Error);
+				_errors.Text = response.Error;
+				_errors.Visibility = Visibility.Visible;
+				return;
 			}
 
 			_navArgs.Token = response.AccessToken;

@@ -21,6 +21,9 @@
             <Button 
                 Content="Login" 
                 Click="Login_Click" />
+            <TextBlock
+                Name="_errors"
+                Visibility="Collapsed" />
         </StackPanel>
     </Page.Content>
 
