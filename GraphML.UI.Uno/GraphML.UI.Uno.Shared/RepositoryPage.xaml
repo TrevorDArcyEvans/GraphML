@@ -10,10 +10,27 @@
 
     <Page.Content>
         <StackPanel Orientation="Vertical">
-            <ListView 
-                ItemsSource="{x:Bind Repositories, Mode=OneWay}"
-                SelectedItem="{x:Bind SelectedRepository, Mode=TwoWay}" 
-                DisplayMemberPath="Name" />
+            <Grid>
+                <TextBlock 
+                    Text="Repositories" 
+                    Margin="7 0 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="0 2 0 0" 
+                    Margin="100 10 3 3" 
+                    CornerRadius="0 5 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="2 0 2 2" 
+                    Margin="3 10 3 3" 
+                    CornerRadius="5">
+                    <ListView Margin="10 10 10 10"
+                        ItemsSource="{x:Bind Repositories, Mode=OneWay}"
+                        SelectedItem="{x:Bind SelectedRepository, Mode=TwoWay}" 
+                        DisplayMemberPath="Name" />
+                </Border>
+            </Grid>
+
             <Button
                 Content="Go"
                 Click="Repository_Click" />
