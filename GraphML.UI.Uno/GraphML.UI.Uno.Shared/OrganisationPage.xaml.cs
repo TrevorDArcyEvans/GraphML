@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-#if !__WASM__
-using System.Net.Http;
-#endif
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Autofac;
-using Microsoft.Extensions.Configuration;
-using GraphML.UI.Uno.Server;
-using GraphML.UI.Uno.Shared;
-using Newtonsoft.Json;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.Linq;
+#if !__WASM__
+	using System.Net.Http;
+#endif
+	using Windows.UI.Xaml.Controls;
+	using Windows.UI.Xaml.Navigation;
+	using Autofac;
+	using Microsoft.Extensions.Configuration;
+	using GraphML.UI.Uno.Server;
+	using GraphML.UI.Uno.Shared;
+
 	public sealed partial class OrganisationPage : Page
 	{
 		private readonly IConfigurationRoot _config;

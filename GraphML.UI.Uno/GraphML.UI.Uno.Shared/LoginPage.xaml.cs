@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
 	using Autofac;
 	using GraphML.Common;
 	using IdentityModel.Client;
 	using Microsoft.Extensions.Configuration;
 	using System;
+	using System.Collections.Generic;
 	using System.Net.Http;
 	using System.Security.Authentication;
 	using Windows.UI.Xaml.Controls;
