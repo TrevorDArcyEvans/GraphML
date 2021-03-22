@@ -28,6 +28,10 @@ namespace GraphML.Logic.Filters
     {
       var email = _context.Email();
       var contact = _contactDatastore.ByEmail(email);
+      if (contact is null)
+      {
+          return null;
+      }
       var sameOrg = contact.OrganisationId == input.OrganisationId;
 
       return sameOrg || HasRole(Roles.Admin) ? input : null;
