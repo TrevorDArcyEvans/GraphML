@@ -16,6 +16,7 @@
                 DisplayMemberPath="Name" />
             <Button
                 Content="Go"
+                IsEnabled="{x:Bind SelectedGraph, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Graph_Click" />
             <Button
                 Content="Back"

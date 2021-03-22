@@ -2,8 +2,8 @@
 {
 	using System.Collections.ObjectModel;
 	using System.Linq;
-  using Windows.UI.Xaml.Navigation;
-  using GraphML.UI.Uno.Server;
+	using Windows.UI.Xaml.Navigation;
+	using GraphML.UI.Uno.Server;
 
 	public sealed partial class OrganisationPage : PageBase
 	{
@@ -14,7 +14,14 @@
 		}
 
 		public ObservableCollection<Organisation> Organisations { get; set; } = new ObservableCollection<Organisation>();
-		public Organisation SelectedOrganisation { get; set; }
+
+		private Organisation _selectedOrganisation;
+
+		public Organisation SelectedOrganisation
+		{
+			get => _selectedOrganisation;
+			set => SetProperty(ref _selectedOrganisation, value);
+		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -33,15 +40,15 @@
 		  .ForEach(org => Organisations.Add(org));
 		}
 
-		private void Logout_Click(object sender, object args)
-		{
-			Frame.Navigate(typeof(LoginPage));
-		}
-
 		private void Organisation_Click(object sender, object args)
 		{
 			_navArgs.SelectedOrganisation = SelectedOrganisation;
 			Frame.Navigate(typeof(RepositoryManagerPage), _navArgs);
+		}
+
+		private void Logout_Click(object sender, object args)
+		{
+			Frame.Navigate(typeof(LoginPage));
 		}
 	}
 }

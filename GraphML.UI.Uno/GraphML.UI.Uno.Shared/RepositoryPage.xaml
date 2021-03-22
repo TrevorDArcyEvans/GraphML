@@ -104,6 +104,7 @@
 
             <Button
                 Content="Go"
+                IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Repository_Click" />
             <Button 
                 Content="Back" 

@@ -8,14 +8,21 @@
 
 	public sealed partial class RepositoryPage : PageBase
 	{
+		private Repository _selectedRepository;
+
 		public RepositoryPage() :
-			base()
+			  base()
 		{
 			InitializeComponent();
 		}
 
 		public ObservableCollection<Repository> Repositories { get; set; } = new ObservableCollection<Repository>();
-		public Repository SelectedRepository { get; set; }
+
+		public Repository SelectedRepository
+		{
+			get => _selectedRepository;
+			set => SetProperty(ref _selectedRepository, value);
+		}
 
 		public ObservableCollection<RepositoryItemAttributeDefinition> RepositoryItemAttributes { get; set; } = new ObservableCollection<RepositoryItemAttributeDefinition>();
 		public ObservableCollection<NodeItemAttributeDefinition> NodeItemAttributes { get; set; } = new ObservableCollection<NodeItemAttributeDefinition>();

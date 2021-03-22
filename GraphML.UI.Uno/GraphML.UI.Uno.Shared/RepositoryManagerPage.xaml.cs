@@ -7,14 +7,21 @@
 
 	public sealed partial class RepositoryManagerPage : PageBase
 	{
+		private RepositoryManager _selectedRepositoryManager;
+
 		public RepositoryManagerPage() :
-			base()
+			  base()
 		{
 			InitializeComponent();
 		}
 
 		public ObservableCollection<RepositoryManager> RepositoryManagers { get; set; } = new ObservableCollection<RepositoryManager>();
-		public RepositoryManager SelectedRepositoryManager { get; set; }
+
+		public RepositoryManager SelectedRepositoryManager
+		{
+			get => _selectedRepositoryManager;
+			set => SetProperty(ref _selectedRepositoryManager, value);
+		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{

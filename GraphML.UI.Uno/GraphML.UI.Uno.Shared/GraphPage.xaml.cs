@@ -8,14 +8,21 @@ namespace GraphML.UI.Uno
 
 	public sealed partial class GraphPage : PageBase
 	{
+		private Graph _selectedGraph;
+
 		public GraphPage() :
-			base()
+			  base()
 		{
 			InitializeComponent();
 		}
 
 		public ObservableCollection<Graph> Graphs { get; set; } = new ObservableCollection<Graph>();
-		public Graph SelectedGraph { get; set; }
+
+		public Graph SelectedGraph
+		{
+			get => _selectedGraph;
+			set => SetProperty(ref _selectedGraph, value);
+		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
