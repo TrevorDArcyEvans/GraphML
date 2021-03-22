@@ -19,6 +19,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BreadcrumbTrail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ObjectToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphPage.xaml.cs">
       <DependentUpon>GraphPage.xaml</DependentUpon>
     </Compile>
@@ -31,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PageBase.xaml.cs">
       <DependentUpon>PageBase.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\Annotations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RepositoryManagerPage.xaml.cs">
       <DependentUpon>RepositoryManagerPage.xaml</DependentUpon>
     </Compile>
