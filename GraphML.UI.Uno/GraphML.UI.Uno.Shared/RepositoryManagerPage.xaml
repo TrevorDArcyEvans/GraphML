@@ -11,7 +11,7 @@
     <StackPanel Orientation="Vertical">
         <ListView
             ItemsSource="{x:Bind RepositoryManagers, Mode=OneWay}"
-            SelectedItem="{x:Bind SelectedRepositoryManager}"
+            SelectedItem="{x:Bind SelectedRepositoryManager, Mode=TwoWay}"
             DisplayMemberPath="Name" />
         <Button
             Content="Go"
