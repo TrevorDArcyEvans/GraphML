@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
+	using GraphML.UI.Uno.Server;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using Windows.UI.Xaml.Navigation;
-	using GraphML.UI.Uno.Server;
 
 	public sealed partial class RepositoryPage : PageBase
 	{

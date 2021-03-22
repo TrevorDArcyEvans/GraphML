@@ -1,12 +1,11 @@
-﻿using System;
-using Windows.UI.Core;
-
-namespace GraphML.UI.Uno
+﻿namespace GraphML.UI.Uno
 {
-	using System.Net.Http;
-	using Windows.UI.Xaml.Controls;
 	using Autofac;
 	using Microsoft.Extensions.Configuration;
+	using System;
+	using System.Net.Http;
+	using Windows.UI.Core;
+	using Windows.UI.Xaml.Controls;
 
 	public partial class PageBase : Page
 	{
