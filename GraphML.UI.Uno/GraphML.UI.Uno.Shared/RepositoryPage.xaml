@@ -9,6 +9,18 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <DataTemplate 
+            x:Key="ItemAttributeDefinitionTemplate"
+            x:DataType="graphML:ItemAttributeDefinition">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Bind Name}" />
+                <TextBlock Text=" --> " />
+                <TextBlock Text="{x:Bind DataType}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
     <Page.Content>
         <StackPanel Orientation="Vertical">
             <Grid>
@@ -47,18 +59,8 @@
                     CornerRadius="5">
                     <ListView 
                         Margin="10 10 10 10"
-                        ItemsSource="{x:Bind RepositoryItemAttributes, Mode=OneWay}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate 
-                                x:DataType="graphML:ItemAttributeDefinition">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{x:Bind Name}" />
-                                    <TextBlock Text=" --> " />
-                                    <TextBlock Text="{x:Bind DataType}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        ItemsSource="{x:Bind RepositoryItemAttributes, Mode=OneWay}"
+                        ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
                 </Border>
             </Grid>
             <Grid>
@@ -76,18 +78,8 @@
                     Margin="3 10 3 3" 
                     CornerRadius="5">
                     <ListView Margin="10 10 10 10"
-                        ItemsSource="{x:Bind NodeItemAttributes, Mode=OneWay}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate 
-                                x:DataType="graphML:ItemAttributeDefinition">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{x:Bind Name}" />
-                                    <TextBlock Text=" --> " />
-                                    <TextBlock Text="{x:Bind DataType}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        ItemsSource="{x:Bind NodeItemAttributes, Mode=OneWay}"
+                        ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
                 </Border>
             </Grid>
             <Grid>
@@ -105,18 +97,8 @@
                     Margin="3 10 3 3" 
                     CornerRadius="5">
                     <ListView Margin="10 10 10 10"
-                        ItemsSource="{x:Bind EdgeItemAttributes, Mode=OneWay}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate 
-                                x:DataType="graphML:ItemAttributeDefinition">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{x:Bind Name}" />
-                                    <TextBlock Text=" --> " />
-                                    <TextBlock Text="{x:Bind DataType}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        ItemsSource="{x:Bind EdgeItemAttributes, Mode=OneWay}"
+                        ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
                 </Border>
             </Grid>
 
