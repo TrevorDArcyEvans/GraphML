@@ -1,4 +1,7 @@
-﻿namespace GraphML.UI.Uno
+﻿using System;
+using Windows.UI.Core;
+
+namespace GraphML.UI.Uno
 {
 	using System.Net.Http;
 	using Windows.UI.Xaml.Controls;
@@ -23,6 +26,11 @@
 				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 			};
 #endif
+		}
+
+		protected async void MarshallToUI(Action action)
+		{
+			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
 		}
 	}
 }
