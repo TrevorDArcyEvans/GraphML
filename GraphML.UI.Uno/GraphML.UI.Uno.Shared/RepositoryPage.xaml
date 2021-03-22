@@ -5,6 +5,7 @@
     xmlns:local="using:GraphML.UI.Uno"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:graphML="using:GraphML"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -44,9 +45,20 @@
                     BorderThickness="2 0 2 2" 
                     Margin="3 10 3 3" 
                     CornerRadius="5">
-                    <ListView Margin="10 10 10 10"
-                        ItemsSource="{x:Bind RepositoryItemAttributes, Mode=OneWay}"
-                        DisplayMemberPath="Name" />
+                    <ListView 
+                        Margin="10 10 10 10"
+                        ItemsSource="{x:Bind RepositoryItemAttributes, Mode=OneWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate 
+                                x:DataType="graphML:ItemAttributeDefinition">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Bind Name}" />
+                                    <TextBlock Text=" --> " />
+                                    <TextBlock Text="{x:Bind DataType}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Border>
             </Grid>
             <Grid>
@@ -64,8 +76,18 @@
                     Margin="3 10 3 3" 
                     CornerRadius="5">
                     <ListView Margin="10 10 10 10"
-                        ItemsSource="{x:Bind NodeItemAttributes, Mode=OneWay}"
-                        DisplayMemberPath="Name" />
+                        ItemsSource="{x:Bind NodeItemAttributes, Mode=OneWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate 
+                                x:DataType="graphML:ItemAttributeDefinition">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Bind Name}" />
+                                    <TextBlock Text=" --> " />
+                                    <TextBlock Text="{x:Bind DataType}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Border>
             </Grid>
             <Grid>
@@ -83,8 +105,18 @@
                     Margin="3 10 3 3" 
                     CornerRadius="5">
                     <ListView Margin="10 10 10 10"
-                        ItemsSource="{x:Bind EdgeItemAttributes, Mode=OneWay}"
-                        DisplayMemberPath="Name" />
+                        ItemsSource="{x:Bind EdgeItemAttributes, Mode=OneWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate 
+                                x:DataType="graphML:ItemAttributeDefinition">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Bind Name}" />
+                                    <TextBlock Text=" --> " />
+                                    <TextBlock Text="{x:Bind DataType}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Border>
             </Grid>
 
