@@ -11,15 +11,15 @@
     <Page.Content>
         <StackPanel Orientation="Vertical">
             <ListView
-            ItemsSource="{x:Bind RepositoryManagers, Mode=OneWay}"
-            SelectedItem="{x:Bind SelectedRepositoryManager, Mode=TwoWay}"
-            DisplayMemberPath="Name" />
+                ItemsSource="{x:Bind RepositoryManagers, Mode=OneWay}"
+                SelectedItem="{x:Bind SelectedRepositoryManager, Mode=TwoWay}"
+                DisplayMemberPath="Name" />
             <Button
-            Content="Go"
-            Click="Repository_Click" />
+                Content="Go"
+                Click="Repository_Click" />
             <Button
-            Content="Back"
-            Click="Back_Click" />
+                Content="Back"
+                Click="Back_Click" />
         </StackPanel>
     </Page.Content>
 

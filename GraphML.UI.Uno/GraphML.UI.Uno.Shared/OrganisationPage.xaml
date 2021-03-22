@@ -10,15 +10,15 @@
     <Page.Content>
         <StackPanel Orientation="Vertical">
             <ListView 
-            ItemsSource="{x:Bind Organisations, Mode=OneWay}"
-            SelectedItem="{x:Bind SelectedOrganisation, Mode=TwoWay}" 
-            DisplayMemberPath="Name" />
+                ItemsSource="{x:Bind Organisations, Mode=OneWay}"
+                SelectedItem="{x:Bind SelectedOrganisation, Mode=TwoWay}" 
+                DisplayMemberPath="Name" />
             <Button
-            Content="Go"
-            Click="Organisation_Click" />
+                Content="Go"
+                Click="Organisation_Click" />
             <Button 
-            Content="Logout" 
-            Click="Logout_Click" />
+                Content="Logout" 
+                Click="Logout_Click" />
         </StackPanel>
     </Page.Content>
 

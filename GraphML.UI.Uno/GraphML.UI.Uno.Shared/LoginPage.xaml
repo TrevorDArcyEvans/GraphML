@@ -11,9 +11,16 @@
 
     <Page.Content>
         <StackPanel Orientation="Vertical">
-            <TextBox Name="_userName" PlaceholderText="User Name" />
-            <PasswordBox Name="_password" PlaceholderText="Password" IsPasswordRevealButtonEnabled="True" />
-            <Button Content="Login" Click="Login_Click" />
+            <TextBox
+                Name="_userName"
+                PlaceholderText="User Name" />
+            <PasswordBox 
+                Name="_password" 
+                PlaceholderText="Password" 
+                IsPasswordRevealButtonEnabled="True" />
+            <Button 
+                Content="Login" 
+                Click="Login_Click" />
         </StackPanel>
     </Page.Content>
 
