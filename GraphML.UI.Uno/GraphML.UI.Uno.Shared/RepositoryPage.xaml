@@ -30,6 +30,63 @@
                         DisplayMemberPath="Name" />
                 </Border>
             </Grid>
+            <Grid>
+                <TextBlock 
+                    Text="Repository Attributes" 
+                    Margin="7 0 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="0 2 0 0" 
+                    Margin="100 10 3 3" 
+                    CornerRadius="0 5 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="2 0 2 2" 
+                    Margin="3 10 3 3" 
+                    CornerRadius="5">
+                    <ListView Margin="10 10 10 10"
+                        ItemsSource="{x:Bind RepositoryItemAttributes, Mode=OneWay}"
+                        DisplayMemberPath="Name" />
+                </Border>
+            </Grid>
+            <Grid>
+                <TextBlock 
+                    Text="Node Attributes" 
+                    Margin="7 0 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="0 2 0 0" 
+                    Margin="100 10 3 3" 
+                    CornerRadius="0 5 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="2 0 2 2" 
+                    Margin="3 10 3 3" 
+                    CornerRadius="5">
+                    <ListView Margin="10 10 10 10"
+                        ItemsSource="{x:Bind NodeItemAttributes, Mode=OneWay}"
+                        DisplayMemberPath="Name" />
+                </Border>
+            </Grid>
+            <Grid>
+                <TextBlock 
+                    Text="Edge Attributes" 
+                    Margin="7 0 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="0 2 0 0" 
+                    Margin="100 10 3 3" 
+                    CornerRadius="0 5 0 0" />
+                <Border 
+                    BorderBrush="Black" 
+                    BorderThickness="2 0 2 2" 
+                    Margin="3 10 3 3" 
+                    CornerRadius="5">
+                    <ListView Margin="10 10 10 10"
+                        ItemsSource="{x:Bind EdgeItemAttributes, Mode=OneWay}"
+                        DisplayMemberPath="Name" />
+                </Border>
+            </Grid>
 
             <Button
                 Content="Go"
