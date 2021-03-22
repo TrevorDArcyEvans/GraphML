@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-#if !__WASM__
-using System.Net.Http;
-#endif
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Autofac;
-using GraphML.UI.Uno.Server;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-
-namespace GraphML.UI.Uno.Shared
+﻿namespace GraphML.UI.Uno.Shared
 {
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.Linq;
+#if !__WASM__
+	using System.Net.Http;
+#endif
+	using Windows.UI.Xaml.Controls;
+	using Windows.UI.Xaml.Navigation;
+	using Autofac;
+	using GraphML.UI.Uno.Server;
+	using Microsoft.Extensions.Configuration;
+
 	public sealed partial class RepositoryManagerPage : Page
 	{
 		private readonly IConfigurationRoot _config;
+    private Organisation SelectedOrganisation;
 		private string _token;
 
 		public RepositoryManagerPage()
@@ -32,11 +32,11 @@ namespace GraphML.UI.Uno.Shared
 		{
 			var navArgs = (Dictionary<string, object>)e.Parameter;
 			_token = (string)navArgs["Token"];
-			var selOrg = (Organisation)navArgs["SelectedOrganisation"];
+      SelectedOrganisation = (Organisation)navArgs["SelectedOrganisation"];
 
 			base.OnNavigatedTo(e);
 
-			Initialise(selOrg);
+			Initialise(SelectedOrganisation);
 		}
 
 		private async void Initialise(Organisation selOrg)
@@ -56,21 +56,23 @@ namespace GraphML.UI.Uno.Shared
 		  .ForEach(repoMgr => RepositoryManagers.Add(repoMgr));
 		}
 
-    private void Repository_Click(object sender, object args)
+		private void Repository_Click(object sender, object args)
 		{
 			var navArgs = new Dictionary<string, object>
 	  {
 		  { "Token", _token },
+		  { "SelectedOrganisation", SelectedOrganisation },
 		  { "SelectedRepositoryManager", SelectedRepositoryManager }
 	  };
-			// TODO   Frame.Navigate(typeof(RepositoryPage), navArgs);
+			Frame.Navigate(typeof(RepositoryPage), navArgs);
 		}
 
 		private void Back_Click(object sender, object args)
 		{
 			var navArgs = new Dictionary<string, object>
 	  {
-		  { "Token", _token }
+		  { "Token", _token },
+		  { "SelectedOrganisation", SelectedOrganisation }
 	  };
 			Frame.Navigate(typeof(OrganisationPage), navArgs);
 		}
