@@ -13,6 +13,7 @@
 	public sealed partial class LoginPage : Page
 	{
 		private readonly IConfigurationRoot _config;
+    private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
 
 		public LoginPage()
 		{
@@ -56,11 +57,8 @@
 				throw new AuthenticationException(response.Error);
 			}
 
-			var navArgs = new Dictionary<string, object>
-	  {
-		  { "Token", response.AccessToken }
-	  };
-			Frame.Navigate(typeof(OrganisationPage), navArgs);
+      _navArgs["Token"] = response.AccessToken;
+			Frame.Navigate(typeof(OrganisationPage), _navArgs);
 		}
 	}
 }

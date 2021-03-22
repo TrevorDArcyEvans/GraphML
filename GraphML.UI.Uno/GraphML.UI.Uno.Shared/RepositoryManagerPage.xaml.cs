@@ -17,6 +17,7 @@
 		private readonly IConfigurationRoot _config;
     private Organisation SelectedOrganisation;
 		private string _token;
+		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
 
 		public RepositoryManagerPage()
 		{
@@ -30,9 +31,9 @@
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var navArgs = (Dictionary<string, object>)e.Parameter;
-			_token = (string)navArgs["Token"];
-      SelectedOrganisation = (Organisation)navArgs["SelectedOrganisation"];
+			_navArgs = (Dictionary<string, object>)e.Parameter;
+			_token = (string)_navArgs["Token"];
+      SelectedOrganisation = (Organisation)_navArgs["SelectedOrganisation"];
 
 			base.OnNavigatedTo(e);
 
@@ -58,23 +59,13 @@
 
 		private void Repository_Click(object sender, object args)
 		{
-			var navArgs = new Dictionary<string, object>
-	  {
-		  { "Token", _token },
-		  { "SelectedOrganisation", SelectedOrganisation },
-		  { "SelectedRepositoryManager", SelectedRepositoryManager }
-	  };
-			Frame.Navigate(typeof(RepositoryPage), navArgs);
+			_navArgs["SelectedRepositoryManager"] = SelectedRepositoryManager;
+			Frame.Navigate(typeof(RepositoryPage), _navArgs);
 		}
 
 		private void Back_Click(object sender, object args)
 		{
-			var navArgs = new Dictionary<string, object>
-	  {
-		  { "Token", _token },
-		  { "SelectedOrganisation", SelectedOrganisation }
-	  };
-			Frame.Navigate(typeof(OrganisationPage), navArgs);
+			Frame.Navigate(typeof(OrganisationPage), _navArgs);
 		}
 	}
 }

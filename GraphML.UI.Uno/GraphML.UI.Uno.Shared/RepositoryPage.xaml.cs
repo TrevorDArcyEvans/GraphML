@@ -18,6 +18,7 @@
     private Organisation SelectedOrganisation;
 		private RepositoryManager SelectedRepositoryManager;
 		private string _token;
+		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
 
 		public RepositoryPage()
 		{
@@ -31,10 +32,10 @@
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var navArgs = (Dictionary<string, object>)e.Parameter;
-			_token = (string)navArgs["Token"];
-      SelectedOrganisation = (Organisation)navArgs["SelectedOrganisation"];
-      SelectedRepositoryManager = (RepositoryManager)navArgs["SelectedRepositoryManager"];
+			_navArgs = (Dictionary<string, object>)e.Parameter;
+			_token = (string)_navArgs["Token"];
+      SelectedOrganisation = (Organisation)_navArgs["SelectedOrganisation"];
+      SelectedRepositoryManager = (RepositoryManager)_navArgs["SelectedRepositoryManager"];
 
 			base.OnNavigatedTo(e);
 
@@ -60,25 +61,13 @@
 
 		private void Repository_Click(object sender, object args)
 		{
-			var navArgs = new Dictionary<string, object>
-	  {
-		  { "Token", _token },
-		  { "SelectedOrganisation", SelectedOrganisation },
-		  { "SelectedRepositoryManager", SelectedRepositoryManager },
-		  { "SelectedRepository", SelectedRepository}
-	  };
-			// TODO	  Frame.Navigate(typeof(RepositoryContentsPage), navArgs); aka NodesEdgesPage
+			_navArgs["SelectedRepository"] = SelectedRepository;
+			// TODO	  Frame.Navigate(typeof(GraphPage), navArgs);
 		}
 
 		private void Back_Click(object sender, object args)
 		{
-			var navArgs = new Dictionary<string, object>
-	  {
-		  { "Token", _token },
-		  { "SelectedOrganisation", SelectedOrganisation },
-		  { "SelectedRepositoryManager", SelectedRepositoryManager }
-	  };
-			Frame.Navigate(typeof(RepositoryManagerPage), navArgs);
+			Frame.Navigate(typeof(RepositoryManagerPage), _navArgs);
 		}
 	}
 }

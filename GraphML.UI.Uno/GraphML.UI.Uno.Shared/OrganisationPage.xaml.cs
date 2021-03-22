@@ -17,6 +17,7 @@
 	{
 		private readonly IConfigurationRoot _config;
 		private string _token;
+		private Dictionary<string, object> _navArgs = new Dictionary<string, object>();
 
 		public OrganisationPage()
 		{
@@ -30,8 +31,8 @@
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var navArgs = (Dictionary<string, object>)e.Parameter;
-			_token = (string)navArgs["Token"];
+			_navArgs = (Dictionary<string, object>)e.Parameter;
+			_token = (string)_navArgs["Token"];
 
 			base.OnNavigatedTo(e);
 
@@ -66,12 +67,8 @@
 
 		private void Organisation_Click(object sender, object args)
 		{
-			var navArgs = new Dictionary<string, object>
-	  {
-		  { "Token", _token },
-		  { "SelectedOrganisation", SelectedOrganisation }
-	  };
-			Frame.Navigate(typeof(RepositoryManagerPage), navArgs);
+			_navArgs["SelectedOrganisation"] = SelectedOrganisation;
+			Frame.Navigate(typeof(RepositoryManagerPage), _navArgs);
 		}
 	}
 }
