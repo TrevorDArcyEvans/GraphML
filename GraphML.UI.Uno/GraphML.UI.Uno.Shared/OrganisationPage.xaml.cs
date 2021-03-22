@@ -2,9 +2,6 @@
 {
 	using System.Collections.ObjectModel;
 	using System.Linq;
-#if !__WASM__
-	using System.Net.Http;
-#endif
   using Windows.UI.Xaml.Navigation;
   using GraphML.UI.Uno.Server;
 
@@ -30,16 +27,7 @@
 
 		private async void Initialise()
 		{
-#if __WASM__
-			var innerHandler = new global::Uno.UI.Wasm.WasmHttpHandler();
-#else
-			var innerHandler = new HttpClientHandler
-			{
-				ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-			};
-#endif
-
-			var orgServer = new OrganisationServer(_config, _navArgs.Token, innerHandler);
+			var orgServer = new OrganisationServer(_config, _navArgs.Token, _innerHandler);
 			var orgs = await orgServer.GetAll();
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));

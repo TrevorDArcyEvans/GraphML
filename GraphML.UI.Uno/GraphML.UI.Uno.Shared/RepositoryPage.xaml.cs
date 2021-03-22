@@ -2,9 +2,6 @@
 {
 	using System.Collections.ObjectModel;
 	using System.Linq;
-#if !__WASM__
-	using System.Net.Http;
-#endif
 	using Windows.UI.Xaml.Navigation;
 	using GraphML.UI.Uno.Server;
 
@@ -13,7 +10,7 @@
 		public RepositoryPage() :
 			base()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public ObservableCollection<Repository> Repositories { get; set; } = new ObservableCollection<Repository>();
@@ -39,7 +36,7 @@
 		private void Repository_Click(object sender, object args)
 		{
 			_navArgs.SelectedRepository = SelectedRepository;
-			// TODO	  Frame.Navigate(typeof(GraphPage), navArgs);
+			Frame.Navigate(typeof(GraphPage), _navArgs);
 		}
 
 		private void Back_Click(object sender, object args)

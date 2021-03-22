@@ -2,9 +2,6 @@
 {
 	using System.Collections.ObjectModel;
 	using System.Linq;
-#if !__WASM__
-	using System.Net.Http;
-#endif
 	using Windows.UI.Xaml.Navigation;
 	using GraphML.UI.Uno.Server;
 
