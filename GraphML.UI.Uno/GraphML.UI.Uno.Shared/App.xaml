@@ -2,6 +2,11 @@
     x:Class="GraphML.UI.Uno.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GraphML.UI.Uno">
-
+    xmlns:local="using:GraphML.UI.Uno"
+    xmlns:converters="using:GraphML.UI.Uno.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:ObjectToBoolConverter x:Key="ObjectToBool"/>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
