@@ -4,6 +4,7 @@
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+		<DefineConstants>__LINUX__</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup Condition="exists('..\GraphML.UI.Uno.UWP')">
