@@ -17,7 +17,7 @@
   "ImportSpecification": {
     "Organisation": "GraphML",
     "RepositoryManager": "GraphML Repository Manager",
-    "Repository": "import-test-node-attributes",
+    "Repository": "import-test-optional-node-attributes",
     "DataFile": "../../../Sample-Data/import-test-optional-node.txt",
     "HasHeaderRecord": false,
     "NodeItemAttributeImportDefinitions": [
