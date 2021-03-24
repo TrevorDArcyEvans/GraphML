@@ -56,6 +56,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			DumpSettings(_config, _importSpec);
 
 			var sw = Stopwatch.StartNew();
+			_logInfoAction($"Started at                        : {sw.ElapsedMilliseconds} ms");
 			var dbConnFact = new DbConnectionFactory(_config);
 			using var conn = dbConnFact.Get();
 			using var trans = conn.BeginTransaction();
@@ -77,6 +78,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
 			var edgeAttrDefsMap = GetEdgeItemAttributeDefinitionsMap(conn, trans, repoMgr, org);
 			var nodeAttrDefsMap = GetNodeItemAttributeDefinitionsMap(conn, trans, repoMgr, org);
 
+			_logInfoAction($"Started file read                 : {sw.ElapsedMilliseconds} ms");
 			using var tr = File.OpenText(_importSpec.DataFile);
 			var csvCfg = new CsvConfiguration(CultureInfo.InvariantCulture)
 			{
@@ -117,10 +119,11 @@ namespace GraphML.Datastore.Database.Importer.CSV
 
 				ProcessNodeItemAttributes(nodeAttrDefsMap, csv, srcNode, tarNode, org, nodeAttrs);
 			}
+			_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 
 			var nodes = nodeMap.Values.ToList();
 
-			_logInfoAction($"Transformed data at         : {sw.ElapsedMilliseconds} ms");
+			_logInfoAction($"Transformed data at               : {sw.ElapsedMilliseconds} ms");
 
 			if (conn is SqlConnection sqlConn && trans is SqlTransaction sqlTrans)
 			{
@@ -161,13 +164,19 @@ namespace GraphML.Datastore.Database.Importer.CSV
 				_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 			}
 
-			_logInfoAction($"Started database commit             : {sw.ElapsedMilliseconds} ms");
+			_logInfoAction($"Started database commit           : {sw.ElapsedMilliseconds} ms");
 			trans.Commit();
-			_logInfoAction($"  finished at                       : {sw.ElapsedMilliseconds} ms");
+			_logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
 
 			_logInfoAction(Environment.NewLine);
 			_logInfoAction($"Finished!");
-			_logInfoAction($"  Imported {nodes.Count()} nodes and {edges.Count()} edges in {sw.ElapsedMilliseconds} ms");
+			_logInfoAction(Environment.NewLine);
+			_logInfoAction($"Summary:");
+			_logInfoAction($"  Nodes          : {nodes.Count()}");
+			_logInfoAction($"    Attributes   : {nodeAttrs.Count()}");
+			_logInfoAction($"  Edges          : {edges.Count()}");
+			_logInfoAction($"    Attributes   : {edgeAttrs.Count()}");
+			_logInfoAction($"  Elapsed time   : {sw.ElapsedMilliseconds} ms");
 		}
 
 		private Node GetOrCreateNode(
