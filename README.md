@@ -4,26 +4,38 @@ GraphML analyses graphs for the following measures:
 * <details>
     <summary>ranked shortest paths</summary>
 These calculations help your users understand ways to travel through (or ‘traverse’) a network.<p/>
-The distance function measures how many hops apart two nodes are in a network. Shortest path highlights the route that passes through the lowest number of nodes. 
-Hops can also be weighted, meaning you can calculate actual distances, as well as the number of hops.
+The distance function measures how many hops apart two nodes are in a network. Shortest path 
+highlights the route that passes through the lowest number of nodes. <p/>
+Hops can also be weighted, meaning you can calculate actual distances, as well as the number of hops.<p/>
+
+  [Wikipedia](https://en.wikipedia.org/wiki/K_shortest_path_routing)
   </details>
 * Social Network Analysis (SNA)
   * <details>
       <summary>closeness</summary>
-This is the measure that helps you find the nodes that are closest to the other nodes in a network, based on their ability to reach them.<p/>
-To calculate this, the algorithm finds the shortest path between each node, then assigns each node a score based on the sum of all the paths.<p/>
-Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.
+This is the measure that helps you find the nodes that are closest to the other nodes in a network,
+based on their ability to reach them.<p/>
+To calculate this, the algorithm finds the shortest path between each node, then assigns each node a 
+score based on the sum of all the paths.<p/>
+Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.</p> 
+
+      [Wikipedia](https://en.wikipedia.org/wiki/Centrality)
     </details>
   * <details>
       <summary>betweeness</summary>
 Nodes with a high betweenness centrality score are the ones that most frequently act as ‘bridges’ between other nodes. 
 They form the shortest pathways of communication within the network.<p/>
-Usually this would indicate important gatekeepers of information between groups.
+Usually this would indicate important gatekeepers of information between groups.<p/>
+
+    [Wikipedia](https://en.wikipedia.org/wiki/Betweenness_centrality) <p/>
     </details>
   * <details>
       <summary>degree</summary>
 The degree centrality measure finds nodes with the highest number of links to other nodes in the network.<p/>
-Nodes with a high degree centrality have the best connections to those around them – they might be influential, or just strategically well-placed.
+Nodes with a high degree centrality have the best connections to those around them – they might be influential,
+or just strategically well-placed.<p/>
+
+    [Wikipedia]( https://en.wikipedia.org/wiki/Degree_(graph_theory) ) <p/>
     </details>
 
 ## Prerequisites
@@ -200,7 +212,9 @@ to load environment variables through:<br/>
 ```javascript
 //  How\where to configure BaseURL for Wasm app that uses WasmHttpHandler
 //    https://github.com/unoplatform/uno/issues/1481#issuecomment-531480543
-//  [wasm] Store AppSettings externally in some sort of editable text file such as .config, .json or .xml so these values can be changed depending the on the deployment hosting target
+//  [wasm] Store AppSettings externally in some sort of editable text file such as
+//          .config, .json or .xml, so these values can be changed depending the
+//          on the deployment hosting target
 //    https://github.com/unoplatform/uno/issues/1500
 config.environmentVariables["IDENTITY_SERVER_CLIENT_ID"] = "GraphML.UI.Uno.Wasm";
 config.environmentVariables["IDENTITY_SERVER_CLIENT_SECRET"] = "secret";
