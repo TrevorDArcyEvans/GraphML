@@ -27,4 +27,8 @@
   <ItemGroup>
     <None Include="..\GraphML.snk" Link="GraphML.snk" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
+  </ItemGroup>
 </Project>
