@@ -22,8 +22,4 @@
   <ItemGroup>
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\GraphML.UI.Uno.Skia.WPF\GraphML.UI.Uno.Skia.WPF.csproj" />
-  </ItemGroup>
 </Project>
