@@ -60,12 +60,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis", "Analysis", "{70
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0B371A65-1093-4075-8EBB-B3D2F0C3ADF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphML.UI.Uno.Server", "GraphML.UI.Uno\GraphML.UI.Uno.Server\GraphML.UI.Uno.Server.csproj", "{FA804E9A-DCB4-4722-A455-A0C200772BB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphML.UI.Uno.Server", "GraphML.UI.Uno\GraphML.UI.Uno.Server\GraphML.UI.Uno.Server.csproj", "{FA804E9A-DCB4-4722-A455-A0C200772BB8}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{0bb32c37-baf2-4455-8dd5-09fbf8f96b25}*SharedItemsImports = 5
 		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{2181651d-a765-4caa-9802-2a5628452363}*SharedItemsImports = 4
 		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{97ade730-a9e4-4677-b247-707be951034c}*SharedItemsImports = 5
 		GraphML.UI.Uno\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems*{f68ccff1-5656-47c0-b93a-2c31e8d8365c}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
