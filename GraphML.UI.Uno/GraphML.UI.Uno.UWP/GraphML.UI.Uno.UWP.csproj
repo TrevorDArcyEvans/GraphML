@@ -172,12 +172,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GraphML.UI.Uno.Server\GraphML.UI.Uno.Server.csproj">
-      <Project>{fa804e9a-dcb4-4722-a455-a0c200772bb8}</Project>
-      <Name>GraphML.UI.Uno.Server</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="..\GraphML.UI.Uno.Shared\GraphML.UI.Uno.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
