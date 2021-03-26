@@ -167,7 +167,7 @@ cd GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/bin/Debug/net5.0
 
 ### GraphML.UI.Uno.Wasm
 ```bash
-cd GraphML.UI.Uno\GraphML.UI.Uno.Wasm\bin\Debug\net5.0\dist
+cd GraphML.UI.Uno/GraphML.UI.Uno.Wasm/bin/Debug/net5.0/dist
 python3 -m http.server 8000
 ```
 open http://localhost:8000/
