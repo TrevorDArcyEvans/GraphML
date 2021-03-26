@@ -13,18 +13,35 @@
         "run"
       ],
       "cwd": "${workspaceFolder}/IdentityServerAspNetIdentity",
-      "env": {}
+      "env": {},
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": "API",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "dotnet",
+      "args": [
+        "run"
+      ],
+      "cwd": "${workspaceFolder}/GraphML.API",
+      "env": {},
+      "stopAtEntry": false,
+      "console": "internalConsole"
     },
     {
       "name": "GTK Linux",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "buildLinux",
-      "program": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/bin/Debug/net5.0/GraphML.UI.Uno.Skia.Gtk.dll",
+      "program": "dotnet",
       "args": [
         "run"
       ],
-      "cwd": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk"
+      "cwd": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk",
+      "env": {},
+      "stopAtEntry": false,
+      "console": "internalConsole"
     },
     {
       "name": ".NET Core Launch (Uno Platform App)",
