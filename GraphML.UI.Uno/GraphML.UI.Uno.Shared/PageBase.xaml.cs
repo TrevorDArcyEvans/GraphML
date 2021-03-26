@@ -20,6 +20,7 @@
 		public PageBase()
 		{
 			this.InitializeComponent();
+      
 			_config = App.Container.Resolve<IConfigurationRoot>();
 #if __WASM__
 			_innerHandler = new global::Uno.UI.Wasm.WasmHttpHandler();
