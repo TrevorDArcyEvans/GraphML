@@ -124,7 +124,7 @@ or just strategically well-placed.<p/>
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
   cd IdentityServerAspNetIdentity/bin/Debug/net5.0
-  ./IdentityServerAspNetIdentity.exe
+  ./IdentityServerAspNetIdentity
 ```
 1. open [IdentityServer4 Login](https://localhost:44387/Account/Login)
 1. run _Analysis Server_
@@ -149,7 +149,7 @@ or just strategically well-placed.<p/>
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
   cd GraphML.UI.Web/bin/Debug/net5.0
-  ./GraphML.UI.Web.exe
+  ./GraphML.UI.Web
 ```
 open https://localhost:5002/
 
@@ -162,7 +162,7 @@ open https://localhost:5002/
 ### GraphML.UI.Uno.Skia.Gtk
 ```bash
 cd GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/bin/Debug/net5.0
-./GraphML.UI.Uno.Skia.Gtk.exe
+./GraphML.UI.Uno.Skia.Gtk
 ```
 
 ### GraphML.UI.Uno.Wasm
