@@ -5,6 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "IdentityServerAspNetIdentity",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "dotnet",
+      "args": [
+        "run"
+      ],
+      "cwd": "${workspaceFolder}/IdentityServerAspNetIdentity",
+      "env": {}
+    },
+    {
       "name": "GTK Linux",
       "type": "coreclr",
       "request": "launch",
