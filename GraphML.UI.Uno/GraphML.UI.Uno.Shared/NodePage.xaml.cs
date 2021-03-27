@@ -31,8 +31,7 @@
 		  .ForEach(node => MarshallToUI(() => Nodes.Add(node)));
 		}
 
-
-		private void Back_Click(object sender, object args)
+    private void Back_Click(object sender, object args)
 		{
 			Frame.Navigate(typeof(RepositoryPage), _navArgs);
 		}
