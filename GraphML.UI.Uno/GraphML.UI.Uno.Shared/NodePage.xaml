@@ -12,7 +12,7 @@
     <Page.Content>
         <StackPanel Orientation="Vertical">
             <ListView Margin="10 10 10 10"
-                ItemsSource="{x:Bind Nodes, Mode=OneWay}"
+                ItemsSource="{x:Bind RepositoryItems, Mode=OneWay}"
                 DisplayMemberPath="Name" />
             <Button 
                 Content="Back" 

@@ -12,7 +12,7 @@
 			InitializeComponent();
 		}
 
-		public ObservableCollection<Node> Nodes { get; set; } = new ObservableCollection<Node>();
+		public ObservableCollection<RepositoryItem> Nodes { get; set; } = new ObservableCollection<RepositoryItem>();
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -25,13 +25,13 @@
 
 		private async void Initialise(Repository repo)
 		{
-			var nodeServer = new NodeServer(_config, _navArgs.Token, _innerHandler);
-			var nodes = await nodeServer.ByOwners(new[] { repo.Id });
-			nodes.ToList()
-		  .ForEach(node => MarshallToUI(() => Nodes.Add(node)));
+			var repoItemsServer = new NodeServer(_config, _navArgs.Token, _innerHandler);
+			var repoItems = await repoItemsServer.ByOwners(new[] { repo.Id });
+			repoItems.ToList()
+		  .ForEach(repoItem => MarshallToUI(() => Nodes.Add(repoItem)));
 		}
 
-    private void Back_Click(object sender, object args)
+		private void Back_Click(object sender, object args)
 		{
 			Frame.Navigate(typeof(RepositoryPage), _navArgs);
 		}

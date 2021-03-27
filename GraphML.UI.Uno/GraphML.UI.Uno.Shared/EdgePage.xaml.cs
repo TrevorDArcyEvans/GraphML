@@ -12,7 +12,7 @@
 			InitializeComponent();
 		}
 
-		public ObservableCollection<Edge> Edges { get; set; } = new ObservableCollection<Edge>();
+		public ObservableCollection<RepositoryItem> RepositoryItems { get; set; } = new ObservableCollection<RepositoryItem>();
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -25,10 +25,10 @@
 
 		private async void Initialise(Repository repo)
 		{
-			var edgeServer = new EdgeServer(_config, _navArgs.Token, _innerHandler);
-			var edges = await edgeServer.ByOwners(new[] { repo.Id });
-			edges.ToList()
-		  .ForEach(edge => MarshallToUI(() => Edges.Add(edge)));
+			var repoItemsServer = new EdgeServer(_config, _navArgs.Token, _innerHandler);
+			var repoItems = await repoItemsServer.ByOwners(new[] { repo.Id });
+			repoItems.ToList()
+		  .ForEach(repoItem => MarshallToUI(() => RepositoryItems.Add(repoItem)));
 		}
 
     private void Back_Click(object sender, object args)
