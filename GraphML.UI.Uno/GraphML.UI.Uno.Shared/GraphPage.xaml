@@ -15,9 +15,13 @@
                 SelectedItem="{x:Bind SelectedGraph, Mode=TwoWay}"
                 DisplayMemberPath="Name" />
             <Button
-                Content="Go"
+                Content="GraphNodes"
                 IsEnabled="{x:Bind SelectedGraph, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
-                Click="Graph_Click" />
+                Click="GraphNodes_Click" />
+            <Button
+                Content="GraphEdges"
+                IsEnabled="{x:Bind SelectedGraph, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
+                Click="GraphEdges_Click" />
             <Button
                 Content="Back"
                 Click="Back_Click" />
