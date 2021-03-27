@@ -20,12 +20,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BreadcrumbTrail.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EdgePage.xaml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GraphEdgePage.xaml.cs">
-      <DependentUpon>GraphEdgePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)GraphEdgePage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphItemPageBase.xaml.cs">
+      <DependentUpon>GraphItemPageBase.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)GraphNodePage.xaml.cs">
-      <DependentUpon>GraphNodePage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)GraphNodePage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NodePage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReposoitoryItemPageBase.xaml.cs">
       <DependentUpon>ReposoitoryItemPageBase.xaml</DependentUpon>
@@ -125,11 +124,7 @@
     <Compile Include="..\..\GraphML\Roles.cs" Link="GraphML\Roles.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)GraphEdgePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)GraphNodePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)GraphItemPageBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
