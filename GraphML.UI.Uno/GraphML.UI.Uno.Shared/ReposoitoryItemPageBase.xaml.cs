@@ -5,12 +5,12 @@
 	using Windows.UI.Xaml.Controls;
 	using Windows.UI.Xaml.Navigation;
 
-	public abstract partial class RepoItemPageBase : PageBase
+	public abstract partial class ReposoitoryItemPageBase : PageBase
 	{
 		protected NodeServer NodeServer;
 		protected EdgeServer EdgeServer;
 
-		public RepoItemPageBase()
+		public ReposoitoryItemPageBase()
 		{
 			InitializeComponent();
 		}

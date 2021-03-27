@@ -3,7 +3,7 @@
 	using GraphML.UI.Uno.Server;
 	using System.Linq;
 
-	public sealed partial class EdgePage : RepoItemPageBase
+	public sealed partial class EdgePage : ReposoitoryItemPageBase
 	{
 		protected override async void InitialiseUI(Repository repo)
 		{
