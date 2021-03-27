@@ -14,6 +14,13 @@ namespace GraphML.UI.Uno
 			base()
 		{
 			InitializeComponent();
+
+#if __LINUX__
+      _userName.Text = "alice";
+			_password.Password = "Pass123$";
+      OnPropertyChanged(nameof(_userName));
+      OnPropertyChanged(nameof(_password));
+#endif      
 		}
 
 		private async void Login_Click(object sender, object args)
