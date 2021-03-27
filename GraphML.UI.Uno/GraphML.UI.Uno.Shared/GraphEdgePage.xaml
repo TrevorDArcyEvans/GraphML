@@ -11,6 +11,9 @@
 
     <Page.Content>
         <StackPanel Orientation="Vertical">
+            <ListView
+                ItemsSource="{x:Bind GraphItems, Mode=OneWay}"
+                DisplayMemberPath="Name" />
             <Button 
                 Content="Back" 
                 Click="Back_Click" />

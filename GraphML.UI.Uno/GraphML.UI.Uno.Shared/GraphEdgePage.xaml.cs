@@ -1,5 +1,8 @@
 ﻿namespace GraphML.UI.Uno
 {
+	using GraphML.UI.Uno.Server;
+	using System.Collections.ObjectModel;
+	using System.Linq;
 	using Windows.UI.Xaml.Controls;
 	using Windows.UI.Xaml.Navigation;
 
@@ -9,6 +12,8 @@
 		{
 			InitializeComponent();
 		}
+
+		public ObservableCollection<GraphItem> GraphItems { get; set; } = new ObservableCollection<GraphItem>();
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -21,7 +26,10 @@
 
 		private async void Initialise(Graph graph)
 		{
-			// TODO	Initialise
+			var graphItemServer = new GraphEdgeServer(_config, _navArgs.Token, _innerHandler);
+			var graphItems = await graphItemServer.ByOwners(new[] { graph.Id });
+			graphItems.ToList()
+				.ForEach(graphItem => GraphItems.Add(graphItem));
 		}
 
 		private void Back_Click(object sender, object args)
