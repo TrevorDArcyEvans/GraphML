@@ -103,9 +103,17 @@
             </Grid>
 
             <Button
-                Content="Go"
+                Content="Graphs"
                 IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
-                Click="Repository_Click" />
+                Click="Graphs_Click" />
+            <Button
+                Content="Nodes"
+                IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
+                Click="Nodes_Click" />
+            <Button
+                Content="Edges"
+                IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
+                Click="Edges_Click" />
             <Button 
                 Content="Back" 
                 Click="Back_Click" />

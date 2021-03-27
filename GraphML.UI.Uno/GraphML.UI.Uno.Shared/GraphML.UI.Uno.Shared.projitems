@@ -19,6 +19,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BreadcrumbTrail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdgePage.xaml.cs">
+      <DependentUpon>EdgePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)NodePage.xaml.cs">
+      <DependentUpon>NodePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Server\ContactServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ObjectToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\EdgeItemAttributeDefinitionServer.cs" />
@@ -61,7 +67,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Server\RepositoryServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\RoleServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\ServerBase.cs" />
-    
     <Compile Include="..\..\GraphML.API\Server\ISyncPolicyFactory.cs" Link="GraphML.API\Server\ISyncPolicyFactory.cs" />
     <Compile Include="..\..\GraphML.API\Server\SyncPolicyFactory.cs" Link="GraphML.API\Server\SyncPolicyFactory.cs" />
     <Compile Include="..\..\GraphML.Common\Settings.cs" Link="GraphML.Common\Settings.cs" />
@@ -115,11 +120,19 @@
     <Compile Include="..\..\GraphML\Roles.cs" Link="GraphML\Roles.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)EdgePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)GraphPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)NodePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

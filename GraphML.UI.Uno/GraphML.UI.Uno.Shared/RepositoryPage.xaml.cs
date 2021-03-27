@@ -74,10 +74,22 @@
 			await Task.WhenAll(repoTask, repoAttrTask, nodeAttrTask, edgeAttrTask);
 		}
 
-		private void Repository_Click(object sender, object args)
+		private void Graphs_Click(object sender, object args)
 		{
 			_navArgs.SelectedRepository = SelectedRepository;
 			Frame.Navigate(typeof(GraphPage), _navArgs);
+		}
+
+		private void Nodes_Click(object sender, object args)
+		{
+			_navArgs.SelectedRepository = SelectedRepository;
+			Frame.Navigate(typeof(NodePage), _navArgs);
+		}
+
+		private void Edges_Click(object sender, object args)
+		{
+			_navArgs.SelectedRepository = SelectedRepository;
+			Frame.Navigate(typeof(EdgePage), _navArgs);
 		}
 
 		private void Back_Click(object sender, object args)
