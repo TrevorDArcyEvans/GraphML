@@ -1,5 +1,5 @@
-﻿<local:RepoItemPageBase
-    x:Class="GraphML.UI.Uno.EdgePage"
+﻿<local:PageBase
+    x:Class="GraphML.UI.Uno.RepoItemPageBase"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:GraphML.UI.Uno"
@@ -19,4 +19,5 @@
                 Click="Back_Click" />
         </StackPanel>
     </Page.Content>
-</local:RepoItemPageBase>
+
+</local:PageBase>

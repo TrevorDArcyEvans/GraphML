@@ -31,6 +31,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)NodePage.xaml.cs">
       <DependentUpon>NodePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)RepoItemPageBase.xaml.cs">
+      <DependentUpon>RepoItemPageBase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Server\ContactServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ObjectToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Server\EdgeItemAttributeDefinitionServer.cs" />
@@ -155,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)PageBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)RepoItemPageBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
