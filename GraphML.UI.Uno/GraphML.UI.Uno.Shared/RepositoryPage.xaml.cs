@@ -10,9 +10,8 @@
 	{
 		private Repository _selectedRepository;
 
-		public RepositoryPage() :
-			  base()
-		{
+		public RepositoryPage()
+    {
 			InitializeComponent();
 		}
 
