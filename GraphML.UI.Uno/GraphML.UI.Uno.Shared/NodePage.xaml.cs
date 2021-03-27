@@ -1,15 +1,14 @@
 ﻿namespace GraphML.UI.Uno
 {
 	using GraphML.UI.Uno.Server;
-	using System.Linq;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
 
-	public sealed partial class NodePage : ReposoitoryItemPageBase
+	public sealed class NodePage : ReposoitoryItemPageBase
 	{
-		protected override async void InitialiseUI(Repository repo)
+		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo)
 		{
-			var repoItems = await NodeServer.ByOwners(new[] { repo.Id });
-			repoItems.ToList()
-		  .ForEach(repoItem => MarshallToUI(() => RepositoryItems.Add(repoItem)));
+			return await NodeServer.ByOwners(new[] { repo.Id });
 		}
 	}
 }

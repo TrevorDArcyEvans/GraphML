@@ -1,7 +1,10 @@
 ﻿namespace GraphML.UI.Uno
 {
 	using GraphML.UI.Uno.Server;
+	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
+	using System.Linq;
+	using System.Threading.Tasks;
 	using Windows.UI.Xaml.Controls;
 	using Windows.UI.Xaml.Navigation;
 
@@ -26,14 +29,16 @@
 			Initialise(_navArgs.SelectedRepository);
 		}
 
-		protected abstract void InitialiseUI(Repository repo);
+		protected abstract Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo);
 
 		private async void Initialise(Repository repo)
 		{
 			EdgeServer = new EdgeServer(_config, _navArgs.Token, _innerHandler);
 			NodeServer = new NodeServer(_config, _navArgs.Token, _innerHandler);
 
-			InitialiseUI(repo);
+			var repoItems = await GetRepositoryItems(repo);
+			repoItems.ToList()
+		  .ForEach(repoItem => MarshallToUI(() => RepositoryItems.Add(repoItem)));
 		}
 
 		protected void Back_Click(object sender, object args)
