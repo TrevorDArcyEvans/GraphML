@@ -24,6 +24,7 @@ using System.Reflection;
 using Dapper;
 using Newtonsoft.Json.Converters;
 using Flurl;
+using System.Net.Http;
 
 namespace GraphML.API
 {
@@ -141,7 +142,10 @@ namespace GraphML.API
         {
           options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
           options.RequireHttpsMetadata = false;
-
+          options.BackchannelHttpHandler = new HttpClientHandler 
+          { 
+            ServerCertificateCustomValidationCallback = delegate { return true; }
+          };
           options.Audience = Configuration.IDENTITY_SERVER_AUDIENCE();
         });
 
