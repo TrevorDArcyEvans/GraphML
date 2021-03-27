@@ -11,6 +11,9 @@
 
     <Page.Content>
         <StackPanel Orientation="Vertical">
+            <ListView Margin="10 10 10 10"
+                ItemsSource="{x:Bind Nodes, Mode=OneWay}"
+                DisplayMemberPath="Name" />
             <Button 
                 Content="Back" 
                 Click="Back_Click" />

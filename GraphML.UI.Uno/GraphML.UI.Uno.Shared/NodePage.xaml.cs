@@ -1,5 +1,8 @@
 ﻿namespace GraphML.UI.Uno
 {
+	using GraphML.UI.Uno.Server;
+	using System.Collections.ObjectModel;
+	using System.Linq;
 	using Windows.UI.Xaml.Navigation;
 
 	public sealed partial class NodePage : PageBase
@@ -8,6 +11,8 @@
 		{
 			InitializeComponent();
 		}
+
+		public ObservableCollection<Node> Nodes { get; set; } = new ObservableCollection<Node>();
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -20,7 +25,10 @@
 
 		private async void Initialise(Repository repo)
 		{
-			// TODO		Initialise
+			var nodeServer = new NodeServer(_config, _navArgs.Token, _innerHandler);
+			var nodes = await nodeServer.ByOwners(new[] { repo.Id });
+			nodes.ToList()
+		  .ForEach(node => MarshallToUI(() => Nodes.Add(node)));
 		}
 
 
