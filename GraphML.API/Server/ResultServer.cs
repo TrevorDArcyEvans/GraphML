@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
@@ -22,39 +23,39 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = "/api/Result";
 
-    public async Task Delete(string correlationId)
+    public async Task Delete(Guid correlationId)
     {
-      var request = GetDeleteRequest(Url.Combine(ResourceBase, nameof(ResultController.Delete), correlationId));
+      var request = GetDeleteRequest(Url.Combine(ResourceBase, nameof(ResultController.Delete), correlationId.ToString()));
       var retval = await GetResponse<object>(request);
     }
 
-    public async Task<IEnumerable<IRequest>> ByContact(string contactId)
+    public async Task<IEnumerable<IRequest>> ByContact(Guid contactId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByContact), contactId));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByContact), contactId.ToString()));
       var retval = await GetResponse<IEnumerable<IRequest>>(request);
 
       return retval;
     }
 
-    public async Task<IEnumerable<IRequest>> ByOrganisation(string orgId)
+    public async Task<IEnumerable<IRequest>> ByOrganisation(Guid orgId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByOrganisation), orgId));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByOrganisation), orgId.ToString()));
       var retval = await GetResponse<IEnumerable<IRequest>>(request);
 
       return retval;
     }
 
-    public async Task<IRequest> ByCorrelation(string corrId)
+    public async Task<IRequest> ByCorrelation(Guid corrId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId.ToString()));
       var retval = await GetResponse<IRequest>(request);
 
       return retval;
     }
 
-    public async Task<IResult> Retrieve(string correlationId)
+    public async Task<IResult> Retrieve(Guid correlationId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId.ToString()));
       var retval = await GetResponse<IResult>(request);
 
       return retval;

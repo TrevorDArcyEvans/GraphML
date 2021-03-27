@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
@@ -19,7 +20,7 @@ namespace GraphML.UI.Uno.Server
 
 		protected override string ResourceBase { get; } = $"/api/{nameof(Edge)}";
 
-		public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<string> ids)
+		public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<Guid> ids)
 		{
 			var request = GetAllRequest(Url.Combine(UriResourceBase, "ByNodeIds"));
 			var retval = await GetResponse<IEnumerable<Edge>>(request);

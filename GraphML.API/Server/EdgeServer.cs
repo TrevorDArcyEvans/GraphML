@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace GraphML.API.Server
 {
@@ -21,7 +22,7 @@ namespace GraphML.API.Server
 
         protected override string ResourceBase { get; } = $"/api/{nameof(Edge)}";
 
-    public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<string> ids)
+    public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<Guid> ids)
     {
       var request = GetAllRequest(Url.Combine(ResourceBase, $"{nameof(EdgeController.ByNodeIds)}"));
       var retval = await GetResponse<IEnumerable<Edge>>(request);
