@@ -5,11 +5,6 @@
 
 	public sealed partial class NodePage : RepoItemPageBase
 	{
-		public NodePage()
-		{
-			InitializeComponent();
-		}
-
 		protected override async void InitialiseUI(Repository repo)
 		{
 			var repoItems = await NodeServer.ByOwners(new[] { repo.Id });

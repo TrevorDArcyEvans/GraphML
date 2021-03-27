@@ -5,11 +5,6 @@
 
 	public sealed partial class EdgePage : RepoItemPageBase
 	{
-		public EdgePage()
-		{
-			InitializeComponent();
-		}
-
 		protected override async void InitialiseUI(Repository repo)
 		{
 			var repoItems = await EdgeServer.ByOwners(new[] { repo.Id });
