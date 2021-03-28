@@ -8,6 +8,7 @@
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\GraphML.snk</AssemblyOriginatorKeyFile>
