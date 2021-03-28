@@ -15,6 +15,12 @@
                 ItemsSource="{x:Bind RepositoryItems, Mode=OneWay}"
                 DisplayMemberPath="Name" />
             <Button 
+                Content="Prev" 
+                Click="Previous_Click" />
+            <Button 
+                Content="Next" 
+                Click="Next_Click" />
+            <Button 
                 Content="Back" 
                 Click="Back_Click" />
         </StackPanel>
