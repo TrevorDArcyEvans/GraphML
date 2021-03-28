@@ -54,7 +54,7 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _repos = await _repoServer.ByOwners(new[] { Guid.Parse(RepositoryManagerId) });
+    _repos = await _repoServer.ByOwners(new[] { Guid.Parse(RepositoryManagerId) }, 1, 20); //TODO paging
     var repoMgr = (await _repoMgrServer.ByIds(new[] { Guid.Parse(RepositoryManagerId) })).Single();
     _org = (await _orgServer.ByIds(new[] { repoMgr.OrganisationId })).Single();
   }

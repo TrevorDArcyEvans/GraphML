@@ -48,7 +48,7 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(GraphId) });
+    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(GraphId) }, 1, 20); //TODO paging
     var graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
     _repo = (await _repoServer.ByIds(new[] { graph.RepositoryId })).Single();
   }

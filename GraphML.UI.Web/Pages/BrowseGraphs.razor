@@ -54,7 +54,7 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _graphs = await _graphServer.ByOwners(new[] { Guid.Parse(RepositoryId) });
+    _graphs = await _graphServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, 1, 20); //TODO paging
     var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
     _repoMgr = (await _repoMgrServer.ByIds(new [] { repo.RepositoryManagerId})).Single();
   }
