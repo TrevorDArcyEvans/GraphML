@@ -53,17 +53,17 @@ namespace GraphML.UI.Uno.Server
 			return request;
 		}
 
-		protected HttpRequestMessage GetAllRequest(string path)
+		protected HttpRequestMessage GetPageRequest(string path)
 		{
 			var request = GetRequest(path);
-			AddGetAllParameters(request);
+			AddGetPageParameters(request);
 
 			return request;
 		}
 
-		protected HttpRequestMessage GetAllRequest(string path, object body)
+		protected HttpRequestMessage GetPageRequest(string path, object body)
 		{
-			var request = GetAllRequest(path);
+			var request = GetPageRequest(path);
 			request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
 
 			return request;
@@ -139,7 +139,7 @@ namespace GraphML.UI.Uno.Server
 			return _policy.Execute(get);
 		}
 
-		private static void AddGetAllParameters(HttpRequestMessage request)
+		private static void AddGetPageParameters(HttpRequestMessage request)
 		{
 			const int StartPageIndex = 1;
 			const int GetAllPageSize = int.MaxValue;
