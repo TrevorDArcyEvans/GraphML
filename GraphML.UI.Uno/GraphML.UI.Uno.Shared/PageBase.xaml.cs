@@ -13,7 +13,7 @@
 
 	public partial class PageBase : Page, INotifyPropertyChanged
 	{
-    protected const int PageSize = 20;
+    protected const int PageSize = 10;
     protected int _pageIndex = 1;
 
 		protected readonly IConfigurationRoot _config;
