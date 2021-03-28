@@ -85,6 +85,14 @@ namespace GraphML.API.Server
 			return request;
 		}
 
+		protected IRestRequest GetPostRequest(string path, object body, int pageIndex,	int pageSize)
+		{
+			var request = GetPageRequest(path, body, pageIndex,	pageSize);
+			request.Method = Method.POST;
+
+			return request;
+		}
+
 		protected IRestRequest GetPutRequest(string path, object body)
 		{
 			var request = GetRequest(path, body);
