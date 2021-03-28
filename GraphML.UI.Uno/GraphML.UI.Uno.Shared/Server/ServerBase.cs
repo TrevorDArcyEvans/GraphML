@@ -77,6 +77,14 @@ namespace GraphML.UI.Uno.Server
 			return request;
 		}
 
+		protected HttpRequestMessage GetPostRequest(string path, object body, int pageIndex,	int pageSize)
+		{
+			var request = GetPageRequest(path, body, pageIndex,	pageSize);
+			request.Method = HttpMethod.Post;
+
+			return request;
+		}
+
 		protected HttpRequestMessage GetPutRequest(string path, object body)
 		{
 			var request = GetRequest(path, body);
