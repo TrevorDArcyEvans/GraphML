@@ -8,7 +8,7 @@
 	{
 		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo)
 		{
-			return await EdgeServer.ByOwners(new[] { repo.Id });
+			return await EdgeServer.ByOwners(new[] { repo.Id }, 1, 20); //TODO paging
 		}
 	}
 }

@@ -8,7 +8,7 @@
 	{
 		protected override async Task<IEnumerable<GraphItem>> GetGraphItems(Graph graph)
 		{
-			return await GraphEdgeServer.ByOwners(new[] { graph.Id });
+			return await GraphEdgeServer.ByOwners(new[] { graph.Id }, 1, 20); //TODO paging
 		}
 	}
 }

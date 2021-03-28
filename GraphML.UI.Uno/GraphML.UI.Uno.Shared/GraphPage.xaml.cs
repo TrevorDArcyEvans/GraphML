@@ -35,7 +35,7 @@
 		private async void Initialise(Repository repo)
 		{
 			var graphServer = new GraphServer(_config, _navArgs.Token, _innerHandler);
-			var graphs = await graphServer.ByOwners(new[] { repo.Id });
+			var graphs = await graphServer.ByOwners(new[] { repo.Id }, 1, 20); //TODO paging
 			graphs.ToList()
 			.ForEach(graph => Graphs.Add(graph));
 		}

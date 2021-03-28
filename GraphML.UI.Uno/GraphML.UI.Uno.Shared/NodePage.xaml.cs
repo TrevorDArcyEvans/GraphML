@@ -8,7 +8,7 @@
 	{
 		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo)
 		{
-			return await NodeServer.ByOwners(new[] { repo.Id });
+			return await NodeServer.ByOwners(new[] { repo.Id }, 1, 20); //TODO paging
 		}
 	}
 }
