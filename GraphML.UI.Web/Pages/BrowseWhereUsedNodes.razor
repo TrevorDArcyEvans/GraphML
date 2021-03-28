@@ -48,7 +48,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _graphs = await _graphServer.ByNodeId(Guid.Parse(ItemId));
+        _graphs = await _graphServer.ByNodeId(Guid.Parse(ItemId), 1, 20); //TODO paging
         var item = (await _itemServer.ByIds(new[] { Guid.Parse(ItemId) })).Single();
         _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
     }

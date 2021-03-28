@@ -42,7 +42,7 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _orgs = await _orgServer.GetAll();
+    _orgs = await _orgServer.GetAll(1, 20); //TODO paging
   }
 
   private void GotoBrowseRepositoryManagers(Organisation org)
