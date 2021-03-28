@@ -22,6 +22,7 @@
                 Content="GraphEdges"
                 IsEnabled="{x:Bind SelectedGraph, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="GraphEdges_Click" />
+            <!-- TODO paging -->
             <Button
                 Content="Back"
                 Click="Back_Click" />

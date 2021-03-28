@@ -18,6 +18,7 @@
                 Content="Go"
                 IsEnabled="{x:Bind SelectedRepositoryManager, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Repository_Click" />
+            <!-- TODO paging -->
             <Button
                 Content="Back"
                 Click="Back_Click" />

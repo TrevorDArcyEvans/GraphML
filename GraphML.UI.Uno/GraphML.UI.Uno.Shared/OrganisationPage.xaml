@@ -17,6 +17,7 @@
                 Content="Go"
                 IsEnabled="{x:Bind SelectedOrganisation, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Organisation_Click" />
+            <!-- TODO paging -->
             <Button 
                 Content="Logout" 
                 Click="Logout_Click" />

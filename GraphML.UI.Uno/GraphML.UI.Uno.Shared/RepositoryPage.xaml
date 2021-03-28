@@ -114,6 +114,10 @@
                 Content="Edges"
                 IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Edges_Click" />
+            <!-- TODO paging repositories -->
+            <!-- TODO paging reposotory item attr defs -->
+            <!-- TODO paging node item attr defs -->
+            <!-- TODO paging edge item attr defs -->
             <Button 
                 Content="Back" 
                 Click="Back_Click" />
