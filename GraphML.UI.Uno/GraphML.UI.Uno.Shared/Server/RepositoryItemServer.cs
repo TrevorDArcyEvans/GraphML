@@ -17,9 +17,9 @@ namespace GraphML.UI.Uno.Server
 		{
 		}
 
-		public async Task<IEnumerable<T>> GetParents(T entity)
+		public async Task<IEnumerable<T>> GetParents(T entity, int pageIndex, int pageSize)
 		{
-			var request = GetPostRequest(Url.Combine(UriResourceBase, "GetParents"), entity);
+			var request = GetPostRequest(Url.Combine(UriResourceBase, "GetParents"), entity); //TODO paging
 			var retval = await GetResponse<IEnumerable<T>>(request);
 
 			return retval;

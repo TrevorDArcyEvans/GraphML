@@ -22,9 +22,9 @@ namespace GraphML.API.Server
 
         protected override string ResourceBase { get; } = $"/api/{nameof(Edge)}";
 
-    public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<Guid> ids)
+    public async Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
     {
-      var request = GetAllRequest(Url.Combine(ResourceBase, $"{nameof(EdgeController.ByNodeIds)}"));
+      var request = GetAllRequest(Url.Combine(ResourceBase, $"{nameof(EdgeController.ByNodeIds)}")); //TODO paging
       var retval = await GetResponse<IEnumerable<Edge>>(request);
 
       return retval;

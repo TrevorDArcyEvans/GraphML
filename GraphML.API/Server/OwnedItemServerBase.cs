@@ -20,9 +20,9 @@ namespace GraphML.API.Server
 		{
 		}
 
-		public async Task<IEnumerable<T>> ByOwners(IEnumerable<Guid> ownerIds)
+		public async Task<IEnumerable<T>> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
 		{
-			var request = GetPostRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.ByOwners)), ownerIds);
+			var request = GetPostRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.ByOwners)), ownerIds); //TODO paging
 			var retval = await GetResponse<IEnumerable<T>>(request);
 
 			return retval;

@@ -6,6 +6,6 @@ namespace GraphML.Interfaces.Server
 {
   public interface IEdgeServer : IRepositoryItemServer<Edge>
   {
-    Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<Guid> ids);
+    Task<IEnumerable<Edge>> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize);
   }
 }
