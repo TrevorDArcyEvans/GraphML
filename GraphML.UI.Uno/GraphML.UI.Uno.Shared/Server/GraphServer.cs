@@ -22,7 +22,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<Graph>> ByEdgeId(Guid id, int pageIndex,	int pageSize)
 		{
-			var request = GetPageRequest(Url.Combine(UriResourceBase, "ByEdgeId", id.ToString()));
+			var request = GetPageRequest(Url.Combine(UriResourceBase, "ByEdgeId", id.ToString()), pageIndex, pageSize);
 			var retval = await GetResponse<IEnumerable<Graph>>(request);
 
 			return retval;
@@ -30,7 +30,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<Graph>> ByNodeId(Guid id, int pageIndex,	int pageSize)
 		{
-			var request = GetPageRequest(Url.Combine(UriResourceBase, "ByNodeId", id.ToString()));
+			var request = GetPageRequest(Url.Combine(UriResourceBase, "ByNodeId", id.ToString()), pageIndex, pageSize);
 			var retval = await GetResponse<IEnumerable<Graph>>(request);
 
 			return retval;

@@ -21,7 +21,7 @@ namespace GraphML.UI.Uno.Server
 
     public async Task<IEnumerable<Organisation>> GetAll(int pageIndex, int pageSize)
     {			
-      var request = GetPageRequest(Url.Combine(UriResourceBase, "GetAll"));
+      var request = GetPageRequest(Url.Combine(UriResourceBase, "GetAll"), pageIndex, pageSize);
 			var retval = await GetResponse<IEnumerable<Organisation>>(request);
 
 			return retval;

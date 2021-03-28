@@ -35,7 +35,7 @@
 		private async void Initialise()
 		{
 			var orgServer = new OrganisationServer(_config, _navArgs.Token, _innerHandler);
-			var orgs = await orgServer.GetAll();
+			var orgs = await orgServer.GetAll(1, 20); //TODO paging
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));
 		}

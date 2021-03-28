@@ -22,7 +22,15 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<Role>> ByContactId(Guid id)
 		{
-			var request = GetPageRequest(Url.Combine(UriResourceBase, "ByContactId", id.ToString()));
+			var request = GetPageRequest(Url.Combine(UriResourceBase, "ByContactId", id.ToString()), 1, int.MaxValue);
+			var retval = await GetResponse<IEnumerable<Role>>(request);
+
+			return retval;
+		}
+
+		public async Task<IEnumerable<Role>> GetAll()
+		{
+			var request = GetPageRequest(Url.Combine(UriResourceBase, "GetAll"), 1, int.MaxValue);
 			var retval = await GetResponse<IEnumerable<Role>>(request);
 
 			return retval;
@@ -30,7 +38,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<Role>> Get()
 		{
-			var request = GetPageRequest(Url.Combine(UriResourceBase, "Get"));
+			var request = GetPageRequest(Url.Combine(UriResourceBase, "Get"), 1, int.MaxValue);
 			var retval = await GetResponse<IEnumerable<Role>>(request);
 
 			return retval;

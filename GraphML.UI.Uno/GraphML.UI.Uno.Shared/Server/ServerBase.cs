@@ -53,17 +53,17 @@ namespace GraphML.UI.Uno.Server
 			return request;
 		}
 
-		protected HttpRequestMessage GetPageRequest(string path)
+		protected HttpRequestMessage GetPageRequest(string path, int pageIndex, int pageSize)
 		{
 			var request = GetRequest(path);
-			AddGetPageParameters(request);
+			AddGetPageParameters(request, pageIndex, pageSize);
 
 			return request;
 		}
 
-		protected HttpRequestMessage GetPageRequest(string path, object body)
+		protected HttpRequestMessage GetPageRequest(string path, object body, int pageIndex, int pageSize)
 		{
-			var request = GetPageRequest(path);
+			var request = GetPageRequest(path, pageIndex, pageSize);
 			request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
 
 			return request;
@@ -139,16 +139,13 @@ namespace GraphML.UI.Uno.Server
 			return _policy.Execute(get);
 		}
 
-		private static void AddGetPageParameters(HttpRequestMessage request)
+		private static void AddGetPageParameters(HttpRequestMessage request, int pageIndex,	int pageSize)
 		{
-			const int StartPageIndex = 1;
-			const int GetAllPageSize = int.MaxValue;
-
 			var builder = new UriBuilder(request.RequestUri);
 			var query = HttpUtility.ParseQueryString(builder.Query);
 
-			query["PageIndex"] = StartPageIndex.ToString(CultureInfo.InvariantCulture);
-			query["PageSize"] = GetAllPageSize.ToString(CultureInfo.InvariantCulture);
+			query["PageIndex"] = pageIndex.ToString(CultureInfo.InvariantCulture);
+			query["PageSize"] = pageSize.ToString(CultureInfo.InvariantCulture);
 
 			builder.Query = query.ToString();
 			request.RequestUri = new Uri(builder.ToString());
