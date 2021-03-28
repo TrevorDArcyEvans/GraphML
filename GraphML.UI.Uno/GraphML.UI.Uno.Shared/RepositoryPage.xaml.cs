@@ -45,7 +45,7 @@
 			var repoTask = Task.Factory.StartNew(async () =>
 			{
 				var repoServer = new RepositoryServer(_config, _navArgs.Token, _innerHandler);
-				var repos = await repoServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepo, PageSize); //TODO paging
+				var repos = await repoServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepo, PageSize);
 				repos.ToList()
 			  .ForEach(repo => MarshallToUI(() => Repositories.Add(repo)));
 			});
@@ -53,7 +53,7 @@
 			var repoAttrTask = Task.Factory.StartNew(async () =>
 			{
 				var repoAttrServer = new RepositoryItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
-				var repoAttrs = await repoAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepoItemAttr, PageSize); //TODO paging
+				var repoAttrs = await repoAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepoItemAttr, PageSize);
 				repoAttrs.ToList()
 			  .ForEach(attr => MarshallToUI(() => RepositoryItemAttributes.Add(attr)));
 			});
@@ -61,7 +61,7 @@
 			var nodeAttrTask = Task.Factory.StartNew(async () =>
 			{
 				var nodeAttrServer = new NodeItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
-				var nodeAttrs = await nodeAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexNodeItemAttr, PageSize); //TODO paging
+				var nodeAttrs = await nodeAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexNodeItemAttr, PageSize);
 				nodeAttrs.ToList()
 			  .ForEach(attr => MarshallToUI(() => NodeItemAttributes.Add(attr)));
 			});
@@ -69,7 +69,7 @@
 			var edgeAttrTask = Task.Factory.StartNew(async () =>
 			{
 				var edgeAttrServer = new EdgeItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
-				var edgeAttrs = await edgeAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexEdgeItemAttr, PageSize); //TODO paging
+				var edgeAttrs = await edgeAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexEdgeItemAttr, PageSize);
 				edgeAttrs.ToList()
 			  .ForEach(attr => MarshallToUI(() => EdgeItemAttributes.Add(attr)));
 			});
