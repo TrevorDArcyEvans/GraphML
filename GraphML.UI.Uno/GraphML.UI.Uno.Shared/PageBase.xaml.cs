@@ -13,6 +13,9 @@
 
 	public partial class PageBase : Page, INotifyPropertyChanged
 	{
+    protected const int PageSize = 20;
+    protected int _pageIndex = 1;
+
 		protected readonly IConfigurationRoot _config;
 		protected readonly HttpMessageHandler _innerHandler;
 		protected BreadcrumbTrail _navArgs = new BreadcrumbTrail();

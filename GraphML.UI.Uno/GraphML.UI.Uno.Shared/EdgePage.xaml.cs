@@ -6,9 +6,9 @@
 
 	public sealed class EdgePage : ReposoitoryItemPageBase
 	{
-		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo)
+		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo, int pageIndex, int pageSize)
 		{
-			return await EdgeServer.ByOwners(new[] { repo.Id }, 1, 20); //TODO paging
+			return await EdgeServer.ByOwners(new[] { repo.Id }, pageIndex, pageSize);
 		}
 	}
 }

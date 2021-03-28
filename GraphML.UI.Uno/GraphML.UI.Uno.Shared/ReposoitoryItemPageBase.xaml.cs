@@ -29,14 +29,14 @@
 			Initialise(_navArgs.SelectedRepository);
 		}
 
-		protected abstract Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo);
+		protected abstract Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo, int pageIndex, int pageSize);
 
 		private async void Initialise(Repository repo)
 		{
 			EdgeServer = new EdgeServer(_config, _navArgs.Token, _innerHandler);
 			NodeServer = new NodeServer(_config, _navArgs.Token, _innerHandler);
 
-			var repoItems = await GetRepositoryItems(repo);
+			var repoItems = await GetRepositoryItems(repo, _pageIndex, PageSize);
 			repoItems.ToList()
 		  .ForEach(repoItem => MarshallToUI(() => RepositoryItems.Add(repoItem)));
 		}

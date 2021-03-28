@@ -35,7 +35,7 @@
 		private async void Initialise(Organisation selOrg)
 		{
 			var repoMgrServer = new RepositoryManagerServer(_config, _navArgs.Token, _innerHandler);
-			var repoMgrs = await repoMgrServer.ByOwners(new[] { selOrg.Id }, 1, 20); //TODO paging
+			var repoMgrs = await repoMgrServer.ByOwners(new[] { selOrg.Id }, _pageIndex, PageSize); //TODO paging
 			repoMgrs.ToList()
 		  .ForEach(repoMgr => RepositoryManagers.Add(repoMgr));
 		}

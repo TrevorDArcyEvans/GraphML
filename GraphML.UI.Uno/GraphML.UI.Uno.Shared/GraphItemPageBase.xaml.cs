@@ -29,14 +29,14 @@
 			await Initialise(_navArgs.SelectedGraph);
 		}
 
-		protected abstract Task<IEnumerable<GraphItem>> GetGraphItems(Graph graph);
+		protected abstract Task<IEnumerable<GraphItem>> GetGraphItems(Graph graph, int pageIndex, int pageSize);
 
 		private async Task Initialise(Graph graph)
 		{
 			GraphNodeServer = new GraphNodeServer(_config, _navArgs.Token, _innerHandler);
 			GraphEdgeServer = new GraphEdgeServer(_config, _navArgs.Token, _innerHandler);
 
-			var graphItems = await GetGraphItems(graph);
+			var graphItems = await GetGraphItems(graph, _pageIndex, PageSize);
 			graphItems.ToList()
 				.ForEach(graphItem => MarshallToUI(() => GraphItems.Add(graphItem)));
 		}

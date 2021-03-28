@@ -6,9 +6,9 @@
 
 	public sealed class GraphNodePage : GraphItemPageBase
 	{
-		protected override async Task<IEnumerable<GraphItem>> GetGraphItems(Graph graph)
+		protected override async Task<IEnumerable<GraphItem>> GetGraphItems(Graph graph, int pageIndex, int pageSize)
 		{
-			return await GraphNodeServer.ByOwners(new[] { graph.Id }, 1, 20); //TODO paging
+			return await GraphNodeServer.ByOwners(new[] { graph.Id }, _pageIndex, PageSize);
 		}
 	}
 }

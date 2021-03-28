@@ -6,9 +6,9 @@
 
 	public sealed class NodePage : ReposoitoryItemPageBase
 	{
-		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo)
+		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo, int pageIndex, int pageSize)
 		{
-			return await NodeServer.ByOwners(new[] { repo.Id }, 1, 20); //TODO paging
+			return await NodeServer.ByOwners(new[] { repo.Id }, pageIndex, pageSize);
 		}
 	}
 }
