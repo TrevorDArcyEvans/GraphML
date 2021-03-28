@@ -20,7 +20,7 @@ namespace GraphML.UI.Uno.Server
 
 		protected override string ResourceBase { get; } = $"/api/{nameof(Graph)}";
 
-		public async Task<IEnumerable<Graph>> ByEdgeId(Guid id)
+		public async Task<IEnumerable<Graph>> ByEdgeId(Guid id, int pageIndex,	int pageSize)
 		{
 			var request = GetAllRequest(Url.Combine(UriResourceBase, "ByEdgeId", id.ToString()));
 			var retval = await GetResponse<IEnumerable<Graph>>(request);
@@ -28,7 +28,7 @@ namespace GraphML.UI.Uno.Server
 			return retval;
 		}
 
-		public async Task<IEnumerable<Graph>> ByNodeId(Guid id)
+		public async Task<IEnumerable<Graph>> ByNodeId(Guid id, int pageIndex,	int pageSize)
 		{
 			var request = GetAllRequest(Url.Combine(UriResourceBase, "ByNodeId", id.ToString()));
 			var retval = await GetResponse<IEnumerable<Graph>>(request);

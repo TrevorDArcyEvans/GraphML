@@ -61,17 +61,17 @@ namespace GraphML.API.Server
 			return request;
 		}
 
-		protected IRestRequest GetAllRequest(string path)
+		protected IRestRequest GetPageRequest(string path, int pageIndex,	int pageSize)
 		{
 			var request = GetRequest(path);
-			AddGetAllParameters(request);
+			AddGetPageParameters(request, pageIndex,	pageSize);
 
 			return request;
 		}
 
-		protected IRestRequest GetAllRequest(string path, object body)
+		protected IRestRequest GetPageRequest(string path, object body, int pageIndex,	int pageSize)
 		{
-			var request = GetAllRequest(path);
+			var request = GetPageRequest(path, pageIndex, pageSize);
 			request.AddJsonBody(body);
 
 			return request;
@@ -148,13 +148,10 @@ namespace GraphML.API.Server
 			return _policy.Execute(get);
 		}
 
-		private static void AddGetAllParameters(IRestRequest request)
+		private static void AddGetPageParameters(IRestRequest request, int pageIndex,	int pageSize)
 		{
-			const int StartPageIndex = 1;
-			const int GetAllPageSize = int.MaxValue;
-
-			request.AddQueryParameter("PageIndex", StartPageIndex.ToString(CultureInfo.InvariantCulture));
-			request.AddQueryParameter("PageSize", GetAllPageSize.ToString(CultureInfo.InvariantCulture));
+			request.AddQueryParameter("PageIndex", pageIndex.ToString(CultureInfo.InvariantCulture));
+			request.AddQueryParameter("PageSize", pageSize.ToString(CultureInfo.InvariantCulture));
 		}
 
 		private void LogInformation(string msg)

@@ -5,6 +5,6 @@ namespace GraphML.Interfaces.Server
 {
   public interface IOrganisationServer : IItemServerBase<Organisation>
   {
-    Task<IEnumerable<Organisation>> GetAll();
+    Task<IEnumerable<Organisation>> GetAll(int pageIndex,	int pageSize);
   }
 }
