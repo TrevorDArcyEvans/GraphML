@@ -28,7 +28,6 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="5"
-                Margin="10 10 10 10"
                 VerticalAlignment="Stretch"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ItemsSource="{x:Bind RepositoryItems, Mode=OneWay}"
