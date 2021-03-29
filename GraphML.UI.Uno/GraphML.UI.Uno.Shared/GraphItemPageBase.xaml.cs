@@ -36,10 +36,36 @@
 			GraphNodeServer = new GraphNodeServer(_config, _navArgs.Token, _innerHandler);
 			GraphEdgeServer = new GraphEdgeServer(_config, _navArgs.Token, _innerHandler);
 
+      await LoadItems(graph);
+		}
+
+    private async Task LoadItems(Graph graph)
+    {
+      GraphItems.Clear();
+
 			var graphItems = await GetGraphItems(graph, _pageIndex, PageSize);
 			graphItems.ToList()
 				.ForEach(graphItem => MarshallToUI(() => GraphItems.Add(graphItem)));
-		}
+    }
+
+    protected async void Previous_Click(object sender, object args)
+    {
+      if (_pageIndex > 1)
+      {
+        _pageIndex--;
+      }
+
+      OnPropertyChanged(nameof(_pageIndex));
+      await LoadItems(_navArgs.SelectedGraph);
+    }
+
+    protected async void Next_Click(object sender, object args)
+    {
+      _pageIndex++;
+
+      OnPropertyChanged(nameof(_pageIndex));
+      await LoadItems(_navArgs.SelectedGraph);
+    }
 
 		private void Back_Click(object sender, object args)
 		{
