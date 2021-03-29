@@ -8,14 +8,20 @@
 
 	public sealed partial class RepositoryPage : PageBase
 	{
-    private int _pageIndexRepo = 1;
-    private int _pageIndexRepoItemAttr = 1;
-    private int _pageIndexNodeItemAttr = 1;
-    private int _pageIndexEdgeItemAttr = 1;
+		private int _pageIndexRepo = 1;
+		private int _pageIndexRepoItemAttr = 1;
+		private int _pageIndexNodeItemAttr = 1;
+		private int _pageIndexEdgeItemAttr = 1;
+
+		private RepositoryServer repoServer;
+		private RepositoryItemAttributeDefinitionServer repoAttrDefServer;
+		private NodeItemAttributeDefinitionServer nodeAttrDefServer;
+		private EdgeItemAttributeDefinitionServer edgeAttrDefServer;
+
 		private Repository _selectedRepository;
 
 		public RepositoryPage()
-    {
+		{
 			InitializeComponent();
 		}
 
@@ -42,39 +48,137 @@
 
 		private async void Initialise(RepositoryManager repoMgr)
 		{
-			var repoTask = Task.Factory.StartNew(async () =>
-			{
-				var repoServer = new RepositoryServer(_config, _navArgs.Token, _innerHandler);
-				var repos = await repoServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepo, PageSize);
-				repos.ToList()
+			repoServer = new RepositoryServer(_config, _navArgs.Token, _innerHandler);
+			repoAttrDefServer = new RepositoryItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
+			nodeAttrDefServer = new NodeItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
+			edgeAttrDefServer = new EdgeItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
+
+			var repoTask = LoadRepositories(repoMgr);
+			var repoAttrDefTask = LoadRepositoryAttributeDefinitions(repoMgr);
+			var nodeAttrDefTask = LoadNodeAttributeDefinitions(repoMgr);
+			var edgeAttrDefTask = LoadEdgeAttributeDefinitions(repoMgr);
+
+			await Task.WhenAll(repoTask, repoAttrDefTask, nodeAttrDefTask, edgeAttrDefTask);
+		}
+
+		private Task LoadRepositories(RepositoryManager repoMgr)
+		{
+			return Task.Factory.StartNew(async () =>
+	  {
+		  MarshallToUI(() => Repositories.Clear());
+		  var repos = await repoServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepo, PageSize);
+		  repos.ToList()
 			  .ForEach(repo => MarshallToUI(() => Repositories.Add(repo)));
-			});
+	  });
+		}
 
-			var repoAttrTask = Task.Factory.StartNew(async () =>
+		private Task LoadRepositoryAttributeDefinitions(RepositoryManager repoMgr)
+		{
+			return Task.Factory.StartNew(async () =>
 			{
-				var repoAttrServer = new RepositoryItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
-				var repoAttrs = await repoAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepoItemAttr, PageSize);
+				MarshallToUI(() => RepositoryItemAttributes.Clear());
+				var repoAttrs = await repoAttrDefServer.ByOwners(new[] { repoMgr.Id }, _pageIndexRepoItemAttr, PageSize);
 				repoAttrs.ToList()
-			  .ForEach(attr => MarshallToUI(() => RepositoryItemAttributes.Add(attr)));
+					.ForEach(attr => MarshallToUI(() => RepositoryItemAttributes.Add(attr)));
 			});
+		}
 
-			var nodeAttrTask = Task.Factory.StartNew(async () =>
+		private Task LoadNodeAttributeDefinitions(RepositoryManager repoMgr)
+		{
+			return Task.Factory.StartNew(async () =>
 			{
-				var nodeAttrServer = new NodeItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
-				var nodeAttrs = await nodeAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexNodeItemAttr, PageSize);
+				MarshallToUI(() => NodeItemAttributes.Clear());
+				var nodeAttrs = await nodeAttrDefServer.ByOwners(new[] { repoMgr.Id }, _pageIndexNodeItemAttr, PageSize);
 				nodeAttrs.ToList()
-			  .ForEach(attr => MarshallToUI(() => NodeItemAttributes.Add(attr)));
+					.ForEach(attr => MarshallToUI(() => NodeItemAttributes.Add(attr)));
 			});
+		}
 
-			var edgeAttrTask = Task.Factory.StartNew(async () =>
+		private Task LoadEdgeAttributeDefinitions(RepositoryManager repoMgr)
+		{
+			return Task.Factory.StartNew(async () =>
 			{
-				var edgeAttrServer = new EdgeItemAttributeDefinitionServer(_config, _navArgs.Token, _innerHandler);
-				var edgeAttrs = await edgeAttrServer.ByOwners(new[] { repoMgr.Id }, _pageIndexEdgeItemAttr, PageSize);
+				MarshallToUI(() => EdgeItemAttributes.Clear());
+				var edgeAttrs = await edgeAttrDefServer.ByOwners(new[] { repoMgr.Id }, _pageIndexEdgeItemAttr, PageSize);
 				edgeAttrs.ToList()
-			  .ForEach(attr => MarshallToUI(() => EdgeItemAttributes.Add(attr)));
+					.ForEach(attr => MarshallToUI(() => EdgeItemAttributes.Add(attr)));
 			});
+		}
 
-			await Task.WhenAll(repoTask, repoAttrTask, nodeAttrTask, edgeAttrTask);
+		private async void PreviousRepository_Click(object sender, object args)
+		{
+			if (_pageIndexRepo > 1)
+			{
+				_pageIndexRepo--;
+			}
+
+			OnPropertyChanged(nameof(_pageIndexRepo));
+			await LoadRepositories(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void NextRepository_Click(object sender, object args)
+		{
+			_pageIndexRepo++;
+
+			OnPropertyChanged(nameof(_pageIndexRepo));
+			await LoadRepositories(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void PreviousRepoItemAttr_Click(object sender, object args)
+		{
+			if (_pageIndexRepoItemAttr > 1)
+			{
+				_pageIndexRepoItemAttr--;
+			}
+
+			OnPropertyChanged(nameof(_pageIndexRepoItemAttr));
+			await LoadRepositoryAttributeDefinitions(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void NextRepoItemAttr_Click(object sender, object args)
+		{
+			_pageIndexRepoItemAttr++;
+
+			OnPropertyChanged(nameof(_pageIndexRepoItemAttr));
+			await LoadRepositoryAttributeDefinitions(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void PreviousNodeItemAttr_Click(object sender, object args)
+		{
+			if (_pageIndexNodeItemAttr > 1)
+			{
+				_pageIndexNodeItemAttr--;
+			}
+
+			OnPropertyChanged(nameof(_pageIndexNodeItemAttr));
+			await LoadNodeAttributeDefinitions(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void NextNodeItemAttr_Click(object sender, object args)
+		{
+			_pageIndexNodeItemAttr++;
+
+			OnPropertyChanged(nameof(_pageIndexNodeItemAttr));
+			await LoadNodeAttributeDefinitions(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void PreviousEdgeItemAttr_Click(object sender, object args)
+		{
+			if (_pageIndexEdgeItemAttr > 1)
+			{
+				_pageIndexEdgeItemAttr--;
+			}
+
+			OnPropertyChanged(nameof(_pageIndexEdgeItemAttr));
+			await LoadEdgeAttributeDefinitions(_navArgs.SelectedRepositoryManager);
+		}
+
+		private async void NextEdgeItemAttr_Click(object sender, object args)
+		{
+			_pageIndexEdgeItemAttr++;
+
+			OnPropertyChanged(nameof(_pageIndexEdgeItemAttr));
+			await LoadEdgeAttributeDefinitions(_navArgs.SelectedRepositoryManager);
 		}
 
 		private void Graphs_Click(object sender, object args)
