@@ -1,12 +1,15 @@
 ﻿namespace GraphML.UI.Uno
 {
+	using GraphML.UI.Uno.Server;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using Windows.UI.Xaml.Navigation;
-	using GraphML.UI.Uno.Server;
 
 	public sealed partial class OrganisationPage : PageBase
 	{
+		private OrganisationServer _orgServer;
+
 		public OrganisationPage() :
 			base()
 		{
@@ -34,10 +37,37 @@
 
 		private async void Initialise()
 		{
-			var orgServer = new OrganisationServer(_config, _navArgs.Token, _innerHandler);
-			var orgs = await orgServer.GetAll(_pageIndex, PageSize);
+			_orgServer = new OrganisationServer(_config, _navArgs.Token, _innerHandler);
+
+			await LoadItems();
+		}
+
+		private async Task LoadItems()
+		{
+			Organisations.Clear();
+
+			var orgs = await _orgServer.GetAll(_pageIndex, PageSize);
 			orgs.ToList()
 		  .ForEach(org => Organisations.Add(org));
+		}
+
+		protected async void Previous_Click(object sender, object args)
+		{
+			if (_pageIndex > 1)
+			{
+				_pageIndex--;
+			}
+
+			OnPropertyChanged(nameof(_pageIndex));
+			await LoadItems();
+		}
+
+		protected async void Next_Click(object sender, object args)
+		{
+			_pageIndex++;
+
+			OnPropertyChanged(nameof(_pageIndex));
+			await LoadItems();
 		}
 
 		private void Organisation_Click(object sender, object args)
