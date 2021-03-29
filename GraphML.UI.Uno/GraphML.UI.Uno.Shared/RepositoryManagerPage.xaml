@@ -9,20 +9,57 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Content>
-        <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
             <ListView
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                VerticalAlignment="Stretch"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ItemsSource="{x:Bind RepositoryManagers, Mode=OneWay}"
                 SelectedItem="{x:Bind SelectedRepositoryManager, Mode=TwoWay}"
                 DisplayMemberPath="Name" />
             <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Content="Prev" 
+                Click="Previous_Click" />
+            <TextBlock 
+                Grid.Row="1"
+                Grid.Column="2"
+                TextAlignment="Center"
+                Text="{x:Bind _pageIndex, Mode=OneWay}" />
+            <Button 
+                Grid.Row="1"
+                Grid.Column="3"
+                Content="Next" 
+                Click="Next_Click" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="2"
                 Content="Go"
                 IsEnabled="{x:Bind SelectedRepositoryManager, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Repository_Click" />
-            <!-- TODO paging -->
             <Button
+                Grid.Row="3"
+                Grid.Column="2"
                 Content="Back"
                 Click="Back_Click" />
-        </StackPanel>
+        </Grid>
     </Page.Content>
 
 </local:PageBase>

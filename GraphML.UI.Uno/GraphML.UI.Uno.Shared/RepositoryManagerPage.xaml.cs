@@ -1,12 +1,14 @@
 ﻿namespace GraphML.UI.Uno
 {
+	using GraphML.UI.Uno.Server;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using Windows.UI.Xaml.Navigation;
-	using GraphML.UI.Uno.Server;
 
 	public sealed partial class RepositoryManagerPage : PageBase
 	{
+		private RepositoryManagerServer _repoMgrServer;
 		private RepositoryManager _selectedRepositoryManager;
 
 		public RepositoryManagerPage() :
@@ -34,10 +36,37 @@
 
 		private async void Initialise(Organisation selOrg)
 		{
-			var repoMgrServer = new RepositoryManagerServer(_config, _navArgs.Token, _innerHandler);
-			var repoMgrs = await repoMgrServer.ByOwners(new[] { selOrg.Id }, _pageIndex, PageSize);
+			_repoMgrServer = new RepositoryManagerServer(_config, _navArgs.Token, _innerHandler);
+
+			await LoadItems(selOrg);
+		}
+
+		private async Task LoadItems(Organisation selOrg)
+		{
+			RepositoryManagers.Clear();
+
+			var repoMgrs = await _repoMgrServer.ByOwners(new[] { selOrg.Id }, _pageIndex, PageSize);
 			repoMgrs.ToList()
 		  .ForEach(repoMgr => RepositoryManagers.Add(repoMgr));
+		}
+
+    private async void Previous_Click(object sender, object args)
+		{
+			if (_pageIndex > 1)
+			{
+				_pageIndex--;
+			}
+
+			OnPropertyChanged(nameof(_pageIndex));
+			await LoadItems(_navArgs.SelectedOrganisation);
+		}
+
+    private async void Next_Click(object sender, object args)
+		{
+			_pageIndex++;
+
+			OnPropertyChanged(nameof(_pageIndex));
+			await LoadItems(_navArgs.SelectedOrganisation);
 		}
 
 		private void Repository_Click(object sender, object args)
