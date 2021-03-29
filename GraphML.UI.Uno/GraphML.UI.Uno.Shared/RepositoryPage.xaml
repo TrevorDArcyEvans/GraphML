@@ -37,6 +37,7 @@
                     BorderThickness="2 0 2 2" 
                     Margin="3 10 3 3" 
                     CornerRadius="5">
+            <!-- TODO paging repositories -->
                     <ListView Margin="10 10 10 10"
                         ItemsSource="{x:Bind Repositories, Mode=OneWay}"
                         SelectedItem="{x:Bind SelectedRepository, Mode=TwoWay}" 
@@ -57,6 +58,7 @@
                     BorderThickness="2 0 2 2" 
                     Margin="3 10 3 3" 
                     CornerRadius="5">
+            <!-- TODO paging reposotory item attr defs -->
                     <ListView 
                         Margin="10 10 10 10"
                         ItemsSource="{x:Bind RepositoryItemAttributes, Mode=OneWay}"
@@ -77,6 +79,7 @@
                     BorderThickness="2 0 2 2" 
                     Margin="3 10 3 3" 
                     CornerRadius="5">
+            <!-- TODO paging node item attr defs -->
                     <ListView Margin="10 10 10 10"
                         ItemsSource="{x:Bind NodeItemAttributes, Mode=OneWay}"
                         ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
@@ -96,6 +99,7 @@
                     BorderThickness="2 0 2 2" 
                     Margin="3 10 3 3" 
                     CornerRadius="5">
+            <!-- TODO paging edge item attr defs -->
                     <ListView Margin="10 10 10 10"
                         ItemsSource="{x:Bind EdgeItemAttributes, Mode=OneWay}"
                         ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
@@ -114,10 +118,6 @@
                 Content="Edges"
                 IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Edges_Click" />
-            <!-- TODO paging repositories -->
-            <!-- TODO paging reposotory item attr defs -->
-            <!-- TODO paging node item attr defs -->
-            <!-- TODO paging edge item attr defs -->
             <Button 
                 Content="Back" 
                 Click="Back_Click" />
