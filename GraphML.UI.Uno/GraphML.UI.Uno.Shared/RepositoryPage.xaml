@@ -22,8 +22,27 @@
     </Page.Resources>
 
     <Page.Content>
-        <StackPanel Orientation="Vertical">
-            <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="5">
                 <TextBlock 
                     Text="Repositories" 
                     Margin="7 0 0 0" />
@@ -44,7 +63,10 @@
                         DisplayMemberPath="Name" />
                 </Border>
             </Grid>
-            <Grid>
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="5">
                 <TextBlock 
                     Text="Repository Attributes" 
                     Margin="7 0 0 0" />
@@ -65,7 +87,10 @@
                         ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
                 </Border>
             </Grid>
-            <Grid>
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="5">
                 <TextBlock 
                     Text="Node Attributes" 
                     Margin="7 0 0 0" />
@@ -85,7 +110,10 @@
                         ItemTemplate="{StaticResource ItemAttributeDefinitionTemplate}" />
                 </Border>
             </Grid>
-            <Grid>
+            <Grid
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="5">
                 <TextBlock 
                     Text="Edge Attributes" 
                     Margin="7 0 0 0" />
@@ -107,21 +135,29 @@
             </Grid>
 
             <Button
+                Grid.Row="4"
+                Grid.Column="1"
                 Content="Graphs"
                 IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Graphs_Click" />
             <Button
+                Grid.Row="4"
+                Grid.Column="2"
                 Content="Nodes"
                 IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Nodes_Click" />
             <Button
+                Grid.Row="4"
+                Grid.Column="3"
                 Content="Edges"
                 IsEnabled="{x:Bind SelectedRepository, Mode=OneWay, Converter={StaticResource ObjectToBool}}"
                 Click="Edges_Click" />
             <Button 
+                Grid.Row="5"
+                Grid.Column="2"
                 Content="Back" 
                 Click="Back_Click" />
-        </StackPanel>
+        </Grid>
     </Page.Content>
 
 </local:PageBase>
