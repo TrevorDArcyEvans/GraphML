@@ -48,20 +48,22 @@
         .ForEach(repoItem => MarshallToUI(() => RepositoryItems.Add(repoItem)));
     }
 
-    protected async Task Previous_Click(object sender, object args)
+    protected async void Previous_Click(object sender, object args)
     {
       if (_pageIndex > 1)
       {
         _pageIndex--;
       }
 
+      OnPropertyChanged(nameof(_pageIndex));
       await LoadItems(_navArgs.SelectedRepository);
     }
 
-    protected async Task Next_Click(object sender, object args)
+    protected async void Next_Click(object sender, object args)
     {
       _pageIndex++;
 
+      OnPropertyChanged(nameof(_pageIndex));
       await LoadItems(_navArgs.SelectedRepository);
     }
 

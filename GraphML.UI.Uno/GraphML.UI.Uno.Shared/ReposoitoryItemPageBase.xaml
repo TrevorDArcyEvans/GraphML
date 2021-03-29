@@ -17,6 +17,7 @@
             <Button 
                 Content="Prev" 
                 Click="Previous_Click" />
+            <TextBlock Text="{x:Bind _pageIndex, Mode=OneWay}" />
             <Button 
                 Content="Next" 
                 Click="Next_Click" />
