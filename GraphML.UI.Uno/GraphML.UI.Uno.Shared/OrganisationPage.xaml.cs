@@ -51,7 +51,7 @@
 		  .ForEach(org => Organisations.Add(org));
 		}
 
-		protected async void Previous_Click(object sender, object args)
+    private async void Previous_Click(object sender, object args)
 		{
 			if (_pageIndex > 1)
 			{
@@ -62,7 +62,7 @@
 			await LoadItems();
 		}
 
-		protected async void Next_Click(object sender, object args)
+    private async void Next_Click(object sender, object args)
 		{
 			_pageIndex++;
 
