@@ -26,8 +26,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)GraphNodePage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NodePage.xaml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ReposoitoryItemPageBase.xaml.cs">
-      <DependentUpon>ReposoitoryItemPageBase.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)RepositoryItemPageBase.xaml.cs">
+      <DependentUpon>RepositoryItemPageBase.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Server\ContactServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ObjectToBoolConverter.cs" />
@@ -144,7 +144,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)ReposoitoryItemPageBase.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)RepositoryItemPageBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

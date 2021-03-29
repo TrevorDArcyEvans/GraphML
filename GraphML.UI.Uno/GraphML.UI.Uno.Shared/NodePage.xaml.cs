@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 
-	public sealed class NodePage : ReposoitoryItemPageBase
+	public sealed class NodePage : RepositoryItemPageBase
 	{
 		protected override async Task<IEnumerable<RepositoryItem>> GetRepositoryItems(Repository repo, int pageIndex, int pageSize)
 		{
