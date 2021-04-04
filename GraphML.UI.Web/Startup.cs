@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using NLog;
+using System.Net.Http;
 
 namespace GraphML.UI.Web
 {
@@ -64,6 +65,11 @@ namespace GraphML.UI.Web
           options.ClientSecret = Configuration.IDENTITY_SERVER_CLIENT_SECRET();
           options.UsePkce = true;
           options.ResponseType = "code";
+          options.RequireHttpsMetadata = false;
+          options.BackchannelHttpHandler = new HttpClientHandler 
+          { 
+            ServerCertificateCustomValidationCallback = delegate { return true; }
+          };
 
           Configuration
               .IDENTITY_SERVER_SCOPES()
