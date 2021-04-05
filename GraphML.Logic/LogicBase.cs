@@ -78,5 +78,16 @@ namespace GraphML.Logic
 
       _datastore.Update(entity);
     }
+
+    public int Count()
+    {
+      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.Count)));
+      if (!valRes.IsValid)
+      {
+        return 0;
+      }
+
+      return _datastore.Count();
+    }
   }
 }

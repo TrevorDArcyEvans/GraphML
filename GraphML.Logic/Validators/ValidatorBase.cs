@@ -34,6 +34,10 @@ namespace GraphML.Logic.Validators
       {
         RuleForDelete();
       });
+      RuleSet(nameof(ILogic<T>.Count), () =>
+      {
+        RuleForCount();
+      });
     }
 
     protected virtual void RuleForCreate()
@@ -45,6 +49,10 @@ namespace GraphML.Logic.Validators
     }
 
     protected virtual void RuleForDelete()
+    {
+    }
+
+    protected virtual void RuleForCount()
     {
     }
 
