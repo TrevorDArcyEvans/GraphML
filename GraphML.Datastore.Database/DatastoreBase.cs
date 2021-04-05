@@ -89,6 +89,16 @@ namespace GraphML.Datastore.Database
       });
     }
 
+    public int Count()
+    {
+      return GetInternal(() =>
+      {
+        var sql = $"select count(*) from {GetTableName()}";
+
+        return _dbConnection.QueryFirst<int>(sql);
+      });
+    }
+
     protected TOther GetInternal<TOther>(Func<TOther> get)
     {
       return _policy.Execute(get);
