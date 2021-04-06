@@ -10,5 +10,6 @@ namespace GraphML.Interfaces.Server
     Task<IEnumerable<T>> Create(IEnumerable<T> entity);
     Task<IEnumerable<T>> Delete(IEnumerable<T> entity);
     Task<IEnumerable<T>> Update(IEnumerable<T> entity);
+    Task<int> Count();
   }
 }

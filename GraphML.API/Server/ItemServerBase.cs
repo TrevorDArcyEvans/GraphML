@@ -51,5 +51,14 @@ namespace GraphML.API.Server
 
       return retval;
     }
+
+    public async Task<int> Count()
+    {
+      var path = Url.Combine(ResourceBase, nameof(Count));
+      var request = GetRequest(path);
+      var retval = await GetResponse<int>(request);
+
+      return retval;
+    }
   }
 }
