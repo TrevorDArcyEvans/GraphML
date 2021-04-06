@@ -40,15 +40,29 @@ else
       </tr>
     }
   </table>
+  <div>
+    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
+  </div>
 }
 
-@functions
+@code
 {
   private IEnumerable<Organisation> _orgs;
+  int _totalEnts = 0;
+  int _pageIndex = 0;
+  int _pageSize = 25;
 
   protected override async Task OnInitializedAsync()
   {
-    _orgs = await _orgServer.GetAll(1, 20); //TODO paging
+    _totalEnts = await _orgServer.Count();
+    _orgs = await _orgServer.GetAll(_pageIndex, _pageSize);
+  }
+
+  private async Task OnPage(MatPaginatorPageEvent e)
+  {
+    _pageSize = e.PageSize;
+    _pageIndex = e.PageIndex;
+    _orgs = await _orgServer.GetAll(_pageIndex, _pageSize);
   }
 
   private void GotoBrowseRepositoryManagers(Organisation org)

@@ -42,6 +42,9 @@ else
     }
     </tbody>
   </table>
+  <div>
+    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
+  </div>
   <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 }
 
@@ -55,12 +58,23 @@ else
 
   private IEnumerable<Edge> _edges;
   private RepositoryManager _repoMgr;
+  int _totalEnts = 0;
+  int _pageIndex = 0;
+  int _pageSize = 25;
 
   protected override async Task OnInitializedAsync()
   {
-    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, 1, 20); //TODO paging
+    _totalEnts = await _edgeServer.Count(Guid.Parse(RepositoryId));
+    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndex, _pageSize);
     var repo = (await _repoServer.ByIds(new[] {Guid.Parse(RepositoryId)})).Single();
     _repoMgr = (await _repoMgrServer.ByIds(new[] {repo.RepositoryManagerId})).Single();
+  }
+
+  private async Task OnPage(MatPaginatorPageEvent e)
+  {
+    _pageSize = e.PageSize;
+    _pageIndex = e.PageIndex;
+    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndex, _pageSize);
   }
 
   private void GotoBrowseRepositories()

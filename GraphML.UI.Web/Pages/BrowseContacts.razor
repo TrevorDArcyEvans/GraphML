@@ -31,6 +31,9 @@ else
       </tr>
     }
     </tbody>
+    <div>
+      <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
+    </div>
     <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
   </table>
 }
@@ -44,10 +47,21 @@ else
   public string OrganisationId { get; set; }
 
   private IEnumerable<Contact> _contacts;
+  int _totalEnts = 0;
+  int _pageIndex = 0;
+  int _pageSize = 25;
 
   protected override async Task OnInitializedAsync()
   {
-    _contacts = await _contactServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, 1, 20); //TODO paging
+    _totalEnts = await _contactServer.Count(Guid.Parse(OrganisationId));
+    _contacts = await _contactServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, _pageIndex, _pageSize);
+  }
+
+  private async Task OnPage(MatPaginatorPageEvent e)
+  {
+    _pageSize = e.PageSize;
+    _pageIndex = e.PageIndex;
+    _contacts = await _contactServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, _pageIndex, _pageSize);
   }
 
   private void GotoBrowseOrganisations()

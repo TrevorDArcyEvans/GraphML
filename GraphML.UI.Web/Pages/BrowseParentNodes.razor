@@ -34,6 +34,9 @@ else
     }
     </tbody>
   </table>
+  <div>
+    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
+  </div>
   <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseItems())">Back</MatButton>
 }
 
@@ -47,12 +50,24 @@ else
 
   private IEnumerable<Item> _items;
   private Repository _repo;
+  int _totalEnts = 0;
+  int _pageIndex = 0;
+  int _pageSize = 25;
 
   protected override async Task OnInitializedAsync()
   {
+    _totalEnts = await _itemServer.Count(Guid.Parse(ItemId));
     var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
-    _items = await _itemServer.GetParents(item, 1, 20); //TODO paging
+    _items = await _itemServer.GetParents(item, _pageIndex, _pageSize);
     _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
+  }
+
+  private async Task OnPage(MatPaginatorPageEvent e)
+  {
+    _pageSize = e.PageSize;
+    _pageIndex = e.PageIndex;
+    var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
+    _items = await _itemServer.GetParents(item, _pageIndex, _pageSize);
   }
 
   private void GotoBrowseItems()
