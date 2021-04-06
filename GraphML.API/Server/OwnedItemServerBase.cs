@@ -30,7 +30,7 @@ namespace GraphML.API.Server
 
     public async Task<int> Count(Guid ownerId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.Count)));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.Count), ownerId.ToString()));
       var retval = await GetResponse<int>(request);
 
       return retval;

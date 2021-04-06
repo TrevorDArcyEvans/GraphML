@@ -133,10 +133,10 @@ namespace GraphML.API.Controllers
     /// <param name="ownerId">identifier of owner</param>
     /// <response code="200">Success - if no Entities found, return zero</response>
     [HttpGet]
-    [Route(nameof(Count))]
+    [Route(nameof(Count) + "/{ownerId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
-    public override IActionResult Count(Guid ownerId)
+    public override IActionResult Count([FromRoute] Guid ownerId)
     {
       return CountInternal(ownerId);
     }
