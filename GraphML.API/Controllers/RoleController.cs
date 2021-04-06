@@ -148,5 +148,19 @@ namespace GraphML.API.Controllers
 				.Take(pageSize);
 			return new OkObjectResult(result);
 		}
+
+    /// <summary>
+    /// Retrieve total number of Roles
+    /// </summary>
+    /// <response code="200">Success - if no Roles found, return zero</response>
+    [HttpGet]
+    [Route(nameof(Count))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(int))]
+    public IActionResult Count()
+    {
+      var result = _roleLogic.Count();
+      return new OkObjectResult(result);
+    }
 	}
 }

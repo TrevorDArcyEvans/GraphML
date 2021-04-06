@@ -111,5 +111,19 @@ namespace GraphML.API.Controllers
         .Take(pageSize);
       return new OkObjectResult(result);
     }
+
+    /// <summary>
+    /// Retrieve total number of Entities
+    /// </summary>
+    /// <response code="200">Success - if no Entities found, return zero</response>
+    [HttpGet]
+    [Route(nameof(Count))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(int))]
+    public IActionResult Count()
+    {
+      var result = _orgLogic.Count();
+      return new OkObjectResult(result);
+    }
   }
 }
