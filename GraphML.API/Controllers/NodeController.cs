@@ -108,7 +108,7 @@ namespace GraphML.API.Controllers
     /// <summary>
     /// Retrieve parents of specified entity
     /// </summary>
-    /// <param name="entity">child entity</param>
+    /// <param name="itemId">child entity</param>
     /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success</response>
@@ -118,9 +118,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Node>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override IActionResult GetParents([FromBody] [Required] Guid entity, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override IActionResult GetParents([FromBody] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      return GetParentsInternal(entity, pageIndex, pageSize);
+      return GetParentsInternal(itemId, pageIndex, pageSize);
     }
 
     /// <summary>
