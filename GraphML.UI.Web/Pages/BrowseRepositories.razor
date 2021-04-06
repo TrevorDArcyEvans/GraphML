@@ -7,42 +7,50 @@
 @inject IRepositoryServer _repoServer
 @inject IRepositoryManagerServer _repoMgrServer
 @inject IOrganisationServer _orgServer
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Repositories</h1>
 @if (_repos == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Graphs</th>
-        <th scope="col">Nodes</th>
-        <th scope="col">Edges</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Graphs</th>
+      <th scope="col">Nodes</th>
+      <th scope="col">Edges</th>
+    </tr>
     </thead>
     <tbody>
-      @foreach (var repo in _repos)
-      {
-        <tr>
-          <th>@repo.Name</th>
-          <th><MatButton @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon btn btn-primary" /></th>
-          <th><MatButton @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle btn btn-primary" /></th>
-          <th><MatButton @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right btn btn-primary" /></th>
-        </tr>
-      }
+    @foreach (var repo in _repos)
+    {
+      <tr>
+        <th>@repo.Name</th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon btn btn-primary"/>
+        </th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle btn btn-primary"/>
+        </th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right btn btn-primary"/>
+        </th>
+      </tr>
+    }
     </tbody>
   </table>
   <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>
 }
 
-  @functions
-  {
+@functions
+{
   [Parameter]
   public string RepositoryManagerName { get; set; }
 
@@ -54,28 +62,28 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _repos = await _repoServer.ByOwners(new[] { Guid.Parse(RepositoryManagerId) }, 1, 20); //TODO paging
-    var repoMgr = (await _repoMgrServer.ByIds(new[] { Guid.Parse(RepositoryManagerId) })).Single();
-    _org = (await _orgServer.ByIds(new[] { repoMgr.OrganisationId })).Single();
+    _repos = await _repoServer.ByOwners(new[] {Guid.Parse(RepositoryManagerId)}, 1, 20); //TODO paging
+    var repoMgr = (await _repoMgrServer.ByIds(new[] {Guid.Parse(RepositoryManagerId)})).Single();
+    _org = (await _orgServer.ByIds(new[] {repoMgr.OrganisationId})).Single();
   }
 
   private void GotoBrowseGraphs(Repository repo)
   {
-    UriHelper.NavigateTo($"/BrowseGraphs/{repo.Id}/{repo.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphs/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseNodes(Repository repo)
   {
-    UriHelper.NavigateTo($"/BrowseNodes/{repo.Id}/{repo.Name}");
+    _navMgr.NavigateTo($"/BrowseNodes/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseEdges(Repository repo)
   {
-    UriHelper.NavigateTo($"/BrowseEdges/{repo.Id}/{repo.Name}");
+    _navMgr.NavigateTo($"/BrowseEdges/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseRepositoryManagers()
   {
-    UriHelper.NavigateTo($"/BrowseRepositoryManagers/{_org.Id}/{_org.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositoryManagers/{_org.Id}/{_org.Name}");
   }
 }

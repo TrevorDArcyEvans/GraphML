@@ -7,68 +7,74 @@
 @inject INodeServer _nodeServer
 @inject IRepositoryServer _repoServer;
 @inject IRepositoryManagerServer _repoMgrServer;
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Nodes</h1>
 @if (_nodes == null)
 {
-    <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
-    <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Where Used</th>
-                <th scope="col">Parents</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var node in _nodes)
-            {
-                <tr>
-                    <th>@node.Name</th>
-                    <th><MatButton @onclick="@(e => GotoBrowseWhereUsed(node))" class="fas fa-question btn btn-primary" /></th>
-                    <th><MatButton @onclick="@(e => GotoBrowseParents(node))" class="fas fa-user-friends btn btn-primary" /></th>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
+  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Where Used</th>
+      <th scope="col">Parents</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var node in _nodes)
+    {
+      <tr>
+        <th>@node.Name</th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseWhereUsed(node))" class="fas fa-question btn btn-primary"/>
+        </th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseParents(node))" class="fas fa-user-friends btn btn-primary"/>
+        </th>
+      </tr>
+    }
+    </tbody>
+  </table>
+  <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 }
 
 @functions
+{
+  [Parameter]
+  public string RepositoryName { get; set; }
+
+  [Parameter]
+  public string RepositoryId { get; set; }
+
+  private IEnumerable<Node> _nodes;
+  private RepositoryManager _repoMgr;
+
+  protected override async Task OnInitializedAsync()
   {
-    [Parameter]
-    public string RepositoryName { get; set; }
+    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, 1, 20); //TODO paging
+    var repo = (await _repoServer.ByIds(new[] {Guid.Parse(RepositoryId)})).Single();
+    _repoMgr = (await _repoMgrServer.ByIds(new[] {repo.RepositoryManagerId})).Single();
+  }
 
-    [Parameter]
-    public string RepositoryId { get; set; }
+  private void GotoBrowseRepositories()
+  {
+    _navMgr.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+  }
 
-    private IEnumerable<Node> _nodes;
-    private RepositoryManager _repoMgr;
+  private void GotoBrowseWhereUsed(Item item)
+  {
+    _navMgr.NavigateTo($"/BrowseWhereUsedNodes/{item.Id}/{item.Name}");
+  }
 
-    protected override async Task OnInitializedAsync()
-    {
-        _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, 1, 20); //TODO paging
-        var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
-        _repoMgr = (await _repoMgrServer.ByIds(new[] { repo.RepositoryManagerId })).Single();
-    }
-
-    private void GotoBrowseRepositories()
-    {
-        UriHelper.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
-    }
-
-    private void GotoBrowseWhereUsed(Item item)
-    {
-        UriHelper.NavigateTo($"/BrowseWhereUsedNodes/{item.Id}/{item.Name}");
-    }
-
-    private void GotoBrowseParents(Item item)
-    {
-        UriHelper.NavigateTo($"/BrowseParentNodes/{item.Id}/{item.Name}");
-    }
+  private void GotoBrowseParents(Item item)
+  {
+    _navMgr.NavigateTo($"/BrowseParentNodes/{item.Id}/{item.Name}");
+  }
 }

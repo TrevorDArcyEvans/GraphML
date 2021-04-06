@@ -7,54 +7,56 @@
 @inject IGraphServer _graphServer
 @inject INodeServer _itemServer
 @inject IRepositoryServer _repoServer;
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Parent Nodes</h1>
 @if (_items == null)
 {
-    <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
-    <h2>@HttpUtility.UrlDecode(ItemName)</h2>
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in _items)
-            {
-                <tr>
-                    <th>@item.Name</th>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseItems())">Back</MatButton>
+  <h2>@HttpUtility.UrlDecode(ItemName)</h2>
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in _items)
+    {
+      <tr>
+        <th>@item.Name</th>
+      </tr>
+    }
+    </tbody>
+  </table>
+  <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseItems())">Back</MatButton>
 }
 
 @functions
+{
+  [Parameter]
+  public string ItemName { get; set; }
+
+  [Parameter]
+  public string ItemId { get; set; }
+
+  private IEnumerable<Item> _items;
+  private Repository _repo;
+
+  protected override async Task OnInitializedAsync()
   {
-    [Parameter]
-    public string ItemName { get; set; }
+    var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
+    _items = await _itemServer.GetParents(item, 1, 20); //TODO paging
+    _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
+  }
 
-    [Parameter]
-    public string ItemId { get; set; }
-
-    private IEnumerable<Item> _items;
-    private Repository _repo;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
-        _items = await _itemServer.GetParents(item, 1, 20); //TODO paging
-        _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
-    }
-
-    private void GotoBrowseItems()
-    {
-        UriHelper.NavigateTo($"/BrowseNodes/{_repo.Id}/{_repo.Name}");
-    }
+  private void GotoBrowseItems()
+  {
+    _navMgr.NavigateTo($"/BrowseNodes/{_repo.Id}/{_repo.Name}");
+  }
 }

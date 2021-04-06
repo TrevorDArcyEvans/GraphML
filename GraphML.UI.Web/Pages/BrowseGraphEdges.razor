@@ -7,29 +7,31 @@
 @inject IGraphEdgeServer _edgeServer
 @inject IGraphServer _graphServer;
 @inject IRepositoryServer _repoServer;
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Graph Edges</h1>
 @if (_edges == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <h2>@HttpUtility.UrlDecode(GraphName)</h2>
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
     </thead>
     <tbody>
-      @foreach (var edge in _edges)
-      {
-        <tr>
-          <th>@edge.Name</th>
-        </tr>
-      }
+    @foreach (var edge in _edges)
+    {
+      <tr>
+        <th>@edge.Name</th>
+      </tr>
+    }
     </tbody>
   </table>
   <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
@@ -48,13 +50,13 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(GraphId) }, 1, 20); //TODO paging
-    var graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
-    _repo = (await _repoServer.ByIds(new[] { graph.RepositoryId })).Single();
+    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(GraphId)}, 1, 20); //TODO paging
+    var graph = (await _graphServer.ByIds(new[] {Guid.Parse(GraphId)})).Single();
+    _repo = (await _repoServer.ByIds(new[] {graph.RepositoryId})).Single();
   }
 
   private void GotoBrowseGraphs()
   {
-    UriHelper.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
   }
 }

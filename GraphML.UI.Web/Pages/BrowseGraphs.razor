@@ -7,42 +7,50 @@
 @inject IGraphServer _graphServer
 @inject IRepositoryServer _repoServer;
 @inject IRepositoryManagerServer _repoMgrServer;
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Graphs</h1>
 @if (_graphs == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Graph Nodes</th>
-        <th scope="col">Graph Edges</th>
-        <th scope="col">Analysis</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Graph Nodes</th>
+      <th scope="col">Graph Edges</th>
+      <th scope="col">Analysis</th>
+    </tr>
     </thead>
     <tbody>
-      @foreach (var graph in _graphs)
-      {
-        <tr>
-          <th>@graph.Name</th>
-          <th><MatButton @onclick="@(e => GotoBrowseGraphNodes(graph))" class="fas fa-genderless btn btn-primary" /></th>
-          <th><MatButton @onclick="@(e => GotoBrowseGraphEdges(graph))" class="fas fa-grip-lines-vertical btn btn-primary" /></th>
-          <th><MatButton @onclick="@(e => GotoBrowseAnalyses(graph))" class="fas fa-calculator btn btn-primary" /></th>
-        </tr>
-      }
+    @foreach (var graph in _graphs)
+    {
+      <tr>
+        <th>@graph.Name</th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseGraphNodes(graph))" class="fas fa-genderless btn btn-primary"/>
+        </th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseGraphEdges(graph))" class="fas fa-grip-lines-vertical btn btn-primary"/>
+        </th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseAnalyses(graph))" class="fas fa-calculator btn btn-primary"/>
+        </th>
+      </tr>
+    }
     </tbody>
   </table>
   <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 }
 
-  @functions
-  {
+@functions
+{
   [Parameter]
   public string RepositoryName { get; set; }
 
@@ -54,28 +62,28 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _graphs = await _graphServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, 1, 20); //TODO paging
-    var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
-    _repoMgr = (await _repoMgrServer.ByIds(new [] { repo.RepositoryManagerId})).Single();
+    _graphs = await _graphServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, 1, 20); //TODO paging
+    var repo = (await _repoServer.ByIds(new[] {Guid.Parse(RepositoryId)})).Single();
+    _repoMgr = (await _repoMgrServer.ByIds(new[] {repo.RepositoryManagerId})).Single();
   }
 
   private void GotoBrowseGraphNodes(Graph graph)
   {
-    UriHelper.NavigateTo($"/BrowseGraphNodes/{graph.Id}/{graph.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphNodes/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseGraphEdges(Graph graph)
   {
-    UriHelper.NavigateTo($"/BrowseGraphEdges/{graph.Id}/{graph.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphEdges/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseAnalyses(Graph graph)
   {
-    UriHelper.NavigateTo($"/BrowseAnalyses/{graph.Id}/{graph.Name}");
+    _navMgr.NavigateTo($"/BrowseAnalyses/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseRepositories()
   {
-    UriHelper.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
   }
 }

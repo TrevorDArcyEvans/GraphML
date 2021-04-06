@@ -5,51 +5,53 @@
 @using GraphML.Interfaces.Server
 
 @inject IContactServer _contactServer
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Contacts</h1>
 @if (_contacts == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
   <table class="table">
-      <thead class="thead-dark">
-          <tr>
-              <th scope="col">Name</th>
-          </tr>
-      </thead>
-      <tbody>
-          @foreach (var contact in _contacts)
-          {
-              <tr>
-                  <th>@contact.Name</th>
-              </tr>
-          }
-      </tbody>
-      <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var contact in _contacts)
+    {
+      <tr>
+        <th>@contact.Name</th>
+      </tr>
+    }
+    </tbody>
+    <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
   </table>
 }
 
 @functions
 {
-    [Parameter]
-    public string OrganisationName { get; set; }
+  [Parameter]
+  public string OrganisationName { get; set; }
 
-    [Parameter]
-    public string OrganisationId { get; set; }
+  [Parameter]
+  public string OrganisationId { get; set; }
 
-    private IEnumerable<Contact> _contacts;
+  private IEnumerable<Contact> _contacts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        _contacts = await _contactServer.ByOwners(new[] { Guid.Parse(OrganisationId) }, 1, 20); //TODO paging
-    }
+  protected override async Task OnInitializedAsync()
+  {
+    _contacts = await _contactServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, 1, 20); //TODO paging
+  }
 
-    private void GotoBrowseOrganisations()
-    {
-        UriHelper.NavigateTo($"/BrowseOrganisations");
-    }
+  private void GotoBrowseOrganisations()
+  {
+    _navMgr.NavigateTo($"/BrowseOrganisations");
+  }
 }

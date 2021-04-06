@@ -4,23 +4,25 @@
 @using GraphML.Interfaces.Server
 
 @inject IOrganisationServer _orgServer
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Organisations</h1>
 
 @if (_orgs == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Repository Managers</th>
-        <th scope="col">Contacts</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Repository Managers</th>
+      <th scope="col">Contacts</th>
+    </tr>
     </thead>
     <tbody>
 
@@ -29,8 +31,12 @@ else
     {
       <tr>
         <th scope="row">@org.Name</th>
-        <th><MatButton @onclick="@(e => GotoBrowseRepositoryManagers(@org))" class="fas fa-database btn btn-primary" /></th>
-        <th><MatButton @onclick="@(e => GotoBrowseContacts(@org))" class="fas fa-users btn btn-primary" /></th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseRepositoryManagers(@org))" class="fas fa-database btn btn-primary"/>
+        </th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseContacts(@org))" class="fas fa-users btn btn-primary"/>
+        </th>
       </tr>
     }
   </table>
@@ -47,11 +53,11 @@ else
 
   private void GotoBrowseRepositoryManagers(Organisation org)
   {
-    UriHelper.NavigateTo($"/BrowseRepositoryManagers/{org.Id}/{org.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositoryManagers/{org.Id}/{org.Name}");
   }
 
   private void GotoBrowseContacts(Organisation org)
   {
-    UriHelper.NavigateTo($"/BrowseContacts/{org.Id}/{org.Name}");
+    _navMgr.NavigateTo($"/BrowseContacts/{org.Id}/{org.Name}");
   }
 }

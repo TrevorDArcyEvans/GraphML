@@ -5,31 +5,35 @@
 @using GraphML.Interfaces.Server
 
 @inject IRepositoryManagerServer _repoMgrServer
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Repository Managers</h1>
 @if (_repoMgrs == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Repositories</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Repositories</th>
+    </tr>
     </thead>
     <tbody>
-      @foreach (var repoMgr in _repoMgrs)
-      {
-        <tr>
-          <th>@repoMgr.Name</th>
-          <th><MatButton @onclick="@(e => GotoBrowseRepositories(@repoMgr))" class="fas fa-project-diagram btn btn-primary" /></th>
-        </tr>
-      }
+    @foreach (var repoMgr in _repoMgrs)
+    {
+      <tr>
+        <th>@repoMgr.Name</th>
+        <th>
+          <MatButton @onclick="@(e => GotoBrowseRepositories(@repoMgr))" class="fas fa-project-diagram btn btn-primary"/>
+        </th>
+      </tr>
+    }
     </tbody>
   </table>
   <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
@@ -47,16 +51,16 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _repoMgrs = await _repoMgrServer.ByOwners(new[] { Guid.Parse(OrganisationId) }, 1, 20); //TODO paging
+    _repoMgrs = await _repoMgrServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, 1, 20); //TODO paging
   }
 
   private void GotoBrowseRepositories(RepositoryManager repoMgr)
   {
-    UriHelper.NavigateTo($"/BrowseRepositories/{repoMgr.Id}/{repoMgr.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositories/{repoMgr.Id}/{repoMgr.Name}");
   }
 
   private void GotoBrowseOrganisations()
   {
-    UriHelper.NavigateTo($"/BrowseOrganisations");
+    _navMgr.NavigateTo($"/BrowseOrganisations");
   }
 }

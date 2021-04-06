@@ -4,21 +4,23 @@
 @using GraphML.Interfaces.Server
 
 @inject IRoleServer _roleServer
-@inject NavigationManager UriHelper
+@inject NavigationManager _navMgr
 
 <h1>Roles</h1>
 
 @if (_roles == null)
 {
-  <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col">Name</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
     </thead>
     <tbody>
 
@@ -34,10 +36,10 @@ else
 
 @functions
 {
-    private IEnumerable<Role> _roles;
+  private IEnumerable<Role> _roles;
 
-    protected override async Task OnInitializedAsync()
-    {
-        _roles = await _roleServer.GetAll();
-    }
+  protected override async Task OnInitializedAsync()
+  {
+    _roles = await _roleServer.GetAll();
+  }
 }
