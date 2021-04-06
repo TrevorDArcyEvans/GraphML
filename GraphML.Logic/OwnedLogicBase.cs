@@ -32,5 +32,16 @@ namespace GraphML.Logic
 
       return Enumerable.Empty<T>();
     }
+
+    public int Count(Guid ownerId)
+    {
+      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(IOwnedLogic<T>.Count)));
+      if (!valRes.IsValid)
+      {
+        return 0;
+      }
+
+      return _ownedDatastore.Count(ownerId);
+    }
   }
 }
