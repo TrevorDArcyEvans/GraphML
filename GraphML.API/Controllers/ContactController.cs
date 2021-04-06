@@ -126,5 +126,19 @@ namespace GraphML.API.Controllers
       var ent = _contactLogic.ByEmail(convertedEmail);
       return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
     }
+
+    /// <summary>
+    /// Retrieve total number of Entities
+    /// </summary>
+    /// <param name="ownerId">identifier of owner</param>
+    /// <response code="200">Success - if no Entities found, return zero</response>
+    [HttpGet]
+    [Route(nameof(Count))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
+    public override IActionResult Count(Guid ownerId)
+    {
+      return CountInternal(ownerId);
+    }
   }
 }

@@ -55,12 +55,20 @@ namespace GraphML.UI.Uno.Server
       return retval;
 		}
 
-		public async Task<IEnumerable<T>> GetAll(int pageIndex, int pageSize)
+    public async Task<IEnumerable<T>> GetAll(int pageIndex, int pageSize)
 		{
 			var request = GetPageRequest(Url.Combine(UriResourceBase, "GetAll"), pageIndex, pageSize);
 			var retval = await GetResponse<IEnumerable<T>>(request);
 
 			return retval;
 		}
+
+    public async Task<int> Count()
+    {
+			var request = GetRequest(Url.Combine(UriResourceBase, "Count"));
+			var retval = await GetResponse<int>(request);
+
+			return retval;
+    }
 	}
 }

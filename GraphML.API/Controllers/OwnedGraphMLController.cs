@@ -22,5 +22,12 @@ namespace GraphML.API.Controllers
       var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize);
       return new OkObjectResult(result);
     }
+
+    public abstract IActionResult Count([FromQuery] Guid ownerId);
+    public IActionResult CountInternal([FromQuery] Guid ownerId)
+    {
+      var result = _ownedLogic.Count(ownerId);
+      return new OkObjectResult(result);
+    }
   }
 }

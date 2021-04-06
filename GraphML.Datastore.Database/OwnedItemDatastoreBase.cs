@@ -31,7 +31,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        var sql = $"select count(*) from {GetTableName()} where {nameof(OwnedItem.OwnerId)} = {ownerId})";
+        var sql = $"select count(*) from {GetTableName()} where {nameof(OwnedItem.OwnerId)} = '{ownerId}'";
 
         return _dbConnection.QueryFirst<int>(sql);
       });
