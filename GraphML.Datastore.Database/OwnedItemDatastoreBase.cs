@@ -27,6 +27,16 @@ namespace GraphML.Datastore.Database
       });
     }
 
+    public int Count(Guid ownerId)
+    {
+      return GetInternal(() =>
+      {
+        var sql = $"select count(*) from {GetTableName()} where {nameof(OwnedItem.OwnerId)} = {ownerId})";
+
+        return _dbConnection.QueryFirst<int>(sql);
+      });
+    }
+
     protected string AppendForFetch(int pageIndex, int pageSize)
     {
       var dbType = _dbConnection.GetType().ToString();
