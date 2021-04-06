@@ -30,13 +30,13 @@ else
             {
                 <tr>
                     <th>@node.Name</th>
-                    <th><button @onclick="@(e => GotoBrowseWhereUsed(node))" class="fas fa-question btn btn-primary" /></th>
-                    <th><button @onclick="@(e => GotoBrowseParents(node))" class="fas fa-user-friends btn btn-primary" /></th>
+                    <th><MatButton @onclick="@(e => GotoBrowseWhereUsed(node))" class="fas fa-question btn btn-primary" /></th>
+                    <th><MatButton @onclick="@(e => GotoBrowseParents(node))" class="fas fa-user-friends btn btn-primary" /></th>
                 </tr>
             }
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</button>
+    <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 }
 
 @functions

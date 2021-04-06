@@ -31,14 +31,14 @@ else
       {
         <tr>
           <th>@repo.Name</th>
-          <th><button @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon btn btn-primary" /></th>
-          <th><button @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle btn btn-primary" /></th>
-          <th><button @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right btn btn-primary" /></th>
+          <th><MatButton @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon btn btn-primary" /></th>
+          <th><MatButton @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle btn btn-primary" /></th>
+          <th><MatButton @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right btn btn-primary" /></th>
         </tr>
       }
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</button>
+  <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>
 }
 
   @functions

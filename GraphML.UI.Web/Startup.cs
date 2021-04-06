@@ -5,6 +5,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
+using MatBlazor;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -46,34 +47,35 @@ namespace GraphML.UI.Web
       services.AddSingleton(sp => Configuration);
       services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+      services.AddMatBlazor();
       services.AddRazorPages().AddNewtonsoftJson(options =>
-      options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+        options.SerializerSettings.Converters.Add(new StringEnumConverter()));
       services.AddServerSideBlazor();
 
       services.AddAuthentication(options =>
-      {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-      })
+        {
+          options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+        })
         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme,
-        options =>
-        {
-          options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
-          options.ClientId = Configuration.IDENTITY_SERVER_CLIENT_ID();
-          options.ClientSecret = Configuration.IDENTITY_SERVER_CLIENT_SECRET();
-          options.UsePkce = true;
-          options.ResponseType = "code";
+          options =>
+          {
+            options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
+            options.ClientId = Configuration.IDENTITY_SERVER_CLIENT_ID();
+            options.ClientSecret = Configuration.IDENTITY_SERVER_CLIENT_SECRET();
+            options.UsePkce = true;
+            options.ResponseType = "code";
 
-          Configuration
+            Configuration
               .IDENTITY_SERVER_SCOPES()
               .ToList()
               .ForEach(scope => options.Scope.Add(scope));
 
-          //options.CallbackPath = ...
-          options.SaveTokens = true;
-          options.GetClaimsFromUserInfoEndpoint = true;
-        });
+            //options.CallbackPath = ...
+            options.SaveTokens = true;
+            options.GetClaimsFromUserInfoEndpoint = true;
+          });
 
       #region Autofac
 
@@ -137,10 +139,10 @@ namespace GraphML.UI.Web
       app.UseAuthentication();
       app.UseAuthorization();
       app.UseEndpoints(endpoints =>
-          {
-            endpoints.MapBlazorHub();
-            endpoints.MapFallbackToPage("/_Host");
-          });
+      {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage("/_Host");
+      });
     }
   }
 }

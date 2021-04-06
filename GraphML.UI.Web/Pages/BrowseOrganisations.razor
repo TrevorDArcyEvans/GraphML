@@ -29,8 +29,8 @@ else
     {
       <tr>
         <th scope="row">@org.Name</th>
-        <th><button @onclick="@(e => GotoBrowseRepositoryManagers(@org))" class="fas fa-database btn btn-primary" /></th>
-        <th><button @onclick="@(e => GotoBrowseContacts(@org))" class="fas fa-users btn btn-primary" /></th>
+        <th><MatButton @onclick="@(e => GotoBrowseRepositoryManagers(@org))" class="fas fa-database btn btn-primary" /></th>
+        <th><MatButton @onclick="@(e => GotoBrowseContacts(@org))" class="fas fa-users btn btn-primary" /></th>
       </tr>
     }
   </table>
