@@ -20,7 +20,7 @@ namespace GraphML.UI.Uno.Server
 
 		public async Task<IEnumerable<T>> GetParents(Guid itemId, int pageIndex, int pageSize)
 		{
-			var request = GetPostRequest(Url.Combine(UriResourceBase, "GetParents"), itemId, pageIndex, pageSize);
+			var request = GetPageRequest(Url.Combine(UriResourceBase, "GetParents", itemId.ToString()), pageIndex, pageSize);
 			var retval = await GetResponse<IEnumerable<T>>(request);
 
 			return retval;

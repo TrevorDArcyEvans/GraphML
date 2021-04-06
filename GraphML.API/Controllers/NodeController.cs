@@ -113,12 +113,12 @@ namespace GraphML.API.Controllers
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
-    [HttpPost]
-    [Route(nameof(GetParents))]
+    [HttpGet]
+    [Route(nameof(GetParents) + "/{itemId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Node>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override IActionResult GetParents([FromBody] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override IActionResult GetParents([FromRoute] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return GetParentsInternal(itemId, pageIndex, pageSize);
     }
