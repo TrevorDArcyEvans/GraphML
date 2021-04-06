@@ -31,39 +31,15 @@
       "console": "internalConsole"
     },
     {
-      "name": "GTK Linux",
+      "name": "Blazor",
       "type": "coreclr",
       "request": "launch",
       "program": "dotnet",
       "args": [
         "run"
       ],
-      "cwd": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk",
-      "env": {},
-      "stopAtEntry": false,
-      "console": "internalConsole"
-    },
-    {
-      "name": ".NET Core Launch (Uno Platform App)",
-      "type": "coreclr",
-      "request": "launch",
-      "program": "dotnet",
-      "args": [
-        "run"
-      ],
-      "cwd": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Wasm",
+      "cwd": "${workspaceFolder}/GraphML.UI.Web",
       "env": {}
-    },
-    {
-      "name": ".NET Core Debug Uno Platform WebAssembly in Chrome",
-      "type": "pwa-chrome",
-      "request": "launch",
-      "timeout": 30000,
-      // If you have changed the default port / launch URL make sure to update the expectation below
-      "url": "http://localhost:5000",
-      "webRoot": "${workspaceFolder}/GraphML.UI.Uno/GraphML.UI.Uno.Wasm",
-      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "runtimeExecutable": "/usr/bin/google-chrome-stable"
     }
   ]
 }
