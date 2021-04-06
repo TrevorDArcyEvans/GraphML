@@ -114,7 +114,7 @@ namespace GraphML.API.Controllers
 		/// <summary>
 		/// List all roles in the system
 		/// </summary>
-		/// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+		/// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
 		/// <param name="pageSize">number of items per page.  Defaults to 20</param>
 		/// <response code="200">Success - if no Entities found, return empty list</response>
 		[HttpGet]
@@ -125,7 +125,7 @@ namespace GraphML.API.Controllers
 		public IActionResult GetAll([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
 		{
 			var result = _roleLogic.GetAll()
-				.Skip((pageIndex - 1) * pageSize)
+				.Skip(pageIndex * pageSize)
 				.Take(pageSize);
 			return new OkObjectResult(result);
 		}
@@ -133,7 +133,7 @@ namespace GraphML.API.Controllers
 		/// <summary>
 		/// List all roles for the calling user
 		/// </summary>
-		/// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+		/// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
 		/// <param name="pageSize">number of items per page.  Defaults to 20</param>
 		/// <response code="200">Success - if no Entities found, return empty list</response>
 		[HttpGet]
@@ -144,7 +144,7 @@ namespace GraphML.API.Controllers
 		public IActionResult Get([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
 		{
 			var result = _roleLogic.Get()
-				.Skip((pageIndex - 1) * pageSize)
+				.Skip(pageIndex * pageSize)
 				.Take(pageSize);
 			return new OkObjectResult(result);
 		}

@@ -43,16 +43,16 @@ namespace GraphML.Datastore.Database
       switch (dbType)
       {
         case "System.Data.SQLite.SQLiteConnection":
-          return $"{Environment.NewLine} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
+          return $"{Environment.NewLine} limit {pageSize} offset {pageIndex * pageSize}";
 
         case "MySql.Data.MySqlClient.MySqlConnection":
-          return $"{Environment.NewLine} limit {(pageIndex - 1) * pageSize}, {pageSize}";
+          return $"{Environment.NewLine} limit {pageIndex * pageSize}, {pageSize}";
 
         case "Npgsql.NpgsqlConnection":
-          return $"{Environment.NewLine} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
+          return $"{Environment.NewLine} limit {pageSize} offset {pageIndex * pageSize}";
 
         case "System.Data.SqlClient.SqlConnection":
-          return $"{Environment.NewLine} offset {(pageIndex - 1) * pageSize} rows fetch next {pageSize} rows only";
+          return $"{Environment.NewLine} offset {pageIndex * pageSize} rows fetch next {pageSize} rows only";
 
         default:
           throw new ArgumentOutOfRangeException($"Untested database: {dbType}");

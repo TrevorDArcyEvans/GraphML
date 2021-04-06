@@ -51,7 +51,7 @@ namespace GraphML.API.Controllers
     /// Retrieve all Entities in a paged list
     /// </summary>
     /// <param name="ownerIds"></param>
-    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpPost]
@@ -112,7 +112,7 @@ namespace GraphML.API.Controllers
     /// Retrieve Graphs which have specified item
     /// </summary>
     /// <param name="id">unique identifier</param>
-    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
@@ -131,7 +131,7 @@ namespace GraphML.API.Controllers
     /// Retrieve Graphs which have specified item
     /// </summary>
     /// <param name="id">unique identifier</param>
-    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
