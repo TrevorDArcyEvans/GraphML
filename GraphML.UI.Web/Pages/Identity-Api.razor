@@ -16,41 +16,44 @@
 
 @if (userClaimsJson == null)
 {
-    <p><em>Loading...</em></p>
+  <p>
+    <em>Loading...</em>
+  </p>
 }
 else
 {
-    <p>These are the user claims that were presented to the API</p>
-    <pre> @userClaimsJson </pre>
-    <hr />
+  <p>These are the user claims that were presented to the API</p>
+  <pre> @userClaimsJson </pre>
+  <hr/>
 
-    <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
-    <pre> @userInfo </pre>
+  <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
+  <pre> @userInfo </pre>
 }
 
 @code {
-    private string userClaimsJson;
-    private string userInfo;
+  private string userClaimsJson;
+  private string userInfo;
 
-    protected override async Task OnInitializedAsync()
+  protected override async Task OnInitializedAsync()
+  {
+    userClaimsJson = await _identityServer.GetAPIUserClaimsJson();
+    userInfo = await GetUserInfo();
+  }
+
+  private async Task<string> GetUserInfo()
+  {
+    var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+    var client = new HttpClient
     {
-        userClaimsJson = await _identityServer.GetAPIUserClaimsJson();
-        userInfo = await GetUserInfo();
-    }
+      BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
+    };
+    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+    var response = await client.GetAsync($"/connect/userinfo");
+    var userInfoStr = await response.Content.ReadAsStringAsync();
+    var jObj = JObject.Parse(userInfoStr);
+    var retval = JsonConvert.SerializeObject(jObj, Formatting.Indented);
 
-    private async Task<string> GetUserInfo()
-    {
-        var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-        var client = new HttpClient
-        {
-            BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
-        };
-        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-        var response = await client.GetAsync($"/connect/userinfo");
-        var userInfoStr = await response.Content.ReadAsStringAsync();
-        var jObj = JObject.Parse(userInfoStr);
-        var retval = JsonConvert.SerializeObject(jObj, Formatting.Indented);
+    return retval;
+  }
 
-        return retval;
-    }
 }

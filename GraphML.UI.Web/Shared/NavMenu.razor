@@ -1,68 +1,68 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">GraphML<img src="favicon.ico" style="width: 15%; height: 15%"/></a>
-    <MatButton class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </MatButton>
+  <a class="navbar-brand" href="">GraphML<img src="favicon.ico" style="width: 15%; height: 15%"/></a>
+  <MatButton class="navbar-toggler" @onclick="ToggleNavMenu">
+    <span class="navbar-toggler-icon"></span>
+  </MatButton>
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
+  <ul class="nav flex-column">
 
-        <AuthorizeView>
-            <Authorized>
-                <li class="nav-item px-3">
-                    <MatButtonLink
-                        href="/" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span> Home
-                    </MatButtonLink>
-                </li>
-                <li class="nav-item px-3">
-                    <MatButtonLink class="nav-link" href="BrowseOrganisations">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Organisations
-                    </MatButtonLink>
-                </li>
-                <li class="nav-item px-3">
-                    <MatButtonLink class="nav-link" href="identityapp">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> APP Identity
-                    </MatButtonLink>
-                </li>
-                <li class="nav-item px-3">
-                    <MatButtonLink class="nav-link" href="identityapi">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> API Identity
-                    </MatButtonLink>
-                </li>
-                <li class="nav-item px-3">
-                    <MatButtonLink class="nav-link" href="BrowseRoles">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Roles
-                    </MatButtonLink>
-                </li>
-                <li class="nav-item px-3">
-                    <MatButtonLink class="nav-link"
-                                   href="/LogoutIDP">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
-                        (@context.User.Claims.FirstOrDefault(c => c.Type == "name")?.Value)
-                    </MatButtonLink>
-                </li>
-            </Authorized>
+    <AuthorizeView>
+      <Authorized>
+        <li class="nav-item px-3">
+          <MatButtonLink
+            href="/" Match="NavLinkMatch.All">
+            <span class="oi oi-home" aria-hidden="true"></span> Home
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
+          <MatButtonLink class="nav-link" href="BrowseOrganisations">
+            <span class="oi oi-plus" aria-hidden="true"></span> Organisations
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
+          <MatButtonLink class="nav-link" href="identityapp">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> APP Identity
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
+          <MatButtonLink class="nav-link" href="identityapi">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> API Identity
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
+          <MatButtonLink class="nav-link" href="BrowseRoles">
+            <span class="oi oi-plus" aria-hidden="true"></span> Roles
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
+          <MatButtonLink class="nav-link"
+                         href="/LogoutIDP">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
+            (@context.User.Claims.FirstOrDefault(c => c.Type == "name")?.Value)
+          </MatButtonLink>
+        </li>
+      </Authorized>
 
-            <NotAuthorized>
-                <MatButtonLink class="nav-link"
-                               href="LoginIDP">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
-                </MatButtonLink>
-            </NotAuthorized>
-        </AuthorizeView>
-    </ul>
+      <NotAuthorized>
+        <MatButtonLink class="nav-link"
+                       href="LoginIDP">
+          <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
+        </MatButtonLink>
+      </NotAuthorized>
+    </AuthorizeView>
+  </ul>
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+  private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+  private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+  private void ToggleNavMenu()
+  {
+    collapseNavMenu = !collapseNavMenu;
+  }
 
 }
