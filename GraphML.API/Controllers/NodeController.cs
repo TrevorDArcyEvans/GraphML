@@ -118,7 +118,7 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Node>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override IActionResult GetParents([FromBody] [Required] Node entity, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override IActionResult GetParents([FromBody] [Required] Guid entity, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return GetParentsInternal(entity, pageIndex, pageSize);
     }

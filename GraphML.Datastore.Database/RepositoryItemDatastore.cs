@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dapper.Contrib.Extensions;
 using GraphML.Datastore.Database.Interfaces;
@@ -17,13 +18,13 @@ namespace GraphML.Datastore.Database
 		{
 		}
 
-		public IEnumerable<T> GetParents(T entity, int pageIndex, int pageSize)
+		public IEnumerable<T> GetParents(Guid itemId, int pageIndex, int pageSize)
 		{
 			return GetInternal(() =>
 			{
 				return _dbConnection
 					.GetAll<T>()
-					.Where(x => x.NextId == entity.Id);
+					.Where(x => x.NextId == itemId);
 			});
 		}
 	}

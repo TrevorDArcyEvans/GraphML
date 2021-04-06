@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
@@ -19,9 +20,9 @@ namespace GraphML.API.Server
         {
         }
 
-        public async Task<IEnumerable<T>> GetParents(T entity, int pageIndex, int pageSize)
+        public async Task<IEnumerable<T>> GetParents(Guid itemId, int pageIndex, int pageSize)
         {
-            var request = GetPostRequest(Url.Combine(ResourceBase, nameof(RepositoryItemController<T>.GetParents)), entity, pageIndex, pageSize);
+            var request = GetPostRequest(Url.Combine(ResourceBase, nameof(RepositoryItemController<T>.GetParents)), itemId, pageIndex, pageSize);
             var retval = await GetResponse<IEnumerable<T>>(request);
 
             return retval;

@@ -58,7 +58,7 @@ else
   {
     _totalEnts = await _itemServer.Count(Guid.Parse(ItemId));
     var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
-    _items = await _itemServer.GetParents(item, _pageIndex, _pageSize);
+    _items = await _itemServer.GetParents(Guid.Parse(ItemId), _pageIndex, _pageSize);
     _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
   }
 
@@ -66,8 +66,7 @@ else
   {
     _pageSize = e.PageSize;
     _pageIndex = e.PageIndex;
-    var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
-    _items = await _itemServer.GetParents(item, _pageIndex, _pageSize);
+    _items = await _itemServer.GetParents(Guid.Parse(ItemId), _pageIndex, _pageSize);
   }
 
   private void GotoBrowseItems()

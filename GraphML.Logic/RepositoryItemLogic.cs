@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using GraphML.Interfaces;
@@ -21,12 +22,12 @@ namespace GraphML.Logic
 			_repositoryItemDatastore = datastore;
 		}
 
-		public IEnumerable<T> GetParents(T entity, int pageIndex, int pageSize)
+		public IEnumerable<T> GetParents(Guid itemId, int pageIndex, int pageSize)
 		{
 			var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(IRepositoryItemLogic<T>.GetParents)));
 			if (valRes.IsValid)
 			{
-				return _filter.Filter(_repositoryItemDatastore.GetParents(entity, pageIndex, pageSize));
+				return _filter.Filter(_repositoryItemDatastore.GetParents(itemId, pageIndex, pageSize));
 			}
 
 			return Enumerable.Empty<T>();
