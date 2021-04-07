@@ -42,11 +42,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Delete([FromRoute][Required] Guid correlationId)
+    public ActionResult Delete([FromRoute][Required] Guid correlationId)
     {
       _logic.Delete(correlationId);
 
-      return new OkResult();
+      return Ok();
     }
 
     /// <summary>
@@ -60,11 +60,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult ByContact([FromRoute][Required] Guid contactId)
+    public ActionResult<IEnumerable<IRequest>> ByContact([FromRoute][Required] Guid contactId)
     {
       var retval = _logic.ByContact(contactId);
 
-      return new OkObjectResult(retval);
+      return Ok(retval);
     }
 
     /// <summary>
@@ -78,11 +78,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult ByOrganisation([FromRoute][Required] Guid orgId)
+    public ActionResult<IEnumerable<IRequest>> ByOrganisation([FromRoute][Required] Guid orgId)
     {
       var retval = _logic.ByOrganisation(orgId);
 
-      return new OkObjectResult(retval);
+      return Ok(retval);
     }
 
     /// <summary>
@@ -96,11 +96,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IRequest))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult ByCorrelation([FromRoute][Required] Guid correlationId)
+    public ActionResult<IRequest> ByCorrelation([FromRoute][Required] Guid correlationId)
     {
       var retval = _logic.ByCorrelation(correlationId);
 
-      return new OkObjectResult(retval);
+      return Ok(retval);
     }
 
     /// <summary>
@@ -114,11 +114,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IResult))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Retrieve([FromRoute][Required] Guid correlationId)
+    public ActionResult<IResult> Retrieve([FromRoute][Required] Guid correlationId)
     {
       var retval = _logic.Retrieve(correlationId);
 
-      return new OkObjectResult(retval);
+      return Ok(retval);
     }
   }
 }

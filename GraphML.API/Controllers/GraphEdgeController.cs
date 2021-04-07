@@ -24,7 +24,7 @@ namespace GraphML.API.Controllers
     /// </summary>
     /// <param name="logic">business logic</param>
     public GraphEdgeController(IGraphEdgeLogic logic) :
-        base(logic)
+      base(logic)
     {
     }
 
@@ -37,11 +37,11 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByIds))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<GraphNode>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<GraphEdge>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<GraphEdge>> ByIds([FromBody] [Required] IEnumerable<Guid> ids)
     {
-      return ByIdsInternal(ids);
+      return Ok(ByIdsInternal(ids));
     }
 
     /// <summary>
@@ -54,10 +54,10 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<GraphNode>))]
-    public override IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<GraphEdge>))]
+    public override ActionResult<IEnumerable<GraphEdge>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      return ByOwnersInternal(ownerIds, pageIndex, pageSize);
+      return Ok(ByOwnersInternal(ownerIds, pageIndex, pageSize));
     }
 
     /// <summary>
@@ -68,11 +68,11 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<GraphNode>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Create([FromBody][Required] IEnumerable<GraphEdge> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<GraphEdge>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<GraphEdge>> Create([FromBody] [Required] IEnumerable<GraphEdge> entity)
     {
-      return CreateInternal(entity);
+      return Ok(CreateInternal(entity));
     }
 
     /// <summary>
@@ -83,12 +83,14 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Delete([FromBody][Required] IEnumerable<GraphEdge> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Delete([FromBody] [Required] IEnumerable<GraphEdge> entity)
     {
-      return DeleteInternal(entity);
+      DeleteInternal(entity);
+      return Ok();
     }
+
     /// <summary>
     /// Update existing Entities with new information
     /// </summary>
@@ -97,13 +99,14 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Update([FromBody][Required] IEnumerable<GraphEdge> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Update([FromBody] [Required] IEnumerable<GraphEdge> entity)
     {
-      return UpdateInternal(entity);
+      UpdateInternal(entity);
+      return Ok();
     }
- 
+
     /// <summary>
     /// Retrieve total number of Entities
     /// </summary>
@@ -113,7 +116,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(Count) + "/{ownerId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
-    public override IActionResult Count([FromRoute] Guid ownerId)
+    public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
       return CountInternal(ownerId);
     }

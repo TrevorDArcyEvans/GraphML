@@ -25,9 +25,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(JsonResult))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult GetAPIUserClaimsJson()
+    public ActionResult<JsonResult> GetAPIUserClaimsJson()
     {
-      return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+      return Ok(new JsonResult(from c in User.Claims select new { c.Type, c.Value }));
     }
   }
 }

@@ -42,9 +42,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids)
+    public override ActionResult<IEnumerable<RepositoryManager>> ByIds([FromBody][Required] IEnumerable<Guid> ids)
     {
-      return ByIdsInternal(ids);
+      return Ok(ByIdsInternal(ids));
     }
 
     /// <summary>
@@ -58,9 +58,9 @@ namespace GraphML.API.Controllers
     [Route(nameof(ByOwners))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
-    public override IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
+    public override ActionResult<IEnumerable<RepositoryManager>> ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery]int pageIndex = DefaultPageIndex, [FromQuery]int pageSize = DefaultPageSize)
     {
-      return ByOwnersInternal(ownerIds, pageIndex, pageSize);
+      return Ok(ByOwnersInternal(ownerIds, pageIndex, pageSize));
     }
 
     /// <summary>
@@ -73,9 +73,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryManager>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Create([FromBody][Required] IEnumerable<RepositoryManager> entity)
+    public override ActionResult<IEnumerable<RepositoryManager>> Create([FromBody][Required] IEnumerable<RepositoryManager> entity)
     {
-      return CreateInternal(entity);
+      return Ok(CreateInternal(entity));
     }
 
     /// <summary>
@@ -88,9 +88,10 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Delete([FromBody][Required] IEnumerable<RepositoryManager> entity)
+    public override ActionResult Delete([FromBody][Required] IEnumerable<RepositoryManager> entity)
     {
-      return DeleteInternal(entity);
+      DeleteInternal(entity);
+      return Ok();
     }
 
     /// <summary>
@@ -103,9 +104,10 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Update([FromBody][Required] IEnumerable<RepositoryManager> entity)
+    public override ActionResult Update([FromBody][Required] IEnumerable<RepositoryManager> entity)
     {
-      return UpdateInternal(entity);
+      UpdateInternal(entity);
+      return Ok();
     }
 
     /// <summary>
@@ -117,7 +119,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(Count) + "/{ownerId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
-    public override IActionResult Count([FromRoute] Guid ownerId)
+    public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
       return CountInternal(ownerId);
     }

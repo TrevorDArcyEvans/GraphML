@@ -43,11 +43,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Degree([FromBody][Required] DegreeRequest req)
+    public ActionResult<Guid> Degree([FromBody][Required] DegreeRequest req)
     {
       _logic.Degree(req);
 
-      return new OkObjectResult(req.CorrelationId);
+      return Ok(req.CorrelationId);
     }
 
     /// <summary>
@@ -61,11 +61,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Closeness([FromBody][Required] ClosenessRequest req)
+    public ActionResult<Guid> Closeness([FromBody][Required] ClosenessRequest req)
     {
       _logic.Closeness(req);
 
-      return new OkObjectResult(req.CorrelationId);
+      return Ok(req.CorrelationId);
     }
 
     /// <summary>
@@ -79,11 +79,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult Betweenness([FromBody][Required] BetweennessRequest req)
+    public ActionResult<Guid> Betweenness([FromBody][Required] BetweennessRequest req)
     {
       _logic.Betweenness(req);
 
-      return new OkObjectResult(req.CorrelationId);
+      return Ok(req.CorrelationId);
     }
 
     /// <summary>
@@ -97,11 +97,11 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult FindShortestPaths([FromBody][Required] FindShortestPathsRequest req)
+    public ActionResult<Guid> FindShortestPaths([FromBody][Required] FindShortestPathsRequest req)
     {
       _logic.FindShortestPaths(req);
 
-      return new OkObjectResult(req.CorrelationId);
+      return Ok(req.CorrelationId);
     }
   }
 }

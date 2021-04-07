@@ -43,9 +43,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids)
+    public override ActionResult<IEnumerable<Organisation>> ByIds([FromBody][Required] IEnumerable<Guid> ids)
     {
-      return ByIdsInternal(ids);
+      return Ok(ByIdsInternal(ids));
     }
 
     /// <summary>
@@ -58,9 +58,9 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Create([FromBody][Required] IEnumerable<Organisation> entity)
+    public override ActionResult<IEnumerable<Organisation>> Create([FromBody][Required] IEnumerable<Organisation> entity)
     {
-      return CreateInternal(entity);
+      return Ok(CreateInternal(entity));
     }
 
     /// <summary>
@@ -73,9 +73,10 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Delete([FromBody][Required] IEnumerable<Organisation> entity)
+    public override ActionResult Delete([FromBody][Required] IEnumerable<Organisation> entity)
     {
-      return DeleteInternal(entity);
+      DeleteInternal(entity);
+      return Ok();
     }
 
     /// <summary>
@@ -88,9 +89,10 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override IActionResult Update([FromBody][Required] IEnumerable<Organisation> entity)
+    public override ActionResult Update([FromBody][Required] IEnumerable<Organisation> entity)
     {
-      return UpdateInternal(entity);
+      UpdateInternal(entity);
+      return Ok();
     }
 
     /// <summary>
@@ -104,12 +106,12 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public IActionResult GetAll([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public ActionResult<IEnumerable<Organisation>> GetAll([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       var result = _orgLogic.GetAll()
         .Skip(pageIndex * pageSize)
         .Take(pageSize);
-      return new OkObjectResult(result);
+      return Ok(result);
     }
 
     /// <summary>
@@ -120,10 +122,10 @@ namespace GraphML.API.Controllers
     [Route(nameof(Count))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(int))]
-    public IActionResult Count()
+    public ActionResult<int> Count()
     {
       var result = _orgLogic.Count();
-      return new OkObjectResult(result);
+      return Ok(result);
     }
   }
 }

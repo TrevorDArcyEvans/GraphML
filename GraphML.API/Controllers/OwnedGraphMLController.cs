@@ -16,18 +16,18 @@ namespace GraphML.API.Controllers
       _ownedLogic = logic;
     }
 
-    public abstract IActionResult ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
-    protected IActionResult ByOwnersInternal([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public abstract ActionResult<IEnumerable<T>> ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    protected IEnumerable<T> ByOwnersInternal(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
     {
       var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize);
-      return new OkObjectResult(result);
+      return result;
     }
 
-    public abstract IActionResult Count([FromQuery] Guid ownerId);
-    public IActionResult CountInternal([FromQuery] Guid ownerId)
+    public abstract ActionResult<int> Count([FromQuery] Guid ownerId);
+    public int CountInternal(Guid ownerId)
     {
       var result = _ownedLogic.Count(ownerId);
-      return new OkObjectResult(result);
+      return result;
     }
   }
 }

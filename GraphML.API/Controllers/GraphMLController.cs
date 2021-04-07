@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace GraphML.API.Controllers
 {
@@ -18,32 +19,30 @@ namespace GraphML.API.Controllers
       _logic = logic;
     }
 
-    public abstract IActionResult ByIds([FromBody][Required] IEnumerable<Guid> ids);
-    protected IActionResult ByIdsInternal([FromBody][Required] IEnumerable<Guid> ids)
+    public abstract ActionResult<IEnumerable<T>> ByIds([FromBody][Required] IEnumerable<Guid> ids);
+    protected IEnumerable<T> ByIdsInternal(IEnumerable<Guid> ids)
     {
       var ent = _logic.ByIds(ids);
-      return ent != null ? (IActionResult)new OkObjectResult(ent) : new NotFoundResult();
+      return ent ?? Enumerable.Empty<T>();
     }
 
-    public abstract IActionResult Create([FromBody][Required] IEnumerable<T> entity);
-    protected IActionResult CreateInternal([FromBody][Required] IEnumerable<T> entity)
+    public abstract ActionResult<IEnumerable<T>> Create([FromBody][Required] IEnumerable<T> entity);
+    protected IEnumerable<T> CreateInternal(IEnumerable<T> entity)
     {
       var newEnt = _logic.Create(entity);
-      return newEnt != null ? (IActionResult)new OkObjectResult(newEnt) : new NotFoundResult();
+      return newEnt ?? Enumerable.Empty<T>();
     }
 
-    public abstract IActionResult Update([FromBody][Required] IEnumerable<T> entity);
-    protected IActionResult UpdateInternal([FromBody][Required] IEnumerable<T> entity)
+    public abstract ActionResult Update([FromBody][Required] IEnumerable<T> entity);
+    protected void UpdateInternal(IEnumerable<T> entity)
     {
       _logic.Update(entity);
-      return new OkResult();
     }
 
-    public abstract IActionResult Delete([FromBody][Required] IEnumerable<T> entity);
-    protected IActionResult DeleteInternal([FromBody][Required] IEnumerable<T> entity)
+    public abstract ActionResult Delete([FromBody][Required] IEnumerable<T> entity);
+    protected void DeleteInternal(IEnumerable<T> entity)
     {
       _logic.Delete(entity);
-      return new OkResult();
     }
   }
 }
