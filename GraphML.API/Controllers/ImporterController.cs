@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using GraphML.API.Attributes;
+using GraphML.Datastore.Database.Importer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,7 +36,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
     public async Task<ActionResult> Import(
-      [Required] string importSpec,
+      [FromForm] [Required] ImportSpecification importSpec,
       [Required] IFormFile file)
     {
       // TODO     check importSpec for validity
