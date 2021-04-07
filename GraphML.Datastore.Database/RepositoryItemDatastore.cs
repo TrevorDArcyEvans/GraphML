@@ -11,7 +11,7 @@ namespace GraphML.Datastore.Database
   {
     protected RepositoryItemDatastore(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<OwnedItemDatastoreBase<T>> logger,
+      ILogger<RepositoryItemDatastore<T>> logger,
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {

@@ -10,7 +10,7 @@ namespace GraphML.Datastore.Database
   {
     public OrganisationDatastore(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<IDatastore<Organisation>> logger,
+      ILogger<OrganisationDatastore> logger,
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {

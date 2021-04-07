@@ -24,7 +24,7 @@ namespace GraphML.Datastore.Database
 
     public DatastoreBase(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<IDatastore<T>> logger,
+      ILogger<DatastoreBase<T>> logger,
       ISyncPolicyFactory policy)
     {
       _dbConnection = dbConnectionFactory.Get();
