@@ -28,13 +28,13 @@ namespace GraphML.API.Controllers
     /// <param name="importSpec">Import specification</param>
     /// <param name="file">CSV or TSV file</param>
     /// <response code="200">Success</response>
-    /// <response code="404">Something not found</response>
+    /// <response code="422">Something wrong with import specification</response>
     [HttpPost]
     [Route(nameof(Import))]
     [ValidateModelState]
     [DisableRequestSizeLimit]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.UnprocessableEntity)]
     public async Task<ActionResult> Import(
       [FromForm] [Required] ImportSpecification importSpec,
       [Required] IFormFile file)
