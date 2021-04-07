@@ -25,6 +25,7 @@ using Dapper;
 using Newtonsoft.Json.Converters;
 using Flurl;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace GraphML.API
 {
@@ -34,8 +35,8 @@ namespace GraphML.API
     private IConfiguration Configuration { get; }
 
     public Startup(
-    IWebHostEnvironment env,
-    IConfiguration conf)
+      IWebHostEnvironment env,
+      IConfiguration conf)
     {
       // Environment variable:
       //    ASPNETCORE_ENVIRONMENT == Development
@@ -78,6 +79,12 @@ namespace GraphML.API
         .AddNewtonsoftJson(options =>
           options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
+      services.Configure<FormOptions>(x =>
+      {
+        x.ValueLengthLimit = int.MaxValue;
+        x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart
+      });
+
       if (CurrentEnvironment.IsDevelopment())
       {
         services.AddSwaggerGenNewtonsoftSupport();
@@ -86,33 +93,33 @@ namespace GraphML.API
         services.AddSwaggerGen(options =>
         {
           options.SwaggerDoc("v1",
-        new OpenApiInfo
-        {
-          Title = "GraphML API",
-          Version = "v1",
-          Description = "GraphML API"
-        });
+            new OpenApiInfo
+            {
+              Title = "GraphML API",
+              Version = "v1",
+              Description = "GraphML API"
+            });
 
           options.DocInclusionPredicate((docName, apiDesc) =>
-      {
-        var controllerActionDescriptor = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-        if (controllerActionDescriptor == null)
-        {
-          return false;
-        }
+          {
+            var controllerActionDescriptor = apiDesc.ActionDescriptor as ControllerActionDescriptor;
+            if (controllerActionDescriptor == null)
+            {
+              return false;
+            }
 
-        var versions = controllerActionDescriptor.MethodInfo.DeclaringType
-          .GetCustomAttributes(true)
-          .OfType<ApiVersionAttribute>()
-          .SelectMany(attr => attr.Versions);
-        var tags = controllerActionDescriptor.MethodInfo.DeclaringType
-          .GetCustomAttributes(true)
-          .OfType<ApiTagAttribute>();
+            var versions = controllerActionDescriptor.MethodInfo.DeclaringType
+              .GetCustomAttributes(true)
+              .OfType<ApiVersionAttribute>()
+              .SelectMany(attr => attr.Versions);
+            var tags = controllerActionDescriptor.MethodInfo.DeclaringType
+              .GetCustomAttributes(true)
+              .OfType<ApiTagAttribute>();
 
-        return versions.Any(
-          v => $"v{v.ToString()}" == docName) ||
-          tags.Any(tag => tag.Tag == docName);
-      });
+            return versions.Any(
+                     v => $"v{v.ToString()}" == docName) ||
+                   tags.Any(tag => tag.Tag == docName);
+          });
 
           //Set the comments path for the Swagger JSON and UI.
           var xmlPath = Path.Combine(AppContext.BaseDirectory, "GraphML.API.xml");
@@ -133,6 +140,8 @@ namespace GraphML.API
           });
 
           options.OperationFilter<AuthorizeCheckOperationFilter>();
+
+          options.EnableAnnotations();
         });
       }
 
@@ -142,8 +151,8 @@ namespace GraphML.API
         {
           options.Authority = Configuration.IDENTITY_SERVER_BASE_URL();
           options.RequireHttpsMetadata = false;
-          options.BackchannelHttpHandler = new HttpClientHandler 
-          { 
+          options.BackchannelHttpHandler = new HttpClientHandler
+          {
             ServerCertificateCustomValidationCallback = delegate { return true; }
           };
           options.Audience = Configuration.IDENTITY_SERVER_AUDIENCE();
@@ -162,7 +171,7 @@ namespace GraphML.API
           });
         });
 
-#region Autofac
+      #region Autofac
 
       // Create the container builder.
       var builder = new ContainerBuilder();
@@ -200,7 +209,7 @@ namespace GraphML.API
       // Create the IServiceProvider based on the container.
       return new AutofacServiceProvider(applicationContainer);
 
-#endregion
+      #endregion
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
