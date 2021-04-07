@@ -1,31 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Dapper.Contrib.Extensions;
+using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-	public abstract class RepositoryItemDatastore<T> : OwnedItemDatastoreBase<T>, IRepositoryItemDatastore<T> where T : RepositoryItem
-	{
-		protected RepositoryItemDatastore(
-			IDbConnectionFactory dbConnectionFactory,
-			ILogger<OwnedItemDatastoreBase<T>> logger,
-			ISyncPolicyFactory policy) :
-			base(dbConnectionFactory, logger, policy)
-		{
-		}
+  public abstract class RepositoryItemDatastore<T> : OwnedItemDatastoreBase<T>, IRepositoryItemDatastore<T> where T : RepositoryItem
+  {
+    protected RepositoryItemDatastore(
+      IDbConnectionFactory dbConnectionFactory,
+      ILogger<OwnedItemDatastoreBase<T>> logger,
+      ISyncPolicyFactory policy) :
+      base(dbConnectionFactory, logger, policy)
+    {
+    }
 
-		public IEnumerable<T> GetParents(Guid itemId, int pageIndex, int pageSize)
-		{
-			return GetInternal(() =>
-			{
-				return _dbConnection
-					.GetAll<T>()
-					.Where(x => x.NextId == itemId);
-			});
-		}
-	}
+    public IEnumerable<T> GetParents(Guid itemId, int pageIndex, int pageSize)
+    {
+      return GetInternal(() =>
+      {
+        var sql = $"select * from {GetTableName()} where NextId = '{itemId}'";
+        return _dbConnection.Query<T>(sql);
+      });
+    }
+  }
 }
