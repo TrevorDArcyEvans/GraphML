@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GraphML.Datastore.Database.Importer.CSV
+namespace GraphML.Datastore.Database.Importer
 {
   public sealed class ImportSpecification
   {

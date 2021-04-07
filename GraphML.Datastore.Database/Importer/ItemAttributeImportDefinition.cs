@@ -1,7 +1,7 @@
-﻿namespace GraphML.Datastore.Database.Importer.CSV
-{
-  using System.Linq;
+﻿using System.Linq;
 
+namespace GraphML.Datastore.Database.Importer
+{
   public abstract class ItemAttributeImportDefinition
   {
     public string Name { get; set; }
