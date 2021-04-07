@@ -36,7 +36,7 @@
     <PackageReference Include="BlazorRazor" Version="1.0.0" />
     <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
 		<PackageReference Include="MySql.Data" Version="8.0.22" />
 		<PackageReference Include="NLog" Version="4.7.5" />
 		<PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
