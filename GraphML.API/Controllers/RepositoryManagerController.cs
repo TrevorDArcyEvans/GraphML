@@ -19,8 +19,6 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class RepositoryManagerController : OwnedGraphMLController<RepositoryManager>
   {
-    private readonly IRepositoryManagerLogic _repoMgrLogic;
-
     /// <summary>
     /// constructor
     /// </summary>
@@ -28,7 +26,6 @@ namespace GraphML.API.Controllers
     public RepositoryManagerController(IRepositoryManagerLogic logic) :
       base(logic)
     {
-      _repoMgrLogic = logic;
     }
 
     /// <summary>
