@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Datastore.Database.Importer.CSV
 {
-	public sealed class EdgeItemAttributeImportDefinition : ItemAttributeImportDefinition
-	{
-	}
+  public sealed class EdgeItemAttributeImportDefinition : ItemAttributeImportDefinition
+  {
+  }
 }
