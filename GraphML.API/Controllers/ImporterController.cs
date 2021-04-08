@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using GraphML.Interfaces;
 
 namespace GraphML.API.Controllers
 {
@@ -22,13 +23,16 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class ImporterController : ControllerBase
   {
+    private readonly IImporterLogic _logic;
     private readonly IConfiguration _config;
     private readonly ILogger<ImporterController> _logger;
 
     public ImporterController(
+      IImporterLogic logic,
       IConfiguration config,
       ILogger<ImporterController> logger)
     {
+      _logic = logic;
       _config = config;
       _logger = logger;
     }
@@ -56,8 +60,7 @@ namespace GraphML.API.Controllers
       // In this scenario, IFormFile is single source of truth as no access to client file system
       importSpec.DataFile = file.FileName;
 
-      var importer = new Importer(importSpec, _config, stream, msg => _logger.LogInformation(msg ?? Environment.NewLine));
-      importer.Run();
+      _logic.Import(importSpec, _config, stream, msg => _logger.LogInformation(msg ?? Environment.NewLine));
 
       return Ok();
     }

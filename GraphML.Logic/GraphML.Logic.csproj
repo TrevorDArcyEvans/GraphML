@@ -51,6 +51,7 @@
     <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
     <ProjectReference Include="..\GraphML.Utils\GraphML.Utils.csproj" />
     <ProjectReference Include="..\GraphML\GraphML.csproj" />
+    <ProjectReference Include="..\GraphML.Datastore.Database\GraphML.Datastore.Database.csproj" />
   </ItemGroup>
 
   <ItemGroup>
