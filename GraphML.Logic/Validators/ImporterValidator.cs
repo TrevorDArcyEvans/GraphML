@@ -17,7 +17,6 @@ namespace GraphML.Logic.Validators
     public ImporterValidator(
       IHttpContextAccessor context,
       IContactDatastore contactDatastore,
-      IRoleDatastore roleDatastore,
       IOrganisationDatastore orgDatastore)
     {
       _context = context;
