@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Dapper;
@@ -14,10 +16,8 @@ using GraphML.Utils;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Schema = System.ComponentModel.DataAnnotations.Schema;
-using System.Data.SqlClient;
-using System.Reflection;
 
-namespace GraphML.Datastore.Database.Importer.CSV
+namespace GraphML.Datastore.Database.Importer
 {
   public sealed class Importer
   {
