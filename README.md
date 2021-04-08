@@ -40,6 +40,7 @@ or just strategically well-placed.<p/>
 
 ## Prerequisites
 <details>
+</p>
 
 1. Prerequisites:
   * host:
@@ -83,6 +84,7 @@ or just strategically well-placed.<p/>
 ## Getting Started
 <details>
   <summary>Building</summary>
+</p>
 
 1. clone repo
 ```bash
@@ -110,6 +112,7 @@ or just strategically well-placed.<p/>
 
 <details>
   <summary>Back End</summary>
+</p>
 
 1. run _API_
 ```bash
@@ -178,9 +181,10 @@ open http://localhost:8000/
 
 <details>
   <summary>Backend API</summary>
+</p>
 
-|Variable | Description | Example Value|
-|---------|-------|--------------|-----|
+| Variable | Description | Example Value |
+|----------|-------------|---------------|
 | ASPNETCORE_ENVIRONMENT | ASP.NET Core runtime environment | `Production`, `Development`, `Test` |
 ||
 | API_URI       | API server URL<p/>used by GraphML.API.Server to retrieve data |
@@ -202,6 +206,7 @@ open http://localhost:8000/
 
 <details>
   <summary>GraphML.UI.Uno.Wasm</summary>
+</p>
 
 We use a custom `index.html`:<br/>
   `GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\wwwroot\index.html`
