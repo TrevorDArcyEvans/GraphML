@@ -23,13 +23,19 @@ namespace GraphML.Datastore.Database.Importer.CSV
   {
     private readonly ImportSpecification _importSpec;
     private readonly IConfiguration _config;
+    private readonly Stream _stream;
     private readonly Action<string> _logInfoAction;
 
-    public Importer(ImportSpecification importSpec, IConfiguration config, Action<string> logInfoAction)
+    public Importer(
+      ImportSpecification importSpec,
+      IConfiguration config,
+      Stream stream,
+      Action<string> logInfoAction = null)
     {
       _importSpec = importSpec;
       _config = config;
-      _logInfoAction = logInfoAction;
+      _stream = stream;
+      _logInfoAction = logInfoAction ?? (message => Console.WriteLine(message ?? Environment.NewLine));
     }
 
     public void Run()
@@ -64,7 +70,7 @@ namespace GraphML.Datastore.Database.Importer.CSV
       var nodeAttrDefsMap = GetNodeItemAttributeDefinitionsMap(conn, trans, repoMgr, org);
 
       _logInfoAction($"Started file read                 : {sw.ElapsedMilliseconds} ms");
-      using var tr = File.OpenText(_importSpec.DataFile);
+      using var tr = new StreamReader(_stream);
       var csvCfg = new CsvConfiguration(CultureInfo.InvariantCulture)
       {
         Delimiter = Path.GetExtension(_importSpec.DataFile).ToLowerInvariant() == ".csv" ? "," : "\t",

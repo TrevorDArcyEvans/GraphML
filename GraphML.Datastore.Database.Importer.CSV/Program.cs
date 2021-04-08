@@ -21,7 +21,8 @@ namespace GraphML.Datastore.Database.Importer.CSV
         .Build();
       var importSpec = new ImportSpecification();
       config.GetSection("ImportSpecification").Bind(importSpec);
-      new Importer(importSpec, config, message => Console.WriteLine(message ?? Environment.NewLine)).Run();
+      using var stream = File.OpenRead(importSpec.DataFile);
+      new Importer(importSpec, config, stream).Run();
     }
 
     private static void Usage()
