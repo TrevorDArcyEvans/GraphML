@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.IO;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Reflection;
 using System.Threading.Tasks;
 using GraphML.API.Attributes;
 using GraphML.Datastore.Database.Importer;
@@ -9,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Controllers
 {
@@ -21,6 +22,17 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class ImporterController : ControllerBase
   {
+    private readonly IConfiguration _config;
+    private readonly ILogger<ImporterController> _logger;
+
+    public ImporterController(
+      IConfiguration config,
+      ILogger<ImporterController> logger)
+    {
+      _config = config;
+      _logger = logger;
+    }
+
     /// <summary>
     /// Import a CSV or TSV file into a new or existing Repository
     /// according to the specification
@@ -39,14 +51,13 @@ namespace GraphML.API.Controllers
       [FromForm] [Required] ImportSpecification importSpec,
       [Required] IFormFile file)
     {
-      // TODO     check importSpec for validity
-      // TODO     import data
-      var assyPath = Assembly.GetExecutingAssembly().Location;
-      var assyDir = Path.GetDirectoryName(assyPath);
-      var path = Path.Combine(assyDir, file.FileName);
-      await using var fs = System.IO.File.Create(path);
       await using var stream = file.OpenReadStream();
-      await stream.CopyToAsync(fs);
+
+      // In this scenario, IFormFile is single source of truth as no access to client file system
+      importSpec.DataFile = file.FileName;
+
+      var importer = new Importer(importSpec, _config, stream, msg => _logger.LogInformation(msg ?? Environment.NewLine));
+      importer.Run();
 
       return Ok();
     }
