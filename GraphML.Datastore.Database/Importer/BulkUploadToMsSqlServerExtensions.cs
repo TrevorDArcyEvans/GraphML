@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 
-namespace GraphML.Datastore.Database.Importer.CSV
+namespace GraphML.Datastore.Database.Importer
 {
   public static class BulkUploadToMsSqlServerExtensions
   {
