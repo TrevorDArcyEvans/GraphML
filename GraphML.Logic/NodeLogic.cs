@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic
 {
-	public sealed class NodeLogic : RepositoryItemLogic<Node>, INodeLogic
-	{
-		public NodeLogic(
-		  IHttpContextAccessor context,
-		  INodeDatastore datastore,
-		  INodeValidator validator,
-		  INodeFilter filter) :
-		  base(context, datastore, validator, filter)
-		{
-		}
-	}
+  public sealed class NodeLogic : RepositoryItemLogic<Node>, INodeLogic
+  {
+    public NodeLogic(
+      IHttpContextAccessor context,
+      INodeDatastore datastore,
+      INodeValidator validator,
+      INodeFilter filter) :
+      base(context, datastore, validator, filter)
+    {
+    }
+  }
 }
