@@ -14,11 +14,8 @@ namespace GraphML.API
         .UseStartup<Startup>()
         .UseKestrel()
         .ConfigureServices(services => services.AddAutofac())
-        .ConfigureLogging(logging =>
-        {
-          logging.SetMinimumLevel(LogLevel.Trace);
-        })
-        .UseNLog()  // NLog: setup NLog for Dependency injection
+        .ConfigureLogging(logging => { logging.SetMinimumLevel(LogLevel.Trace); })
+        .UseNLog() // NLog: setup NLog for Dependency injection
         .Build();
     }
   }

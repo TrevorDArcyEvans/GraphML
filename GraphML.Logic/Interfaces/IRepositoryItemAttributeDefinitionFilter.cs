@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Logic.Interfaces
 {
-	public interface IRepositoryItemAttributeDefinitionFilter : IFilter<RepositoryItemAttributeDefinition>
-	{
-	}
+  public interface IRepositoryItemAttributeDefinitionFilter : IFilter<RepositoryItemAttributeDefinition>
+  {
+  }
 }

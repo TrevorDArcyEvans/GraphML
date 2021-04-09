@@ -11,10 +11,10 @@ namespace GraphML.API.Server
       return Policy.Handle<Exception>()
         .WaitAndRetry(3, // We can also do this with WaitAndRetryForever... but chose WaitAndRetry this time.
           attempt => TimeSpan.FromSeconds(0.1 * Math.Pow(2, attempt)), // Back off!  2, 4, 8, 16 etc times 1/4-second
-            (exception, calculatedWaitDuration) =>  // Capture some info for logging!
-            {
-              logger.LogError($"Error in {logger.ToString()} after {calculatedWaitDuration.TotalSeconds.ToString()}: {exception.Message}");
-            });
+          (exception, calculatedWaitDuration) => // Capture some info for logging!
+          {
+            logger.LogError($"Error in {logger.ToString()} after {calculatedWaitDuration.TotalSeconds.ToString()}: {exception.Message}");
+          });
     }
   }
 }

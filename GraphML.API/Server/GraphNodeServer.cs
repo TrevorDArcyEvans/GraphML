@@ -4,17 +4,17 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Server
 {
-    public sealed class GraphNodeServer : OwnedItemServerBase<GraphNode>, IGraphNodeServer
+  public sealed class GraphNodeServer : OwnedItemServerBase<GraphNode>, IGraphNodeServer
+  {
+    public GraphNodeServer(
+      IHttpContextAccessor httpContextAccessor,
+      IRestClientFactory clientFactory,
+      ILogger<GraphNodeServer> logger,
+      ISyncPolicyFactory policy) :
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
-        public GraphNodeServer(
-            IHttpContextAccessor httpContextAccessor,
-            IRestClientFactory clientFactory,
-            ILogger<GraphNodeServer> logger,
-            ISyncPolicyFactory policy) :
-            base(httpContextAccessor, clientFactory, logger, policy)
-        {
-        }
-
-        protected override string ResourceBase { get; } = $"/api/{nameof(GraphNode)}";
     }
+
+    protected override string ResourceBase { get; } = $"/api/{nameof(GraphNode)}";
+  }
 }

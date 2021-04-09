@@ -47,7 +47,7 @@ namespace GraphML.API.Attributes
 
         if (attributeInstance is ValidationAttribute validationAttribute)
         {
-          if (!(bool)validationAttribute.IsValid(args))
+          if (!(bool) validationAttribute.IsValid(args))
           {
             modelState.AddModelError(parameter.Name, validationAttribute.FormatErrorMessage(parameter.Name));
           }

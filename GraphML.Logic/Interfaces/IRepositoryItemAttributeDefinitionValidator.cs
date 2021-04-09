@@ -2,7 +2,7 @@
 
 namespace GraphML.Logic.Interfaces
 {
-	public interface IRepositoryItemAttributeDefinitionValidator : IValidator<RepositoryItemAttributeDefinition>
-	{
-	}
+  public interface IRepositoryItemAttributeDefinitionValidator : IValidator<RepositoryItemAttributeDefinition>
+  {
+  }
 }

@@ -23,11 +23,11 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(GetAPIUserClaimsJson))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(JsonResult))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(JsonResult))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
     public ActionResult<JsonResult> GetAPIUserClaimsJson()
     {
-      return Ok(new JsonResult(from c in User.Claims select new { c.Type, c.Value }));
+      return Ok(new JsonResult(from c in User.Claims select new {c.Type, c.Value}));
     }
   }
 }

@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-    public interface IRepositoryItemAttributeDefinitionLogic : IOwnedLogic<RepositoryItemAttributeDefinition>
-    {
-    }
+  public interface IRepositoryItemAttributeDefinitionLogic : IOwnedLogic<RepositoryItemAttributeDefinition>
+  {
+  }
 }

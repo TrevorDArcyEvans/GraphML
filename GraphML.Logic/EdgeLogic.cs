@@ -8,29 +8,29 @@ using System;
 
 namespace GraphML.Logic
 {
-	public sealed class EdgeLogic : RepositoryItemLogic<Edge>, IEdgeLogic
-	{
-		private readonly IEdgeDatastore _edgeDatastore;
+  public sealed class EdgeLogic : RepositoryItemLogic<Edge>, IEdgeLogic
+  {
+    private readonly IEdgeDatastore _edgeDatastore;
 
-		public EdgeLogic(
-		  IHttpContextAccessor context,
-		  IEdgeDatastore datastore,
-		  IEdgeValidator validator,
-		  IEdgeFilter filter) :
-		  base(context, datastore, validator, filter)
-		{
-			_edgeDatastore = datastore;
-		}
+    public EdgeLogic(
+      IHttpContextAccessor context,
+      IEdgeDatastore datastore,
+      IEdgeValidator validator,
+      IEdgeFilter filter) :
+      base(context, datastore, validator, filter)
+    {
+      _edgeDatastore = datastore;
+    }
 
-		public IEnumerable<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
-		{
-			var valRes = _validator.Validate(new Edge(), options => options.IncludeRuleSets(nameof(IEdgeLogic.ByNodeIds)));
-			if (valRes.IsValid)
-			{
-				return _filter.Filter(_edgeDatastore.ByNodeIds(ids, pageIndex, pageSize));
-			}
+    public IEnumerable<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
+    {
+      var valRes = _validator.Validate(new Edge(), options => options.IncludeRuleSets(nameof(IEdgeLogic.ByNodeIds)));
+      if (valRes.IsValid)
+      {
+        return _filter.Filter(_edgeDatastore.ByNodeIds(ids, pageIndex, pageSize));
+      }
 
-			return Enumerable.Empty<Edge>();
-		}
-	}
+      return Enumerable.Empty<Edge>();
+    }
+  }
 }

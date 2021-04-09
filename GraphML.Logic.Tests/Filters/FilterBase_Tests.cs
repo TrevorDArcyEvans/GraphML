@@ -11,7 +11,7 @@ namespace GraphML.Logic.Tests.Filters
   {
     private Mock<IHttpContextAccessor> _context;
     private Mock<IContactDatastore> _contactDatastore;
-		private Mock<IRoleDatastore> _roleDatastore;
+    private Mock<IRoleDatastore> _roleDatastore;
 
     [SetUp]
     public void Setup()
@@ -27,10 +27,10 @@ namespace GraphML.Logic.Tests.Filters
       const string email = "DrStrangelove@USAF.com";
 
       var org = new Organisation();
-      var contact = new Contact { OrganisationId = org.Id };
+      var contact = new Contact {OrganisationId = org.Id};
       _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
-      var input = new DummyItem { OrganisationId = org.Id };
+      var input = new DummyItem {OrganisationId = org.Id};
       var filter = Create();
 
       var output = filter.Filter(input);
@@ -43,11 +43,11 @@ namespace GraphML.Logic.Tests.Filters
     {
       const string email = "DrStrangelove@USAF.com";
 
-      var role = new Role { Name = "Admin" };
+      var role = new Role {Name = "Admin"};
       var contact = new Contact();
       _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
-      _roleDatastore.Setup(x => x.ByContactId(contact.Id)).Returns(new [] { role });
+      _roleDatastore.Setup(x => x.ByContactId(contact.Id)).Returns(new[] {role});
       var input = new DummyItem();
       var filter = Create();
 

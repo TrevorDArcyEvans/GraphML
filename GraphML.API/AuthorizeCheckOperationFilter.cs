@@ -24,23 +24,23 @@ namespace GraphML.API
 
       if (hasAuthorize)
       {
-        operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
-        operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+        operation.Responses.Add("401", new OpenApiResponse {Description = "Unauthorized"});
+        operation.Responses.Add("403", new OpenApiResponse {Description = "Forbidden"});
 
         operation.Security = new List<OpenApiSecurityRequirement>
         {
           new OpenApiSecurityRequirement
           {
-              [
-                new OpenApiSecurityScheme
+            [
+              new OpenApiSecurityScheme
+              {
+                Reference = new OpenApiReference
                 {
-                  Reference = new OpenApiReference
-                  {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "oauth2"
-                  }
+                  Type = ReferenceType.SecurityScheme,
+                  Id = "oauth2"
                 }
-              ] = _scopes
+              }
+            ] = _scopes
           }
         };
       }

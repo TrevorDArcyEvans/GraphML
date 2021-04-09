@@ -14,7 +14,7 @@ namespace GraphML.MessageQueue.ActiveMQ
 
     public RequestMessageReceiver(
       IConfiguration config
-      )
+    )
     {
       _config = config;
     }
@@ -32,7 +32,7 @@ namespace GraphML.MessageQueue.ActiveMQ
             using (var consumer = session.CreateConsumer(destination))
             {
               connection.Start();
-              var msg = (ITextMessage)consumer.Receive(TimeSpan.FromSeconds(_config.MESSAGE_QUEUE_POLL_INTERVAL_S()));
+              var msg = (ITextMessage) consumer.Receive(TimeSpan.FromSeconds(_config.MESSAGE_QUEUE_POLL_INTERVAL_S()));
               return msg?.Text;
             }
           }

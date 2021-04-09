@@ -2,7 +2,7 @@
 
 namespace GraphML.Logic.Interfaces
 {
-	public interface INodeItemAttributeDefinitionValidator : IValidator<NodeItemAttributeDefinition>
-	{
-	}
+  public interface INodeItemAttributeDefinitionValidator : IValidator<NodeItemAttributeDefinition>
+  {
+  }
 }

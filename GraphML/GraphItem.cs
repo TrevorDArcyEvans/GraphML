@@ -5,31 +5,32 @@ using Newtonsoft.Json;
 
 namespace GraphML
 {
-	/// <summary>
-	/// Something which is in a <see cref="Graph"/>, either a <see cref="GraphNode"/> or a <see cref="GraphEdge"/>
-	/// </summary>
-	public abstract class GraphItem : OwnedItem
-	{
-		[Write(false)]
-		public Guid GraphId
-		{
-			get => OwnerId;
-			set => OwnerId = value;
-		}
+  /// <summary>
+  /// Something which is in a <see cref="Graph"/>, either a <see cref="GraphNode"/> or a <see cref="GraphEdge"/>
+  /// </summary>
+  public abstract class GraphItem : OwnedItem
+  {
+    [Write(false)]
+    public Guid GraphId
+    {
+      get => OwnerId;
 
-		[Required]
-		[JsonProperty(nameof(RepositoryItemId))]
-		public Guid RepositoryItemId { get; set; }
+      set => OwnerId = value;
+    }
 
-		protected GraphItem() :
-		  base()
-		{
-		}
+    [Required]
+    [JsonProperty(nameof(RepositoryItemId))]
+    public Guid RepositoryItemId { get; set; }
 
-		protected GraphItem(Guid graph, Guid orgId, Guid repositoryItem, string name) :
-		  base(graph, orgId, name)
-		{
-			RepositoryItemId = repositoryItem;
-		}
-	}
+    protected GraphItem() :
+      base()
+    {
+    }
+
+    protected GraphItem(Guid graph, Guid orgId, Guid repositoryItem, string name) :
+      base(graph, orgId, name)
+    {
+      RepositoryItemId = repositoryItem;
+    }
+  }
 }

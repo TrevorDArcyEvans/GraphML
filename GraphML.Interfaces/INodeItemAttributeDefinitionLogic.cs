@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-	public interface INodeItemAttributeDefinitionLogic : IOwnedLogic<NodeItemAttributeDefinition>
-	{
-	}
+  public interface INodeItemAttributeDefinitionLogic : IOwnedLogic<NodeItemAttributeDefinition>
+  {
+  }
 }

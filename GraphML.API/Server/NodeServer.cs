@@ -7,14 +7,14 @@ namespace GraphML.API.Server
   public sealed class NodeServer : RepositoryItemServer<Node>, INodeServer
   {
     public NodeServer(
-        IHttpContextAccessor httpContextAccessor,
-        IRestClientFactory clientFactory,
-        ILogger<NodeServer> logger,
-        ISyncPolicyFactory policy) :
-        base(httpContextAccessor, clientFactory, logger, policy)
+      IHttpContextAccessor httpContextAccessor,
+      IRestClientFactory clientFactory,
+      ILogger<NodeServer> logger,
+      ISyncPolicyFactory policy) :
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 
-        protected override string ResourceBase { get; } = $"/api/{nameof(Node)}";
+    protected override string ResourceBase { get; } = $"/api/{nameof(Node)}";
   }
 }

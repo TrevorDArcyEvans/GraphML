@@ -41,9 +41,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByIds))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<Contact>> ByIds([FromBody][Required] IEnumerable<Guid> ids)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<Contact>> ByIds([FromBody] [Required] IEnumerable<Guid> ids)
     {
       return Ok(ByIdsInternal(ids));
     }
@@ -58,8 +58,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
-    public override ActionResult<IEnumerable<Contact>> ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
+    public override ActionResult<IEnumerable<Contact>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(ownerIds, pageIndex, pageSize));
     }
@@ -72,9 +72,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<Contact>> Create([FromBody][Required] IEnumerable<Contact> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<Contact>> Create([FromBody] [Required] IEnumerable<Contact> entity)
     {
       return Ok(CreateInternal(entity));
     }
@@ -87,12 +87,12 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult Delete([FromBody][Required] IEnumerable<Contact> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Delete([FromBody] [Required] IEnumerable<Contact> entity)
     {
       DeleteInternal(entity);
-      return Ok(); 
+      return Ok();
     }
 
     /// <summary>
@@ -103,12 +103,12 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult Update([FromBody][Required] IEnumerable<Contact> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Update([FromBody] [Required] IEnumerable<Contact> entity)
     {
       UpdateInternal(entity);
-      return Ok(); 
+      return Ok();
     }
 
     /// <summary>
@@ -120,13 +120,13 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByEmail) + "/{email}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Contact))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<Contact> ByEmail([FromRoute][Required] string email)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Contact))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Contact> ByEmail([FromRoute] [Required] string email)
     {
       var convertedEmail = HttpUtility.UrlDecode(email);
       var ent = _contactLogic.ByEmail(convertedEmail);
-      return ent != null ?  Ok(ent) : new NotFoundResult();
+      return ent != null ? Ok(ent) : new NotFoundResult();
     }
 
     /// <summary>

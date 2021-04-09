@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Logic.Interfaces
 {
-	public interface INodeItemAttributeDefinitionFilter : IFilter<NodeItemAttributeDefinition>
-	{
-	}
+  public interface INodeItemAttributeDefinitionFilter : IFilter<NodeItemAttributeDefinition>
+  {
+  }
 }

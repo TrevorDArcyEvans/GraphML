@@ -4,27 +4,28 @@ using Schema = System.ComponentModel.DataAnnotations.Schema;
 
 namespace GraphML
 {
-	/// <summary>
-	/// <para>Defines shape of information in a <see cref="NodeItemAttribute"/></para>
-	/// </summary>
-	[Schema.Table(nameof(NodeItemAttributeDefinition))]
-	public sealed class NodeItemAttributeDefinition : ItemAttributeDefinition
-	{
-		[Write(false)]
-		public Guid RepositoryManagerId
-		{
-			get => OwnerId;
-			set => OwnerId = value;
-		}
+  /// <summary>
+  /// <para>Defines shape of information in a <see cref="NodeItemAttribute"/></para>
+  /// </summary>
+  [Schema.Table(nameof(NodeItemAttributeDefinition))]
+  public sealed class NodeItemAttributeDefinition : ItemAttributeDefinition
+  {
+    [Write(false)]
+    public Guid RepositoryManagerId
+    {
+      get => OwnerId;
 
-		public NodeItemAttributeDefinition() :
-			base()
-		{
-		}
+      set => OwnerId = value;
+    }
 
-		public NodeItemAttributeDefinition(Guid repoMgr, Guid orgId, string name, string dataType) :
-			base(repoMgr, orgId, name, dataType)
-		{
-		}
-	}
+    public NodeItemAttributeDefinition() :
+      base()
+    {
+    }
+
+    public NodeItemAttributeDefinition(Guid repoMgr, Guid orgId, string name, string dataType) :
+      base(repoMgr, orgId, name, dataType)
+    {
+    }
+  }
 }

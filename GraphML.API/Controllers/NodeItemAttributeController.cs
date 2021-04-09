@@ -37,9 +37,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByIds))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<NodeItemAttribute>> ByIds([FromBody][Required] IEnumerable<Guid> ids)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<NodeItemAttribute>> ByIds([FromBody] [Required] IEnumerable<Guid> ids)
     {
       return Ok(ByIdsInternal(ids));
     }
@@ -54,8 +54,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
-    public override ActionResult<IEnumerable<NodeItemAttribute>> ByOwners([FromBody][Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
+    public override ActionResult<IEnumerable<NodeItemAttribute>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(ownerIds, pageIndex, pageSize));
     }
@@ -68,9 +68,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<NodeItemAttribute>> Create([FromBody][Required] IEnumerable<NodeItemAttribute> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<NodeItemAttribute>> Create([FromBody] [Required] IEnumerable<NodeItemAttribute> entity)
     {
       return Ok(CreateInternal(entity));
     }
@@ -83,9 +83,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult Delete([FromBody][Required] IEnumerable<NodeItemAttribute> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Delete([FromBody] [Required] IEnumerable<NodeItemAttribute> entity)
     {
       DeleteInternal(entity);
       return Ok();
@@ -99,9 +99,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult Update([FromBody][Required] IEnumerable<NodeItemAttribute> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Update([FromBody] [Required] IEnumerable<NodeItemAttribute> entity)
     {
       UpdateInternal(entity);
       return Ok();

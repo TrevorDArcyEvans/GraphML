@@ -12,11 +12,11 @@ namespace GraphML.API.Server
   public sealed class RoleServer : ItemServerBase<Role>, IRoleServer
   {
     public RoleServer(
-        IHttpContextAccessor httpContextAccessor,
-        IRestClientFactory clientFactory,
-        ILogger<RoleServer> logger,
-        ISyncPolicyFactory policy) :
-        base(httpContextAccessor, clientFactory, logger, policy)
+      IHttpContextAccessor httpContextAccessor,
+      IRestClientFactory clientFactory,
+      ILogger<RoleServer> logger,
+      ISyncPolicyFactory policy) :
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 

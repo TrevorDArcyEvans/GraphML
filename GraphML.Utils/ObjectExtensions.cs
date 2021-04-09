@@ -10,6 +10,7 @@ namespace GraphML.Utils
       {
         throw new ArgumentNullException(paramName);
       }
+
       return obj;
     }
 
@@ -19,6 +20,7 @@ namespace GraphML.Utils
       {
         throw new ArgumentNullException(paramName);
       }
+
       return obj;
     }
 
@@ -28,6 +30,7 @@ namespace GraphML.Utils
       {
         throw new ArgumentNullException(paramName);
       }
+
       return obj;
     }
   }

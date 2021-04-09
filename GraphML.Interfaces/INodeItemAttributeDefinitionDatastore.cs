@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-	public interface INodeItemAttributeDefinitionDatastore : IOwnedDatastore<NodeItemAttributeDefinition>
-	{
-	}
+  public interface INodeItemAttributeDefinitionDatastore : IOwnedDatastore<NodeItemAttributeDefinition>
+  {
+  }
 }

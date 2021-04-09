@@ -15,7 +15,7 @@ namespace GraphML.API.Controllers
   /// Manage Organisation
   /// </summary>
   [ApiVersion("1")]
-    [Route("api/[controller]")]
+  [Route("api/[controller]")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
   public sealed class OrganisationController : GraphMLController<Organisation>
@@ -41,9 +41,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByIds))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<Organisation>> ByIds([FromBody][Required] IEnumerable<Guid> ids)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<Organisation>> ByIds([FromBody] [Required] IEnumerable<Guid> ids)
     {
       return Ok(ByIdsInternal(ids));
     }
@@ -56,9 +56,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPost]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<Organisation>> Create([FromBody][Required] IEnumerable<Organisation> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult<IEnumerable<Organisation>> Create([FromBody] [Required] IEnumerable<Organisation> entity)
     {
       return Ok(CreateInternal(entity));
     }
@@ -71,9 +71,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpDelete]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult Delete([FromBody][Required] IEnumerable<Organisation> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Delete([FromBody] [Required] IEnumerable<Organisation> entity)
     {
       DeleteInternal(entity);
       return Ok();
@@ -87,9 +87,9 @@ namespace GraphML.API.Controllers
     /// <response code="404">Incorrect reference in Entities</response>
     [HttpPut]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public override ActionResult Update([FromBody][Required] IEnumerable<Organisation> entity)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public override ActionResult Update([FromBody] [Required] IEnumerable<Organisation> entity)
     {
       UpdateInternal(entity);
       return Ok();
@@ -104,8 +104,8 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(GetAll))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
     public ActionResult<IEnumerable<Organisation>> GetAll([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       var result = _orgLogic.GetAll()
@@ -121,7 +121,7 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(Count))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(int))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
     public ActionResult<int> Count()
     {
       var result = _orgLogic.Count();

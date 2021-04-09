@@ -2,7 +2,7 @@
 
 namespace GraphML.Logic.Interfaces
 {
-	public interface IEdgeItemAttributeDefinitionValidator : IValidator<EdgeItemAttributeDefinition>
-	{
-	}
+  public interface IEdgeItemAttributeDefinitionValidator : IValidator<EdgeItemAttributeDefinition>
+  {
+  }
 }

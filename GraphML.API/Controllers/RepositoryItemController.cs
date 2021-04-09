@@ -11,12 +11,13 @@ namespace GraphML.API.Controllers
     private readonly IRepositoryItemLogic<T> _repoItemLogic;
 
     public RepositoryItemController(IRepositoryItemLogic<T> logic) :
-        base(logic)
+      base(logic)
     {
       _repoItemLogic = logic;
     }
 
-    public abstract ActionResult<IEnumerable<T>> GetParents([FromBody][Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    public abstract ActionResult<IEnumerable<T>> GetParents([FromBody] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+
     protected IEnumerable<T> GetParentsInternal(Guid itemId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
     {
       var result = _repoItemLogic.GetParents(itemId, pageIndex, pageSize);

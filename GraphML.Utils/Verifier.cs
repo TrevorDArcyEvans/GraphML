@@ -19,9 +19,9 @@ namespace GraphML.Utils
       foreach (var prop in props)
       {
         if (prop.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)) &&
-          prop.PropertyType != typeof(string))
+            prop.PropertyType != typeof(string))
         {
-          foreach (var item in (IEnumerable)prop.GetValue(obj, null))
+          foreach (var item in (IEnumerable) prop.GetValue(obj, null))
           {
             Verify(item);
           }

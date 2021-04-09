@@ -13,9 +13,9 @@ namespace GraphML.API.Server
   {
     public ItemServerBase(
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory, 
-      ILogger<ItemServerBase<T>> logger, 
-      ISyncPolicyFactory policy) : 
+      IRestClientFactory clientFactory,
+      ILogger<ItemServerBase<T>> logger,
+      ISyncPolicyFactory policy) :
       base(httpContextAccessor, clientFactory, logger, policy)
     {
     }

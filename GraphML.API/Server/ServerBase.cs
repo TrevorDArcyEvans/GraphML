@@ -44,7 +44,7 @@ namespace GraphML.API.Server
         Method = Method.GET
       };
       request.AddHeader("Content-Type", "application/json");
-      var accessToken = _httpContextAccessor.HttpContext.GetTokenAsync("access_token").Result;    // TODO async
+      var accessToken = _httpContextAccessor.HttpContext.GetTokenAsync("access_token").Result; // TODO async
       if (accessToken != null)
       {
         _client.Authenticator = new JwtAuthenticator(accessToken);

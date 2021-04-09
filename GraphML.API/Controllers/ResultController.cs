@@ -40,9 +40,9 @@ namespace GraphML.API.Controllers
     [HttpDelete]
     [Route(nameof(Delete) + "/{correlationId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult Delete([FromRoute][Required] Guid correlationId)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult Delete([FromRoute] [Required] Guid correlationId)
     {
       _logic.Delete(correlationId);
 
@@ -58,9 +58,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByContact) + "/{contactId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<IRequest>> ByContact([FromRoute][Required] Guid contactId)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<IEnumerable<IRequest>> ByContact([FromRoute] [Required] Guid contactId)
     {
       var retval = _logic.ByContact(contactId);
 
@@ -76,9 +76,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByOrganisation) + "/{orgId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<IRequest>> ByOrganisation([FromRoute][Required] Guid orgId)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<IEnumerable<IRequest>> ByOrganisation([FromRoute] [Required] Guid orgId)
     {
       var retval = _logic.ByOrganisation(orgId);
 
@@ -94,9 +94,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByCorrelation) + "/{correlationId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IRequest))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<IRequest> ByCorrelation([FromRoute][Required] Guid correlationId)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IRequest))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<IRequest> ByCorrelation([FromRoute] [Required] Guid correlationId)
     {
       var retval = _logic.ByCorrelation(correlationId);
 
@@ -112,9 +112,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(Retrieve) + "/{correlationId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, Type = typeof(IResult))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<IResult> Retrieve([FromRoute][Required] Guid correlationId)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IResult))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<IResult> Retrieve([FromRoute] [Required] Guid correlationId)
     {
       var retval = _logic.Retrieve(correlationId);
 

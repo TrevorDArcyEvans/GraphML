@@ -41,9 +41,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(Degree))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<Guid> Degree([FromBody][Required] DegreeRequest req)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Guid> Degree([FromBody] [Required] DegreeRequest req)
     {
       _logic.Degree(req);
 
@@ -59,9 +59,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(Closeness))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<Guid> Closeness([FromBody][Required] ClosenessRequest req)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Guid> Closeness([FromBody] [Required] ClosenessRequest req)
     {
       _logic.Closeness(req);
 
@@ -77,9 +77,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(Betweenness))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<Guid> Betweenness([FromBody][Required] BetweennessRequest req)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Guid> Betweenness([FromBody] [Required] BetweennessRequest req)
     {
       _logic.Betweenness(req);
 
@@ -95,9 +95,9 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(FindShortestPaths))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.OK, type: typeof(Guid))]
-    [ProducesResponseType(statusCode: (int)HttpStatusCode.NotFound)]
-    public ActionResult<Guid> FindShortestPaths([FromBody][Required] FindShortestPathsRequest req)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Guid> FindShortestPaths([FromBody] [Required] FindShortestPathsRequest req)
     {
       _logic.FindShortestPaths(req);
 

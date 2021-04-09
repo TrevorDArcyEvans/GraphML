@@ -14,7 +14,7 @@ namespace GraphML.MessageQueue.ActiveMQ
 
     public RequestMessageSender(
       IConfiguration config
-      )
+    )
     {
       _config = config;
     }

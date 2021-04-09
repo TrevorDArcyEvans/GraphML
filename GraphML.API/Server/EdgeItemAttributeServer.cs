@@ -7,14 +7,14 @@ namespace GraphML.API.Server
   public sealed class EdgeItemAttributeServer : OwnedItemServerBase<EdgeItemAttribute>, IEdgeItemAttributeServer
   {
     public EdgeItemAttributeServer(
-        IHttpContextAccessor httpContextAccessor,
-        IRestClientFactory clientFactory,
-        ILogger<EdgeItemAttributeServer> logger,
-        ISyncPolicyFactory policy) :
-        base(httpContextAccessor, clientFactory, logger, policy)
+      IHttpContextAccessor httpContextAccessor,
+      IRestClientFactory clientFactory,
+      ILogger<EdgeItemAttributeServer> logger,
+      ISyncPolicyFactory policy) :
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 
-        protected override string ResourceBase { get; } = $"/api/{nameof(EdgeItemAttribute)}";
+    protected override string ResourceBase { get; } = $"/api/{nameof(EdgeItemAttribute)}";
   }
 }

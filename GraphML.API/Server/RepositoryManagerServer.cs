@@ -7,14 +7,14 @@ namespace GraphML.API.Server
   public sealed class RepositoryManagerServer : OwnedItemServerBase<RepositoryManager>, IRepositoryManagerServer
   {
     public RepositoryManagerServer(
-        IHttpContextAccessor httpContextAccessor,
-        IRestClientFactory clientFactory,
-        ILogger<RepositoryManagerServer> logger,
-        ISyncPolicyFactory policy) :
-        base(httpContextAccessor, clientFactory, logger, policy)
+      IHttpContextAccessor httpContextAccessor,
+      IRestClientFactory clientFactory,
+      ILogger<RepositoryManagerServer> logger,
+      ISyncPolicyFactory policy) :
+      base(httpContextAccessor, clientFactory, logger, policy)
     {
     }
 
-        protected override string ResourceBase { get; } = $"/api/{nameof(RepositoryManager)}";
+    protected override string ResourceBase { get; } = $"/api/{nameof(RepositoryManager)}";
   }
 }
