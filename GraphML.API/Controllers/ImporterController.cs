@@ -52,7 +52,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.UnprocessableEntity)]
     public async Task<ActionResult> Import(
-      [FromForm] [Required] ImportSpecification importSpec,
+      [FromHeader] [Required] ImportSpecification importSpec,
       [Required] IFormFile file)
     {
       await using var stream = file.OpenReadStream();
