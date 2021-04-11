@@ -26,6 +26,7 @@ using Newtonsoft.Json.Converters;
 using Flurl;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http.Features;
+using GraphML.Datastore.Database.Importer;
 
 namespace GraphML.API
 {
@@ -140,6 +141,7 @@ namespace GraphML.API
           });
 
           options.OperationFilter<AuthorizeCheckOperationFilter>();
+          options.DocumentFilter<ApiModelDocumentFilter<ImportSpecification>>();
 
           options.EnableAnnotations();
         });
