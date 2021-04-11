@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using GraphML.Interfaces;
+using Newtonsoft.Json;
 
 namespace GraphML.API.Controllers
 {
@@ -52,15 +53,17 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.UnprocessableEntity)]
     public async Task<ActionResult> Import(
-      [FromForm] [Required] ImportSpecification importSpec,
+      [FromHeader] [Required] string importSpec,
       [Required] IFormFile file)
     {
+      var importSpecObj = JsonConvert.DeserializeObject<ImportSpecification>(importSpec);
+
       await using var stream = file.OpenReadStream();
 
       // In this scenario, IFormFile is single source of truth as no access to client file system
-      importSpec.DataFile = file.FileName;
+      importSpecObj.DataFile = file.FileName;
 
-      _logic.Import(importSpec, _config, stream, msg => _logger.LogInformation(msg ?? Environment.NewLine));
+      _logic.Import(importSpecObj, _config, stream, msg => _logger.LogInformation(msg ?? Environment.NewLine));
 
       return Ok();
     }
