@@ -37,7 +37,7 @@ else
   <div>
     <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
   </div>
-  <MatButton type="button" class="btn btn-primary" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
+  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 }
 
 @functions
