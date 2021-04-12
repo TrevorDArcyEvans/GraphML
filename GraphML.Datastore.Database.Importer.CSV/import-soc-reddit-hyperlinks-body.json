@@ -20,6 +20,8 @@
     "Repository": "Reddit-Hyperlinks-Body",
     "DataFile": "../../../Sample-Data/SNAP/soc-reddit-hyperlinks-body-small.tsv",
     "HasHeaderRecord": true,
+    "SourceNodeColumn" : 0,
+    "TargetNodeColumn" : 1,
     "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "PostId",

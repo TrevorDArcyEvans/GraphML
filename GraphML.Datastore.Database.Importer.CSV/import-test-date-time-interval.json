@@ -20,6 +20,8 @@
     "Repository": "import-test-date-time-interval",
     "DataFile": "../../../Sample-Data/import-test-date-time-interval.csv",
     "HasHeaderRecord": false,
+    "SourceNodeColumn" : 0,
+    "TargetNodeColumn" : 1,
     "NodeItemAttributeImportDefinition": [],
     "EdgeItemAttributeImportDefinitions": [
       {

@@ -20,6 +20,8 @@
     "Repository": "Bitcoin-Alpha",
     "DataFile": "../../../Sample-Data/SNAP/soc-sign-bitcoinalpha.csv",
     "HasHeaderRecord": false,
+    "SourceNodeColumn" : 0,
+    "TargetNodeColumn" : 1,
     "NodeItemAttributeImportDefinition": [],
     "EdgeItemAttributeImportDefinitions": [
       {

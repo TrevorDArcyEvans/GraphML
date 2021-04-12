@@ -20,6 +20,9 @@
     "Repository": "import-test-optional-node-attributes",
     "DataFile": "../../../Sample-Data/import-test-optional-node.txt",
     "HasHeaderRecord": false,
+    "SourceNodeColumn" : 0,
+    "TargetNodeColumn" : 1,
+    "EdgeItemAttributeImportDefinitions": [],
     "NodeItemAttributeImportDefinitions": [
       {
         "Name": "Depth",

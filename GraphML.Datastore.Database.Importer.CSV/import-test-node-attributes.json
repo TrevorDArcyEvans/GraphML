@@ -20,6 +20,9 @@
     "Repository": "import-test-node-attributes",
     "DataFile": "../../../Sample-Data/import-test-node-attributes.txt",
     "HasHeaderRecord": false,
+    "SourceNodeColumn" : 0,
+    "TargetNodeColumn" : 1,
+    "EdgeItemAttributeImportDefinitions": [],
     "NodeItemAttributeImportDefinitions": [
       {
         "Name": "Depth",
