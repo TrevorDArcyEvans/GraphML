@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
@@ -24,23 +23,22 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = $"/api/Importer";
 
-    public Task Import(ImportSpecification importSpec, IFormFile file)
+    public async Task Import(ImportSpecification importSpec, byte[] fileBytes, string fileName)
     {
       var path = Url.Combine(ResourceBase, nameof(ImporterController.Import));
       var req = GetRequest(path);
       var json = JsonConvert.SerializeObject(importSpec);
-      using var ms = new MemoryStream();
 
-      file.CopyTo(ms);
-
+      // Content-Type defaults to application/json but we are posting
+      // form-data, so clear this header as it is incorrect
+      req.AddHeader("Content-Type", string.Empty);
       req.Method = Method.POST;
 
       // BEWARE - names have to match API parameter names!
       req.AddHeader("importSpec", json);
-      req.AddFileBytes("file", ms.ToArray(), file.FileName);
+      req.AddFileBytes("file", fileBytes, fileName);
 
-      var res = GetRawResponse(req);
-      throw new System.NotImplementedException();
+      var res = await GetRawResponse(req);
     }
   }
 }

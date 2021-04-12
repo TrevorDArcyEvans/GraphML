@@ -39,6 +39,9 @@ else
   <div>
     <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
   </div>
+  <div>
+    <MatButton Icon="cloud_upload" @onclick="@(e => GotoImporter())">Import</MatButton>
+  </div>
   <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
 }
 
@@ -71,6 +74,11 @@ else
   private void GotoBrowseRepositories(RepositoryManager repoMgr)
   {
     _navMgr.NavigateTo($"/BrowseRepositories/{repoMgr.Id}/{repoMgr.Name}");
+  }
+
+  private void GotoImporter()
+  {
+    _navMgr.NavigateTo($"/Importer/{OrganisationId}/{OrganisationName}");
   }
 
   private void GotoBrowseOrganisations()
