@@ -32,10 +32,10 @@ else
       <tr>
         <th scope="row">@org.Name</th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseRepositoryManagers(@org))" class="fas fa-database btn btn-primary"/>
+          <MatButton Icon="person_pin_circle" @onclick="@(e => GotoBrowseRepositoryManagers(@org))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseContacts(@org))" class="fas fa-users btn btn-primary"/>
+          <MatButton Icon="contacts" @onclick="@(e => GotoBrowseContacts(@org))" />
         </th>
       </tr>
     }

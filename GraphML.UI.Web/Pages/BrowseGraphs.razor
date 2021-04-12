@@ -34,13 +34,13 @@ else
       <tr>
         <th>@graph.Name</th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseGraphNodes(graph))" class="fas fa-genderless btn btn-primary"/>
+          <MatButton Icon="place" @onclick="@(e => GotoBrowseGraphNodes(graph))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseGraphEdges(graph))" class="fas fa-grip-lines-vertical btn btn-primary"/>
+          <MatButton Icon="compare_arrows" @onclick="@(e => GotoBrowseGraphEdges(graph))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseAnalyses(graph))" class="fas fa-calculator btn btn-primary"/>
+          <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(graph))" />
         </th>
       </tr>
     }

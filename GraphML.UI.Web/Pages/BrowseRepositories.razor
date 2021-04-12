@@ -34,13 +34,13 @@ else
       <tr>
         <th>@repo.Name</th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseGraphs(repo))" class="fas fa-draw-polygon btn btn-primary"/>
+          <MatButton Icon="multiline_chart" @onclick="@(e => GotoBrowseGraphs(repo))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseNodes(repo))" class="fas fa-dot-circle btn btn-primary"/>
+          <MatButton Icon="notes" @onclick="@(e => GotoBrowseNodes(repo))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseEdges(repo))" class="fas fa-arrow-right btn btn-primary"/>
+          <MatButton Icon="scatter_plot" @onclick="@(e => GotoBrowseEdges(repo))" />
         </th>
       </tr>
     }

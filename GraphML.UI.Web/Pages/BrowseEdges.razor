@@ -33,10 +33,10 @@ else
       <tr>
         <th>@edge.Name</th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseWhereUsed(edge))" class="fas fa-question btn btn-primary"/>
+          <MatButton Icon="help_outline" @onclick="@(e => GotoBrowseWhereUsed(edge))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseParents(edge))" class="fas fa-user-friends btn btn-primary"/>
+          <MatButton Icon="supervised_user_circle" @onclick="@(e => GotoBrowseParents(edge))" />
         </th>
       </tr>
     }

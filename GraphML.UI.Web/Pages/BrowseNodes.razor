@@ -33,10 +33,10 @@ else
       <tr>
         <th>@node.Name</th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseWhereUsed(node))" class="fas fa-question btn btn-primary"/>
+          <MatButton Icon="question_answer" @onclick="@(e => GotoBrowseWhereUsed(node))" />
         </th>
         <th>
-          <MatButton @onclick="@(e => GotoBrowseParents(node))" class="fas fa-user-friends btn btn-primary"/>
+          <MatButton Icon="bubble_chart" @onclick="@(e => GotoBrowseParents(node))" />
         </th>
       </tr>
     }
