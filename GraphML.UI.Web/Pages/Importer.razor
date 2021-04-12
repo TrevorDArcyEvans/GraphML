@@ -8,19 +8,25 @@
 
 @inject IImporterServer _importerServer
 @inject NavigationManager _navMgr
+@inject IMatToaster _toaster
 
 <h1>Importer</h1>
 <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
 <div>
   <MatFileUpload OnChange="@FilesReadyForContent" Label="Drop a single file here or Browse"/>
-  <MatTextField @bind-Value="@CurrentFileName" ReadOnly="true" Label="Data File" Icon="attach_file"/>
+  <MatTextField
+    @bind-Value="@CurrentFileName"
+    ReadOnly="true"
+    FullWidth="true"
+    Label="Data File"
+    Icon="attach_file" />
   <MatTextField
     @bind-Value="@ImportSpec"
     Icon="settings"
     FullWidth="true"
     Label="Import Specification"
     TextArea="true"
-    style="width: 100%; max-height: 300px; height: 300px;"/>
+    style="width: 100%; max-height: 500px; height: 500px;"/>
   <div>
     <MatButton Icon="build" @onclick="@(e => DoImport())">Import</MatButton>
   </div>
@@ -56,6 +62,8 @@
 
     await _currentFile.WriteToStreamAsync(ms);
     await _importerServer.Import(importSpecObj, ms.ToArray(), CurrentFileName);
+
+    _toaster.Add("Imported", MatToastType.Success, "Finished!");
   }
 
   private void GotoBrowseRepositoryManagers()

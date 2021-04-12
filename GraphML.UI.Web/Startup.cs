@@ -48,6 +48,15 @@ namespace GraphML.UI.Web
       services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
       services.AddMatBlazor();
+      services.AddMatToaster(config =>
+      {
+        config.Position = MatToastPosition.BottomRight;
+        config.PreventDuplicates = true;
+        config.NewestOnTop = true;
+        config.ShowCloseButton = true;
+        config.MaximumOpacity = 95;
+        config.VisibleStateDuration = 3000;
+      });
       services.AddRazorPages().AddNewtonsoftJson(options =>
         options.SerializerSettings.Converters.Add(new StringEnumConverter()));
       services.AddServerSideBlazor();
