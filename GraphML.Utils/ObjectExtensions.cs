@@ -26,7 +26,7 @@ namespace GraphML.Utils
 
     public static Guid ThrowIfEmpty(this Guid obj, string paramName)
     {
-      if (obj == null || obj == Guid.Empty)
+      if (obj == Guid.Empty)
       {
         throw new ArgumentNullException(paramName);
       }
