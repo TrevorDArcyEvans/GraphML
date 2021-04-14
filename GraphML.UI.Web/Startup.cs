@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -82,6 +83,11 @@ namespace GraphML.UI.Web
               .ForEach(scope => options.Scope.Add(scope));
 
             //options.CallbackPath = ...
+            options.RequireHttpsMetadata = false;
+            options.BackchannelHttpHandler = new HttpClientHandler
+            {
+              ServerCertificateCustomValidationCallback = delegate { return true; }
+            };
             options.SaveTokens = true;
             options.GetClaimsFromUserInfoEndpoint = true;
           });
