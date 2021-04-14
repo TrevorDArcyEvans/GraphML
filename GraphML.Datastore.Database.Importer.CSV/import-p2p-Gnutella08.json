@@ -22,7 +22,7 @@
     "RepositoryManager": "GraphML Repository Manager",
     "Repository": "Gnutella-08",
     "DataFile": "../../../Sample-Data/SNAP/p2p-Gnutella08-small.txt",
-    "HasHeaderRecord": false
+    "HasHeaderRecord": false,
     "SourceNodeColumn" : 0,
     "TargetNodeColumn" : 1,
     "EdgeItemAttributeImportDefinitions": [],
