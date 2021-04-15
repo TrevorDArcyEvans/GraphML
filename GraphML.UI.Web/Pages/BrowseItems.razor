@@ -22,37 +22,67 @@ else
   <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
   <MatTabGroup>
     <MatTab Label="Nodes">
+      <div>
+        <table class="table">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Where Used</th>
+            <th scope="col">Parents</th>
+          </tr>
+          </thead>
+          <tbody>
+          @foreach (var node in _nodes)
+          {
+            <tr>
+              <th>@node.Name</th>
+              <th>
+                <MatButton Icon="question_answer" @onclick="@(e => GotoBrowseWhereUsed(node))"/>
+              </th>
+              <th>
+                <MatButton Icon="bubble_chart" @onclick="@(e => GotoBrowseParents(node))"/>
+              </th>
+            </tr>
+          }
+          </tbody>
+        </table>
+        <div>
+          <MatPaginator Length="@_totalNodes" PageSize="@_pageSizeNodes" Page="@OnPageNodes"></MatPaginator>
+        </div>
+      </div>
     </MatTab>
     <MatTab Label="Edges">
+      <div>
+        <table class="table">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Where Used</th>
+            <th scope="col">Parents</th>
+          </tr>
+          </thead>
+          <tbody>
+          @foreach (var edge in _edges)
+          {
+            <tr>
+              <th>@edge.Name</th>
+              <th>
+                <MatButton Icon="help_outline" @onclick="@(e => GotoBrowseWhereUsed(edge))"/>
+              </th>
+              <th>
+                <MatButton Icon="supervised_user_circle" @onclick="@(e => GotoBrowseParents(edge))"/>
+              </th>
+            </tr>
+          }
+          </tbody>
+        </table>
+        <div>
+          <MatPaginator Length="@_totalEdges" PageSize="@_pageSizeEdges" Page="@OnPageEdges"></MatPaginator>
+        </div>
+      </div>
     </MatTab>
   </MatTabGroup>
-  
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Where Used</th>
-      <th scope="col">Parents</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var node in _nodes)
-    {
-      <tr>
-        <th>@node.Name</th>
-        <th>
-          <MatButton Icon="question_answer" @onclick="@(e => GotoBrowseWhereUsed(node))" />
-        </th>
-        <th>
-          <MatButton Icon="bubble_chart" @onclick="@(e => GotoBrowseParents(node))" />
-        </th>
-      </tr>
-    }
-    </tbody>
-  </table>
-  <div>
-    <MatPaginator Length="@_totalNodes" PageSize="@_pageSizeNodes" Page="@OnPageNodes"></MatPaginator>
-  </div>
+
   <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 }
 
@@ -70,10 +100,14 @@ else
   int _totalNodes = 0;
   int _pageIndexNodes = 0;
   int _pageSizeNodes = 25;
+  int _totalEdges = 0;
+  int _pageIndexEdges = 0;
+  int _pageSizeEdges = 25;
 
   protected override async Task OnInitializedAsync()
   {
     _totalNodes = await _nodeServer.Count(Guid.Parse(RepositoryId));
+    _totalEdges = await _edgeServer.Count(Guid.Parse(RepositoryId));
     _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexNodes, _pageSizeNodes);
     _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexNodes, _pageSizeNodes);
     var repo = (await _repoServer.ByIds(new[] {Guid.Parse(RepositoryId)})).Single();
@@ -87,18 +121,35 @@ else
     _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexNodes, _pageSizeNodes);
   }
 
-  private void GotoBrowseRepositories()
+  private async Task OnPageEdges(MatPaginatorPageEvent e)
   {
-    _navMgr.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+    _pageSizeEdges = e.PageSize;
+    _pageIndexEdges = e.PageIndex;
+    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexEdges, _pageSizeEdges);
   }
 
-  private void GotoBrowseWhereUsed(Item item)
+  private void GotoBrowseWhereUsed(Node item)
   {
     _navMgr.NavigateTo($"/BrowseWhereUsedNodes/{item.Id}/{item.Name}");
   }
 
-  private void GotoBrowseParents(Item item)
+  private void GotoBrowseParents(Node item)
   {
     _navMgr.NavigateTo($"/BrowseParentNodes/{item.Id}/{item.Name}");
+  }
+
+  private void GotoBrowseWhereUsed(Edge item)
+  {
+    _navMgr.NavigateTo($"/BrowseWhereUsedEdges/{item.Id}/{item.Name}");
+  }
+
+  private void GotoBrowseParents(Edge item)
+  {
+    _navMgr.NavigateTo($"/BrowseParentEdges/{item.Id}/{item.Name}");
+  }
+
+  private void GotoBrowseRepositories()
+  {
+    _navMgr.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
   }
 }
