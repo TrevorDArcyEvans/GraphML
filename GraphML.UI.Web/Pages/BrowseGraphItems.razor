@@ -1,0 +1,119 @@
+@page "/BrowseGraphItems/{GraphId}/{GraphName}"
+
+@using GraphML
+@using System.Web;
+@using GraphML.Interfaces.Server
+
+@inject IGraphNodeServer _nodeServer
+@inject IGraphEdgeServer _edgeServer
+@inject IGraphServer _graphServer;
+@inject IRepositoryServer _repoServer;
+@inject NavigationManager _navMgr
+
+<h1>Graph Nodes</h1>
+@if (_nodes == null || _edges == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <h2>@HttpUtility.UrlDecode(GraphName)</h2>
+  <MatTabGroup>
+    <MatTab Label="Graph Nodes">
+      <div>
+        <table class="table">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          @foreach (var node in _nodes)
+          {
+            <tr>
+              <th>@node.Name</th>
+            </tr>
+          }
+          </tbody>
+        </table>
+        <div>
+          <MatPaginator Length="@_totalNodes" PageSize="@_pageSizeNodes" Page="@OnPageNodes"></MatPaginator>
+        </div>
+      </div>
+    </MatTab>
+    <MatTab Label="Graph Edges">
+      <div>
+        <table class="table">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          @foreach (var edge in _edges)
+          {
+            <tr>
+              <th>@edge.Name</th>
+            </tr>
+          }
+          </tbody>
+        </table>
+        <div>
+          <MatPaginator Length="@_totalEdges" PageSize="@_pageSizeEdges" Page="@OnPageEdges"></MatPaginator>
+        </div>
+      </div>
+    </MatTab>
+  </MatTabGroup>
+
+  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
+}
+
+@functions
+{
+  [Parameter]
+  public string GraphName { get; set; }
+
+  [Parameter]
+  public string GraphId { get; set; }
+
+  private IEnumerable<GraphNode> _nodes;
+  private IEnumerable<GraphEdge> _edges;
+  private Repository _repo;
+  int _totalNodes = 0;
+  int _pageIndexNodes = 0;
+  int _pageSizeNodes = 25;
+  int _totalEdges = 0;
+  int _pageIndexEdges = 0;
+  int _pageSizeEdges = 25;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _totalNodes = await _nodeServer.Count(Guid.Parse(GraphId));
+    _totalEdges = await _edgeServer.Count(Guid.Parse(GraphId));
+    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexNodes, _pageSizeNodes);
+    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexEdges, _pageSizeEdges);
+    var graph = (await _graphServer.ByIds(new[] {Guid.Parse(GraphId)})).Single();
+    _repo = (await _repoServer.ByIds(new[] {graph.RepositoryId})).Single();
+  }
+
+  private async Task OnPageNodes(MatPaginatorPageEvent e)
+  {
+    _pageSizeNodes = e.PageSize;
+    _pageIndexNodes = e.PageIndex;
+    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexNodes, _pageSizeNodes);
+  }
+
+  private async Task OnPageEdges(MatPaginatorPageEvent e)
+  {
+    _pageSizeEdges = e.PageSize;
+    _pageIndexEdges = e.PageIndex;
+    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexEdges, _pageSizeEdges);
+  }
+
+  private void GotoBrowseGraphs()
+  {
+    _navMgr.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
+  }
+}

@@ -23,8 +23,7 @@ else
     <thead class="thead-dark">
     <tr>
       <th scope="col">Name</th>
-      <th scope="col">Graph Nodes</th>
-      <th scope="col">Graph Edges</th>
+      <th scope="col">Graph Items</th>
       <th scope="col">Analysis</th>
     </tr>
     </thead>
@@ -34,10 +33,7 @@ else
       <tr>
         <th>@graph.Name</th>
         <th>
-          <MatButton Icon="place" @onclick="@(e => GotoBrowseGraphNodes(graph))" />
-        </th>
-        <th>
-          <MatButton Icon="compare_arrows" @onclick="@(e => GotoBrowseGraphEdges(graph))" />
+          <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseGraphItems(graph))" />
         </th>
         <th>
           <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(graph))" />
@@ -81,14 +77,9 @@ else
     _graphs = await _graphServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndex, _pageSize);
   }
 
-  private void GotoBrowseGraphNodes(Graph graph)
+  private void GotoBrowseGraphItems(Graph graph)
   {
-    _navMgr.NavigateTo($"/BrowseGraphNodes/{graph.Id}/{graph.Name}");
-  }
-
-  private void GotoBrowseGraphEdges(Graph graph)
-  {
-    _navMgr.NavigateTo($"/BrowseGraphEdges/{graph.Id}/{graph.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphItems/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseAnalyses(Graph graph)
