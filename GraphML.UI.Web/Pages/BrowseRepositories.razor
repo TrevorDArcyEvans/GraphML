@@ -24,8 +24,6 @@ else
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Graphs</th>
-      <th scope="col">Nodes</th>
-      <th scope="col">Edges</th>
       <th scope="col">Items</th>
     </tr>
     </thead>
@@ -36,12 +34,6 @@ else
         <th>@repo.Name</th>
         <th>
           <MatButton Icon="multiline_chart" @onclick="@(e => GotoBrowseGraphs(repo))" />
-        </th>
-        <th>
-          <MatButton Icon="notes" @onclick="@(e => GotoBrowseNodes(repo))" />
-        </th>
-        <th>
-          <MatButton Icon="scatter_plot" @onclick="@(e => GotoBrowseEdges(repo))" />
         </th>
         <th>
           <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseItems(repo))" />
@@ -88,16 +80,6 @@ else
   private void GotoBrowseGraphs(Repository repo)
   {
     _navMgr.NavigateTo($"/BrowseGraphs/{repo.Id}/{repo.Name}");
-  }
-
-  private void GotoBrowseNodes(Repository repo)
-  {
-    _navMgr.NavigateTo($"/BrowseNodes/{repo.Id}/{repo.Name}");
-  }
-
-  private void GotoBrowseEdges(Repository repo)
-  {
-    _navMgr.NavigateTo($"/BrowseEdges/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseItems(Repository repo)
