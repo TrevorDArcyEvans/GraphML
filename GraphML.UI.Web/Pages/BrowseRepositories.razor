@@ -26,6 +26,7 @@ else
       <th scope="col">Graphs</th>
       <th scope="col">Nodes</th>
       <th scope="col">Edges</th>
+      <th scope="col">Items</th>
     </tr>
     </thead>
     <tbody>
@@ -41,6 +42,9 @@ else
         </th>
         <th>
           <MatButton Icon="scatter_plot" @onclick="@(e => GotoBrowseEdges(repo))" />
+        </th>
+        <th>
+          <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseItems(repo))" />
         </th>
       </tr>
     }
@@ -94,6 +98,11 @@ else
   private void GotoBrowseEdges(Repository repo)
   {
     _navMgr.NavigateTo($"/BrowseEdges/{repo.Id}/{repo.Name}");
+  }
+
+  private void GotoBrowseItems(Repository repo)
+  {
+    _navMgr.NavigateTo($"/BrowseItems/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseRepositoryManagers()
