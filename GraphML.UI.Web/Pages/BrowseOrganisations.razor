@@ -1,69 +1,42 @@
 @page "/BrowseOrganisations"
 
 @using GraphML
-@using GraphML.Interfaces.Server
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
 
-@inject IOrganisationServer _orgServer
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Organisations</h1>
 
-@if (_orgs == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Repository Managers</th>
-      <th scope="col">Contacts</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-    @foreach (var org in _orgs)
-    {
-      <tr>
-        <th scope="row">@org.Name</th>
-        <th>
-          <MatButton Icon="person_pin_circle" @onclick="@(e => GotoBrowseRepositoryManagers(@org))" />
-        </th>
-        <th>
-          <MatButton Icon="contacts" @onclick="@(e => GotoBrowseContacts(@org))" />
-        </th>
-      </tr>
-    }
-  </table>
-  <div>
-    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
-  </div>
-}
+<MatTable
+  Items="@_orgs"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Organisation), "getall")"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+    <th>Repository Managers</th>
+    <th>Contacts</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+    <td>
+      <MatButton Icon="person_pin_circle" @onclick="@(e => GotoBrowseRepositoryManagers(@context))"/>
+    </td>
+    <td>
+      <MatButton Icon="contacts" @onclick="@(e => GotoBrowseContacts(@context))"/>
+    </td>
+  </MatTableRow>
+</MatTable>
 
 @code
 {
-  private IEnumerable<Organisation> _orgs;
-  int _totalEnts = 0;
-  int _pageIndex = 0;
-  int _pageSize = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalEnts = await _orgServer.Count();
-    _orgs = await _orgServer.GetAll(_pageIndex, _pageSize);
-  }
-
-  private async Task OnPage(MatPaginatorPageEvent e)
-  {
-    _pageSize = e.PageSize;
-    _pageIndex = e.PageIndex;
-    _orgs = await _orgServer.GetAll(_pageIndex, _pageSize);
-  }
+  private Organisation[] _orgs;
 
   private void GotoBrowseRepositoryManagers(Organisation org)
   {

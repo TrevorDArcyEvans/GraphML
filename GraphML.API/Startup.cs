@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ObjectPool;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -66,19 +64,14 @@ namespace GraphML.API
         {
           o.RespectBrowserAcceptHeader = true;
           o.EnableEndpointRouting = false;
-
-          var settings = new JsonSerializerSettings()
-          {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Formatting = Formatting.Indented
-          };
-          var sp = services.BuildServiceProvider();
-          var logger = sp.GetService<ILoggerFactory>();
-          var objectPoolProvider = sp.GetService<ObjectPoolProvider>();
         })
         .AddControllersAsServices()
         .AddNewtonsoftJson(options =>
-          options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+        {
+          options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+          options.SerializerSettings.Formatting = Formatting.Indented;
+          options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        });
 
       services.Configure<FormOptions>(x =>
       {

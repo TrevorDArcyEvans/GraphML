@@ -2,11 +2,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Security.Authentication;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GraphML.Common;
 using MatBlazor;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +50,27 @@ namespace GraphML.UI.Web
     {
       services.AddSingleton(sp => Configuration);
       services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+      // MatTable needs this
+      // NOTE:  have to disable ssl checking, esp on Linux
+      services.AddScoped(sp =>
+      {
+        var handler = new HttpClientHandler
+        {
+          ServerCertificateCustomValidationCallback = delegate { return true; },
+          UseDefaultCredentials = true
+        };
+        var client = new HttpClient(handler);
+        var ctx = sp.GetService<IHttpContextAccessor>();
+        var accessToken = ctx.HttpContext.GetTokenAsync("access_token").Result; // TODO async
+        if (string.IsNullOrEmpty(accessToken))
+        {
+          throw new AuthenticationException("Access token is missing");
+        }
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+
+        return client;
+      });
 
       services.AddMatBlazor();
       services.AddMatToaster(config =>
