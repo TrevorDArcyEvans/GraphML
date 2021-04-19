@@ -51,7 +51,7 @@ namespace GraphML.API.Controllers
     /// Retrieve all Entities in a paged list
     /// </summary>
     /// <param name="ownerIds"></param>
-    /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpPost]
@@ -60,7 +60,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
     public override ActionResult<IEnumerable<Edge>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      return Ok(ByOwnersInternal(ownerIds, pageIndex, pageSize));
+      return Ok(ByOwnersInternal(ownerIds, pageIndex - 1, pageSize));
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ namespace GraphML.API.Controllers
     /// Retrieve Edges connected to specified Nodes
     /// </summary>
     /// <param name="ids">unique identifier</param>
-    /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
@@ -125,7 +125,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
     public ActionResult<IEnumerable<Edge>> ByNodeIds([FromBody] [Required] IEnumerable<Guid> ids, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      var ents = _edgeLogic.ByNodeIds(ids, pageIndex, pageSize);
+      var ents = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize);
       return Ok(ents);
     }
 
@@ -133,7 +133,7 @@ namespace GraphML.API.Controllers
     /// Retrieve parents of specified entity
     /// </summary>
     /// <param name="itemId">child entity</param>
-    /// <param name="pageIndex">0-based index of page to return.  Defaults to 0</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
@@ -144,7 +144,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
     public override ActionResult<IEnumerable<Edge>> GetParents([FromRoute] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      return Ok(GetParentsInternal(itemId, pageIndex, pageSize));
+      return Ok(GetParentsInternal(itemId, pageIndex - 1, pageSize));
     }
 
     /// <summary>
