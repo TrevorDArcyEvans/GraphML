@@ -9,7 +9,7 @@ namespace GraphML.API.Controllers
 {
   public abstract class GraphMLController<T> : ControllerBase where T : Item
   {
-    protected const int DefaultPageIndex = 0;
+    protected const int DefaultPageIndex = 1;
     protected const int DefaultPageSize = 20;
 
     protected readonly ILogic<T> _logic;
