@@ -1,50 +1,42 @@
 ﻿@page "/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}"
 
 @using GraphML
+@using GraphML.Common
 @using System.Web;
+@using Microsoft.Extensions.Configuration
 @using GraphML.Interfaces.Server
+@using Flurl
+@using GraphML.API.Controllers
 
 @inject IRepositoryManagerServer _repoMgrServer
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Repository Managers</h1>
-@if (_repoMgrs == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Repositories</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var repoMgr in _repoMgrs)
-    {
-      <tr>
-        <th>@repoMgr.Name</th>
-        <th>
-          <MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@repoMgr))" />
-        </th>
-      </tr>
-    }
-    </tbody>
-  </table>
-  <div>
-    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
-  </div>
+<h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
+
+<MatTable
+  Items="@_repoMgrs"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(RepositoryManager), nameof(RepositoryManagerController.ByOwner), OrganisationId)"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+    <th>Repositories</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+    <td><MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@context))"/></td>
+  </MatTableRow>
+</MatTable>
+
   <div>
     <MatButton Icon="cloud_upload" @onclick="@(e => GotoImporter())">Import</MatButton>
   </div>
   <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
-}
 
 @functions
 {
@@ -54,23 +46,7 @@ else
   [Parameter]
   public string OrganisationId { get; set; }
 
-  private IEnumerable<RepositoryManager> _repoMgrs;
-  int _totalEnts = 0;
-  int _pageIndex = 1;
-  int _pageSize = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalEnts = await _repoMgrServer.Count(Guid.Parse(OrganisationId));
-    _repoMgrs = await _repoMgrServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, _pageIndex, _pageSize);
-  }
-
-  private async Task OnPage(MatPaginatorPageEvent e)
-  {
-    _pageSize = e.PageSize;
-    _pageIndex = e.PageIndex;
-    _repoMgrs = await _repoMgrServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, _pageIndex, _pageSize);
-  }
+  private RepositoryManager[] _repoMgrs;
 
   private void GotoBrowseRepositories(RepositoryManager repoMgr)
   {
