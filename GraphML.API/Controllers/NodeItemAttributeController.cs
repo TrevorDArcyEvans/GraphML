@@ -61,6 +61,22 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
+    /// Retrieve Entities in a paged list
+    /// </summary>
+    /// <param name="ownerId">identifier of owner</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <response code="200">Success - if no Entities found, return empty list</response>
+    [HttpGet]
+    [Route(nameof(ByOwner) + "/{ownerId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<NodeItemAttribute>))]
+    public override ActionResult<IEnumerable<NodeItemAttribute>> ByOwner([FromRoute] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    {
+      return Ok(ByOwners(new[] { ownerId }, pageIndex, pageSize));
+    }
+
+    /// <summary>
     /// Create new Entities
     /// </summary>
     /// <param name="entity">new Entities information</param>

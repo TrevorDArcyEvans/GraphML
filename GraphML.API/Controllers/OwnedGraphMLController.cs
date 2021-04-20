@@ -17,6 +17,7 @@ namespace GraphML.API.Controllers
     }
 
     public abstract ActionResult<IEnumerable<T>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    public abstract ActionResult<IEnumerable<T>> ByOwner([FromRoute] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
 
     protected IEnumerable<T> ByOwnersInternal(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
     {

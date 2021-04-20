@@ -75,7 +75,7 @@ namespace GraphML.API.Controllers
     [Route(nameof(ByOwner) + "/{ownerId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Contact>))]
-    public ActionResult<IEnumerable<Contact>> ByOwner([FromRoute] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override ActionResult<IEnumerable<Contact>> ByOwner([FromRoute] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwners(new[] { ownerId }, pageIndex, pageSize));
     }
