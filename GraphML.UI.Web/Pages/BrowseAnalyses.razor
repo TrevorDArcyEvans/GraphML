@@ -1,72 +1,79 @@
-@page "/BrowseAnalyses/{GraphId}/{GraphName}"
+@page "/BrowseAnalyses/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
 @using Analysis.RankedShortestPath
 @using Analysis.SNA.Centrality
-@using GraphML;
 @using System.Web;
-@using GraphML.Interfaces.Server;
 @using GraphML.API.Server;
 
 @inject IAnalysisServer _analysisServer
-@inject IGraphServer _graphServer;
-@inject IRepositoryServer _repoServer;
 @inject NavigationManager _navMgr
 
 <h1>Analyses</h1>
-@if (_repo == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(GraphName)</h2>
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Analyse</th>
-      <th scope="col">Correlation Id</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Find Shortest Paths</th>
-      <th>
-        <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath(_graph))" />
-      </th>
-      <th>@FindShortestPathsCorrelationId</th>
-    </tr>
-    <tr>
-      <th>Betweenness</th>
-      <th>
-        <MatButton Icon="bar_chart" @onclick="@(async e => await SubmitBetweenness(_graph))" />
-      </th>
-      <th>@BetweennessCorrelationId</th>
-    </tr>
-    <tr>
-      <th>Closeness</th>
-      <th>
-        <MatButton Icon="pie_chart" @onclick="@(async e => await SubmitCloseness(_graph))" />
-      </th>
-      <th>@ClosenessCorrelationId</th>
-    </tr>
-    <tr>
-      <th>Degree</th>
-      <th>
-        <MatButton Icon="table_chart" @onclick="@(async e => await SubmitDegree(_graph))" />
-      </th>
-      <th>@DegreeCorrelationId</th>
-    </tr>
-    </tbody>
-  </table>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
-}
+<h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
+
+<!-- TODO MatAccordian -->
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Analyse</th>
+    <th scope="col">Correlation Id</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th>Find Shortest Paths</th>
+    <th>
+      <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath())"/>
+    </th>
+    <th>@FindShortestPathsCorrelationId</th>
+  </tr>
+  <tr>
+    <th>Betweenness</th>
+    <th>
+      <MatButton Icon="bar_chart" @onclick="@(async e => await SubmitBetweenness())"/>
+    </th>
+    <th>@BetweennessCorrelationId</th>
+  </tr>
+  <tr>
+    <th>Closeness</th>
+    <th>
+      <MatButton Icon="pie_chart" @onclick="@(async e => await SubmitCloseness())"/>
+    </th>
+    <th>@ClosenessCorrelationId</th>
+  </tr>
+  <tr>
+    <th>Degree</th>
+    <th>
+      <MatButton Icon="table_chart" @onclick="@(async e => await SubmitDegree())"/>
+    </th>
+    <th>@DegreeCorrelationId</th>
+  </tr>
+  </tbody>
+</table>
+
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 
 @functions
 {
+  [Parameter]
+  public string OrganisationName { get; set; }
+
+  [Parameter]
+  public string OrganisationId { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerName { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerId { get; set; }
+
+  [Parameter]
+  public string RepositoryName { get; set; }
+
+  [Parameter]
+  public string RepositoryId { get; set; }
+
   [Parameter]
   public string GraphName { get; set; }
 
@@ -78,61 +85,52 @@ else
   public Guid ClosenessCorrelationId { get; set; } = Guid.Empty;
   public Guid DegreeCorrelationId { get; set; } = Guid.Empty;
 
-  private Repository _repo;
-  private Graph _graph;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _graph = (await _graphServer.ByIds(new[] {Guid.Parse(GraphId)})).Single();
-    _repo = (await _repoServer.ByIds(new[] {_graph.RepositoryId})).Single();
-  }
-
-  private async Task SubmitShortestPath(Graph graph)
+  private async Task SubmitShortestPath()
   {
   // TODO     Contact
   // TODO     RootNodeId
   // TODO     GoalNodeId
     var req = new FindShortestPathsRequest
     {
-      GraphId = graph.Id,
+      GraphId = Guid.Parse(GraphId),
       RootNodeId = Guid.NewGuid(),
       GoalNodeId = Guid.NewGuid()
     };
     FindShortestPathsCorrelationId = await _analysisServer.FindShortestPaths(req);
   }
 
-  private async Task SubmitBetweenness(Graph graph)
+  private async Task SubmitBetweenness()
   {
   // TODO     Contact
     var req = new BetweennessRequest
     {
-      GraphId = graph.Id
+      GraphId = Guid.Parse(GraphId)
     };
     BetweennessCorrelationId = await _analysisServer.Betweenness(req);
   }
 
-  private async Task SubmitCloseness(Graph graph)
+  private async Task SubmitCloseness()
   {
   // TODO     Contact
     var req = new ClosenessRequest
     {
-      GraphId = graph.Id
+      GraphId = Guid.Parse(GraphId)
     };
     ClosenessCorrelationId = await _analysisServer.Closeness(req);
   }
 
-  private async Task SubmitDegree(Graph graph)
+  private async Task SubmitDegree()
   {
   // TODO     Contact
     var req = new DegreeRequest
     {
-      GraphId = graph.Id
+      GraphId = Guid.Parse(GraphId)
     };
     DegreeCorrelationId = await _analysisServer.Degree(req);
   }
 
   private void GotoBrowseGraphs()
   {
-    _navMgr.NavigateTo($"/BrowseGraphs/{_repo.Id}/{_repo.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");
   }
 }
