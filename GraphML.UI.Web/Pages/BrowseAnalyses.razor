@@ -11,46 +11,48 @@
 <h1>Analyses</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
 
-<!-- TODO MatAccordian -->
-<table class="table">
-  <thead class="thead-dark">
-  <tr>
-    <th scope="col">Name</th>
-    <th scope="col">Analyse</th>
-    <th scope="col">Correlation Id</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <th>Find Shortest Paths</th>
-    <th>
+<MatAccordion Multi="true">
+  <MatExpansionPanel>
+    <MatExpansionPanelSummary>
+      <MatExpansionPanelHeader>Find Shortest Paths</MatExpansionPanelHeader>
+    </MatExpansionPanelSummary>
+    <MatExpansionPanelDetails>
       <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath())"/>
-    </th>
-    <th>@FindShortestPathsCorrelationId</th>
-  </tr>
-  <tr>
-    <th>Betweenness</th>
-    <th>
+      <p>@FindShortestPathsCorrelationId</p>
+    </MatExpansionPanelDetails>
+  </MatExpansionPanel>
+
+  <MatExpansionPanel>
+    <MatExpansionPanelSummary>
+      <MatExpansionPanelHeader>Betweenness</MatExpansionPanelHeader>
+    </MatExpansionPanelSummary>
+    <MatExpansionPanelDetails>
       <MatButton Icon="bar_chart" @onclick="@(async e => await SubmitBetweenness())"/>
-    </th>
-    <th>@BetweennessCorrelationId</th>
-  </tr>
-  <tr>
-    <th>Closeness</th>
-    <th>
+      <p>@BetweennessCorrelationId</p>
+    </MatExpansionPanelDetails>
+  </MatExpansionPanel>
+
+  <MatExpansionPanel>
+    <MatExpansionPanelSummary>
+      <MatExpansionPanelHeader>Closeness</MatExpansionPanelHeader>
+    </MatExpansionPanelSummary>
+    <MatExpansionPanelDetails>
       <MatButton Icon="pie_chart" @onclick="@(async e => await SubmitCloseness())"/>
-    </th>
-    <th>@ClosenessCorrelationId</th>
-  </tr>
-  <tr>
-    <th>Degree</th>
-    <th>
+      <p>@ClosenessCorrelationId</p>
+    </MatExpansionPanelDetails>
+  </MatExpansionPanel>
+
+  <MatExpansionPanel>
+    <MatExpansionPanelSummary>
+      <MatExpansionPanelHeader>Degree</MatExpansionPanelHeader>
+    </MatExpansionPanelSummary>
+    <MatExpansionPanelDetails>
       <MatButton Icon="table_chart" @onclick="@(async e => await SubmitDegree())"/>
-    </th>
-    <th>@DegreeCorrelationId</th>
-  </tr>
-  </tbody>
-</table>
+      <p>@DegreeCorrelationId</p>
+    </MatExpansionPanelDetails>
+  </MatExpansionPanel>
+
+</MatAccordion>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 
