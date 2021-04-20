@@ -1,43 +1,34 @@
 ﻿@page "/BrowseContacts/{OrganisationId}/{OrganisationName}"
 
 @using GraphML
+@using GraphML.Common
 @using System.Web;
-@using GraphML.Interfaces.Server
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
 
-@inject IContactServer _contactServer
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Contacts</h1>
-@if (_contacts == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var contact in _contacts)
-    {
-      <tr>
-        <th>@contact.Name</th>
-      </tr>
-    }
-    </tbody>
-    <div>
-      <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
-    </div>
-    <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
-  </table>
-}
+<h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
+
+<MatTable
+  Items="@_contacts"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Contact), nameof(ContactController.ByOwner), OrganisationId)"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+  </MatTableRow>
+</MatTable>
+  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
 
 @functions
 {
@@ -47,23 +38,7 @@ else
   [Parameter]
   public string OrganisationId { get; set; }
 
-  private IEnumerable<Contact> _contacts;
-  int _totalEnts = 0;
-  int _pageIndex = 1;
-  int _pageSize = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalEnts = await _contactServer.Count(Guid.Parse(OrganisationId));
-    _contacts = await _contactServer.ByOwners(new[] { Guid.Parse(OrganisationId) }, _pageIndex, _pageSize);
-  }
-
-  private async Task OnPage(MatPaginatorPageEvent e)
-  {
-    _pageSize = e.PageSize;
-    _pageIndex = e.PageIndex;
-    _contacts = await _contactServer.ByOwners(new[] { Guid.Parse(OrganisationId) }, _pageIndex, _pageSize);
-  }
+  private Contact[] _contacts;
 
   private void GotoBrowseOrganisations()
   {
