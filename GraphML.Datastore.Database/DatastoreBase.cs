@@ -36,7 +36,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        var sql = $"select * from {GetTableName()} where {nameof(Item.Id)} in ({GetListIds(ids)})";
+        var sql = $"select * from {GetTableName()} where {nameof(Item.Id)} in ({GetListIds(ids)}) order by {nameof(Item.Name)}";
 
         return _dbConnection.Query<T>(sql);
       });

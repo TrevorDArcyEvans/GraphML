@@ -21,7 +21,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        var sql = $"select * from {GetTableName()} where NextId = '{itemId}'";
+        var sql = $"select * from {GetTableName()} where NextId = '{itemId}' order by {nameof(RepositoryItem.Name)} {AppendForFetch(pageIndex, pageSize)}";
         return _dbConnection.Query<T>(sql);
       });
     }
