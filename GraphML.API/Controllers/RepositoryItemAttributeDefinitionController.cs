@@ -73,7 +73,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<RepositoryItemAttributeDefinition>))]
     public override ActionResult<IEnumerable<RepositoryItemAttributeDefinition>> ByOwner([FromRoute] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      return Ok(ByOwners(new[] { ownerId }, pageIndex, pageSize));
+      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize));
     }
 
     /// <summary>
