@@ -23,6 +23,7 @@ else
   <MatTabGroup>
     <MatTab Label="Graph Nodes">
       <div>
+        <!-- TODO MatTable -->
         <table class="table">
           <thead class="thead-dark">
           <tr>
@@ -45,6 +46,7 @@ else
     </MatTab>
     <MatTab Label="Graph Edges">
       <div>
+        <!-- TODO MatTable -->
         <table class="table">
           <thead class="thead-dark">
           <tr>
@@ -92,24 +94,24 @@ else
   {
     _totalNodes = await _nodeServer.Count(Guid.Parse(GraphId));
     _totalEdges = await _edgeServer.Count(Guid.Parse(GraphId));
-    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexNodes, _pageSizeNodes);
-    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexEdges, _pageSizeEdges);
-    var graph = (await _graphServer.ByIds(new[] {Guid.Parse(GraphId)})).Single();
-    _repo = (await _repoServer.ByIds(new[] {graph.RepositoryId})).Single();
+    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(GraphId) }, _pageIndexNodes, _pageSizeNodes);
+    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(GraphId) }, _pageIndexEdges, _pageSizeEdges);
+    var graph = (await _graphServer.ByIds(new[] { Guid.Parse(GraphId) })).Single();
+    _repo = (await _repoServer.ByIds(new[] { graph.RepositoryId })).Single();
   }
 
   private async Task OnPageNodes(MatPaginatorPageEvent e)
   {
     _pageSizeNodes = e.PageSize;
     _pageIndexNodes = e.PageIndex;
-    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexNodes, _pageSizeNodes);
+    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(GraphId) }, _pageIndexNodes, _pageSizeNodes);
   }
 
   private async Task OnPageEdges(MatPaginatorPageEvent e)
   {
     _pageSizeEdges = e.PageSize;
     _pageIndexEdges = e.PageIndex;
-    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(GraphId)}, _pageIndexEdges, _pageSizeEdges);
+    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(GraphId) }, _pageIndexEdges, _pageSizeEdges);
   }
 
   private void GotoBrowseGraphs()

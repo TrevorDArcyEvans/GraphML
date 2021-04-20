@@ -23,6 +23,7 @@ else
   <MatTabGroup>
     <MatTab Label="Nodes">
       <div>
+        <!-- TODO MatTable -->
         <table class="table">
           <thead class="thead-dark">
           <tr>
@@ -53,6 +54,7 @@ else
     </MatTab>
     <MatTab Label="Edges">
       <div>
+        <!-- TODO MatTable -->
         <table class="table">
           <thead class="thead-dark">
           <tr>
@@ -108,24 +110,24 @@ else
   {
     _totalNodes = await _nodeServer.Count(Guid.Parse(RepositoryId));
     _totalEdges = await _edgeServer.Count(Guid.Parse(RepositoryId));
-    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexNodes, _pageSizeNodes);
-    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexNodes, _pageSizeNodes);
-    var repo = (await _repoServer.ByIds(new[] {Guid.Parse(RepositoryId)})).Single();
-    _repoMgr = (await _repoMgrServer.ByIds(new[] {repo.RepositoryManagerId})).Single();
+    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexNodes, _pageSizeNodes);
+    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexNodes, _pageSizeNodes);
+    var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
+    _repoMgr = (await _repoMgrServer.ByIds(new[] { repo.RepositoryManagerId })).Single();
   }
 
   private async Task OnPageNodes(MatPaginatorPageEvent e)
   {
     _pageSizeNodes = e.PageSize;
     _pageIndexNodes = e.PageIndex;
-    _nodes = await _nodeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexNodes, _pageSizeNodes);
+    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexNodes, _pageSizeNodes);
   }
 
   private async Task OnPageEdges(MatPaginatorPageEvent e)
   {
     _pageSizeEdges = e.PageSize;
     _pageIndexEdges = e.PageIndex;
-    _edges = await _edgeServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndexEdges, _pageSizeEdges);
+    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexEdges, _pageSizeEdges);
   }
 
   private void GotoBrowseWhereUsed(Node item)

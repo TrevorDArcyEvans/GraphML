@@ -17,6 +17,7 @@
 else
 {
   <h2>@HttpUtility.UrlDecode(@OrganisationName)</h2>
+  <!-- TODO MatTable -->
   <table class="table">
     <thead class="thead-dark">
     <tr>
@@ -54,14 +55,14 @@ else
   protected override async Task OnInitializedAsync()
   {
     _totalEnts = await _contactServer.Count(Guid.Parse(OrganisationId));
-    _contacts = await _contactServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, _pageIndex, _pageSize);
+    _contacts = await _contactServer.ByOwners(new[] { Guid.Parse(OrganisationId) }, _pageIndex, _pageSize);
   }
 
   private async Task OnPage(MatPaginatorPageEvent e)
   {
     _pageSize = e.PageSize;
     _pageIndex = e.PageIndex;
-    _contacts = await _contactServer.ByOwners(new[] {Guid.Parse(OrganisationId)}, _pageIndex, _pageSize);
+    _contacts = await _contactServer.ByOwners(new[] { Guid.Parse(OrganisationId) }, _pageIndex, _pageSize);
   }
 
   private void GotoBrowseOrganisations()
