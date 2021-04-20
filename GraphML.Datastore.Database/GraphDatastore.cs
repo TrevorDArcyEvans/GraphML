@@ -21,6 +21,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
+        // TODO   PageableDataEx
         var sql = $"select g.* from {GetTableName()} g join GraphEdge gi on g.Id = gi.OwnerId where gi.RepositoryItemId = '{id}' {AppendForFetch(pageIndex, pageSize)}";
 
         return _dbConnection.Query<Graph>(sql);
@@ -31,6 +32,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
+        // TODO   PageableDataEx
         var sql = $"select g.* from {GetTableName()} g join GraphNode gi on g.Id = gi.OwnerId where gi.RepositoryItemId = '{id}' {AppendForFetch(pageIndex, pageSize)}";
 
         return _dbConnection.Query<Graph>(sql);

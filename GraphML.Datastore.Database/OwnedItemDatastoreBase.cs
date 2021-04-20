@@ -21,6 +21,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
+        // TODO   PageableDataEx
         var sql = $"select * from {GetTableName()} where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)}) order by {nameof(OwnedItem.Name)} {AppendForFetch(pageIndex, pageSize)}";
 
         return _dbConnection.Query<T>(sql);

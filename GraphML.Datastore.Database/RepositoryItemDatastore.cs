@@ -21,6 +21,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
+        // TODO   PageableDataEx
         var sql = $"select * from {GetTableName()} where NextId = '{itemId}' order by {nameof(RepositoryItem.Name)} {AppendForFetch(pageIndex, pageSize)}";
         return _dbConnection.Query<T>(sql);
       });
