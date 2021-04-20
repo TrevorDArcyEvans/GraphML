@@ -1,46 +1,33 @@
 @page "/BrowseRoles"
 
 @using GraphML
-@using GraphML.Interfaces.Server
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
 
-@inject IRoleServer _roleServer
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Roles</h1>
 
-@if (_roles == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-    @foreach (var role in _roles)
-    {
-      <tr>
-        <th scope="row">@role.Name</th>
-      </tr>
-    }
-  </table>
-}
+<MatTable
+  Items="@_roles"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Role), nameof(RoleController.GetAll))"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+  </MatTableRow>
+</MatTable>
 
 @functions
 {
-  private IEnumerable<Role> _roles;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _roles = await _roleServer.GetAll();
-  }
+  private Role[] _roles;
 }
