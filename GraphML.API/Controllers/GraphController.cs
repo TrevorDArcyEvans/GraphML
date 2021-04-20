@@ -159,7 +159,7 @@ namespace GraphML.API.Controllers
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
     public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
-      return CountInternal(ownerId);
+      return Ok(CountInternal(ownerId));
     }
   }
 }
