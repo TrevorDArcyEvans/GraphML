@@ -21,7 +21,7 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        var sql = $"select * from {GetTableName()} where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}) order by {nameof(OwnedItem.Id)} {AppendForFetch(pageIndex, pageSize)}";
+        var sql = $"select * from {GetTableName()} where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}) order by {nameof(Edge.Name)} {AppendForFetch(pageIndex, pageSize)}";
 
         return _dbConnection.Query<Edge>(sql);
       });
