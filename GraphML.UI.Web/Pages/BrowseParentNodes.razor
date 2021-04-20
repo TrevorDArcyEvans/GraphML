@@ -1,77 +1,66 @@
-@page "/BrowseParentNodes/{ItemId}/{ItemName}"
+@page "/BrowseParentNodes/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{ItemId}/{ItemName}"
 
 @using GraphML
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
 @using System.Web;
-@using GraphML.Interfaces.Server
 
-@inject IGraphServer _graphServer
-@inject INodeServer _itemServer
-@inject IRepositoryServer _repoServer;
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Parent Nodes</h1>
-@if (_items == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(ItemName)</h2>
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in _items)
-    {
-      <tr>
-        <th>@item.Name</th>
-      </tr>
-    }
-    </tbody>
-  </table>
-  <div>
-    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
-  </div>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseItems())">Back</MatButton>
-}
+<h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(ItemName)</h4>
+
+<MatTable
+  Items="@_items"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Node), nameof(NodeController.GetParents), ItemId)"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+  </MatTableRow>
+</MatTable>
+
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseItems())">Back</MatButton>
 
 @functions
 {
+  [Parameter]
+  public string OrganisationName { get; set; }
+
+  [Parameter]
+  public string OrganisationId { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerName { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerId { get; set; }
+
+  [Parameter]
+  public string RepositoryName { get; set; }
+
+  [Parameter]
+  public string RepositoryId { get; set; }
+
   [Parameter]
   public string ItemName { get; set; }
 
   [Parameter]
   public string ItemId { get; set; }
 
-  private IEnumerable<Item> _items;
-  private Repository _repo;
-  int _totalEnts = 0;
-  int _pageIndex = 1;
-  int _pageSize = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalEnts = await _itemServer.Count(Guid.Parse(ItemId));
-    var item = (await _itemServer.ByIds(new[] {Guid.Parse(ItemId)})).Single();
-    _items = await _itemServer.GetParents(Guid.Parse(ItemId), _pageIndex, _pageSize);
-    _repo = (await _repoServer.ByIds(new[] {item.RepositoryId})).Single();
-  }
-
-  private async Task OnPage(MatPaginatorPageEvent e)
-  {
-    _pageSize = e.PageSize;
-    _pageIndex = e.PageIndex;
-    _items = await _itemServer.GetParents(Guid.Parse(ItemId), _pageIndex, _pageSize);
-  }
+  private Node[] _items;
 
   private void GotoBrowseItems()
   {
-    _navMgr.NavigateTo($"/BrowseNodes/{_repo.Id}/{_repo.Name}");
+    _navMgr.NavigateTo($"/BrowseItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");
   }
 }
