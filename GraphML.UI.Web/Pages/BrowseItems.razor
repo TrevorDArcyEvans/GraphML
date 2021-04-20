@@ -1,134 +1,98 @@
-@page "/BrowseItems/{RepositoryId}/{RepositoryName}"
+@page "/BrowseItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}"
 
 @using GraphML
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
 @using System.Web;
-@using GraphML.Interfaces.Server
 
-@inject INodeServer _nodeServer
-@inject IEdgeServer _edgeServer
-@inject IRepositoryServer _repoServer;
-@inject IRepositoryManagerServer _repoMgrServer;
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Browse Items</h1>
-@if (_nodes == null || _edges == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
-  <MatTabGroup>
-    <MatTab Label="Nodes">
-      <div>
-        <!-- TODO MatTable -->
-        <table class="table">
-          <thead class="thead-dark">
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Where Used</th>
-            <th scope="col">Parents</th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach (var node in _nodes)
-          {
-            <tr>
-              <th>@node.Name</th>
-              <th>
-                <MatButton Icon="question_answer" @onclick="@(e => GotoBrowseWhereUsed(node))"/>
-              </th>
-              <th>
-                <MatButton Icon="bubble_chart" @onclick="@(e => GotoBrowseParents(node))"/>
-              </th>
-            </tr>
-          }
-          </tbody>
-        </table>
-        <div>
-          <MatPaginator Length="@_totalNodes" PageSize="@_pageSizeNodes" Page="@OnPageNodes"></MatPaginator>
-        </div>
-      </div>
-    </MatTab>
-    <MatTab Label="Edges">
-      <div>
-        <!-- TODO MatTable -->
-        <table class="table">
-          <thead class="thead-dark">
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Where Used</th>
-            <th scope="col">Parents</th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach (var edge in _edges)
-          {
-            <tr>
-              <th>@edge.Name</th>
-              <th>
-                <MatButton Icon="help_outline" @onclick="@(e => GotoBrowseWhereUsed(edge))"/>
-              </th>
-              <th>
-                <MatButton Icon="supervised_user_circle" @onclick="@(e => GotoBrowseParents(edge))"/>
-              </th>
-            </tr>
-          }
-          </tbody>
-        </table>
-        <div>
-          <MatPaginator Length="@_totalEdges" PageSize="@_pageSizeEdges" Page="@OnPageEdges"></MatPaginator>
-        </div>
-      </div>
-    </MatTab>
-  </MatTabGroup>
+<h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+<h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
+<h2>@HttpUtility.UrlDecode(OrganisationName)</h2>
 
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
-}
+<h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+<MatTabGroup>
+  <MatTab Label="Nodes">
+    <MatTable
+      Items="@_nodes"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Node), nameof(NodeController.ByOwner), RepositoryId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+        <th>Where Used</th>
+        <th>Parents</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Name</td>
+        <td>
+          <MatButton Icon="question_answer" @onclick="@(e => GotoBrowseWhereUsed(@context))"/>
+        </td>
+        <td>
+          <MatButton Icon="bubble_chart" @onclick="@(e => GotoBrowseParents(@context))"/>
+        </td>
+      </MatTableRow>
+    </MatTable>
+  </MatTab>
+  <MatTab Label="Edges">
+    <MatTable
+      Items="@_edges"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Edge), nameof(EdgeController.ByOwner), RepositoryId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+        <th>Where Used</th>
+        <th>Parents</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Name</td>
+        <td>
+          <MatButton Icon="question_answer" @onclick="@(e => GotoBrowseWhereUsed(@context))"/>
+        </td>
+        <td>
+          <MatButton Icon="bubble_chart" @onclick="@(e => GotoBrowseParents(@context))"/>
+        </td>
+      </MatTableRow>
+    </MatTable>
+  </MatTab>
+</MatTabGroup>
+
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 
 @functions
 {
+  [Parameter]
+  public string OrganisationName { get; set; }
+
+  [Parameter]
+  public string OrganisationId { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerName { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerId { get; set; }
+
   [Parameter]
   public string RepositoryName { get; set; }
 
   [Parameter]
   public string RepositoryId { get; set; }
 
-  private IEnumerable<Node> _nodes;
-  private IEnumerable<Edge> _edges;
-  private RepositoryManager _repoMgr;
-  int _totalNodes = 0;
-  int _pageIndexNodes = 0;
-  int _pageSizeNodes = 25;
-  int _totalEdges = 0;
-  int _pageIndexEdges = 0;
-  int _pageSizeEdges = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalNodes = await _nodeServer.Count(Guid.Parse(RepositoryId));
-    _totalEdges = await _edgeServer.Count(Guid.Parse(RepositoryId));
-    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexNodes, _pageSizeNodes);
-    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexNodes, _pageSizeNodes);
-    var repo = (await _repoServer.ByIds(new[] { Guid.Parse(RepositoryId) })).Single();
-    _repoMgr = (await _repoMgrServer.ByIds(new[] { repo.RepositoryManagerId })).Single();
-  }
-
-  private async Task OnPageNodes(MatPaginatorPageEvent e)
-  {
-    _pageSizeNodes = e.PageSize;
-    _pageIndexNodes = e.PageIndex;
-    _nodes = await _nodeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexNodes, _pageSizeNodes);
-  }
-
-  private async Task OnPageEdges(MatPaginatorPageEvent e)
-  {
-    _pageSizeEdges = e.PageSize;
-    _pageIndexEdges = e.PageIndex;
-    _edges = await _edgeServer.ByOwners(new[] { Guid.Parse(RepositoryId) }, _pageIndexEdges, _pageSizeEdges);
-  }
+  private Node[] _nodes;
+  private Edge[] _edges;
 
   private void GotoBrowseWhereUsed(Node item)
   {
@@ -152,6 +116,6 @@ else
 
   private void GotoBrowseRepositories()
   {
-    _navMgr.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}");
   }
 }
