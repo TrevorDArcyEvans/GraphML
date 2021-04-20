@@ -1,82 +1,59 @@
-@page "/BrowseRepositories/{RepositoryManagerId}/{RepositoryManagerName}"
+@page "/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}"
 
 @using GraphML
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
 @using System.Web;
-@using GraphML.Interfaces.Server
 
-@inject IRepositoryServer _repoServer
-@inject IRepositoryManagerServer _repoMgrServer
-@inject IOrganisationServer _orgServer
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Repositories</h1>
-@if (_repos == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Graphs</th>
-      <th scope="col">Items</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var repo in _repos)
-    {
-      <tr>
-        <th>@repo.Name</th>
-        <th>
-          <MatButton Icon="multiline_chart" @onclick="@(e => GotoBrowseGraphs(repo))" />
-        </th>
-        <th>
-          <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseItems(repo))" />
-        </th>
-      </tr>
-    }
-    </tbody>
-  </table>
-  <div>
-    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
-  </div>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>
-}
+<h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
+<h2>@HttpUtility.UrlDecode(OrganisationName)</h2>
+
+<MatTable
+  Items="@_repos"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Repository), nameof(RepositoryController.ByOwner), RepositoryManagerId)"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+    <th>Graphs</th>
+    <th>Items</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+    <td>
+      <MatButton Icon="multiline_chart" @onclick="@(e => GotoBrowseGraphs(@context))"/>
+    </td>
+    <td>
+      <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseItems(@context))"/>
+    </td>
+  </MatTableRow>
+</MatTable>
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>
 
 @functions
 {
+  [Parameter]
+  public string OrganisationName { get; set; }
+
+  [Parameter]
+  public string OrganisationId { get; set; }
+
   [Parameter]
   public string RepositoryManagerName { get; set; }
 
   [Parameter]
   public string RepositoryManagerId { get; set; }
 
-  private IEnumerable<Repository> _repos;
-  private Organisation _org;
-  int _totalEnts = 0;
-  int _pageIndex = 1;
-  int _pageSize = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalEnts = await _repoServer.Count(Guid.Parse(RepositoryManagerId));
-    _repos = await _repoServer.ByOwners(new[] {Guid.Parse(RepositoryManagerId)}, _pageIndex, _pageSize);
-    var repoMgr = (await _repoMgrServer.ByIds(new[] {Guid.Parse(RepositoryManagerId)})).Single();
-    _org = (await _orgServer.ByIds(new[] {repoMgr.OrganisationId})).Single();
-  }
-
-  private async Task OnPage(MatPaginatorPageEvent e)
-  {
-    _pageSize = e.PageSize;
-    _pageIndex = e.PageIndex;
-    _repos = await _repoServer.ByOwners(new[] {Guid.Parse(RepositoryManagerId)}, _pageIndex, _pageSize);
-  }
+  private Repository[] _repos;
 
   private void GotoBrowseGraphs(Repository repo)
   {
@@ -90,6 +67,6 @@ else
 
   private void GotoBrowseRepositoryManagers()
   {
-    _navMgr.NavigateTo($"/BrowseRepositoryManagers/{_org.Id}/{_org.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}");
   }
 }

@@ -4,11 +4,9 @@
 @using GraphML.Common
 @using System.Web;
 @using Microsoft.Extensions.Configuration
-@using GraphML.Interfaces.Server
 @using Flurl
 @using GraphML.API.Controllers
 
-@inject IRepositoryManagerServer _repoMgrServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
@@ -29,14 +27,16 @@
   </MatTableHeader>
   <MatTableRow>
     <td>@context.Name</td>
-    <td><MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@context))"/></td>
+    <td>
+      <MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@context))"/>
+    </td>
   </MatTableRow>
 </MatTable>
 
-  <div>
-    <MatButton Icon="cloud_upload" @onclick="@(e => GotoImporter())">Import</MatButton>
-  </div>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
+<div>
+  <MatButton Icon="cloud_upload" @onclick="@(e => GotoImporter())">Import</MatButton>
+</div>
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>
 
 @functions
 {
@@ -50,7 +50,7 @@
 
   private void GotoBrowseRepositories(RepositoryManager repoMgr)
   {
-    _navMgr.NavigateTo($"/BrowseRepositories/{repoMgr.Id}/{repoMgr.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{repoMgr.Id}/{repoMgr.Name}");
   }
 
   private void GotoImporter()
