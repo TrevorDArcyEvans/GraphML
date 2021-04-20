@@ -20,7 +20,7 @@ namespace GraphML
       set => OwnerId = value;
     }
 
-    protected RepositoryItem() :
+    public RepositoryItem() :
       base()
     {
     }
