@@ -57,12 +57,12 @@
 
   private void GotoBrowseGraphs(Repository repo)
   {
-    _navMgr.NavigateTo($"/BrowseGraphs/{repo.Id}/{repo.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseItems(Repository repo)
   {
-    _navMgr.NavigateTo($"/BrowseItems/{repo.Id}/{repo.Name}");
+    _navMgr.NavigateTo($"/BrowseItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{repo.Id}/{repo.Name}");
   }
 
   private void GotoBrowseRepositoryManagers()
