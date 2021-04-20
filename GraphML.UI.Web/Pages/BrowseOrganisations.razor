@@ -4,6 +4,7 @@
 @using GraphML.Common
 @using Microsoft.Extensions.Configuration
 @using Flurl
+@using GraphML.API.Controllers
 
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
@@ -12,7 +13,7 @@
 
 <MatTable
   Items="@_orgs"
-  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Organisation), "getall")"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Organisation), nameof(OrganisationController.GetAll))"
   PageParamName="pageIndex"
   PageSizeParamName="pageSize"
   Striped="true"
