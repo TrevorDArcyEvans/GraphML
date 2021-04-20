@@ -1,95 +1,79 @@
-@page "/BrowseGraphs/{RepositoryId}/{RepositoryName}"
+@page "/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}"
 
 @using GraphML
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
 @using System.Web;
-@using GraphML.Interfaces.Server
 
-@inject IGraphServer _graphServer
-@inject IRepositoryServer _repoServer;
-@inject IRepositoryManagerServer _repoMgrServer;
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Graphs</h1>
-@if (_graphs == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
-  <!-- TODO MatTable -->
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Graph Items</th>
-      <th scope="col">Analysis</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var graph in _graphs)
-    {
-      <tr>
-        <th>@graph.Name</th>
-        <th>
-          <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseGraphItems(graph))" />
-        </th>
-        <th>
-          <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(graph))" />
-        </th>
-      </tr>
-    }
-    </tbody>
-  </table>
-  <div>
-    <MatPaginator Length="@_totalEnts" PageSize="@_pageSize" Page="@OnPage"></MatPaginator>
-  </div>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
-}
+<h2>@HttpUtility.UrlDecode(RepositoryName)</h2>
+<h2>@HttpUtility.UrlDecode(RepositoryManagerName)</h2>
+<h2>@HttpUtility.UrlDecode(OrganisationName)</h2>
+
+<MatTable
+  Items="@_graphs"
+  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Graph), nameof(GraphController.ByOwner), RepositoryId)"
+  PageParamName="pageIndex"
+  PageSizeParamName="pageSize"
+  Striped="true"
+  AllowSelection="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>Name</th>
+    <th>Graphs Items</th>
+    <th>Analysis</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Name</td>
+    <td>
+      <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseGraphItems(@context))"/>
+    </td>
+    <td>
+      <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(@context))"/>
+    </td>
+  </MatTableRow>
+</MatTable>
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
 
 @functions
 {
+  [Parameter]
+  public string OrganisationName { get; set; }
+
+  [Parameter]
+  public string OrganisationId { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerName { get; set; }
+
+  [Parameter]
+  public string RepositoryManagerId { get; set; }
+
   [Parameter]
   public string RepositoryName { get; set; }
 
   [Parameter]
   public string RepositoryId { get; set; }
 
-  private IEnumerable<Graph> _graphs;
-  private RepositoryManager _repoMgr;
-  int _totalEnts = 0;
-  int _pageIndex = 1;
-  int _pageSize = 25;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _totalEnts = await _graphServer.Count(Guid.Parse(RepositoryId));
-    _graphs = await _graphServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndex, _pageSize);
-    var repo = (await _repoServer.ByIds(new[] {Guid.Parse(RepositoryId)})).Single();
-    _repoMgr = (await _repoMgrServer.ByIds(new[] {repo.RepositoryManagerId})).Single();
-  }
-
-  private async Task OnPage(MatPaginatorPageEvent e)
-  {
-    _pageSize = e.PageSize;
-    _pageIndex = e.PageIndex;
-    _graphs = await _graphServer.ByOwners(new[] {Guid.Parse(RepositoryId)}, _pageIndex, _pageSize);
-  }
+  private Graph[] _graphs;
 
   private void GotoBrowseGraphItems(Graph graph)
   {
-    _navMgr.NavigateTo($"/BrowseGraphItems/{graph.Id}/{graph.Name}");
+    _navMgr.NavigateTo($"/BrowseGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseAnalyses(Graph graph)
   {
-    _navMgr.NavigateTo($"/BrowseAnalyses/{graph.Id}/{graph.Name}");
+    _navMgr.NavigateTo($"/BrowseAnalyses/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseRepositories()
   {
-    _navMgr.NavigateTo($"/BrowseRepositories/{_repoMgr.Id}/{_repoMgr.Name}");
+    _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}");
   }
 }
