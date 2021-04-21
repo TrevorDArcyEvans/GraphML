@@ -70,7 +70,7 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByOwner) + "/{ownerId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<EdgeItemAttributeDefinition>))]
     public override ActionResult<IEnumerable<EdgeItemAttributeDefinition>> ByOwner([FromRoute] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize));
