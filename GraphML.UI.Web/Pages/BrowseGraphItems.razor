@@ -13,8 +13,10 @@
 <h1>Graph Items</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
 
+<!-- TODO  PagedDataEx -->
 <MatTabGroup>
   <MatTab Label="Graph Nodes">
+    <!-- TODO  PagedDataEx -->
     <MatTable
       Items="@_nodes"
       ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
@@ -32,6 +34,7 @@
     </MatTable>
   </MatTab>
   <MatTab Label="Graph Edges">
+    <!-- TODO  PagedDataEx -->
     <MatTable
       Items="@_edges"
       ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphEdge), nameof(GraphEdgeController.ByOwner), GraphId)"
