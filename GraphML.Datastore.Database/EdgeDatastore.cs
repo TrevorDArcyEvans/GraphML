@@ -21,12 +21,13 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   PageableDataEx
+        // TODO   test
+        var where = $"where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)})";
         var sql =
 @$"select 
   * from {GetTableName()},
-  (select count(*) as {nameof(PagedDataEx<Edge>.TotalCount)} from {GetTableName()} where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}))
-where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}) 
+  (select count(*) as {nameof(PagedDataEx<Edge>.TotalCount)} from {GetTableName()} {where} )
+{where}
 order by {nameof(Edge.Name)} 
 {AppendForFetch(pageIndex, pageSize)}";
 
