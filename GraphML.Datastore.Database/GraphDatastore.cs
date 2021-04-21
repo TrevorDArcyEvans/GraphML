@@ -17,25 +17,61 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public IEnumerable<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {
-        // TODO   PageableDataEx
-        var sql = $"select g.* from {GetTableName()} g join GraphEdge gi on g.Id = gi.OwnerId where gi.RepositoryItemId = '{id}' {AppendForFetch(pageIndex, pageSize)}";
+        // TODO   test
+        var where = $"where gi.RepositoryItemId = '{id}'";
+        var join = $"join GraphEdge gi on g.Id = gi.OwnerId";
+        var sql = 
+@$"select 
+  g.* from {GetTableName()} g,
+  (select count(*) as {nameof(PagedDataEx<Graph>.TotalCount)} from {GetTableName()} g {join} {where} )
+{join}
+{where}
+{AppendForFetch(pageIndex, pageSize)}";
 
-        return _dbConnection.Query<Graph>(sql);
+        var retval = new PagedDataEx<Graph>();
+        var items = _dbConnection.Query<Graph, long, Graph>(sql,
+          (item, num) =>
+          {
+            retval.TotalCount = num;
+            retval.Items.Add(item);
+            return item;
+          },
+          splitOn: $"{nameof(PagedDataEx<Graph>.TotalCount)}");
+
+        return retval;
       });
     }
 
-    public IEnumerable<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {
-        // TODO   PageableDataEx
-        var sql = $"select g.* from {GetTableName()} g join GraphNode gi on g.Id = gi.OwnerId where gi.RepositoryItemId = '{id}' {AppendForFetch(pageIndex, pageSize)}";
+        // TODO   test
+        var where = $"where gi.RepositoryItemId = '{id}'";
+        var join = $"join GraphNode gi on g.Id = gi.OwnerId";
+        var sql = 
+@$"select
+  g.* from {GetTableName()} g,
+  (select count(*) as {nameof(PagedDataEx<Graph>.TotalCount)} from {GetTableName()} g {join} {where} )
+{join}
+{where}
+{AppendForFetch(pageIndex, pageSize)}";
+        
+        var retval = new PagedDataEx<Graph>();
+        var items = _dbConnection.Query<Graph, long, Graph>(sql,
+          (item, num) =>
+          {
+            retval.TotalCount = num;
+            retval.Items.Add(item);
+            return item;
+          },
+          splitOn: $"{nameof(PagedDataEx<Graph>.TotalCount)}");
 
-        return _dbConnection.Query<Graph>(sql);
+        return retval;
       });
     }
   }

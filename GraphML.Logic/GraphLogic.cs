@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using System;
-using System.Collections.Generic;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -22,26 +21,38 @@ namespace GraphML.Logic
       _graphDatastore = datastore;
     }
 
-    public IEnumerable<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
     {
       var valRes = _validator.Validate(new Graph(), options => options.IncludeRuleSets(nameof(ByEdgeId)));
       if (valRes.IsValid)
       {
-        return _filter.Filter(_graphDatastore.ByEdgeId(id, pageIndex, pageSize));
+        var pdex = _graphDatastore.ByEdgeId(id, pageIndex, pageSize);
+        var filtered = _filter.Filter(pdex.Items);
+        return new PagedDataEx<Graph>
+        {
+          TotalCount = pdex.TotalCount,
+          Items = filtered.ToList()
+        };
       }
 
-      return Enumerable.Empty<Graph>();
+      return new PagedDataEx<Graph>();
     }
 
-    public IEnumerable<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
     {
       var valRes = _validator.Validate(new Graph(), options => options.IncludeRuleSets(nameof(ByNodeId)));
       if (valRes.IsValid)
       {
-        return _filter.Filter(_graphDatastore.ByNodeId(id, pageIndex, pageSize));
+        var pdex = _graphDatastore.ByNodeId(id, pageIndex, pageSize);
+        var filtered = _filter.Filter(pdex.Items);
+        return new PagedDataEx<Graph>
+        {
+          TotalCount = pdex.TotalCount,
+          Items = filtered.ToList()
+        };
       }
 
-      return Enumerable.Empty<Graph>();
+      return new PagedDataEx<Graph>();
     }
   }
 }

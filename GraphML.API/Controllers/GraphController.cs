@@ -137,12 +137,12 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByNodeId) + "/{id}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Graph>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<Graph>> ByNodeId([FromRoute] [Required] Guid id, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public ActionResult<PagedDataEx<Graph>> ByNodeId([FromRoute] [Required] Guid id, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      var ents = _graphLogic.ByNodeId(id, pageIndex - 1, pageSize);
-      return Ok(ents);
+      var pdex = _graphLogic.ByNodeId(id, pageIndex - 1, pageSize);
+      return Ok(pdex);
     }
 
     /// <summary>
@@ -156,12 +156,12 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByEdgeId) + "/{id}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Graph>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<Graph>> ByEdgeId([FromRoute] [Required] Guid id, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public ActionResult<PagedDataEx<Graph>> ByEdgeId([FromRoute] [Required] Guid id, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      var ents = _graphLogic.ByEdgeId(id, pageIndex - 1, pageSize);
-      return Ok(ents);
+      var pdex = _graphLogic.ByEdgeId(id, pageIndex - 1, pageSize);
+      return Ok(pdex);
     }
 
     /// <summary>
