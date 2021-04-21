@@ -17,14 +17,30 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public IEnumerable<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
+    public PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {
         // TODO   PageableDataEx
-        var sql = $"select * from {GetTableName()} where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}) order by {nameof(Edge.Name)} {AppendForFetch(pageIndex, pageSize)}";
+        var sql =
+@$"select 
+  * from {GetTableName()},
+  (select count(*) as {nameof(PagedDataEx<Edge>.TotalCount)} from {GetTableName()} where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}))
+where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}) 
+order by {nameof(Edge.Name)} 
+{AppendForFetch(pageIndex, pageSize)}";
 
-        return _dbConnection.Query<Edge>(sql);
+        var retval = new PagedDataEx<Edge>();
+        var items = _dbConnection.Query<Edge, long, Edge>(sql,
+          (item, num) =>
+          {
+            retval.TotalCount = num;
+            retval.Items.Add(item);
+            return item;
+          },
+          splitOn: $"{nameof(PagedDataEx<Edge>.TotalCount)}");
+
+        return retval;
       });
     }
   }

@@ -137,12 +137,12 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByNodeIds))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Edge>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<Edge>> ByNodeIds([FromBody] [Required] IEnumerable<Guid> ids, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public ActionResult<PagedDataEx<Edge>> ByNodeIds([FromBody] [Required] IEnumerable<Guid> ids, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
-      var ents = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize);
-      return Ok(ents);
+      var pdex = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize);
+      return Ok(pdex);
     }
 
     /// <summary>
