@@ -17,14 +17,31 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public virtual IEnumerable<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
+    public virtual PagedDataEx<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {
-        // TODO   PageableDataEx
-        var sql = $"select * from {GetTableName()} where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)}) order by {nameof(OwnedItem.Name)} {AppendForFetch(pageIndex, pageSize)}";
+        // TODO   test
+        var where = $"where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)})";
+        var sql = 
+@$"select
+  * from {GetTableName()},
+  (select count(*) as {nameof(PagedDataEx<T>.TotalCount)} from {GetTableName()} {where} )
+{where}
+order by {nameof(OwnedItem.Name)}
+{AppendForFetch(pageIndex, pageSize)}";
 
-        return _dbConnection.Query<T>(sql);
+        var retval = new PagedDataEx<T>();
+        var items = _dbConnection.Query<T, long, T>(sql,
+          (item, num) =>
+          {
+            retval.TotalCount = num;
+            retval.Items.Add(item);
+            return item;
+          },
+          splitOn: $"{nameof(PagedDataEx<T>.TotalCount)}");
+
+        return retval;
       });
     }
 

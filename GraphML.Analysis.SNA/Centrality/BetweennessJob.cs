@@ -43,7 +43,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
 
       // convert raw nodes to QuikGraph nodes
-      var qgNodes = nodes.Select(n => n.Id);
+      var qgNodes = nodes.Items.Select(n => n.Id);
 
       // add nodes to graph
       graph.AddVertexRange(qgNodes);
@@ -53,8 +53,8 @@ namespace GraphML.Analysis.SNA.Centrality
 
       // convert raw edges to QuikGraph edges
       // NOTE:  we also create reverse edges
-      var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
-      var qgRevEdges = edges.Select(e => new Edge<Guid>(e.TargetId, e.SourceId));
+      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
+      var qgRevEdges = edges.Items.Select(e => new Edge<Guid>(e.TargetId, e.SourceId));
 
       // add edges + reverse edges to graph
       graph.AddEdgeRange(qgEdges);

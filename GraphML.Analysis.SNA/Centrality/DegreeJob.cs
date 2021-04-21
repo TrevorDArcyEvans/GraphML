@@ -41,7 +41,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 1, int.MaxValue);
 
       // convert raw edges to QuikGraph edges
-      var qgEdges = edges.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
+      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
 
       // add edges to graph
       graph.AddEdgeRange(qgEdges);

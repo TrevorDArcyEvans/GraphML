@@ -54,8 +54,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<EdgeItemAttributeDefinition>))]
-    public override ActionResult<IEnumerable<EdgeItemAttributeDefinition>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<EdgeItemAttributeDefinition>))]
+    public override ActionResult<PagedDataEx<EdgeItemAttributeDefinition>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(ownerIds, pageIndex - 1, pageSize));
     }
@@ -70,8 +70,8 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByOwner) + "/{ownerId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<EdgeItemAttributeDefinition>))]
-    public override ActionResult<IEnumerable<EdgeItemAttributeDefinition>> ByOwner([FromRoute] [Required] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<EdgeItemAttributeDefinition>))]
+    public override ActionResult<PagedDataEx<EdgeItemAttributeDefinition>> ByOwner([FromRoute] [Required] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize));
     }

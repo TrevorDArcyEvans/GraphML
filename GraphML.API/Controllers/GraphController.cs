@@ -57,8 +57,8 @@ namespace GraphML.API.Controllers
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
-    public override ActionResult<IEnumerable<Graph>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Graph>))]
+    public override ActionResult<PagedDataEx<Graph>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(ownerIds, pageIndex - 1, pageSize));
     }
@@ -73,8 +73,8 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByOwner) + "/{ownerId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Graph>))]
-    public override ActionResult<IEnumerable<Graph>> ByOwner([FromRoute] [Required] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Graph>))]
+    public override ActionResult<PagedDataEx<Graph>> ByOwner([FromRoute] [Required] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize));
     }
