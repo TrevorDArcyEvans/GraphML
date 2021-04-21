@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
@@ -17,13 +16,31 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public IEnumerable<T> GetParents(Guid itemId, int pageIndex, int pageSize)
+    public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize)
     {
       return GetInternal(() =>
       {
-        // TODO   PageableDataEx
-        var sql = $"select * from {GetTableName()} where NextId = '{itemId}' order by {nameof(RepositoryItem.Name)} {AppendForFetch(pageIndex, pageSize)}";
-        return _dbConnection.Query<T>(sql);
+        // TODO   test
+        var where = $"where NextId = '{itemId}'";
+        var sql = 
+@$"select
+  * from {GetTableName()},
+  (select count(*) as {nameof(PagedDataEx<T>.TotalCount)} from {GetTableName()} {where} )
+{where}
+order by {nameof(RepositoryItem.Name)}
+{AppendForFetch(pageIndex, pageSize)}";
+
+        var retval = new PagedDataEx<T>();
+        var items = _dbConnection.Query<T, long, T>(sql,
+          (item, num) =>
+          {
+            retval.TotalCount = num;
+            retval.Items.Add(item);
+            return item;
+          },
+          splitOn: $"{nameof(PagedDataEx<T>.TotalCount)}");
+
+        return retval;
       });
     }
   }

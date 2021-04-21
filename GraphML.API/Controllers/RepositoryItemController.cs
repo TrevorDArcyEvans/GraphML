@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using GraphML.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +15,9 @@ namespace GraphML.API.Controllers
       _repoItemLogic = logic;
     }
 
-    public abstract ActionResult<IEnumerable<T>> GetParents([FromBody] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    public abstract ActionResult<PagedDataEx<T>> GetParents([FromBody] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
 
-    protected IEnumerable<T> GetParentsInternal(Guid itemId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
+    protected PagedDataEx<T> GetParentsInternal(Guid itemId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
     {
       var result = _repoItemLogic.GetParents(itemId, pageIndex, pageSize);
       return result;

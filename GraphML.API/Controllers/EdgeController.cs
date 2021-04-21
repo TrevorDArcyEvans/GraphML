@@ -156,9 +156,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(GetParents) + "/{itemId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Edge>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Edge>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<Edge>> GetParents([FromRoute] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override ActionResult<PagedDataEx<Edge>> GetParents([FromRoute] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
     {
       return Ok(GetParentsInternal(itemId, pageIndex - 1, pageSize));
     }
