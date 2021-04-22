@@ -18,6 +18,9 @@ namespace GraphML
       set => OwnerId = value;
     }
 
+    /// <summary>
+    /// Unique identifier of underlying <see cref="RepositoryItem"/>, either a <see cref="Node"/> or a <see cref="Edge"/>
+    /// </summary>
     [Required]
     [JsonProperty(nameof(RepositoryItemId))]
     public Guid RepositoryItemId { get; set; }
