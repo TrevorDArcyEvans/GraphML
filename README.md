@@ -300,8 +300,12 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
   * Repository
     * A complete collection of Node and Edge representing an area of interest.
   * Graph
-    * A subset of Node and Edge from a Repository which have been extracted for separate analysis.
-    * A Graph may be directed; in contract to a Repository, which has no notion of direction.
+    * A subset of Nodes and Edges from a Repository which have been extracted for separate analysis.
+    * A Graph may be directed; in contrast to a Repository, which has no notion of direction.
+  * Chart
+    * A 2D pictorial representation of a subset of Nodes and Edges from a Graph.
+    * Generally used to visualise analysis results.
+    * Layout algorithms can be applied to change the position of Nodes and Edges.
 
 </details>
 
@@ -326,6 +330,15 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
     * Name may be different to that of underlying Node
   * GraphEdge
     * An Edge which appears in a Graph.
+    * Name may be different to that of underlying Edge
+    <p/>
+  * ChartItem
+    * Something which is in a Chart, either a ChartNode or a ChartEdge
+  * ChartNode
+    * A Node which appears in a Chart.
+    * Name may be different to that of underlying Node
+  * ChartEdge
+    * An Edge which appears in a Chart.
     * Name may be different to that of underlying Edge
 
 </details>
