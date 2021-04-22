@@ -20,7 +20,6 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   test
         var where = $"where NextId = '{itemId}'";
         var sql = 
 @$"select

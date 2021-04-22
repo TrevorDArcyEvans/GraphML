@@ -21,7 +21,6 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   test
         var where = $"where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)})";
         var sql = 
 @$"select

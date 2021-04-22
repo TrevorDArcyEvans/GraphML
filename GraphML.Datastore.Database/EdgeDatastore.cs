@@ -21,7 +21,6 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   test
         var where = $"where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)})";
         var sql =
 @$"select 
