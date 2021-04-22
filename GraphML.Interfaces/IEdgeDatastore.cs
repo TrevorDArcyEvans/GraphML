@@ -5,6 +5,6 @@ namespace GraphML.Interfaces
 {
   public interface IEdgeDatastore : IRepositoryItemDatastore<Edge>
   {
-    PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize);
+    PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize, string searchTerm);
   }
 }

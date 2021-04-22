@@ -22,12 +22,12 @@ namespace GraphML.Logic
       _edgeDatastore = datastore;
     }
 
-    public PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
+    public PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize, string searchTerm)
     {
       var valRes = _validator.Validate(new Edge(), options => options.IncludeRuleSets(nameof(IEdgeLogic.ByNodeIds)));
       if (valRes.IsValid)
       {
-        var pdex = _edgeDatastore.ByNodeIds(ids, pageIndex, pageSize);
+        var pdex = _edgeDatastore.ByNodeIds(ids, pageIndex, pageSize, searchTerm);
         var filtered = _filter.Filter(pdex.Items);
         return new PagedDataEx<Edge>
         {

@@ -83,7 +83,7 @@ namespace GraphML.API.Controllers
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
-      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize, searchTerm));
+      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex - 1, pageSize, searchTerm));
     }
 
     /// <summary>
@@ -139,6 +139,7 @@ namespace GraphML.API.Controllers
     /// <param name="itemId">child entity</param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
     [HttpGet]
@@ -146,9 +147,13 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Node>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<PagedDataEx<Node>> GetParents([FromRoute] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override ActionResult<PagedDataEx<Node>> GetParents(
+      [FromRoute] [Required] Guid itemId,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
-      return Ok(GetParentsInternal(itemId, pageIndex - 1, pageSize));
+      return Ok(GetParentsInternal(itemId, pageIndex - 1, pageSize, searchTerm));
     }
 
     /// <summary>

@@ -38,7 +38,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var graph = new EdgeListGraph<Guid, IEdge<Guid>>();
 
       // raw edges from db
-      var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 1, int.MaxValue);
+      var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 1, int.MaxValue, null);
 
       // convert raw edges to QuikGraph edges
       var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));

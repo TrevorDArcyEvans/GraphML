@@ -16,8 +16,9 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize)
+    public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize, string searchTerm)
     {
+      // TODO   searchTerm
       return GetInternal(() =>
       {
         var where = $"where NextId = '{itemId}'";

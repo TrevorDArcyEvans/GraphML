@@ -21,12 +21,12 @@ namespace GraphML.Logic
       _repositoryItemDatastore = datastore;
     }
 
-    public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize)
+    public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize, string searchTerm)
     {
       var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(IRepositoryItemLogic<T>.GetParents)));
       if (valRes.IsValid)
       {
-        var pdex = _repositoryItemDatastore.GetParents(itemId, pageIndex, pageSize);
+        var pdex = _repositoryItemDatastore.GetParents(itemId, pageIndex, pageSize, searchTerm);
         var filtered = _filter.Filter(pdex.Items);
         return new PagedDataEx<T>
         {

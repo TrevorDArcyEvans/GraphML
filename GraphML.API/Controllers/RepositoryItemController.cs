@@ -15,11 +15,15 @@ namespace GraphML.API.Controllers
       _repoItemLogic = logic;
     }
 
-    public abstract ActionResult<PagedDataEx<T>> GetParents([FromBody] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    public abstract ActionResult<PagedDataEx<T>> GetParents(
+      [FromBody] [Required] Guid itemId,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null);
 
-    protected PagedDataEx<T> GetParentsInternal(Guid itemId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
+    protected PagedDataEx<T> GetParentsInternal(Guid itemId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null)
     {
-      var result = _repoItemLogic.GetParents(itemId, pageIndex, pageSize);
+      var result = _repoItemLogic.GetParents(itemId, pageIndex, pageSize, searchTerm);
       return result;
     }
   }

@@ -42,7 +42,7 @@ namespace GraphML.Analysis.RankedShortestPath
       var graphId = rootNode.OwnerId;
 
       // raw nodes from db
-      var nodes = _nodeDatastore.ByOwners(new[] { graphId }, 1, int.MaxValue);
+      var nodes = _nodeDatastore.ByOwners(new[] { graphId }, 1, int.MaxValue, null);
 
       // convert raw nodes to QuikGraph nodes
       var qgNodes = nodes.Items.Select(n => n.Id);
@@ -51,7 +51,7 @@ namespace GraphML.Analysis.RankedShortestPath
       graph.AddVertexRange(qgNodes);
 
       // raw edges from db
-      var edges = _edgeDatastore.ByOwners(new[] { graphId }, 1, int.MaxValue);
+      var edges = _edgeDatastore.ByOwners(new[] { graphId }, 1, int.MaxValue, null);
 
       // convert raw edges to QuikGraph edges
       // NOTE:  we also create reverse edges

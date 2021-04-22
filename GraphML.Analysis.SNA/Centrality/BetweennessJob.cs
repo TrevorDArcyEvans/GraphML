@@ -40,7 +40,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var graph = new BidirectionalGraph<Guid, IEdge<Guid>>();
 
       // raw nodes from db
-      var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
+      var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue, null);
 
       // convert raw nodes to QuikGraph nodes
       var qgNodes = nodes.Items.Select(n => n.Id);
@@ -49,7 +49,7 @@ namespace GraphML.Analysis.SNA.Centrality
       graph.AddVertexRange(qgNodes);
 
       // raw edges from db
-      var edges = _edgeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue);
+      var edges = _edgeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue, null);
 
       // convert raw edges to QuikGraph edges
       // NOTE:  we also create reverse edges

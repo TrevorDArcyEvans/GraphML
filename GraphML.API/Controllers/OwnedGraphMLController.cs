@@ -21,7 +21,7 @@ namespace GraphML.API.Controllers
 
     protected PagedDataEx<T> ByOwnersInternal(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null)
     {
-      var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize);
+      var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize, searchTerm);
       return result;
     }
 

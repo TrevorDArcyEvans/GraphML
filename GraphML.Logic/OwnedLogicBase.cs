@@ -22,12 +22,12 @@ namespace GraphML.Logic
       _ownedDatastore = datastore;
     }
 
-    public virtual PagedDataEx<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize)
+    public virtual PagedDataEx<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize, string searchTerm)
     {
       var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(IOwnedLogic<T>.ByOwners)));
       if (valRes.IsValid)
       {
-        var pdex = _ownedDatastore.ByOwners(ownerIds, pageIndex, pageSize);
+        var pdex = _ownedDatastore.ByOwners(ownerIds, pageIndex, pageSize, searchTerm);
         var filtered = _filter.Filter(pdex.Items);
         return new PagedDataEx<T>
         {

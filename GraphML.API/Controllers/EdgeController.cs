@@ -86,7 +86,7 @@ namespace GraphML.API.Controllers
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
-      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize, searchTerm));
+      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex - 1, pageSize, searchTerm));
     }
 
     /// <summary>
@@ -142,6 +142,7 @@ namespace GraphML.API.Controllers
     /// <param name="ids">unique identifier</param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
     [HttpPost]
@@ -149,9 +150,13 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Edge>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<PagedDataEx<Edge>> ByNodeIds([FromBody] [Required] IEnumerable<Guid> ids, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public ActionResult<PagedDataEx<Edge>> ByNodeIds(
+      [FromBody] [Required] IEnumerable<Guid> ids,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
-      var pdex = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize);
+      var pdex = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize, searchTerm);
       return Ok(pdex);
     }
 
@@ -161,6 +166,7 @@ namespace GraphML.API.Controllers
     /// <param name="itemId">child entity</param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
     /// <response code="200">Success</response>
     /// <response code="404">Entity with identifier not found</response>
     [HttpGet]
@@ -168,9 +174,13 @@ namespace GraphML.API.Controllers
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Edge>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<PagedDataEx<Edge>> GetParents([FromRoute] [Required] Guid itemId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override ActionResult<PagedDataEx<Edge>> GetParents(
+      [FromRoute] [Required] Guid itemId,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
-      return Ok(GetParentsInternal(itemId, pageIndex - 1, pageSize));
+      return Ok(GetParentsInternal(itemId, pageIndex - 1, pageSize, searchTerm));
     }
 
     /// <summary>
