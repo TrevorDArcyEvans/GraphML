@@ -19,10 +19,9 @@ namespace GraphML.Datastore.Database
 
     public PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize, string searchTerm)
     {
-      // TODO   searchTerm
       return GetInternal(() =>
       {
-        var where = $"where {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)})";
+        var where = $"where ( {nameof(Edge.SourceId)} in ({GetListIds(ids)}) or {nameof(Edge.TargetId)} in ({GetListIds(ids)}) ) and {nameof(Edge.Name)} like '%{searchTerm ?? string.Empty}%'";
         var sql =
 @$"select 
   * from {GetTableName()},
