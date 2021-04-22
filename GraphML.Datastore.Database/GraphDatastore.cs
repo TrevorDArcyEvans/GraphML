@@ -20,13 +20,13 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   test
         var where = $"where gi.RepositoryItemId = '{id}'";
         var join = $"join GraphEdge gi on g.Id = gi.OwnerId";
-        var sql = 
-@$"select 
-  g.* from {GetTableName()} g,
-  (select count(*) as {nameof(PagedDataEx<Graph>.TotalCount)} from {GetTableName()} g {join} {where} )
+        var sql = @$"
+select
+  g.*,
+  count(distinct g.Id) as {nameof(PagedDataEx<Graph>.TotalCount)}
+from {GetTableName()} g
 {join}
 {where}
 {AppendForFetch(pageIndex, pageSize)}";
@@ -49,17 +49,17 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   test
         var where = $"where gi.RepositoryItemId = '{id}'";
         var join = $"join GraphNode gi on g.Id = gi.OwnerId";
-        var sql = 
-@$"select
-  g.* from {GetTableName()} g,
-  (select count(*) as {nameof(PagedDataEx<Graph>.TotalCount)} from {GetTableName()} g {join} {where} )
+        var sql = @$"
+select
+  g.*,
+  count(distinct g.Id) as {nameof(PagedDataEx<Graph>.TotalCount)}
+from {GetTableName()} g
 {join}
 {where}
 {AppendForFetch(pageIndex, pageSize)}";
-        
+
         var retval = new PagedDataEx<Graph>();
         var items = _dbConnection.Query<Graph, long, Graph>(sql,
           (item, num) =>
