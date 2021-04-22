@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Polly;
@@ -15,7 +14,7 @@ using RestSharp.Authenticators;
 
 namespace GraphML.API.Server
 {
-  public abstract class ServerBase : IServerBase
+  public abstract class ServerBase
   {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRestClient _client;

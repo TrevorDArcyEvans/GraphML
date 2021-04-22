@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace GraphML.Interfaces.Server
 {
-  public interface IResultServer : IServerBase
+  public interface IResultServer
   {
     Task Delete(Guid correlationId);
     Task<IEnumerable<IRequest>> ByContact(Guid contactId);
