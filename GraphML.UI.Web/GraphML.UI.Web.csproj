@@ -52,4 +52,8 @@
 		<ProjectReference Include="..\GraphML\GraphML.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\_content" />
+	</ItemGroup>
+
 </Project>
