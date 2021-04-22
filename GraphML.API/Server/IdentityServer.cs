@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
@@ -28,11 +29,7 @@ namespace GraphML.API.Server
 
       // have to get raw response as does not JSON deserialise
       var retval = await GetRawResponse(request);
-
-
-      // format nicely
-      var jobjs = JsonConvert.DeserializeObject<List<object>>(retval.Content);
-      var json = JsonConvert.SerializeObject(jobjs, Formatting.Indented);
+      var json = retval.Content;
 
       return json;
     }

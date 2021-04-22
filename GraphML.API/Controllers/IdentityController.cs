@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using GraphML.API.Attributes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GraphML.API.Controllers
 {
@@ -23,11 +25,13 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(GetAPIUserClaimsJson))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(JsonResult))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(string))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<JsonResult> GetAPIUserClaimsJson()
+    public ActionResult<string> GetAPIUserClaimsJson()
     {
-      return Ok(new JsonResult(from c in User.Claims select new {c.Type, c.Value}));
+      var claimTypes = from c in User.Claims select new { c.Type, c.Value };
+      var retval = JsonConvert.SerializeObject(claimTypes, Formatting.Indented);
+      return Ok(retval);
     }
   }
 }
