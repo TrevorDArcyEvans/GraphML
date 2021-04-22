@@ -16,6 +16,7 @@
   ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Organisation), nameof(OrganisationController.GetAll))"
   PageParamName="pageIndex"
   PageSizeParamName="pageSize"
+  FilterByColumnName="@nameof(Organisation.Name)"
   Striped="true"
   AllowSelection="true"
   class="mat-elevation-z5">

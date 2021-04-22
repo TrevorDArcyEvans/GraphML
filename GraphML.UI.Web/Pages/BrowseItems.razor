@@ -22,6 +22,7 @@
       PageSizeParamName="pageSize"
       PagingRecordsCountPropertyName="@nameof(PagedDataEx<Node>.TotalCount).Camelize()"
       PagingDataPropertyName="@nameof(PagedDataEx<Node>.Items).Camelize()"
+      FilterByColumnName="@nameof(Node.Name)"
       Striped="true"
       AllowSelection="true"
       class="mat-elevation-z5">
@@ -49,6 +50,7 @@
       PageSizeParamName="pageSize"
       PagingRecordsCountPropertyName="@nameof(PagedDataEx<Edge>.TotalCount).Camelize()"
       PagingDataPropertyName="@nameof(PagedDataEx<Edge>.Items).Camelize()"
+      FilterByColumnName="@nameof(Edge.Name)"
       Striped="true"
       AllowSelection="true"
       class="mat-elevation-z5">

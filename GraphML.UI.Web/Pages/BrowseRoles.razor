@@ -16,6 +16,7 @@
   ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Role), nameof(RoleController.GetAll))"
   PageParamName="pageIndex"
   PageSizeParamName="pageSize"
+  FilterByColumnName="@nameof(Role.Name)"
   Striped="true"
   AllowSelection="true"
   class="mat-elevation-z5">
