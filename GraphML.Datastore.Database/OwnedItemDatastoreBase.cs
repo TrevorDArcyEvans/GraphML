@@ -19,10 +19,9 @@ namespace GraphML.Datastore.Database
 
     public virtual PagedDataEx<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize, string searchTerm)
     {
-      // TODO   searchTerm
       return GetInternal(() =>
       {
-        var where = $"where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)})";
+        var where = $"where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)}) and {nameof(OwnedItem.Name)} like '%{searchTerm ?? string.Empty}%'";
         var sql = 
 @$"select
   * from {GetTableName()},
