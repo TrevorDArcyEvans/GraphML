@@ -6,6 +6,7 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using System.Web;
+@using Humanizer
 
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
@@ -13,12 +14,13 @@
 <h1>Repositories</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName)</h4>
 
-<!-- TODO  PagedDataEx -->
 <MatTable
   Items="@_repos"
   ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Repository), nameof(RepositoryController.ByOwner), RepositoryManagerId)"
   PageParamName="pageIndex"
   PageSizeParamName="pageSize"
+  PagingRecordsCountPropertyName="@nameof(PagedDataEx<Repository>.TotalCount).Camelize()"
+  PagingDataPropertyName="@nameof(PagedDataEx<Repository>.Items).Camelize()"
   Striped="true"
   AllowSelection="true"
   class="mat-elevation-z5">
