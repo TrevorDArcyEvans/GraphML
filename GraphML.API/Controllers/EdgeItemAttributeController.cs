@@ -50,14 +50,19 @@ namespace GraphML.API.Controllers
     /// <param name="ownerIds"></param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpPost]
     [Route(nameof(ByOwners))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<EdgeItemAttribute>))]
-    public override ActionResult<PagedDataEx<EdgeItemAttribute>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override ActionResult<PagedDataEx<EdgeItemAttribute>> ByOwners(
+      [FromBody] [Required] IEnumerable<Guid> ownerIds,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
-      return Ok(ByOwnersInternal(ownerIds, pageIndex - 1, pageSize));
+      return Ok(ByOwnersInternal(ownerIds, pageIndex - 1, pageSize, searchTerm));
     }
 
     /// <summary>
@@ -66,14 +71,19 @@ namespace GraphML.API.Controllers
     /// <param name="ownerId">identifier of owner</param>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
     [Route(nameof(ByOwner) + "/{ownerId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<EdgeItemAttribute>))]
-    public override ActionResult<PagedDataEx<EdgeItemAttribute>> ByOwner([FromRoute] [Required] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public override ActionResult<PagedDataEx<EdgeItemAttribute>> ByOwner(
+      [FromRoute] [Required] Guid ownerId,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
-      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize));
+      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize, searchTerm));
     }
 
     /// <summary>

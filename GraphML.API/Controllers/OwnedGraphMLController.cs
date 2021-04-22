@@ -16,10 +16,10 @@ namespace GraphML.API.Controllers
       _ownedLogic = logic;
     }
 
-    public abstract ActionResult<PagedDataEx<T>> ByOwners([FromBody] [Required] IEnumerable<Guid> ownerIds, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
-    public abstract ActionResult<PagedDataEx<T>> ByOwner([FromRoute] [Required] Guid ownerId, [FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize);
+    public abstract ActionResult<PagedDataEx<T>> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null);
+    public abstract ActionResult<PagedDataEx<T>> ByOwner(Guid ownerId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null);
 
-    protected PagedDataEx<T> ByOwnersInternal(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize)
+    protected PagedDataEx<T> ByOwnersInternal(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null)
     {
       var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize);
       return result;
