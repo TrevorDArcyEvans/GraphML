@@ -23,7 +23,6 @@ namespace GraphML.Logic
 
     public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize)
     {
-      // TODO   test
       var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(IRepositoryItemLogic<T>.GetParents)));
       if (valRes.IsValid)
       {

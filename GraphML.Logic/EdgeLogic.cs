@@ -24,7 +24,6 @@ namespace GraphML.Logic
 
     public PagedDataEx<Edge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize)
     {
-      // TODO   test
       var valRes = _validator.Validate(new Edge(), options => options.IncludeRuleSets(nameof(IEdgeLogic.ByNodeIds)));
       if (valRes.IsValid)
       {
