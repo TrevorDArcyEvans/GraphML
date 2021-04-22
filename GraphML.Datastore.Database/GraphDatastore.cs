@@ -18,10 +18,9 @@ namespace GraphML.Datastore.Database
 
     public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize, string searchTerm)
     {
-      // TODO   searchTerm
       return GetInternal(() =>
       {
-        var where = $"where gi.RepositoryItemId = '{id}'";
+        var where = $"where gi.RepositoryItemId = '{id}' and g.{nameof(Graph.Name)} like '%{searchTerm ?? string.Empty}%'";
         var join = $"join GraphEdge gi on g.Id = gi.OwnerId";
         var sql = @$"
 select
@@ -48,10 +47,9 @@ from {GetTableName()} g
 
     public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize, string searchTerm)
     {
-      // TODO   searchTerm
       return GetInternal(() =>
       {
-        var where = $"where gi.RepositoryItemId = '{id}'";
+        var where = $"where gi.RepositoryItemId = '{id}' and g.{nameof(Graph.Name)} like '%{searchTerm ?? string.Empty}%'";
         var join = $"join GraphNode gi on g.Id = gi.OwnerId";
         var sql = @$"
 select
