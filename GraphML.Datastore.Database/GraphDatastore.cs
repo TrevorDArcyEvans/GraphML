@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
