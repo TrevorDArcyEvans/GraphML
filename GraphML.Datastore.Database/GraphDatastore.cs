@@ -16,8 +16,9 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize, string searchTerm)
     {
+      // TODO   searchTerm
       return GetInternal(() =>
       {
         var where = $"where gi.RepositoryItemId = '{id}'";
@@ -45,8 +46,9 @@ from {GetTableName()} g
       });
     }
 
-    public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize, string searchTerm)
     {
+      // TODO   searchTerm
       return GetInternal(() =>
       {
         var where = $"where gi.RepositoryItemId = '{id}'";

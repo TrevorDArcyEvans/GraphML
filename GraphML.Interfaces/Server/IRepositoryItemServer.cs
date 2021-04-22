@@ -6,6 +6,6 @@ namespace GraphML.Interfaces.Server
 {
     public interface IRepositoryItemServer<T> : IOwnedItemServerBase<T>
     {
-        Task<IEnumerable<T>> GetParents(Guid itemId, int pageIndex, int pageSize);
+        Task<IEnumerable<T>> GetParents(Guid itemId, int pageIndex, int pageSize, string searchTerm);
     }
 }

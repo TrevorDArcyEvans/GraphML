@@ -21,12 +21,12 @@ namespace GraphML.Logic
       _graphDatastore = datastore;
     }
 
-    public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByEdgeId(Guid id, int pageIndex, int pageSize, string searchTerm)
     {
       var valRes = _validator.Validate(new Graph(), options => options.IncludeRuleSets(nameof(ByEdgeId)));
       if (valRes.IsValid)
       {
-        var pdex = _graphDatastore.ByEdgeId(id, pageIndex, pageSize);
+        var pdex = _graphDatastore.ByEdgeId(id, pageIndex, pageSize, searchTerm);
         var filtered = _filter.Filter(pdex.Items);
         return new PagedDataEx<Graph>
         {
@@ -38,12 +38,12 @@ namespace GraphML.Logic
       return new PagedDataEx<Graph>();
     }
 
-    public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize)
+    public PagedDataEx<Graph> ByNodeId(Guid id, int pageIndex, int pageSize, string searchTerm)
     {
       var valRes = _validator.Validate(new Graph(), options => options.IncludeRuleSets(nameof(ByNodeId)));
       if (valRes.IsValid)
       {
-        var pdex = _graphDatastore.ByNodeId(id, pageIndex, pageSize);
+        var pdex = _graphDatastore.ByNodeId(id, pageIndex, pageSize, searchTerm);
         var filtered = _filter.Filter(pdex.Items);
         return new PagedDataEx<Graph>
         {

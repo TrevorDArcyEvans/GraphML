@@ -21,9 +21,9 @@ namespace GraphML.API.Server
 
     protected override string ResourceBase { get; } = $"/api/{nameof(Organisation)}";
 
-    public async Task<IEnumerable<Organisation>> GetAll(int pageIndex, int pageSize)
+    public async Task<IEnumerable<Organisation>> GetAll(int pageIndex, int pageSize, string searchTerm)
     {
-      var request = GetPageRequest(Url.Combine(ResourceBase, $"{nameof(OrganisationController.GetAll)}"), pageIndex, pageSize);
+      var request = GetPageRequest(Url.Combine(ResourceBase, $"{nameof(OrganisationController.GetAll)}"), pageIndex, pageSize, searchTerm);
       var retval = await GetResponse<IEnumerable<Organisation>>(request);
 
       return retval;

@@ -61,17 +61,17 @@ namespace GraphML.API.Server
       return request;
     }
 
-    protected IRestRequest GetPageRequest(string path, int pageIndex, int pageSize)
+    protected IRestRequest GetPageRequest(string path, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetRequest(path);
-      AddGetPageParameters(request, pageIndex, pageSize);
+      AddGetPageParameters(request, pageIndex, pageSize, searchTerm);
 
       return request;
     }
 
-    protected IRestRequest GetPageRequest(string path, object body, int pageIndex, int pageSize)
+    protected IRestRequest GetPageRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
     {
-      var request = GetPageRequest(path, pageIndex, pageSize);
+      var request = GetPageRequest(path, pageIndex, pageSize, searchTerm);
       request.AddJsonBody(body);
 
       return request;
@@ -85,9 +85,9 @@ namespace GraphML.API.Server
       return request;
     }
 
-    protected IRestRequest GetPostRequest(string path, object body, int pageIndex, int pageSize)
+    protected IRestRequest GetPostRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
     {
-      var request = GetPageRequest(path, body, pageIndex, pageSize);
+      var request = GetPageRequest(path, body, pageIndex, pageSize, searchTerm);
       request.Method = Method.POST;
 
       return request;
@@ -156,10 +156,11 @@ namespace GraphML.API.Server
       return _policy.Execute(get);
     }
 
-    private static void AddGetPageParameters(IRestRequest request, int pageIndex, int pageSize)
+    private static void AddGetPageParameters(IRestRequest request, int pageIndex, int pageSize, string searchTerm)
     {
       request.AddQueryParameter("PageIndex", pageIndex.ToString(CultureInfo.InvariantCulture));
       request.AddQueryParameter("PageSize", pageSize.ToString(CultureInfo.InvariantCulture));
+      request.AddQueryParameter("searchTerm", searchTerm);
     }
 
     private void LogInformation(string msg)

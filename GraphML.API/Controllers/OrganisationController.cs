@@ -100,14 +100,19 @@ namespace GraphML.API.Controllers
     /// </summary>
     /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
     /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
     [Route(nameof(GetAll))]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<Organisation>> GetAll([FromQuery] int pageIndex = DefaultPageIndex, [FromQuery] int pageSize = DefaultPageSize)
+    public ActionResult<IEnumerable<Organisation>> GetAll(
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
+      // TODO   searchTerm
       var result = _orgLogic.GetAll()
         .Skip((pageIndex - 1) * pageSize)
         .Take(pageSize);
