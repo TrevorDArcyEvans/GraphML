@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FluentAssertions;
 using GraphML.Datastore.Database.Importer;
 using GraphML.Interfaces;
@@ -32,7 +33,8 @@ namespace GraphML.Logic.Tests.Validators
       var contact = new Contact { OrganisationId = org.Id };
       _context.Setup(x => x.HttpContext).Returns(Creator.GetContext(email));
       _contactDatastore.Setup(x => x.ByEmail(email)).Returns(contact);
-      _orgDatastore.Setup(x => x.GetAll()).Returns(new[] { org });
+      _orgDatastore.Setup(x => x.GetAll(0, int.MaxValue, string.Empty))
+        .Returns(new PagedDataEx<Organisation> { TotalCount = 1, Items = new List<Organisation>(new[] { org }) });
       var req = new ImportSpecification { Organisation = org.Name };
       var validator = Create();
 

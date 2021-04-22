@@ -4,6 +4,6 @@ namespace GraphML.Interfaces
 {
   public interface IOrganisationDatastore : IDatastore<Organisation>
   {
-    IEnumerable<Organisation> GetAll();
+    PagedDataEx<Organisation> GetAll(int pageIndex, int pageSize, string searchTerm);
   }
 }

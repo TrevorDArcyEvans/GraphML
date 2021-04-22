@@ -105,18 +105,15 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(GetAll))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<Organisation>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<Organisation>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<Organisation>> GetAll(
+    public ActionResult<PagedDataEx<Organisation>> GetAll(
       [FromQuery] int pageIndex = DefaultPageIndex,
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
-      // TODO   searchTerm
-      var result = _orgLogic.GetAll()
-        .Skip((pageIndex - 1) * pageSize)
-        .Take(pageSize);
-      return Ok(result);
+      var pdex = _orgLogic.GetAll(pageIndex - 1, pageSize, searchTerm);
+      return Ok(pdex);
     }
 
     /// <summary>

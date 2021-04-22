@@ -41,7 +41,9 @@ namespace GraphML.Logic.Validators
       var email = context.Email();
       var contact = _contactDatastore.ByEmail(email);
 
-      var org = _orgDatastore.GetAll()
+      var org = _orgDatastore
+        .GetAll(0, int.MaxValue, string.Empty)
+        .Items
         .SingleOrDefault(x => string.Equals(x.Name, importSpec.Organisation, StringComparison.InvariantCultureIgnoreCase));
 
       return contact.OrganisationId == org?.Id;

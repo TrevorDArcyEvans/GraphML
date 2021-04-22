@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Configuration
 @using Flurl
 @using GraphML.API.Controllers
+@using Humanizer
 
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
@@ -16,6 +17,8 @@
   ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Organisation), nameof(OrganisationController.GetAll))"
   PageParamName="pageIndex"
   PageSizeParamName="pageSize"
+  PagingRecordsCountPropertyName="@nameof(PagedDataEx<Organisation>.TotalCount).Camelize()"
+  PagingDataPropertyName="@nameof(PagedDataEx<Organisation>.Items).Camelize()"
   FilterByColumnName="@nameof(Organisation.Name)"
   Striped="true"
   AllowSelection="true"

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
+﻿using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -16,9 +15,27 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public IEnumerable<Organisation> GetAll()
+    public PagedDataEx<Organisation> GetAll(int pageIndex, int pageSize, string searchTerm)
     {
-      return _dbConnection.GetAll<Organisation>();
+        var where = $"where {nameof(Organisation.Name)} like '%{searchTerm ?? string.Empty}%'";
+        var sql = 
+@$"select
+  * from {GetTableName()},
+  (select count(*) as {nameof(PagedDataEx<Organisation>.TotalCount)} from {GetTableName()} {where} )
+{where}
+{AppendForFetch(pageIndex, pageSize)}";
+
+        var retval = new PagedDataEx<Organisation>();
+        var items = _dbConnection.Query<Organisation, long, Organisation>(sql,
+          (item, num) =>
+          {
+            retval.TotalCount = num;
+            retval.Items.Add(item);
+            return item;
+          },
+          splitOn: $"{nameof(PagedDataEx<Organisation>.TotalCount)}");
+
+        return retval;
     }
   }
 }

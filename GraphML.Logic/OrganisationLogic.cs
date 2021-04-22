@@ -21,15 +21,21 @@ namespace GraphML.Logic
       _orgDatastore = datastore;
     }
 
-    public IEnumerable<Organisation> GetAll()
+    public PagedDataEx<Organisation> GetAll(int pageIndex, int pageSize, string searchTerm)
     {
       var valRes = _validator.Validate(new Organisation(), options => options.IncludeRuleSets(nameof(IOrganisationLogic.GetAll)));
       if (valRes.IsValid)
       {
-        return _filter.Filter(_orgDatastore.GetAll());
+        var pdex = _orgDatastore.GetAll(pageIndex, pageSize, searchTerm);
+        var filtered = _filter.Filter(pdex.Items);
+        return new PagedDataEx<Organisation>
+        {
+          TotalCount = pdex.TotalCount,
+          Items = filtered.ToList()
+        };
       }
 
-      return Enumerable.Empty<Organisation>();
+      return new PagedDataEx<Organisation>();
     }
   }
 }
