@@ -16,7 +16,6 @@
 
 <MatTabGroup>
   <MatTab Label="Graph Nodes">
-    <!-- TODO  PagedDataEx -->
     <MatTable
       Items="@_nodes"
       ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
