@@ -16,6 +16,10 @@ DROP TABLE IF EXISTS NodeItemAttributeDefinition;
 DROP TABLE IF EXISTS GraphItemAttributeDefinition;
 DROP TABLE IF EXISTS RepositoryItemAttributeDefinition;
 
+DROP TABLE IF EXISTS ChartEdge;
+DROP TABLE IF EXISTS ChartNode;
+DROP TABLE IF EXISTS Chart;
+
 DROP TABLE IF EXISTS GraphEdge;
 DROP TABLE IF EXISTS GraphNode;
 DROP TABLE IF EXISTS Graph;
@@ -174,6 +178,48 @@ CREATE TABLE GraphEdge
   FOREIGN KEY (RepositoryItemId) REFERENCES Edge(Id) ON DELETE CASCADE
 );
 CREATE INDEX IDX_GraphEdge_OwnerId ON GraphEdge(OwnerId);
+
+CREATE TABLE Chart
+(
+  Id CHAR(38) NOT NULL UNIQUE,
+  OrganisationId CHAR(38) NOT NULL,
+  OwnerId CHAR(38) NOT NULL,
+  Name TEXT NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES Graph(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_Chart_Graph ON Chart(OwnerId);
+
+CREATE TABLE ChartNode
+(
+  Id CHAR(38) NOT NULL UNIQUE,
+  OrganisationId CHAR(38) NOT NULL,
+  OwnerId CHAR(38) NOT NULL,
+  Name TEXT NOT NULL,
+  GraphItemId CHAR(38) NOT NULL,
+  X INT NOT NULL,
+  Y INT NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES Chart(Id) ON DELETE NO ACTION,
+  FOREIGN KEY (GraphItemId) REFERENCES GraphNode(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_ChartNode_GraphItem ON ChartNode(OwnerId);
+
+CREATE TABLE ChartEdge
+(
+  Id CHAR(38) NOT NULL UNIQUE,
+  OrganisationId CHAR(38) NOT NULL,
+  OwnerId CHAR(38) NOT NULL,
+  Name TEXT NOT NULL,
+  GraphItemId CHAR(38) NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (OrganisationId) REFERENCES Organisation(Id) ON DELETE CASCADE,
+  FOREIGN KEY (OwnerId) REFERENCES Chart(Id) ON DELETE NO ACTION,
+  FOREIGN KEY (GraphItemId) REFERENCES GraphEdge(Id) ON DELETE CASCADE
+);
+CREATE INDEX IDX_ChartEdge_GraphItem ON ChartEdge(OwnerId);
 
 
 -- item attribute definitions
