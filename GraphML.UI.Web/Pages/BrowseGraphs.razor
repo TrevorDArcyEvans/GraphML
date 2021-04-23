@@ -28,12 +28,16 @@
   <MatTableHeader>
     <th>Name</th>
     <th>Graphs Items</th>
+    <th>Charts</th>
     <th>Analyses</th>
   </MatTableHeader>
   <MatTableRow>
     <td>@context.Name</td>
     <td>
       <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseGraphItems(@context))"/>
+    </td>
+    <td>
+      <MatButton Icon="file_copy" @onclick="@(e => GotoBrowseCharts(@context))"/>
     </td>
     <td>
       <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(@context))"/>
@@ -67,6 +71,11 @@
   private void GotoBrowseGraphItems(Graph graph)
   {
     _navMgr.NavigateTo($"/BrowseGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{graph.Id}/{graph.Name}");
+  }
+
+  private void GotoBrowseCharts(Graph graph)
+  {
+    _navMgr.NavigateTo($"/BrowseCharts/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{graph.Id}/{graph.Name}");
   }
 
   private void GotoBrowseAnalyses(Graph graph)
