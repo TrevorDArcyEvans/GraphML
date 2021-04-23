@@ -29,7 +29,7 @@
     <th>Name</th>
   </MatTableHeader>
   <MatTableRow>
-    <td>@context.Name</td>
+    <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
   </MatTableRow>
 </MatTable>
 
@@ -62,6 +62,11 @@
   public string GraphId { get; set; }
 
   private Chart[] _charts;
+
+  private void GotoShowChart(Chart chart)
+  {
+    _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
+  }
 
   private void GotoBrowseGraphs()
   {
