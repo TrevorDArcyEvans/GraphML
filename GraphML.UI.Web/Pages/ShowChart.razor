@@ -13,7 +13,10 @@
 
 <!-- required to resolve DiagramCanvas component -->
 @using Blazor.Diagrams.Components
+@using GraphML.Interfaces.Server
 
+@inject IChartNodeServer _nodeServer
+@inject IChartEdgeServer _edgeServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
@@ -36,7 +39,7 @@ or it will not be rendered.
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseCharts())">Back</MatButton>
 
-@functions
+@code
 {
   [Parameter]
   public string OrganisationName { get; set; }
@@ -71,9 +74,13 @@ or it will not be rendered.
   private Chart[] _charts;
   private Diagram Diagram { get; set; }
 
-  protected override void OnInitialized()
+  protected override async void OnInitialized()
   {
     base.OnInitialized();
+
+    <!-- TODO  get server auth working -->
+    // FIX ME!    var nodes = await _nodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
+    // FIX ME!    var edges = await _edgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
 
     var options = new DiagramOptions
     {
