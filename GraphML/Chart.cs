@@ -5,7 +5,7 @@ using Schema = System.ComponentModel.DataAnnotations.Schema;
 namespace GraphML
 {
   /// <summary>
-  /// A 2D pictorial representation of a subset of <see cref="Node"/>  and <see cref="Edge"/>  from a <see cref="Graph"/>.
+  /// A 2D pictorial representation of a subset of <see cref="Node"/>  and <see cref="Edge"/> from a <see cref="Graph"/>.
   /// Generally used to visualise analysis results.
   /// Layout algorithms can be applied to change the position of Nodes and Edges.
   /// </summary>
