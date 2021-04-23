@@ -1,23 +1,25 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
 using GraphML.Datastore.Database.Importer;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using RestSharp;
 
 namespace GraphML.API.Server
 {
   public sealed class ImporterServer : ServerBase, IImporterServer
   {
     public ImporterServer(
+      IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory,
+      HttpClient client,
       ILogger<ImporterServer> logger,
       ISyncPolicyFactory policy) :
-      base(httpContextAccessor, clientFactory, logger, policy)
+      base(config, httpContextAccessor, client, logger, policy)
     {
     }
 
@@ -31,12 +33,13 @@ namespace GraphML.API.Server
 
       // Content-Type defaults to application/json but we are posting
       // form-data, so clear this header as it is incorrect
-      req.AddHeader("Content-Type", string.Empty);
-      req.Method = Method.POST;
+      req.Headers.Add("Content-Type", string.Empty);
+      req.Method = HttpMethod.Post;
+      ;
 
       // BEWARE - names have to match API parameter names!
-      req.AddHeader("importSpec", json);
-      req.AddFileBytes("file", fileBytes, fileName);
+      req.Headers.Add("importSpec", json);
+      // TODO   req.AddFileBytes("file", fileBytes, fileName);
 
       var res = await GetRawResponse(req);
     }

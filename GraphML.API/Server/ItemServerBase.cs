@@ -2,21 +2,24 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphML.API.Server
 {
   public abstract class ItemServerBase<T> : ServerBase, IItemServerBase<T> where T : Item
   {
     public ItemServerBase(
+      IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory,
+      HttpClient client,
       ILogger<ItemServerBase<T>> logger,
       ISyncPolicyFactory policy) :
-      base(httpContextAccessor, clientFactory, logger, policy)
+      base(config, httpContextAccessor, client, logger, policy)
     {
     }
 

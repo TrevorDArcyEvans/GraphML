@@ -2,21 +2,24 @@ using Flurl;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphML.API.Server
 {
   public abstract class OwnedItemServerBase<T> : ItemServerBase<T>, IOwnedItemServerBase<T> where T : OwnedItem
   {
     public OwnedItemServerBase(
+      IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory,
+      HttpClient client,
       ILogger<OwnedItemServerBase<T>> logger,
       ISyncPolicyFactory policy) :
-      base(httpContextAccessor, clientFactory, logger, policy)
+      base(config, httpContextAccessor, client, logger, policy)
     {
     }
 

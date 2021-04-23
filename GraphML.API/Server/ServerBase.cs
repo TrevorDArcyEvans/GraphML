@@ -1,67 +1,74 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GraphML.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Polly;
-using RestSharp.Authenticators;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphML.API.Server
 {
   public abstract class ServerBase
   {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IRestClient _client;
+    private readonly HttpClient _client;
     private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
-    protected readonly ILogger<ServerBase> _logger;
+    private readonly ILogger<ServerBase> _logger;
     private readonly ISyncPolicy _policy;
 
     protected abstract string ResourceBase { get; }
 
     public ServerBase(
+      IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory,
+      HttpClient client,
       ILogger<ServerBase> logger,
       ISyncPolicyFactory policy)
     {
       _httpContextAccessor = httpContextAccessor;
-      _client = clientFactory.GetRestClient();
+      _client = client;
       _logger = logger;
       _policy = policy.Build(_logger);
+
+      _client.BaseAddress = new Uri(config.API_URI());
     }
 
-    protected IRestRequest GetRequest(string path)
+    protected HttpRequestMessage GetRequest(string path)
     {
-      var request = new RestRequest(path)
+      var request = new HttpRequestMessage()
       {
-        Method = Method.GET
+        RequestUri = new Uri(_client.BaseAddress , path),
+        Method = HttpMethod.Get
       };
-      request.AddHeader("Content-Type", "application/json");
       var accessToken = _httpContextAccessor.HttpContext.GetTokenAsync("access_token").Result; // TODO async
       if (accessToken != null)
       {
-        _client.Authenticator = new JwtAuthenticator(accessToken);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
       }
 
       return request;
     }
 
-    protected IRestRequest GetRequest(string path, object body)
+    private HttpRequestMessage GetRequest(string path, object body)
     {
       var request = GetRequest(path);
-      request.AddJsonBody(body);
+      var json = JsonConvert.SerializeObject(body, _settings);
+      request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
 
-    protected IRestRequest GetPageRequest(string path, int pageIndex, int pageSize, string searchTerm)
+    protected HttpRequestMessage GetPageRequest(string path, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetRequest(path);
       AddGetPageParameters(request, pageIndex, pageSize, searchTerm);
@@ -69,94 +76,97 @@ namespace GraphML.API.Server
       return request;
     }
 
-    protected IRestRequest GetPageRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
+    private HttpRequestMessage GetPageRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetPageRequest(path, pageIndex, pageSize, searchTerm);
-      request.AddJsonBody(body);
+      var json = JsonConvert.SerializeObject(body, _settings);
+      request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
 
-    protected IRestRequest GetPostRequest(string path, object body)
+    protected HttpRequestMessage GetPostRequest(string path, object body)
     {
       var request = GetRequest(path, body);
-      request.Method = Method.POST;
+      request.Method = HttpMethod.Post;
+      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
 
-    protected IRestRequest GetPostRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
+    protected HttpRequestMessage GetPostRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetPageRequest(path, body, pageIndex, pageSize, searchTerm);
-      request.Method = Method.POST;
+      request.Method = HttpMethod.Post;
+      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
 
-    protected IRestRequest GetPutRequest(string path, object body)
+    protected HttpRequestMessage GetPutRequest(string path, object body)
     {
       var request = GetRequest(path, body);
-      request.Method = Method.PUT;
+      request.Method = HttpMethod.Post;
+      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
 
-    protected IRestRequest GetDeleteRequest(string path)
+    protected HttpRequestMessage GetDeleteRequest(string path)
     {
       var request = GetRequest(path);
-      request.Method = Method.DELETE;
+      request.Method = HttpMethod.Delete;
 
       return request;
     }
 
-    protected IRestRequest GetDeleteRequest(string path, object body)
+    protected HttpRequestMessage GetDeleteRequest(string path, object body)
     {
       var request = GetDeleteRequest(path);
-      request.AddJsonBody(body);
+      var json = JsonConvert.SerializeObject(body, _settings);
+      request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
 
-    protected async Task<TOther> GetResponse<TOther>(IRestRequest request)
+    protected async Task<TOther> GetResponse<TOther>(HttpRequestMessage request)
     {
       var resp = await GetRawResponse(request);
-      var retval = JsonConvert.DeserializeObject<TOther>(resp.Content, _settings);
+      var json = await resp.Content.ReadAsStringAsync();
+      var retval = JsonConvert.DeserializeObject<TOther>(json, _settings);
 
       return retval;
     }
 
-    protected async Task<IRestResponse> GetRawResponse(IRestRequest request)
+    protected async Task<HttpResponseMessage> GetRawResponse(HttpRequestMessage request)
     {
       return await GetInternal(async () =>
       {
-        var resp = await _client.ExecuteAsync(request, new CancellationTokenSource().Token);
+        var resp =  _client.SendAsync(request, new CancellationTokenSource().Token).Result;
 
-        // log here as may fail deserialisation
-        var body = request.Parameters.SingleOrDefault(x => x.Type == ParameterType.RequestBody)?.Value?.ToString();
-        var msg = $"[{request.Resource}] {body} --> [{resp.StatusCode}] {resp.Content}";
-        LogInformation(msg);
-
-        // relog errors explicitly so they are more prominent
-        if (resp.StatusCode >= HttpStatusCode.BadRequest)
-        {
-          _logger.LogError(msg);
-          throw new HttpResponseException(resp.StatusCode, resp.Content);
-        }
+        resp.EnsureSuccessStatusCode();
 
         return resp;
       });
     }
 
-    protected TOther GetInternal<TOther>(Func<TOther> get)
+    private TOther GetInternal<TOther>(Func<TOther> get)
     {
       return _policy.Execute(get);
     }
 
-    private static void AddGetPageParameters(IRestRequest request, int pageIndex, int pageSize, string searchTerm)
+    private static void AddGetPageParameters(HttpRequestMessage request, int pageIndex, int pageSize, string searchTerm)
     {
-      request.AddQueryParameter("PageIndex", pageIndex.ToString(CultureInfo.InvariantCulture));
-      request.AddQueryParameter("PageSize", pageSize.ToString(CultureInfo.InvariantCulture));
-      request.AddQueryParameter("searchTerm", searchTerm);
+      var queryParams = new Dictionary<string, string>
+      {
+        { "PageIndex", pageIndex.ToString(CultureInfo.InvariantCulture) },
+        { "PageSize", pageSize.ToString(CultureInfo.InvariantCulture) },
+        { "searchTerm", searchTerm },
+      };
+      var newUri = QueryHelpers.AddQueryString(request.RequestUri.ToString(), queryParams);
+      request.RequestUri = new Uri(newUri);
     }
 
     private void LogInformation(string msg)

@@ -1,12 +1,8 @@
 @page "/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{ChartId}/{ChartName}"
 
 @using GraphML
-@using GraphML.Common
 @using Microsoft.Extensions.Configuration
-@using Flurl
-@using GraphML.API.Controllers
 @using System.Web;
-@using Humanizer
 @using Blazor.Diagrams.Core
 @using Blazor.Diagrams.Core.Geometry
 @using Blazor.Diagrams.Core.Models
@@ -14,7 +10,6 @@
 <!-- required to resolve DiagramCanvas component -->
 @using Blazor.Diagrams.Components
 @using GraphML.Interfaces.Server
-@using System.Net.Http.Json
 
 @inject HttpClient _http
 @inject IChartNodeServer _nodeServer
@@ -80,15 +75,8 @@ or it will not be rendered.
   {
     base.OnInitialized();
     
-    var api = Url.Combine(_config.API_URI(), "api", nameof(ChartNode), nameof(IChartNodeServer.ByOwner), ChartId);
-    var builder = new UriBuilder(api);
-    var query = HttpUtility.ParseQueryString(builder.Query);
-    query["pageIndex"] = 0.ToString();
-    query["pageSize"] = int.MaxValue.ToString();
-    builder.Query = query.ToString();
-    var url = builder.ToString();
-    var res = _http.GetAsync(url).Result;
-    var nodeDataEx = await res.Content.ReadFromJsonAsync<PagedDataEx<ChartNode>>();
+    var nodes = await _nodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
+    var edges = await _edgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
 
     var options = new DiagramOptions
     {

@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace GraphML.API.Server
 {
   public sealed class IdentityServer : ServerBase, IIdentityServer
   {
     public IdentityServer(
+      IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory,
+      HttpClient client,
       ILogger<IdentityServer> logger,
       ISyncPolicyFactory policy) :
-      base(httpContextAccessor, clientFactory, logger, policy)
+      base(config, httpContextAccessor, client, logger, policy)
     {
     }
 
@@ -29,7 +29,7 @@ namespace GraphML.API.Server
 
       // have to get raw response as does not JSON deserialise
       var retval = await GetRawResponse(request);
-      var json = retval.Content;
+      var json = await retval.Content.ReadAsStringAsync();
 
       return json;
     }

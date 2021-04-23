@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
 using GraphML.Interfaces;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GraphML.API.Server
@@ -13,11 +15,12 @@ namespace GraphML.API.Server
   public sealed class ResultServer : ServerBase, IResultServer
   {
     public ResultServer(
+      IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
-      IRestClientFactory clientFactory,
+      HttpClient client,
       ILogger<ResultServer> logger,
       ISyncPolicyFactory policy) :
-      base(httpContextAccessor, clientFactory, logger, policy)
+      base(config, httpContextAccessor, client, logger, policy)
     {
     }
 
