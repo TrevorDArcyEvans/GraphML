@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-    public interface IGraphEdgeLogic : IOwnedLogic<GraphEdge>
-    {
-    }
+  public interface IGraphEdgeLogic : IOwnedLogic<GraphEdge>
+  {
+  }
 }
