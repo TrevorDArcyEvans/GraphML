@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
@@ -7,6 +8,7 @@ using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
 namespace GraphML.API.Server
@@ -27,21 +29,23 @@ namespace GraphML.API.Server
 
     public async Task Import(ImportSpecification importSpec, byte[] fileBytes, string fileName)
     {
-      var path = Url.Combine(ResourceBase, nameof(ImporterController.Import));
-      var req = GetRequest(path);
-      var json = JsonConvert.SerializeObject(importSpec);
-
-      // Content-Type defaults to application/json but we are posting
-      // form-data, so clear this header as it is incorrect
-      req.Headers.Add("Content-Type", string.Empty);
-      req.Method = HttpMethod.Post;
-      ;
+      var form = new MultipartFormDataContent();
+      var stream = new MemoryStream(fileBytes);
+      var content = new StreamContent(stream);
+      content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+      {
+        // BEWARE - names have to match API parameter names!
+        Name = "file",
+        FileName = fileName
+      };
+      form.Add(content);
 
       // BEWARE - names have to match API parameter names!
-      req.Headers.Add("importSpec", json);
-      // TODO   req.AddFileBytes("file", fileBytes, fileName);
+      var json = JsonConvert.SerializeObject(importSpec);
+      form.Headers.Add("importSpec", json);
 
-      var res = await GetRawResponse(req);
+      var path = Url.Combine(ResourceBase, nameof(ImporterController.Import));
+      var resp = await _client.PostAsync(path, form);
     }
   }
 }

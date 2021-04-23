@@ -20,7 +20,7 @@ namespace GraphML.API.Server
   public abstract class ServerBase
   {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly HttpClient _client;
+    protected readonly HttpClient _client;
     private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
     private readonly ILogger<ServerBase> _logger;
     private readonly ISyncPolicy _policy;
