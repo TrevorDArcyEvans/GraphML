@@ -535,7 +535,7 @@
       <Entity type="Class">
         <Name>Graph</Name>
         <Access>Public</Access>
-        <Location left="428" top="616" />
+        <Location left="434" top="642" />
         <Size width="206" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -543,8 +543,8 @@
       <Entity type="Class">
         <Name>GraphNode</Name>
         <Access>Public</Access>
-        <Location left="335" top="767" />
-        <Size width="162" height="94" />
+        <Location left="341" top="793" />
+        <Size width="179" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public Guid NodeId { get; set; }</Member>
         <Modifier>None</Modifier>
@@ -552,8 +552,8 @@
       <Entity type="Class">
         <Name>GraphEdge</Name>
         <Access>Public</Access>
-        <Location left="601" top="767" />
-        <Size width="162" height="94" />
+        <Location left="607" top="793" />
+        <Size width="178" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public Guid EdgeId { get; set; }</Member>
         <Modifier>None</Modifier>
@@ -569,9 +569,11 @@
       <Entity type="Class">
         <Name>Edge</Name>
         <Access>Public</Access>
-        <Location left="578" top="500" />
-        <Size width="162" height="77" />
+        <Location left="584" top="500" />
+        <Size width="201" height="111" />
         <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid SourceId { get; set; }</Member>
+        <Member type="Property">public Guid TargetId { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -601,7 +603,7 @@
       <Entity type="Class">
         <Name>Chart</Name>
         <Access>Public</Access>
-        <Location left="460" top="924" />
+        <Location left="466" top="950" />
         <Size width="162" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -609,8 +611,8 @@
       <Entity type="Class">
         <Name>ChartNode</Name>
         <Access>Public</Access>
-        <Location left="312" top="1097" />
-        <Size width="188" height="94" />
+        <Location left="318" top="1123" />
+        <Size width="214" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public Guid GraphNodeId { get; set; }</Member>
         <Modifier>None</Modifier>
@@ -618,8 +620,8 @@
       <Entity type="Class">
         <Name>ChartEdge</Name>
         <Access>Public</Access>
-        <Location left="583" top="1108" />
-        <Size width="187" height="94" />
+        <Location left="589" top="1123" />
+        <Size width="213" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public Guid GraphEdgeId { get; set; }</Member>
         <Modifier>None</Modifier>
@@ -660,8 +662,8 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>524</X>
-          <Y>581</Y>
+          <X>530</X>
+          <Y>607</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
@@ -670,12 +672,12 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>457</X>
-          <Y>718</Y>
+          <X>463</X>
+          <Y>744</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>457</X>
-          <Y>737</Y>
+          <X>463</X>
+          <Y>763</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
@@ -684,12 +686,12 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>625</X>
-          <Y>718</Y>
+          <X>631</X>
+          <Y>744</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>625</X>
-          <Y>731</Y>
+          <X>631</X>
+          <Y>757</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
@@ -728,8 +730,8 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>711</X>
-          <Y>742</Y>
+          <X>717</X>
+          <Y>768</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
@@ -742,7 +744,7 @@
           <Y>1266</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>804</X>
+          <X>849</X>
           <Y>541</Y>
         </BendPoint>
         <StartMultiplicity>ZeroOrMany</StartMultiplicity>
@@ -788,8 +790,8 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>703</X>
-          <Y>1083</Y>
+          <X>709</X>
+          <Y>1098</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
@@ -798,8 +800,8 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>384</X>
-          <Y>1071</Y>
+          <X>390</X>
+          <Y>1097</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
@@ -808,8 +810,8 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>484</X>
-          <Y>1072</Y>
+          <X>490</X>
+          <Y>1098</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
@@ -818,8 +820,8 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>602</X>
-          <Y>1083</Y>
+          <X>608</X>
+          <Y>1098</Y>
         </BendPoint>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
