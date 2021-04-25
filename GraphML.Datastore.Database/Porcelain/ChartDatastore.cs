@@ -31,13 +31,12 @@ OwnerId
 
 Nodes
 Edges
-
- -- ChartEx
-select
-  c.*
-from Chart c
-where c.Id='ae54e3c5-31af-4be4-a602-771f4c3d2d5c'
 */
+      var chartExSql = 
+$@"select
+ c.*
+from Chart c
+where c.Id='{id}'";
 
       // TODO   ChartNodeEx
 /*
@@ -52,22 +51,21 @@ RepositoryItemId
 
 X
 Y
-
--- ChartNodeEx
-select
-  ci.Id,
-  ci.OrganisationId,
-  ci.Name,
-  ci.GraphItemId,
-  ri.Id as RepositoryItemId,
-  ci.X,
-  ci.Y
+*/
+      var chartNodeExSql =
+$@"select
+ ci.Id,
+ ci.OrganisationId,
+ ci.Name,
+ ci.GraphItemId,
+ ri.Id as RepositoryItemId,
+ ci.X,
+ ci.Y
 from ChartNode ci
 join GraphNode gn on gn.Id = ci.GraphItemId
 join Node ri on ri.Id = gn.RepositoryItemId
-where ci.OwnerId='ae54e3c5-31af-4be4-a602-771f4c3d2d5c'
-*/
-
+where ci.OwnerId='{id}'";
+      
       // TODO   ChartEdgeEx
 /*
 Id
@@ -81,22 +79,21 @@ RepositoryItemId
 
 SourceId
 TargetId
-
- -- ChartEdgeEx
-select
-  ci.Id,
-  ci.OrganisationId,
-  ci.Name,
-  ci.OwnerId,
-  ci.GraphItemId,
-  ri.Id as RepositoryItemId,
-  ri.SourceId,
-  ri.TargetId
+*/
+      var chartEdgeExSql =
+$@"select
+ ci.Id,
+ ci.OrganisationId,
+ ci.Name,
+ ci.OwnerId,
+ ci.GraphItemId,
+ ri.Id as RepositoryItemId,
+ ri.SourceId,
+ ri.TargetId
 from ChartEdge ci
 join GraphEdge gn on gn.Id = ci.GraphItemId
 join Edge ri on ri.Id = gn.RepositoryItemId
-where ci.OwnerId='ae54e3c5-31af-4be4-a602-771f4c3d2d5c'
-*/
+where ci.OwnerId='{id}'";
 
       return retval;
     }
