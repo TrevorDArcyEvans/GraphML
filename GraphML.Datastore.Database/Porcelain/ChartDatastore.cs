@@ -31,6 +31,12 @@ OwnerId
 
 Nodes
 Edges
+
+ -- ChartEx
+select
+  c.*
+from Chart c
+where c.Id='ae54e3c5-31af-4be4-a602-771f4c3d2d5c'
 */
 
       // TODO   ChartNodeEx
