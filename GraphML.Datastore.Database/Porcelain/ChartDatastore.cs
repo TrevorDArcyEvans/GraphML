@@ -1,4 +1,5 @@
 ﻿using System;
+using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using GraphML.Interfaces.Porcelain;
@@ -19,39 +20,13 @@ namespace GraphML.Datastore.Database.Porcelain
 
     public ChartEx ById(Guid id)
     {
-      var retval = new ChartEx();
-      
-      // TODO   ChartEx
-/*
-Id
-OrganisationId
-Name
-
-OwnerId
-
-Nodes
-Edges
-*/
       var chartExSql = 
 $@"select
  c.*
 from Chart c
 where c.Id='{id}'";
+      var chartEx = _dbConnection.QueryFirst<ChartEx>(chartExSql);
 
-      // TODO   ChartNodeEx
-/*
-Id
-OrganisationId
-Name
-
-OwnerId
-
-GraphItemId
-RepositoryItemId
-
-X
-Y
-*/
       var chartNodeExSql =
 $@"select
  ci.Id,
@@ -65,21 +40,8 @@ from ChartNode ci
 join GraphNode gn on gn.Id = ci.GraphItemId
 join Node ri on ri.Id = gn.RepositoryItemId
 where ci.OwnerId='{id}'";
+      var chartNodeEx = _dbConnection.Query<ChartNodeEx>(chartNodeExSql);
       
-      // TODO   ChartEdgeEx
-/*
-Id
-OrganisationId
-Name
-
-OwnerId
-
-GraphItemId
-RepositoryItemId
-
-SourceId
-TargetId
-*/
       var chartEdgeExSql =
 $@"select
  ci.Id,
@@ -94,8 +56,12 @@ from ChartEdge ci
 join GraphEdge gn on gn.Id = ci.GraphItemId
 join Edge ri on ri.Id = gn.RepositoryItemId
 where ci.OwnerId='{id}'";
+      var chartEdgeEx = _dbConnection.Query<ChartEdgeEx>(chartEdgeExSql);
 
-      return retval;
+      chartEx.Nodes = chartNodeEx;
+      chartEx.Edges = chartEdgeEx;
+      
+      return chartEx;
     }
   }
   public sealed class ChartNodeExDatastore : OwnedItemDatastoreBase<ChartNodeEx>, IChartNodeExDatastore
