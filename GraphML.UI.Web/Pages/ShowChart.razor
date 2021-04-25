@@ -99,10 +99,10 @@ or it will not be rendered.
     var nodes = chart.Nodes.Select(n => NewNode(n.RepositoryItemId.ToString(), n.X, n.Y));
     Diagram.Nodes.Add(nodes);
 
-    var links = chart.Edges.Select(e =>
+    var links = chart.Edges.Select(edge =>
     {
-      var source = nodes.Single(n => n.Id == e.SourceId.ToString());
-      var target = nodes.Single(n => n.Id == e.TargetId.ToString());
+      var source = Diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
+      var target = Diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
       var link = new LinkModel(source.GetPort(PortAlignment.Right), target.GetPort(PortAlignment.Left));
       return link;
     });
