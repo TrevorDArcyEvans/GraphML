@@ -24,7 +24,7 @@ namespace GraphML.API.Server.Porcelain
     {
     }
 
-    protected override string ResourceBase { get; } = "/api/porcelain/ChartEx";
+    protected override string ResourceBase { get; } = $"/api/porcelain/{nameof(ChartEx)}";
 
     public async Task<ChartEx> ById(Guid id)
     {
