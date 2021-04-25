@@ -34,7 +34,7 @@ namespace GraphML.API.Controllers.Porcelain
     /// <param name="id">unique identifier of Chart</param>
     /// <response code="200">Success</response>
     /// <response code="404">Chart with identifier not found</response>
-    [HttpPost]
+    [HttpGet]
     [Route(nameof(ById) + "/{id}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(ChartEx))]
@@ -55,7 +55,7 @@ namespace GraphML.API.Controllers.Porcelain
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<ChartEx>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<ChartEx>> ByIds(IEnumerable<Guid> ids)
+    public override ActionResult<IEnumerable<ChartEx>> ByIds([FromBody] [Required] IEnumerable<Guid> ids)
     {
       throw new NotImplementedException();
     }
@@ -70,7 +70,7 @@ namespace GraphML.API.Controllers.Porcelain
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<ChartEx>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<ChartEx>> Create(IEnumerable<ChartEx> entity)
+    public override ActionResult<IEnumerable<ChartEx>> Create([FromBody] [Required] IEnumerable<ChartEx> entity)
     {
       throw new NotImplementedException();
     }
@@ -85,7 +85,7 @@ namespace GraphML.API.Controllers.Porcelain
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult Update(IEnumerable<ChartEx> entity)
+    public override ActionResult Update([FromBody] [Required] IEnumerable<ChartEx> entity)
     {
       throw new NotImplementedException();
     }
@@ -100,7 +100,7 @@ namespace GraphML.API.Controllers.Porcelain
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult Delete(IEnumerable<ChartEx> entity)
+    public override ActionResult Delete([FromBody] [Required] IEnumerable<ChartEx> entity)
     {
       throw new NotImplementedException();
     }
@@ -118,10 +118,10 @@ namespace GraphML.API.Controllers.Porcelain
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<ChartEx>))]
     public override ActionResult<PagedDataEx<ChartEx>> ByOwners(
-      IEnumerable<Guid> ownerIds, 
-      int pageIndex = DefaultPageIndex, 
-      int pageSize = DefaultPageSize, 
-      string searchTerm = null)
+      [FromBody] [Required] IEnumerable<Guid> ownerIds,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
       throw new NotImplementedException();
     }
@@ -139,10 +139,10 @@ namespace GraphML.API.Controllers.Porcelain
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<ChartEx>))]
     public override ActionResult<PagedDataEx<ChartEx>> ByOwner(
-      Guid ownerId, 
-      int pageIndex = DefaultPageIndex, 
-      int pageSize = DefaultPageSize, 
-      string searchTerm = null)
+      [FromRoute] [Required] Guid ownerId,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
     {
       throw new NotImplementedException();
     }
@@ -156,7 +156,7 @@ namespace GraphML.API.Controllers.Porcelain
     [Route(nameof(Count) + "/{ownerId}")]
     [ValidateModelState]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
-    public override ActionResult<int> Count(Guid ownerId)
+    public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
       throw new NotImplementedException();
     }

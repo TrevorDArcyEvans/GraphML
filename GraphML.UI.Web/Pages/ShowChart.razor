@@ -9,9 +9,11 @@
 
 <!-- required to resolve DiagramCanvas component -->
 @using Blazor.Diagrams.Components
+@using GraphML.Interfaces.Porcelain
 @using GraphML.Interfaces.Server
 
 @inject HttpClient _http
+@inject IChartExServer _chartExServer
 @inject IChartNodeServer _nodeServer
 @inject IChartEdgeServer _edgeServer
 @inject IConfiguration _config
@@ -77,7 +79,7 @@ or it will not be rendered.
     
     var nodes = await _nodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
     var edges = await _edgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
-
+    var chartEx = await _chartExServer.ById(Guid.Parse(ChartId));
     var options = new DiagramOptions
     {
       DeleteKey = "Delete", // What key deletes the selected nodes/links
