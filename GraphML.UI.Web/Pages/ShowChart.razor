@@ -10,12 +10,9 @@
 <!-- required to resolve DiagramCanvas component -->
 @using Blazor.Diagrams.Components
 @using GraphML.Interfaces.Porcelain
-@using GraphML.Interfaces.Server
+@using GraphML.Porcelain
 
-@inject HttpClient _http
 @inject IChartExServer _chartExServer
-@inject IChartNodeServer _nodeServer
-@inject IChartEdgeServer _edgeServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
@@ -76,10 +73,7 @@ or it will not be rendered.
   protected override async void OnInitialized()
   {
     base.OnInitialized();
-    
-    var nodes = await _nodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
-    var edges = await _edgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, string.Empty);
-    var chartEx = await _chartExServer.ById(Guid.Parse(ChartId));
+
     var options = new DiagramOptions
     {
       DeleteKey = "Delete", // What key deletes the selected nodes/links
@@ -95,30 +89,36 @@ or it will not be rendered.
       }
     };
     Diagram = new Diagram(options);
-    
-    Setup();
+
+    var chart = await _chartExServer.ById(Guid.Parse(ChartId));
+    Setup(chart);
   }
-  
-  private void Setup()
+
+  private void Setup(ChartEx chart)
   {
-    var node1 = NewNode(50, 50);
-    var node2 = NewNode(300, 300);
-    var node3 = NewNode(300, 50);
-    Diagram.Nodes.Add(new [] { node1, node2, node3 });
-    
-    Diagram.Links.Add(new LinkModel(node1.GetPort(PortAlignment.Right), node2.GetPort(PortAlignment.Left)));
+    var nodes = chart.Nodes.Select(n => NewNode(n.RepositoryItemId.ToString(), n.X, n.Y));
+    Diagram.Nodes.Add(nodes);
+
+    var links = chart.Edges.Select(e =>
+    {
+      var source = nodes.Single(n => n.Id == e.SourceId.ToString());
+      var target = nodes.Single(n => n.Id == e.TargetId.ToString());
+      var link = new LinkModel(source.GetPort(PortAlignment.Right), target.GetPort(PortAlignment.Left));
+      return link;
+    });
+    Diagram.Links.Add(links);
   }
-  
-  private static NodeModel NewNode(double x, double y)
+
+  private static NodeModel NewNode(string id, double x, double y)
   {
-    var node = new NodeModel(new Point(x, y));
+    var node = new NodeModel(id, new Point(x, y));
     node.AddPort(PortAlignment.Bottom);
     node.AddPort(PortAlignment.Top);
     node.AddPort(PortAlignment.Left);
     node.AddPort(PortAlignment.Right);
     return node;
   }
-  
+
   private void GotoBrowseCharts()
   {
     _navMgr.NavigateTo($"/BrowseCharts/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
