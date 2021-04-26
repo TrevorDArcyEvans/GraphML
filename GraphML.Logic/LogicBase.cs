@@ -11,13 +11,13 @@ namespace GraphML.Logic
   public abstract class LogicBase<T> : ILogic<T> where T : Item, new()
   {
     protected readonly IHttpContextAccessor _context;
-    protected readonly IDatastore<T> _datastore;
+    protected readonly IItemDatastore<T> _datastore;
     protected readonly IValidator<T> _validator;
     protected readonly IFilter<T> _filter;
 
     public LogicBase(
       IHttpContextAccessor context,
-      IDatastore<T> datastore,
+      IItemDatastore<T> datastore,
       IValidator<T> validator,
       IFilter<T> filter)
     {

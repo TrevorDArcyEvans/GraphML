@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class RoleDatastore : DatastoreBase<Role>, IRoleDatastore
+  public sealed class RoleDatastore : ItemDatastoreBase<Role>, IRoleDatastore
   {
     public RoleDatastore(
       IDbConnectionFactory dbConnectionFactory,

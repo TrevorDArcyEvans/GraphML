@@ -16,15 +16,15 @@ using System.Runtime.CompilerServices;
 
 namespace GraphML.Datastore.Database
 {
-  public abstract class DatastoreBase<T> : IDatastore<T> where T : Item
+  public abstract class ItemDatastoreBase<T> : IItemDatastore<T> where T : Item
   {
     protected readonly IDbConnection _dbConnection;
-    protected readonly ILogger<IDatastore<T>> _logger;
+    protected readonly ILogger<IItemDatastore<T>> _logger;
     private readonly ISyncPolicy _policy;
 
-    public DatastoreBase(
+    public ItemDatastoreBase(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<DatastoreBase<T>> logger,
+      ILogger<ItemDatastoreBase<T>> logger,
       ISyncPolicyFactory policy)
     {
       _dbConnection = dbConnectionFactory.Get();

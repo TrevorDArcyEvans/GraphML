@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphML.Interfaces
 {
-  public interface IDatastore<T>
+  public interface IItemDatastore<T>
   {
     IEnumerable<T> ByIds(IEnumerable<Guid> id);
     IEnumerable<T> Create(IEnumerable<T> entity);
