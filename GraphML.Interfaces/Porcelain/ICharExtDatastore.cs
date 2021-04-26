@@ -3,9 +3,9 @@ using GraphML.Porcelain;
 
 namespace GraphML.Interfaces.Porcelain
 {
-  public interface IChartExDatastore : IOwnedDatastore<ChartEx>
+  public interface IChartExDatastore
   {
-    ChartEx ById(Guid id);
+    ChartEx ById(Guid chartId);
   }
   public interface IChartNodeExDatastore : IOwnedDatastore<ChartNodeEx>
   {

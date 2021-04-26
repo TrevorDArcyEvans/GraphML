@@ -1,30 +1,38 @@
 ﻿using System;
+using System.Data;
 using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using GraphML.Interfaces.Porcelain;
 using GraphML.Porcelain;
 using Microsoft.Extensions.Logging;
+using Polly;
 
 namespace GraphML.Datastore.Database.Porcelain
 {
-  public sealed class ChartExDatastore : OwnedItemDatastoreBase<ChartEx>, IChartExDatastore
+  public sealed class ChartExDatastore : IChartExDatastore
   {
+    private readonly IDbConnection _dbConnection;
+    private readonly ILogger<IChartExDatastore> _logger;
+    private readonly ISyncPolicy _policy;
+
     public ChartExDatastore(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<ChartExDatastore> logger,
-      ISyncPolicyFactory policy) :
-      base(dbConnectionFactory, logger, policy)
+      ILogger<IChartExDatastore> logger,
+      ISyncPolicyFactory policy)
     {
+      _dbConnection = dbConnectionFactory.Get();
+      _logger = logger;
+      _policy = policy.Build(_logger);
     }
 
-    public ChartEx ById(Guid id)
+    public ChartEx ById(Guid chartId)
     {
       var chartExSql = 
 $@"select
  c.*
 from Chart c
-where c.Id='{id}'";
+where c.Id='{chartId}'";
       var chartEx = _dbConnection.QueryFirst<ChartEx>(chartExSql);
 
       var chartNodeExSql =
@@ -39,7 +47,7 @@ $@"select
 from ChartNode ci
 join GraphNode gn on gn.Id = ci.GraphItemId
 join Node ri on ri.Id = gn.RepositoryItemId
-where ci.OwnerId='{id}'";
+where ci.OwnerId='{chartId}'";
       var chartNodeEx = _dbConnection.Query<ChartNodeEx>(chartNodeExSql);
       
       var chartEdgeExSql =
@@ -55,7 +63,7 @@ $@"select
 from ChartEdge ci
 join GraphEdge gn on gn.Id = ci.GraphItemId
 join Edge ri on ri.Id = gn.RepositoryItemId
-where ci.OwnerId='{id}'";
+where ci.OwnerId='{chartId}'";
       var chartEdgeEx = _dbConnection.Query<ChartEdgeEx>(chartEdgeExSql);
 
       chartEx.Nodes = chartNodeEx;
