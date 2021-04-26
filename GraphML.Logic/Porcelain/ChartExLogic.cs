@@ -6,18 +6,23 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Porcelain
 {
-  public sealed class ChartExLogic : OwnedLogicBase<ChartEx>, IChartExLogic
+  public sealed class ChartExLogic : IChartExLogic
   {
+    private readonly IHttpContextAccessor _context;
     private readonly IChartExDatastore _chartExDatastore;
-    
+    private readonly IChartExValidator _validator;
+    private readonly IChartExFilter _filter;
+
     public ChartExLogic(
       IHttpContextAccessor context,
       IChartExDatastore datastore,
       IChartExValidator validator,
-      IChartExFilter filter) :
-      base(context, datastore, validator, filter)
+      IChartExFilter filter)
     {
+      _context = context;
       _chartExDatastore = datastore;
+      _validator = validator;
+      _filter = filter;
     }
 
     public ChartEx ById(Guid id)
@@ -27,6 +32,7 @@ namespace GraphML.Logic.Porcelain
       return _chartExDatastore.ById(id);
     }
   }
+
   public sealed class ChartNodeExLogic : OwnedLogicBase<ChartNodeEx>, IChartNodeExLogic
   {
     public ChartNodeExLogic(
@@ -38,6 +44,7 @@ namespace GraphML.Logic.Porcelain
     {
     }
   }
+
   public sealed class ChartEdgeExLogic : OwnedLogicBase<ChartEdgeEx>, IChartEdgeExLogic
   {
     public ChartEdgeExLogic(

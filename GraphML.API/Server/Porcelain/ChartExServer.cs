@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace GraphML.API.Server.Porcelain
 {
-  public sealed class ChartExServer : OwnedItemServerBase<ChartEx>, IChartExServer
+  public sealed class ChartExServer : ServerBase, IChartExServer
   {
     public ChartExServer(
       IConfiguration config,

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using GraphML.Interfaces.Porcelain;
@@ -18,12 +17,11 @@ namespace GraphML.API.Controllers.Porcelain
   [Route("api/porcelain/[controller]")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   [Produces("application/json")]
-  public sealed class ChartExController : OwnedGraphMLController<ChartEx>
+  public sealed class ChartExController : ControllerBase
   {
     private readonly IChartExLogic _logic;
 
-    public ChartExController(IChartExLogic logic) :
-      base(logic)
+    public ChartExController(IChartExLogic logic)
     {
       _logic = logic;
     }
@@ -42,123 +40,6 @@ namespace GraphML.API.Controllers.Porcelain
     public ActionResult<ChartEx> ById([FromRoute] [Required] Guid id)
     {
       return Ok(_logic.ById(id));
-    }
-
-    /// <summary>
-    /// Retrieve Entity by its unique identifier
-    /// </summary>
-    /// <param name="ids">unique identifier</param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Entity with identifier not found</response>
-    [HttpPost]
-    [Route(nameof(ByIds))]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<ChartEx>))]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<ChartEx>> ByIds([FromBody] [Required] IEnumerable<Guid> ids)
-    {
-      throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Create new Entities
-    /// </summary>
-    /// <param name="entity">new Entities information</param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entities</response>
-    [HttpPost]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<ChartEx>))]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult<IEnumerable<ChartEx>> Create([FromBody] [Required] IEnumerable<ChartEx> entity)
-    {
-      throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Update an existing Entities with new information
-    /// </summary>
-    /// <param name="entity">Entities with updated information</param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entities</response>
-    [HttpPut]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult Update([FromBody] [Required] IEnumerable<ChartEx> entity)
-    {
-      throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Delete existing Entities
-    /// </summary>
-    /// <param name="entity">existing Entities information</param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Incorrect reference in Entities</response>
-    [HttpDelete]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK)]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public override ActionResult Delete([FromBody] [Required] IEnumerable<ChartEx> entity)
-    {
-      throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Retrieve all Entities in a paged list
-    /// </summary>
-    /// <param name="ownerIds"></param>
-    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
-    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
-    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
-    /// <response code="200">Success - if no Entities found, return empty list</response>
-    [HttpPost]
-    [Route(nameof(ByOwners))]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<ChartEx>))]
-    public override ActionResult<PagedDataEx<ChartEx>> ByOwners(
-      [FromBody] [Required] IEnumerable<Guid> ownerIds,
-      [FromQuery] int pageIndex = DefaultPageIndex,
-      [FromQuery] int pageSize = DefaultPageSize,
-      [FromQuery] string searchTerm = null)
-    {
-      throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Retrieve Entities in a paged list
-    /// </summary>
-    /// <param name="ownerId">identifier of owner</param>
-    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
-    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
-    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
-    /// <response code="200">Success - if no Entities found, return empty list</response>
-    [HttpGet]
-    [Route(nameof(ByOwner) + "/{ownerId}")]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<ChartEx>))]
-    public override ActionResult<PagedDataEx<ChartEx>> ByOwner(
-      [FromRoute] [Required] Guid ownerId,
-      [FromQuery] int pageIndex = DefaultPageIndex,
-      [FromQuery] int pageSize = DefaultPageSize,
-      [FromQuery] string searchTerm = null)
-    {
-      throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Retrieve total number of Entities
-    /// </summary>
-    /// <param name="ownerId">identifier of owner</param>
-    /// <response code="200">Success - if no Entities found, return zero</response>
-    [HttpGet]
-    [Route(nameof(Count) + "/{ownerId}")]
-    [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(int))]
-    public override ActionResult<int> Count([FromRoute] Guid ownerId)
-    {
-      throw new NotImplementedException();
     }
   }
 }

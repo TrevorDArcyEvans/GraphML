@@ -3,7 +3,7 @@ using GraphML.Porcelain;
 
 namespace GraphML.Interfaces.Porcelain
 {
-  public interface IChartExLogic : IOwnedLogic<ChartEx>
+  public interface IChartExLogic
   {
     ChartEx ById(Guid id);
   }
