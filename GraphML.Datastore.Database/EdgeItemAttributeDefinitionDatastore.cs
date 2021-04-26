@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class EdgeItemAttributeDefinitionDatastore : OwnedItemDatastoreBase<EdgeItemAttributeDefinition>, IEdgeItemAttributeDefinitionDatastore
+  public sealed class EdgeItemAttributeDefinitionDatastore : OwnedItemDatastore<EdgeItemAttributeDefinition>, IEdgeItemAttributeDefinitionDatastore
   {
     public EdgeItemAttributeDefinitionDatastore(
       IDbConnectionFactory dbConnectionFactory,

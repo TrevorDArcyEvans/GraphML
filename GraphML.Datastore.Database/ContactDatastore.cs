@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class ContactDatastore : OwnedItemDatastoreBase<Contact>, IContactDatastore
+  public sealed class ContactDatastore : OwnedItemDatastore<Contact>, IContactDatastore
   {
     public ContactDatastore(
       IDbConnectionFactory dbConnectionFactory,

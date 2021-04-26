@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database.Porcelain
 {
-  public sealed class ChartExDatastore : ItemDatastoreBase<ChartEx>,  IChartExDatastore
+  public sealed class ChartExDatastore : ItemDatastore<ChartEx>,  IChartExDatastore
   {
     private readonly IChartNodeExDatastore _chartNodeExDatastore;
     private readonly IChartEdgeExDatastore _chartEdgeExDatastore;
@@ -42,7 +42,7 @@ where c.Id='{chartId}'";
     }
   }
 
-  public sealed class ChartNodeExDatastore : ItemDatastoreBase<ChartNodeEx>, IChartNodeExDatastore
+  public sealed class ChartNodeExDatastore : ItemDatastore<ChartNodeEx>, IChartNodeExDatastore
   {
     public ChartNodeExDatastore(
       IDbConnectionFactory dbConnectionFactory,
@@ -73,7 +73,7 @@ where ci.OwnerId='{chartId}'";
     }
   }
 
-  public sealed class ChartEdgeExDatastore : ItemDatastoreBase<ChartEdgeEx>, IChartEdgeExDatastore
+  public sealed class ChartEdgeExDatastore : ItemDatastore<ChartEdgeEx>, IChartEdgeExDatastore
   {
     public ChartEdgeExDatastore(
       IDbConnectionFactory dbConnectionFactory,

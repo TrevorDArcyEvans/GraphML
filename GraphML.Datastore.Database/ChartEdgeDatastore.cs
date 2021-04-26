@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class ChartEdgeDatastore : OwnedItemDatastoreBase<ChartEdge>, IChartEdgeDatastore
+  public sealed class ChartEdgeDatastore : OwnedItemDatastore<ChartEdge>, IChartEdgeDatastore
   {
     public ChartEdgeDatastore(
       IDbConnectionFactory dbConnectionFactory,

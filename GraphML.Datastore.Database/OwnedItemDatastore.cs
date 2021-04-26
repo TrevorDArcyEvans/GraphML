@@ -7,11 +7,11 @@ using System.Collections.Generic;
 
 namespace GraphML.Datastore.Database
 {
-  public abstract class OwnedItemDatastoreBase<T> : ItemDatastoreBase<T>, IOwnedDatastore<T> where T : OwnedItem
+  public abstract class OwnedItemDatastore<T> : ItemDatastore<T>, IOwnedDatastore<T> where T : OwnedItem
   {
-    public OwnedItemDatastoreBase(
+    public OwnedItemDatastore(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<OwnedItemDatastoreBase<T>> logger,
+      ILogger<OwnedItemDatastore<T>> logger,
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {

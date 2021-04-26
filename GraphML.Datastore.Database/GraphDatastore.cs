@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class GraphDatastore : OwnedItemDatastoreBase<Graph>, IGraphDatastore
+  public sealed class GraphDatastore : OwnedItemDatastore<Graph>, IGraphDatastore
   {
     public GraphDatastore(
       IDbConnectionFactory dbConnectionFactory,
