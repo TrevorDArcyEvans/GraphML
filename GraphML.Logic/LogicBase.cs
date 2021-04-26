@@ -4,6 +4,7 @@ using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphML.Logic
 {
@@ -29,12 +30,12 @@ namespace GraphML.Logic
     public virtual IEnumerable<T> ByIds(IEnumerable<Guid> ids)
     {
       var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.ByIds)));
-      if (valRes.IsValid)
+      if (!valRes.IsValid)
       {
-        return _filter.Filter(_datastore.ByIds(ids));
+        return Enumerable.Empty<T>();
       }
 
-      return null;
+      return _filter.Filter(_datastore.ByIds(ids));
     }
 
     public virtual IEnumerable<T> Create(IEnumerable<T> entity)
@@ -44,7 +45,7 @@ namespace GraphML.Logic
         var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Create)));
         if (!valRes.IsValid)
         {
-          return null;
+          return Enumerable.Empty<T>();
         }
       }
 
