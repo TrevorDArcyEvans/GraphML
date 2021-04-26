@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GraphML.Porcelain;
 
 namespace GraphML.Interfaces.Porcelain
@@ -7,10 +8,12 @@ namespace GraphML.Interfaces.Porcelain
   {
     ChartEx ById(Guid id);
   }
-  public interface IChartNodeExLogic : IOwnedLogic<ChartNodeEx>
+  public interface IChartNodeExLogic
   {
+    IEnumerable<ChartNodeEx> ByOwner(Guid chartId);
   }
-  public interface IChartEdgeExLogic : IOwnedLogic<ChartEdgeEx>
+  public interface IChartEdgeExLogic
   {
+    IEnumerable<ChartEdgeEx> ByOwner(Guid chartId);
   }
 }
