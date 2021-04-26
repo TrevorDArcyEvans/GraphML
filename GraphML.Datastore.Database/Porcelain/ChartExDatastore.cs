@@ -1,42 +1,61 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
 using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using GraphML.Interfaces.Porcelain;
 using GraphML.Porcelain;
 using Microsoft.Extensions.Logging;
-using Polly;
 
 namespace GraphML.Datastore.Database.Porcelain
 {
-  public sealed class ChartExDatastore : IChartExDatastore
+  public sealed class ChartExDatastore : DatastoreBase<ChartEx>,  IChartExDatastore
   {
-    private readonly IDbConnection _dbConnection;
-    private readonly ILogger<IChartExDatastore> _logger;
-    private readonly ISyncPolicy _policy;
+    private readonly IChartNodeExDatastore _chartNodeExDatastore;
+    private readonly IChartEdgeExDatastore _chartEdgeExDatastore;
 
     public ChartExDatastore(
       IDbConnectionFactory dbConnectionFactory,
-      ILogger<IChartExDatastore> logger,
-      ISyncPolicyFactory policy)
+      ILogger<ChartExDatastore> logger,
+      ISyncPolicyFactory policy,
+      IChartNodeExDatastore chartNodeExDatastore,
+      IChartEdgeExDatastore chartEdgeExDatastore) :
+      base(dbConnectionFactory, logger, policy)
     {
-      _dbConnection = dbConnectionFactory.Get();
-      _logger = logger;
-      _policy = policy.Build(_logger);
+      _chartNodeExDatastore = chartNodeExDatastore;
+      _chartEdgeExDatastore = chartEdgeExDatastore;
     }
 
     public ChartEx ById(Guid chartId)
     {
-      var chartExSql = 
-$@"select
+      var chartExSql =
+        $@"select
  c.*
 from Chart c
 where c.Id='{chartId}'";
       var chartEx = _dbConnection.QueryFirst<ChartEx>(chartExSql);
 
+      chartEx.Nodes = _chartNodeExDatastore.ByOwner(chartId);
+      chartEx.Edges = _chartEdgeExDatastore.ByOwner(chartId);
+
+      return chartEx;
+    }
+  }
+
+  public sealed class ChartNodeExDatastore : DatastoreBase<ChartNodeEx>, IChartNodeExDatastore
+  {
+    public ChartNodeExDatastore(
+      IDbConnectionFactory dbConnectionFactory,
+      ILogger<ChartNodeExDatastore> logger,
+      ISyncPolicyFactory policy) :
+      base(dbConnectionFactory, logger, policy)
+    {
+    }
+
+    public IEnumerable<ChartNodeEx> ByOwner(Guid chartId)
+    {
       var chartNodeExSql =
-$@"select
+        $@"select
  ci.Id,
  ci.OrganisationId,
  ci.Name,
@@ -49,9 +68,25 @@ join GraphNode gn on gn.Id = ci.GraphItemId
 join Node ri on ri.Id = gn.RepositoryItemId
 where ci.OwnerId='{chartId}'";
       var chartNodeEx = _dbConnection.Query<ChartNodeEx>(chartNodeExSql);
-      
+
+      return chartNodeEx;
+    }
+  }
+
+  public sealed class ChartEdgeExDatastore : DatastoreBase<ChartEdgeEx>, IChartEdgeExDatastore
+  {
+    public ChartEdgeExDatastore(
+      IDbConnectionFactory dbConnectionFactory,
+      ILogger<ChartEdgeExDatastore> logger,
+      ISyncPolicyFactory policy) :
+      base(dbConnectionFactory, logger, policy)
+    {
+    }
+
+    public IEnumerable<ChartEdgeEx> ByOwner(Guid chartId)
+    {
       var chartEdgeExSql =
-$@"select
+        $@"select
  ci.Id,
  ci.OrganisationId,
  ci.Name,
@@ -66,30 +101,7 @@ join Edge ri on ri.Id = gn.RepositoryItemId
 where ci.OwnerId='{chartId}'";
       var chartEdgeEx = _dbConnection.Query<ChartEdgeEx>(chartEdgeExSql);
 
-      chartEx.Nodes = chartNodeEx;
-      chartEx.Edges = chartEdgeEx;
-      
-      return chartEx;
-    }
-  }
-  public sealed class ChartNodeExDatastore : OwnedItemDatastoreBase<ChartNodeEx>, IChartNodeExDatastore
-  {
-    public ChartNodeExDatastore(
-      IDbConnectionFactory dbConnectionFactory,
-      ILogger<ChartNodeExDatastore> logger,
-      ISyncPolicyFactory policy) :
-      base(dbConnectionFactory, logger, policy)
-    {
-    }
-  }
-  public sealed class ChartEdgeExDatastore : OwnedItemDatastoreBase<ChartEdgeEx>, IChartEdgeExDatastore
-  {
-    public ChartEdgeExDatastore(
-      IDbConnectionFactory dbConnectionFactory,
-      ILogger<ChartEdgeExDatastore> logger,
-      ISyncPolicyFactory policy) :
-      base(dbConnectionFactory, logger, policy)
-    {
+      return chartEdgeEx;
     }
   }
 }
