@@ -106,6 +106,7 @@ or it will not be rendered.
       var source = Diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
       var target = Diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
       var link = new LinkModel(source, target);
+      link.Labels.Add(new LinkLabelModel(link, edge.Name));
       return link;
     });
     Diagram.Links.Add(links);
