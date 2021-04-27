@@ -69,7 +69,7 @@ INSERT INTO Graph(Id, OrganisationId, OwnerId, Directed, Name)
 VALUES
   ('470a1e4f-c0c4-400c-a726-9ffe9697135a', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'b556969c-bd2c-4378-ae95-972923118295', 0, 'GraphML Graph 0'),
   ('6d574bb5-7f80-4e33-a373-59dd18e8e47c', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'b556969c-bd2c-4378-ae95-972923118295', 0, 'GraphML Graph 1'),
-  ('68e65dd3-940e-41ce-8274-6e2518390605', '05dfbd09-3252-42a1-901b-85691802d9bc', '100fba96-f33d-4242-a551-722b73bc9c6d', 0, 'Kool Organisation Graph 0'),
+  ('68e65dd3-940e-41ce-8274-6e2518390605', '05dfbd09-3252-42a1-901b-85691802d9bc', '100fba96-f33d-4242-a551-722b73bc9c6d', 1, 'Kool Organisation Graph 0'),
   ('a5f2ab9c-2fe0-4072-a9ab-c38f21d364b1', '05dfbd09-3252-42a1-901b-85691802d9bc', '45783182-4912-45c5-9589-11f66c69bddb', 0, 'Kool Organisation Graph 1');
 
 INSERT INTO GraphNode(Id, OrganisationId, OwnerId, RepositoryItemId, Name)

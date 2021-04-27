@@ -105,7 +105,10 @@ or it will not be rendered.
     {
       var source = Diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
       var target = Diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
-      var link = new LinkModel(source, target);
+      var link = new LinkModel(source, target)
+      {
+        TargetMarker = chart.Directed ? LinkMarker.Arrow : null
+      };
       link.Labels.Add(new LinkLabelModel(link, edge.Name));
       return link;
     });

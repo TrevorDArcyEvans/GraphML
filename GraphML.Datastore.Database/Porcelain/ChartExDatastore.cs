@@ -29,8 +29,10 @@ namespace GraphML.Datastore.Database.Porcelain
     {
       var chartExSql =
         $@"select
- c.*
+ c.*,
+ g.Directed
 from Chart c
+join Graph g on g.Id = c.OwnerId
 where c.Id='{chartId}'";
       var chartEx = _dbConnection.QueryFirst<ChartEx>(chartExSql);
 
