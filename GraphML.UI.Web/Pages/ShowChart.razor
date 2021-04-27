@@ -11,6 +11,7 @@
 @using Blazor.Diagrams.Components
 @using GraphML.Interfaces.Porcelain
 @using GraphML.Porcelain
+@using GraphML.UI.Web.Widgets
 
 @inject IChartExServer _chartExServer
 @inject IConfiguration _config
@@ -87,6 +88,8 @@ or it will not be rendered.
       }
     };
     Diagram = new Diagram(options);
+    
+    Diagram.RegisterModelComponent<ItemNode, ItemNodeWidget>();
 
     var chart = await _chartExServer.ById(Guid.Parse(ChartId));
     Setup(chart);
@@ -94,7 +97,8 @@ or it will not be rendered.
 
   private void Setup(ChartEx chart)
   {
-    var nodes = chart.Nodes.Select(n => new NodeModel (n.RepositoryItemId.ToString(), new Point(n.X, n.Y)));
+    var nodes = chart.Nodes.Select(n => 
+      new ItemNode (n.RepositoryItemId.ToString(), n.Name, new Point(n.X, n.Y)));
     Diagram.Nodes.Add(nodes);
 
     var links = chart.Edges.Select(edge =>
