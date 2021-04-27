@@ -95,27 +95,17 @@ or it will not be rendered.
 
   private void Setup(ChartEx chart)
   {
-    var nodes = chart.Nodes.Select(n => NewNode(n.RepositoryItemId.ToString(), n.X, n.Y));
+    var nodes = chart.Nodes.Select(n => new NodeModel (n.RepositoryItemId.ToString(), new Point(n.X, n.Y)));
     Diagram.Nodes.Add(nodes);
 
     var links = chart.Edges.Select(edge =>
     {
       var source = Diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
       var target = Diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
-      var link = new LinkModel(source.GetPort(PortAlignment.Right), target.GetPort(PortAlignment.Left));
+      var link = new LinkModel(source, target);
       return link;
     });
     Diagram.Links.Add(links);
-  }
-
-  private static NodeModel NewNode(string id, double x, double y)
-  {
-    var node = new NodeModel(id, new Point(x, y));
-    node.AddPort(PortAlignment.Bottom);
-    node.AddPort(PortAlignment.Top);
-    node.AddPort(PortAlignment.Left);
-    node.AddPort(PortAlignment.Right);
-    return node;
   }
 
   private void GotoBrowseCharts()
