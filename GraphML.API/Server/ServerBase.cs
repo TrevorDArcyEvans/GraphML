@@ -39,7 +39,7 @@ namespace GraphML.API.Server
       _logger = logger;
       _policy = policy.Build(_logger);
 
-      _client.BaseAddress = new Uri(config.API_URI());
+      _client.BaseAddress ??= new Uri(config.API_URI());
     }
 
     protected HttpRequestMessage GetRequest(string path)
@@ -63,7 +63,6 @@ namespace GraphML.API.Server
       var request = GetRequest(path);
       var json = JsonConvert.SerializeObject(body, _settings);
       request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
@@ -81,7 +80,6 @@ namespace GraphML.API.Server
       var request = GetPageRequest(path, pageIndex, pageSize, searchTerm);
       var json = JsonConvert.SerializeObject(body, _settings);
       request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
@@ -90,7 +88,6 @@ namespace GraphML.API.Server
     {
       var request = GetRequest(path, body);
       request.Method = HttpMethod.Post;
-      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
@@ -99,7 +96,6 @@ namespace GraphML.API.Server
     {
       var request = GetPageRequest(path, body, pageIndex, pageSize, searchTerm);
       request.Method = HttpMethod.Post;
-      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
@@ -108,7 +104,6 @@ namespace GraphML.API.Server
     {
       var request = GetRequest(path, body);
       request.Method = HttpMethod.Post;
-      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
@@ -126,7 +121,6 @@ namespace GraphML.API.Server
       var request = GetDeleteRequest(path);
       var json = JsonConvert.SerializeObject(body, _settings);
       request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-      request.Headers.Add("Content-Type", "application/json");
 
       return request;
     }
