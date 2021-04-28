@@ -6,8 +6,10 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using System.Web;
+@using GraphML.Interfaces.Server
 @using Humanizer
 
+@inject IChartServer _chartServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
@@ -29,9 +31,38 @@
     <th>Name</th>
   </MatTableHeader>
   <MatTableRow>
-    <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
+    <td>
+      <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
+    </td>
+    <td>
+      <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+    </td>
   </MatTableRow>
 </MatTable>
+
+<div>
+  <MatDialog @bind-IsOpen="@deleteDialogIsOpen">
+    <MatDialogTitle>Delete chart?</MatDialogTitle>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { deleteChart = null; deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@DeleteChart">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
+  <MatButton OnClick="@NewDialog" Raised="true">New chart...</MatButton>
+  <MatDialog @bind-IsOpen="@newDialogIsOpen">
+    <MatDialogTitle>Create new chart</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@dlgNewChartName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { newDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 
@@ -62,6 +93,53 @@
   public string GraphId { get; set; }
 
   private Chart[] _charts;
+
+  private bool newDialogIsOpen;
+  private string newChartName;
+  private string dlgNewChartName;
+  
+  private bool deleteDialogIsOpen;
+  private Chart deleteChart;
+  
+  private void NewDialog()
+  {
+    dlgNewChartName = null;
+    newDialogIsOpen = true;
+  }
+
+  private async Task OkClick()
+  {
+    if (string.IsNullOrWhiteSpace(dlgNewChartName))
+    {
+      return;
+    }
+    
+    newChartName = dlgNewChartName;
+    newDialogIsOpen = false;
+    var newChart = await CreateNewChart(newChartName);
+    GotoShowChart(newChart);
+  }
+
+  private async Task<Chart> CreateNewChart(string chartName)
+  {
+    var newChart = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), chartName);
+    var newCharts = await _chartServer.Create(new[] { newChart });
+    
+    return newCharts.Single();
+  }
+
+  private async Task ConfirmDeleteChart(Chart chart)
+  {
+    deleteChart = chart;
+    deleteDialogIsOpen = true;
+  }
+
+  private async Task DeleteChart()
+  {
+    deleteDialogIsOpen = false;
+    await _chartServer.Delete(new[] { deleteChart });
+    StateHasChanged();
+  }
 
   private void GotoShowChart(Chart chart)
   {
