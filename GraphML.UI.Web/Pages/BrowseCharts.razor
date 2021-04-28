@@ -41,10 +41,10 @@
 </MatTable>
 
 <div>
-  <MatDialog @bind-IsOpen="@deleteDialogIsOpen">
+  <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
     <MatDialogTitle>Delete chart?</MatDialogTitle>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { deleteChart = null; deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@(e => { _deleteChart = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
       <MatButton OnClick="@DeleteChart">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
@@ -52,13 +52,13 @@
 
 <div>
   <MatButton OnClick="@NewDialog" Raised="true">New chart...</MatButton>
-  <MatDialog @bind-IsOpen="@newDialogIsOpen">
+  <MatDialog @bind-IsOpen="@_newDialogIsOpen">
     <MatDialogTitle>Create new chart</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@dlgNewChartName"></MatTextField>
+      <MatTextField @bind-Value="@_dlgNewChartName"></MatTextField>
     </MatDialogContent>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { newDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
       <MatButton OnClick="@OkClick">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
@@ -94,29 +94,29 @@
 
   private Chart[] _charts;
 
-  private bool newDialogIsOpen;
-  private string newChartName;
-  private string dlgNewChartName;
+  private bool _newDialogIsOpen;
+  private string _newChartName;
+  private string _dlgNewChartName;
   
-  private bool deleteDialogIsOpen;
-  private Chart deleteChart;
+  private bool _deleteDialogIsOpen;
+  private Chart _deleteChart;
   
   private void NewDialog()
   {
-    dlgNewChartName = null;
-    newDialogIsOpen = true;
+    _dlgNewChartName = null;
+    _newDialogIsOpen = true;
   }
 
   private async Task OkClick()
   {
-    if (string.IsNullOrWhiteSpace(dlgNewChartName))
+    if (string.IsNullOrWhiteSpace(_dlgNewChartName))
     {
       return;
     }
     
-    newChartName = dlgNewChartName;
-    newDialogIsOpen = false;
-    var newChart = await CreateNewChart(newChartName);
+    _newChartName = _dlgNewChartName;
+    _newDialogIsOpen = false;
+    var newChart = await CreateNewChart(_newChartName);
     GotoShowChart(newChart);
   }
 
@@ -128,16 +128,16 @@
     return newCharts.Single();
   }
 
-  private async Task ConfirmDeleteChart(Chart chart)
+  private void ConfirmDeleteChart(Chart chart)
   {
-    deleteChart = chart;
-    deleteDialogIsOpen = true;
+    _deleteChart = chart;
+    _deleteDialogIsOpen = true;
   }
 
   private async Task DeleteChart()
   {
-    deleteDialogIsOpen = false;
-    await _chartServer.Delete(new[] { deleteChart });
+    _deleteDialogIsOpen = false;
+    await _chartServer.Delete(new[] { _deleteChart });
     StateHasChanged();
   }
 
