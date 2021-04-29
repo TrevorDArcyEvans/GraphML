@@ -1,7 +1,7 @@
 using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 
-namespace GraphML.UI.Web
+namespace GraphML.UI.Web.Models
 {
   public class ItemNode : NodeModel
   {

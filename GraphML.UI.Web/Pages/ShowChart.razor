@@ -9,10 +9,17 @@
 
 <!-- required to resolve DiagramCanvas component -->
 @using Blazor.Diagrams.Components
+@using Flurl
+@using GraphML.API.Controllers
+@using GraphML.Common
 @using GraphML.Interfaces.Porcelain
+@using GraphML.Interfaces.Server
 @using GraphML.Porcelain
+@using GraphML.UI.Web.Models
 @using GraphML.UI.Web.Widgets
+@using Humanizer
 
+@inject INodeServer _nodeServer
 @inject IChartExServer _chartExServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
@@ -20,23 +27,53 @@
 <h1>Chart</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)</h4>
 
-<!--
-Parent of DiagramCanvas has to have a fixed width/height
-or it will not be rendered.
+<div class="diagram-container row h-100 v-100">
 
-100vw = 100% viewport width
-100vh = 100% viewport height
--->
-<div style="width:100vw; height: 100vh">
-  <CascadingValue Value="Diagram">
-    <DiagramCanvas></DiagramCanvas>
-  </CascadingValue>
+  <div class="col-4">
+    <MatTable
+      Items="@_graphNodes"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+      PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+      FilterByColumnName="@nameof(GraphNode.Name)"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+      </MatTableHeader>
+      <MatTableRow>
+        @{
+          var id = @context.RepositoryItemId.ToString();
+          <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
+        }
+      </MatTableRow>
+    </MatTable>
+  </div>
+
+  <!--
+  Parent of DiagramCanvas has to have a fixed width/height
+  or it will not be rendered.
+
+  100vw = 100% viewport width
+  100vh = 100% viewport height
+  -->
+  <div class="col-8" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+    <CascadingValue Value="_diagram">
+      <DiagramCanvas></DiagramCanvas>
+    </CascadingValue>
+  </div>
+
 </div>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseCharts())">Back</MatButton>
 
 @code
 {
+  #region Parameters
+
   [Parameter]
   public string OrganisationName { get; set; }
 
@@ -67,7 +104,11 @@ or it will not be rendered.
   [Parameter]
   public string ChartId { get; set; }
 
-  private Diagram Diagram { get; set; }
+  #endregion
+
+  private Diagram _diagram { get; set; }
+  private GraphNode[] _graphNodes;
+  private string _draggedNodeId;
 
   protected override async void OnInitialized()
   {
@@ -87,9 +128,9 @@ or it will not be rendered.
         Inverse = false, // Whether to inverse the direction of the zoom when using the wheel
       }
     };
-    Diagram = new Diagram(options);
-    
-    Diagram.RegisterModelComponent<ItemNode, ItemNodeWidget>();
+    _diagram = new Diagram(options);
+
+    _diagram.RegisterModelComponent<ItemNode, ItemNodeWidget>();
 
     var chart = await _chartExServer.ById(Guid.Parse(ChartId));
     Setup(chart);
@@ -97,14 +138,14 @@ or it will not be rendered.
 
   private void Setup(ChartEx chart)
   {
-    var nodes = chart.Nodes.Select(n => 
-      new ItemNode (n.RepositoryItemId.ToString(), n.Name, new Point(n.X, n.Y)));
-    Diagram.Nodes.Add(nodes);
+    var nodes = chart.Nodes.Select(n =>
+      new ItemNode(n.RepositoryItemId.ToString(), n.Name, new Point(n.X, n.Y)));
+    _diagram.Nodes.Add(nodes);
 
     var links = chart.Edges.Select(edge =>
     {
-      var source = Diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
-      var target = Diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
+      var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
+      var target = _diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
       var link = new LinkModel(source, target)
       {
         TargetMarker = chart.Directed ? LinkMarker.Arrow : null
@@ -112,7 +153,35 @@ or it will not be rendered.
       link.Labels.Add(new LinkLabelModel(link, edge.Name));
       return link;
     });
-    Diagram.Links.Add(links);
+    _diagram.Links.Add(links);
+  }
+
+  private void OnDragStart(string draggedNode)
+  {
+  // Can also use transferData, but this is probably "faster"
+    _draggedNodeId = draggedNode;
+  }
+
+  private async Task OnDrop(DragEventArgs e)
+  {
+    if (_draggedNodeId == Guid.Empty.ToString())
+    {
+  // nothing selected
+      return;
+    }
+
+    if (_diagram.Nodes.OfType<ItemNode>().Any(n => n.Id == _draggedNodeId))
+    {
+      // node already on chart
+      return;
+    }
+
+    var draggedNode = (await _nodeServer.ByIds(new[] { Guid.Parse(_draggedNodeId) })).Single();
+    var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
+    var node = new ItemNode(draggedNode.Id.ToString(), draggedNode.Name, position);
+    _diagram.Nodes.Add(node);
+    
+    _draggedNodeId = Guid.Empty.ToString();
   }
 
   private void GotoBrowseCharts()
