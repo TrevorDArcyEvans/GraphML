@@ -9,6 +9,7 @@
 
 <!-- required to resolve DiagramCanvas component -->
 @using Blazor.Diagrams.Components
+@using Blazor.Diagrams.Core.Models.Base
 @using Flurl
 @using GraphML.API.Controllers
 @using GraphML.Common
@@ -19,6 +20,7 @@
 @using GraphML.UI.Web.Widgets
 @using Humanizer
 
+@inject IBlazorContextMenuService _contextMenuService
 @inject INodeServer _nodeServer
 @inject IChartExServer _chartExServer
 @inject IConfiguration _config
@@ -60,7 +62,7 @@
   100vw = 100% viewport width
   100vh = 100% viewport height
   -->
-  <div class="col-8" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+  <div class="col-8" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
     <CascadingValue Value="_diagram">
       <DiagramCanvas></DiagramCanvas>
     </CascadingValue>
@@ -69,6 +71,10 @@
 </div>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseCharts())">Back</MatButton>
+
+<ContextMenu Id="NodeContextMenu" CssClass="z-10" AutoHide="true">
+  <Item OnClick="@OnExpandNode">Expand node</Item>
+</ContextMenu>
 
 @code
 {
@@ -129,11 +135,21 @@
       }
     };
     _diagram = new Diagram(options);
+    _diagram.MouseClick += Diagram_OnMouseClick;
 
     _diagram.RegisterModelComponent<ItemNode, ItemNodeWidget>();
 
     var chart = await _chartExServer.ById(Guid.Parse(ChartId));
     Setup(chart);
+  }
+
+  private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
+  {
+    if (eventArgs.Button == 2 &&
+        model is ItemNode itemNode)
+    {
+      _contextMenuService.ShowMenu("NodeContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
+    }
   }
 
   private void Setup(ChartEx chart)
@@ -172,7 +188,7 @@
 
     if (_diagram.Nodes.OfType<ItemNode>().Any(n => n.Id == _draggedNodeId))
     {
-      // node already on chart
+  // node already on chart
       return;
     }
 
@@ -180,8 +196,15 @@
     var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
     var node = new ItemNode(draggedNode.Id.ToString(), draggedNode.Name, position);
     _diagram.Nodes.Add(node);
-    
+
     _draggedNodeId = Guid.Empty.ToString();
+  }
+
+  private void OnExpandNode(ItemClickEventArgs e)
+  {
+    // TODO   expand node
+    var selNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
+    Console.WriteLine($"Selected node: {selNode.Name} IsCanceled: {e.IsCanceled}");
   }
 
   private void GotoBrowseCharts()

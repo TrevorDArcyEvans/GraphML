@@ -72,6 +72,7 @@ namespace GraphML.UI.Web
         return client;
       });
 
+      services.AddBlazorContextMenu();
       services.AddMatBlazor();
       services.AddMatToaster(config =>
       {
