@@ -49,7 +49,7 @@
       </MatTableHeader>
       <MatTableRow>
         @{
-          var id = @context.RepositoryItemId.ToString();
+          var id = @context.RepositoryItemId;
           <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
         }
       </MatTableRow>
@@ -117,7 +117,7 @@
   private Diagram _diagram { get; set; }
   private GraphNode[] _graphNodes;
   private ChartEx _chart; 
-  private string _draggedNodeId;
+  private Guid _draggedNodeId;
 
   protected override async void OnInitialized()
   {
@@ -175,7 +175,7 @@
     _diagram.Links.Add(links);
   }
 
-  private void OnDragStart(string draggedNode)
+  private void OnDragStart(Guid draggedNode)
   {
   // Can also use transferData, but this is probably "faster"
     _draggedNodeId = draggedNode;
@@ -183,24 +183,24 @@
 
   private async Task OnDrop(DragEventArgs e)
   {
-    if (_draggedNodeId == Guid.Empty.ToString())
+    if (_draggedNodeId == Guid.Empty)
     {
   // nothing selected
       return;
     }
 
-    if (_diagram.Nodes.OfType<ItemNode>().Any(n => n.Id == _draggedNodeId))
+    if (_diagram.Nodes.OfType<ItemNode>().Any(n => Guid.Parse(n.Id) == _draggedNodeId))
     {
   // node already on chart
       return;
     }
 
-    var draggedNode = (await _nodeServer.ByIds(new[] { Guid.Parse(_draggedNodeId) })).Single();
+    var draggedNode = (await _nodeServer.ByIds(new[] { _draggedNodeId })).Single();
     var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
     var node = new ItemNode(draggedNode.Id.ToString(), draggedNode.Name, position);
     _diagram.Nodes.Add(node);
 
-    _draggedNodeId = Guid.Empty.ToString();
+    _draggedNodeId = Guid.Empty;
   }
 
   private async Task OnExpandNode(ItemClickEventArgs e)
