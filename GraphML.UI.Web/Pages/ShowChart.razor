@@ -75,7 +75,31 @@
   <MatDialog @bind-IsOpen="@_parentChildDialogIsOpen" CanBeClosed="true">
     <MatDialogTitle>Parent/Child Nodes</MatDialogTitle>
     <MatDialogContent>
-      <TODO>TODO Parent/Child nodes</TODO>
+      <hr />
+      <div>
+        <b>Parents:</b><br />
+        <MatTable
+          Items="@_parentNodes"
+          FilterByColumnName="@nameof(Node.Name)"
+          Striped="true"
+          AllowSelection="true"
+          class="mat-elevation-z5">
+          <MatTableHeader>
+            <th>Name</th>
+          </MatTableHeader>
+          <MatTableRow>
+            <td>@context.Name</td>
+          </MatTableRow>
+        </MatTable>
+      </div>
+      <hr />
+      <div>
+        <b>Selected node: </b> @_selectedNode?.Name
+      </div>
+      <hr />
+      <div>
+        <b>Child node: </b> @_childNode?.Name
+      </div>
     </MatDialogContent>
     <MatDialogActions>
       <MatButton OnClick="@(e => { _parentChildDialogIsOpen = false; })">OK</MatButton>

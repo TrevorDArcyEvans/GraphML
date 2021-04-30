@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Diagrams.Core;
@@ -54,7 +55,11 @@ namespace GraphML.UI.Web.Pages
     private GraphNode[] _graphNodes;
     private ChartEx _chart;
     private Guid _draggedNodeId;
+    
     private bool _parentChildDialogIsOpen;
+    private List<Node> _parentNodes = new List<Node>();
+    private Node _selectedNode;
+    private Node _childNode;
 
     protected override async void OnInitialized()
     {
@@ -181,15 +186,14 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnShowParentChild(ItemClickEventArgs e)
     {
-      // TODO   OnShowParentChild
       var selNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
       var selNodeId = Guid.Parse(selNode.Id);
       var parentsPage = await _nodeServer.GetParents(selNodeId, 0, int.MaxValue, null);
-      var parents = parentsPage.Items;
+      _parentNodes = parentsPage.Items;
       var thisNodePage = await _nodeServer.ByIds(new[] { selNodeId });
-      var thisNode = thisNodePage.Single();
-      var children = await _nodeServer.ByIds(new[] { thisNode.NextId });
-      var child = children.SingleOrDefault();
+       _selectedNode = thisNodePage.Single();
+      var children = await _nodeServer.ByIds(new[] { _selectedNode.NextId });
+       _childNode = children.SingleOrDefault();
       _parentChildDialogIsOpen = true;
     }
 
