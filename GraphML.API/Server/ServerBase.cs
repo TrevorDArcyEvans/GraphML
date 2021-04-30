@@ -58,15 +58,6 @@ namespace GraphML.API.Server
       return request;
     }
 
-    private HttpRequestMessage GetRequest(string path, object body)
-    {
-      var request = GetRequest(path);
-      var json = JsonConvert.SerializeObject(body, _settings);
-      request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-      return request;
-    }
-
     protected HttpRequestMessage GetPageRequest(string path, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetRequest(path);
@@ -75,40 +66,33 @@ namespace GraphML.API.Server
       return request;
     }
 
-    private HttpRequestMessage GetPageRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
+    protected HttpRequestMessage PostRequest(string path, object body)
+    {
+      var request = CreateRequest(path, body);
+      request.Method = HttpMethod.Post;
+
+      return request;
+    }
+
+    protected HttpRequestMessage PostPageRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetPageRequest(path, pageIndex, pageSize, searchTerm);
       var json = JsonConvert.SerializeObject(body, _settings);
       request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-      return request;
-    }
-
-    protected HttpRequestMessage GetPostRequest(string path, object body)
-    {
-      var request = GetRequest(path, body);
       request.Method = HttpMethod.Post;
 
       return request;
     }
 
-    protected HttpRequestMessage GetPostRequest(string path, object body, int pageIndex, int pageSize, string searchTerm)
+    protected HttpRequestMessage PutRequest(string path, object body)
     {
-      var request = GetPageRequest(path, body, pageIndex, pageSize, searchTerm);
-      request.Method = HttpMethod.Post;
+      var request = CreateRequest(path, body);
+      request.Method = HttpMethod.Put;
 
       return request;
     }
 
-    protected HttpRequestMessage GetPutRequest(string path, object body)
-    {
-      var request = GetRequest(path, body);
-      request.Method = HttpMethod.Post;
-
-      return request;
-    }
-
-    protected HttpRequestMessage GetDeleteRequest(string path)
+    protected HttpRequestMessage DeleteRequest(string path)
     {
       var request = GetRequest(path);
       request.Method = HttpMethod.Delete;
@@ -116,25 +100,25 @@ namespace GraphML.API.Server
       return request;
     }
 
-    protected HttpRequestMessage GetDeleteRequest(string path, object body)
+    protected HttpRequestMessage DeleteRequest(string path, object body)
     {
-      var request = GetDeleteRequest(path);
+      var request = DeleteRequest(path);
       var json = JsonConvert.SerializeObject(body, _settings);
       request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
       return request;
     }
 
-    protected async Task<TOther> GetResponse<TOther>(HttpRequestMessage request)
+    protected async Task<TOther> RetrieveResponse<TOther>(HttpRequestMessage request)
     {
-      var resp = await GetRawResponse(request);
+      var resp = await RetrieveRawResponse(request);
       var json = await resp.Content.ReadAsStringAsync();
       var retval = JsonConvert.DeserializeObject<TOther>(json, _settings);
 
       return retval;
     }
 
-    protected async Task<HttpResponseMessage> GetRawResponse(HttpRequestMessage request)
+    protected async Task<HttpResponseMessage> RetrieveRawResponse(HttpRequestMessage request)
     {
       return await GetInternal(async () =>
       {
@@ -144,6 +128,15 @@ namespace GraphML.API.Server
 
         return resp;
       });
+    }
+
+    private HttpRequestMessage CreateRequest(string path, object body)
+    {
+      var request = GetRequest(path);
+      var json = JsonConvert.SerializeObject(body, _settings);
+      request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+      return request;
     }
 
     private TOther GetInternal<TOther>(Func<TOther> get)

@@ -29,7 +29,7 @@ namespace GraphML.API.Server.Porcelain
     public async Task<ChartEx> ById(Guid id)
     {
       var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(ChartExController.ById)}", id.ToString()));
-      var response = await GetRawResponse(request);
+      var response = await RetrieveRawResponse(request);
       var json = await response.Content.ReadAsStringAsync();
       var retval = JsonConvert.DeserializeObject<ChartEx>(json);
 

@@ -25,8 +25,8 @@ namespace GraphML.API.Server
 
     public async Task<PagedDataEx<T>> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize, string searchTerm)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.ByOwners)), ownerIds, pageIndex, pageSize, searchTerm);
-      var retval = await GetResponse<PagedDataEx<T>>(request);
+      var request = PostPageRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.ByOwners)), ownerIds, pageIndex, pageSize, searchTerm);
+      var retval = await RetrieveResponse<PagedDataEx<T>>(request);
 
       return retval;
     }
@@ -34,7 +34,7 @@ namespace GraphML.API.Server
     public async Task<PagedDataEx<T>> ByOwner(Guid ownerId, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetPageRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.ByOwner), ownerId.ToString()), pageIndex, pageSize, searchTerm);
-      var retval = await GetResponse<PagedDataEx<T>>(request);
+      var retval = await RetrieveResponse<PagedDataEx<T>>(request);
 
       return retval;
     }
@@ -42,7 +42,7 @@ namespace GraphML.API.Server
     public async Task<int> Count(Guid ownerId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(OwnedGraphMLController<T>.Count), ownerId.ToString()));
-      var retval = await GetResponse<int>(request);
+      var retval = await RetrieveResponse<int>(request);
 
       return retval;
     }

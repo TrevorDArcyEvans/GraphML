@@ -28,14 +28,14 @@ namespace GraphML.API.Server
 
     public async Task Delete(Guid correlationId)
     {
-      var request = GetDeleteRequest(Url.Combine(ResourceBase, nameof(ResultController.Delete), correlationId.ToString()));
-      var retval = await GetResponse<object>(request);
+      var request = DeleteRequest(Url.Combine(ResourceBase, nameof(ResultController.Delete), correlationId.ToString()));
+      var retval = await RetrieveResponse<object>(request);
     }
 
     public async Task<IEnumerable<IRequest>> ByContact(Guid contactId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByContact), contactId.ToString()));
-      var retval = await GetResponse<IEnumerable<IRequest>>(request);
+      var retval = await RetrieveResponse<IEnumerable<IRequest>>(request);
 
       return retval;
     }
@@ -43,7 +43,7 @@ namespace GraphML.API.Server
     public async Task<IEnumerable<IRequest>> ByOrganisation(Guid orgId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByOrganisation), orgId.ToString()));
-      var retval = await GetResponse<IEnumerable<IRequest>>(request);
+      var retval = await RetrieveResponse<IEnumerable<IRequest>>(request);
 
       return retval;
     }
@@ -51,7 +51,7 @@ namespace GraphML.API.Server
     public async Task<IRequest> ByCorrelation(Guid corrId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId.ToString()));
-      var retval = await GetResponse<IRequest>(request);
+      var retval = await RetrieveResponse<IRequest>(request);
 
       return retval;
     }
@@ -59,7 +59,7 @@ namespace GraphML.API.Server
     public async Task<IResult> Retrieve(Guid correlationId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId.ToString()));
-      var retval = await GetResponse<IResult>(request);
+      var retval = await RetrieveResponse<IResult>(request);
 
       return retval;
     }

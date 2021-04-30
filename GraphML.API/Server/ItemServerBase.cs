@@ -25,32 +25,32 @@ namespace GraphML.API.Server
 
     public async Task<IEnumerable<T>> ByIds(IEnumerable<Guid> ids)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, nameof(GraphMLController<T>.ByIds)), ids);
-      var retval = await GetResponse<IEnumerable<T>>(request);
+      var request = PostRequest(Url.Combine(ResourceBase, nameof(GraphMLController<T>.ByIds)), ids);
+      var retval = await RetrieveResponse<IEnumerable<T>>(request);
 
       return retval;
     }
 
     public async Task<IEnumerable<T>> Create(IEnumerable<T> entity)
     {
-      var request = GetPostRequest(ResourceBase, entity);
-      var retval = await GetResponse<IEnumerable<T>>(request);
+      var request = PostRequest(ResourceBase, entity);
+      var retval = await RetrieveResponse<IEnumerable<T>>(request);
 
       return retval;
     }
 
     public async Task<IEnumerable<T>> Delete(IEnumerable<T> entity)
     {
-      var request = GetDeleteRequest(ResourceBase, entity);
-      var retval = await GetResponse<IEnumerable<T>>(request);
+      var request = DeleteRequest(ResourceBase, entity);
+      var retval = await RetrieveResponse<IEnumerable<T>>(request);
 
       return retval;
     }
 
     public async Task<IEnumerable<T>> Update(IEnumerable<T> entity)
     {
-      var request = GetPutRequest(ResourceBase, entity);
-      var retval = await GetResponse<IEnumerable<T>>(request);
+      var request = PutRequest(ResourceBase, entity);
+      var retval = await RetrieveResponse<IEnumerable<T>>(request);
 
       return retval;
     }
@@ -59,7 +59,7 @@ namespace GraphML.API.Server
     {
       var path = Url.Combine(ResourceBase, nameof(Count));
       var request = GetRequest(path);
-      var retval = await GetResponse<int>(request);
+      var retval = await RetrieveResponse<int>(request);
 
       return retval;
     }

@@ -28,7 +28,7 @@ namespace GraphML.API.Server
       var request = GetRequest(Url.Combine(ResourceBase, $"{nameof(IdentityController.GetAPIUserClaimsJson)}"));
 
       // have to get raw response as does not JSON deserialise
-      var retval = await GetRawResponse(request);
+      var retval = await RetrieveRawResponse(request);
       var json = await retval.Content.ReadAsStringAsync();
 
       return json;

@@ -27,32 +27,32 @@ namespace GraphML.API.Server
 
     public async Task<Guid> Betweenness(BetweennessRequest req)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Betweenness)}"), req);
-      var retval = await GetResponse<Guid>(request);
+      var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Betweenness)}"), req);
+      var retval = await RetrieveResponse<Guid>(request);
 
       return retval;
     }
 
     public async Task<Guid> Closeness(ClosenessRequest req)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Closeness)}"), req);
-      var retval = await GetResponse<Guid>(request);
+      var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Closeness)}"), req);
+      var retval = await RetrieveResponse<Guid>(request);
 
       return retval;
     }
 
     public async Task<Guid> Degree(DegreeRequest req)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Degree)}"), req);
-      var retval = await GetResponse<Guid>(request);
+      var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.Degree)}"), req);
+      var retval = await RetrieveResponse<Guid>(request);
 
       return retval;
     }
 
     public async Task<Guid> FindShortestPaths(FindShortestPathsRequest req)
     {
-      var request = GetPostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.FindShortestPaths)}"), req);
-      var retval = await GetResponse<Guid>(request);
+      var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.FindShortestPaths)}"), req);
+      var retval = await RetrieveResponse<Guid>(request);
 
       return retval;
     }

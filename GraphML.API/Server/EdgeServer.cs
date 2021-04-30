@@ -27,8 +27,8 @@ namespace GraphML.API.Server
 
     public async Task<PagedDataEx<Edge>> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize, string searchTerm)
     {
-      var request = GetPageRequest(Url.Combine(ResourceBase, $"{nameof(EdgeController.ByNodeIds)}"), pageIndex, pageSize, searchTerm);
-      var retval = await GetResponse<PagedDataEx<Edge>>(request);
+      var request = PostPageRequest(Url.Combine(ResourceBase, $"{nameof(EdgeController.ByNodeIds)}"), ids, pageIndex, pageSize, searchTerm);
+      var retval = await RetrieveResponse<PagedDataEx<Edge>>(request);
 
       return retval;
     }
