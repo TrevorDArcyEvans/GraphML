@@ -22,6 +22,7 @@
 
 @inject IBlazorContextMenuService _contextMenuService
 @inject INodeServer _nodeServer
+@inject IEdgeServer _edgeServer
 @inject IChartExServer _chartExServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
@@ -200,10 +201,11 @@
     _draggedNodeId = Guid.Empty.ToString();
   }
 
-  private void OnExpandNode(ItemClickEventArgs e)
+  private async Task OnExpandNode(ItemClickEventArgs e)
   {
     // TODO   expand node
     var selNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
+    var expEdges = await _edgeServer.ByNodeIds(new[] { Guid.Parse(selNode.Id) }, 0, int.MaxValue, null);
     Console.WriteLine($"Selected node: {selNode.Name} IsCanceled: {e.IsCanceled}");
   }
 
