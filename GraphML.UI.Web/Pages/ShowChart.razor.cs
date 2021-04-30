@@ -197,6 +197,11 @@ namespace GraphML.UI.Web.Pages
       _parentChildDialogIsOpen = true;
     }
 
+    private void OnSave()
+    {
+      // TODO   OnSave
+    }
+
     private void GotoBrowseCharts()
     {
       _navMgr.NavigateTo($"/BrowseCharts/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");

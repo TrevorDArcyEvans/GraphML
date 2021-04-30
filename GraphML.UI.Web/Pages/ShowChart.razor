@@ -64,7 +64,12 @@
 
 </div>
 
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseCharts())">Back</MatButton>
+<div>
+  <MatButton Icon="save" @onclick="@(e => OnSave())"/>
+</div>
+<div>
+  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseCharts())">Back</MatButton>
+</div>
 
 <ContextMenu Id="NodeContextMenu" CssClass="z-10" AutoHide="true">
   <Item OnClick="@OnExpandNode">Expand node</Item>
@@ -75,9 +80,9 @@
   <MatDialog @bind-IsOpen="@_parentChildDialogIsOpen" CanBeClosed="true">
     <MatDialogTitle>Parent/Child Nodes</MatDialogTitle>
     <MatDialogContent>
-      <hr />
+      <hr/>
       <div>
-        <b>Parents:</b><br />
+        <b>Parents:</b><br/>
         <MatTable
           Items="@_parentNodes"
           FilterByColumnName="@nameof(Node.Name)"
@@ -92,11 +97,11 @@
           </MatTableRow>
         </MatTable>
       </div>
-      <hr />
+      <hr/>
       <div>
         <b>Selected node: </b> @_selectedNode?.Name
       </div>
-      <hr />
+      <hr/>
       <div>
         <b>Child node: </b> @_childNode?.Name
       </div>
