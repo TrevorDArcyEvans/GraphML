@@ -75,6 +75,7 @@
 
 <ContextMenu Id="NodeContextMenu" CssClass="z-10" AutoHide="true">
   <Item OnClick="@OnExpandNode">Expand node</Item>
+  <Item OnClick="@OnShowHistory">Show history...</Item>
 </ContextMenu>
 
 @code
@@ -239,6 +240,11 @@
       return link;
     });
     _diagram.Links.Add(links);
+  }
+
+  private void OnShowHistory(ItemClickEventArgs e)
+  {
+    // TODO   OnShowHistory
   }
 
   private void GotoBrowseCharts()
