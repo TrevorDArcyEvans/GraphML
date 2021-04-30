@@ -23,10 +23,10 @@ namespace GraphML.API.Server
     {
     }
 
-    public async Task<IEnumerable<T>> GetParents(Guid itemId, int pageIndex, int pageSize, string searchTerm)
+    public async Task<PagedDataEx<T>> GetParents(Guid itemId, int pageIndex, int pageSize, string searchTerm)
     {
       var request = GetPageRequest(Url.Combine(ResourceBase, nameof(RepositoryItemController<T>.GetParents), itemId.ToString()), pageIndex, pageSize, searchTerm);
-      var retval = await GetResponse<IEnumerable<T>>(request);
+      var retval = await GetResponse<PagedDataEx<T>>(request);
 
       return retval;
     }
