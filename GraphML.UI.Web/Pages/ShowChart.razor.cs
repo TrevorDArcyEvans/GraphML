@@ -85,7 +85,11 @@ namespace GraphML.UI.Web.Pages
       _diagram.RegisterModelComponent<ItemNode, ItemNodeWidget>();
 
       _chart = await _chartExServer.ById(Guid.Parse(ChartId));
-      Setup(_chart);
+      var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var chartNodes = chartNodesPage.Items;
+      var chartEdges = chartEdgesPage.Items;
+      Setup(chartNodes, _chart);
     }
 
     private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
@@ -97,24 +101,24 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
-    private void Setup(ChartEx chart)
+    private void Setup(IEnumerable<ChartNode> chartNodes, ChartEx chart)
     {
-      var nodes = chart.Nodes.Select(n =>
-        new ItemNode(n.RepositoryItemId.ToString(), n.Name, new Point(n.X, n.Y)));
+      var nodes = chartNodes.Select(n =>
+        new ItemNode(n, new Point(n.X, n.Y)));
       _diagram.Nodes.Add(nodes);
 
-      var links = chart.Edges.Select(edge =>
-      {
-        var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
-        var target = _diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
-        var link = new LinkModel(edge.RepositoryItemId.ToString(), source, target)
-        {
-          TargetMarker = chart.Directed ? LinkMarker.Arrow : null
-        };
-        link.Labels.Add(new LinkLabelModel(link, edge.Name));
-        return link;
-      });
-      _diagram.Links.Add(links);
+      // var links = chart.Edges.Select(edge =>
+      // {
+      //   var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
+      //   var target = _diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
+      //   var link = new LinkModel(edge.RepositoryItemId.ToString(), source, target) // TODO  store ChartEdge
+      //   {
+      //     TargetMarker = _chart.Directed ? LinkMarker.Arrow : null
+      //   };
+      //   link.Labels.Add(new LinkLabelModel(link, edge.Name));
+      //   return link;
+      // });
+      // _diagram.Links.Add(links);
     }
 
     private void OnDragStart(Guid draggedNode)
@@ -138,9 +142,10 @@ namespace GraphML.UI.Web.Pages
       }
 
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
-      var draggedNode = (await _nodeServer.ByIds(new[] { _draggedNodeId })).Single();
+      var draggedNodePage = await _chartNodeServer.ByOwner(_draggedNodeId, 0, int.MaxValue, null);
+      var draggedNode = draggedNodePage.Items.SingleOrDefault(n => n.ChartId == Guid.Parse(ChartId));
       var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-      var node = new ItemNode(draggedNode.Id.ToString(), draggedNode.Name, position);
+      var node = new ItemNode(draggedNode, position); // TODO  store ChartNode
       _diagram.Nodes.Add(node);
 
       _draggedNodeId = Guid.Empty;
@@ -166,8 +171,8 @@ namespace GraphML.UI.Web.Pages
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
       var missNodeGuids = missNodeIds.Select(id => Guid.Parse(id));
       var missNodes = await _nodeServer.ByIds(missNodeGuids);
-      var nodes = missNodes.Select(n => new ItemNode(n.Id.ToString(), n.Name, new Point(10, 10)));
-      _diagram.Nodes.Add(nodes);
+      //var nodes = missNodes.Select(n => new ItemNode(n.Id.ToString(), n.Name, new Point(10, 10))); // TODO  store ChartNode
+      //_diagram.Nodes.Add(nodes);
 
       // create missing edges
       // TODO   Edge --> GraphEdge --> ChartEdge --> DiagramEdge
@@ -175,7 +180,7 @@ namespace GraphML.UI.Web.Pages
       {
         var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
         var target = _diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
-        var link = new LinkModel(edge.Id.ToString(), source, target)
+        var link = new LinkModel(edge.Id.ToString(), source, target) // TODO  store ChartEdge
         {
           TargetMarker = _chart.Directed ? LinkMarker.Arrow : null
         };
