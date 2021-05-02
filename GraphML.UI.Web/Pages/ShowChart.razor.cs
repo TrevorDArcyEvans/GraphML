@@ -202,11 +202,13 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnShowParentChild(ItemClickEventArgs e)
     {
-      var selNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
-      var selNodeId = Guid.Parse(selNode.Id);
-      var parentsPage = await _nodeServer.GetParents(selNodeId, 0, int.MaxValue, null);
+      var selChartNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
+      var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
+      var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
+      var selGraphNode = selGraphNodes.Single();
+      var parentsPage = await _nodeServer.GetParents(selGraphNode.RepositoryItemId, 0, int.MaxValue, null);
       _parentNodes = parentsPage.Items;
-      var thisNodePage = await _nodeServer.ByIds(new[] { selNodeId });
+      var thisNodePage = await _nodeServer.ByIds(new[] { selGraphNode.RepositoryItemId });
       _selectedNode = thisNodePage.Single();
       var children = await _nodeServer.ByIds(new[] { _selectedNode.NextId });
       _childNode = children.SingleOrDefault();
