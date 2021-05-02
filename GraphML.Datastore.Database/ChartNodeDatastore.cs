@@ -1,4 +1,6 @@
-﻿using GraphML.Datastore.Database.Interfaces;
+﻿using System;
+using Dapper;
+using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +14,22 @@ namespace GraphML.Datastore.Database
       ISyncPolicyFactory policy) :
       base(dbConnectionFactory, logger, policy)
     {
+    }
+
+    public ChartNode ByGraphItem(Guid chartId, Guid graphItemId)
+    {
+      return GetInternal(() =>
+      {
+        var where = $"where {nameof(ChartItem.OwnerId)} = '{chartId}' and {nameof(ChartItem.GraphItemId)} = '{graphItemId}'";
+        var sql = 
+          @$"select
+  * from {GetTableName()}
+{where}";
+
+        var retval = _dbConnection.QueryFirstOrDefault<ChartNode>(sql);
+
+        return retval;
+      });
     }
   }
 }

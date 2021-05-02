@@ -54,8 +54,10 @@ namespace GraphML.UI.Web.Pages
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
     private ChartEx _chart;
+
+    // GraphNode.Id
     private Guid _draggedNodeId;
-    
+
     private bool _parentChildDialogIsOpen;
     private List<Node> _parentNodes = new List<Node>();
     private Node _selectedNode;
@@ -107,6 +109,7 @@ namespace GraphML.UI.Web.Pages
         new ItemNode(n, new Point(n.X, n.Y)));
       _diagram.Nodes.Add(nodes);
 
+      // TODO   add links
       // var links = chart.Edges.Select(edge =>
       // {
       //   var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
@@ -141,9 +144,17 @@ namespace GraphML.UI.Web.Pages
         return;
       }
 
-      // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
-      var draggedNodePage = await _chartNodeServer.ByOwner(_draggedNodeId, 0, int.MaxValue, null);
-      var draggedNode = draggedNodePage.Items.SingleOrDefault(n => n.ChartId == Guid.Parse(ChartId));
+      // GraphNode --> ChartNode --> DiagramNode
+      var draggedNode = await _chartNodeServer.ByGraphItem(Guid.Parse(ChartId), _draggedNodeId);
+      if (draggedNode is null)
+      {
+        // GraphNode is not in this Chart, so create a ChartNode in this Chart
+        var graphNodes = await _graphNodeServer.ByIds(new[] { _draggedNodeId });
+        var graphNode = graphNodes.Single();
+        draggedNode = new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), _draggedNodeId, graphNode.Name);
+        var newNodes = await _chartNodeServer.Create(new[] { draggedNode });
+      }
+
       var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
       var node = new ItemNode(draggedNode, position); // TODO  store ChartNode
       _diagram.Nodes.Add(node);
@@ -197,9 +208,9 @@ namespace GraphML.UI.Web.Pages
       var parentsPage = await _nodeServer.GetParents(selNodeId, 0, int.MaxValue, null);
       _parentNodes = parentsPage.Items;
       var thisNodePage = await _nodeServer.ByIds(new[] { selNodeId });
-       _selectedNode = thisNodePage.Single();
+      _selectedNode = thisNodePage.Single();
       var children = await _nodeServer.ByIds(new[] { _selectedNode.NextId });
-       _childNode = children.SingleOrDefault();
+      _childNode = children.SingleOrDefault();
       _parentChildDialogIsOpen = true;
     }
 

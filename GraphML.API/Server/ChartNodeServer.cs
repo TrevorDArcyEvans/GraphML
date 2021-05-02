@@ -1,4 +1,8 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Flurl;
+using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -19,5 +23,17 @@ namespace GraphML.API.Server
     }
 
     protected override string ResourceBase { get; } = $"/api/{nameof(ChartNode)}";
+    public async Task<ChartNode> ByGraphItem(Guid chartId, Guid graphItem)
+    {
+      var url = Url.Combine(
+        ResourceBase, 
+        $"{nameof(ChartNodeController.ByGraphItem)}",
+        chartId.ToString(),
+        graphItem.ToString());
+      var request = GetRequest(url);
+      var retval = await RetrieveResponse<ChartNode>(request);
+
+      return retval;
+    }
   }
 }
