@@ -80,14 +80,14 @@ VALUES
   ('4dd192cb-4933-405a-9934-caf6986a8c71', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'Kool Organisation Graph Node D'),
   ('f494a264-4ed0-499a-a918-81cd97e96407', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '2c4cccb1-7873-4732-b0e3-6425d4d24922', 'Kool Organisation Graph Node E');
 
-INSERT INTO GraphEdge(Id, OrganisationId, OwnerId, RepositoryItemId, Name)
+INSERT INTO GraphEdge(Id, OrganisationId, OwnerId, RepositoryItemId, Name, GraphSourceId, GraphTargetId)
 VALUES
-  ('39677015-5ca5-4bd9-a884-3a9544f94036', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'fdb37c86-62c3-42b4-a41c-8e648533609c', 'Kool Organisation Graph Edge A-B'),
-  ('f3d9dc73-f83d-497f-a17c-ce0ded62616a', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '7e352e70-164d-4489-ba73-5a9fcb17e6cf', 'Kool Organisation Graph Edge B-C'),
-  ('36ca1afc-3ab0-4b48-99be-4adde3e0329d', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '04d69adb-1da6-428f-a9d5-b5e05f2e8661', 'Kool Organisation Graph Edge C-D'),
-  ('c9021b7a-be66-4b75-8cc1-5b1d71be8d71', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'Kool Organisation Graph Edge D-A'),
-  ('f24e293d-790e-477b-8285-85850e969e3c', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Kool Organisation Graph Edge A-C'),
-  ('72f1101b-d7a0-4326-9410-21d863f0870e', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Kool Organisation Graph Edge B-D');
+  ('39677015-5ca5-4bd9-a884-3a9544f94036', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'fdb37c86-62c3-42b4-a41c-8e648533609c', 'Kool Organisation Graph Edge A-B', 'a05f5372-4c26-4afa-a08d-ae37578e75cc', '33047ebf-8868-42a0-9c82-0b88ca5580c3'),
+  ('f3d9dc73-f83d-497f-a17c-ce0ded62616a', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '7e352e70-164d-4489-ba73-5a9fcb17e6cf', 'Kool Organisation Graph Edge B-C', '33047ebf-8868-42a0-9c82-0b88ca5580c3', 'adb66f79-f3fd-4342-bcb0-18e727557692'),
+  ('36ca1afc-3ab0-4b48-99be-4adde3e0329d', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '04d69adb-1da6-428f-a9d5-b5e05f2e8661', 'Kool Organisation Graph Edge C-D', 'adb66f79-f3fd-4342-bcb0-18e727557692', '4dd192cb-4933-405a-9934-caf6986a8c71'),
+  ('c9021b7a-be66-4b75-8cc1-5b1d71be8d71', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'Kool Organisation Graph Edge D-A', '4dd192cb-4933-405a-9934-caf6986a8c71', 'a05f5372-4c26-4afa-a08d-ae37578e75cc'),
+  ('f24e293d-790e-477b-8285-85850e969e3c', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Kool Organisation Graph Edge A-C', 'a05f5372-4c26-4afa-a08d-ae37578e75cc', 'adb66f79-f3fd-4342-bcb0-18e727557692'),
+  ('72f1101b-d7a0-4326-9410-21d863f0870e', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Kool Organisation Graph Edge B-D', '33047ebf-8868-42a0-9c82-0b88ca5580c3', '4dd192cb-4933-405a-9934-caf6986a8c71');
 
 INSERT INTO Chart(Id, OrganisationId, OwnerId, Name)
 VALUES
@@ -98,17 +98,16 @@ VALUES
   ('ae54e3c5-31af-4be4-a602-771f4c3d2d5c', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Node A', 'a05f5372-4c26-4afa-a08d-ae37578e75cc', 10, 110),
   ('a80dd1e6-45c8-4bac-b2bb-ee9a149e4644', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Node B', '33047ebf-8868-42a0-9c82-0b88ca5580c3', 20, 120),
   ('e070183a-e4fa-4653-9693-621dbc2451d3', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Node C', 'adb66f79-f3fd-4342-bcb0-18e727557692', 30, 130),
-  ('40d2e664-10d8-4d3c-8821-7ca153c34b9c', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Node D', '4dd192cb-4933-405a-9934-caf6986a8c71', 40, 140),
-  ('62c6b4bc-349e-4d1b-ae3b-9ccdca05c8db', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Node E', 'f494a264-4ed0-499a-a918-81cd97e96407', 50, 150);
+  ('40d2e664-10d8-4d3c-8821-7ca153c34b9c', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Node D', '4dd192cb-4933-405a-9934-caf6986a8c71', 40, 140);
 
-INSERT INTO ChartEdge(Id, OrganisationId, OwnerId, Name, GraphItemId)
+INSERT INTO ChartEdge(Id, OrganisationId, OwnerId, Name, GraphItemId, ChartSourceId, ChartTargetId) -- TODO
 VALUES
-  ('21124ff5-b439-4268-b0ba-7635f2a788c3', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-B', '39677015-5ca5-4bd9-a884-3a9544f94036'),
-  ('be330c82-82a9-44d7-a2dc-f68062a9e158', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-C', 'f3d9dc73-f83d-497f-a17c-ce0ded62616a'),
-  ('848314b8-ada6-4034-baf4-cfa9f7f0c8ed', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge C-D', '36ca1afc-3ab0-4b48-99be-4adde3e0329d'),
-  ('c7974c96-bb1f-47e3-a7e3-0aebe90802b1', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge D-A', 'c9021b7a-be66-4b75-8cc1-5b1d71be8d71'),
-  ('519a86c8-c3c0-4d9c-bc74-084bb64ae7ae', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-C', 'f24e293d-790e-477b-8285-85850e969e3c'),
-  ('40598d9d-4273-4258-9fad-bc4144f460e8', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-D', '72f1101b-d7a0-4326-9410-21d863f0870e');
+  ('21124ff5-b439-4268-b0ba-7635f2a788c3', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-B', '39677015-5ca5-4bd9-a884-3a9544f94036', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'a80dd1e6-45c8-4bac-b2bb-ee9a149e4644'),
+  ('be330c82-82a9-44d7-a2dc-f68062a9e158', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-C', 'f3d9dc73-f83d-497f-a17c-ce0ded62616a', 'a80dd1e6-45c8-4bac-b2bb-ee9a149e4644', 'e070183a-e4fa-4653-9693-621dbc2451d3'),
+  ('848314b8-ada6-4034-baf4-cfa9f7f0c8ed', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge C-D', '36ca1afc-3ab0-4b48-99be-4adde3e0329d', 'e070183a-e4fa-4653-9693-621dbc2451d3', '40d2e664-10d8-4d3c-8821-7ca153c34b9c'),
+  ('c7974c96-bb1f-47e3-a7e3-0aebe90802b1', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge D-A', 'c9021b7a-be66-4b75-8cc1-5b1d71be8d71', '40d2e664-10d8-4d3c-8821-7ca153c34b9c', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c'),
+  ('519a86c8-c3c0-4d9c-bc74-084bb64ae7ae', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-C', 'f24e293d-790e-477b-8285-85850e969e3c', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'e070183a-e4fa-4653-9693-621dbc2451d3'),
+  ('40598d9d-4273-4258-9fad-bc4144f460e8', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-D', '72f1101b-d7a0-4326-9410-21d863f0870e', 'a80dd1e6-45c8-4bac-b2bb-ee9a149e4644', '40d2e664-10d8-4d3c-8821-7ca153c34b9c');
 
 -- item attributes definitions
 INSERT INTO RepositoryItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
