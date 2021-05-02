@@ -164,13 +164,17 @@ namespace GraphML.UI.Web.Pages
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
       // expand node
-      var selNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
-      var expPageEdges = await _edgeServer.ByNodeIds(new[] { Guid.Parse(selNode.Id) }, 0, int.MaxValue, null);
+      var selChartNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
+      var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
+      var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
+      var selGraphNode = selGraphNodes.Single();
+      var expPageEdges = await _edgeServer.ByNodeIds(new[] { selGraphNode.RepositoryItemId }, 0, int.MaxValue, null);
       var expEdges = expPageEdges.Items;
 
       // work out missing edges+nodes
+      // TODO   Edge --> GraphEdge --> ChartEdge
       var expEdgeIds = expEdges.Select(edge => edge.Id.ToString());
-      var chartEdgeIds = _diagram.Links.Select(link => link.Id);
+      var chartEdgeIds = _diagram.Links.Select(link => link.Id); // link contains ChartEdge!
       var missEdgeIds = expEdgeIds.Except(chartEdgeIds);
       var missEdges = expEdges.Where(expEdge => missEdgeIds.Contains(expEdge.Id.ToString()));
       var missEdgeNodeIds = missEdges.SelectMany(edge => new[] { edge.SourceId.ToString(), edge.TargetId.ToString() }).Distinct();
@@ -181,8 +185,9 @@ namespace GraphML.UI.Web.Pages
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
       var missNodeGuids = missNodeIds.Select(id => Guid.Parse(id));
       var missNodes = await _nodeServer.ByIds(missNodeGuids);
-      //var nodes = missNodes.Select(n => new ItemNode(n.Id.ToString(), n.Name, new Point(10, 10))); // TODO  store ChartNode
-      //_diagram.Nodes.Add(nodes);
+      // var missGraphNodes = await _graphNodeServer.ByOwners()
+      // var nodes = missNodes.Select(n => new ItemNode(n.Id.ToString(), n.Name, new Point(10, 10))); // TODO  store ChartNode
+      // _diagram.Nodes.Add(nodes);
 
       // create missing edges
       // TODO   Edge --> GraphEdge --> ChartEdge --> DiagramEdge
