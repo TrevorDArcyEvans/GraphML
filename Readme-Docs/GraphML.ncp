@@ -159,8 +159,10 @@
         <Name>GraphEdge</Name>
         <Access>Public</Access>
         <Location left="396" top="931" />
-        <Size width="162" height="77" />
+        <Size width="196" height="111" />
         <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid GraphSourceId { get; set; }</Member>
+        <Member type="Property">public Guid GraphTargetId { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -244,8 +246,10 @@
         <Name>ChartEdge</Name>
         <Access>Public</Access>
         <Location left="102" top="843" />
-        <Size width="163" height="77" />
+        <Size width="193" height="111" />
         <Collapsed>False</Collapsed>
+        <Member type="Property">public Guid ChartSourceId { get; set; }</Member>
+        <Member type="Property">public Guid ChartTargetId { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
@@ -553,9 +557,11 @@
         <Name>GraphEdge</Name>
         <Access>Public</Access>
         <Location left="607" top="793" />
-        <Size width="178" height="94" />
+        <Size width="195" height="128" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public Guid EdgeId { get; set; }</Member>
+        <Member type="Property">public Guid GraphTargetId { get; set; }</Member>
+        <Member type="Property">public Guid GraphTargetid { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -621,20 +627,26 @@
         <Name>ChartEdge</Name>
         <Access>Public</Access>
         <Location left="589" top="1123" />
-        <Size width="213" height="94" />
+        <Size width="213" height="128" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public Guid GraphEdgeId { get; set; }</Member>
+        <Member type="Property">public Guid ChartSourceId { get; set; }</Member>
+        <Member type="Property">public Guid ChartTargetId { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
     <Relationships>
       <Relationship type="EntityRelationship" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <StartMultiplicity>OneAndOnly</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="0" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -649,6 +661,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="1" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -659,6 +673,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="3" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -669,6 +685,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="4" second="5">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -683,6 +701,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="4" second="6">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -697,6 +717,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="3" second="7">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -707,6 +729,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="3" second="8">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -717,6 +741,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="7" second="5">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -727,6 +753,8 @@
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="8" second="6">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -737,6 +765,8 @@
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="7" second="8">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -751,12 +781,16 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="2" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <StartMultiplicity>ZeroOrMany</StartMultiplicity>
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="1" second="11">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -767,6 +801,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="11" second="10">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -781,12 +817,16 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="12" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <StartMultiplicity>ZeroOrMany</StartMultiplicity>
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="14" second="6">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -797,6 +837,8 @@
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="13" second="5">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -807,6 +849,8 @@
         <EndMultiplicity>OneAndOnly</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="12" second="13">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -817,6 +861,8 @@
         <EndMultiplicity>ZeroOrMany</EndMultiplicity>
       </Relationship>
       <Relationship type="EntityRelationship" first="12" second="14">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
