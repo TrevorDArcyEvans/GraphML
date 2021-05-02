@@ -91,7 +91,7 @@ namespace GraphML.UI.Web.Pages
       var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var chartNodes = chartNodesPage.Items;
       var chartEdges = chartEdgesPage.Items;
-      Setup(chartNodes, _chart);
+      Setup(chartNodes, chartEdges);
     }
 
     private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
@@ -103,25 +103,24 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
-    private void Setup(IEnumerable<ChartNode> chartNodes, ChartEx chart)
+    private void Setup(IEnumerable<ChartNode> chartNodes, IEnumerable<ChartEdge> chartEdges)
     {
-      var nodes = chartNodes.Select(n =>
-        new ItemNode(n, new Point(n.X, n.Y)));
+      var nodes = chartNodes.Select(chartNode =>
+        new ItemNode(chartNode, new Point(chartNode.X, chartNode.Y)));
       _diagram.Nodes.Add(nodes);
 
-      // TODO   add links
-      // var links = chart.Edges.Select(edge =>
-      // {
-      //   var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
-      //   var target = _diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
-      //   var link = new LinkModel(edge.RepositoryItemId.ToString(), source, target) // TODO  store ChartEdge
-      //   {
-      //     TargetMarker = _chart.Directed ? LinkMarker.Arrow : null
-      //   };
-      //   link.Labels.Add(new LinkLabelModel(link, edge.Name));
-      //   return link;
-      // });
-      // _diagram.Links.Add(links);
+      var links = chartEdges.Select(chartEdge =>
+      {
+        var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
+        var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
+        var link = new LinkModel(chartEdge.Id.ToString(), source, target)
+        {
+          TargetMarker = _chart.Directed ? LinkMarker.Arrow : null
+        };
+        link.Labels.Add(new LinkLabelModel(link, chartEdge.Name));
+        return link;
+      });
+      _diagram.Links.Add(links);
     }
 
     private void OnDragStart(Guid draggedNode)
