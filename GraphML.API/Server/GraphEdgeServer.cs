@@ -1,4 +1,9 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Flurl;
+using GraphML.API.Controllers;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -19,5 +24,12 @@ namespace GraphML.API.Server
     }
 
     protected override string ResourceBase { get; } = $"/api/{nameof(GraphEdge)}";
+    public async Task<PagedDataEx<GraphEdge>> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize, string searchTerm)
+    {
+      var request = PostPageRequest(Url.Combine(ResourceBase, $"{nameof(GraphEdgeController.ByNodeIds)}"), ids, pageIndex, pageSize, searchTerm);
+      var retval = await RetrieveResponse<PagedDataEx<GraphEdge>>(request);
+
+      return retval;
+    }
   }
 }

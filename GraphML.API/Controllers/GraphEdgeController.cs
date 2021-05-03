@@ -19,6 +19,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class GraphEdgeController : OwnedGraphMLController<GraphEdge>
   {
+    private readonly IGraphEdgeLogic _edgeLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -26,6 +28,7 @@ namespace GraphML.API.Controllers
     public GraphEdgeController(IGraphEdgeLogic logic) :
       base(logic)
     {
+      _edgeLogic = logic;
     }
 
     /// <summary>
@@ -131,6 +134,30 @@ namespace GraphML.API.Controllers
     {
       UpdateInternal(entity);
       return Ok();
+    }
+
+    /// <summary>
+    /// Retrieve GraphEdges connected to specified GraphNodes
+    /// </summary>
+    /// <param name="ids">unique identifier</param>
+    /// <param name="pageIndex">1-based index of page to return.  Defaults to 1</param>
+    /// <param name="pageSize">number of items per page.  Defaults to 20</param>
+    /// <param name="searchTerm">user entered string in search box.  Defaults to null</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity with identifier not found</response>
+    [HttpPost]
+    [Route(nameof(ByNodeIds))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(PagedDataEx<GraphEdge>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<PagedDataEx<GraphEdge>> ByNodeIds(
+      [FromBody] [Required] IEnumerable<Guid> ids,
+      [FromQuery] int pageIndex = DefaultPageIndex,
+      [FromQuery] int pageSize = DefaultPageSize,
+      [FromQuery] string searchTerm = null)
+    {
+      var pdex = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize, searchTerm);
+      return Ok(pdex);
     }
 
     /// <summary>
