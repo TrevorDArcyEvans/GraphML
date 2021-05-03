@@ -97,7 +97,7 @@ namespace GraphML.UI.Web.Pages
     private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
     {
       if (eventArgs.Button == 2 &&
-          model is DiagramNode itemNode)
+          model is DiagramNode)
       {
         _contextMenuService.ShowMenu("NodeContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
       }
@@ -233,23 +233,31 @@ namespace GraphML.UI.Web.Pages
       var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var allChartNodes = allChartNodesPage.Items;
       var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
-      
+
       // get all ChartNodes in this Diagram
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode =>
       {
         inode.ChartNode.X = (int) inode.Position.X;
         inode.ChartNode.Y = (int) inode.Position.Y;
         return inode.ChartNode;
-      });
+      }).ToList();
       var chartNodeIds = chartNodes.Select(cn => cn.Id);
-      
+
       // work out which ChartNodes are in Repository but not in Diagram ie deleted from Diagram
-      var missNodeIds = allChartNodeIds.Except(chartNodeIds);
+      var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
       var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
 
       // delete missing nodes
       await _chartNodeServer.Delete(missNodes);
-      
+
+      // delete dangling DiagramLinks
+      // BUG:   portless charts do not seem to delete links when an attached node is deleted
+      //        Further, the attached node does not appear to be removed from the link!
+      var dangChartEdges = _diagram.Links.OfType<DiagramLink>()
+        .Where(dl => missNodeIds.Contains(dl.ChartEdge.ChartSourceId) || missNodeIds.Contains(dl.ChartEdge.ChartTargetId))
+        .Select(dl => dl.ChartEdge);
+      await _chartEdgeServer.Delete(dangChartEdges);
+
       // only save ChartNodes in Diagram
       await _chartNodeServer.Update(chartNodes);
     }
