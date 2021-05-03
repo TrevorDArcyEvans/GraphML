@@ -172,23 +172,24 @@ namespace GraphML.UI.Web.Pages
       var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
       var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
 
-      // work out what GraphEdges we already have in Chart
-      var chartEdgeIds = _diagram.Links.Select(link => link.Id); // link contains ChartEdge!
-      var chartEdgeGuids = chartEdgeIds.Select(id => Guid.Parse(id));
-      var chartEdges = await _chartEdgeServer.ByIds(chartEdgeGuids);
+      // work out what GraphEdges we already have in Diagram
+      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge);
       var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
 
-      // work out missing GraphEdges = already in Chart but not in expansion
+      // work out missing GraphEdges = already in Diagram but not in expansion
       var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds);
       var missGraphEdges = await _graphEdgeServer.ByIds(missGraphEdgeIds);
 
+      // work out what GraphNodes we already have in Diagram
+      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn => dn.ChartNode);
+      var graphNodeIds = chartNodes.Select(cn => cn.GraphItemId);
 
-      // work out what GraphNodes we already have in Chart
-      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode => inode.ChartNode);
-      var graphNodeGuids = chartNodes.Select(cn => cn.GraphItemId);
-      var graphNodes = await _graphNodeServer.ByIds(graphNodeGuids);
-      var nodeIds = graphNodes.Select(gn => gn.RepositoryItemId.ToString());
+      // work out missing GraphNodes = already in Diagram but not in expansion
+      var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds);
+      var missGraphNodes = await _graphNodeServer.ByIds(missGraphNodeIds);
 
+      
+      
       // create missing nodes
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
       // missNodeIds
