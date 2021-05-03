@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GraphML.Interfaces
+﻿namespace GraphML.Interfaces
 {
-  public interface IChartNodeLogic : IOwnedLogic<ChartNode>
+  public interface IChartNodeLogic : IChartItemLogic<ChartNode>
   {
-    IEnumerable<ChartNode> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItemIds);
   }
 }

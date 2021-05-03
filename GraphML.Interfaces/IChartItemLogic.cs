@@ -3,11 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphML.Interfaces
 {
-  public interface IChartNodeDatastore : IChartItemDatastore<ChartNode>
-  {
-  }
-
-  public interface IChartItemDatastore<T> : IOwnedDatastore<T> where T : ChartItem
+  public interface IChartItemLogic<T> : IOwnedLogic<T> where T : ChartItem
   {
     IEnumerable<T> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItemIds);
   }

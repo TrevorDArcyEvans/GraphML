@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GraphML.Interfaces
+﻿namespace GraphML.Interfaces
 {
-  public interface IChartEdgeDatastore : IOwnedDatastore<ChartEdge>
+  public interface IChartEdgeDatastore : IChartItemDatastore<ChartEdge>
   {
-    IEnumerable<ChartEdge> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItemIds);
   }
 }
