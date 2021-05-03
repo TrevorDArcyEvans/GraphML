@@ -183,21 +183,20 @@ namespace GraphML.UI.Web.Pages
       var missChartNodes = (await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds)).ToList();
       if (missChartNodes.Count() != missGraphNodeIds.Count())
       {
-        // TODO   create missing ChartNodes
         // GraphNode.Id of ChartNodes which are in Repository
         var repoChartGraphNodeIds = missChartNodes.Select(cn => cn.GraphItemId);
-        
+
         // get GraphNode.Id of ChartNodes which are not in Repository
         var missRepoChartGraphNodeIds = missGraphNodeIds.Except(repoChartGraphNodeIds);
-        
+
         // create a ChartNode in Repository for each missing GraphNode
         var missRepoChartGraphNodes = await _graphNodeServer.ByIds(missRepoChartGraphNodeIds);
-        var missRepoChartNodes = missRepoChartGraphNodes.Select(gn => 
-          new ChartNode(Guid.Parse(ChartId) , Guid.Parse(OrganisationId) , gn.Id, gn.Name)).ToList();
+        var missRepoChartNodes = missRepoChartGraphNodes.Select(gn =>
+          new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), gn.Id, gn.Name)).ToList();
         await _chartNodeServer.Create(missRepoChartNodes);
         missChartNodes.AddRange(missRepoChartNodes);
       }
-      
+
 
       // work out what GraphEdges we already have in Diagram
       var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(diagLink => diagLink.ChartEdge);
@@ -208,8 +207,26 @@ namespace GraphML.UI.Web.Pages
       var missChartEdges = (await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds)).ToList();
       if (missChartEdges.Count() != missGraphEdgeIds.Count())
       {
-        // TODO   create missing ChartEdges
-        Console.WriteLine("TODO   create missing ChartEdges");
+        // GraphEdge.Id of ChartEdges which are in Repository
+        var repoChartGraphEdgeIds = missChartEdges.Select(ce => ce.GraphItemId);
+
+        // get GraphEdge.Id of ChartEdges which are not in Repository
+        var missRepoChartGraphEdgeIds = missGraphEdgeIds.Except(repoChartGraphEdgeIds);
+
+        // create a ChartEdge in Repository for each missing GraphEdge
+        var missRepoChartGraphEdges = await _graphEdgeServer.ByIds(missRepoChartGraphEdgeIds);
+        var missRepoChartEdges = missRepoChartGraphEdges.Select(async ge =>
+          {
+            var chartNodeSources = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphSourceId });
+            var chartNodeSource = chartNodeSources.Single();
+            var chartNodeTargets = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphTargetId });
+            var chartNodeTarget = chartNodeTargets.Single();
+            return new ChartEdge(Guid.Parse(ChartId), Guid.Parse(OrganisationId), ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
+          })
+          .Select(t => t.Result)
+          .ToList();
+        await _chartEdgeServer.Create(missRepoChartEdges);
+        missChartEdges.AddRange(missRepoChartEdges);
       }
 
       // create missing nodes
