@@ -113,11 +113,10 @@ namespace GraphML.UI.Web.Pages
       {
         var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
         var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
-        var link = new LinkModel(chartEdge.Id.ToString(), source, target)
+        var link = new DiagramLink(chartEdge, source, target)
         {
           TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
         };
-        link.Labels.Add(new LinkLabelModel(link, chartEdge.Name));
         return link;
       });
       _diagram.Links.Add(links);
