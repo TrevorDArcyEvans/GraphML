@@ -144,7 +144,7 @@ namespace GraphML.UI.Web.Pages
 
       // GraphNode --> ChartNode --> DiagramNode
       var draggedNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { _draggedNodeId });
-      var draggedNode = draggedNodes.Single();
+      var draggedNode = draggedNodes.SingleOrDefault();
       if (draggedNode is null)
       {
         // GraphNode is not in this Chart, so create a ChartNode in this Chart
@@ -175,7 +175,7 @@ namespace GraphML.UI.Web.Pages
 
 
       // work out what GraphNodes we already have in Diagram
-      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn => dn.ChartNode);
+      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(diagNode => diagNode.ChartNode);
       var graphNodeIds = chartNodes.Select(cn => cn.GraphItemId);
 
       // work out missing GraphNodes = already in Diagram but not in expansion
@@ -184,7 +184,7 @@ namespace GraphML.UI.Web.Pages
 
 
       // work out what GraphEdges we already have in Diagram
-      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge);
+      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(diagLink => diagLink.ChartEdge);
       var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
 
       // work out missing GraphEdges = already in Diagram but not in expansion
@@ -229,13 +229,28 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnSave()
     {
-      // TODO   handle deleted ChartNode
+      // get all ChartNodes from Repository
+      var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var allChartNodes = allChartNodesPage.Items;
+      var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
+      
+      // get all ChartNodes in this Diagram
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode =>
       {
         inode.ChartNode.X = (int) inode.Position.X;
         inode.ChartNode.Y = (int) inode.Position.Y;
         return inode.ChartNode;
       });
+      var chartNodeIds = chartNodes.Select(cn => cn.Id);
+      
+      // work out which ChartNodes are in Repository but not in Diagram ie deleted from Diagram
+      var missNodeIds = allChartNodeIds.Except(chartNodeIds);
+      var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
+
+      // delete missing nodes
+      await _chartNodeServer.Delete(missNodes);
+      
+      // only save ChartNodes in Diagram
       await _chartNodeServer.Update(chartNodes);
     }
 
