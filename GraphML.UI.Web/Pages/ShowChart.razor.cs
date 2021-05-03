@@ -163,46 +163,45 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
-      // expand node
-      var selChartNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
+      // expand selected ChartNode to get Edges
+      var selChartNode = _diagram.GetSelectedModels().OfType<ItemNode>().ToList().Single();
       var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
       var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
       var selGraphNode = selGraphNodes.Single();
       var expPageEdges = await _edgeServer.ByNodeIds(new[] { selGraphNode.RepositoryItemId }, 0, int.MaxValue, null);
       var expEdges = expPageEdges.Items;
-
-      // work out missing edges+nodes
-      // TODO   Edge --> GraphEdge --> ChartEdge
       var expEdgeIds = expEdges.Select(edge => edge.Id.ToString());
-      var chartEdgeIds = _diagram.Links.Select(link => link.Id); // link contains ChartEdge!
-      var missEdgeIds = expEdgeIds.Except(chartEdgeIds);
-      var missEdges = expEdges.Where(expEdge => missEdgeIds.Contains(expEdge.Id.ToString()));
-      var missEdgeNodeIds = missEdges.SelectMany(edge => new[] { edge.SourceId.ToString(), edge.TargetId.ToString() }).Distinct();
-      var chartNodeIds = _diagram.Nodes.Select(node => node.Id);
-      var missNodeIds = missEdgeNodeIds.Except(chartNodeIds);
 
+      // work out what Edges we already have in Chart
+      var chartEdgeIds = _diagram.Links.Select(link => link.Id); // link contains ChartEdge!
+      var chartEdgeGuids = chartEdgeIds.Select(id => Guid.Parse(id));
+      var chartEdges = await _chartEdgeServer.ByIds(chartEdgeGuids);
+      var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
+      var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
+      var edgeIds = graphEdges.Select(ge => ge.RepositoryItemId.ToString());
+
+      // work out missing Edges
+      var missEdgeIds = expEdgeIds.Except(edgeIds);
+      var missEdges = expEdges.Where(expEdge => missEdgeIds.Contains(expEdge.Id.ToString()));
+
+      // work out what Nodes we already have in Chart
+      var chartNodes = _diagram.Nodes.OfType<ItemNode>().Select(inode => inode.ChartNode);
+      var graphNodeGuids = chartNodes.Select(cn => cn.GraphItemId);
+      var graphNodes = await _graphNodeServer.ByIds(graphNodeGuids);
+      var nodeIds = graphNodes.Select(gn => gn.RepositoryItemId.ToString());
+
+      // work out missing Nodes
+      var missEdgeNodeIds = missEdges.SelectMany(edge => new[] { edge.SourceId.ToString(), edge.TargetId.ToString() }).Distinct();
+      var missNodeIds = missEdgeNodeIds.Except(nodeIds);
+
+      
       // create missing nodes
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
-      var missNodeGuids = missNodeIds.Select(id => Guid.Parse(id));
-      var missNodes = await _nodeServer.ByIds(missNodeGuids);
-      // var missGraphNodes = await _graphNodeServer.ByOwners()
-      // var nodes = missNodes.Select(n => new ItemNode(n.Id.ToString(), n.Name, new Point(10, 10))); // TODO  store ChartNode
-      // _diagram.Nodes.Add(nodes);
+      // missNodeIds
 
       // create missing edges
       // TODO   Edge --> GraphEdge --> ChartEdge --> DiagramEdge
-      var links = missEdges.Select(edge =>
-      {
-        var source = _diagram.Nodes.Single(n => n.Id == edge.SourceId.ToString());
-        var target = _diagram.Nodes.Single(n => n.Id == edge.TargetId.ToString());
-        var link = new LinkModel(edge.Id.ToString(), source, target) // TODO  store ChartEdge
-        {
-          TargetMarker = _chart.Directed ? LinkMarker.Arrow : null
-        };
-        link.Labels.Add(new LinkLabelModel(link, edge.Name));
-        return link;
-      });
-      _diagram.Links.Add(links);
+      // missEdges
     }
 
     private async Task OnShowParentChild(ItemClickEventArgs e)
