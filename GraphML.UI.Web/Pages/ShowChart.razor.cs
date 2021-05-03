@@ -155,7 +155,7 @@ namespace GraphML.UI.Web.Pages
       }
 
       var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-      var node = new DiagramNode(draggedNode, position); // TODO  store ChartNode
+      var node = new DiagramNode(draggedNode, position);
       _diagram.Nodes.Add(node);
 
       _draggedNodeId = Guid.Empty;
