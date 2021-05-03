@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GraphML.Interfaces.Server
 {
   public interface IChartEdgeServer : IOwnedItemServerBase<ChartEdge>
   {
-    // TODO   Task<ChartEdge> ByGraphItem(Guid chartId, Guid graphItem);
+    Task<IEnumerable<ChartEdge>> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItems);
   }
 }

@@ -24,6 +24,7 @@ namespace GraphML.API.Server
     }
 
     protected override string ResourceBase { get; } = $"/api/{nameof(ChartNode)}";
+    
     public async Task<IEnumerable<ChartNode>> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItems)
     {
       var url = Url.Combine(ResourceBase, $"{nameof(ChartNodeController.ByGraphItems)}", chartId.ToString());

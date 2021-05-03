@@ -9,7 +9,7 @@ namespace GraphML.Logic
   public sealed class ChartNodeLogic : OwnedLogicBase<ChartNode>, IChartNodeLogic
   {
     private readonly IChartNodeDatastore _chartNodeDatastore;
-    
+
     public ChartNodeLogic(
       IHttpContextAccessor context,
       IChartNodeDatastore datastore,

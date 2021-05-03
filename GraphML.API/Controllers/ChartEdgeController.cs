@@ -19,6 +19,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class ChartEdgeController : OwnedGraphMLController<ChartEdge>
   {
+    private readonly IChartEdgeLogic _chartEdgeLogic;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -26,6 +28,7 @@ namespace GraphML.API.Controllers
     public ChartEdgeController(IChartEdgeLogic logic) :
       base(logic)
     {
+      _chartEdgeLogic = logic;
     }
 
     /// <summary>
@@ -83,7 +86,7 @@ namespace GraphML.API.Controllers
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
-      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex- 1, pageSize, searchTerm));
+      return Ok(ByOwnersInternal(new[] { ownerId }, pageIndex - 1, pageSize, searchTerm));
     }
 
     /// <summary>
@@ -145,6 +148,24 @@ namespace GraphML.API.Controllers
     public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
       return Ok(CountInternal(ownerId));
+    }
+
+    /// <summary>
+    /// Retrieve a <see cref="ChartEdge"/> corresponding to an underlying <see cref="GraphItem"/>
+    /// from a specified <see cref="Chart"/>, if it exists
+    /// </summary>
+    /// <param name="chartId">identifier of <see cref="Chart"/></param>
+    /// <param name="graphItemId">identifier of underlying <see cref="GraphItem"/></param>
+    /// <response code="200">Success - if no Entities found, returns null</response>
+    [HttpPost]
+    [Route(nameof(ByGraphItems) + "/{chartId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<ChartEdge>))]
+    public ActionResult<IEnumerable<ChartEdge>> ByGraphItems(
+      [FromRoute] Guid chartId,
+      [FromBody] IEnumerable<Guid> graphItemId)
+    {
+      return Ok(_chartEdgeLogic.ByGraphItems(chartId, graphItemId));
     }
   }
 }
