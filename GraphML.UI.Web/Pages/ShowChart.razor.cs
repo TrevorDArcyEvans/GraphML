@@ -173,13 +173,6 @@ namespace GraphML.UI.Web.Pages
       var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
       var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
 
-      // work out what GraphEdges we already have in Diagram
-      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge);
-      var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
-
-      // work out missing GraphEdges = already in Diagram but not in expansion
-      var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds);
-      var missGraphEdges = await _graphEdgeServer.ByIds(missGraphEdgeIds);
 
       // work out what GraphNodes we already have in Diagram
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn => dn.ChartNode);
@@ -187,16 +180,36 @@ namespace GraphML.UI.Web.Pages
 
       // work out missing GraphNodes = already in Diagram but not in expansion
       var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds);
-      var missGraphNodes = await _graphNodeServer.ByIds(missGraphNodeIds);
+      var missChartNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds);
+
+
+      // work out what GraphEdges we already have in Diagram
+      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge);
+      var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
+
+      // work out missing GraphEdges = already in Diagram but not in expansion
+      var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds);
+      var missChartEdges = await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds);
 
 
       // create missing nodes
-      // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
-      // missNodeIds
+      var nodes = missChartNodes.Select(chartNode =>
+        new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
+      _diagram.Nodes.Add(nodes);
+
 
       // create missing edges
-      // TODO   Edge --> GraphEdge --> ChartEdge --> DiagramEdge
-      // missEdges
+      var links = missChartEdges.Select(chartEdge =>
+      {
+        var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
+        var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
+        var link = new DiagramLink(chartEdge, source, target)
+        {
+          TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
+        };
+        return link;
+      });
+      _diagram.Links.Add(links);
     }
 
     private async Task OnShowParentChild(ItemClickEventArgs e)
