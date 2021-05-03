@@ -170,6 +170,7 @@ namespace GraphML.UI.Web.Pages
       var expGraphEdgesPage = await _graphEdgeServer.ByNodeIds(new[] { selGraphNode.Id }, 0, int.MaxValue, null);
       var expGraphEdges = expGraphEdgesPage.Items;
       var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
+      var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
 
       // work out what GraphEdges we already have in Chart
       var chartEdgeIds = _diagram.Links.Select(link => link.Id); // link contains ChartEdge!
