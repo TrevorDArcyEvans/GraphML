@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +10,7 @@ namespace GraphML.Logic
 {
   public sealed class ChartEdgeLogic : OwnedLogicBase<ChartEdge>, IChartEdgeLogic
   {
-    private readonly IChartEdgeDatastore _chartEdgeDatastore;
+    private readonly IChartEdgeDatastore _chartItemDatastore;
 
     public ChartEdgeLogic(
       IHttpContextAccessor context,
@@ -17,14 +19,20 @@ namespace GraphML.Logic
       IChartEdgeFilter filter) :
       base(context, datastore, validator, filter)
     {
-      _chartEdgeDatastore = datastore;
+      _chartItemDatastore = datastore;
     }
 
     public IEnumerable<ChartEdge> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItemIds)
     {
-      // TODO   validation
-      // TODO   filter
-      return _chartEdgeDatastore.ByGraphItems(chartId, graphItemIds);
+      var valRes = _validator.Validate(new ChartEdge(), options => options.IncludeRuleSets(nameof(ByGraphItems)));
+      if (valRes.IsValid)
+      {
+        var items = _chartItemDatastore.ByGraphItems(chartId, graphItemIds);
+        var filtered = _filter.Filter(items);
+        return filtered;
+      }
+
+      return Enumerable.Empty<ChartEdge>();
     }
   }
 }

@@ -12,6 +12,9 @@ namespace GraphML.Logic.Validators
       IRoleDatastore roleDatastore) :
       base(context, contactDatastore, roleDatastore)
     {
+      RuleSet(nameof(IChartNodeLogic.ByGraphItems), () =>
+      {
+      });
     }
   }
 }
