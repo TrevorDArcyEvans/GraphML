@@ -7,7 +7,6 @@ using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using BlazorContextMenu;
-using GraphML.Porcelain;
 using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
 using Microsoft.AspNetCore.Components;
@@ -86,8 +85,8 @@ namespace GraphML.UI.Web.Pages
 
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
 
-      var charts = await _graphServer.ByIds(new[] { Guid.Parse(ChartId) });
-      _graph = charts.Single();
+      var graphs = await _graphServer.ByIds(new[] { Guid.Parse(GraphId) });
+      _graph = graphs.Single();
       var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var chartNodes = chartNodesPage.Items;
@@ -164,38 +163,32 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
-      // expand selected ChartNode to get Edges
+      // expand selected ChartNode to get GraphEdges
       var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
       var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
       var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
       var selGraphNode = selGraphNodes.Single();
-      var expEdgesPage = await _edgeServer.ByNodeIds(new[] { selGraphNode.RepositoryItemId }, 0, int.MaxValue, null);
-      var expEdges = expEdgesPage.Items;
-      var expEdgeIds = expEdges.Select(edge => edge.Id.ToString());
+      var expGraphEdgesPage = await _graphEdgeServer.ByNodeIds(new[] { selGraphNode.Id }, 0, int.MaxValue, null);
+      var expGraphEdges = expGraphEdgesPage.Items;
+      var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
 
-      // work out what Edges we already have in Chart
+      // work out what GraphEdges we already have in Chart
       var chartEdgeIds = _diagram.Links.Select(link => link.Id); // link contains ChartEdge!
       var chartEdgeGuids = chartEdgeIds.Select(id => Guid.Parse(id));
       var chartEdges = await _chartEdgeServer.ByIds(chartEdgeGuids);
       var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
-      var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
-      var edgeIds = graphEdges.Select(ge => ge.RepositoryItemId.ToString());
 
-      // work out missing Edges = already in Chart but not in expansion
-      var missEdgeIds = expEdgeIds.Except(edgeIds);
-      var missEdges = expEdges.Where(expEdge => missEdgeIds.Contains(expEdge.Id.ToString()));
+      // work out missing GraphEdges = already in Chart but not in expansion
+      var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds);
+      var missGraphEdges = await _graphEdgeServer.ByIds(missGraphEdgeIds);
 
-      // work out what Nodes we already have in Chart
+
+      // work out what GraphNodes we already have in Chart
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode => inode.ChartNode);
       var graphNodeGuids = chartNodes.Select(cn => cn.GraphItemId);
       var graphNodes = await _graphNodeServer.ByIds(graphNodeGuids);
       var nodeIds = graphNodes.Select(gn => gn.RepositoryItemId.ToString());
 
-      // work out missing Nodes = already in Chart but not in expansion
-      var missEdgeNodeIds = missEdges.SelectMany(edge => new[] { edge.SourceId.ToString(), edge.TargetId.ToString() }).Distinct();
-      var missNodeIds = missEdgeNodeIds.Except(nodeIds);
-
-      
       // create missing nodes
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
       // missNodeIds
@@ -222,6 +215,7 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnSave()
     {
+      // TODO   handle deleted ChartNode
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode =>
       {
         inode.ChartNode.X = (int) inode.Position.X;
