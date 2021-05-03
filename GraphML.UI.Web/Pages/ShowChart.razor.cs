@@ -179,18 +179,38 @@ namespace GraphML.UI.Web.Pages
       var graphNodeIds = chartNodes.Select(cn => cn.GraphItemId);
 
       // work out missing GraphNodes = already in Diagram but not in expansion
-      var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds);
-      var missChartNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds);
-
+      var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds).ToList();
+      var missChartNodes = (await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds)).ToList();
+      if (missChartNodes.Count() != missGraphNodeIds.Count())
+      {
+        // TODO   create missing ChartNodes
+        // GraphNode.Id of ChartNodes which are in Repository
+        var repoChartGraphNodeIds = missChartNodes.Select(cn => cn.GraphItemId);
+        
+        // get GraphNode.Id of ChartNodes which are not in Repository
+        var missRepoChartGraphNodeIds = missGraphNodeIds.Except(repoChartGraphNodeIds);
+        
+        // create a ChartNode in Repository for each missing GraphNode
+        var missRepoChartGraphNodes = await _graphNodeServer.ByIds(missRepoChartGraphNodeIds);
+        var missRepoChartNodes = missRepoChartGraphNodes.Select(gn => 
+          new ChartNode(Guid.Parse(ChartId) , Guid.Parse(OrganisationId) , gn.Id, gn.Name)).ToList();
+        await _chartNodeServer.Create(missRepoChartNodes);
+        missChartNodes.AddRange(missRepoChartNodes);
+      }
+      
 
       // work out what GraphEdges we already have in Diagram
       var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(diagLink => diagLink.ChartEdge);
       var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
 
       // work out missing GraphEdges = already in Diagram but not in expansion
-      var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds);
-      var missChartEdges = await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds);
-
+      var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds).ToList();
+      var missChartEdges = (await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds)).ToList();
+      if (missChartEdges.Count() != missGraphEdgeIds.Count())
+      {
+        // TODO   create missing ChartEdges
+        Console.WriteLine("TODO   create missing ChartEdges");
+      }
 
       // create missing nodes
       var nodes = missChartNodes.Select(chartNode =>
@@ -247,9 +267,14 @@ namespace GraphML.UI.Web.Pages
       var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
       var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
 
-      // delete missing nodes
+      // delete missing Nodes
       await _chartNodeServer.Delete(missNodes);
 
+      
+      // TODO   delete missing DiagramLinks
+      var chartLinks = _diagram.Links.OfType<DiagramLink>();
+      
+      
       // delete dangling DiagramLinks
       // BUG:   portless charts do not seem to delete links when an attached node is deleted
       //        Further, the attached node does not appear to be removed from the link!
