@@ -169,8 +169,8 @@ namespace GraphML.UI.Web.Pages
       var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
       var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
       var selGraphNode = selGraphNodes.Single();
-      var expPageEdges = await _edgeServer.ByNodeIds(new[] { selGraphNode.RepositoryItemId }, 0, int.MaxValue, null);
-      var expEdges = expPageEdges.Items;
+      var expEdgesPage = await _edgeServer.ByNodeIds(new[] { selGraphNode.RepositoryItemId }, 0, int.MaxValue, null);
+      var expEdges = expEdgesPage.Items;
       var expEdgeIds = expEdges.Select(edge => edge.Id.ToString());
 
       // work out what Edges we already have in Chart
@@ -181,7 +181,7 @@ namespace GraphML.UI.Web.Pages
       var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
       var edgeIds = graphEdges.Select(ge => ge.RepositoryItemId.ToString());
 
-      // work out missing Edges
+      // work out missing Edges = already in Chart but not in expansion
       var missEdgeIds = expEdgeIds.Except(edgeIds);
       var missEdges = expEdges.Where(expEdge => missEdgeIds.Contains(expEdge.Id.ToString()));
 
@@ -191,7 +191,7 @@ namespace GraphML.UI.Web.Pages
       var graphNodes = await _graphNodeServer.ByIds(graphNodeGuids);
       var nodeIds = graphNodes.Select(gn => gn.RepositoryItemId.ToString());
 
-      // work out missing Nodes
+      // work out missing Nodes = already in Chart but not in expansion
       var missEdgeNodeIds = missEdges.SelectMany(edge => new[] { edge.SourceId.ToString(), edge.TargetId.ToString() }).Distinct();
       var missNodeIds = missEdgeNodeIds.Except(nodeIds);
 
