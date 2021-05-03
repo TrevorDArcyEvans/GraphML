@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
@@ -23,15 +24,11 @@ namespace GraphML.API.Server
     }
 
     protected override string ResourceBase { get; } = $"/api/{nameof(ChartNode)}";
-    public async Task<ChartNode> ByGraphItem(Guid chartId, Guid graphItem)
+    public async Task<IEnumerable<ChartNode>> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItems)
     {
-      var url = Url.Combine(
-        ResourceBase, 
-        $"{nameof(ChartNodeController.ByGraphItem)}",
-        chartId.ToString(),
-        graphItem.ToString());
-      var request = GetRequest(url);
-      var retval = await RetrieveResponse<ChartNode>(request);
+      var url = Url.Combine(ResourceBase, $"{nameof(ChartNodeController.ByGraphItems)}", chartId.ToString());
+      var request = PostRequest(url, graphItems);
+      var retval = await RetrieveResponse<IEnumerable<ChartNode>>(request);
 
       return retval;
     }

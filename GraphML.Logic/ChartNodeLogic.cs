@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +20,11 @@ namespace GraphML.Logic
       _chartNodeDatastore = datastore;
     }
 
-    public ChartNode ByGraphItem(Guid chartId, Guid graphItemId)
+    public IEnumerable<ChartNode> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItemIds)
     {
       // TODO   validation
       // TODO   filter
-      return _chartNodeDatastore.ByGraphItem(chartId, graphItemId);
+      return _chartNodeDatastore.ByGraphItems(chartId, graphItemIds);
     }
   }
 }

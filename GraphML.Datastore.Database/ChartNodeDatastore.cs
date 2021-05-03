@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dapper;
 using GraphML.Datastore.Database.Interfaces;
 using GraphML.Interfaces;
@@ -16,17 +17,17 @@ namespace GraphML.Datastore.Database
     {
     }
 
-    public ChartNode ByGraphItem(Guid chartId, Guid graphItemId)
+    public IEnumerable<ChartNode> ByGraphItems(Guid chartId, IEnumerable<Guid> graphItemIds)
     {
       return GetInternal(() =>
       {
-        var where = $"where {nameof(ChartItem.OwnerId)} = '{chartId}' and {nameof(ChartItem.GraphItemId)} = '{graphItemId}'";
+        var where = $"where {nameof(ChartItem.OwnerId)} = '{chartId}' and {nameof(ChartItem.GraphItemId)} in ({GetListIds(graphItemIds)})";
         var sql = 
           @$"select
   * from {GetTableName()}
 {where}";
 
-        var retval = _dbConnection.QueryFirstOrDefault<ChartNode>(sql);
+        var retval = _dbConnection.Query<ChartNode>(sql);
 
         return retval;
       });

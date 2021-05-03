@@ -143,7 +143,8 @@ namespace GraphML.UI.Web.Pages
       }
 
       // GraphNode --> ChartNode --> DiagramNode
-      var draggedNode = await _chartNodeServer.ByGraphItem(Guid.Parse(ChartId), _draggedNodeId);
+      var draggedNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { _draggedNodeId });
+      var draggedNode = draggedNodes.Single();
       if (draggedNode is null)
       {
         // GraphNode is not in this Chart, so create a ChartNode in this Chart
@@ -188,8 +189,7 @@ namespace GraphML.UI.Web.Pages
       var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds);
       var missGraphNodes = await _graphNodeServer.ByIds(missGraphNodeIds);
 
-      
-      
+
       // create missing nodes
       // TODO   Node --> GraphNode --> ChartNode --> DiagramNode
       // missNodeIds

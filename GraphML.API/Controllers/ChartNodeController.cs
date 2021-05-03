@@ -157,15 +157,15 @@ namespace GraphML.API.Controllers
     /// <param name="chartId">identifier of <see cref="Chart"/></param>
     /// <param name="graphItemId">identifier of underlying <see cref="GraphItem"/></param>
     /// <response code="200">Success - if no Entities found, returns null</response>
-    [HttpGet]
-    [Route(nameof(ByGraphItem) + "/{chartId}" + "/{graphItemId}")]
+    [HttpPost]
+    [Route(nameof(ByGraphItems) + "/{chartId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(ChartNode))]
-    public ActionResult<ChartNode> ByGraphItem(
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<ChartNode>))]
+    public ActionResult<IEnumerable<ChartNode>> ByGraphItems(
       [FromRoute] Guid chartId,
-      [FromRoute] Guid graphItemId)
+      [FromBody] IEnumerable<Guid> graphItemId)
     {
-      return Ok(_chartNodeLogic.ByGraphItem(chartId, graphItemId));
+      return Ok(_chartNodeLogic.ByGraphItems(chartId, graphItemId));
     }
   }
 }
