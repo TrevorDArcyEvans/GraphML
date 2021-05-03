@@ -3,7 +3,7 @@ using Blazor.Diagrams.Core.Models;
 
 namespace GraphML.UI.Web.Models
 {
-  public class DiagramNode : NodeModel
+  public sealed class DiagramNode : NodeModel
   {
     /// <summary>
     /// A <see cref="ChartNode"/> displayed in a <see cref="Chart"/>
@@ -17,7 +17,7 @@ namespace GraphML.UI.Web.Models
     }
 
     public ChartNode ChartNode { get; }
-    
+
     public string Name => ChartNode.Name;
   }
 }
