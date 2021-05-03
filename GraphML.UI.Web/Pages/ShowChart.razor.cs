@@ -84,7 +84,7 @@ namespace GraphML.UI.Web.Pages
       _diagram = new Diagram(options);
       _diagram.MouseClick += Diagram_OnMouseClick;
 
-      _diagram.RegisterModelComponent<ItemNode, ItemNodeWidget>();
+      _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
 
       _chart = await _chartExServer.ById(Guid.Parse(ChartId));
       var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
@@ -97,7 +97,7 @@ namespace GraphML.UI.Web.Pages
     private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
     {
       if (eventArgs.Button == 2 &&
-          model is ItemNode itemNode)
+          model is DiagramNode itemNode)
       {
         _contextMenuService.ShowMenu("NodeContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
       }
@@ -106,7 +106,7 @@ namespace GraphML.UI.Web.Pages
     private void Setup(IEnumerable<ChartNode> chartNodes, IEnumerable<ChartEdge> chartEdges)
     {
       var nodes = chartNodes.Select(chartNode =>
-        new ItemNode(chartNode, new Point(chartNode.X, chartNode.Y)));
+        new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
       _diagram.Nodes.Add(nodes);
 
       var links = chartEdges.Select(chartEdge =>
@@ -137,7 +137,7 @@ namespace GraphML.UI.Web.Pages
         return;
       }
 
-      if (_diagram.Nodes.OfType<ItemNode>().Any(n => Guid.Parse(n.Id) == _draggedNodeId))
+      if (_diagram.Nodes.OfType<DiagramNode>().Any(n => Guid.Parse(n.Id) == _draggedNodeId))
       {
         // node already on chart
         return;
@@ -155,7 +155,7 @@ namespace GraphML.UI.Web.Pages
       }
 
       var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-      var node = new ItemNode(draggedNode, position); // TODO  store ChartNode
+      var node = new DiagramNode(draggedNode, position); // TODO  store ChartNode
       _diagram.Nodes.Add(node);
 
       _draggedNodeId = Guid.Empty;
@@ -164,7 +164,7 @@ namespace GraphML.UI.Web.Pages
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
       // expand selected ChartNode to get Edges
-      var selChartNode = _diagram.GetSelectedModels().OfType<ItemNode>().ToList().Single();
+      var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
       var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
       var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
       var selGraphNode = selGraphNodes.Single();
@@ -185,7 +185,7 @@ namespace GraphML.UI.Web.Pages
       var missEdges = expEdges.Where(expEdge => missEdgeIds.Contains(expEdge.Id.ToString()));
 
       // work out what Nodes we already have in Chart
-      var chartNodes = _diagram.Nodes.OfType<ItemNode>().Select(inode => inode.ChartNode);
+      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode => inode.ChartNode);
       var graphNodeGuids = chartNodes.Select(cn => cn.GraphItemId);
       var graphNodes = await _graphNodeServer.ByIds(graphNodeGuids);
       var nodeIds = graphNodes.Select(gn => gn.RepositoryItemId.ToString());
@@ -206,7 +206,7 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnShowParentChild(ItemClickEventArgs e)
     {
-      var selChartNode = _diagram.GetSelectedModels().OfType<ItemNode>().Single();
+      var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().Single();
       var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
       var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
       var selGraphNode = selGraphNodes.Single();
@@ -219,9 +219,15 @@ namespace GraphML.UI.Web.Pages
       _parentChildDialogIsOpen = true;
     }
 
-    private void OnSave()
+    private async Task OnSave()
     {
-      // TODO   OnSave
+      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode =>
+      {
+        inode.ChartNode.X = (int) inode.Position.X;
+        inode.ChartNode.Y = (int) inode.Position.Y;
+        return inode.ChartNode;
+      });
+      await _chartNodeServer.Update(chartNodes);
     }
 
     private void GotoBrowseCharts()
