@@ -53,7 +53,7 @@ namespace GraphML.UI.Web.Pages
 
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
-    private ChartEx _chart;
+    private Graph _graph;
 
     // GraphNode.Id
     private Guid _draggedNodeId;
@@ -86,7 +86,8 @@ namespace GraphML.UI.Web.Pages
 
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
 
-      _chart = await _chartExServer.ById(Guid.Parse(ChartId));
+      var charts = await _graphServer.ByIds(new[] { Guid.Parse(ChartId) });
+      _graph = charts.Single();
       var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var chartNodes = chartNodesPage.Items;
@@ -115,7 +116,7 @@ namespace GraphML.UI.Web.Pages
         var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
         var link = new LinkModel(chartEdge.Id.ToString(), source, target)
         {
-          TargetMarker = _chart.Directed ? LinkMarker.Arrow : null
+          TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
         };
         link.Labels.Add(new LinkLabelModel(link, chartEdge.Name));
         return link;
