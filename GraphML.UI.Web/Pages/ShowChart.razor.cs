@@ -255,11 +255,11 @@ namespace GraphML.UI.Web.Pages
       var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
 
       // get all ChartNodes in this Diagram
-      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(inode =>
+      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn =>
       {
-        inode.ChartNode.X = (int) inode.Position.X;
-        inode.ChartNode.Y = (int) inode.Position.Y;
-        return inode.ChartNode;
+        dn.ChartNode.X = (int) dn.Position.X;
+        dn.ChartNode.Y = (int) dn.Position.Y;
+        return dn.ChartNode;
       }).ToList();
       var chartNodeIds = chartNodes.Select(cn => cn.Id);
 
@@ -267,14 +267,27 @@ namespace GraphML.UI.Web.Pages
       var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
       var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
 
-      // delete missing Nodes
+      // delete missing ChartNodes from Repository
       await _chartNodeServer.Delete(missNodes);
 
-      
-      // TODO   delete missing DiagramLinks
-      var chartLinks = _diagram.Links.OfType<DiagramLink>();
-      
-      
+
+      // get all ChartEdges from Repository
+      var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var allChartEdges = allChartEdgesPage.Items;
+      var allChartEdgeNodeIds = allChartEdges.Select(ce => ce.Id);
+
+      // get all ChartEdges in this Diagram
+      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge);
+      var chartEdgeIds = chartEdges.Select(ce => ce.Id);
+
+      // work out which ChartEdges are in Repository but not in Diagram ie delete from Diagram
+      var missEdgeIds = allChartEdgeNodeIds.Except(chartEdgeIds);
+      var missEdges = allChartEdges.Where(ce => missEdgeIds.Contains(ce.Id));
+
+      // delete missing ChartEdges from Repository
+      await _chartEdgeServer.Delete(missEdges);
+
+
       // delete dangling DiagramLinks
       // BUG:   portless charts do not seem to delete links when an attached node is deleted
       //        Further, the attached node does not appear to be removed from the link!
