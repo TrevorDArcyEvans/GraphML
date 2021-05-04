@@ -37,10 +37,10 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    public Guid FindShortestPathsCorrelationId { get; set; } = Guid.Empty;
-    public Guid BetweennessCorrelationId { get; set; } = Guid.Empty;
-    public Guid ClosenessCorrelationId { get; set; } = Guid.Empty;
-    public Guid DegreeCorrelationId { get; set; } = Guid.Empty;
+    private Guid _findShortestPathsCorrelationId = Guid.Empty;
+    private Guid _betweennessCorrelationId = Guid.Empty;
+    private Guid _closenessCorrelationId = Guid.Empty;
+    private Guid _degreeCorrelationId = Guid.Empty;
 
     private Contact _contact;
 
@@ -56,7 +56,7 @@ namespace GraphML.UI.Web.Pages
       {
         return;
       }
-      
+
       var req = new FindShortestPathsRequest
       {
         Contact = _contact,
@@ -64,7 +64,7 @@ namespace GraphML.UI.Web.Pages
         RootNodeId = _shortestPathRootNode.Id,
         GoalNodeId = _shortestPathGoalNode.Id
       };
-      FindShortestPathsCorrelationId = await _analysisServer.FindShortestPaths(req);
+      _findShortestPathsCorrelationId = await _analysisServer.FindShortestPaths(req);
     }
 
     private async Task SubmitBetweenness()
@@ -74,7 +74,7 @@ namespace GraphML.UI.Web.Pages
         Contact = _contact,
         GraphId = Guid.Parse(GraphId)
       };
-      BetweennessCorrelationId = await _analysisServer.Betweenness(req);
+      _betweennessCorrelationId = await _analysisServer.Betweenness(req);
     }
 
     private async Task SubmitCloseness()
@@ -84,7 +84,7 @@ namespace GraphML.UI.Web.Pages
         Contact = _contact,
         GraphId = Guid.Parse(GraphId)
       };
-      ClosenessCorrelationId = await _analysisServer.Closeness(req);
+      _closenessCorrelationId = await _analysisServer.Closeness(req);
     }
 
     private async Task SubmitDegree()
@@ -94,7 +94,7 @@ namespace GraphML.UI.Web.Pages
         Contact = _contact,
         GraphId = Guid.Parse(GraphId)
       };
-      DegreeCorrelationId = await _analysisServer.Degree(req);
+      _degreeCorrelationId = await _analysisServer.Degree(req);
     }
 
     private void OnRootSelectionChanged(object row)

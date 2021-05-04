@@ -86,7 +86,7 @@
       <div>
         <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath())"/>
       </div>
-      <p>@FindShortestPathsCorrelationId</p>
+      <p>@_findShortestPathsCorrelationId</p>
     </MatExpansionPanelDetails>
   </MatExpansionPanel>
 
@@ -96,7 +96,7 @@
     </MatExpansionPanelSummary>
     <MatExpansionPanelDetails>
       <MatButton Icon="bar_chart" @onclick="@(async e => await SubmitBetweenness())"/>
-      <p>@BetweennessCorrelationId</p>
+      <p>@_betweennessCorrelationId</p>
     </MatExpansionPanelDetails>
   </MatExpansionPanel>
 
@@ -106,7 +106,7 @@
     </MatExpansionPanelSummary>
     <MatExpansionPanelDetails>
       <MatButton Icon="pie_chart" @onclick="@(async e => await SubmitCloseness())"/>
-      <p>@ClosenessCorrelationId</p>
+      <p>@_closenessCorrelationId</p>
     </MatExpansionPanelDetails>
   </MatExpansionPanel>
 
@@ -116,7 +116,7 @@
     </MatExpansionPanelSummary>
     <MatExpansionPanelDetails>
       <MatButton Icon="table_chart" @onclick="@(async e => await SubmitDegree())"/>
-      <p>@DegreeCorrelationId</p>
+      <p>@_degreeCorrelationId</p>
     </MatExpansionPanelDetails>
   </MatExpansionPanel>
 
