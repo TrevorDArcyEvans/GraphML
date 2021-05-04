@@ -4,7 +4,12 @@
 @using Analysis.SNA.Centrality
 @using System.Web;
 @using GraphML.API.Server;
+@using GraphML.Common
+@using GraphML.Interfaces.Server
+@using Microsoft.AspNetCore.Http
 
+@inject IHttpContextAccessor _context
+@inject IContactServer _contactServer
 @inject IAnalysisServer _analysisServer
 @inject NavigationManager _navMgr
 
@@ -58,7 +63,7 @@
 
 @functions
 {
-    #region Parameters
+  #region Parameters
 
   [Parameter]
   public string OrganisationName { get; set; }
@@ -84,20 +89,22 @@
   [Parameter]
   public string GraphId { get; set; }
 
-    #endregion
+  #endregion
 
   public Guid FindShortestPathsCorrelationId { get; set; } = Guid.Empty;
   public Guid BetweennessCorrelationId { get; set; } = Guid.Empty;
   public Guid ClosenessCorrelationId { get; set; } = Guid.Empty;
   public Guid DegreeCorrelationId { get; set; } = Guid.Empty;
 
+  private Contact _contact;
+
   private async Task SubmitShortestPath()
   {
-  // TODO     Contact
   // TODO     RootNodeId
   // TODO     GoalNodeId
     var req = new FindShortestPathsRequest
     {
+      Contact = _contact,
       GraphId = Guid.Parse(GraphId),
       RootNodeId = Guid.NewGuid(),
       GoalNodeId = Guid.NewGuid()
@@ -107,9 +114,9 @@
 
   private async Task SubmitBetweenness()
   {
-  // TODO     Contact
     var req = new BetweennessRequest
     {
+      Contact = _contact,
       GraphId = Guid.Parse(GraphId)
     };
     BetweennessCorrelationId = await _analysisServer.Betweenness(req);
@@ -117,9 +124,9 @@
 
   private async Task SubmitCloseness()
   {
-  // TODO     Contact
     var req = new ClosenessRequest
     {
+      Contact = _contact,
       GraphId = Guid.Parse(GraphId)
     };
     ClosenessCorrelationId = await _analysisServer.Closeness(req);
@@ -127,12 +134,20 @@
 
   private async Task SubmitDegree()
   {
-  // TODO     Contact
     var req = new DegreeRequest
     {
+      Contact = _contact,
       GraphId = Guid.Parse(GraphId)
     };
     DegreeCorrelationId = await _analysisServer.Degree(req);
+  }
+
+  protected override async void OnInitialized()
+  {
+    base.OnInitialized();
+    
+    var email = _context.Email();
+    _contact = await _contactServer.ByEmail(email);
   }
 
   private void GotoBrowseGraphs()
