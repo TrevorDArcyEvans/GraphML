@@ -1,0 +1,14 @@
+@page "/ShowResult/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{CorrelationId}"
+
+@using Microsoft.Extensions.Configuration
+@using System.Web;
+
+@inject IConfiguration _config
+@inject NavigationManager _navMgr
+
+<h1>Show Result</h1>
+<h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
+
+<div>
+  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseResults())">Back</MatButton>
+</div>

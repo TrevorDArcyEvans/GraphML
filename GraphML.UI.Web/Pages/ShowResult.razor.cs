@@ -1,11 +1,8 @@
-﻿using System;
-using GraphML.Analysis;
-using GraphML.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
 {
-  public partial class BrowseResults
+  public partial class ShowResult
   {
     #region Parameters
 
@@ -33,18 +30,14 @@ namespace GraphML.UI.Web.Pages
     [Parameter]
     public string GraphId { get; set; }
 
+    [Parameter]
+    public string CorrelationId { get; set; }
+
     #endregion
-
-    private RequestBase[] _requests;
-
-    private void OnShowResult(Guid correlationId)
+  
+    private void GotoBrowseResults()
     {
-      _navMgr.NavigateTo($"/ShowResult/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{correlationId}");
-    }
-
-    private void GotoBrowseGraphs()
-    {
-      _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");
+      _navMgr.NavigateTo($"/BrowseResults/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
     }
   }
 }
