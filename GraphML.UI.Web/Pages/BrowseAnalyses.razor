@@ -58,6 +58,8 @@
 
 @functions
 {
+    #region Parameters
+
   [Parameter]
   public string OrganisationName { get; set; }
 
@@ -81,6 +83,8 @@
 
   [Parameter]
   public string GraphId { get; set; }
+
+    #endregion
 
   public Guid FindShortestPathsCorrelationId { get; set; } = Guid.Empty;
   public Guid BetweennessCorrelationId { get; set; } = Guid.Empty;
