@@ -44,16 +44,25 @@ namespace GraphML.UI.Web.Pages
 
     private Contact _contact;
 
+    private GraphNode[] _graphNodes;
+    private GraphNode _shortestPathRootNode;
+    private GraphNode _shortestPathGoalNode;
+
     private async Task SubmitShortestPath()
     {
-      // TODO     RootNodeId
-      // TODO     GoalNodeId
+      if (_shortestPathRootNode is null ||
+          _shortestPathGoalNode is null ||
+          _shortestPathRootNode.Id == _shortestPathGoalNode.Id)
+      {
+        return;
+      }
+      
       var req = new FindShortestPathsRequest
       {
         Contact = _contact,
         GraphId = Guid.Parse(GraphId),
-        RootNodeId = Guid.NewGuid(),
-        GoalNodeId = Guid.NewGuid()
+        RootNodeId = _shortestPathRootNode.Id,
+        GoalNodeId = _shortestPathGoalNode.Id
       };
       FindShortestPathsCorrelationId = await _analysisServer.FindShortestPaths(req);
     }
@@ -86,6 +95,18 @@ namespace GraphML.UI.Web.Pages
         GraphId = Guid.Parse(GraphId)
       };
       DegreeCorrelationId = await _analysisServer.Degree(req);
+    }
+
+    private void OnRootSelectionChanged(object row)
+    {
+      _shortestPathRootNode = (GraphNode) row;
+      StateHasChanged();
+    }
+
+    private void OnGoalSelectionChanged(object row)
+    {
+      _shortestPathGoalNode = (GraphNode) row;
+      StateHasChanged();
     }
 
     protected override async void OnInitialized()

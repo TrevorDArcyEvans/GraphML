@@ -1,13 +1,22 @@
 @page "/BrowseAnalyses/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
+@using Flurl
 @using System.Web;
+@using GraphML.API.Controllers
 @using GraphML.API.Server;
+@using GraphML.Common
 @using GraphML.Interfaces.Server
 @using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Configuration
+@using Humanizer
+
+@code {
+}
 
 @inject IHttpContextAccessor _context
 @inject IContactServer _contactServer
 @inject IAnalysisServer _analysisServer
+@inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <h1>Analyses</h1>
@@ -19,7 +28,64 @@
       <MatExpansionPanelHeader>Find Shortest Paths</MatExpansionPanelHeader>
     </MatExpansionPanelSummary>
     <MatExpansionPanelDetails>
-      <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath())"/>
+
+      <MatExpansionPanel>
+        <MatExpansionPanelSummary>
+          <MatExpansionPanelHeader>Root node [@_shortestPathRootNode?.Name]</MatExpansionPanelHeader>
+        </MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+          <MatTable
+            Items="@_graphNodes"
+            ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+            PageParamName="pageIndex"
+            PageSizeParamName="pageSize"
+            PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+            PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+            FilterByColumnName="@nameof(GraphNode.Name)"
+            Striped="true"
+            AllowSelection="true"
+            SelectionChanged="OnRootSelectionChanged"
+            class="mat-elevation-z5">
+            <MatTableHeader>
+              <th>Name</th>
+            </MatTableHeader>
+            <MatTableRow>
+              <td>@context.Name</td>
+            </MatTableRow>
+          </MatTable>
+        </MatExpansionPanelDetails>
+      </MatExpansionPanel>
+
+      <MatExpansionPanel>
+        <MatExpansionPanelSummary>
+          <MatExpansionPanelHeader>Goal node [@_shortestPathGoalNode?.Name]</MatExpansionPanelHeader>
+        </MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+          <MatTable
+            Items="@_graphNodes"
+            ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+            PageParamName="pageIndex"
+            PageSizeParamName="pageSize"
+            PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+            PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+            FilterByColumnName="@nameof(GraphNode.Name)"
+            Striped="true"
+            AllowSelection="true"
+            SelectionChanged="OnGoalSelectionChanged"
+            class="mat-elevation-z5">
+            <MatTableHeader>
+              <th>Name</th>
+            </MatTableHeader>
+            <MatTableRow>
+              <td>@context.Name</td>
+            </MatTableRow>
+          </MatTable>
+        </MatExpansionPanelDetails>
+      </MatExpansionPanel>
+
+      <div>
+        <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath())"/>
+      </div>
       <p>@FindShortestPathsCorrelationId</p>
     </MatExpansionPanelDetails>
   </MatExpansionPanel>
