@@ -1,0 +1,22 @@
+@page "/BrowseResults/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
+
+@using Flurl
+@using System.Web;
+@using GraphML.API.Controllers
+@using GraphML.API.Server;
+@using GraphML.Common
+@using GraphML.Interfaces.Server
+@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Configuration
+@using Humanizer
+
+@inject IHttpContextAccessor _context
+@inject IContactServer _contactServer
+@inject IResultServer _resultServer
+@inject IConfiguration _config
+@inject NavigationManager _navMgr
+
+<h1>Results</h1>
+<h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
+
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
