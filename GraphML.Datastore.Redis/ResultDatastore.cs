@@ -14,6 +14,33 @@ namespace GraphML.Datastore.Redis
 {
   public sealed class ResultDatastore : IResultDatastore
   {
+    // Analysis requests and results are stored in Redis with a 28 day expiry.
+    //
+    // Data is serialised as JSON and stored in two sets of key-value pairs:
+    //
+    //  Request:
+    //    ContactId|OrganisationId|CorrelationId --> Request
+    //
+    //  Result:
+    //    CorrelationId --> Result
+    //
+    //  where:
+    //    ContactId
+    //      unique identifier of person who originally requested analysis
+    //    OrganisationId
+    //      unique identifier of person's organisation
+    //      This is so an organisation's UserAdmin can manage results
+    //        in the absence of the originating user.
+    //    CorrelationId
+    //      unique identifier allocated to an analysis request
+    //      This is used to retrieve a result corresponding to a
+    //        specific request.
+    //
+    // Notes:
+    // There is an assumption that APIs which return an IEnumerable<IRequest>
+    // will return a 'reasonable' number of items ie paging is currently
+    // not required.
+
     private static TimeSpan Expiry = TimeSpan.FromDays(28);
 
     private readonly IConfiguration _config;
@@ -66,8 +93,8 @@ namespace GraphML.Datastore.Redis
       {
         var keys = _server.Keys()
           .Where(x =>
-            x.ToString().StartsWith($"{correlationId}") ||
-            x.ToString().EndsWith($"{correlationId}"))
+            x.ToString().StartsWith($"{correlationId}") ||  // result
+            x.ToString().EndsWith($"{correlationId}"))      // request
           .ToArray();
 
         _db.KeyDelete(keys);
