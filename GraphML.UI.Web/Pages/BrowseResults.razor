@@ -29,12 +29,15 @@
       <th>JobType</th>
       <th>CorrelationId</th>
       <th>CreatedOnUtc</th>
+      <th>View</th>
     </MatTableHeader>
     <MatTableRow>
       <td>@context.Type</td>
       <td>@context.JobType</td>
       <td>@context.CorrelationId</td>
-      <td>@context.CreatedOnUtc</td>
+      <td>
+        <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
+      </td>
     </MatTableRow>
   </MatTable>
 </div>
