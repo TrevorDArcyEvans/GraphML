@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using GraphML.Interfaces;
+using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -31,6 +32,8 @@ namespace GraphML.UI.Web.Pages
     public string GraphId { get; set; }
 
     #endregion
+
+    private IRequest[] _requests;
 
     private void GotoBrowseGraphs()
     {

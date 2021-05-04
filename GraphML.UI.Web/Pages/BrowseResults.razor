@@ -3,12 +3,10 @@
 @using Flurl
 @using System.Web;
 @using GraphML.API.Controllers
-@using GraphML.API.Server;
 @using GraphML.Common
 @using GraphML.Interfaces.Server
 @using Microsoft.AspNetCore.Http
 @using Microsoft.Extensions.Configuration
-@using Humanizer
 
 @inject IHttpContextAccessor _context
 @inject IContactServer _contactServer
@@ -19,4 +17,27 @@
 <h1>Results</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
 
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
+<div>
+  <MatTable
+    Items="@_requests"
+    ApiUrl="@Url.Combine(@_config.API_URI(), "api", "Result", nameof(ResultController.ByGraph), GraphId)"
+    Striped="true"
+    AllowSelection="true"
+    class="mat-elevation-z5">
+    <MatTableHeader>
+      <th>Type</th>
+      <th>JobType</th>
+      <th>CorrelationId</th>
+      <th>CreatedOnUtc</th>
+    </MatTableHeader>
+    <MatTableRow>
+      <td>@context.Type</td>
+      <td>@context.JobType</td>
+      <td>@context.CorrelationId</td>
+      <td>@context.CreatedOnUtc</td>
+    </MatTableRow>
+  </MatTable>
+</div>
+<div>
+  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
+</div>
