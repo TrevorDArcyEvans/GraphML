@@ -32,7 +32,7 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Delete results for a completed job
+    /// Delete results (<see cref="IResult"/>) for a completed job (<see cref="IRequest"/>)
     /// </summary>
     /// <param name="correlationId">Job request</param>
     /// <response code="200">Success</response>
@@ -50,7 +50,7 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// List results for a person
+    /// List results (<see cref="IResult"/>) for a <see cref="Contact"/>
     /// </summary>
     /// <param name="contactId">Person</param>
     /// <response code="200">Success</response>
@@ -68,7 +68,7 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// List results for an organisation
+    /// List results (<see cref="IResult"/>) for an <see cref="Organisation"/>
     /// </summary>
     /// <param name="orgId">Organisation</param>
     /// <response code="200">Success</response>
@@ -86,7 +86,25 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Get request for a job request
+    /// List results (<see cref="IResult"/>) for a <see cref="Graph"/>
+    /// </summary>
+    /// <param name="graphId">graph</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpGet]
+    [Route(nameof(ByGraph) + "/{graphId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<IEnumerable<IRequest>> ByGraph([FromRoute] [Required] Guid graphId)
+    {
+      var retval = _logic.ByGraph(graphId);
+
+      return Ok(retval);
+    }
+
+    /// <summary>
+    /// Get request (<see cref="IResult"/>) for a job request (<see cref="IRequest"/>)
     /// </summary>
     /// <param name="correlationId">job request</param>
     /// <response code="200">Success</response>
@@ -104,7 +122,7 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
-    /// Get results for a job request
+    /// Get results (<see cref="IResult"/>) for a job request (<see cref="IRequest"/>)
     /// </summary>
     /// <param name="correlationId">Job request</param>
     /// <response code="200">Success</response>

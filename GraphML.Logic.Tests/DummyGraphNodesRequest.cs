@@ -8,6 +8,7 @@ namespace GraphML.Logic.Tests
   {
     public string Type { get; }
     public string JobType { get; }
+    public Guid GraphId { get; set; }
     public Guid CorrelationId { get; set; }
     public Contact Contact { get; set; }
     public string Description { get; set; }

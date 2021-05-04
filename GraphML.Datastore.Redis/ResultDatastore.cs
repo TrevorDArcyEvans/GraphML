@@ -19,7 +19,7 @@ namespace GraphML.Datastore.Redis
     // Data is serialised as JSON and stored in two sets of key-value pairs:
     //
     //  Request:
-    //    ContactId|OrganisationId|CorrelationId --> Request
+    //    ContactId|OrganisationId|GraphId|CorrelationId --> Request
     //
     //  Result:
     //    CorrelationId --> Result
@@ -31,6 +31,10 @@ namespace GraphML.Datastore.Redis
     //      unique identifier of person's organisation
     //      This is so an organisation's UserAdmin can manage results
     //        in the absence of the originating user.
+    //    GraphId
+    //      unique identifier of graph
+    //      This is to allow retrieving all analysis requests and
+    //      results for a graph.
     //    CorrelationId
     //      unique identifier allocated to an analysis request
     //      This is used to retrieve a result corresponding to a
@@ -79,9 +83,9 @@ namespace GraphML.Datastore.Redis
         // store CorrelationId --> Result
         _db.StringSet($"{request.CorrelationId}", resultJson, Expiry);
 
-        // store ContactId|OrganisationId|CorrelationId --> Request
+        // store ContactId|OrganisationId|GraphId|CorrelationId --> Request
         var jsonReq = JsonConvert.SerializeObject(request);
-        _db.StringSet($"{request.Contact.Id}|{request.Contact.OrganisationId}|{request.CorrelationId}", jsonReq, Expiry);
+        _db.StringSet($"{request.Contact.Id}|{request.Contact.OrganisationId}|{request.GraphId}|{request.CorrelationId}", jsonReq, Expiry);
 
         return 0;
       });
@@ -133,6 +137,30 @@ namespace GraphML.Datastore.Redis
       {
         var keys = _server.Keys()
           .Where(x => x.ToString().Contains($"{orgId}"))
+          .ToArray();
+        var reqs = _db.StringGet(keys);
+        var retval = new List<IRequest>();
+        foreach (var req in reqs)
+        {
+          var json = req.ToString();
+          var jobj = JObject.Parse(json);
+          var reqTypeStr = jobj["Type"].ToString();
+          var reqType = Type.GetType(reqTypeStr);
+          var request = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+
+          retval.Add(request);
+        }
+
+        return retval;
+      });
+    }
+
+    public IEnumerable<IRequest> ByGraph(Guid graphId)
+    {
+      return GetInternal(() =>
+      {
+        var keys = _server.Keys()
+          .Where(x => x.ToString().Contains($"{graphId}"))
           .ToArray();
         var reqs = _db.StringGet(keys);
         var retval = new List<IRequest>();

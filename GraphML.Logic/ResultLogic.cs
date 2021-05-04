@@ -60,16 +60,28 @@ namespace GraphML.Logic
       return _datastore.ByContact(contactId);
     }
 
-    public IEnumerable<IRequest> ByOrganisation(Guid orgid)
+    public IEnumerable<IRequest> ByOrganisation(Guid orgId)
     {
       // called by user
-      var valRes = _validator.Validate(orgid, options => options.IncludeRuleSets(nameof(IResultLogic.ByOrganisation)));
+      var valRes = _validator.Validate(orgId, options => options.IncludeRuleSets(nameof(IResultLogic.ByOrganisation)));
       if (!valRes.IsValid)
       {
         return Enumerable.Empty<IRequest>();
       }
 
-      return _datastore.ByOrganisation(orgid);
+      return _datastore.ByOrganisation(orgId);
+    }
+
+    public IEnumerable<IRequest> ByGraph(Guid graphId)
+    {
+      // called by user
+      var valRes = _validator.Validate(graphId, options => options.IncludeRuleSets(nameof(IResultLogic.ByGraph)));
+      if (!valRes.IsValid)
+      {
+        return Enumerable.Empty<IRequest>();
+      }
+
+      return _datastore.ByGraph(graphId);
     }
 
     public IRequest ByCorrelation(Guid corrId)

@@ -8,7 +8,7 @@ namespace GraphML.Logic.Tests
     public string Type => throw new NotImplementedException();
 
     public string JobType => throw new NotImplementedException();
-
+    public Guid GraphId { get; set; }
     public Guid CorrelationId { get; set; } = Guid.NewGuid();
     public Contact Contact { get; set; } = new Contact();
     public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

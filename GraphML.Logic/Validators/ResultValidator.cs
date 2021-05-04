@@ -38,6 +38,10 @@ namespace GraphML.Logic.Validators
       {
         RuleForByOrganisation();
       });
+      RuleSet(nameof(IResultLogic.ByGraph), () =>
+      {
+        RuleForByGraph();
+      });
       RuleSet(nameof(IResultLogic.ByCorrelation), () =>
       {
         RuleForByCorrelation();
@@ -74,6 +78,13 @@ namespace GraphML.Logic.Validators
       RuleFor(x => x)
         .Must(x => MustBeSameOrganisation(_context, x))
         .WithMessage("Must be same Organisation");
+    }
+
+    public void RuleForByGraph()
+    {
+      // called by user
+      //  Guid --> graphId
+      // TODO   RuleForByGraph
     }
 
     public void RuleForByCorrelation()

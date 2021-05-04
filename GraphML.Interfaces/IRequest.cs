@@ -16,6 +16,11 @@ namespace GraphML.Interfaces
     string JobType { get; }
 
     /// <summary>
+    /// Unique reference for graph
+    /// </summary>
+    Guid GraphId { get; set; }
+
+    /// <summary>
     /// Unique reference for this request
     /// </summary>
     Guid CorrelationId { get; set; }

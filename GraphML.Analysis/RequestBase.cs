@@ -5,7 +5,7 @@ namespace GraphML.Analysis
 {
   public abstract class RequestBase : IRequest
   {
-        /// <summary>
+    /// <summary>
     /// Unique identifier of graph
     /// </summary>
     public Guid GraphId { get; set; }

@@ -9,6 +9,7 @@ namespace GraphML.Interfaces.Server
     Task Delete(Guid correlationId);
     Task<IEnumerable<IRequest>> ByContact(Guid contactId);
     Task<IEnumerable<IRequest>> ByOrganisation(Guid orgId);
+    Task<IEnumerable<IRequest>> ByGraph(Guid graphId);
     Task<IResult> Retrieve(Guid correlationId);
   }
 }
