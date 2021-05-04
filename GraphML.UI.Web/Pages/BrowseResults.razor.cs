@@ -1,4 +1,5 @@
 ﻿using System;
+using GraphML.Analysis;
 using GraphML.Interfaces;
 using Microsoft.AspNetCore.Components;
 
@@ -34,11 +35,11 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private IRequest[] _requests;
+    private RequestBase[] _requests;
 
     private void OnShowResult(Guid correlationId)
     {
-      throw new NotImplementedException();
+      // TODO   OnShowResult
     }
 
     private void GotoBrowseGraphs()
