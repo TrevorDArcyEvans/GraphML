@@ -23,6 +23,7 @@ namespace GraphML.Datastore.Database
   * from {GetTableName()},
   (select count(*) as {nameof(PagedDataEx<Organisation>.TotalCount)} from {GetTableName()} {where} )
 {where}
+order by {nameof(Organisation.Name)}
 {AppendForFetch(pageIndex, pageSize)}";
 
         var retval = new PagedDataEx<Organisation>();

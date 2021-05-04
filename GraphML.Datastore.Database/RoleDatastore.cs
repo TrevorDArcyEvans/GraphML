@@ -20,10 +20,11 @@ namespace GraphML.Datastore.Database
 
     public IEnumerable<Role> ByContactId(Guid id)
     {
-      const string sql = @"
+      var sql = $@"
 SELECT r.* FROM Role r
 JOIN ContactsRoles cr on cr.RoleId = r.Id
 WHERE cr.ContactId = @id
+ORDER BY {nameof(Role.Name)} 
 ";
       return _dbConnection.Query<Role>(sql, new {id});
     }
