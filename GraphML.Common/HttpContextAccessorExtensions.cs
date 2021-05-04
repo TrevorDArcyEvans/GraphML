@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using IdentityModel;
+using Microsoft.AspNetCore.Http;
 
-namespace GraphML.Logic
+namespace GraphML.Common
 {
   public static class HttpContextAccessorExtensions
   {
