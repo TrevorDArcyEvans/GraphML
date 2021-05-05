@@ -503,6 +503,10 @@ Recommended method is to use a _Docker_ container:
   docker run -p 6379:6379 redis
 ```
 
+Alternate method is to install and run Redis on WSL:
+
+  https://redislabs.com/blog/redis-on-windows-10/
+
 ### Redis Commander
 ```bash
   npm install -g redis-commander
