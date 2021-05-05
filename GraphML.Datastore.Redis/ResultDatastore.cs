@@ -179,12 +179,13 @@ namespace GraphML.Datastore.Redis
       });
     }
 
-    public IRequest ByCorrelation(Guid corrId)
+    public IRequest ByCorrelation(Guid correlationId)
     {
       return GetInternal(() =>
       {
+        // NOTE: have to have pipe separator in filter or we get result as well as request
         var keys = _server.Keys()
-          .Where(x => x.ToString().EndsWith($"{corrId}"))
+          .Where(x => x.ToString().EndsWith($"|{correlationId}"))
           .ToArray();
         var req = _db.StringGet(keys).SingleOrDefault();
         var json = req.ToString();
