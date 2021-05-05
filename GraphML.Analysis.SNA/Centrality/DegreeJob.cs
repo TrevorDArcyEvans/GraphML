@@ -13,14 +13,14 @@ namespace GraphML.Analysis.SNA.Centrality
   {
     private readonly IConfiguration _config;
     private readonly ILogger<DegreeJob> _logger;
-    private readonly IEdgeDatastore _edgeDatastore;
+    private readonly IGraphEdgeDatastore _edgeDatastore;
     private readonly ICentralityDegreeAlgorithmFactory _factory;
     private readonly IResultLogic _resultLogic;
 
     public DegreeJob(
       IConfiguration config,
       ILogger<DegreeJob> logger,
-      IEdgeDatastore edgeDatastore,
+      IGraphEdgeDatastore edgeDatastore,
       ICentralityDegreeAlgorithmFactory factory,
       IResultLogic resultLogic)
     {
@@ -38,10 +38,10 @@ namespace GraphML.Analysis.SNA.Centrality
       var graph = new EdgeListGraph<Guid, IEdge<Guid>>();
 
       // raw edges from db
-      var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 1, int.MaxValue, null);
+      var edges = _edgeDatastore.ByOwners(new[] { degReq.GraphId }, 0, int.MaxValue, null);
 
       // convert raw edges to QuikGraph edges
-      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
+      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.GraphSourceId, e.GraphTargetId));
 
       // add edges to graph
       graph.AddEdgeRange(qgEdges);

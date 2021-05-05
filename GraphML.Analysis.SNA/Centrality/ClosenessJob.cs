@@ -13,16 +13,16 @@ namespace GraphML.Analysis.SNA.Centrality
   {
     private readonly IConfiguration _config;
     private readonly ILogger<ClosenessJob> _logger;
-    private readonly IEdgeDatastore _edgeDatastore;
-    private readonly INodeDatastore _nodeDatastore;
+    private readonly IGraphEdgeDatastore _edgeDatastore;
+    private readonly IGraphNodeDatastore _nodeDatastore;
     private readonly ICentralityClosenessAlgorithmFactory _factory;
     private readonly IResultLogic _resultLogic;
 
     public ClosenessJob(
       IConfiguration config,
       ILogger<ClosenessJob> logger,
-      IEdgeDatastore edgeDatastore,
-      INodeDatastore nodeDatastore,
+      IGraphEdgeDatastore edgeDatastore,
+      IGraphNodeDatastore nodeDatastore,
       ICentralityClosenessAlgorithmFactory factory,
       IResultLogic resultLogic)
     {
@@ -41,7 +41,7 @@ namespace GraphML.Analysis.SNA.Centrality
       var graph = new AdjacencyGraph<Guid, IEdge<Guid>>();
 
       // raw nodes from db
-      var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue, null);
+      var nodes = _nodeDatastore.ByOwners(new[] { closeReq.GraphId }, 0, int.MaxValue, null);
 
       // convert raw nodes to QuikGraph nodes
       var qgNodes = nodes.Items.Select(n => n.Id);
@@ -50,10 +50,10 @@ namespace GraphML.Analysis.SNA.Centrality
       graph.AddVertexRange(qgNodes);
 
       // raw edges from db
-      var edges = _edgeDatastore.ByOwners(new[] { closeReq.GraphId }, 1, int.MaxValue, null);
+      var edges = _edgeDatastore.ByOwners(new[] { closeReq.GraphId }, 0, int.MaxValue, null);
 
       // convert raw edges to QuikGraph edges
-      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
+      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.GraphSourceId, e.GraphTargetId));
 
       // add edges to graph
       graph.AddEdgeRange(qgEdges);
