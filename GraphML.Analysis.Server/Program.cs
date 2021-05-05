@@ -47,6 +47,7 @@ namespace GraphML.Analysis.Server
       var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile("appsettings.development.json", optional: true, reloadOnChange: true)
         .AddJsonFile("hosting.json", optional: true, reloadOnChange: true)
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
