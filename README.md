@@ -491,6 +491,9 @@ You can monitor ActiveMQ using the Web Console by pointing your browser at http:
 From ActiveMQ 5.8 onwards the web apps is secured out of the box.  
 The default username and password is `admin/admin`.
 
+There seems to be a problem accessing the Web Console from Google Chrome, so it
+is recommended to use Firefox (or Microsoft Edge).
+
 </details>
 
 <details>
