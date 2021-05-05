@@ -17,6 +17,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading;
+using Dapper;
 
 namespace GraphML.Analysis.Server
 {
@@ -56,6 +57,10 @@ namespace GraphML.Analysis.Server
 
       // database connection string for nLog
       GlobalDiagnosticsContext.Set("LOG_CONNECTION_STRING", config.LOG_CONNECTION_STRING());
+
+      SqlMapper.AddTypeHandler(new GuidTypeHandler());
+      SqlMapper.RemoveTypeMap(typeof(Guid));
+      SqlMapper.RemoveTypeMap(typeof(Guid?));
 
       // The Microsoft.Extensions.DependencyInjection.ServiceCollection
       // has extension methods provided by other .NET Core libraries to
