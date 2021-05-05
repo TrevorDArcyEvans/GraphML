@@ -28,7 +28,7 @@ namespace GraphML.Interfaces
     /// <returns>list of CorrelationIds</returns>
     IEnumerable<IRequest> ByGraph(Guid graphId);
 
-    IRequest ByCorrelation(Guid corrId);
+    IRequest ByCorrelation(Guid correlationId);
 
     IResult Retrieve(Guid correlationId);
     void Delete(Guid correlationId);
