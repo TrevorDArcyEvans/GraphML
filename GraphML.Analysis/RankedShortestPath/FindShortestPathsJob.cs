@@ -12,16 +12,16 @@ namespace GraphML.Analysis.RankedShortestPath
   {
     private readonly IConfiguration _config;
     private readonly ILogger<FindShortestPathsJob> _logger;
-    private readonly IEdgeDatastore _edgeDatastore;
-    private readonly INodeDatastore _nodeDatastore;
+    private readonly IGraphEdgeDatastore _edgeDatastore;
+    private readonly IGraphNodeDatastore _nodeDatastore;
     private readonly IFindShortestPathsAlgorithmFactory _factory;
     private readonly IResultLogic _resultLogic;
 
     public FindShortestPathsJob(
       IConfiguration config,
       ILogger<FindShortestPathsJob> logger,
-      IEdgeDatastore edgeDatastore,
-      INodeDatastore nodeDatastore,
+      IGraphEdgeDatastore edgeDatastore,
+      IGraphNodeDatastore nodeDatastore,
       IFindShortestPathsAlgorithmFactory factory,
       IResultLogic resultLogic)
     {
@@ -42,7 +42,7 @@ namespace GraphML.Analysis.RankedShortestPath
       var graphId = rootNode.OwnerId;
 
       // raw nodes from db
-      var nodes = _nodeDatastore.ByOwners(new[] { graphId }, 1, int.MaxValue, null);
+      var nodes = _nodeDatastore.ByOwners(new[] { graphId }, 0, int.MaxValue, null);
 
       // convert raw nodes to QuikGraph nodes
       var qgNodes = nodes.Items.Select(n => n.Id);
@@ -51,12 +51,12 @@ namespace GraphML.Analysis.RankedShortestPath
       graph.AddVertexRange(qgNodes);
 
       // raw edges from db
-      var edges = _edgeDatastore.ByOwners(new[] { graphId }, 1, int.MaxValue, null);
+      var edges = _edgeDatastore.ByOwners(new[] { graphId }, 0, int.MaxValue, null);
 
       // convert raw edges to QuikGraph edges
       // NOTE:  we also create reverse edges
-      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.SourceId, e.TargetId));
-      var qgRevEdges = edges.Items.Select(e => new Edge<Guid>(e.TargetId, e.SourceId));
+      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.GraphSourceId, e.GraphTargetId));
+      var qgRevEdges = edges.Items.Select(e => new Edge<Guid>(e.GraphTargetId, e.GraphSourceId));
 
       // add edges + reverse edges to graph
       graph.AddEdgeRange(qgEdges);
