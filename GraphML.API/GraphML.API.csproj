@@ -96,6 +96,7 @@
     <ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
     <ProjectReference Include="..\GraphML.Datastore.Redis\GraphML.Datastore.Redis.csproj" />
     <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
+    <ProjectReference Include="..\GraphML.MessageQueue.ActiveMQ\GraphML.MessageQueue.ActiveMQ.csproj" />
     <ProjectReference Include="..\GraphML.Utils\GraphML.Utils.csproj" />
     <ProjectReference Include="..\GraphML\GraphML.csproj" />
     <ProjectReference Include="..\GraphML.Logic\GraphML.Logic.csproj" />
