@@ -1,0 +1,36 @@
+﻿@using GraphML.Analysis.SNA.Centrality
+@using GraphML.Interfaces.Server
+
+@inject IResultServer _resultServer
+
+<h3>Closeness</h3>
+
+<MatTable
+  Items="@_graphNodes"
+  Striped="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>GraphNodeId</th>
+    <th>Closeness</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Vertex</td>
+    <td>@context.Closeness</td>
+  </MatTableRow>
+</MatTable>
+
+@code {
+
+  [Parameter]
+  public Guid CorrelationId { get; set; }
+
+  private ClosenessVertexResult<Guid>[] _graphNodes;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var genRes = await _resultServer.Retrieve(CorrelationId);
+    var res = (ClosenessResult<Guid>) genRes;
+
+    _graphNodes = res.Result.ToArray();
+  }
+}

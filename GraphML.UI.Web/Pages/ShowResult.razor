@@ -11,6 +11,8 @@
 <h1>Show Result</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
 
+@CreateDynamicComponent()
+
 <div>
   <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseResults())">Back</MatButton>
 </div>

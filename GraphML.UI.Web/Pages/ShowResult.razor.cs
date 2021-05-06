@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+using GraphML.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
@@ -34,7 +37,26 @@ namespace GraphML.UI.Web.Pages
     public string CorrelationId { get; set; }
 
     #endregion
-  
+
+    private Guid correlationId;
+    private IRequest request;
+
+    protected override async Task OnInitializedAsync()
+    {
+      correlationId = Guid.Parse(CorrelationId);
+      request = await _resultServer.ByCorrelation(correlationId);
+    }
+
+    private RenderFragment CreateDynamicComponent() => builder =>
+    {
+      if (request is IClosenessRequest)
+      {
+        builder.OpenComponent(0, typeof(Closeness));
+        builder.AddAttribute(1, nameof(Closeness.CorrelationId), correlationId);
+        builder.CloseComponent();
+      }
+    };
+
     private void GotoBrowseResults()
     {
       _navMgr.NavigateTo($"/BrowseResults/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
