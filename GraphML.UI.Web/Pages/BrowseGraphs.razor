@@ -6,8 +6,10 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using System.Web;
+@using GraphML.Interfaces.Server
 @using Humanizer
 
+@inject IGraphServer _graphServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
@@ -46,7 +48,34 @@
     <td>
       <MatButton Icon="assignment_turned_in" @onclick="@(e => GotoBrowseResults(@context))"/>
     </td>
+    <td>
+      <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteGraph(@context))"></MatButton>
+    </td>
   </MatTableRow>
 </MatTable>
+
+<div>
+  <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
+    <MatDialogTitle>Delete graph?</MatDialogTitle>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _deleteGraph = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@DeleteChart">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
+  <MatButton OnClick="@NewDialog" Raised="true">New chart...</MatButton>
+  <MatDialog @bind-IsOpen="@_newDialogIsOpen">
+    <MatDialogTitle>Create new graph</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgNewGraphName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
