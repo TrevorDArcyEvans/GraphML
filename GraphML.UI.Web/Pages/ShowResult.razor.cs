@@ -62,6 +62,13 @@ namespace GraphML.UI.Web.Pages
         builder.AddAttribute(1, nameof(Degree.CorrelationId), correlationId);
         builder.CloseComponent();
       }
+
+      if (request is IBetweennessRequest)
+      {
+        builder.OpenComponent(0, typeof(Betweenness));
+        builder.AddAttribute(1, nameof(Betweenness.CorrelationId), correlationId);
+        builder.CloseComponent();
+      }
     };
 
     private void GotoBrowseResults()

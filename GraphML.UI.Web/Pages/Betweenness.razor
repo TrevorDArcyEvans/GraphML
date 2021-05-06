@@ -1,0 +1,72 @@
+﻿@using GraphML.Analysis.SNA.Centrality
+@using GraphML.Interfaces.Server
+
+@inject IResultServer _resultServer
+
+<h3>Betweenness</h3>
+
+<MatTable
+  Items="@_graphNodes"
+  Striped="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <th>GraphNodeId</th>
+    <MatSortHeaderRow SortChanged="@SortData">
+      <MatSortHeader SortId="@nameof(BetweennessVertexResult<Guid>.Betweenness)">Betweenness</MatSortHeader>
+    </MatSortHeaderRow>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Vertex</td>
+    <td>@context.Betweenness</td>
+  </MatTableRow>
+</MatTable>
+
+@code {
+
+  [Parameter]
+  public Guid CorrelationId { get; set; }
+
+  private IEnumerable<BetweennessVertexResult<Guid>> _results;
+  private BetweennessVertexResult<Guid>[] _graphNodes;
+
+  protected override async Task OnInitializedAsync()
+  {
+    await base.OnInitializedAsync();
+
+    var genRes = await _resultServer.Retrieve(CorrelationId);
+    var res = (BetweennessResult<Guid>) genRes;
+
+    _results = res.Result;
+    _graphNodes = _results.ToArray();
+  }
+
+  private void SortData(MatSortChangedEvent sort)
+  {
+    _graphNodes = _results.ToArray();
+
+    if (!(sort == null ||
+          sort.Direction == MatSortDirection.None ||
+          string.IsNullOrEmpty(sort.SortId)))
+    {
+      Comparison<double> comparison = null;
+
+      switch (sort.SortId)
+      {
+        case nameof(BetweennessVertexResult<Guid>.Betweenness):
+          comparison = (s1, s2) => s1.CompareTo(s2);
+          break;
+        default:
+          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
+      }
+
+      if (sort.Direction == MatSortDirection.Desc)
+      {
+        Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Betweenness, s2.Betweenness));
+      }
+      else
+      {
+        Array.Sort(_graphNodes, (s1, s2) => -comparison(s1.Betweenness, s2.Betweenness));
+      }
+    }
+  }
+}
