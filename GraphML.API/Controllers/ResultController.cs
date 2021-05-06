@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using GraphML.Analysis;
-using GraphML.Analysis.RankedShortestPath;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace GraphML.API.Controllers
@@ -60,9 +58,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByContact) + "/{contactId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<RequestBase>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<RequestBase>> ByContact([FromRoute] [Required] Guid contactId)
+    public ActionResult<IEnumerable<IRequest>> ByContact([FromRoute] [Required] Guid contactId)
     {
       var retval = _logic.ByContact(contactId);
 
@@ -78,9 +76,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByOrganisation) + "/{orgId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<RequestBase>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<RequestBase>> ByOrganisation([FromRoute] [Required] Guid orgId)
+    public ActionResult<IEnumerable<IRequest>> ByOrganisation([FromRoute] [Required] Guid orgId)
     {
       var retval = _logic.ByOrganisation(orgId);
 
@@ -96,9 +94,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByGraph) + "/{graphId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<RequestBase>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IEnumerable<IRequest>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<IEnumerable<RequestBase>> ByGraph([FromRoute] [Required] Guid graphId)
+    public ActionResult<IEnumerable<IRequest>> ByGraph([FromRoute] [Required] Guid graphId)
     {
       var retval = _logic.ByGraph(graphId);
 
@@ -114,9 +112,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(ByCorrelation) + "/{correlationId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(RequestBase))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IRequest))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<RequestBase> ByCorrelation([FromRoute] [Required] Guid correlationId)
+    public ActionResult<IRequest> ByCorrelation([FromRoute] [Required] Guid correlationId)
     {
       var retval = _logic.ByCorrelation(correlationId);
 
@@ -132,9 +130,9 @@ namespace GraphML.API.Controllers
     [HttpGet]
     [Route(nameof(Retrieve) + "/{correlationId}")]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(ResultBase))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(IResult))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<ResultBase> Retrieve([FromRoute] [Required] Guid correlationId)
+    public ActionResult<IResult> Retrieve([FromRoute] [Required] Guid correlationId)
     {
       var retval = _logic.Retrieve(correlationId);
 
