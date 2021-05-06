@@ -5,7 +5,6 @@
 @using Microsoft.Extensions.Configuration
 @using Flurl
 @using GraphML.API.Controllers
-@using System.Web;
 @using Humanizer
 
 @inject IConfiguration _config
@@ -73,52 +72,3 @@
 </MatTabGroup>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositories())">Back</MatButton>
-
-@functions
-{
-  [Parameter]
-  public string OrganisationName { get; set; }
-
-  [Parameter]
-  public string OrganisationId { get; set; }
-
-  [Parameter]
-  public string RepositoryManagerName { get; set; }
-
-  [Parameter]
-  public string RepositoryManagerId { get; set; }
-
-  [Parameter]
-  public string RepositoryName { get; set; }
-
-  [Parameter]
-  public string RepositoryId { get; set; }
-
-  private Node[] _nodes;
-  private Edge[] _edges;
-
-  private void GotoBrowseWhereUsed(Node item)
-  {
-    _navMgr.NavigateTo($"/BrowseWhereUsedNodes/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{item.Id}/{item.Name}");
-  }
-
-  private void GotoBrowseParents(Node item)
-  {
-    _navMgr.NavigateTo($"/BrowseParentNodes/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{item.Id}/{item.Name}");
-  }
-
-  private void GotoBrowseWhereUsed(Edge item)
-  {
-    _navMgr.NavigateTo($"/BrowseWhereUsedEdges/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{item.Id}/{item.Name}");
-  }
-
-  private void GotoBrowseParents(Edge item)
-  {
-    _navMgr.NavigateTo($"/BrowseParentEdges/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{item.Id}/{item.Name}");
-  }
-
-  private void GotoBrowseRepositories()
-  {
-    _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}");
-  }
-}
