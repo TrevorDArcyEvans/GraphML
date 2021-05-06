@@ -12,7 +12,7 @@
   <MatTableHeader>
     <th>GraphNodeId</th>
     <MatSortHeaderRow SortChanged="@SortData">
-      <MatSortHeader SortId="Closeness">Closeness</MatSortHeader>
+      <MatSortHeader SortId="@nameof(ClosenessVertexResult<Guid>.Closeness)">Closeness</MatSortHeader>
     </MatSortHeaderRow>
   </MatTableHeader>
   <MatTableRow>
@@ -52,23 +52,21 @@
 
       switch (sort.SortId)
       {
-        case "Closeness":
+        case nameof(ClosenessVertexResult<Guid>.Closeness):
           comparison = (s1, s2) => s1.CompareTo(s2);
           break;
+        default:
+          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
       }
 
-      if (comparison != null)
+      if (sort.Direction == MatSortDirection.Desc)
       {
-        if (sort.Direction == MatSortDirection.Desc)
-        {
-          Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Closeness, s2.Closeness));
-        }
-        else
-        {
-          Array.Sort(_graphNodes, (s1, s2) => -comparison(s1.Closeness, s2.Closeness));
-        }
+        Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Closeness, s2.Closeness));
+      }
+      else
+      {
+        Array.Sort(_graphNodes, (s1, s2) => -comparison(s1.Closeness, s2.Closeness));
       }
     }
   }
-
 }
