@@ -1,6 +1,5 @@
 ﻿using System;
 using GraphML.Analysis;
-using GraphML.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
