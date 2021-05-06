@@ -11,7 +11,9 @@
   class="mat-elevation-z5">
   <MatTableHeader>
     <th>GraphNodeId</th>
-    <th>Closeness</th>
+    <MatSortHeaderRow SortChanged="@SortData">
+      <MatSortHeader SortId="Closeness">Closeness</MatSortHeader>
+    </MatSortHeaderRow>
   </MatTableHeader>
   <MatTableRow>
     <td>@context.Vertex</td>
@@ -24,13 +26,49 @@
   [Parameter]
   public Guid CorrelationId { get; set; }
 
+  private IEnumerable<ClosenessVertexResult<Guid>> _results;
   private ClosenessVertexResult<Guid>[] _graphNodes;
 
   protected override async Task OnInitializedAsync()
   {
+    await base.OnInitializedAsync();
+
     var genRes = await _resultServer.Retrieve(CorrelationId);
     var res = (ClosenessResult<Guid>) genRes;
 
-    _graphNodes = res.Result.ToArray();
+    _results = res.Result;
+    _graphNodes = _results.ToArray();
   }
+
+  private void SortData(MatSortChangedEvent sort)
+  {
+    _graphNodes = _results.ToArray();
+
+    if (!(sort == null ||
+          sort.Direction == MatSortDirection.None ||
+          string.IsNullOrEmpty(sort.SortId)))
+    {
+      Comparison<double> comparison = null;
+
+      switch (sort.SortId)
+      {
+        case "Closeness":
+          comparison = (s1, s2) => s1.CompareTo(s2);
+          break;
+      }
+
+      if (comparison != null)
+      {
+        if (sort.Direction == MatSortDirection.Desc)
+        {
+          Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Closeness, s2.Closeness));
+        }
+        else
+        {
+          Array.Sort(_graphNodes, (s1, s2) => -comparison(s1.Closeness, s2.Closeness));
+        }
+      }
+    }
+  }
+
 }
