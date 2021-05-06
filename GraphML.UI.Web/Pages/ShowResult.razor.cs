@@ -69,6 +69,13 @@ namespace GraphML.UI.Web.Pages
         builder.AddAttribute(1, nameof(Betweenness.CorrelationId), correlationId);
         builder.CloseComponent();
       }
+
+      if (request is IFindShortestPathsRequest)
+      {
+        builder.OpenComponent(0, typeof(FindShortestPaths));
+        builder.AddAttribute(1, nameof(FindShortestPaths.CorrelationId), correlationId);
+        builder.CloseComponent();
+      }
     };
 
     private void GotoBrowseResults()

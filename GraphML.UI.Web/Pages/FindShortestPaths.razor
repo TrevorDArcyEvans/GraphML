@@ -1,0 +1,79 @@
+﻿@using GraphML.Interfaces.Server
+@using GraphML.Analysis.RankedShortestPath
+@using QuikGraph
+
+@inject IResultServer _resultServer
+
+<h3>Find Shortest Paths</h3>
+
+<MatTable
+  Items="@_graphNodes"
+  Striped="true"
+  class="mat-elevation-z5">
+  <MatTableHeader>
+    <MatSortHeaderRow SortChanged="@SortData">
+      <MatSortHeader SortId="@nameof(FindShortestPathsResult<Edge<Guid>>.Cost)">Cost</MatSortHeader>
+    </MatSortHeaderRow>
+    <th>Path</th>
+  </MatTableHeader>
+  <MatTableRow>
+    <td>@context.Cost</td>
+    <td>
+      @foreach (var pathSeg in context.Path)
+      {
+        <p>@pathSeg.Source --> @pathSeg.Target</p> 
+      }
+    </td>
+  </MatTableRow>
+</MatTable>
+
+@code {
+
+  [Parameter]
+  public Guid CorrelationId { get; set; }
+
+  private IEnumerable<FindShortestPathsResult<Edge<Guid>>> _results;
+  private FindShortestPathsResult<Edge<Guid>>[] _graphNodes;
+
+  protected override async Task OnInitializedAsync()
+  {
+    await base.OnInitializedAsync();
+
+    var genRes = await _resultServer.Retrieve(CorrelationId);
+    var res = (FindShortestPathsResults<Edge<Guid>>) genRes;
+
+    _results = res.Result;
+    _graphNodes = _results.ToArray();
+  }
+
+  private void SortData(MatSortChangedEvent sort)
+  {
+    _graphNodes = _results.ToArray();
+
+    if (!(sort == null ||
+          sort.Direction == MatSortDirection.None ||
+          string.IsNullOrEmpty(sort.SortId)))
+    {
+      Comparison<double> comparison = null;
+
+      switch (sort.SortId)
+      {
+        case nameof(FindShortestPathsResult<Edge<Guid>>.Cost):
+          comparison = (s1, s2) => s1.CompareTo(s2);
+          break;
+        default:
+          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
+      }
+
+      if (sort.Direction == MatSortDirection.Desc)
+      {
+        Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Cost, s2.Cost));
+      }
+      else
+      {
+        Array.Sort(_graphNodes, (s1, s2) => comparison(s1.Cost, s2.Cost));
+      }
+    }
+  }
+
+}
