@@ -38,43 +38,42 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private Guid correlationId;
-    private IRequest request;
+    private Guid _correlationId;
+    private IRequest _request;
 
     protected override async Task OnInitializedAsync()
     {
-      correlationId = Guid.Parse(CorrelationId);
-      request = await _resultServer.ByCorrelation(correlationId);
+      _correlationId = Guid.Parse(CorrelationId);
+      _request = await _resultServer.ByCorrelation(_correlationId);
     }
 
     private RenderFragment CreateDynamicComponent() => builder =>
     {
-      if (request is IClosenessRequest)
+      // TODO   use external config to map [result] --> [visualiser]
+      switch (_request)
       {
-        builder.OpenComponent(0, typeof(Closeness));
-        builder.AddAttribute(1, nameof(Closeness.CorrelationId), correlationId);
-        builder.CloseComponent();
-      }
-
-      if (request is IDegreeRequest)
-      {
-        builder.OpenComponent(0, typeof(Degree));
-        builder.AddAttribute(1, nameof(Degree.CorrelationId), correlationId);
-        builder.CloseComponent();
-      }
-
-      if (request is IBetweennessRequest)
-      {
-        builder.OpenComponent(0, typeof(Betweenness));
-        builder.AddAttribute(1, nameof(Betweenness.CorrelationId), correlationId);
-        builder.CloseComponent();
-      }
-
-      if (request is IFindShortestPathsRequest)
-      {
-        builder.OpenComponent(0, typeof(FindShortestPaths));
-        builder.AddAttribute(1, nameof(FindShortestPaths.CorrelationId), correlationId);
-        builder.CloseComponent();
+        case IClosenessRequest:
+          builder.OpenComponent(0, typeof(Closeness));
+          builder.AddAttribute(1, nameof(Closeness.CorrelationId), _correlationId);
+          builder.CloseComponent();
+          break;
+        case IDegreeRequest:
+          builder.OpenComponent(0, typeof(Degree));
+          builder.AddAttribute(1, nameof(Degree.CorrelationId), _correlationId);
+          builder.CloseComponent();
+          break;
+        case IBetweennessRequest:
+          builder.OpenComponent(0, typeof(Betweenness));
+          builder.AddAttribute(1, nameof(Betweenness.CorrelationId), _correlationId);
+          builder.CloseComponent();
+          break;
+        case IFindShortestPathsRequest:
+          builder.OpenComponent(0, typeof(FindShortestPaths));
+          builder.AddAttribute(1, nameof(FindShortestPaths.CorrelationId), _correlationId);
+          builder.CloseComponent();
+          break;
+        default:
+          throw new ArgumentOutOfRangeException($"Unknown request:  {_request}");
       }
     };
 
