@@ -40,36 +40,5 @@
     </td>
   </MatTableRow>
 </MatTable>
+
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>
-
-@functions
-{
-  [Parameter]
-  public string OrganisationName { get; set; }
-
-  [Parameter]
-  public string OrganisationId { get; set; }
-
-  [Parameter]
-  public string RepositoryManagerName { get; set; }
-
-  [Parameter]
-  public string RepositoryManagerId { get; set; }
-
-  private Repository[] _repos;
-
-  private void GotoBrowseGraphs(Repository repo)
-  {
-    _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{repo.Id}/{repo.Name}");
-  }
-
-  private void GotoBrowseItems(Repository repo)
-  {
-    _navMgr.NavigateTo($"/BrowseItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{repo.Id}/{repo.Name}");
-  }
-
-  private void GotoBrowseRepositoryManagers()
-  {
-    _navMgr.NavigateTo($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}");
-  }
-}
