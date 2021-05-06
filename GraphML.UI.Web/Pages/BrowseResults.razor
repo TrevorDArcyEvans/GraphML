@@ -39,9 +39,23 @@
       <td>
         <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
       </td>
+    <td>
+      <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+    </td>
     </MatTableRow>
   </MatTable>
 </div>
+
+<div>
+  <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
+    <MatDialogTitle>Delete result?</MatDialogTitle>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _deleteResult = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@DeleteResult">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
 <div>
   <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 </div>

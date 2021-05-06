@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using GraphML.Analysis;
 using Microsoft.AspNetCore.Components;
 
@@ -35,6 +36,22 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     private RequestBase[] _requests;
+
+    private bool _deleteDialogIsOpen;
+    private RequestBase _deleteResult;
+
+    private void ConfirmDeleteChart(RequestBase request)
+    {
+      _deleteResult = request;
+      _deleteDialogIsOpen = true;
+    }
+
+    private async Task DeleteResult()
+    {
+      _deleteDialogIsOpen = false;
+      await _resultServer.Delete(_deleteResult.CorrelationId);
+      StateHasChanged();
+    }
 
     private void OnShowResult(Guid correlationId)
     {
