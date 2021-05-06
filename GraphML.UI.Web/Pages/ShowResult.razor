@@ -2,7 +2,9 @@
 
 @using Microsoft.Extensions.Configuration
 @using System.Web;
+@using GraphML.Interfaces.Server
 
+@inject IResultServer _resultServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
