@@ -37,17 +37,7 @@ namespace GraphML.API.Server
     public async Task<IEnumerable<IRequest>> ByContact(Guid contactId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByContact), contactId.ToString()));
-      var retval = await RetrieveResponse<IEnumerable<object>>(request);
-      var objs = new List<IRequest>();
-
-      foreach (JObject jobj in retval)
-      {
-        var reqTypeStr = jobj["type"].ToString();
-        var reqType = Type.GetType(reqTypeStr);
-        var obj = (IRequest) JsonConvert.DeserializeObject(jobj.ToString(), reqType);
-
-        objs.Add(obj);
-      }
+      var objs = await GetRequests(request);
 
       return objs;
     }
@@ -55,17 +45,7 @@ namespace GraphML.API.Server
     public async Task<IEnumerable<IRequest>> ByOrganisation(Guid orgId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByOrganisation), orgId.ToString()));
-      var retval = await RetrieveResponse<IEnumerable<object>>(request);
-      var objs = new List<IRequest>();
-
-      foreach (JObject jobj in retval)
-      {
-        var reqTypeStr = jobj["type"].ToString();
-        var reqType = Type.GetType(reqTypeStr);
-        var obj = (IRequest) JsonConvert.DeserializeObject(jobj.ToString(), reqType);
-
-        objs.Add(obj);
-      }
+      var objs = await GetRequests(request);
 
       return objs;
     }
@@ -73,6 +53,39 @@ namespace GraphML.API.Server
     public async Task<IEnumerable<IRequest>> ByGraph(Guid graphId)
     {
       var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByGraph), graphId.ToString()));
+      var objs = await GetRequests(request);
+
+      return objs;
+    }
+
+    public async Task<IRequest> ByCorrelation(Guid corrId)
+    {
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId.ToString()));
+      var obj = await GetObject(request);
+
+      return (IRequest) obj;
+    }
+
+    public async Task<IResult> Retrieve(Guid correlationId)
+    {
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId.ToString()));
+      var obj = await GetObject(request);
+
+      return (IResult) obj;
+    }
+
+    private async Task<object> GetObject(HttpRequestMessage request)
+    {
+      var retval = await RetrieveResponse<object>(request);
+      var jobj = (JObject) retval;
+      var reqTypeStr = jobj["type"].ToString();
+      var reqType = Type.GetType(reqTypeStr);
+      var obj = JsonConvert.DeserializeObject(jobj.ToString(), reqType);
+      return obj;
+    }
+
+    private async Task<List<IRequest>> GetRequests(HttpRequestMessage request)
+    {
       var retval = await RetrieveResponse<IEnumerable<object>>(request);
       var objs = new List<IRequest>();
 
@@ -86,30 +99,6 @@ namespace GraphML.API.Server
       }
 
       return objs;
-    }
-
-    public async Task<IRequest> ByCorrelation(Guid corrId)
-    {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId.ToString()));
-      var retval = await RetrieveResponse<object>(request);
-      var jobj = (JObject) retval;
-      var reqTypeStr = jobj["type"].ToString();
-      var reqType = Type.GetType(reqTypeStr);
-      var obj = JsonConvert.DeserializeObject(jobj.ToString(), reqType);
-
-      return (IRequest) obj;
-    }
-
-    public async Task<IResult> Retrieve(Guid correlationId)
-    {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.Retrieve), correlationId.ToString()));
-      var retval = await RetrieveResponse<object>(request);
-      var jobj = (JObject) retval;
-      var resTypeStr = jobj["type"].ToString();
-      var resType = Type.GetType(resTypeStr);
-      var obj = JsonConvert.DeserializeObject(jobj.ToString(), resType);
-
-      return (IResult) obj;
     }
   }
 }
