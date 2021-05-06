@@ -55,6 +55,13 @@ namespace GraphML.UI.Web.Pages
         builder.AddAttribute(1, nameof(Closeness.CorrelationId), correlationId);
         builder.CloseComponent();
       }
+
+      if (request is IDegreeRequest)
+      {
+        builder.OpenComponent(0, typeof(Degree));
+        builder.AddAttribute(1, nameof(Degree.CorrelationId), correlationId);
+        builder.CloseComponent();
+      }
     };
 
     private void GotoBrowseResults()
