@@ -36,7 +36,7 @@ namespace GraphML.Analysis.RankedShortestPath
     {
       var shortPathReq = (IFindShortestPathsRequest)req;
 
-      var graph = new BidirectionalGraph<Guid, IEdge<Guid>>();
+      var graph = new BidirectionalGraph<Guid, Edge<Guid>>();
 
       var rootNode = _nodeDatastore.ByIds(new[] { shortPathReq.RootNodeId }).Single();
       var graphId = rootNode.OwnerId;

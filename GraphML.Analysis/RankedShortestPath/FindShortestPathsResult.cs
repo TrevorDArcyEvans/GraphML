@@ -4,8 +4,8 @@ namespace GraphML.Analysis.RankedShortestPath
 {
   public sealed class FindShortestPathsResult<TEdge>
   {
-    public IEnumerable<TEdge> Path { get; }
-    public double Cost { get; }
+    public IEnumerable<TEdge> Path { get; set; }
+    public double Cost { get; set; }
 
     public FindShortestPathsResult(IEnumerable<TEdge> path, double cost)
     {
