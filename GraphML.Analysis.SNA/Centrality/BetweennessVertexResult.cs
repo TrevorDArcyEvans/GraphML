@@ -2,8 +2,8 @@
 {
   public sealed class BetweennessVertexResult<TVertex>
   {
-    public TVertex Vertex { get; }
-    public double Betweenness { get; }
+    public TVertex Vertex { get; set; }
+    public double Betweenness { get; set; }
 
     public BetweennessVertexResult(TVertex vertex, double betweenness)
     {

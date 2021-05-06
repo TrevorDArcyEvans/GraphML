@@ -2,9 +2,9 @@
 {
   public sealed class DegreeVertexResult<TVertex>
   {
-    public TVertex Vertex { get; }
-    public double In { get; }
-    public double Out { get; }
+    public TVertex Vertex { get; set; }
+    public double In { get; set; }
+    public double Out { get; set; }
 
     public DegreeVertexResult(TVertex vertex, double inDegree, double outDegree)
     {
