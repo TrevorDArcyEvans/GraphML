@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using GraphML.Interfaces;
+using GraphML.UI.Web.Pages.Visualisations;
 using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
