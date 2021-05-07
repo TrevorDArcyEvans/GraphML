@@ -19,6 +19,8 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class GraphNodeController : OwnedGraphMLController<GraphNode>
   {
+    private readonly IGraphNodeLogic _graphNodeLogic;
+    
     /// <summary>
     /// constructor
     /// </summary>
@@ -26,6 +28,7 @@ namespace GraphML.API.Controllers
     public GraphNodeController(IGraphNodeLogic logic) :
       base(logic)
     {
+      _graphNodeLogic = logic;
     }
 
     /// <summary>
@@ -145,6 +148,24 @@ namespace GraphML.API.Controllers
     public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
       return Ok(CountInternal(ownerId));
+    }
+
+    /// <summary>
+    /// Retrieve a <see cref="GraphNode"/> corresponding to an underlying <see cref="Item"/>
+    /// from a specified <see cref="Graph"/>, if it exists
+    /// </summary>
+    /// <param name="graphId">identifier of <see cref="Graph"/></param>
+    /// <param name="repoItemIds">identifier of underlying <see cref="Item"/></param>
+    /// <response code="200">Success - if no Entities found, returns null</response>
+    [HttpPost]
+    [Route(nameof(ByRepositoryItems) + "/{graphId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<GraphNode>))]
+    public ActionResult<IEnumerable<GraphNode>> ByRepositoryItems(
+      [FromRoute] Guid graphId,
+      [FromBody] IEnumerable<Guid> repoItemIds)
+    {
+      return Ok(_graphNodeLogic.ByRepositoryItems(graphId, repoItemIds));
     }
   }
 }

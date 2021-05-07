@@ -1,6 +1,6 @@
 ﻿namespace GraphML.Interfaces
 {
-  public interface IGraphNodeDatastore : IOwnedDatastore<GraphNode>
+  public interface IGraphNodeDatastore : IGraphItemDatastore<GraphNode>
   {
   }
 }

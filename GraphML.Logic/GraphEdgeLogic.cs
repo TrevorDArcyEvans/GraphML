@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic
 {
-  public sealed class GraphEdgeLogic : OwnedLogicBase<GraphEdge>, IGraphEdgeLogic
+  public sealed class GraphEdgeLogic : GraphItemLogicBase<GraphEdge>, IGraphEdgeLogic
   {
     private readonly IGraphEdgeDatastore _edgeDatastore;
 

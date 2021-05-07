@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraphML.Datastore.Database
 {
-  public sealed class GraphEdgeDatastore : OwnedItemDatastore<GraphEdge>, IGraphEdgeDatastore
+  public sealed class GraphEdgeDatastore : GraphItemDatastore<GraphEdge>, IGraphEdgeDatastore
   {
     public GraphEdgeDatastore(
       IDbConnectionFactory dbConnectionFactory,

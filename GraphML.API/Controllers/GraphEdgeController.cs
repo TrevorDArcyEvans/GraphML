@@ -19,7 +19,7 @@ namespace GraphML.API.Controllers
   [Produces("application/json")]
   public sealed class GraphEdgeController : OwnedGraphMLController<GraphEdge>
   {
-    private readonly IGraphEdgeLogic _edgeLogic;
+    private readonly IGraphEdgeLogic _graphEdgeLogic;
 
     /// <summary>
     /// constructor
@@ -28,7 +28,7 @@ namespace GraphML.API.Controllers
     public GraphEdgeController(IGraphEdgeLogic logic) :
       base(logic)
     {
-      _edgeLogic = logic;
+      _graphEdgeLogic = logic;
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ namespace GraphML.API.Controllers
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
-      var pdex = _edgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize, searchTerm);
+      var pdex = _graphEdgeLogic.ByNodeIds(ids, pageIndex - 1, pageSize, searchTerm);
       return Ok(pdex);
     }
 
@@ -172,6 +172,24 @@ namespace GraphML.API.Controllers
     public override ActionResult<int> Count([FromRoute] Guid ownerId)
     {
       return Ok(CountInternal(ownerId));
+    }
+
+    /// <summary>
+    /// Retrieve a <see cref="GraphEdge"/> corresponding to an underlying <see cref="Item"/>
+    /// from a specified <see cref="Graph"/>, if it exists
+    /// </summary>
+    /// <param name="graphId">identifier of <see cref="Graph"/></param>
+    /// <param name="repoItemIds">identifier of underlying <see cref="Item"/></param>
+    /// <response code="200">Success - if no Entities found, returns null</response>
+    [HttpPost]
+    [Route(nameof(ByRepositoryItems) + "/{graphId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<GraphEdge>))]
+    public ActionResult<IEnumerable<GraphEdge>> ByRepositoryItems(
+      [FromRoute] Guid graphId,
+      [FromBody] IEnumerable<Guid> repoItemIds)
+    {
+      return Ok(_graphEdgeLogic.ByRepositoryItems(graphId, repoItemIds));
     }
   }
 }
