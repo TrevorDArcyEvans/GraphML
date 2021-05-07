@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -11,6 +14,53 @@ namespace GraphML.UI.Web.Pages
     public string OrganisationId { get; set; }
 
     private RepositoryManager[] _repoMgrs;
+
+    private bool _newDialogIsOpen;
+    private string _newItemName;
+    private string _dlgNewItemName;
+
+    private bool _deleteDialogIsOpen;
+    private RepositoryManager _deleteItem;
+
+    private void NewDialog()
+    {
+      _dlgNewItemName = null;
+      _newDialogIsOpen = true;
+    }
+
+    private async Task OkClick()
+    {
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      {
+        return;
+      }
+
+      _newItemName = _dlgNewItemName;
+      _newDialogIsOpen = false;
+      var newItem = await CreateNewItem(_newItemName);
+      GotoBrowseRepositories(newItem);
+    }
+
+    private async Task<RepositoryManager> CreateNewItem(string itemName)
+    {
+      var newItem = new RepositoryManager(Guid.Parse(OrganisationId), itemName);
+      var newItems = await _repoMgrServer.Create(new[] { newItem });
+
+      return newItems.Single();
+    }
+
+    private void ConfirmDelete(RepositoryManager item)
+    {
+      _deleteItem = item;
+      _deleteDialogIsOpen = true;
+    }
+
+    private async Task Delete()
+    {
+      _deleteDialogIsOpen = false;
+      await _repoMgrServer.Delete(new[] { _deleteItem });
+      StateHasChanged();
+    }
 
     private void GotoBrowseRepositories(RepositoryManager repoMgr)
     {
