@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
 using Microsoft.AspNetCore.Components;
@@ -35,18 +37,32 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private Node[] _data;
+    private List<Node> _data;
     private Table<Node> _table;
+
+    private Guid _graphId;
+    private Guid _orgid;
 
     protected override async Task OnInitializedAsync()
     {
+      _graphId = Guid.Parse(GraphId);
+      _orgid = Guid.Parse(OrganisationId);
+
+      // TODO   check to see what is already in Graph and remove those GraphNodes
+      //        from available Nodes
       var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
-      _data = dataPage.Items.ToArray();
+      _data = dataPage.Items.ToList();
     }
 
-    private void AddSelectedGraphItems()
+    private async Task AddSelectedGraphItems()
     {
       var selItems = _table.SelectedItems;
+      var graphNodes = selItems.Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name));
+      await _graphNodeServer.Create(graphNodes);
+
+      // successfully created new GraphNodes, so remove
+      // underlying Nodes from available selection
+      selItems.ForEach(item => _data.Remove(item));
     }
 
     private void GotoBrowseGraphItems()
