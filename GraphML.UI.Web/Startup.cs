@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Security.Authentication;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using BlazorTable;
 using GraphML.Common;
 using MatBlazor;
 using Microsoft.AspNetCore.Authentication;
@@ -74,6 +75,7 @@ namespace GraphML.UI.Web
 
       services.AddBlazorContextMenu();
       services.AddMatBlazor();
+      services.AddBlazorTable();
       services.AddMatToaster(config =>
       {
         config.Position = MatToastPosition.BottomRight;
