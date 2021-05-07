@@ -6,8 +6,10 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using System.Web;
+@using GraphML.Interfaces.Server
 @using Humanizer
 
+@inject IRepositoryServer _graphServer
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
@@ -38,7 +40,34 @@
     <td>
       <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseItems(@context))"/>
     </td>
+    <td>
+      <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
+    </td>
   </MatTableRow>
 </MatTable>
+
+<div>
+  <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
+    <MatDialogTitle>Delete repository?</MatDialogTitle>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _deleteItem = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@Delete">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
+  <MatButton OnClick="@NewDialog" Icon="create_new_folder" Raised="true">New repository...</MatButton>
+  <MatDialog @bind-IsOpen="@_newDialogIsOpen">
+    <MatDialogTitle>Create new repository</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -21,6 +24,53 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     private Repository[] _repos;
+
+    private bool _newDialogIsOpen;
+    private string _newItemName;
+    private string _dlgNewItemName;
+
+    private bool _deleteDialogIsOpen;
+    private Repository _deleteItem;
+
+    private void NewDialog()
+    {
+      _dlgNewItemName = null;
+      _newDialogIsOpen = true;
+    }
+
+    private async Task OkClick()
+    {
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      {
+        return;
+      }
+
+      _newItemName = _dlgNewItemName;
+      _newDialogIsOpen = false;
+      var newItem = await CreateNewItem(_newItemName);
+      GotoBrowseGraphs(newItem);
+    }
+
+    private async Task<Repository> CreateNewItem(string graphName)
+    {
+      var newItem = new Repository(Guid.Parse(RepositoryManagerId), Guid.Parse(OrganisationId), graphName);
+      var newItems = await _graphServer.Create(new[] { newItem });
+
+      return newItems.Single();
+    }
+
+    private void ConfirmDelete(Repository repo)
+    {
+      _deleteItem = repo;
+      _deleteDialogIsOpen = true;
+    }
+
+    private async Task Delete()
+    {
+      _deleteDialogIsOpen = false;
+      await _graphServer.Delete(new[] { _deleteItem });
+      StateHasChanged();
+    }
 
     private void GotoBrowseGraphs(Repository repo)
     {
