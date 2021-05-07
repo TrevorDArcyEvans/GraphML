@@ -62,10 +62,16 @@ namespace GraphML.UI.Web.Pages
       _graphId = Guid.Parse(GraphId);
       _orgid = Guid.Parse(OrganisationId);
 
-      // TODO   check to see what is already in Graph and remove those GraphNodes
-      //        from available Nodes
+      // get GraphNodes already in Graph
+      var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
+      var allGraphNodes = allGraphNodesPage.Items;
+      var existRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
+
+      // remove those GraphNodes from available Nodes
       var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
-      _data = dataPage.Items.ToList();
+      _data = dataPage.Items
+          .Where(n => !existRepoItemIds.Contains(n.Id))
+          .ToList();
     }
 
     private async Task AddSelectedGraphItems()
@@ -74,8 +80,7 @@ namespace GraphML.UI.Web.Pages
       var graphNodes = selItems.Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name));
       await _graphNodeServer.Create(graphNodes);
 
-      // successfully created new GraphNodes, so remove
-      // underlying Nodes from available selection
+      // successfully created new GraphNodes, so remove underlying Nodes from available selection
       selItems.ForEach(item => _data.Remove(item));
     }
 
