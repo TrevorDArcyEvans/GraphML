@@ -29,6 +29,9 @@
         </MatTableHeader>
         <MatTableRow>
           <td>@context.Name</td>
+          <td>
+            <MatButton Icon="delete" @onclick="@(e => DeleteGraphNode(@context))"></MatButton>
+          </td>
         </MatTableRow>
       </MatTable>
     </MatTab>
@@ -49,6 +52,9 @@
         </MatTableHeader>
         <MatTableRow>
           <td>@context.Name</td>
+          <td>
+            <MatButton Icon="delete" @onclick="@(e => DeleteGraphEdge(@context))"></MatButton>
+          </td>
         </MatTableRow>
       </MatTable>
     </MatTab>

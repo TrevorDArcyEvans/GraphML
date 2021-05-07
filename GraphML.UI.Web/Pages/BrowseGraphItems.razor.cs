@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -35,13 +36,31 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     [Inject]
+    private IGraphNodeServer _graphNodeServer { get; set; }
+
+    [Inject]
+    private IGraphEdgeServer _graphEdgeServer { get; set; }
+
+    [Inject]
     private IConfiguration _config { get; set; }
 
     [Inject]
     private NavigationManager _navMgr { get; set; }
 
-    private Node[] _nodes;
-    private Edge[] _edges;
+    private GraphNode[] _nodes;
+    private GraphEdge[] _edges;
+
+    private async Task DeleteGraphNode(GraphNode graphItem)
+    {
+      await _graphNodeServer.Delete(new[] { graphItem });
+      StateHasChanged();
+    }
+
+    private async Task DeleteGraphEdge(GraphEdge graphItem)
+    {
+      await _graphEdgeServer.Delete(new[] { graphItem });
+      StateHasChanged();
+    }
 
     private void GotoAddGraphItems()
     {
