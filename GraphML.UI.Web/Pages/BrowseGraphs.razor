@@ -49,7 +49,7 @@
       <MatButton Icon="assignment_turned_in" @onclick="@(e => GotoBrowseResults(@context))"/>
     </td>
     <td>
-      <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteGraph(@context))"></MatButton>
+      <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
     </td>
   </MatTableRow>
 </MatTable>
@@ -58,18 +58,18 @@
   <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
     <MatDialogTitle>Delete graph?</MatDialogTitle>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { _deleteGraph = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@DeleteChart">OK</MatButton>
+      <MatButton OnClick="@(e => { _deleteItem = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@Delete">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>
 
 <div>
-  <MatButton OnClick="@NewDialog" Raised="true">New graph...</MatButton>
+  <MatButton OnClick="@NewDialog" Icon="create_new_folder" Raised="true">New graph...</MatButton>
   <MatDialog @bind-IsOpen="@_newDialogIsOpen">
     <MatDialogTitle>Create new graph</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgNewGraphName"></MatTextField>
+      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
     </MatDialogContent>
     <MatDialogActions>
       <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>

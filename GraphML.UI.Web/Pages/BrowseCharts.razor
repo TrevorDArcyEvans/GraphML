@@ -35,7 +35,7 @@
       <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
     </td>
     <td>
-      <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+      <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
     </td>
   </MatTableRow>
 </MatTable>
@@ -44,18 +44,18 @@
   <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
     <MatDialogTitle>Delete chart?</MatDialogTitle>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { _deleteChart = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@DeleteChart">OK</MatButton>
+      <MatButton OnClick="@(e => { _deleteItem = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@Delete">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>
 
 <div>
-  <MatButton OnClick="@NewDialog" Raised="true">New chart...</MatButton>
+  <MatButton OnClick="@NewDialog" Icon="create_new_folder" Raised="true">New chart...</MatButton>
   <MatDialog @bind-IsOpen="@_newDialogIsOpen">
     <MatDialogTitle>Create new chart</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgNewChartName"></MatTextField>
+      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
     </MatDialogContent>
     <MatDialogActions>
       <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>

@@ -32,28 +32,28 @@ namespace GraphML.UI.Web.Pages
     private Graph[] _graphs;
 
     private bool _newDialogIsOpen;
-    private string _newGraphName;
-    private string _dlgNewGraphName;
+    private string _newItemName;
+    private string _dlgNewItemName;
 
     private bool _deleteDialogIsOpen;
-    private Graph _deleteGraph;
+    private Graph _deleteItem;
 
     private void NewDialog()
     {
-      _dlgNewGraphName = null;
+      _dlgNewItemName = null;
       _newDialogIsOpen = true;
     }
 
     private async Task OkClick()
     {
-      if (string.IsNullOrWhiteSpace(_dlgNewGraphName))
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
       {
         return;
       }
 
-      _newGraphName = _dlgNewGraphName;
+      _newItemName = _dlgNewItemName;
       _newDialogIsOpen = false;
-      var newGraph = await CreateNewGraph(_newGraphName);
+      var newGraph = await CreateNewGraph(_newItemName);
       GotoBrowseGraphItems(newGraph);
     }
 
@@ -65,16 +65,16 @@ namespace GraphML.UI.Web.Pages
       return newGraphs.Single();
     }
 
-    private void ConfirmDeleteGraph(Graph chart)
+    private void ConfirmDelete(Graph chart)
     {
-      _deleteGraph = chart;
+      _deleteItem = chart;
       _deleteDialogIsOpen = true;
     }
 
-    private async Task DeleteChart()
+    private async Task Delete()
     {
       _deleteDialogIsOpen = false;
-      await _graphServer.Delete(new[] { _deleteGraph });
+      await _graphServer.Delete(new[] { _deleteItem });
       StateHasChanged();
     }
 
