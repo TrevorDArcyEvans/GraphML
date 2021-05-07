@@ -51,17 +51,17 @@ namespace GraphML.UI.Web.Pages
       GotoBrowseGraphs(newItem);
     }
 
-    private async Task<Repository> CreateNewItem(string graphName)
+    private async Task<Repository> CreateNewItem(string itemName)
     {
-      var newItem = new Repository(Guid.Parse(RepositoryManagerId), Guid.Parse(OrganisationId), graphName);
+      var newItem = new Repository(Guid.Parse(RepositoryManagerId), Guid.Parse(OrganisationId), itemName);
       var newItems = await _repoServer.Create(new[] { newItem });
 
       return newItems.Single();
     }
 
-    private void ConfirmDelete(Repository repo)
+    private void ConfirmDelete(Repository item)
     {
-      _deleteItem = repo;
+      _deleteItem = item;
       _deleteDialogIsOpen = true;
     }
 

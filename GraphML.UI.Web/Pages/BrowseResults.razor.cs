@@ -40,9 +40,9 @@ namespace GraphML.UI.Web.Pages
     private bool _deleteDialogIsOpen;
     private RequestBase _deleteResult;
 
-    private void ConfirmDeleteChart(RequestBase request)
+    private void ConfirmDeleteChart(RequestBase item)
     {
-      _deleteResult = request;
+      _deleteResult = item;
       _deleteDialogIsOpen = true;
     }
 

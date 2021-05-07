@@ -71,9 +71,9 @@ namespace GraphML.UI.Web.Pages
       return newItems.Single();
     }
 
-    private void ConfirmDelete(Chart chart)
+    private void ConfirmDelete(Chart item)
     {
-      _deleteItem = chart;
+      _deleteItem = item;
       _deleteDialogIsOpen = true;
     }
 
