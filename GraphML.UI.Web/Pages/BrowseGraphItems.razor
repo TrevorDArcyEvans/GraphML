@@ -2,14 +2,10 @@
 
 @using GraphML
 @using GraphML.Common
-@using Microsoft.Extensions.Configuration
 @using Flurl
 @using GraphML.API.Controllers
 @using System.Web;
 @using Humanizer
-
-@inject IConfiguration _config
-@inject NavigationManager _navMgr
 
 <h1>Graph Items</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>

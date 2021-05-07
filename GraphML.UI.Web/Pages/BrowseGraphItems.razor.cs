@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -31,6 +33,12 @@ namespace GraphML.UI.Web.Pages
     public string GraphId { get; set; }
 
     #endregion
+
+    [Inject]
+    IConfiguration _config { get; set; }
+
+    [Inject]
+    NavigationManager _navMgr { get; set; }
 
     private Node[] _nodes;
     private Edge[] _edges;
