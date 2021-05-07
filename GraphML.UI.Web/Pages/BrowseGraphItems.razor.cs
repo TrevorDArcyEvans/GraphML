@@ -35,6 +35,11 @@ namespace GraphML.UI.Web.Pages
     private Node[] _nodes;
     private Edge[] _edges;
 
+    private void GotoAddGraphItems()
+    {
+      _navMgr.NavigateTo($"/AddGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
+    }
+
     private void GotoBrowseGraphs()
     {
       _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");
