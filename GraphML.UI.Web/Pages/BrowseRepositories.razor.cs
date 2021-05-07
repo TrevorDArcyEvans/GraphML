@@ -54,7 +54,7 @@ namespace GraphML.UI.Web.Pages
     private async Task<Repository> CreateNewItem(string graphName)
     {
       var newItem = new Repository(Guid.Parse(RepositoryManagerId), Guid.Parse(OrganisationId), graphName);
-      var newItems = await _graphServer.Create(new[] { newItem });
+      var newItems = await _repoServer.Create(new[] { newItem });
 
       return newItems.Single();
     }
@@ -68,7 +68,7 @@ namespace GraphML.UI.Web.Pages
     private async Task Delete()
     {
       _deleteDialogIsOpen = false;
-      await _graphServer.Delete(new[] { _deleteItem });
+      await _repoServer.Delete(new[] { _deleteItem });
       StateHasChanged();
     }
 
