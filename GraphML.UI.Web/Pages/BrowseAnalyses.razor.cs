@@ -117,6 +117,11 @@ namespace GraphML.UI.Web.Pages
       _contact = await _contactServer.ByEmail(email);
     }
 
+    private void GotoListItems()
+    {
+      _navMgr.NavigateTo($"/ListItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
+    }
+
     private void GotoBrowseGraphs()
     {
       _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");

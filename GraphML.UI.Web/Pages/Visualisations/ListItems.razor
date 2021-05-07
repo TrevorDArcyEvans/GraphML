@@ -1,0 +1,18 @@
+﻿@page "/ListItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
+
+@using GraphML
+@using BlazorTable
+@using System.Web
+
+<h3>List Items</h3>
+<h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
+
+<div>
+  <Table @ref="_table" TableItem="GraphNode" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
+    <Column TableItem="GraphNode" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true" />
+    <Column TableItem="GraphNode" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%" />
+    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" />
+  </Table>
+</div>
+
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseAnalyses())">Back</MatButton>
