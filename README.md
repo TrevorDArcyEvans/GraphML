@@ -191,7 +191,7 @@ open http://localhost:8000/
 ||
 | DATASTORE_CONNECTION         | | SqLite |
 | DATASTORE_CONNECTION_TYPE    | | SqLite |
-| DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3; |
+| DATASTORE_CONNECTION_STRING  | | Data Source=&#124;DataDirectory&#124;Data/GraphML.sqlite3;Foreign Keys=True; |
 ||
 | LOG_CONNECTION_STRING | .NET connection string for database logging |
 ||

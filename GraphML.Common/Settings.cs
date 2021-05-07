@@ -31,7 +31,7 @@ namespace GraphML.Common
     public static string DATASTORE_CONNECTION_STRING(this IConfiguration config, string connection) =>
       (Environment.GetEnvironmentVariable("DATASTORE_CONNECTION_STRING") ??
        config[$"Datastore:{connection}:ConnectionString"] ??
-       "Data Source=|DataDirectory|Data/GraphML.sqlite3;")?
+       "Data Source=|DataDirectory|Data/GraphML.sqlite3;Foreign Keys=True;")?
       .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory)
       .Replace('\\', Path.DirectorySeparatorChar)
       .Replace('/', Path.DirectorySeparatorChar)
