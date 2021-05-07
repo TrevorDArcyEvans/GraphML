@@ -41,10 +41,10 @@ namespace GraphML.UI.Web.Pages
     private IChartServer _chartServer { get; set; }
 
     [Inject]
-    IConfiguration _config { get; set; }
+    private IConfiguration _config { get; set; }
 
     [Inject]
-    NavigationManager _navMgr { get; set; }
+    private NavigationManager _navMgr { get; set; }
     
     private Chart[] _charts;
 

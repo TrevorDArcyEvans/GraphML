@@ -35,10 +35,10 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     [Inject]
-    IConfiguration _config { get; set; }
+    private IConfiguration _config { get; set; }
 
     [Inject]
-    NavigationManager _navMgr { get; set; }
+    private NavigationManager _navMgr { get; set; }
 
     private Node[] _nodes;
     private Edge[] _edges;
