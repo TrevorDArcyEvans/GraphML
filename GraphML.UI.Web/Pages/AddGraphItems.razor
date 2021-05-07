@@ -1,15 +1,8 @@
 ﻿@page "/AddGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
 @using GraphML
-@using Microsoft.Extensions.Configuration
 @using System.Web;
 @using BlazorTable
-@using GraphML.Interfaces.Server
-
-@inject INodeServer _nodeServer
-@inject IGraphNodeServer _graphNodeServer
-@inject IConfiguration _config
-@inject NavigationManager _navMgr
 
 <h1>Add Graph Items</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>

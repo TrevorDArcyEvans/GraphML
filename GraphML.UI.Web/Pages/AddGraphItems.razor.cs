@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
+using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -36,6 +38,18 @@ namespace GraphML.UI.Web.Pages
     public string GraphId { get; set; }
 
     #endregion
+
+    [Inject]
+    private INodeServer _nodeServer { get; set; }
+
+    [Inject]
+    private IGraphNodeServer _graphNodeServer { get; set; }
+
+    [Inject]
+    private IConfiguration _config { get; set; }
+
+    [Inject]
+    private NavigationManager _navMgr { get; set; }
 
     private List<Node> _data;
     private Table<Node> _table;
