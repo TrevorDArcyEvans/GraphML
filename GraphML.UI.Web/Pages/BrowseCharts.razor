@@ -2,16 +2,10 @@
 
 @using GraphML
 @using GraphML.Common
-@using Microsoft.Extensions.Configuration
 @using Flurl
 @using GraphML.API.Controllers
 @using System.Web;
-@using GraphML.Interfaces.Server
 @using Humanizer
-
-@inject IChartServer _chartServer
-@inject IConfiguration _config
-@inject NavigationManager _navMgr
 
 <h1>Charts</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>

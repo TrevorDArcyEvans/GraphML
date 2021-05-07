@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -35,6 +37,15 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    [Inject]
+    private IChartServer _chartServer { get; set; }
+
+    [Inject]
+    IConfiguration _config { get; set; }
+
+    [Inject]
+    NavigationManager _navMgr { get; set; }
+    
     private Chart[] _charts;
 
     private bool _newDialogIsOpen;
