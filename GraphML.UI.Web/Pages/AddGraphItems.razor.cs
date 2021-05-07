@@ -57,6 +57,8 @@ namespace GraphML.UI.Web.Pages
     private Guid _graphId;
     private Guid _orgid;
 
+    private bool _addAllDialogIsOpen;
+
     protected override async Task OnInitializedAsync()
     {
       _graphId = Guid.Parse(GraphId);
@@ -82,6 +84,15 @@ namespace GraphML.UI.Web.Pages
 
       // successfully created new GraphNodes, so remove underlying Nodes from available selection
       selItems.ForEach(item => _data.Remove(item));
+    }
+
+    private async Task AddAllRepositoryItems()
+    {
+      _table.SelectedItems.Clear();
+      _table.SelectedItems.AddRange(_data);
+      await AddSelectedGraphItems();
+
+      _addAllDialogIsOpen = false;
     }
 
     private void GotoBrowseGraphItems()

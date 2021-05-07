@@ -20,5 +20,16 @@
 </div>
 
 <div>
+  <MatButton OnClick="@(e => { _addAllDialogIsOpen = true; })" Icon="library_add" >Add all items...</MatButton>
+  <MatDialog @bind-IsOpen="@_addAllDialogIsOpen">
+    <MatDialogTitle>Add *all* repository items?</MatDialogTitle>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _addAllDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@AddAllRepositoryItems">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
     <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphItems())">Back</MatButton>
 </div>
