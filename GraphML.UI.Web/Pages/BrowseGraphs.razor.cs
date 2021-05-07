@@ -53,16 +53,16 @@ namespace GraphML.UI.Web.Pages
 
       _newItemName = _dlgNewItemName;
       _newDialogIsOpen = false;
-      var newGraph = await CreateNewGraph(_newItemName);
+      var newGraph = await CreateNewItem(_newItemName);
       GotoBrowseGraphItems(newGraph);
     }
 
-    private async Task<Graph> CreateNewGraph(string graphName)
+    private async Task<Graph> CreateNewItem(string itemName)
     {
-      var newGraph = new Graph(Guid.Parse(RepositoryId), Guid.Parse(OrganisationId), graphName);
-      var newGraphs = await _graphServer.Create(new[] { newGraph });
+      var newItem = new Graph(Guid.Parse(RepositoryId), Guid.Parse(OrganisationId), itemName);
+      var newItems = await _graphServer.Create(new[] { newItem });
 
-      return newGraphs.Single();
+      return newItems.Single();
     }
 
     private void ConfirmDelete(Graph chart)
