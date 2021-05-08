@@ -362,20 +362,43 @@ namespace GraphML.UI.Web.Pages
 
     private void OnLayout(string layout)
     {
-      // GraphShape
-      //    ILayoutAlgorithm<TVertex, TEdge, TGraph>
-      //      IAlgorithm<out TGraph>
-      //        IComputation
+      if (string.IsNullOrWhiteSpace(layout))
+      {
+        return;
+      }
 
-      // TODO   populate graph --> nodes + edges
-      // TODO   populate positions
-      // TODO   populate sizes
-      var graph = new QG.BidirectionalGraph<GraphNode, QG.Edge<GraphNode>>();
-      var positions = new Dictionary<GraphNode, GraphShape.Point>();
-      var sizes = new Dictionary<GraphNode, GraphShape.Size>();
-      var layoutCtx = new LayoutContext<GraphNode, QG.Edge<GraphNode>, QG.BidirectionalGraph<GraphNode, QG.Edge<GraphNode>>>(graph, positions, sizes, LayoutMode.Simple);
-      var algoFact = new StandardLayoutAlgorithmFactory<GraphNode, QG.Edge<GraphNode>, QG.BidirectionalGraph<GraphNode, QG.Edge<GraphNode>>>();
+      var graph = new QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>();
+      var nodes = _diagram.Nodes.OfType<DiagramNode>();
+      var edges = _diagram.Links.OfType<DiagramLink>()
+        .Select(dl =>
+        {
+          var source = nodes.Single(dn => Guid.Parse(dn.Id) == dl.ChartEdge.ChartSourceId);
+          var target = nodes.Single(dn => Guid.Parse(dn.Id) == dl.ChartEdge.ChartSourceId);
+          return new QG.Edge<DiagramNode>(source, target);
+        })
+        .ToList();
+      graph.AddVertexRange(nodes);
+      graph.AddEdgeRange(edges);
+
+      var positions = nodes.ToDictionary(dn => dn, dn => new GraphShape.Point(dn.Position.X, dn.Position.Y));
+      var sizes = nodes.ToDictionary(dn => dn, dn => new GraphShape.Size(dn.Size?.Width ?? 100, dn.Size?.Height ?? 100));
+      var layoutCtx = new LayoutContext<DiagramNode, QG.Edge<DiagramNode>, QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>>(graph, positions, sizes, LayoutMode.Simple);
+      var algoFact = new StandardLayoutAlgorithmFactory<DiagramNode, QG.Edge<DiagramNode>, QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>>();
       var algo = algoFact.CreateAlgorithm(layout, layoutCtx, null);
+
+      algo.Compute();
+
+      foreach (var vertPos in algo.VerticesPositions)
+      {
+        vertPos.Key.Position = new Point(vertPos.Value.X, vertPos.Value.Y);
+
+        // BUG:   Diagram.Refresh does not redraw node until node is selected
+        //        so select all nodes and then unselect them
+        _diagram.SelectModel(vertPos.Key, false);
+      }
+
+      _diagram.Refresh();
+      _diagram.UnselectAll();
     }
 
     private void GotoBrowseCharts()
