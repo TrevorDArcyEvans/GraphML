@@ -1,11 +1,29 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-  <NavMenu/>
-</div>
+<MatDrawerContainer Style="width: 100vw; height: 100vh;">
+  <MatDrawer @bind-Opened="@_opened">
+    <div class="sidebar">
+      <NavMenu/>
+    </div>
+  </MatDrawer>
+  <MatDrawerContent>
+    <div>
+      <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
+    </div>
+    <div class="main">
+      <div class="diagram-container content px-4">
+        @Body
+      </div>
+    </div>
+  </MatDrawerContent>
+</MatDrawerContainer>
 
-<div class="main">
-  <div class="diagram-container content px-4">
-    @Body
-  </div>
-</div>
+@code
+{
+  private bool _opened = true;
+
+  private void ButtonClicked()
+  {
+    _opened = !_opened;
+  }
+}

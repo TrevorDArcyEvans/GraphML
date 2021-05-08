@@ -4,8 +4,8 @@
 @using System.Web;
 @using BlazorTable
 
-<h1>Add Graph Items</h1>
-<h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h4>
+<h4>Add Graph Items</h4>
+<h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h6>
 
 <div>
   <Table @ref="_table" TableItem="Node" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">

@@ -5,12 +5,9 @@
 
 <div class="top-row pl-4 navbar navbar-dark">
   <a class="navbar-brand" href="">GraphML<img src="favicon.ico" style="width: 15%; height: 15%"/></a>
-  <MatButton class="navbar-toggler" @onclick="ToggleNavMenu">
-    <span class="navbar-toggler-icon"></span>
-  </MatButton>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div>
   <ul class="nav flex-column">
 
     <AuthorizeView>
@@ -64,15 +61,3 @@
     </AuthorizeView>
   </ul>
 </div>
-
-@code {
-  private bool collapseNavMenu = true;
-
-  private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-  private void ToggleNavMenu()
-  {
-    collapseNavMenu = !collapseNavMenu;
-  }
-
-}
