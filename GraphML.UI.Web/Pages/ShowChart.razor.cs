@@ -388,13 +388,21 @@ namespace GraphML.UI.Web.Pages
 
       algo.Compute();
 
-      foreach (var vertPos in algo.VerticesPositions)
+      try
       {
-        vertPos.Key.Position = new Point(vertPos.Value.X, vertPos.Value.Y);
+        _diagram.SuspendRefresh = true;
+        foreach (var vertPos in algo.VerticesPositions)
+        {
+          vertPos.Key.Position = new Point(vertPos.Value.X, vertPos.Value.Y);
 
-        // BUG:   Diagram.Refresh does not redraw node until node is selected
-        //        so select all nodes and then unselect them
-        _diagram.SelectModel(vertPos.Key, false);
+          // BUG:   Diagram.Refresh does not redraw node until node is selected
+          //        so select all nodes and then unselect them
+          _diagram.SelectModel(vertPos.Key, false);
+        }
+      }
+      finally
+      {
+        _diagram.SuspendRefresh = false;
       }
 
       _diagram.Refresh();
