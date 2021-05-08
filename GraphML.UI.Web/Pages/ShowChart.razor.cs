@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Diagrams.Core;
-using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using BlazorContextMenu;
+using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
+using GraphShape.Algorithms.Layout;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Configuration;
+using QG = QuikGraph;
+using Point = Blazor.Diagrams.Core.Geometry.Point;
 
 namespace GraphML.UI.Web.Pages
 {
@@ -50,6 +54,43 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    #region Inject
+
+    [Inject]
+    private IBlazorContextMenuService _contextMenuService { get; set; }
+
+    [Inject]
+    private INodeServer _nodeServer { get; set; }
+
+    [Inject]
+    private IEdgeServer _edgeServer { get; set; }
+
+    [Inject]
+    private IGraphServer _graphServer { get; set; }
+
+    [Inject]
+    private IGraphNodeServer _graphNodeServer { get; set; }
+
+    [Inject]
+    private IGraphEdgeServer _graphEdgeServer { get; set; }
+
+    [Inject]
+    private IChartServer _chartServer { get; set; }
+
+    [Inject]
+    private IChartNodeServer _chartNodeServer { get; set; }
+
+    [Inject]
+    private IChartEdgeServer _chartEdgeServer { get; set; }
+
+    [Inject]
+    private IConfiguration _config { get; set; }
+
+    [Inject]
+    private NavigationManager _navMgr { get; set; }
+
+    #endregion
+
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
     private Graph _graph;
@@ -62,16 +103,7 @@ namespace GraphML.UI.Web.Pages
     private Node _selectedNode;
     private Node _childNode;
 
-    public enum ChartLayout
-    {
-      Circular,
-      FDP,
-      Hierarchical,
-      Tree,
-      Random
-    }
-
-    private int _layout;
+    private string _layout;
 
     protected override async void OnInitialized()
     {
@@ -328,21 +360,22 @@ namespace GraphML.UI.Web.Pages
       await _chartNodeServer.Update(chartNodes);
     }
 
-    private void OnLayout(ChartLayout layout)
+    private void OnLayout(string layout)
     {
-      switch (layout)
-      {
-        case ChartLayout.Circular:
-          break;
-        case ChartLayout.FDP:
-          break;
-        case ChartLayout.Hierarchical:
-          break;
-        case ChartLayout.Random:
-          break;
-        default:
-          throw new ArgumentOutOfRangeException($"Unknown layout:  {layout}");
-      }
+      // GraphShape
+      //    ILayoutAlgorithm<TVertex, TEdge, TGraph>
+      //      IAlgorithm<out TGraph>
+      //        IComputation
+
+      // TODO   populate graph --> nodes + edges
+      // TODO   populate positions
+      // TODO   populate sizes
+      var graph = new QG.BidirectionalGraph<GraphNode, QG.Edge<GraphNode>>();
+      var positions = new Dictionary<GraphNode, GraphShape.Point>();
+      var sizes = new Dictionary<GraphNode, GraphShape.Size>();
+      var layoutCtx = new LayoutContext<GraphNode, QG.Edge<GraphNode>, QG.BidirectionalGraph<GraphNode, QG.Edge<GraphNode>>>(graph, positions, sizes, LayoutMode.Simple);
+      var algoFact = new StandardLayoutAlgorithmFactory<GraphNode, QG.Edge<GraphNode>, QG.BidirectionalGraph<GraphNode, QG.Edge<GraphNode>>>();
+      var algo = algoFact.CreateAlgorithm(layout, layoutCtx, null);
     }
 
     private void GotoBrowseCharts()

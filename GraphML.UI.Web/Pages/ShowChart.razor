@@ -1,7 +1,6 @@
 @page "/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{ChartId}/{ChartName}"
 
 @using GraphML
-@using Microsoft.Extensions.Configuration
 @using System.Web;
 
 <!-- required to resolve DiagramCanvas component -->
@@ -10,24 +9,8 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using GraphML.Common
-@using GraphML.Interfaces.Server
 @using Humanizer
-
-@inject IBlazorContextMenuService _contextMenuService
-
-@inject INodeServer _nodeServer
-@inject IEdgeServer _edgeServer
-
-@inject IGraphServer _graphServer
-@inject IGraphNodeServer _graphNodeServer
-@inject IGraphEdgeServer _graphEdgeServer
-
-@inject IChartServer _chartServer
-@inject IChartNodeServer _chartNodeServer
-@inject IChartEdgeServer _chartEdgeServer
-
-@inject IConfiguration _config
-@inject NavigationManager _navMgr
+@using QuikGraph
 
 <h1>Chart</h1>
 <h4>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)</h4>
@@ -75,14 +58,13 @@
 
 <div>
   <MatSelect Label="Layout chart" @bind-Value="@_layout" Style="width: 125px">
-    <MatOption TValue="int" Value="@((int)ChartLayout.Circular)">Circular</MatOption>
-    <MatOption TValue="int" Value="@((int)ChartLayout.FDP)">FDP</MatOption>
-    <MatOption TValue="int" Value="@((int)ChartLayout.Hierarchical)">Hierarchical</MatOption>
-    <MatOption TValue="int" Value="@((int)ChartLayout.Tree)">Tree</MatOption>
-    <MatOption TValue="int" Value="@((int)ChartLayout.Random)">Random</MatOption>
+    @foreach (var algo in new GraphShape.Algorithms.Layout.StandardLayoutAlgorithmFactory<string, IEdge<string>, IBidirectionalGraph<string, IEdge<string>>>().AlgorithmTypes )
+    {
+      <MatOption TValue="string" Value="@algo">@algo</MatOption>
+    }
   </MatSelect>
 
-  <MatButton Icon="grid_on" @onclick="@(e => OnLayout((ChartLayout)_layout))" Raised="true">Go!</MatButton>
+  <MatButton Icon="grid_on" @onclick="@(e => OnLayout(_layout))" Raised="true">Go!</MatButton>
 </div>
 
 <div>
