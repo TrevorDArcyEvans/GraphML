@@ -53,6 +53,15 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     private Guid _graphId;
 
+    private int _itemsAction;
+    
+    public enum ListItemsAction
+    {
+      TakeHalf,
+      TakeQuarter,
+      TakeSelected
+    }
+
     protected override async Task OnInitializedAsync()
     {
       _graphId = Guid.Parse(GraphId);
@@ -61,6 +70,26 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
       var allGraphNodes = allGraphNodesPage.Items;
       _data = allGraphNodes.ToList();
+    }
+
+    private void OnTakeAction(ListItemsAction itemsAction)
+    {
+      var filtCount = _table.FilteredItems.Count();
+      
+      switch (itemsAction)
+      {
+        case ListItemsAction.TakeHalf:
+          _data = _table.FilteredItems.Take(filtCount / 2 + 1).ToList();
+          break;
+        case ListItemsAction.TakeQuarter:
+          _data = _table.FilteredItems.Take(filtCount / 4 + 1).ToList();
+          break;
+        case ListItemsAction.TakeSelected:
+          _data = _table.SelectedItems.ToList();
+          break;
+        default:
+          throw new ArgumentOutOfRangeException($"Unknown action:  {itemsAction}");
+      }
     }
 
     private void GotoBrowseAnalyses()
