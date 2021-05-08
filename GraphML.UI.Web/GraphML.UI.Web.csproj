@@ -36,6 +36,7 @@
 		<PackageReference Include="Blazor.ContextMenu" Version="1.9.0" />
     <PackageReference Include="BlazorRazor" Version="1.0.0" />
     <PackageReference Include="BlazorTable" Version="1.15.0" />
+    <PackageReference Include="GraphShape" Version="1.2.0" />
     <PackageReference Include="Humanizer.Core" Version="2.8.26" />
     <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" />

@@ -62,6 +62,17 @@ namespace GraphML.UI.Web.Pages
     private Node _selectedNode;
     private Node _childNode;
 
+    public enum ChartLayout
+    {
+      Circular,
+      FDP,
+      Hierarchical,
+      Tree,
+      Random
+    }
+
+    private int _layout;
+
     protected override async void OnInitialized()
     {
       base.OnInitialized();
@@ -315,6 +326,23 @@ namespace GraphML.UI.Web.Pages
 
       // only save ChartNodes in Diagram
       await _chartNodeServer.Update(chartNodes);
+    }
+
+    private void OnLayout(ChartLayout layout)
+    {
+      switch (layout)
+      {
+        case ChartLayout.Circular:
+          break;
+        case ChartLayout.FDP:
+          break;
+        case ChartLayout.Hierarchical:
+          break;
+        case ChartLayout.Random:
+          break;
+        default:
+          throw new ArgumentOutOfRangeException($"Unknown layout:  {layout}");
+      }
     }
 
     private void GotoBrowseCharts()

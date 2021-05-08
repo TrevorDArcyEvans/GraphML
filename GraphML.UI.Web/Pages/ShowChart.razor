@@ -74,6 +74,18 @@
 </div>
 
 <div>
+  <MatSelect Label="Layout chart" @bind-Value="@_layout" Style="width: 125px">
+    <MatOption TValue="int" Value="@((int)ChartLayout.Circular)">Circular</MatOption>
+    <MatOption TValue="int" Value="@((int)ChartLayout.FDP)">FDP</MatOption>
+    <MatOption TValue="int" Value="@((int)ChartLayout.Hierarchical)">Hierarchical</MatOption>
+    <MatOption TValue="int" Value="@((int)ChartLayout.Tree)">Tree</MatOption>
+    <MatOption TValue="int" Value="@((int)ChartLayout.Random)">Random</MatOption>
+  </MatSelect>
+
+  <MatButton Icon="grid_on" @onclick="@(e => OnLayout((ChartLayout)_layout))" Raised="true">Go!</MatButton>
+</div>
+
+<div>
   <MatButton Icon="save" @onclick="@(e => OnSave())"/>
 </div>
 <div>
