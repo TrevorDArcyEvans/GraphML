@@ -15,50 +15,59 @@
 <h4>Chart</h4>
 <h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)</h6>
 
+
 <div class="diagram-container row h-100 v-100">
 
-  <div class="col-4">
-    <MatTable
-      Items="@_graphNodes"
-      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
-      PageParamName="pageIndex"
-      PageSizeParamName="pageSize"
-      PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-      PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-      FilterByColumnName="@nameof(GraphNode.Name)"
-      Striped="true"
-      AllowSelection="true"
-      class="mat-elevation-z5">
-      <MatTableHeader>
-        <th>Name</th>
-      </MatTableHeader>
-      <MatTableRow>
-        @{
-          var id = @context.Id;
-          <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
-        }
-      </MatTableRow>
-    </MatTable>
-  </div>
+  <MatDrawerContainer Style="width: 100vw; height: 100vh;">
+    <MatDrawer @bind-Opened="@_opened">
+      <MatTable
+        Items="@_graphNodes"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+        PageParamName="pageIndex"
+        PageSizeParamName="pageSize"
+        PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+        PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+        FilterByColumnName="@nameof(GraphNode.Name)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
+        <MatTableHeader>
+          <th>Name</th>
+        </MatTableHeader>
+        <MatTableRow>
+          @{
+            var id = @context.Id;
+            <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
+          }
+        </MatTableRow>
+      </MatTable>
+    </MatDrawer>
+    <MatDrawerContent class="diagram-container row h-100 v-100">
+      <div>
+        <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
+      </div>
 
-  <!--
-  Parent of DiagramCanvas has to have a fixed width/height
-  or it will not be rendered.
+      <!--
+      Parent of DiagramCanvas has to have a fixed width/height
+      or it will not be rendered.
 
-  100vw = 100% viewport width
-  100vh = 100% viewport height
-  -->
-  <div class="col-8" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
-    <CascadingValue Value="_diagram">
-      <DiagramCanvas></DiagramCanvas>
-    </CascadingValue>
-  </div>
+      100vw = 100% viewport width
+      100vh = 100% viewport height
+      -->
+      <div class="col-8" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+        <CascadingValue Value="_diagram">
+          <DiagramCanvas></DiagramCanvas>
+        </CascadingValue>
+      </div>
+    </MatDrawerContent>
+  </MatDrawerContainer>
 
 </div>
 
+
 <div>
   <MatSelect Label="Layout chart" @bind-Value="@_layout" Style="width: 125px">
-    @foreach (var algo in new GraphShape.Algorithms.Layout.StandardLayoutAlgorithmFactory<string, IEdge<string>, IBidirectionalGraph<string, IEdge<string>>>().AlgorithmTypes )
+    @foreach (var algo in new GraphShape.Algorithms.Layout.StandardLayoutAlgorithmFactory<string, IEdge<string>, IBidirectionalGraph<string, IEdge<string>>>().AlgorithmTypes)
     {
       <MatOption TValue="string" Value="@algo">@algo</MatOption>
     }
@@ -114,3 +123,13 @@
     </MatDialogActions>
   </MatDialog>
 </div>
+
+@code
+{
+  private bool _opened = true;
+
+  private void ButtonClicked()
+  {
+    _opened = !_opened;
+  }
+}
