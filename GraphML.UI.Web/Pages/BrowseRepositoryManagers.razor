@@ -30,11 +30,15 @@
   <MatTableHeader>
     <th>Name</th>
     <th>Repositories</th>
+    <th>Attributes</th>
   </MatTableHeader>
   <MatTableRow>
     <td>@context.Name</td>
     <td>
       <MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@context))"/>
+    </td>
+    <td>
+      <MatButton Icon="edit_attributes" @onclick="@(e => GotoBrowseAttributes(@context))"/>
     </td>
     <td>
       <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>

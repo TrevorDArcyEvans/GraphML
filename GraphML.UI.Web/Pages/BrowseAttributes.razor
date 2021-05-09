@@ -1,0 +1,109 @@
+@page "/BrowseAttributes/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}"
+
+@using GraphML
+@using GraphML.Common
+@using Microsoft.Extensions.Configuration
+@using Flurl
+@using GraphML.API.Controllers
+@using Humanizer
+
+@inject IConfiguration _config
+@inject NavigationManager _navMgr
+
+<h4>Browse Attribute Definitions</h4>
+
+<MatTabGroup>
+  <MatTab Label="Repository">
+    <MatTable
+      Items="@_repoAttrDefs"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(RepositoryItemAttributeDefinition), nameof(RepositoryItemAttributeDefinitionController.ByOwner), RepositoryManagerId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      PagingRecordsCountPropertyName="@nameof(PagedDataEx<Node>.TotalCount).Camelize()"
+      PagingDataPropertyName="@nameof(PagedDataEx<Node>.Items).Camelize()"
+      FilterByColumnName="@nameof(Node.Name)"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+        <th>Data Tyoe</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Name</td>
+        <td>@context.DataType</td>
+      </MatTableRow>
+    </MatTable>
+  </MatTab>
+  
+  <MatTab Label="Graph">
+    <MatTable
+      Items="@_graphAttrDefs"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphItemAttributeDefinition), nameof(GraphItemAttributeDefinitionController.ByOwner), RepositoryManagerId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      PagingRecordsCountPropertyName="@nameof(PagedDataEx<Node>.TotalCount).Camelize()"
+      PagingDataPropertyName="@nameof(PagedDataEx<Node>.Items).Camelize()"
+      FilterByColumnName="@nameof(Node.Name)"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+        <th>Data Tyoe</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Name</td>
+        <td>@context.DataType</td>
+      </MatTableRow>
+    </MatTable>
+  </MatTab>
+  
+  <MatTab Label="Node">
+    <MatTable
+      Items="@_nodeAttrDefs"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(NodeItemAttributeDefinition), nameof(NodeItemAttributeDefinitionController.ByOwner), RepositoryManagerId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      PagingRecordsCountPropertyName="@nameof(PagedDataEx<Node>.TotalCount).Camelize()"
+      PagingDataPropertyName="@nameof(PagedDataEx<Node>.Items).Camelize()"
+      FilterByColumnName="@nameof(Node.Name)"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+        <th>Data Tyoe</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Name</td>
+        <td>@context.DataType</td>
+      </MatTableRow>
+    </MatTable>
+  </MatTab>
+  
+  <MatTab Label="Edge">
+    <MatTable
+      Items="@_edgeAttrDefs"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(EdgeItemAttributeDefinition), nameof(EdgeItemAttributeDefinitionController.ByOwner), RepositoryManagerId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      PagingRecordsCountPropertyName="@nameof(PagedDataEx<Edge>.TotalCount).Camelize()"
+      PagingDataPropertyName="@nameof(PagedDataEx<Edge>.Items).Camelize()"
+      FilterByColumnName="@nameof(Edge.Name)"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+        <th>Data Type</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Name</td>
+        <td>@context.DataType</td>
+      </MatTableRow>
+    </MatTable>
+  </MatTab>
+</MatTabGroup>
+
+<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>

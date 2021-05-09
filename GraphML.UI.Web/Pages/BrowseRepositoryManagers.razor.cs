@@ -49,6 +49,11 @@ namespace GraphML.UI.Web.Pages
       return newItems.Single();
     }
 
+    private void GotoBrowseAttributes(RepositoryManager repoMgr)
+    {
+      _navMgr.NavigateTo($"/BrowseAttributes/{OrganisationId}/{OrganisationName}/{repoMgr.Id}/{repoMgr.Name}/");
+    }
+
     private void ConfirmDelete(RepositoryManager item)
     {
       _deleteItem = item;
