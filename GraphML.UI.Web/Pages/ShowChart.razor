@@ -15,6 +15,10 @@
 <h4>Chart</h4>
 <h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)</h6>
 
+<div>
+  <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
+</div>
+
 <MatDrawerContainer Style="width: 100vw; height: 100vh;">
   <MatDrawer @bind-Opened="@_opened">
     <MatTable
@@ -40,10 +44,6 @@
     </MatTable>
   </MatDrawer>
   <MatDrawerContent>
-    <div>
-      <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
-    </div>
-
     <!--
     Parent of DiagramCanvas has to have a fixed width/height
     or it will not be rendered.
