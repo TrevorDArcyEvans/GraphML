@@ -15,55 +15,49 @@
 <h4>Chart</h4>
 <h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)</h6>
 
+<MatDrawerContainer Style="width: 100vw; height: 100vh;">
+  <MatDrawer @bind-Opened="@_opened">
+    <MatTable
+      Items="@_graphNodes"
+      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+      PageParamName="pageIndex"
+      PageSizeParamName="pageSize"
+      PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+      PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+      FilterByColumnName="@nameof(GraphNode.Name)"
+      Striped="true"
+      AllowSelection="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Name</th>
+      </MatTableHeader>
+      <MatTableRow>
+        @{
+          var id = @context.Id;
+          <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
+        }
+      </MatTableRow>
+    </MatTable>
+  </MatDrawer>
+  <MatDrawerContent>
+    <div>
+      <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
+    </div>
 
-<div class="diagram-container row h-100 v-100">
+    <!--
+    Parent of DiagramCanvas has to have a fixed width/height
+    or it will not be rendered.
 
-  <MatDrawerContainer Style="width: 100vw; height: 100vh;">
-    <MatDrawer @bind-Opened="@_opened">
-      <MatTable
-        Items="@_graphNodes"
-        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
-        PageParamName="pageIndex"
-        PageSizeParamName="pageSize"
-        PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-        PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-        FilterByColumnName="@nameof(GraphNode.Name)"
-        Striped="true"
-        AllowSelection="true"
-        class="mat-elevation-z5">
-        <MatTableHeader>
-          <th>Name</th>
-        </MatTableHeader>
-        <MatTableRow>
-          @{
-            var id = @context.Id;
-            <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
-          }
-        </MatTableRow>
-      </MatTable>
-    </MatDrawer>
-    <MatDrawerContent class="diagram-container row h-100 v-100">
-      <div>
-        <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
-      </div>
-
-      <!--
-      Parent of DiagramCanvas has to have a fixed width/height
-      or it will not be rendered.
-
-      100vw = 100% viewport width
-      100vh = 100% viewport height
-      -->
-      <div class="col-8" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
-        <CascadingValue Value="_diagram">
-          <DiagramCanvas></DiagramCanvas>
-        </CascadingValue>
-      </div>
-    </MatDrawerContent>
-  </MatDrawerContainer>
-
-</div>
-
+    100vw = 100% viewport width
+    100vh = 100% viewport height
+    -->
+    <div class="diagram-container row h-100 v-100" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+      <CascadingValue Value="_diagram">
+        <DiagramCanvas></DiagramCanvas>
+      </CascadingValue>
+    </div>
+  </MatDrawerContent>
+</MatDrawerContainer>
 
 <div>
   <MatSelect Label="Layout chart" @bind-Value="@_layout" Style="width: 125px">
