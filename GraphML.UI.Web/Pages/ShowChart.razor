@@ -12,12 +12,9 @@
 @using Humanizer
 @using QuikGraph
 
-<h4>Chart</h4>
-<h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)</h6>
-
-<div>
-  <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
-</div>
+<b>Chart</b><p/>
+<MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
+@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)
 
 <MatDrawerContainer Style="width: 100vw; height: 100vh;">
   <MatDrawer @bind-Opened="@_opened">
@@ -71,7 +68,7 @@
 </div>
 
 <div>
-  <MatButton Icon="save" @onclick="@(e => OnSave())"/>
+  <MatButton Icon="save" @onclick="@(e => OnSave())">Save</MatButton>
 </div>
 <div>
   <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseCharts())">Back</MatButton>

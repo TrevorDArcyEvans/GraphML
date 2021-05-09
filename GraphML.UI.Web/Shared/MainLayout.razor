@@ -7,11 +7,9 @@
     </div>
   </MatDrawer>
   <MatDrawerContent>
-    <div>
-      <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
-    </div>
     <div class="main">
       <div class="content px-4">
+      <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
         @Body
       </div>
     </div>
