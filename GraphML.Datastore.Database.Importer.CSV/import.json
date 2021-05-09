@@ -33,6 +33,7 @@
       {
         "Name": "Time",
         "DataType": "DateTime",
+        "DateTimeFormat": "SecondsSinceUnixEpoch",
         "Columns": [
           3
         ]
