@@ -6,11 +6,13 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using Humanizer
+@using System.Web
 
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <b>Browse Items</b><p/>
+<h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName)</h6>
 
 <MatTabGroup>
   <MatTab Label="Nodes">
