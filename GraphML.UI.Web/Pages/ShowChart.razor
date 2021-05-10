@@ -12,11 +12,9 @@
 @using Humanizer
 @using QuikGraph
 
-<b>Chart</b><p/>
-<span class="breadcrumbtrail">
-  <MatButton Icon=@(_opened ? "chevron_left" : "chevron_right") OnClick="@((e) => ButtonClicked())" Raised="true"/>
+<b>Chart</b>&nbsp;&nbsp;
+  <MatButton Icon=@(_opened ? "more_horiz" : "more_vert") OnClick="@((e) => ButtonClicked())" Raised="true"/>&nbsp;&nbsp;
   @HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)
-</span>
 
 <MatDrawerContainer Style="width: 100vw; height: 100vh;">
   <MatDrawer @bind-Opened="@_opened">
