@@ -6,11 +6,13 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using Humanizer
+@using System.Web
 
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
 <b>Browse Attribute Definitions</b><p/>
+<span class="breadcrumbtrail">@HttpUtility.UrlDecode(@OrganisationName) / @HttpUtility.UrlDecode(@RepositoryManagerName)</span>
 
 <MatTabGroup>
   <MatTab Label="Repository">

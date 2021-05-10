@@ -134,9 +134,16 @@ app {
     }
 }
 
+
+
 /* make sure DiagramCanvas takes up all of parent's space */
 .diagram-container {
     width: 100%;
     height: calc(100% - 52px);
 }
 
+.breadcrumbtrail {
+    display: block;
+    font-size: .75em;
+    font-weight: bold;
+}

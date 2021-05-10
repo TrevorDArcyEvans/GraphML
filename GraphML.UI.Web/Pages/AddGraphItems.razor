@@ -5,7 +5,7 @@
 @using BlazorTable
 
 <b>Add Graph Items</b><p/>
-<h6>@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</h6>
+<span class="breadcrumbtrail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
 
 <div>
   <Table @ref="_table" TableItem="Node" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
