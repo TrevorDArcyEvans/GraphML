@@ -147,3 +147,10 @@ app {
     font-size: .75em;
     font-weight: bold;
 }
+
+.graphml-node{
+    width: 80px;
+    height: 80px;
+    font-size: 12px;
+}
+
