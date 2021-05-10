@@ -127,6 +127,7 @@ namespace GraphML.UI.Web.Pages
       _diagram.MouseClick += Diagram_OnMouseClick;
 
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
+      _diagram.RegisterModelComponent<LinkLabelModel, DiagramLinkLabelWidget>();
 
       var graphs = await _graphServer.ByIds(new[] { Guid.Parse(GraphId) });
       _graph = graphs.Single();

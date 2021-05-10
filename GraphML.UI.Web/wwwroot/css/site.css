@@ -148,7 +148,7 @@ app {
     font-weight: bold;
 }
 
-.graphml-node{
+.graphml-node, .graphml-link{
     width: 80px;
     height: 80px;
     font-size: 12px;
