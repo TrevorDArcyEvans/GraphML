@@ -1,6 +1,6 @@
 @using GraphML.UI.Web.Models
 
-<div class="graphml-node default-node @(Node.Selected ? " selected" : "")">@Node.Name</div>
+<div class="graphml-node @(Node.Selected ? " graphml-selected" : "")">@Node.Name</div>
 
 @code {
   [Parameter] 
