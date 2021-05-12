@@ -13,11 +13,11 @@
 @using QuikGraph
 
 <b>Chart</b>&nbsp;&nbsp;
-<MatButton Icon=@(_opened ? "more_horiz" : "more_vert") OnClick="@((e) => ButtonClicked())" Raised="true"/>&nbsp;&nbsp;
+<MatButton Icon=@(_drawerOpened ? "more_horiz" : "more_vert") OnClick="@((e) => ButtonClicked())" Raised="true"/>&nbsp;&nbsp;
 @HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)
 
 <MatDrawerContainer Style="width: 100vw; height: 100vh;">
-  <MatDrawer @bind-Opened="@_opened">
+  <MatDrawer @bind-Opened="@_drawerOpened">
     <MatAccordion>
       <MatExpansionPanel>
         <MatExpansionPanelSummary>
@@ -41,7 +41,7 @@
             <MatTableRow>
               @{
                 var id = @context.Id;
-                <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
+                <td draggable="true" @ondragstart="@(() => OnDragNodeStart(@id))">@context.Name</td>
               }
             </MatTableRow>
           </MatTable>
@@ -136,12 +136,25 @@
   </MatDialog>
 </div>
 
+<div>
+  <MatDialog @bind-IsOpen="@_newDialogIsOpen">
+    <MatDialogTitle>Create new node</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
 @code
 {
-  private bool _opened = true;
+  private bool _drawerOpened = true;
 
   private void ButtonClicked()
   {
-    _opened = !_opened;
+    _drawerOpened = !_drawerOpened;
   }
 }

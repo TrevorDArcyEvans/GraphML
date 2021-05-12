@@ -99,6 +99,10 @@ namespace GraphML.UI.Web.Pages
     private Guid _draggedNodeId;
 
     private bool _isNewNode;
+    private bool _newDialogIsOpen;
+    private string _newItemName;
+    private string _dlgNewItemName;
+    private Point _newNodePos;
 
     private bool _parentChildDialogIsOpen;
     private List<Node> _parentNodes = new List<Node>();
@@ -168,7 +172,7 @@ namespace GraphML.UI.Web.Pages
       _diagram.Links.Add(links);
     }
 
-    private void OnDragStart(Guid draggedNode)
+    private void OnDragNodeStart(Guid draggedNode)
     {
       // Can also use transferData, but this is probably "faster"
       _draggedNodeId = draggedNode;
@@ -183,13 +187,13 @@ namespace GraphML.UI.Web.Pages
     {
       if (_draggedNodeId != Guid.Empty)
       {
-        OnDropNode(e);
+        await OnDropNode(e);
         return;
       }
 
       if (_isNewNode)
       {
-        OnDropNew(e);
+        await OnDropNew(e);
         return;
       }
 
@@ -226,6 +230,46 @@ namespace GraphML.UI.Web.Pages
     private async Task OnDropNew(DragEventArgs e)
     {
       _isNewNode = false;
+
+      // save position
+      _newNodePos = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
+
+      // show dialog for new node name
+      _dlgNewItemName = null;
+      _newDialogIsOpen = true;
+    }
+
+    private async Task OkClick()
+    {
+      try
+      {
+        if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+        {
+          return;
+        }
+
+        _newItemName = _dlgNewItemName;
+
+        var orgId = Guid.Parse(OrganisationId);
+        var repoId = Guid.Parse(RepositoryId);
+        var graphId = Guid.Parse(GraphId);
+        var chartId = Guid.Parse(ChartId);
+        var node = new Node(repoId, orgId, _newItemName);
+        var newNodes = await _nodeServer.Create(new[] { node });
+        var graphNode = new GraphNode(graphId, orgId, node.Id, _newItemName);
+        var newGraphNodes = await _graphNodeServer.Create(new[] { graphNode });
+        var chartNode = new ChartNode(chartId, orgId, graphNode.Id, _newItemName);
+        var newChartNodes = await _chartNodeServer.Create(new[] { chartNode });
+        var diagNode = new DiagramNode(chartNode, _newNodePos);
+
+        _diagram.Nodes.Add(diagNode);
+      }
+      finally
+      {
+        _newItemName = _dlgNewItemName = null;
+        _newDialogIsOpen = false;
+        _newNodePos = null;
+      }
     }
 
     private async Task OnExpandNode(ItemClickEventArgs e)
@@ -326,7 +370,7 @@ namespace GraphML.UI.Web.Pages
       _parentNodes = parentsPage.Items;
       var thisNodePage = await _nodeServer.ByIds(new[] { selGraphNode.RepositoryItemId });
       _selectedNode = thisNodePage.Single();
-      var children = await _nodeServer.ByIds(new[] { _selectedNode.NextId });
+      var children = await _nodeServer.ByIds(new[] { _selectedNode?.NextId ?? Guid.Empty });
       _childNode = children.SingleOrDefault();
       _parentChildDialogIsOpen = true;
     }
