@@ -13,33 +13,54 @@
 @using QuikGraph
 
 <b>Chart</b>&nbsp;&nbsp;
-  <MatButton Icon=@(_opened ? "more_horiz" : "more_vert") OnClick="@((e) => ButtonClicked())" Raised="true"/>&nbsp;&nbsp;
-  @HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)
+<MatButton Icon=@(_opened ? "more_horiz" : "more_vert") OnClick="@((e) => ButtonClicked())" Raised="true"/>&nbsp;&nbsp;
+@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName) / @HttpUtility.UrlDecode(ChartName)
 
 <MatDrawerContainer Style="width: 100vw; height: 100vh;">
   <MatDrawer @bind-Opened="@_opened">
-    <MatTable
-      Items="@_graphNodes"
-      ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
-      PageParamName="pageIndex"
-      PageSizeParamName="pageSize"
-      PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-      PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-      FilterByColumnName="@nameof(GraphNode.Name)"
-      Striped="true"
-      AllowSelection="true"
-      class="mat-elevation-z5">
-      <MatTableHeader>
-        <th>Name</th>
-      </MatTableHeader>
-      <MatTableRow>
-        @{
-          var id = @context.Id;
-          <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
-        }
-      </MatTableRow>
-    </MatTable>
+    <MatAccordion>
+      <MatExpansionPanel>
+        <MatExpansionPanelSummary>
+          <MatExpansionPanelHeader>Add</MatExpansionPanelHeader>
+        </MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+          <MatTable
+            Items="@_graphNodes"
+            ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+            PageParamName="pageIndex"
+            PageSizeParamName="pageSize"
+            PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+            PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+            FilterByColumnName="@nameof(GraphNode.Name)"
+            Striped="true"
+            AllowSelection="true"
+            class="mat-elevation-z5">
+            <MatTableHeader>
+              <th>Name</th>
+            </MatTableHeader>
+            <MatTableRow>
+              @{
+                var id = @context.Id;
+                <td draggable="true" @ondragstart="@(() => OnDragStart(@id))">@context.Name</td>
+              }
+            </MatTableRow>
+          </MatTable>
+        </MatExpansionPanelDetails>
+      </MatExpansionPanel>
+
+      <MatExpansionPanel>
+        <MatExpansionPanelSummary>
+          <MatExpansionPanelHeader>New</MatExpansionPanelHeader>
+        </MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+          <span draggable="true" @ondragstart="@(() => OnDragNewStart())">
+            <MatIcon Icon="add_box"/>Node
+          </span>
+        </MatExpansionPanelDetails>
+      </MatExpansionPanel>
+    </MatAccordion>
   </MatDrawer>
+
   <MatDrawerContent>
     <!--
     Parent of DiagramCanvas has to have a fixed width/height
