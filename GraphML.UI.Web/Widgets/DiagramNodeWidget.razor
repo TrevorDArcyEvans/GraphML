@@ -1,16 +1,8 @@
 @using GraphML.UI.Web.Models
 
-<div class="graphml-node @(Node.Selected ? " graphml-selected" : "")" @ondblclick=DoubleClick>@Node.Name</div>
+<div class="graphml-node @(Node.Selected ? " graphml-selected" : "")">@Node.Name</div>
 
 @code {
   [Parameter] 
   public DiagramNode Node { get; set; }
-
-  public event EventHandler OnDoubleClick;
-
-  private void DoubleClick()
-  {
-    var handler = OnDoubleClick;
-    handler?.Invoke(this, new EventArgs());
-  }
 }
