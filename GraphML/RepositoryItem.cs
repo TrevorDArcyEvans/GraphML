@@ -9,8 +9,19 @@ namespace GraphML
   /// </summary>
   public abstract class RepositoryItem : OwnedItem
   {
+    /// <summary>
+    /// Optional unique identifier of child item.
+    /// This is used to preserve the history of an
+    /// item when merging items.
+    /// <remarks>
+    /// This has to be nullable as the default value
+    /// for a GUID (Guid.Empty) will violate the
+    /// referential integrity constraints in our
+    /// underlying database.
+    /// </remarks>
+    /// </summary>
     [JsonProperty(nameof(NextId))]
-    public Guid NextId { get; set; } = Guid.Empty;
+    public Guid? NextId { get; set; }
 
     [Write(false)]
     public Guid RepositoryId
