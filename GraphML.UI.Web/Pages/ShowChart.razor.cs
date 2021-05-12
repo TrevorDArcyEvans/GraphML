@@ -202,29 +202,34 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnDropNode(DragEventArgs e)
     {
-      if (_diagram.Nodes.OfType<DiagramNode>().Any(n => Guid.Parse(n.Id) == _draggedNodeId))
+      try
       {
-        // node already on chart
-        return;
-      }
+        if (_diagram.Nodes.OfType<DiagramNode>().Any(n => Guid.Parse(n.Id) == _draggedNodeId))
+        {
+          // node already on chart
+          return;
+        }
 
-      // GraphNode --> ChartNode --> DiagramNode
-      var draggedNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { _draggedNodeId });
-      var draggedNode = draggedNodes.SingleOrDefault();
-      if (draggedNode is null)
+        // GraphNode --> ChartNode --> DiagramNode
+        var draggedNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { _draggedNodeId });
+        var draggedNode = draggedNodes.SingleOrDefault();
+        if (draggedNode is null)
+        {
+          // GraphNode is not in this Chart, so create a ChartNode in this Chart
+          var graphNodes = await _graphNodeServer.ByIds(new[] { _draggedNodeId });
+          var graphNode = graphNodes.Single();
+          draggedNode = new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), _draggedNodeId, graphNode.Name);
+          var newNodes = await _chartNodeServer.Create(new[] { draggedNode });
+        }
+
+        var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
+        var node = new DiagramNode(draggedNode, position);
+        _diagram.Nodes.Add(node);
+      }
+      finally
       {
-        // GraphNode is not in this Chart, so create a ChartNode in this Chart
-        var graphNodes = await _graphNodeServer.ByIds(new[] { _draggedNodeId });
-        var graphNode = graphNodes.Single();
-        draggedNode = new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), _draggedNodeId, graphNode.Name);
-        var newNodes = await _chartNodeServer.Create(new[] { draggedNode });
+        _draggedNodeId = Guid.Empty;
       }
-
-      var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-      var node = new DiagramNode(draggedNode, position);
-      _diagram.Nodes.Add(node);
-
-      _draggedNodeId = Guid.Empty;
     }
 
     private async Task OnDropNew(DragEventArgs e)
