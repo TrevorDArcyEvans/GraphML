@@ -5,7 +5,7 @@
 @using System.Web
 
 <b>List Items</b>
-<span class="breadcrumbtrail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
+<span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
 
 <div>
   <Table @ref="_table" TableItem="GraphNode" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
