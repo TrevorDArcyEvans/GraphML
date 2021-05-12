@@ -98,6 +98,8 @@ namespace GraphML.UI.Web.Pages
     // GraphNode.Id
     private Guid _draggedNodeId;
 
+    private bool _isNewNode;
+
     private bool _parentChildDialogIsOpen;
     private List<Node> _parentNodes = new List<Node>();
     private Node _selectedNode;
@@ -172,14 +174,30 @@ namespace GraphML.UI.Web.Pages
       _draggedNodeId = draggedNode;
     }
 
+    private void OnDragNewStart()
+    {
+      _isNewNode = true;
+    }
+
     private async Task OnDrop(DragEventArgs e)
     {
-      if (_draggedNodeId == Guid.Empty)
+      if (_draggedNodeId != Guid.Empty)
       {
-        // nothing selected
+        OnDropNode(e);
         return;
       }
 
+      if (_isNewNode)
+      {
+        OnDropNew(e);
+        return;
+      }
+
+      // nothing selected
+    }
+
+    private async Task OnDropNode(DragEventArgs e)
+    {
       if (_diagram.Nodes.OfType<DiagramNode>().Any(n => Guid.Parse(n.Id) == _draggedNodeId))
       {
         // node already on chart
@@ -203,6 +221,11 @@ namespace GraphML.UI.Web.Pages
       _diagram.Nodes.Add(node);
 
       _draggedNodeId = Guid.Empty;
+    }
+
+    private async Task OnDropNew(DragEventArgs e)
+    {
+      _isNewNode = false;
     }
 
     private async Task OnExpandNode(ItemClickEventArgs e)
