@@ -96,6 +96,7 @@
 </div>
 
 <ContextMenu Id="NodeContextMenu" CssClass="z-10" AutoHide="true">
+  <Item OnClick="@OnEditNode">Edit...</Item>
   <Item OnClick="@OnExpandNode">Expand node</Item>
   <Item OnClick="@OnShowParentChild">Show parent/child...</Item>
 </ContextMenu>
@@ -144,7 +145,20 @@
     </MatDialogContent>
     <MatDialogActions>
       <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@OkClick">OK</MatButton>
+      <MatButton OnClick="@OkNewClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
+  <MatDialog @bind-IsOpen="@_editDialogIsOpen" Width="400px">
+    <MatDialogTitle>Rename node</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgEditItemName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _editDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkEditClick">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>

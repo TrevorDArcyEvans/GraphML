@@ -109,6 +109,11 @@ namespace GraphML.UI.Web.Pages
     private Node _selectedNode;
     private Node _childNode;
 
+    private bool _isEditNode;
+    private bool _editDialogIsOpen;
+    private string _editItemName;
+    private string _dlgEditItemName;
+
     private string _layout;
 
     protected override async void OnInitialized()
@@ -244,7 +249,7 @@ namespace GraphML.UI.Web.Pages
       _newDialogIsOpen = true;
     }
 
-    private async Task OkClick()
+    private async Task OkNewClick()
     {
       try
       {
@@ -277,6 +282,34 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
+    private async Task OnEditNode(ItemClickEventArgs e)
+    {
+      var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
+      _dlgEditItemName = selChartNode.Name;
+      _editDialogIsOpen = true;
+    }
+
+    private async Task OkEditClick()
+    {
+      try
+      {
+        if (string.IsNullOrWhiteSpace(_dlgEditItemName))
+        {
+          return;
+        }
+
+        _editItemName = _dlgEditItemName;
+
+        // TODO   rename
+        var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
+      }
+      finally
+      {
+        _editItemName = _dlgEditItemName = null;
+        _editDialogIsOpen = false;
+      }
+    }
+
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
       // expand selected ChartNode to get GraphEdges
@@ -288,7 +321,6 @@ namespace GraphML.UI.Web.Pages
       var expGraphEdges = expGraphEdgesPage.Items;
       var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
       var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
-
 
       // work out what GraphNodes we already have in Diagram
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(diagNode => diagNode.ChartNode);
