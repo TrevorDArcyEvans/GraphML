@@ -359,11 +359,7 @@ namespace GraphML.UI.Web.Pages
 
         var selChartLink = _diagram.GetSelectedModels().OfType<DiagramLink>().ToList().Single();
         selChartLink.Name = _editLinkName;
-
-        // BUG:   Diagram.Refresh does not redraw link
-        // _diagram.Refresh();
-        // _diagram.UnselectAll();
-        // selChartLink.Refresh();
+        selChartLink.Refresh();
       }
       finally
       {
