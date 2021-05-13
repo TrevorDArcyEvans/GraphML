@@ -1,4 +1,5 @@
-﻿using Blazor.Diagrams.Core.Models;
+﻿using System.Linq;
+using Blazor.Diagrams.Core.Models;
 
 namespace GraphML.UI.Web.Models
 {
@@ -23,7 +24,7 @@ namespace GraphML.UI.Web.Models
     {
       get => ChartEdge.Name;
 
-      set => ChartEdge.Name = value;
+      set => ChartEdge.Name = Labels.Single().Content = value;
     }
   }
 }
