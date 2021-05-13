@@ -509,15 +509,15 @@ namespace GraphML.UI.Web.Pages
         .Where(cn => allChartNodes.Single(acn => cn.Id == acn.Id).Name != cn.Name);
       var changedNameGraphNodeIds = changedNameChartNodes
         .Select(cn => cn.GraphItemId);
-      var changedNameGraphNodes = await _graphNodeServer.ByIds(changedNameGraphNodeIds);
+      var changedNameGraphNodes = (await _graphNodeServer.ByIds(changedNameGraphNodeIds)).ToList();
       var changedNameRepoGraphNodeIds = changedNameGraphNodes.Select(gn => gn.RepositoryItemId);
-      var changeNameRepoNodes = await _nodeServer.ByIds(changedNameRepoGraphNodeIds);
-      changedNameGraphNodes.ToList()
+      var changedNameRepoNodes = (await _nodeServer.ByIds(changedNameRepoGraphNodeIds)).ToList();
+      changedNameGraphNodes
         .ForEach(gn => gn.Name = chartNodes.Single(cn => cn.GraphItemId == gn.Id).Name);
-      changeNameRepoNodes.ToList()
+      changedNameRepoNodes
         .ForEach(rn => rn.Name = changedNameGraphNodes.Single(gn => gn.RepositoryItemId == rn.Id).Name);
       await _graphNodeServer.Update(changedNameGraphNodes);
-      await _nodeServer.Update(changeNameRepoNodes);
+      await _nodeServer.Update(changedNameRepoNodes);
     }
 
     #endregion
