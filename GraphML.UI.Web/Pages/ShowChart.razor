@@ -101,6 +101,10 @@
   <Item OnClick="@OnShowParentChild">Show parent/child...</Item>
 </ContextMenu>
 
+<ContextMenu Id="LinkContextMenu" CssClass="z-10" AutoHide="true">
+  <Item OnClick="@OnEditLink">Edit...</Item>
+</ContextMenu>
+
 <div>
   <MatDialog @bind-IsOpen="@_parentChildDialogIsOpen" CanBeClosed="true">
     <MatDialogTitle>Parent/Child Nodes</MatDialogTitle>
@@ -151,14 +155,27 @@
 </div>
 
 <div>
-  <MatDialog @bind-IsOpen="@_editDialogIsOpen" Width="400px">
+  <MatDialog @bind-IsOpen="@_editNodeDialogIsOpen" Width="400px">
     <MatDialogTitle>Rename node</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgEditItemName"></MatTextField>
+      <MatTextField @bind-Value="@_dlgEditNodeName"></MatTextField>
     </MatDialogContent>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { _editDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@OkEditClick">OK</MatButton>
+      <MatButton OnClick="@(e => { _editNodeDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkEditNodeClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
+  <MatDialog @bind-IsOpen="@_editLinkDialogIsOpen">
+    <MatDialogTitle>Rename link</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgEditLinkName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _editLinkDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkEditLinkClick">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>

@@ -109,9 +109,13 @@ namespace GraphML.UI.Web.Pages
     private Node _selectedNode;
     private Node _childNode;
 
-    private bool _editDialogIsOpen;
-    private string _editItemName;
-    private string _dlgEditItemName;
+    private bool _editNodeDialogIsOpen;
+    private string _editNodeName;
+    private string _dlgEditNodeName;
+
+    private bool _editLinkDialogIsOpen;
+    private string _editLinkName;
+    private string _dlgEditLinkName;
 
     private string _layout;
 
@@ -154,6 +158,12 @@ namespace GraphML.UI.Web.Pages
           model is DiagramNode)
       {
         _contextMenuService.ShowMenu("NodeContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
+      }
+
+      if (eventArgs.Button == 2 &&
+          model is DiagramLink)
+      {
+        _contextMenuService.ShowMenu("LinkContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
       }
     }
 
@@ -298,23 +308,23 @@ namespace GraphML.UI.Web.Pages
     private void OnEditNode(ItemClickEventArgs e)
     {
       var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
-      _dlgEditItemName = selChartNode.Name;
-      _editDialogIsOpen = true;
+      _dlgEditNodeName = selChartNode.Name;
+      _editNodeDialogIsOpen = true;
     }
 
-    private void OkEditClick()
+    private void OkEditNodeClick()
     {
       try
       {
-        if (string.IsNullOrWhiteSpace(_dlgEditItemName))
+        if (string.IsNullOrWhiteSpace(_dlgEditNodeName))
         {
           return;
         }
 
-        _editItemName = _dlgEditItemName;
+        _editNodeName = _dlgEditNodeName;
 
         var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
-        selChartNode.Name = _editItemName;
+        selChartNode.Name = _editNodeName;
 
         // BUG:   Diagram.Refresh does not redraw node until node is unselected
         _diagram.Refresh();
@@ -322,8 +332,46 @@ namespace GraphML.UI.Web.Pages
       }
       finally
       {
-        _editItemName = _dlgEditItemName = null;
-        _editDialogIsOpen = false;
+        _editNodeName = _dlgEditNodeName = null;
+        _editNodeDialogIsOpen = false;
+      }
+    }
+
+    #endregion
+
+
+    #region Edit link
+
+    private void OnEditLink(ItemClickEventArgs e)
+    {
+      var selChartLink = _diagram.GetSelectedModels().OfType<DiagramLink>().ToList().Single();
+      _dlgEditLinkName = selChartLink.Name;
+      _editLinkDialogIsOpen = true;
+    }
+
+    private void OkEditLinkClick()
+    {
+      try
+      {
+        if (string.IsNullOrWhiteSpace(_dlgEditLinkName))
+        {
+          return;
+        }
+
+        _editLinkName = _dlgEditLinkName;
+
+        var selChartLink = _diagram.GetSelectedModels().OfType<DiagramLink>().ToList().Single();
+        selChartLink.Name = _editLinkName;
+
+        // BUG:   Diagram.Refresh does not redraw link
+        // _diagram.Refresh();
+        // _diagram.UnselectAll();
+        // selChartLink.Refresh();
+      }
+      finally
+      {
+        _editLinkName = _dlgEditLinkName = null;
+        _editLinkDialogIsOpen = false;
       }
     }
 
@@ -456,6 +504,8 @@ namespace GraphML.UI.Web.Pages
       await _chartNodeServer.Update(chartNodes);
 
       await SaveRenamedNodes(allChartNodes, chartNodes);
+
+      // TODO   save renamed links
     }
 
     private async Task<List<Guid>> DeleteMissingNodes(List<ChartNode> allChartNodes, List<ChartNode> chartNodes)
