@@ -325,10 +325,7 @@ namespace GraphML.UI.Web.Pages
 
         var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
         selChartNode.Name = _editNodeName;
-
-        // BUG:   Diagram.Refresh does not redraw node until node is unselected
-        _diagram.Refresh();
-        _diagram.UnselectAll();
+        selChartNode.Refresh();
       }
       finally
       {
