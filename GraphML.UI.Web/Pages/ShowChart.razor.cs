@@ -443,27 +443,34 @@ namespace GraphML.UI.Web.Pages
         return dn.ChartNode;
       }).ToList();
 
-      var missNodeIds = await DeleteMissingNodes(chartNodes);
+      // get all ChartNodes from Repository
+      var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var allChartNodes = allChartNodesPage.Items;
+      var missNodeIds = await DeleteMissingNodes(allChartNodes, chartNodes);
 
       await DeleteMissingEdges();
 
       await DeleteDanglingDiagramLinks(missNodeIds);
 
-      // TODO   support saving renamed nodes
-
       // only save ChartNodes in Diagram
       await _chartNodeServer.Update(chartNodes);
+
+      await SaveRenamedNodes(allChartNodes, chartNodes);
     }
 
-    private async Task DeleteDanglingDiagramLinks(List<Guid> missNodeIds)
+    private async Task<List<Guid>> DeleteMissingNodes(List<ChartNode> allChartNodes, List<ChartNode> chartNodes)
     {
-      // delete dangling DiagramLinks
-      // BUG:   portless charts do not seem to delete links when an attached node is deleted
-      //        Further, the attached node does not appear to be removed from the link!
-      var dangChartEdges = _diagram.Links.OfType<DiagramLink>()
-        .Where(dl => missNodeIds.Contains(dl.ChartEdge.ChartSourceId) || missNodeIds.Contains(dl.ChartEdge.ChartTargetId))
-        .Select(dl => dl.ChartEdge);
-      await _chartEdgeServer.Delete(dangChartEdges);
+      var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
+      var chartNodeIds = chartNodes.Select(cn => cn.Id);
+
+      // work out which ChartNodes are in Repository but not in Diagram ie deleted from Diagram
+      var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
+      var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
+
+      // delete missing ChartNodes from Repository
+      await _chartNodeServer.Delete(missNodes);
+
+      return missNodeIds;
     }
 
     private async Task DeleteMissingEdges()
@@ -485,22 +492,32 @@ namespace GraphML.UI.Web.Pages
       await _chartEdgeServer.Delete(missEdges);
     }
 
-    private async Task<List<Guid>> DeleteMissingNodes(List<ChartNode> chartNodes)
+    private async Task DeleteDanglingDiagramLinks(List<Guid> missNodeIds)
     {
-      // get all ChartNodes from Repository
-      var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
-      var allChartNodes = allChartNodesPage.Items;
-      var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
-      var chartNodeIds = chartNodes.Select(cn => cn.Id);
+      // delete dangling DiagramLinks
+      // BUG:   portless charts do not seem to delete links when an attached node is deleted
+      //        Further, the attached node does not appear to be removed from the link!
+      var dangChartEdges = _diagram.Links.OfType<DiagramLink>()
+        .Where(dl => missNodeIds.Contains(dl.ChartEdge.ChartSourceId) || missNodeIds.Contains(dl.ChartEdge.ChartTargetId))
+        .Select(dl => dl.ChartEdge);
+      await _chartEdgeServer.Delete(dangChartEdges);
+    }
 
-      // work out which ChartNodes are in Repository but not in Diagram ie deleted from Diagram
-      var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
-      var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
-
-      // delete missing ChartNodes from Repository
-      await _chartNodeServer.Delete(missNodes);
-
-      return missNodeIds;
+    private async Task SaveRenamedNodes(List<ChartNode> allChartNodes, List<ChartNode> chartNodes)
+    {
+      var changedNameChartNodes = chartNodes
+        .Where(cn => allChartNodes.Single(acn => cn.Id == acn.Id).Name != cn.Name);
+      var changedNameGraphNodeIds = changedNameChartNodes
+        .Select(cn => cn.GraphItemId);
+      var changedNameGraphNodes = await _graphNodeServer.ByIds(changedNameGraphNodeIds);
+      var changedNameRepoGraphNodeIds = changedNameGraphNodes.Select(gn => gn.RepositoryItemId);
+      var changeNameRepoNodes = await _nodeServer.ByIds(changedNameRepoGraphNodeIds);
+      changedNameGraphNodes.ToList()
+        .ForEach(gn => gn.Name = chartNodes.Single(cn => cn.GraphItemId == gn.Id).Name);
+      changeNameRepoNodes.ToList()
+        .ForEach(rn => rn.Name = changedNameGraphNodes.Single(gn => gn.RepositoryItemId == rn.Id).Name);
+      await _graphNodeServer.Update(changedNameGraphNodes);
+      await _nodeServer.Update(changeNameRepoNodes);
     }
 
     #endregion
