@@ -176,6 +176,8 @@ namespace GraphML.UI.Web.Pages
       _diagram.Links.Add(links);
     }
 
+    #region Drag-Drop
+
     private async Task OnDrop(DragEventArgs e)
     {
       if (_draggedNodeId != Guid.Empty)
@@ -289,16 +291,18 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    #endregion
+
     #region Edit node
 
-    private async Task OnEditNode(ItemClickEventArgs e)
+    private void OnEditNode(ItemClickEventArgs e)
     {
       var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
       _dlgEditItemName = selChartNode.Name;
       _editDialogIsOpen = true;
     }
 
-    private async Task OkEditClick()
+    private void OkEditClick()
     {
       try
       {
