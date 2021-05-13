@@ -176,17 +176,6 @@ namespace GraphML.UI.Web.Pages
       _diagram.Links.Add(links);
     }
 
-    private void OnDragNodeStart(Guid draggedNode)
-    {
-      // Can also use transferData, but this is probably "faster"
-      _draggedNodeId = draggedNode;
-    }
-
-    private void OnDragNewStart()
-    {
-      _isNewNode = true;
-    }
-
     private async Task OnDrop(DragEventArgs e)
     {
       if (_draggedNodeId != Guid.Empty)
@@ -202,6 +191,14 @@ namespace GraphML.UI.Web.Pages
       }
 
       // nothing selected
+    }
+
+    #region Drag-Drop existing node
+
+    private void OnDragNodeStart(Guid draggedNode)
+    {
+      // Can also use transferData, but this is probably "faster"
+      _draggedNodeId = draggedNode;
     }
 
     private async Task OnDropNode(DragEventArgs e)
@@ -234,6 +231,15 @@ namespace GraphML.UI.Web.Pages
       {
         _draggedNodeId = Guid.Empty;
       }
+    }
+
+    #endregion
+
+    #region Drag-Drop new node
+
+    private void OnDragNewStart()
+    {
+      _isNewNode = true;
     }
 
     private async Task OnDropNew(DragEventArgs e)
@@ -281,6 +287,10 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
+    #endregion
+
+    #region Edit node
+
     private async Task OnEditNode(ItemClickEventArgs e)
     {
       var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
@@ -312,6 +322,8 @@ namespace GraphML.UI.Web.Pages
         _editDialogIsOpen = false;
       }
     }
+
+    #endregion
 
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
@@ -415,14 +427,10 @@ namespace GraphML.UI.Web.Pages
       _parentChildDialogIsOpen = true;
     }
 
+    #region Save
+
     private async Task OnSave()
     {
-      // TODO   support saving renamed nodes
-      // get all ChartNodes from Repository
-      var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
-      var allChartNodes = allChartNodesPage.Items;
-      var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
-
       // get all ChartNodes in this Diagram
       var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn =>
       {
@@ -430,16 +438,32 @@ namespace GraphML.UI.Web.Pages
         dn.ChartNode.Y = (int) dn.Position.Y;
         return dn.ChartNode;
       }).ToList();
-      var chartNodeIds = chartNodes.Select(cn => cn.Id);
 
-      // work out which ChartNodes are in Repository but not in Diagram ie deleted from Diagram
-      var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
-      var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
+      var missNodeIds = await DeleteMissingNodes(chartNodes);
 
-      // delete missing ChartNodes from Repository
-      await _chartNodeServer.Delete(missNodes);
+      await DeleteMissingEdges();
 
+      await DeleteDanglingDiagramLinks(missNodeIds);
 
+      // TODO   support saving renamed nodes
+
+      // only save ChartNodes in Diagram
+      await _chartNodeServer.Update(chartNodes);
+    }
+
+    private async Task DeleteDanglingDiagramLinks(List<Guid> missNodeIds)
+    {
+      // delete dangling DiagramLinks
+      // BUG:   portless charts do not seem to delete links when an attached node is deleted
+      //        Further, the attached node does not appear to be removed from the link!
+      var dangChartEdges = _diagram.Links.OfType<DiagramLink>()
+        .Where(dl => missNodeIds.Contains(dl.ChartEdge.ChartSourceId) || missNodeIds.Contains(dl.ChartEdge.ChartTargetId))
+        .Select(dl => dl.ChartEdge);
+      await _chartEdgeServer.Delete(dangChartEdges);
+    }
+
+    private async Task DeleteMissingEdges()
+    {
       // get all ChartEdges from Repository
       var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var allChartEdges = allChartEdgesPage.Items;
@@ -455,19 +479,27 @@ namespace GraphML.UI.Web.Pages
 
       // delete missing ChartEdges from Repository
       await _chartEdgeServer.Delete(missEdges);
-
-
-      // delete dangling DiagramLinks
-      // BUG:   portless charts do not seem to delete links when an attached node is deleted
-      //        Further, the attached node does not appear to be removed from the link!
-      var dangChartEdges = _diagram.Links.OfType<DiagramLink>()
-        .Where(dl => missNodeIds.Contains(dl.ChartEdge.ChartSourceId) || missNodeIds.Contains(dl.ChartEdge.ChartTargetId))
-        .Select(dl => dl.ChartEdge);
-      await _chartEdgeServer.Delete(dangChartEdges);
-
-      // only save ChartNodes in Diagram
-      await _chartNodeServer.Update(chartNodes);
     }
+
+    private async Task<List<Guid>> DeleteMissingNodes(List<ChartNode> chartNodes)
+    {
+      // get all ChartNodes from Repository
+      var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var allChartNodes = allChartNodesPage.Items;
+      var allChartNodeIds = allChartNodes.Select(cn => cn.Id);
+      var chartNodeIds = chartNodes.Select(cn => cn.Id);
+
+      // work out which ChartNodes are in Repository but not in Diagram ie deleted from Diagram
+      var missNodeIds = allChartNodeIds.Except(chartNodeIds).ToList();
+      var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
+
+      // delete missing ChartNodes from Repository
+      await _chartNodeServer.Delete(missNodes);
+
+      return missNodeIds;
+    }
+
+    #endregion
 
     private void OnLayout(string layout)
     {
