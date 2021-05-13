@@ -109,7 +109,6 @@ namespace GraphML.UI.Web.Pages
     private Node _selectedNode;
     private Node _childNode;
 
-    private bool _isEditNode;
     private bool _editDialogIsOpen;
     private string _editItemName;
     private string _dlgEditItemName;
@@ -300,7 +299,6 @@ namespace GraphML.UI.Web.Pages
 
         _editItemName = _dlgEditItemName;
 
-        // TODO   support saving renamed nodes
         var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
         selChartNode.Name = _editItemName;
 
@@ -419,6 +417,7 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnSave()
     {
+      // TODO   support saving renamed nodes
       // get all ChartNodes from Repository
       var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var allChartNodes = allChartNodesPage.Items;
@@ -478,7 +477,7 @@ namespace GraphML.UI.Web.Pages
       }
 
       var graph = new QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>();
-      var nodes = _diagram.Nodes.OfType<DiagramNode>();
+      var nodes = _diagram.Nodes.OfType<DiagramNode>().ToList();
       var edges = _diagram.Links.OfType<DiagramLink>()
         .Select(dl =>
         {
