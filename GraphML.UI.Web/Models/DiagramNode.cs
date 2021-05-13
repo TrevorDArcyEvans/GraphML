@@ -18,6 +18,12 @@ namespace GraphML.UI.Web.Models
 
     public ChartNode ChartNode { get; }
 
-    public string Name => ChartNode.Name;
+    public string Name
+    {
+      get => ChartNode.Name;
+
+      set => ChartNode.Name = value;
+    }
   }
 }
+

@@ -300,8 +300,13 @@ namespace GraphML.UI.Web.Pages
 
         _editItemName = _dlgEditItemName;
 
-        // TODO   rename
+        // TODO   support saving renamed nodes
         var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
+        selChartNode.Name = _editItemName;
+
+        // BUG:   Diagram.Refresh does not redraw node until node is unselected
+        _diagram.Refresh();
+        _diagram.UnselectAll();
       }
       finally
       {
