@@ -19,6 +19,11 @@ namespace GraphML.UI.Web.Models
 
     public ChartEdge ChartEdge { get; }
 
-    public string Name => ChartEdge.Name;
+    public string Name
+    {
+      get => ChartEdge.Name;
+
+      set => ChartEdge.Name = value;
+    }
   }
 }
