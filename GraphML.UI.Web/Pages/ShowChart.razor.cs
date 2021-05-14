@@ -498,7 +498,15 @@ namespace GraphML.UI.Web.Pages
 
       await SaveRenamedNodes(allChartNodes, chartNodes);
 
-      // TODO   save renamed links
+
+      // get all ChartEdges in this Diagram
+      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge).ToList();
+
+      // get all ChartEdges from Repository
+      var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var allChartEdges = allChartEdgesPage.Items;
+
+      await SaveRenamedEdges(allChartEdges, chartEdges);
     }
 
     private async Task<List<Guid>> DeleteMissingNodes(List<ChartNode> allChartNodes, List<ChartNode> chartNodes)
@@ -549,7 +557,7 @@ namespace GraphML.UI.Web.Pages
     private async Task SaveRenamedNodes(List<ChartNode> allChartNodes, List<ChartNode> chartNodes)
     {
       var changedNameChartNodes = chartNodes
-        .Where(cn => allChartNodes.Single(acn => cn.Id == acn.Id).Name != cn.Name);
+        .Where(cn => allChartNodes.Single(acn => cn.Id == acn.Id).Name != cn.Name).ToList();
       var changedNameGraphNodeIds = changedNameChartNodes
         .Select(cn => cn.GraphItemId);
       var changedNameGraphNodes = (await _graphNodeServer.ByIds(changedNameGraphNodeIds)).ToList();
@@ -559,8 +567,27 @@ namespace GraphML.UI.Web.Pages
         .ForEach(gn => gn.Name = chartNodes.Single(cn => cn.GraphItemId == gn.Id).Name);
       changedNameRepoNodes
         .ForEach(rn => rn.Name = changedNameGraphNodes.Single(gn => gn.RepositoryItemId == rn.Id).Name);
+      await _chartNodeServer.Update(changedNameChartNodes);
       await _graphNodeServer.Update(changedNameGraphNodes);
       await _nodeServer.Update(changedNameRepoNodes);
+    }
+
+    private async Task SaveRenamedEdges(List<ChartEdge> allChartEdges, List<ChartEdge> chartEdges)
+    {
+      var changedNameChartEdges = chartEdges
+        .Where(cn => allChartEdges.Single(acn => cn.Id == acn.Id).Name != cn.Name).ToList();
+      var changedNameGraphEdgeIds = changedNameChartEdges
+        .Select(cn => cn.GraphItemId);
+      var changedNameGraphEdges = (await _graphEdgeServer.ByIds(changedNameGraphEdgeIds)).ToList();
+      var changedNameRepoGraphEdgeIds = changedNameGraphEdges.Select(gn => gn.RepositoryItemId);
+      var changedNameRepoEdges = (await _edgeServer.ByIds(changedNameRepoGraphEdgeIds)).ToList();
+      changedNameGraphEdges
+        .ForEach(gn => gn.Name = chartEdges.Single(cn => cn.GraphItemId == gn.Id).Name);
+      changedNameRepoEdges
+        .ForEach(rn => rn.Name = changedNameGraphEdges.Single(gn => gn.RepositoryItemId == rn.Id).Name);
+      await _chartEdgeServer.Update(changedNameChartEdges);
+      await _graphEdgeServer.Update(changedNameGraphEdges);
+      await _edgeServer.Update(changedNameRepoEdges);
     }
 
     #endregion
