@@ -9,7 +9,7 @@
 <p/>
 <span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
 
-<SpinLoader IsLoading="@(_data == null)">
+<SpinLoader IsLoading="@(_data == null || _isAddingItems)">
   <LoadingTemplate>
     <GraphMLSpinner/>
   </LoadingTemplate>
@@ -33,7 +33,7 @@
         <MatDialogTitle>Add *all* repository items?</MatDialogTitle>
         <MatDialogActions>
           <MatButton OnClick="@(e => { _addAllDialogIsOpen = false; })">Cancel</MatButton>
-          <MatButton OnClick="@AddAllRepositoryItems">OK</MatButton>
+          <MatButton OnClick="@(async () => await AddAllRepositoryItems())">OK</MatButton>
         </MatDialogActions>
       </MatDialog>
     </div>

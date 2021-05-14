@@ -58,6 +58,7 @@ namespace GraphML.UI.Web.Pages
     private Guid _orgid;
 
     private bool _addAllDialogIsOpen;
+    private bool _isAddingItems;
 
     /// In Blazor WASM we would normally place
     /// data initialization here. However, on
@@ -105,11 +106,22 @@ namespace GraphML.UI.Web.Pages
 
     private async Task AddAllRepositoryItems()
     {
-      _table.SelectedItems.Clear();
-      _table.SelectedItems.AddRange(_data);
-      await AddSelectedGraphItems();
+      try
+      {
+        _addAllDialogIsOpen = false;
+        _isAddingItems = true;
 
-      _addAllDialogIsOpen = false;
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
+
+        _table.SelectedItems.Clear();
+        _table.SelectedItems.AddRange(_data);
+        await AddSelectedGraphItems();
+      }
+      finally
+      {
+        _isAddingItems = false;
+      }
     }
 
     private void GotoBrowseGraphItems()
