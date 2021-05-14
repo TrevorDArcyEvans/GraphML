@@ -1,7 +1,8 @@
 ﻿@page "/AddGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
 @using GraphML
-@using System.Web;
+@using GraphML.UI.Web.Widgets
+@using System.Web
 @using BlazorTable
 
 <b>Add Graph Items</b>
@@ -10,9 +11,7 @@
 
 <SpinLoader IsLoading="@(_data == null)">
   <LoadingTemplate>
-    <div class="row">
-      <Wave Color="#6200ee" Size="100px" Center="true"/>
-    </div>
+    <GraphMLSpinner/>
   </LoadingTemplate>
   <ContentTemplate>
 
