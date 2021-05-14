@@ -348,7 +348,6 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-
     #region Edit link
 
     private void OnEditLink(ItemClickEventArgs e)
