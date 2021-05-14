@@ -59,21 +59,38 @@ namespace GraphML.UI.Web.Pages
 
     private bool _addAllDialogIsOpen;
 
-    protected override async Task OnInitializedAsync()
+    /// In Blazor WASM we would normally place
+    /// data initialization here. However, on
+    /// Blazor Server, a long running task in
+    /// OnInitializedAsync will cause happen
+    /// at the server and no spinner will display
+    /// Instead, long running initialize methods
+    /// should be moved to OnAfterRender with
+    /// an added call to StateHasChange().
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await LoadData();
+    //}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-      _graphId = Guid.Parse(GraphId);
-      _orgid = Guid.Parse(OrganisationId);
+      if (firstRender)
+      {
+        _graphId = Guid.Parse(GraphId);
+        _orgid = Guid.Parse(OrganisationId);
 
-      // get GraphNodes already in Graph
-      var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
-      var allGraphNodes = allGraphNodesPage.Items;
-      var existRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
+        // get GraphNodes already in Graph
+        var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
+        var allGraphNodes = allGraphNodesPage.Items;
+        var existRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
 
-      // remove those GraphNodes from available Nodes
-      var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
-      _data = dataPage.Items
+        // remove those GraphNodes from available Nodes
+        var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
+        _data = dataPage.Items
           .Where(n => !existRepoItemIds.Contains(n.Id))
           .ToList();
+
+        StateHasChanged();
+      }
     }
 
     private async Task AddSelectedGraphItems()
