@@ -1,28 +1,38 @@
 ﻿@page "/ListItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
 @using GraphML
+@using GraphML.UI.Web.Widgets
 @using BlazorTable
 @using System.Web
 
 <b>List Items</b>
 <span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
 
-<div>
-  <Table @ref="_table" TableItem="GraphNode" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
-    <Column TableItem="GraphNode" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true"/>
-    <Column TableItem="GraphNode" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%"/>
-    <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true"/>
-  </Table>
-</div>
+<SpinLoader IsLoading="@(_data == null)">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
 
-<div>
-  <MatSelect Label="Select action" @bind-Value="@_itemsAction" Style="width: 125px">
-    <MatOption TValue="int" Value="@((int)ListItemsAction.TakeHalf)">Take top half</MatOption>
-    <MatOption TValue="int" Value="@((int)ListItemsAction.TakeQuarter)">Take top quarter</MatOption>
-    <MatOption TValue="int" Value="@((int)ListItemsAction.TakeSelected)">Take selected</MatOption>
-  </MatSelect>
+    <div>
+      <Table @ref="_table" TableItem="GraphNode" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
+        <Column TableItem="GraphNode" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true"/>
+        <Column TableItem="GraphNode" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%"/>
+        <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true"/>
+      </Table>
+    </div>
 
-  <MatButton Icon="build" @onclick="@(e => OnTakeAction((ListItemsAction)_itemsAction))" Raised="true">Go!</MatButton>
-</div>
+    <div>
+      <MatSelect Label="Select action" @bind-Value="@_itemsAction" Style="width: 125px">
+        <MatOption TValue="int" Value="@((int) ListItemsAction.TakeHalf)">Take top half</MatOption>
+        <MatOption TValue="int" Value="@((int) ListItemsAction.TakeQuarter)">Take top quarter</MatOption>
+        <MatOption TValue="int" Value="@((int) ListItemsAction.TakeSelected)">Take selected</MatOption>
+      </MatSelect>
+
+      <MatButton Icon="build" @onclick="@(e => OnTakeAction((ListItemsAction) _itemsAction))" Raised="true">Go!</MatButton>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>
 
 <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseAnalyses())">Back</MatButton>

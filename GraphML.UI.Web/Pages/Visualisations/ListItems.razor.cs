@@ -54,7 +54,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     private Guid _graphId;
 
     private int _itemsAction;
-    
+
     public enum ListItemsAction
     {
       TakeHalf,
@@ -62,20 +62,25 @@ namespace GraphML.UI.Web.Pages.Visualisations
       TakeSelected
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-      _graphId = Guid.Parse(GraphId);
+      if (firstRender)
+      {
+        _graphId = Guid.Parse(GraphId);
 
-      // get GraphNodes already in Graph
-      var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
-      var allGraphNodes = allGraphNodesPage.Items;
-      _data = allGraphNodes.ToList();
+        // get GraphNodes already in Graph
+        var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
+        var allGraphNodes = allGraphNodesPage.Items;
+        _data = allGraphNodes.ToList();
+
+        StateHasChanged();
+      }
     }
 
     private void OnTakeAction(ListItemsAction itemsAction)
     {
       var filtCount = _table.FilteredItems.Count();
-      
+
       switch (itemsAction)
       {
         case ListItemsAction.TakeHalf:
