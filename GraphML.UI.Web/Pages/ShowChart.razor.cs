@@ -119,10 +119,10 @@ namespace GraphML.UI.Web.Pages
 
     private string _layout;
 
-    protected override async void OnInitialized()
-    {
-      base.OnInitialized();
+    private bool _isBusy;
 
+    protected override async Task OnInitializedAsync()
+    {
       var options = new DiagramOptions
       {
         DeleteKey = "Delete", // What key deletes the selected nodes/links
@@ -149,7 +149,7 @@ namespace GraphML.UI.Web.Pages
       var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
       var chartNodes = chartNodesPage.Items;
       var chartEdges = chartEdgesPage.Items;
-      Setup(chartNodes, chartEdges);
+      await Setup(chartNodes, chartEdges);
     }
 
     private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
@@ -167,23 +167,35 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
-    private void Setup(IEnumerable<ChartNode> chartNodes, IEnumerable<ChartEdge> chartEdges)
+    private async Task Setup(IEnumerable<ChartNode> chartNodes, IEnumerable<ChartEdge> chartEdges)
     {
-      var nodes = chartNodes.Select(chartNode =>
-        new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
-      _diagram.Nodes.Add(nodes);
-
-      var links = chartEdges.Select(chartEdge =>
+      try
       {
-        var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
-        var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
-        var link = new DiagramLink(chartEdge, source, target)
+        _isBusy = true;
+
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
+
+        var nodes = chartNodes.Select(chartNode =>
+          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
+        _diagram.Nodes.Add(nodes);
+
+        var links = chartEdges.Select(chartEdge =>
         {
-          TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
-        };
-        return link;
-      });
-      _diagram.Links.Add(links);
+          var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
+          var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
+          var link = new DiagramLink(chartEdge, source, target)
+          {
+            TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
+          };
+          return link;
+        });
+        _diagram.Links.Add(links);
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     #region Drag-Drop
@@ -372,103 +384,128 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnExpandNode(ItemClickEventArgs e)
     {
-      // expand selected ChartNode to get GraphEdges
-      var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
-      var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
-      var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
-      var selGraphNode = selGraphNodes.Single();
-      var expGraphEdgesPage = await _graphEdgeServer.ByNodeIds(new[] { selGraphNode.Id }, 0, int.MaxValue, null);
-      var expGraphEdges = expGraphEdgesPage.Items;
-      var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
-      var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
-
-      // work out what GraphNodes we already have in Diagram
-      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(diagNode => diagNode.ChartNode);
-      var graphNodeIds = chartNodes.Select(cn => cn.GraphItemId);
-
-      // work out missing GraphNodes = already in Diagram but not in expansion
-      var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds).ToList();
-      var missChartNodes = (await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds)).ToList();
-      if (missChartNodes.Count() != missGraphNodeIds.Count())
+      try
       {
-        // GraphNode.Id of ChartNodes which are in Repository
-        var repoChartGraphNodeIds = missChartNodes.Select(cn => cn.GraphItemId);
+        _isBusy = true;
 
-        // get GraphNode.Id of ChartNodes which are not in Repository
-        var missRepoChartGraphNodeIds = missGraphNodeIds.Except(repoChartGraphNodeIds);
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        // create a ChartNode in Repository for each missing GraphNode
-        var missRepoChartGraphNodes = await _graphNodeServer.ByIds(missRepoChartGraphNodeIds);
-        var missRepoChartNodes = missRepoChartGraphNodes.Select(gn =>
-          new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), gn.Id, gn.Name)).ToList();
-        await _chartNodeServer.Create(missRepoChartNodes);
-        missChartNodes.AddRange(missRepoChartNodes);
-      }
+        // expand selected ChartNode to get GraphEdges
+        var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
+        var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
+        var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
+        var selGraphNode = selGraphNodes.Single();
+        var expGraphEdgesPage = await _graphEdgeServer.ByNodeIds(new[] { selGraphNode.Id }, 0, int.MaxValue, null);
+        var expGraphEdges = expGraphEdgesPage.Items;
+        var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
+        var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
 
+        // work out what GraphNodes we already have in Diagram
+        var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(diagNode => diagNode.ChartNode);
+        var graphNodeIds = chartNodes.Select(cn => cn.GraphItemId);
 
-      // work out what GraphEdges we already have in Diagram
-      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(diagLink => diagLink.ChartEdge);
-      var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
-
-      // work out missing GraphEdges = already in Diagram but not in expansion
-      var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds).ToList();
-      var missChartEdges = (await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds)).ToList();
-      if (missChartEdges.Count() != missGraphEdgeIds.Count())
-      {
-        // GraphEdge.Id of ChartEdges which are in Repository
-        var repoChartGraphEdgeIds = missChartEdges.Select(ce => ce.GraphItemId);
-
-        // get GraphEdge.Id of ChartEdges which are not in Repository
-        var missRepoChartGraphEdgeIds = missGraphEdgeIds.Except(repoChartGraphEdgeIds);
-
-        // create a ChartEdge in Repository for each missing GraphEdge
-        var missRepoChartGraphEdges = await _graphEdgeServer.ByIds(missRepoChartGraphEdgeIds);
-        var missRepoChartEdges = missRepoChartGraphEdges.Select(async ge =>
-          {
-            var chartNodeSources = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphSourceId });
-            var chartNodeSource = chartNodeSources.Single();
-            var chartNodeTargets = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphTargetId });
-            var chartNodeTarget = chartNodeTargets.Single();
-            return new ChartEdge(Guid.Parse(ChartId), Guid.Parse(OrganisationId), ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
-          })
-          .Select(t => t.Result)
-          .ToList();
-        await _chartEdgeServer.Create(missRepoChartEdges);
-        missChartEdges.AddRange(missRepoChartEdges);
-      }
-
-      // create missing nodes
-      var nodes = missChartNodes.Select(chartNode =>
-        new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
-      _diagram.Nodes.Add(nodes);
-
-
-      // create missing edges
-      var links = missChartEdges.Select(chartEdge =>
-      {
-        var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
-        var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
-        var link = new DiagramLink(chartEdge, source, target)
+        // work out missing GraphNodes = already in Diagram but not in expansion
+        var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds).ToList();
+        var missChartNodes = (await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds)).ToList();
+        if (missChartNodes.Count() != missGraphNodeIds.Count())
         {
-          TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
-        };
-        return link;
-      });
-      _diagram.Links.Add(links);
+          // GraphNode.Id of ChartNodes which are in Repository
+          var repoChartGraphNodeIds = missChartNodes.Select(cn => cn.GraphItemId);
+
+          // get GraphNode.Id of ChartNodes which are not in Repository
+          var missRepoChartGraphNodeIds = missGraphNodeIds.Except(repoChartGraphNodeIds);
+
+          // create a ChartNode in Repository for each missing GraphNode
+          var missRepoChartGraphNodes = await _graphNodeServer.ByIds(missRepoChartGraphNodeIds);
+          var missRepoChartNodes = missRepoChartGraphNodes.Select(gn =>
+            new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), gn.Id, gn.Name)).ToList();
+          await _chartNodeServer.Create(missRepoChartNodes);
+          missChartNodes.AddRange(missRepoChartNodes);
+        }
+
+
+        // work out what GraphEdges we already have in Diagram
+        var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(diagLink => diagLink.ChartEdge);
+        var graphEdgeIds = chartEdges.Select(ce => ce.GraphItemId);
+
+        // work out missing GraphEdges = already in Diagram but not in expansion
+        var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds).ToList();
+        var missChartEdges = (await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds)).ToList();
+        if (missChartEdges.Count() != missGraphEdgeIds.Count())
+        {
+          // GraphEdge.Id of ChartEdges which are in Repository
+          var repoChartGraphEdgeIds = missChartEdges.Select(ce => ce.GraphItemId);
+
+          // get GraphEdge.Id of ChartEdges which are not in Repository
+          var missRepoChartGraphEdgeIds = missGraphEdgeIds.Except(repoChartGraphEdgeIds);
+
+          // create a ChartEdge in Repository for each missing GraphEdge
+          var missRepoChartGraphEdges = await _graphEdgeServer.ByIds(missRepoChartGraphEdgeIds);
+          var missRepoChartEdges = missRepoChartGraphEdges.Select(async ge =>
+            {
+              var chartNodeSources = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphSourceId });
+              var chartNodeSource = chartNodeSources.Single();
+              var chartNodeTargets = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphTargetId });
+              var chartNodeTarget = chartNodeTargets.Single();
+              return new ChartEdge(Guid.Parse(ChartId), Guid.Parse(OrganisationId), ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
+            })
+            .Select(t => t.Result)
+            .ToList();
+          await _chartEdgeServer.Create(missRepoChartEdges);
+          missChartEdges.AddRange(missRepoChartEdges);
+        }
+
+        // create missing nodes
+        var nodes = missChartNodes.Select(chartNode =>
+          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
+        _diagram.Nodes.Add(nodes);
+
+
+        // create missing edges
+        var links = missChartEdges.Select(chartEdge =>
+        {
+          var source = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartSourceId.ToString());
+          var target = _diagram.Nodes.Single(n => n.Id == chartEdge.ChartTargetId.ToString());
+          var link = new DiagramLink(chartEdge, source, target)
+          {
+            TargetMarker = _graph.Directed ? LinkMarker.Arrow : null
+          };
+          return link;
+        });
+        _diagram.Links.Add(links);
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private async Task OnShowParentChild(ItemClickEventArgs e)
     {
-      var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().Single();
-      var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
-      var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
-      var selGraphNode = selGraphNodes.Single();
-      var parentsPage = await _nodeServer.GetParents(selGraphNode.RepositoryItemId, 0, int.MaxValue, null);
-      _parentNodes = parentsPage.Items;
-      var thisNodePage = await _nodeServer.ByIds(new[] { selGraphNode.RepositoryItemId });
-      _selectedNode = thisNodePage.Single();
-      var children = await _nodeServer.ByIds(new[] { _selectedNode?.NextId ?? Guid.Empty });
-      _childNode = children.SingleOrDefault();
+      try
+      {
+        _isBusy = true;
+
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
+
+        var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().Single();
+        var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
+        var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
+        var selGraphNode = selGraphNodes.Single();
+        var parentsPage = await _nodeServer.GetParents(selGraphNode.RepositoryItemId, 0, int.MaxValue, null);
+        _parentNodes = parentsPage.Items;
+        var thisNodePage = await _nodeServer.ByIds(new[] { selGraphNode.RepositoryItemId });
+        _selectedNode = thisNodePage.Single();
+        var children = await _nodeServer.ByIds(new[] { _selectedNode?.NextId ?? Guid.Empty });
+        _childNode = children.SingleOrDefault();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
+
       _parentChildDialogIsOpen = true;
     }
 
@@ -476,37 +513,49 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OnSave()
     {
-      // get all ChartNodes in this Diagram
-      var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn =>
+      try
       {
-        dn.ChartNode.X = (int) dn.Position.X;
-        dn.ChartNode.Y = (int) dn.Position.Y;
-        return dn.ChartNode;
-      }).ToList();
+        _isBusy = true;
 
-      // get all ChartNodes from Repository
-      var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
-      var allChartNodes = allChartNodesPage.Items;
-      var missNodeIds = await DeleteMissingNodes(allChartNodes, chartNodes);
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-      await DeleteMissingEdges();
+        // get all ChartNodes in this Diagram
+        var chartNodes = _diagram.Nodes.OfType<DiagramNode>().Select(dn =>
+        {
+          dn.ChartNode.X = (int) dn.Position.X;
+          dn.ChartNode.Y = (int) dn.Position.Y;
+          return dn.ChartNode;
+        }).ToList();
 
-      await DeleteDanglingDiagramLinks(missNodeIds);
+        // get all ChartNodes from Repository
+        var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+        var allChartNodes = allChartNodesPage.Items;
+        var missNodeIds = await DeleteMissingNodes(allChartNodes, chartNodes);
 
-      // only save ChartNodes in Diagram
-      await _chartNodeServer.Update(chartNodes);
+        await DeleteMissingEdges();
 
-      await SaveRenamedNodes(allChartNodes, chartNodes);
+        await DeleteDanglingDiagramLinks(missNodeIds);
+
+        // only save ChartNodes in Diagram
+        await _chartNodeServer.Update(chartNodes);
+
+        await SaveRenamedNodes(allChartNodes, chartNodes);
 
 
-      // get all ChartEdges in this Diagram
-      var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge).ToList();
+        // get all ChartEdges in this Diagram
+        var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge).ToList();
 
-      // get all ChartEdges from Repository
-      var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
-      var allChartEdges = allChartEdgesPage.Items;
+        // get all ChartEdges from Repository
+        var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+        var allChartEdges = allChartEdgesPage.Items;
 
-      await SaveRenamedEdges(allChartEdges, chartEdges);
+        await SaveRenamedEdges(allChartEdges, chartEdges);
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private async Task<List<Guid>> DeleteMissingNodes(List<ChartNode> allChartNodes, List<ChartNode> chartNodes)
@@ -592,46 +641,58 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private void OnLayout(string layout)
+    private async Task OnLayout(string layout)
     {
       if (string.IsNullOrWhiteSpace(layout))
       {
         return;
       }
 
-      var graph = new QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>();
-      var nodes = _diagram.Nodes.OfType<DiagramNode>().ToList();
-      var edges = _diagram.Links.OfType<DiagramLink>()
-        .Select(dl =>
-        {
-          var source = nodes.Single(dn => Guid.Parse(dn.Id) == dl.ChartEdge.ChartSourceId);
-          var target = nodes.Single(dn => Guid.Parse(dn.Id) == dl.ChartEdge.ChartSourceId);
-          return new QG.Edge<DiagramNode>(source, target);
-        })
-        .ToList();
-      graph.AddVertexRange(nodes);
-      graph.AddEdgeRange(edges);
-
-      var positions = nodes.ToDictionary(dn => dn, dn => new GraphShape.Point(dn.Position.X, dn.Position.Y));
-      var sizes = nodes.ToDictionary(dn => dn, dn => new GraphShape.Size(dn.Size?.Width ?? 100, dn.Size?.Height ?? 100));
-      var layoutCtx = new LayoutContext<DiagramNode, QG.Edge<DiagramNode>, QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>>(graph, positions, sizes, LayoutMode.Simple);
-      var algoFact = new StandardLayoutAlgorithmFactory<DiagramNode, QG.Edge<DiagramNode>, QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>>();
-      var algo = algoFact.CreateAlgorithm(layout, layoutCtx, null);
-
-      algo.Compute();
-
       try
       {
-        _diagram.SuspendRefresh = true;
-        foreach (var vertPos in algo.VerticesPositions)
+        _isBusy = true;
+
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
+
+        var graph = new QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>();
+        var nodes = _diagram.Nodes.OfType<DiagramNode>().ToList();
+        var edges = _diagram.Links.OfType<DiagramLink>()
+          .Select(dl =>
+          {
+            var source = nodes.Single(dn => Guid.Parse(dn.Id) == dl.ChartEdge.ChartSourceId);
+            var target = nodes.Single(dn => Guid.Parse(dn.Id) == dl.ChartEdge.ChartSourceId);
+            return new QG.Edge<DiagramNode>(source, target);
+          })
+          .ToList();
+        graph.AddVertexRange(nodes);
+        graph.AddEdgeRange(edges);
+
+        var positions = nodes.ToDictionary(dn => dn, dn => new GraphShape.Point(dn.Position.X, dn.Position.Y));
+        var sizes = nodes.ToDictionary(dn => dn, dn => new GraphShape.Size(dn.Size?.Width ?? 100, dn.Size?.Height ?? 100));
+        var layoutCtx = new LayoutContext<DiagramNode, QG.Edge<DiagramNode>, QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>>(graph, positions, sizes, LayoutMode.Simple);
+        var algoFact = new StandardLayoutAlgorithmFactory<DiagramNode, QG.Edge<DiagramNode>, QG.BidirectionalGraph<DiagramNode, QG.Edge<DiagramNode>>>();
+        var algo = algoFact.CreateAlgorithm(layout, layoutCtx, null);
+
+        algo.Compute();
+
+        try
         {
-          vertPos.Key.Position = new Point(vertPos.Value.X, vertPos.Value.Y);
-          vertPos.Key.Refresh();
+          _diagram.SuspendRefresh = true;
+          foreach (var vertPos in algo.VerticesPositions)
+          {
+            vertPos.Key.Position = new Point(vertPos.Value.X, vertPos.Value.Y);
+            vertPos.Key.Refresh();
+          }
+        }
+        finally
+        {
+          _diagram.SuspendRefresh = false;
         }
       }
       finally
       {
-        _diagram.SuspendRefresh = false;
+        _isBusy = false;
       }
     }
 

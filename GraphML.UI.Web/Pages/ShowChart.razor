@@ -11,6 +11,7 @@
 @using GraphML.Common
 @using Humanizer
 @using QuikGraph
+@using GraphML.UI.Web.Widgets
 
 <b>Chart</b>&nbsp;&nbsp;
 <MatButton Icon=@(_drawerOpened ? "more_horiz" : "more_vert") OnClick="@((e) => ButtonClicked())" Raised="true"/>&nbsp;&nbsp;
@@ -62,18 +63,29 @@
   </MatDrawer>
 
   <MatDrawerContent>
-    <!--
-    Parent of DiagramCanvas has to have a fixed width/height
-    or it will not be rendered.
 
-    100vw = 100% viewport width
-    100vh = 100% viewport height
-    -->
-    <div class="diagram-container row h-100 v-100" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
-      <CascadingValue Value="_diagram">
-        <DiagramCanvas></DiagramCanvas>
-      </CascadingValue>
-    </div>
+    <SpinLoader IsLoading="@_isBusy">
+      <LoadingTemplate>
+        <GraphMLSpinner/>
+      </LoadingTemplate>
+      <ContentTemplate>
+
+        <!--
+        Parent of DiagramCanvas has to have a fixed width/height
+        or it will not be rendered.
+
+        100vw = 100% viewport width
+        100vh = 100% viewport height
+        -->
+        <div class="diagram-container row h-100 v-100" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+          <CascadingValue Value="_diagram">
+            <DiagramCanvas></DiagramCanvas>
+          </CascadingValue>
+        </div>
+
+      </ContentTemplate>
+    </SpinLoader>
+
   </MatDrawerContent>
 </MatDrawerContainer>
 
