@@ -201,6 +201,7 @@ CREATE TABLE ChartNode
   OrganisationId CHAR(38) NOT NULL,
   OwnerId CHAR(38) NOT NULL,
   Name TEXT NOT NULL,
+  IconName TEXT,
   GraphItemId CHAR(38) NOT NULL,
   X INT NOT NULL,
   Y INT NOT NULL,
