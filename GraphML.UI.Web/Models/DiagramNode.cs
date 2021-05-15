@@ -24,6 +24,8 @@ namespace GraphML.UI.Web.Models
 
       set => ChartNode.Name = value;
     }
+
+    public string IconName { get; set; } = "fa-phone";
   }
 }
 
