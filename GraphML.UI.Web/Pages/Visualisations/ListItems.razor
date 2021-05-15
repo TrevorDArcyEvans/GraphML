@@ -15,11 +15,11 @@
   <ContentTemplate>
 
     <div>
-      <Table @ref="_table" TableItem="GraphNode" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
-        <Column TableItem="GraphNode" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true"/>
-        <Column TableItem="GraphNode" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%"/>
+      <BlazorTable.Table @ref="_table" TableItem="GraphNode" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
+        <BlazorTable.Column TableItem="GraphNode" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true"/>
+        <BlazorTable.Column TableItem="GraphNode" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%"/>
         <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true"/>
-      </Table>
+      </BlazorTable.Table>
     </div>
 
     <div>

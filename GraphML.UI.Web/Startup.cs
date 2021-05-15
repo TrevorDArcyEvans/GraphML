@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Security.Authentication;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using BlazorTable;
 using GraphML.Common;
 using MatBlazor;
@@ -68,11 +71,16 @@ namespace GraphML.UI.Web
         {
           throw new AuthenticationException("Access token is missing");
         }
+
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
 
         return client;
       });
 
+      services
+        .AddBlazorise()
+        .AddBootstrapProviders()
+        .AddFontAwesomeIcons();
       services.AddBlazorContextMenu();
       services.AddMatBlazor();
       services.AddBlazorTable();

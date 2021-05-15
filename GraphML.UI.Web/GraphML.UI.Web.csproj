@@ -34,6 +34,9 @@
 		<PackageReference Include="Autofac.Configuration" Version="6.0.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
 		<PackageReference Include="Blazor.ContextMenu" Version="1.9.0" />
+		<PackageReference Include="Blazorise" Version="0.9.3.6" />
+		<PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.6" />
+		<PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.6" />
 		<PackageReference Include="BlazorPro.Spinkit" Version="1.2.0" />
     <PackageReference Include="BlazorRazor" Version="1.0.0" />
     <PackageReference Include="BlazorTable" Version="1.15.0" />
