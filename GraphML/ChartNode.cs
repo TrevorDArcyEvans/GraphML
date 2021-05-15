@@ -22,6 +22,15 @@ namespace GraphML
     /// </summary>
     [JsonProperty(nameof(Y))]
     public int Y { get; set; }
+    
+    /// <summary>
+    /// Name of Font-Awesome <see cref="IconName"/> when rendering
+    /// an Icon on a Diagram surface
+    /// <remarks>
+    /// If this is null, then no Icon is shown.
+    /// </remarks>
+    /// </summary>
+    public string IconName { get; set; }
 
     public ChartNode() :
       base()
