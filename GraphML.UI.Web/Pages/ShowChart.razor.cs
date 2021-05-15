@@ -6,6 +6,7 @@ using Blazor.Diagrams.Core;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using BlazorContextMenu;
+using Blazorise;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
@@ -99,6 +100,7 @@ namespace GraphML.UI.Web.Pages
     private Guid _draggedNodeId;
 
     private bool _isNewNode;
+    private IconName? _newIconName;
     private bool _newDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
@@ -123,6 +125,7 @@ namespace GraphML.UI.Web.Pages
 
     protected override async Task OnInitializedAsync()
     {
+      var iconNames = Enum.GetNames(typeof(IconName));
       var options = new DiagramOptions
       {
         DeleteKey = "Delete", // What key deletes the selected nodes/links
@@ -261,9 +264,10 @@ namespace GraphML.UI.Web.Pages
 
     #region Drag-Drop new node
 
-    private void OnDragNewStart()
+    private void OnDragNewStart(IconName iconName)
     {
       _isNewNode = true;
+      _newIconName = iconName;
     }
 
     private async Task OnDropNew(DragEventArgs e)
@@ -300,11 +304,13 @@ namespace GraphML.UI.Web.Pages
         var chartNode = new ChartNode(chartId, orgId, graphNode.Id, _newItemName);
         var newChartNodes = await _chartNodeServer.Create(new[] { chartNode });
         var diagNode = new DiagramNode(chartNode, _newNodePos);
+        diagNode.IconName = _newIconName;
 
         _diagram.Nodes.Add(diagNode);
       }
       finally
       {
+        _newIconName = null;
         _newItemName = _dlgNewItemName = null;
         _newDialogIsOpen = false;
         _newNodePos = null;

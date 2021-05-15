@@ -54,9 +54,13 @@
           <MatExpansionPanelHeader>New</MatExpansionPanelHeader>
         </MatExpansionPanelSummary>
         <MatExpansionPanelDetails>
-          <span draggable="true" @ondragstart="@(() => OnDragNewStart())">
-            <MatIcon Icon="add_box"/>Node
-          </span>
+          @foreach (var iconName in Enum.GetValues<IconName>())
+          {
+            <span draggable="true" @ondragstart="@(() => OnDragNewStart(iconName))">
+              <Icon Name="@(iconName)"/>@(iconName)
+            </span>
+            <p/>
+          }
         </MatExpansionPanelDetails>
       </MatExpansionPanel>
     </MatAccordion>

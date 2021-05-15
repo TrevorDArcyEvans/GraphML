@@ -1,5 +1,6 @@
 using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
+using Blazorise;
 
 namespace GraphML.UI.Web.Models
 {
@@ -25,7 +26,7 @@ namespace GraphML.UI.Web.Models
       set => ChartNode.Name = value;
     }
 
-    public string IconName { get; set; } = "fa-phone";
+    public IconName? IconName { get; set; }
   }
 }
 
