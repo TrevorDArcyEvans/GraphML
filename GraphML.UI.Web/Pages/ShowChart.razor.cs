@@ -152,7 +152,7 @@ namespace GraphML.UI.Web.Pages
       _icons = Enum.GetValues<IconName>()
         .Select(inname => new Icon { Name = inname })
         .ToArray();
-      
+
       var graphs = await _graphServer.ByIds(new[] { Guid.Parse(GraphId) });
       _graph = graphs.Single();
       var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
@@ -310,8 +310,10 @@ namespace GraphML.UI.Web.Pages
         var newGraphNodes = await _graphNodeServer.Create(new[] { graphNode });
         var chartNode = new ChartNode(chartId, orgId, graphNode.Id, _newItemName);
         var newChartNodes = await _chartNodeServer.Create(new[] { chartNode });
-        var diagNode = new DiagramNode(chartNode, _newNodePos);
-        diagNode.IconName = _newIconName;
+        var diagNode = new DiagramNode(chartNode, _newNodePos)
+        {
+          IconName = _newIconName
+        };
 
         _diagram.Nodes.Add(diagNode);
       }
