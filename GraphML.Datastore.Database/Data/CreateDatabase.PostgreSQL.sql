@@ -201,6 +201,7 @@ CREATE TABLE ChartNode
   "OrganisationId" CHAR(36) NOT NULL,
   "OwnerId" CHAR(36) NOT NULL,
   "Name" NVARCHAR(MAX) NOT NULL,
+  "IconName" NVARCHAR(MAX),
   "GraphItemId" TEXT NOT NULL,
   "X" INTEGER NOT NULL,
   "Y" INTEGER NOT NULL,
