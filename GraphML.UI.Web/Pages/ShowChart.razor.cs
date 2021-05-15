@@ -14,6 +14,7 @@ using GraphShape.Algorithms.Layout;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Configuration;
+using Icon = Blazorise.Icons.FontAwesome.Icon;
 using QG = QuikGraph;
 using Point = Blazor.Diagrams.Core.Geometry.Point;
 
@@ -99,6 +100,8 @@ namespace GraphML.UI.Web.Pages
     // GraphNode.Id
     private Guid _draggedNodeId;
 
+    private Icon[] _icons;
+
     private bool _isNewNode;
     private IconName? _newIconName;
     private bool _newDialogIsOpen;
@@ -146,6 +149,10 @@ namespace GraphML.UI.Web.Pages
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
       _diagram.RegisterModelComponent<LinkLabelModel, DiagramLinkLabelWidget>();
 
+      _icons = Enum.GetValues<IconName>()
+        .Select(inname => new Icon { Name = inname })
+        .ToArray();
+      
       var graphs = await _graphServer.ByIds(new[] { Guid.Parse(GraphId) });
       _graph = graphs.Single();
       var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
