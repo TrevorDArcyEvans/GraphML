@@ -187,7 +187,10 @@ namespace GraphML.UI.Web.Pages
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
         var nodes = chartNodes.Select(chartNode =>
-          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
+          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
+          {
+            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null 
+          });
         _diagram.Nodes.Add(nodes);
 
         var links = chartEdges.Select(chartEdge =>
@@ -258,7 +261,10 @@ namespace GraphML.UI.Web.Pages
         }
 
         var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
-        var node = new DiagramNode(draggedNode, position);
+        var node = new DiagramNode(draggedNode, position)
+        {
+          IconName = Enum.TryParse<IconName>(draggedNode.IconName, out _) ? Enum.Parse<IconName>(draggedNode.IconName) : null 
+        };
         _diagram.Nodes.Add(node);
       }
       finally
@@ -472,7 +478,10 @@ namespace GraphML.UI.Web.Pages
 
         // create missing nodes
         var nodes = missChartNodes.Select(chartNode =>
-          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y)));
+          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
+          {
+            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null 
+          });
         _diagram.Nodes.Add(nodes);
 
 
