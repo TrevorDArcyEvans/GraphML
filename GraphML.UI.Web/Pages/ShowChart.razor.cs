@@ -314,7 +314,10 @@ namespace GraphML.UI.Web.Pages
         var newNodes = await _nodeServer.Create(new[] { node });
         var graphNode = new GraphNode(graphId, orgId, node.Id, _newItemName);
         var newGraphNodes = await _graphNodeServer.Create(new[] { graphNode });
-        var chartNode = new ChartNode(chartId, orgId, graphNode.Id, _newItemName);
+        var chartNode = new ChartNode(chartId, orgId, graphNode.Id, _newItemName)
+        {
+          IconName = _newIconName.ToString()
+        };
         var newChartNodes = await _chartNodeServer.Create(new[] { chartNode });
         var diagNode = new DiagramNode(chartNode, _newNodePos)
         {
