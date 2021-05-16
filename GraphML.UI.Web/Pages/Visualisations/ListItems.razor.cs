@@ -96,10 +96,5 @@ namespace GraphML.UI.Web.Pages.Visualisations
           throw new ArgumentOutOfRangeException($"Unknown action:  {itemsAction}");
       }
     }
-
-    private void GotoBrowseAnalyses()
-    {
-      _navMgr.NavigateTo($"/BrowseAnalyses/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
-    }
   }
 }

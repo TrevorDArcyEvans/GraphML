@@ -6,7 +6,29 @@
 @using System.Web
 
 <b>List Items</b>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
+<p/>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}")">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}")">@HttpUtility.UrlDecode(@RepositoryName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseAnalyses/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}")">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">List items</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <SpinLoader IsLoading="@(_data == null)">
   <LoadingTemplate>
@@ -34,5 +56,3 @@
 
   </ContentTemplate>
 </SpinLoader>
-
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseAnalyses())">Back</MatButton>
