@@ -77,10 +77,5 @@ namespace GraphML.UI.Web.Pages
           throw new ArgumentOutOfRangeException($"Unknown request:  {_request}");
       }
     };
-
-    private void GotoBrowseResults()
-    {
-      _navMgr.NavigateTo($"/BrowseResults/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
-    }
   }
 }
