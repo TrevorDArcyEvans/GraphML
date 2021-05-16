@@ -97,10 +97,5 @@ namespace GraphML.UI.Web.Pages
     {
       _navMgr.NavigateTo($"/BrowseResults/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{graph.Id}/{graph.Name}");
     }
-
-    private void GotoBrowseRepositories()
-    {
-      _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}");
-    }
   }
 }

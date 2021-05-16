@@ -48,10 +48,5 @@ namespace GraphML.UI.Web.Pages
     {
       _navMgr.NavigateTo($"/BrowseParentEdges/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{item.Id}/{item.Name}");
     }
-
-    private void GotoBrowseRepositories()
-    {
-      _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}");
-    }
   }
 }
