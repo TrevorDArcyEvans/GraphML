@@ -62,7 +62,9 @@
             class="mat-elevation-z5">
             <MatTableRow>
               <span draggable="true" @ondragstart="@(() => OnDragNewStart((IconName) @context.Name))">
-                <td><Icon Name="@context.Name"/></td>
+                <td>
+                  <Icon Name="@context.Name"/>
+                </td>
                 <td>@context.Name</td>
               </span>
             </MatTableRow>
@@ -167,7 +169,7 @@
   <MatDialog @bind-IsOpen="@_newDialogIsOpen">
     <MatDialogTitle>Create new node</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+      <MatTextField @bind-Value="@_dlgNewItemName"/>
     </MatDialogContent>
     <MatDialogActions>
       <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
@@ -177,11 +179,51 @@
 </div>
 
 <div>
-  <MatDialog @bind-IsOpen="@_editNodeDialogIsOpen" Width="400px">
-    <MatDialogTitle>Rename node</MatDialogTitle>
+  <MatDialog @bind-IsOpen="@_editNodeDialogIsOpen">
+    <MatDialogTitle>Edit node</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgEditNodeName"></MatTextField>
+      <div>
+        <MatTextField Label="Name" @bind-Value="@_dlgEditNodeName" FullWidth="true"/>
+      </div>
+      <div>
+        <Icon Name="@(string.IsNullOrEmpty(_dlgEditNodeIconName) ? null : Enum.Parse<IconName>(_dlgEditNodeIconName))"/>
+        <MatTextField 
+          Label="Icon" 
+          Helpertext="Double click icon in list to change"
+          HelperTextPersistent="true"
+          @bind-Value="@_dlgEditNodeIconName" 
+          FullWidth="true" 
+          HideClearButton="false" 
+          ReadOnly="true"/>
+      </div>
+      
+      <div>
+        <MatAccordion>
+          <MatExpansionPanel>
+            <MatExpansionPanelSummary>
+              <MatExpansionPanelHeader>Icons</MatExpansionPanelHeader>
+            </MatExpansionPanelSummary>
+            <MatExpansionPanelDetails>
+              <MatTable
+                Items="@_icons"
+                FilterByColumnName="@nameof(Icon.Name)"
+                Striped="true"
+                AllowSelection="false"
+                OnRowDbClick="@(obj => { _dlgEditNodeIconName = ((Icon)obj).Name.ToString(); })"
+                class="mat-elevation-z5">
+                <MatTableRow>
+                  <td>
+                    <Icon Name="@context.Name"/>
+                  </td>
+                  <td>@context.Name</td>
+                </MatTableRow>
+              </MatTable>
+            </MatExpansionPanelDetails>
+          </MatExpansionPanel>
+        </MatAccordion>
+      </div>
     </MatDialogContent>
+
     <MatDialogActions>
       <MatButton OnClick="@(e => { _editNodeDialogIsOpen = false; })">Cancel</MatButton>
       <MatButton OnClick="@OkEditNodeClick">OK</MatButton>

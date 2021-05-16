@@ -117,6 +117,11 @@ namespace GraphML.UI.Web.Pages
     private bool _editNodeDialogIsOpen;
     private string _editNodeName;
     private string _dlgEditNodeName;
+    
+    // assumed to be an IconName but marshalled as a string
+    // so we can interpret a null as not wanting to change
+    // icon
+    private string _dlgEditNodeIconName;
 
     private bool _editLinkDialogIsOpen;
     private string _editLinkName;
@@ -361,11 +366,12 @@ namespace GraphML.UI.Web.Pages
 
         var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
         selChartNode.Name = _editNodeName;
+        selChartNode.IconName = string.IsNullOrEmpty(_dlgEditNodeIconName) ? null : Enum.Parse<IconName>(_dlgEditNodeIconName);
         selChartNode.Refresh();
       }
       finally
       {
-        _editNodeName = _dlgEditNodeName = null;
+        _editNodeName = _dlgEditNodeName = _dlgEditNodeIconName = null;
         _editNodeDialogIsOpen = false;
       }
     }
@@ -551,6 +557,7 @@ namespace GraphML.UI.Web.Pages
         {
           dn.ChartNode.X = (int) dn.Position.X;
           dn.ChartNode.Y = (int) dn.Position.Y;
+          dn.ChartNode.IconName = dn.IconName?.ToString();
           return dn.ChartNode;
         }).ToList();
 
