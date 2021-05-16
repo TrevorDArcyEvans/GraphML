@@ -33,10 +33,5 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     private Graph[] _graphs;
-
-    private void GotoBrowseItems()
-    {
-      _navMgr.NavigateTo($"/BrowseItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");
-    }
   }
 }
