@@ -13,16 +13,17 @@
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
-<b>Repository Managers</b><p/>
+<b>Repository Managers</b>
+<p/>
 <span class="bread-crumb-trail">
-    <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbItem Active="true">
-        <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
-      </BreadcrumbItem>
-    </Breadcrumb>
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
 </span>
 
 <MatTable
