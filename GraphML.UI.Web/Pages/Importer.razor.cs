@@ -41,10 +41,5 @@ namespace GraphML.UI.Web.Pages
 
       _toaster.Add("Imported", MatToastType.Success, "Finished!");
     }
-
-    private void GotoBrowseRepositoryManagers()
-    {
-      _navMgr.NavigateTo($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}");
-    }
   }
 }

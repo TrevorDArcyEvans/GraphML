@@ -13,8 +13,21 @@
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
-<b>Repositories</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName)</span>
+<b>Repositories</b>
+<p/>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <MatTable
   Items="@_repos"
@@ -69,5 +82,3 @@
     </MatDialogActions>
   </MatDialog>
 </div>
-
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>

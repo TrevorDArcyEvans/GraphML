@@ -8,7 +8,19 @@
 @inject IMatToaster _toaster
 
 <b>Importer</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(@OrganisationName)</span>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">Importer</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <div>
   <MatFileUpload OnChange="@FilesReadyForContent" Label="Drop a single file here or Browse"/>
@@ -29,4 +41,3 @@
     <MatButton Icon="build" @onclick="@(e => DoImport())">Import</MatButton>
   </div>
 </div>
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>

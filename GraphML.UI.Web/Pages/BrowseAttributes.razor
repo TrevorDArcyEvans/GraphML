@@ -12,7 +12,19 @@
 @inject NavigationManager _navMgr
 
 <b>Browse Attribute Definitions</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(@OrganisationName) / @HttpUtility.UrlDecode(@RepositoryManagerName)</span>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <MatTabGroup>
   <MatTab Label="Repository">
@@ -29,7 +41,7 @@
       class="mat-elevation-z5">
       <MatTableHeader>
         <th>Name</th>
-        <th>Data Tyoe</th>
+        <th>Data Type</th>
       </MatTableHeader>
       <MatTableRow>
         <td>@context.Name</td>
@@ -107,5 +119,3 @@
     </MatTable>
   </MatTab>
 </MatTabGroup>
-
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseRepositoryManagers())">Back</MatButton>

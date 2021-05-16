@@ -14,7 +14,16 @@
 @inject NavigationManager _navMgr
 
 <b>Repository Managers</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(@OrganisationName)</span>
+<span class="bread-crumb-trail">
+    <Breadcrumb>
+      <BreadcrumbItem>
+        <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbItem Active="true">
+        <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+      </BreadcrumbItem>
+    </Breadcrumb>
+</span>
 
 <MatTable
   Items="@_repoMgrs"
@@ -73,5 +82,3 @@
     </MatDialogActions>
   </MatDialog>
 </div>
-
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseOrganisations())">Back</MatButton>

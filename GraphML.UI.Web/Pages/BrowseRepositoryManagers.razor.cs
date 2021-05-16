@@ -76,10 +76,5 @@ namespace GraphML.UI.Web.Pages
     {
       _navMgr.NavigateTo($"/Importer/{OrganisationId}/{OrganisationName}");
     }
-
-    private void GotoBrowseOrganisations()
-    {
-      _navMgr.NavigateTo($"/BrowseOrganisations");
-    }
   }
 }

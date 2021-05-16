@@ -24,10 +24,5 @@ namespace GraphML.UI.Web.Pages
     private GraphItemAttributeDefinition[] _graphAttrDefs;
     private NodeItemAttributeDefinition[] _nodeAttrDefs;
     private EdgeItemAttributeDefinition[] _edgeAttrDefs;
-
-    private void GotoBrowseRepositoryManagers()
-    {
-      _navMgr.NavigateTo($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}");
-    }
   }
 }

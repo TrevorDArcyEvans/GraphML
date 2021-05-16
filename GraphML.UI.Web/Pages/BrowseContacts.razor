@@ -11,8 +11,18 @@
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
-<b>Contacts</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(@OrganisationName)</span>
+<b>Contacts</b>
+<p/>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#"> @HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <MatTable
   Items="@_contacts"
