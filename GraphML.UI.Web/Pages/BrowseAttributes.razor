@@ -11,7 +11,8 @@
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
-<b>Browse Attribute Definitions</b><p/>
+<b>Browse Attribute Definitions</b>
+<p/>
 <span class="bread-crumb-trail">
   <Breadcrumb>
     <BreadcrumbItem>
@@ -49,7 +50,7 @@
       </MatTableRow>
     </MatTable>
   </MatTab>
-  
+
   <MatTab Label="Graph">
     <MatTable
       Items="@_graphAttrDefs"
@@ -72,7 +73,7 @@
       </MatTableRow>
     </MatTable>
   </MatTab>
-  
+
   <MatTab Label="Node">
     <MatTable
       Items="@_nodeAttrDefs"
@@ -95,7 +96,7 @@
       </MatTableRow>
     </MatTable>
   </MatTab>
-  
+
   <MatTab Label="Edge">
     <MatTable
       Items="@_edgeAttrDefs"
