@@ -16,8 +16,27 @@
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
-<b>Analyses</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
+<b>Analyses</b>
+<p/>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}")">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}")">@HttpUtility.UrlDecode(@RepositoryName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <div>
   <MatAccordion Multi="true">
@@ -124,5 +143,3 @@
 <div>
   <MatButton Icon="list" @onclick="@(e => GotoListItems())">List items...</MatButton>
 </div>
-
-<MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>

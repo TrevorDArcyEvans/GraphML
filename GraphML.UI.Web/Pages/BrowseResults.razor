@@ -14,8 +14,27 @@
 @inject IConfiguration _config
 @inject NavigationManager _navMgr
 
-<b>Results</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
+<b>Results</b>
+<p/>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}")">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}")">@HttpUtility.UrlDecode(@RepositoryName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <div>
   <MatTable
@@ -39,9 +58,9 @@
       <td>
         <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
       </td>
-    <td>
-      <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
-    </td>
+      <td>
+        <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+      </td>
     </MatTableRow>
   </MatTable>
 </div>
@@ -54,8 +73,4 @@
       <MatButton OnClick="@DeleteResult">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
-</div>
-
-<div>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 </div>

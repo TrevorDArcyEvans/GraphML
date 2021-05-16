@@ -57,10 +57,5 @@ namespace GraphML.UI.Web.Pages
     {
       _navMgr.NavigateTo($"/ShowResult/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{correlationId}");
     }
-
-    private void GotoBrowseGraphs()
-    {
-      _navMgr.NavigateTo($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}");
-    }
   }
 }
