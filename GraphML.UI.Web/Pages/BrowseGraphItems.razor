@@ -8,7 +8,25 @@
 @using Humanizer
 
 <b>Graph Items</b><p/>
-<span class="bread-crumb-trail">@HttpUtility.UrlDecode(OrganisationName) / @HttpUtility.UrlDecode(RepositoryManagerName) / @HttpUtility.UrlDecode(RepositoryName) / @HttpUtility.UrlDecode(GraphName)</span>
+<span class="bread-crumb-trail">
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}")">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}")">@HttpUtility.UrlDecode(@RepositoryName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+</span>
 
 <div>
   <MatTabGroup>
@@ -63,8 +81,4 @@
 
 <div>
   <MatButton Icon="library_add" @onclick="@(e => GotoAddGraphItems())">Add graph items...</MatButton>
-</div>
-
-<div>
-  <MatButton Icon="arrow_back" @onclick="@(e => GotoBrowseGraphs())">Back</MatButton>
 </div>

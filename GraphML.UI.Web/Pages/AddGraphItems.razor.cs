@@ -123,10 +123,5 @@ namespace GraphML.UI.Web.Pages
         _isAddingItems = false;
       }
     }
-
-    private void GotoBrowseGraphItems()
-    {
-      _navMgr.NavigateTo($"/BrowseGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
-    }
   }
 }
