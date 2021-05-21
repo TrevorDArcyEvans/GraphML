@@ -1,0 +1,49 @@
+﻿@page "/"
+@using ChartJs.Blazor.Samples.Shared
+@inject ISamplesProvider samplesProvider
+
+<div class="content">
+    <div class="header">
+        <div class="chartjs-title">Samples</div>
+        <div class="chartjs-caption">Brings <a target="_blank" href="https://www.chartjs.org/">Chart.js</a> to Blazor</div>
+        <div class="chartjs-links">
+            <a class="btn btn-gh" href="https://github.com/mariusmuntean/ChartJs.Blazor">GitHub</a>
+        </div>
+    </div>
+
+    <div id="categories" class="samples-categories">
+        @if (_sampleCategories == null)
+        {
+            <p>Loading..</p>
+        }
+        else
+        {
+            @foreach (SampleCategory category in _sampleCategories)
+            {
+                <div class="samples-category">
+                    <div class="title">@category.Title</div>
+                    <div class="items">
+                        @foreach (Sample sample in category.Samples)
+                        {
+                            <div class="samples-entry">
+                                <a class="title" href="@sample.Path">@sample.Title</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private IEnumerable<SampleCategory> _sampleCategories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // In Server-Mode, the file will be read directly from disk
+        // In Client-Mode, the file will be requested as static asset from the server over the network
+        // Pre-rendering is disabled, otherwise both mode variants would be called
+        _sampleCategories = await samplesProvider.GetSamples();
+    }
+}

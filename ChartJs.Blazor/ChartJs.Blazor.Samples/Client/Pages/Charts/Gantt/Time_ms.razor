@@ -1,0 +1,89 @@
+﻿@page "/charts/gantt/time_ms"
+
+@using System.Drawing
+@using ChartJs.Blazor.GanttChart
+@using ChartJs.Blazor.GanttChart.Axes
+@layout SampleLayout
+
+<Chart Config="_config" @ref="_chart"></Chart>
+
+@code {
+    private GanttConfig _config;
+    private Chart _chart;
+
+    protected override void OnInitialized()
+    {
+        _config = new GanttConfig
+        {
+            Options = new GanttOptions
+            {
+                Responsive = true,
+                Legend = new Legend
+                {
+                    Position = Position.Right
+                },
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Gantt Time (ms) Chart"
+                },
+                Scales = new GanttScales
+                {
+                    XAxes = new List<GanttTimeAxis>(
+                        new[]
+                        {
+                            new GanttTimeAxis
+                            {
+                                Display = AxisDisplay.True,
+                                Position = Position.Bottom,
+                                Time = new TimeOptions
+                                {
+                                    DisplayFormats = new Dictionary<TimeMeasurement, string>
+                                    {
+                                        { TimeMeasurement.Millisecond, "HH:mm:ss.SSS" },
+                                        { TimeMeasurement.Second, "HH:mm:ss" },
+                                        { TimeMeasurement.Minute, "HH:mm:ss" },
+                                        { TimeMeasurement.Hour, "HH:mm:ss" },
+                                        { TimeMeasurement.Day, "HH:mm:ss" },
+                                    }
+                                }
+                            }
+                        })
+                }
+            }
+        };
+
+        var data = new List<GanttDateTimeData>(
+            new[]
+            {
+                new GanttDateTimeData
+                {
+                    X = new GanttDateTimeInterval
+                    {
+                        From = new DateTime(2006, 2, 20, 6, 3, 30, 215),
+                        To = new DateTime(2006, 2, 20, 6, 3, 30, 265)
+                    },
+                    Y = 0.3
+                },
+                new GanttDateTimeData
+                {
+                    X = new GanttDateTimeInterval
+                    {
+                        From = new DateTime(2006, 2, 20, 6, 3, 30, 295),
+                        To = new DateTime(2006, 2, 20, 6, 3, 30, 455)
+                    },
+                    Y = 0.5
+                }
+            });
+        IDataset<GanttDateTimeData> dataset1 = new GanttDateTimeDataset(data)
+        {
+            Label = "My first dataset",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(128, ChartColors.Red)),
+            BorderColor = ColorUtil.FromDrawingColor(ChartColors.Red),
+            BorderWidth = 1,
+            Width = "1ms"
+        };
+
+        _config.Data.Datasets.Add(dataset1);
+    }
+}

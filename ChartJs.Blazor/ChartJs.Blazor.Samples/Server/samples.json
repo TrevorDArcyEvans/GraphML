@@ -1,0 +1,76 @@
+[
+  {
+    "Title": "Bar charts",
+    "Samples": [
+      {
+        "Title": "Vertical",
+        "Path": "charts/bar/vertical"
+      },
+      {
+        "Title": "Horizontal",
+        "Path": "charts/bar/horizontal"
+      },
+      {
+        "Title": "Stacked",
+        "Path": "charts/bar/stacked"
+      }
+    ]
+  },
+  {
+    "Title": "Line charts",
+    "Samples": [
+      {
+        "Title": "Basic",
+        "Path": "charts/line/basic"
+      },
+      {
+        "Title": "Stepped",
+        "Path": "charts/line/stepped"
+      }
+    ]
+  },
+  {
+    "Title": "Gantt charts",
+    "Samples": [
+      {
+        "Title": "Number",
+        "Path": "charts/gantt/number"
+      },
+      {
+        "Title": "Time",
+        "Path": "charts/gantt/time"
+      },
+      {
+        "Title": "Time (milliseconds)",
+        "Path": "charts/gantt/time_ms"
+      }
+    ]
+  },
+  {
+    "Title": "Other charts",
+    "Samples": [
+      {
+        "Title": "Pie",
+        "Path": "charts/pie"
+      }
+    ]
+  },
+  {
+    "Title": "Time scale",
+    "Samples": [
+      {
+        "Title": "Line",
+        "Path": "scales/time/line"
+      }
+    ]
+  },
+  {
+    "Title": "Workarounds",
+    "Samples": [
+      {
+        "Title": "Gradient",
+        "Path": "workarounds/gradient"
+      }
+    ]
+  }
+]

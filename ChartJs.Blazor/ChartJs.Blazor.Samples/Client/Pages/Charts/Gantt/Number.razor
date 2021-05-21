@@ -1,0 +1,65 @@
+﻿@page "/charts/gantt/number"
+
+@using System.Drawing
+@using ChartJs.Blazor.GanttChart
+@layout SampleLayout
+
+<Chart Config="_config" @ref="_chart"></Chart>
+
+@code {
+    private GanttConfig _config;
+    private Chart _chart;
+
+    protected override void OnInitialized()
+    {
+        _config = new GanttConfig
+        {
+            Options = new GanttOptions
+            {
+                Responsive = true,
+                Legend = new Legend
+                {
+                    Position = Position.Right
+                },
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Gantt Number Chart"
+                }
+            }
+        };
+
+        var data = new List<GanttData<double>>(
+            new []
+            {
+                new GanttData<double>
+                {
+                    X = new GanttInterval<double>
+                    {
+                        From = 0.1,
+                        To = 0.2
+                    },
+                    Y = 0.3
+                },
+                new GanttData<double>
+                {
+                    X = new GanttInterval<double>
+                    {
+                        From = 0.15,
+                        To = 0.25
+                    },
+                    Y = 0.5
+                }
+            });
+        IDataset<GanttData<double>> dataset1 = new GanttDataset<GanttData<double>>(data)
+        {
+            Label = "My first dataset",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(128, ChartColors.Red)),
+            BorderColor = ColorUtil.FromDrawingColor(ChartColors.Red),
+            BorderWidth = 1
+        };
+
+        //_config.Data.Labels.AddRange(Months.Take(InitalCount));
+        _config.Data.Datasets.Add(dataset1);
+    }
+}

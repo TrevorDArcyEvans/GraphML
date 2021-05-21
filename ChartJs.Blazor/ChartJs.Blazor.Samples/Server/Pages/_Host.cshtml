@@ -1,0 +1,40 @@
+﻿@page "/"
+@namespace ChartJs.Blazor.Samples.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/css/app.css" rel="stylesheet" />
+    <link rel="icon" href="favicon.ico">
+    <base href="/" />
+    <title>ChartJs.Blazor Samples</title>
+</head>
+
+<body>
+    <app>
+        @(await Html.RenderComponentAsync<Client.App>(RenderMode.Server))
+    </app>
+
+    <script id="blazorMode"></script>
+    <script>
+        document.getElementById("blazorMode").src = window.location.search.includes("mode=server") ? "_framework/blazor.server.js" : "_framework/blazor.webassembly.js";
+    </script>
+
+    <script src="_content/ChartJs.Blazor/moment.min.js"></script>
+    <script src="_content/ChartJs.Blazor/Chart.min.js"></script>
+
+    <!-- This is the glue between Blazor and Chart.js -->
+    <script src="_content/ChartJs.Blazor/ChartJsBlazorInterop.js"></script>
+
+    <script src="_content/ChartJs.Blazor/chartjs-plugin-gantt.js"></script>
+
+    <!-- Workarounds -->
+    <script src="~/workaround-gradient.js"></script>
+</body>
+
+</html>
