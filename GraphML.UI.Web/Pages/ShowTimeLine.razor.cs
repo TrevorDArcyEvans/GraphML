@@ -71,8 +71,8 @@ namespace GraphML.UI.Web.Pages
     [Inject]
     private IChartEdgeServer _chartEdgeServer { get; set; }
 
-    [Inject]
-    private IConfiguration _config { get; set; }
+    // [Inject]
+    // private IConfiguration _config { get; set; }
 
     [Inject]
     private NavigationManager _navMgr { get; set; }

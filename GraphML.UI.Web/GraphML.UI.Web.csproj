@@ -55,6 +55,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\ChartJs.Blazor\src\ChartJs.Blazor\ChartJs.Blazor.csproj" />
 		<ProjectReference Include="..\GraphML.API\GraphML.API.csproj" />
 		<ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
 		<ProjectReference Include="..\GraphML\GraphML.csproj" />
