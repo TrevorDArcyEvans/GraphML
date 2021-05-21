@@ -49,7 +49,7 @@ namespace GraphML.UI.Web.Pages
     private Chart[] _charts;
 
     private bool _newChartDialogIsOpen;
-    private bool _newTimeLineDialogIsOpen;
+    private bool _newTimelineDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
 
@@ -69,7 +69,7 @@ namespace GraphML.UI.Web.Pages
       GotoShowChart(newItem);
     }
 
-    private async Task OkNewTimeLineClick()
+    private async Task OkNewTimelineClick()
     {
       if (string.IsNullOrWhiteSpace(_dlgNewItemName))
       {
@@ -77,9 +77,9 @@ namespace GraphML.UI.Web.Pages
       }
 
       _newItemName = _dlgNewItemName;
-      _newTimeLineDialogIsOpen = false;
-     var newItem = await CreateNewTimeLine(_newItemName);
-      GotoShowTimeLine(newItem);
+      _newTimelineDialogIsOpen = false;
+     var newItem = await CreateNewTimeline(_newItemName);
+      GotoShowTimeline(newItem);
     }
 
     private async Task<Chart> CreateNewItem(string itemName)
@@ -90,7 +90,7 @@ namespace GraphML.UI.Web.Pages
       return newItems.Single();
     }
 
-    private async Task<Chart> CreateNewTimeLine(string itemName)
+    private async Task<Chart> CreateNewTimeline(string itemName)
     {
       var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
       // TODO   create timeline in db
@@ -118,7 +118,7 @@ namespace GraphML.UI.Web.Pages
       _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
     }
 
-    private void GotoShowTimeLine(Chart timeLine)
+    private void GotoShowTimeline(Chart timeLine)
     {
       _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeLine.Id}/{timeLine.Name}");
     }
