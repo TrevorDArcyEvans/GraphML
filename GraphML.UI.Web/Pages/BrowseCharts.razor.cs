@@ -48,20 +48,15 @@ namespace GraphML.UI.Web.Pages
     
     private Chart[] _charts;
 
-    private bool _newDialogIsOpen;
+    private bool _newChartDialogIsOpen;
+    private bool _newTimeLineDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
 
     private bool _deleteDialogIsOpen;
     private Chart _deleteItem;
 
-    private void NewDialog()
-    {
-      _dlgNewItemName = null;
-      _newDialogIsOpen = true;
-    }
-
-    private async Task OkClick()
+    private async Task OkNewChartClick()
     {
       if (string.IsNullOrWhiteSpace(_dlgNewItemName))
       {
@@ -69,9 +64,22 @@ namespace GraphML.UI.Web.Pages
       }
 
       _newItemName = _dlgNewItemName;
-      _newDialogIsOpen = false;
+      _newChartDialogIsOpen = false;
       var newItem = await CreateNewItem(_newItemName);
       GotoShowChart(newItem);
+    }
+
+    private async Task OkNewTimeLineClick()
+    {
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      {
+        return;
+      }
+
+      _newItemName = _dlgNewItemName;
+      _newTimeLineDialogIsOpen = false;
+     var newItem = await CreateNewTimeLine(_newItemName);
+      GotoShowTimeLine(newItem);
     }
 
     private async Task<Chart> CreateNewItem(string itemName)
@@ -80,6 +88,16 @@ namespace GraphML.UI.Web.Pages
       var newItems = await _chartServer.Create(new[] { newItem });
 
       return newItems.Single();
+    }
+
+    private async Task<Chart> CreateNewTimeLine(string itemName)
+    {
+      var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
+      // TODO   create timeline in db
+      //var newItems = await _chartServer.Create(new[] { newItem });
+
+      //return newItems.Single();
+      return newItem;
     }
 
     private void ConfirmDelete(Chart item)
@@ -98,6 +116,11 @@ namespace GraphML.UI.Web.Pages
     private void GotoShowChart(Chart chart)
     {
       _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
+    }
+
+    private void GotoShowTimeLine(Chart timeLine)
+    {
+      _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeLine.Id}/{timeLine.Name}");
     }
   }
 }

@@ -64,15 +64,29 @@
 </div>
 
 <div>
-  <MatButton OnClick="@NewDialog" Icon="create_new_folder" Raised="true">New chart...</MatButton>
-  <MatDialog @bind-IsOpen="@_newDialogIsOpen">
+  <MatButton OnClick="@(e => { _dlgNewItemName = null; _newChartDialogIsOpen = true; })" Icon="create_new_folder" Raised="true">New chart...</MatButton>
+  <MatDialog @bind-IsOpen="@_newChartDialogIsOpen">
     <MatDialogTitle>Create new chart</MatDialogTitle>
     <MatDialogContent>
       <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
     </MatDialogContent>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@OkClick">OK</MatButton>
+      <MatButton OnClick="@(e => { _newChartDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkNewChartClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+<p/>
+<div>
+  <MatButton OnClick="@(e => { _dlgNewItemName = null; _newTimeLineDialogIsOpen = true; })" Icon="timeline" Raised="true">New timeline...</MatButton>
+  <MatDialog @bind-IsOpen="@_newTimeLineDialogIsOpen">
+    <MatDialogTitle>Create new chart</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _newTimeLineDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkNewTimeLineClick">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>
