@@ -35,10 +35,16 @@ namespace GraphML.UI.Web.Pages
     public string GraphId { get; set; }
 
     [Parameter]
-    public string ChartName { get; set; }
+    public string TimelineName { get; set; }
 
     [Parameter]
-    public string ChartId { get; set; }
+    public string TimelineId { get; set; }
+
+    [Parameter]
+    public string EdgeItemAttributeDefinitionId { get; set; }
+
+    [Parameter]
+    public string EdgeItemAttributeDefinitionName { get; set; }
 
     #endregion
 

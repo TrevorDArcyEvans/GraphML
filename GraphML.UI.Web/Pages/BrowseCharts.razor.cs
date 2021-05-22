@@ -90,7 +90,8 @@ namespace GraphML.UI.Web.Pages
 
     private async Task OkNewTimelineClick()
     {
-      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName) ||
+          _selIntervalAttr is null)
       {
         return;
       }
@@ -137,9 +138,9 @@ namespace GraphML.UI.Web.Pages
       _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
     }
 
-    private void GotoShowTimeline(Chart timeLine)
+    private void GotoShowTimeline(Chart timeline)
     {
-      _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeLine.Id}/{timeLine.Name}");
+      _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeline.Id}/{timeline.Name}/{_selIntervalAttr.Id}/{_selIntervalAttr.Name}");
     }
   }
 }

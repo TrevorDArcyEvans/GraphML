@@ -1,4 +1,4 @@
-@page "/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{ChartId}/{ChartName}"
+@page "/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{TimelineId}/{TimelineName}/{EdgeItemAttributeDefinitionId}/{EdgeItemAttributeDefinitionName}"
 
 @using System.Web;
 @using ChartJs.Blazor.Common
@@ -28,7 +28,7 @@
       <BreadcrumbLink To="@($"/BrowseCharts/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}")">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbItem Active="true">
-      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(@ChartName)</BreadcrumbLink>
+      <BreadcrumbLink To="#">@HttpUtility.UrlDecode(TimelineName)</BreadcrumbLink>
     </BreadcrumbItem>
   </Breadcrumb>
 </span>
@@ -53,7 +53,7 @@
         Title = new OptionsTitle
         {
           Display = true,
-          Text = "ChartJs.Blazor Gantt Time Chart"
+          Text = $"{TimelineName}"
         },
         Scales = new GanttScales
         {
@@ -105,7 +105,7 @@
       });
     IDataset<GanttDateTimeData> dataset1 = new GanttDateTimeDataset(data)
     {
-      Label = "My first dataset",
+      Label = $"{EdgeItemAttributeDefinitionName}",
       BackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(128, ChartColors.Red)),
       BorderColor = ColorUtil.FromDrawingColor(ChartColors.Red),
       BorderWidth = 1,
