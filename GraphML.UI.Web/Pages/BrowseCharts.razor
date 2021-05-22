@@ -77,12 +77,22 @@
   </MatDialog>
 </div>
 <p/>
+
 <div>
   <MatButton OnClick="@(e => { _dlgNewItemName = null; _newTimelineDialogIsOpen = true; })" Icon="timeline" Raised="true">New timeline...</MatButton>
   <MatDialog @bind-IsOpen="@_newTimelineDialogIsOpen">
     <MatDialogTitle>Create new timeline</MatDialogTitle>
     <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+      <div>
+        <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+      </div>
+      <hr/>
+      <div>
+        <label>Select date-time interval attribute:</label>
+        <MatSelectValue @bind-Value="_selIntervalAttr" Items="@_intervalAttrs" ValueSelector="@(eiad => eiad)">
+           <ItemTemplate>@context?.Name</ItemTemplate>
+        </MatSelectValue>
+      </div>
     </MatDialogContent>
     <MatDialogActions>
       <MatButton OnClick="@(e => { _newTimelineDialogIsOpen = false; })">Cancel</MatButton>

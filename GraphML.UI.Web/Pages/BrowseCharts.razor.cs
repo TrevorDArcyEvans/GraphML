@@ -56,6 +56,25 @@ namespace GraphML.UI.Web.Pages
     private bool _deleteDialogIsOpen;
     private Chart _deleteItem;
 
+    private EdgeItemAttributeDefinition _selIntervalAttr;
+
+    // TODO   retrieve DateTimeInterval types from IEdgeItemAttributeDefinitionServer
+    private EdgeItemAttributeDefinition[] _intervalAttrs = new[]
+    {
+      new EdgeItemAttributeDefinition()
+      {
+        Name = "aaa"
+      },
+      new EdgeItemAttributeDefinition()
+      {
+        Name = "bbb"
+      },
+      new EdgeItemAttributeDefinition()
+      {
+        Name = "ccc"
+      },
+    };
+
     private async Task OkNewChartClick()
     {
       if (string.IsNullOrWhiteSpace(_dlgNewItemName))
