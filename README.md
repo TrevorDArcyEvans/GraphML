@@ -305,8 +305,13 @@ config.environmentVariables["API_URI"] = "https://localhost:5001";
   * Chart
     * A 2D pictorial representation of a subset of Nodes and Edges from a Graph.
     * Generally used to visualise analysis results.
+    * Default implementation is a _Diagram_.
     * Layout algorithms can be applied to change the position of Nodes and Edges.
-
+  * Timeline
+    * A 2D pictorial representation of a subset of Nodes and Edges from a Graph.
+    * Generally used to visualise temporal (time based) data.
+    * Default implementation is a _gantt chart_.
+    
 </details>
 
 <details>
