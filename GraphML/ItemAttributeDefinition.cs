@@ -14,6 +14,17 @@ namespace GraphML
     /// <summary>
     /// Underlying data type
     /// Used for deserialisation
+    /// <remarks>
+    /// Currently supported data types:
+    /// <list type="bullet">
+    /// <item>string</item>
+    /// <item>bool</item>
+    /// <item>int</item>
+    /// <item>double</item>
+    /// <item>DateTime</item>
+    /// <item>DateTimeInterval</item>
+    /// </list>
+    /// </remarks>
     /// </summary>
     [Required]
     [JsonProperty(nameof(DataType))]
