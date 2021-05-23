@@ -16,6 +16,10 @@ DROP TABLE IF EXISTS NodeItemAttributeDefinition;
 DROP TABLE IF EXISTS GraphItemAttributeDefinition;
 DROP TABLE IF EXISTS RepositoryItemAttributeDefinition;
 
+DROP TABLE IF EXISTS TimelineEdge;
+DROP TABLE IF EXISTS TimelineNode;
+DROP TABLE IF EXISTS Timeline;
+
 DROP TABLE IF EXISTS ChartEdge;
 DROP TABLE IF EXISTS ChartNode;
 DROP TABLE IF EXISTS Chart;
