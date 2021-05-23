@@ -29,36 +29,74 @@
   </Breadcrumb>
 </span>
 
-<MatTable
-  Items="@_charts"
-  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
-  PageParamName="pageIndex"
-  PageSizeParamName="pageSize"
-  PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-  PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-  FilterByColumnName="@nameof(GraphNode.Name)"
-  Striped="true"
-  AllowSelection="true"
-  class="mat-elevation-z5">
-  <MatTableHeader>
-    <th>Name</th>
-  </MatTableHeader>
-  <MatTableRow>
-    <td>
-      <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
-    </td>
-    <td>
-      <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
-    </td>
-  </MatTableRow>
-</MatTable>
+<div>
+  <MatTable
+    Items="@_charts"
+    ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
+    PageParamName="pageIndex"
+    PageSizeParamName="pageSize"
+    PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+    PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+    FilterByColumnName="@nameof(GraphNode.Name)"
+    Striped="true"
+    AllowSelection="true"
+    class="mat-elevation-z5">
+    <MatTableHeader>
+      <th>Name</th>
+    </MatTableHeader>
+    <MatTableRow>
+      <td>
+        <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
+      </td>
+      <td>
+        <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+      </td>
+    </MatTableRow>
+  </MatTable>
+</div>
 
 <div>
-  <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
+  <MatTable
+    Items="@_timelines"
+    ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Timeline), nameof(TimelineController.ByOwner), GraphId)"
+    PageParamName="pageIndex"
+    PageSizeParamName="pageSize"
+    PagingRecordsCountPropertyName="@nameof(PagedDataEx<Timeline>.TotalCount).Camelize()"
+    PagingDataPropertyName="@nameof(PagedDataEx<Timeline>.Items).Camelize()"
+    FilterByColumnName="@nameof(Timeline.Name)"
+    Striped="true"
+    AllowSelection="true"
+    class="mat-elevation-z5">
+    <MatTableHeader>
+      <th>Name</th>
+    </MatTableHeader>
+    <MatTableRow>
+      <td>
+        <MatButton Label="@context.Name" @onclick="@(e => GotoShowTimeline(@context))"></MatButton>
+      </td>
+      <td>
+        <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))"></MatButton>
+      </td>
+    </MatTableRow>
+  </MatTable>
+</div>
+
+<div>
+  <MatDialog @bind-IsOpen="@_deleteChartDialogIsOpen">
     <MatDialogTitle>Delete chart?</MatDialogTitle>
     <MatDialogActions>
-      <MatButton OnClick="@(e => { _deleteItem = null; _deleteDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@Delete">OK</MatButton>
+      <MatButton OnClick="@(e => { _deleteChartItem = null; _deleteChartDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@DeleteChart">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
+
+<div>
+  <MatDialog @bind-IsOpen="@_deleteTimelineDialogIsOpen">
+    <MatDialogTitle>Delete timeline?</MatDialogTitle>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _deleteTimelineItem = null; _deleteTimelineDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@DeleteTimeline">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>
@@ -90,7 +128,7 @@
       <div>
         <label>Select date-time interval attribute:</label>
         <MatSelectValue @bind-Value="_selIntervalAttr" Items="@_intervalAttrs" ValueSelector="@(eiad => eiad)">
-           <ItemTemplate>@context?.Name</ItemTemplate>
+          <ItemTemplate>@context?.Name</ItemTemplate>
         </MatSelectValue>
       </div>
     </MatDialogContent>

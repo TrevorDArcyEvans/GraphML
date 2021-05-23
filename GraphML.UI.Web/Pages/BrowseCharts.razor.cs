@@ -53,14 +53,18 @@ namespace GraphML.UI.Web.Pages
     private NavigationManager _navMgr { get; set; }
     
     private Chart[] _charts;
+    private Timeline[] _timelines;
 
     private bool _newChartDialogIsOpen;
     private bool _newTimelineDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
 
-    private bool _deleteDialogIsOpen;
-    private Chart _deleteItem;
+    private bool _deleteChartDialogIsOpen;
+    private Chart _deleteChartItem;
+
+    private bool _deleteTimelineDialogIsOpen;
+    private Timeline _deleteTimelineItem;
 
     private EdgeItemAttributeDefinition _selIntervalAttr;
     private EdgeItemAttributeDefinition[] _intervalAttrs ;
@@ -83,7 +87,7 @@ namespace GraphML.UI.Web.Pages
 
       _newItemName = _dlgNewItemName;
       _newChartDialogIsOpen = false;
-      var newItem = await CreateNewItem(_newItemName);
+      var newItem = await CreateNewChart(_newItemName);
       GotoShowChart(newItem);
     }
 
@@ -101,7 +105,7 @@ namespace GraphML.UI.Web.Pages
       GotoShowTimeline(newItem);
     }
 
-    private async Task<Chart> CreateNewItem(string itemName)
+    private async Task<Chart> CreateNewChart(string itemName)
     {
       var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
       var newItems = await _chartServer.Create(new[] { newItem });
@@ -111,22 +115,35 @@ namespace GraphML.UI.Web.Pages
 
     private async Task<Timeline> CreateNewTimeline(string itemName)
     {
-      var newItem = new Timeline(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
+      var newItem = new Timeline(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName, _selIntervalAttr.Id);
       var newItems = await _timelineServer.Create(new[] { newItem });
 
       return newItems.Single();
     }
 
-    private void ConfirmDelete(Chart item)
+    private void ConfirmDeleteChart(Chart item)
     {
-      _deleteItem = item;
-      _deleteDialogIsOpen = true;
+      _deleteChartItem = item;
+      _deleteChartDialogIsOpen = true;
     }
 
-    private async Task Delete()
+    private async Task DeleteChart()
     {
-      _deleteDialogIsOpen = false;
-      await _chartServer.Delete(new[] { _deleteItem });
+      _deleteChartDialogIsOpen = false;
+      await _chartServer.Delete(new[] { _deleteChartItem });
+      StateHasChanged();
+    }
+
+    private void ConfirmDeleteTimeline(Timeline item)
+    {
+      _deleteTimelineItem = item;
+      _deleteTimelineDialogIsOpen = true;
+    }
+
+    private async Task DeleteTimeline()
+    {
+      _deleteTimelineDialogIsOpen = false;
+      await _timelineServer.Delete(new[] { _deleteTimelineItem });
       StateHasChanged();
     }
 
@@ -135,9 +152,11 @@ namespace GraphML.UI.Web.Pages
       _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
     }
 
-    private void GotoShowTimeline(Timeline timeline)
+    private async Task GotoShowTimeline(Timeline timeline)
     {
-      _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeline.Id}/{timeline.Name}/{_selIntervalAttr.Id}/{_selIntervalAttr.Name}");
+      var attrDefs = await _edgeItemAttribDefServer.ByIds(new[] { timeline.DateTimeIntervalAttributeDefinitionId });
+      var attrDef = attrDefs.Single();
+      _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeline.Id}/{timeline.Name}/{attrDef.Id}/{attrDef.Name}");
     }
   }
 }

@@ -1,5 +1,6 @@
 using System;
 using Dapper.Contrib.Extensions;
+using GraphML.Utils;
 
 namespace GraphML
 {
@@ -11,6 +12,11 @@ namespace GraphML
   [System.ComponentModel.DataAnnotations.Schema.Table(nameof(Timeline))]
   public sealed class Timeline : OwnedItem
   {
+    /// <summary>
+    /// Unique identifier of <see cref="EdgeItemAttributeDefinition"/> from which to extract <see cref="DateTimeInterval"/>
+    /// </summary>
+    public Guid DateTimeIntervalAttributeDefinitionId { get; set; }
+    
     [Write(false)]
     public Guid GraphId
     {
@@ -24,9 +30,10 @@ namespace GraphML
     {
     }
 
-    public Timeline(Guid graph, Guid orgId, string name) :
+    public Timeline(Guid graph, Guid orgId, string name, Guid intervalAttrDef) :
       base(graph, orgId, name)
     {
+      DateTimeIntervalAttributeDefinitionId = intervalAttrDef;
     }
   }
 }

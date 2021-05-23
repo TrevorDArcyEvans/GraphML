@@ -11,6 +11,25 @@ VALUES
   ('66852486-9780-4aad-863a-b7fb2e903192', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'Kool Organisation Repository Manager');
 
 
+-- item attributes definitions
+INSERT INTO RepositoryItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
+VALUES
+('2db71b87-2183-42c9-ba18-d4dafeedc003', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Repository Item Attribute Definition', 'string');
+
+INSERT INTO GraphItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
+VALUES
+('d92de67a-6e4c-4c8d-b62a-67d21927dce8', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Graph Item Attribute Definition', 'string');
+
+INSERT INTO NodeItemAttributeDefinition (Id, OrganisationId, OwnerId, Name, DataType)
+VALUES
+('f0dae827-f8e6-4ecf-b4c1-ff6b32678b92', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Node Item Attribute Definition', 'string');
+
+INSERT INTO EdgeItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
+VALUES
+('71da5ccf-fba7-40e3-9685-8fc8fbd70212', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Edge Item Attribute Definition', 'string'),
+('5be052e8-b697-4a35-90fd-13953eb804c4', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Timeline Item Attribute Definition', 'DateTimeInterval');
+
+
 -- repository entities
 INSERT INTO Repository(Id, OrganisationId, OwnerId, Name)
 VALUES
@@ -118,9 +137,9 @@ VALUES
 
 
 -- timeline entities
-INSERT INTO Timeline(Id, OrganisationId, OwnerId, Name)
+INSERT INTO Timeline(Id, OrganisationId, OwnerId, Name, DateTimeIntervalAttributeDefinitionId)
 VALUES
-  ('16bf155b-04bb-4157-85b2-bf324971b9f4', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'Kool Organisation Timeline 0');
+  ('16bf155b-04bb-4157-85b2-bf324971b9f4', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'Kool Organisation Timeline 0', '5be052e8-b697-4a35-90fd-13953eb804c4');
 
 INSERT INTO TimelineNode(Id, OrganisationId, OwnerId, Name, GraphItemId)
 VALUES
@@ -137,25 +156,6 @@ VALUES
   ('766aeb80-ac62-46ed-bdf2-0916fe0a5b35', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge D-A', 'c9021b7a-be66-4b75-8cc1-5b1d71be8d71', '4c0c6ee3-fadb-43f2-8691-a22810aff2a9', '80d2cd93-d027-46f7-a786-65d85410b784'),
   ('2b053dde-3637-4aad-b5bf-606d0ce9aad8', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-C', 'f24e293d-790e-477b-8285-85850e969e3c', '80d2cd93-d027-46f7-a786-65d85410b784', '1e708aa5-bb6a-468e-95d5-0d06ad568d8c'),
   ('c4ece160-ff76-4158-82d9-f0a0b68f7740', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-D', '72f1101b-d7a0-4326-9410-21d863f0870e', 'ec6757c2-3ff6-4598-ad05-42a96a9a81d5', '4c0c6ee3-fadb-43f2-8691-a22810aff2a9');
-
-
--- item attributes definitions
-INSERT INTO RepositoryItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
-VALUES
-  ('2db71b87-2183-42c9-ba18-d4dafeedc003', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Repository Item Attribute Definition', 'string');
-
-INSERT INTO GraphItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
-VALUES
-  ('d92de67a-6e4c-4c8d-b62a-67d21927dce8', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Graph Item Attribute Definition', 'string');
-
-INSERT INTO NodeItemAttributeDefinition (Id, OrganisationId, OwnerId, Name, DataType)
-VALUES
-  ('f0dae827-f8e6-4ecf-b4c1-ff6b32678b92', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Node Item Attribute Definition', 'string');
-
-INSERT INTO EdgeItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
-VALUES
-  ('71da5ccf-fba7-40e3-9685-8fc8fbd70212', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Edge Item Attribute Definition', 'string'),
-  ('5be052e8-b697-4a35-90fd-13953eb804c4', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Timeline Item Attribute Definition', 'DateTimeInterval');
 
 
 -- item attributes
@@ -181,7 +181,7 @@ VALUES
   ('43b61316-9eaf-422e-81ec-da26e5eafcf5', '05dfbd09-3252-42a1-901b-85691802d9bc', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'Node D', 'f0dae827-f8e6-4ecf-b4c1-ff6b32678b92', 'Node D Attribute'),
   ('1a76cefa-de74-461b-8d56-f2d1624bc0f4', '05dfbd09-3252-42a1-901b-85691802d9bc', '2c4cccb1-7873-4732-b0e3-6425d4d24922', 'Node E', 'f0dae827-f8e6-4ecf-b4c1-ff6b32678b92', 'Node E Attribute');
 
--- TODO   DateTimeInterval.Start + DateTimeInterval.End
+-- DateTimeInterval.Start + DateTimeInterval.End
 --    https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
 --    https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
 INSERT INTO EdgeItemAttribute(Id, OrganisationId, OwnerId, Name, DefinitionId, DataValueAsString)
