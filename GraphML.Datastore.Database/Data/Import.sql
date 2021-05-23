@@ -192,12 +192,12 @@ VALUES
   ('acced08b-fe29-4a1a-9b93-ca668e8b3482', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge D-A Attribute'),
   ('4dd0ffb3-6199-4e38-bfa9-dcc41cdedbca', '05dfbd09-3252-42a1-901b-85691802d9bc', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge A-C Attribute'),
   ('9bfd22d6-757a-49e8-9ff2-c51ed59cdb76', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge B-D Attribute'),
-  ('70737d7b-0e5b-47bb-b947-42743948c1ce', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fdb37c86-62c3-42b4-a41c-8e648533609c', 'TimelineEdge A-B', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
-  ('30776d2e-0909-4f48-9f87-0099da9be22d', '05dfbd09-3252-42a1-901b-85691802d9bc', '7e352e70-164d-4489-ba73-5a9fcb17e6cf', 'TimelineEdge B-C', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
-  ('84f6e067-aeef-4102-9408-360a1ee732e0', '05dfbd09-3252-42a1-901b-85691802d9bc', '04d69adb-1da6-428f-a9d5-b5e05f2e8661', 'TimelineEdge C-D', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
-  ('970e8e19-b4f6-4304-a964-17de900df2dc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
-  ('e3515397-3681-4880-9871-791a384dff8c', '05dfbd09-3252-42a1-901b-85691802d9bc', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
-  ('a20124cd-93ac-475d-909d-64070d866617', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}');
+  ('70737d7b-0e5b-47bb-b947-42743948c1ce', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fdb37c86-62c3-42b4-a41c-8e648533609c', 'TimelineEdge A-B', '5be052e8-b697-4a35-90fd-13953eb804c4', '{ "start": "2006-02-19T18:35:45.000Z", "end": "2006-02-20T06:18:45.555Z" }'),
+  ('30776d2e-0909-4f48-9f87-0099da9be22d', '05dfbd09-3252-42a1-901b-85691802d9bc', '7e352e70-164d-4489-ba73-5a9fcb17e6cf', 'TimelineEdge B-C', '5be052e8-b697-4a35-90fd-13953eb804c4', '{ "start": "2006-02-20T06:03:30.250Z", "end": "2006-02-20T06:18:45.555Z" }'),
+  ('84f6e067-aeef-4102-9408-360a1ee732e0', '05dfbd09-3252-42a1-901b-85691802d9bc', '04d69adb-1da6-428f-a9d5-b5e05f2e8661', 'TimelineEdge C-D', '5be052e8-b697-4a35-90fd-13953eb804c4', '{ "start": "2006-02-20T06:06:30.350Z", "end": "2006-02-20T06:18:45.235Z" }'),
+  ('970e8e19-b4f6-4304-a964-17de900df2dc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{ "start": "2006-02-20T07:45:30.150Z", "end": "2006-02-20T10:22:45.675Z" }'),
+  ('e3515397-3681-4880-9871-791a384dff8c', '05dfbd09-3252-42a1-901b-85691802d9bc', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{ "start": "2006-02-20T10:33:13.760Z", "end": "2006-02-20T11:11:11.111Z" }'),
+  ('a20124cd-93ac-475d-909d-64070d866617', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{ "start": "2006-02-20T11:17:09.220Z", "end": "2006-02-20T11:18:22.005Z" }');
 
 
 -- roles
