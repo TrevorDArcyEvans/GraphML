@@ -41,6 +41,9 @@ namespace GraphML.UI.Web.Pages
     private IChartServer _chartServer { get; set; }
 
     [Inject]
+    private IEdgeItemAttributeDefinitionServer _edgeItemAttribDefServer { get; set; }
+
+    [Inject]
     private IConfiguration _config { get; set; }
 
     [Inject]
@@ -57,23 +60,16 @@ namespace GraphML.UI.Web.Pages
     private Chart _deleteItem;
 
     private EdgeItemAttributeDefinition _selIntervalAttr;
+    private EdgeItemAttributeDefinition[] _intervalAttrs ;
 
-    // TODO   retrieve DateTimeInterval types from IEdgeItemAttributeDefinitionServer
-    private EdgeItemAttributeDefinition[] _intervalAttrs = new[]
+    protected override async Task OnInitializedAsync()
     {
-      new EdgeItemAttributeDefinition()
-      {
-        Name = "aaa"
-      },
-      new EdgeItemAttributeDefinition()
-      {
-        Name = "bbb"
-      },
-      new EdgeItemAttributeDefinition()
-      {
-        Name = "ccc"
-      },
-    };
+      var intervalAttrsPage = await _edgeItemAttribDefServer.ByOwner(Guid.Parse(RepositoryManagerId), 0, int.MaxValue, null);
+      _intervalAttrs = intervalAttrsPage
+        .Items
+        .Where(eiad => eiad.DataType == "DateTimeInterval")
+        .ToArray();
+    }
 
     private async Task OkNewChartClick()
     {
