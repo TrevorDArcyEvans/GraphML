@@ -2,11 +2,7 @@
 
 @using System.Web;
 @using ChartJs.Blazor.Common
-@using ChartJs.Blazor.Common.Enums
-@using ChartJs.Blazor.Common.Time
 @using ChartJs.Blazor.GanttChart
-@using ChartJs.Blazor.GanttChart.Axes
-@using ChartJs.Blazor.Util
 
 <b>Time Line</b>&nbsp;&nbsp;
 
@@ -39,80 +35,14 @@
   private GanttConfig _config;
   private ChartJs.Blazor.Chart _chart;
 
-  protected override void OnInitialized()
+  protected override async Task OnInitializedAsync()
   {
-    _config = new GanttConfig
-    {
-      Options = new GanttOptions
-      {
-        Responsive = true,
-        Legend = new Legend
-        {
-          Position = Position.Right
-        },
-        Title = new OptionsTitle
-        {
-          Display = true,
-          Text = $"{TimelineName}"
-        },
-        Scales = new GanttScales
-        {
-          XAxes = new List<GanttTimeAxis>(
-            new[]
-            {
-              new GanttTimeAxis
-              {
-                Display = AxisDisplay.True,
-                Position = Position.Bottom,
-                Time = new TimeOptions
-                {
-                  DisplayFormats = new Dictionary<TimeMeasurement, string>
-                  {
-                    { TimeMeasurement.Millisecond, "HH:mm:ss.SSS" },
-                    { TimeMeasurement.Second, "HH:mm:ss" },
-                    { TimeMeasurement.Minute, "HH:mm:ss" },
-                    { TimeMeasurement.Hour, "HH:mm:ss" },
-                    { TimeMeasurement.Day, "HH:mm:ss" },
-                  }
-                }
-              }
-            })
-        }
-      }
-    };
+    _config = GetConfig();
 
-    var data = new List<GanttDateTimeData>(
-      new[]
-      {
-        new GanttDateTimeData
-        {
-          X = new GanttDateTimeInterval
-          {
-            From = new DateTime(2006, 2, 20, 6, 3, 30),
-            To = new DateTime(2006, 2, 20, 8, 15, 30)
-          },
-          Y = 0.3
-        },
-        new GanttDateTimeData
-        {
-          X = new GanttDateTimeInterval
-          {
-            From = new DateTime(2006, 2, 20, 12, 30, 30),
-            To = new DateTime(2006, 2, 20, 13, 35, 30)
-          },
-          Y = 0.5
-        }
-      });
-    IDataset<GanttDateTimeData> dataset1 = new GanttDateTimeDataset(data)
-    {
-      Label = $"{EdgeItemAttributeDefinitionName}",
-      BackgroundColor = ColorUtil.FromDrawingColor(System.Drawing.Color.FromArgb(128, ChartColors.Red)),
-      BorderColor = ColorUtil.FromDrawingColor(ChartColors.Red),
-      BorderWidth = 1,
-      Width = "1ms"
-    };
+    var data = await GetData();
+    IDataset<GanttDateTimeData> dataset = GetDataset(data);
 
-    _config.Data.Datasets.Add(dataset1);
+    _config.Data.Datasets.Add(dataset);
   }
 
   public static class ChartColors
