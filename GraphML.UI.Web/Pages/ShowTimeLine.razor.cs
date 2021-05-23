@@ -70,6 +70,19 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    private GanttConfig _config;
+    private ChartJs.Blazor.Chart _chart;
+
+    protected override async Task OnInitializedAsync()
+    {
+      _config = GetConfig();
+
+      var data = await GetData();
+      IDataset<GanttDateTimeData> dataset = GetDataset(data);
+
+      _config.Data.Datasets.Add(dataset);
+    }
+
     private GanttConfig GetConfig()
     {
       return new GanttConfig
@@ -140,7 +153,7 @@ namespace GraphML.UI.Web.Pages
         ganttData.Add(data);
         yaxisVal += 0.125;
       });
-      
+
       return ganttData;
     }
 
@@ -154,6 +167,11 @@ namespace GraphML.UI.Web.Pages
         BorderWidth = 1,
         Width = "1ms"
       };
+    }
+
+    public static class ChartColors
+    {
+      public static readonly System.Drawing.Color Red = System.Drawing.Color.FromArgb(255, 99, 132);
     }
   }
 }

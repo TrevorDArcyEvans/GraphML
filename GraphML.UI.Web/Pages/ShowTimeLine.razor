@@ -1,8 +1,6 @@
 @page "/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{TimelineId}/{TimelineName}/{EdgeItemAttributeDefinitionId}/{EdgeItemAttributeDefinitionName}"
 
 @using System.Web;
-@using ChartJs.Blazor.Common
-@using ChartJs.Blazor.GanttChart
 
 <b>Time Line</b>&nbsp;&nbsp;
 
@@ -30,24 +28,3 @@
 </span>
 
 <ChartJs.Blazor.Chart Config="_config" @ref="_chart"></ChartJs.Blazor.Chart>
-
-@code {
-  private GanttConfig _config;
-  private ChartJs.Blazor.Chart _chart;
-
-  protected override async Task OnInitializedAsync()
-  {
-    _config = GetConfig();
-
-    var data = await GetData();
-    IDataset<GanttDateTimeData> dataset = GetDataset(data);
-
-    _config.Data.Datasets.Add(dataset);
-  }
-
-  public static class ChartColors
-  {
-    public static readonly System.Drawing.Color Red = System.Drawing.Color.FromArgb(255, 99, 132);
-  }
-
-}
