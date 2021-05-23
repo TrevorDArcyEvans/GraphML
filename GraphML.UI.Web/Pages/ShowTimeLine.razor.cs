@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlazorContextMenu;
 using ChartJs.Blazor.Common;
 using ChartJs.Blazor.Common.Enums;
 using ChartJs.Blazor.Common.Time;
