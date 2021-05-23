@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Http;
 using Polly;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace GraphML.API.Server
 {
@@ -40,13 +42,25 @@ namespace GraphML.API.Server
       _policy = policy.Build(_logger);
 
       _client.BaseAddress ??= new Uri(config.API_URI());
+
+      _settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+      _settings.Formatting = Formatting.Indented;
+      _settings.Converters.Add(new StringEnumConverter());
+
+      // https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
+      // https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
+      var dateConverter = new IsoDateTimeConverter
+      {
+        DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'"
+      };
+      _settings.Converters.Add(dateConverter);
     }
 
     protected HttpRequestMessage GetRequest(string path)
     {
       var request = new HttpRequestMessage()
       {
-        RequestUri = new Uri(_client.BaseAddress , path),
+        RequestUri = new Uri(_client.BaseAddress, path),
         Method = HttpMethod.Get
       };
       var accessToken = _httpContextAccessor.HttpContext.GetTokenAsync("access_token").Result; // TODO async
@@ -122,7 +136,7 @@ namespace GraphML.API.Server
     {
       return await GetInternal(async () =>
       {
-        var resp =  _client.SendAsync(request, new CancellationTokenSource().Token).Result;
+        var resp = _client.SendAsync(request, new CancellationTokenSource().Token).Result;
 
         resp.EnsureSuccessStatusCode();
 
