@@ -61,9 +61,6 @@ namespace GraphML.UI.Web.Pages
     #region Inject
 
     [Inject]
-    private IBlazorContextMenuService _contextMenuService { get; set; }
-
-    [Inject]
     private IEdgeServer _edgeServer { get; set; }
 
     [Inject]
