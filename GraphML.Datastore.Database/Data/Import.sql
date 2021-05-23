@@ -1,3 +1,4 @@
+-- top level entities
 INSERT INTO Organisation(Id, OrganisationId, Name)
 VALUES
   ('a0d9403c-f03f-480f-93e8-b7ca349645c6', 'a0d9403c-f03f-480f-93e8-b7ca349645c6', 'System'),
@@ -9,6 +10,8 @@ VALUES
   ('874852c8-794a-4748-89bc-68ce50823093', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'GraphML Repository Manager'),
   ('66852486-9780-4aad-863a-b7fb2e903192', '05dfbd09-3252-42a1-901b-85691802d9bc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'Kool Organisation Repository Manager');
 
+
+-- repository entities
 INSERT INTO Repository(Id, OrganisationId, OwnerId, Name)
 VALUES
   ('b556969c-bd2c-4378-ae95-972923118295', 'c018775d-ac42-46d2-bf8d-7fadced870d5', '874852c8-794a-4748-89bc-68ce50823093', 'GraphML Repository'),
@@ -65,6 +68,8 @@ VALUES
   ('2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', '05dfbd09-3252-42a1-901b-85691802d9bc', '100fba96-f33d-4242-a551-722b73bc9c6d', null, 'c7718065-af28-40fa-8403-197bc6d23909', '9fa72ac4-9b9a-4bf7-8901-c640881bf4a5', 'Kool Organisation Edge A-C'),
   ('8af5d92c-d826-433c-b5ea-8a055684f241', '05dfbd09-3252-42a1-901b-85691802d9bc', '100fba96-f33d-4242-a551-722b73bc9c6d', null, '9505402f-a60f-4bd2-91dc-9a02845989fa', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'Kool Organisation Edge B-D');
 
+
+-- graph entities
 INSERT INTO Graph(Id, OrganisationId, OwnerId, Directed, Name)
 VALUES
   ('470a1e4f-c0c4-400c-a726-9ffe9697135a', 'c018775d-ac42-46d2-bf8d-7fadced870d5', 'b556969c-bd2c-4378-ae95-972923118295', 0, 'GraphML Graph 0'),
@@ -89,6 +94,8 @@ VALUES
   ('f24e293d-790e-477b-8285-85850e969e3c', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Kool Organisation Graph Edge A-C', 'a05f5372-4c26-4afa-a08d-ae37578e75cc', 'adb66f79-f3fd-4342-bcb0-18e727557692'),
   ('72f1101b-d7a0-4326-9410-21d863f0870e', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Kool Organisation Graph Edge B-D', '33047ebf-8868-42a0-9c82-0b88ca5580c3', '4dd192cb-4933-405a-9934-caf6986a8c71');
 
+
+-- chart entities
 INSERT INTO Chart(Id, OrganisationId, OwnerId, Name)
 VALUES
   ('ae54e3c5-31af-4be4-a602-771f4c3d2d5c', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'Kool Organisation Chart 0');
@@ -109,6 +116,29 @@ VALUES
   ('519a86c8-c3c0-4d9c-bc74-084bb64ae7ae', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-C', 'f24e293d-790e-477b-8285-85850e969e3c', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'e070183a-e4fa-4653-9693-621dbc2451d3'),
   ('40598d9d-4273-4258-9fad-bc4144f460e8', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-D', '72f1101b-d7a0-4326-9410-21d863f0870e', 'a80dd1e6-45c8-4bac-b2bb-ee9a149e4644', '40d2e664-10d8-4d3c-8821-7ca153c34b9c');
 
+
+-- timeline entities
+INSERT INTO Timeline(Id, OrganisationId, OwnerId, Name)
+VALUES
+  ('16bf155b-04bb-4157-85b2-bf324971b9f4', '05dfbd09-3252-42a1-901b-85691802d9bc', '68e65dd3-940e-41ce-8274-6e2518390605', 'Kool Organisation Timeline 0');
+
+INSERT INTO TimelineNode(Id, OrganisationId, OwnerId, Name, GraphItemId)
+VALUES
+  ('80d2cd93-d027-46f7-a786-65d85410b784', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Timeline Node A', 'a05f5372-4c26-4afa-a08d-ae37578e75cc'),
+  ('ec6757c2-3ff6-4598-ad05-42a96a9a81d5', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Timeline Node B', '33047ebf-8868-42a0-9c82-0b88ca5580c3'),
+  ('1e708aa5-bb6a-468e-95d5-0d06ad568d8c', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Timeline Node C', 'adb66f79-f3fd-4342-bcb0-18e727557692'),
+  ('4c0c6ee3-fadb-43f2-8691-a22810aff2a9', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Timeline Node D', '4dd192cb-4933-405a-9934-caf6986a8c71');
+
+INSERT INTO TimelineEdge(Id, OrganisationId, OwnerId, Name, GraphItemId, TimelineSourceId, TimelineTargetId)
+VALUES
+  ('2be1a19e-9358-402e-8128-fb09273ada7b', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-B', '39677015-5ca5-4bd9-a884-3a9544f94036', '80d2cd93-d027-46f7-a786-65d85410b784', 'ec6757c2-3ff6-4598-ad05-42a96a9a81d5'),
+  ('5781c0e7-467d-4e28-8dd4-2e21895efe76', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-C', 'f3d9dc73-f83d-497f-a17c-ce0ded62616a', 'ec6757c2-3ff6-4598-ad05-42a96a9a81d5', '1e708aa5-bb6a-468e-95d5-0d06ad568d8c'),
+  ('1c0b4182-c34e-4f20-b298-0997d2dc22da', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge C-D', '36ca1afc-3ab0-4b48-99be-4adde3e0329d', '1e708aa5-bb6a-468e-95d5-0d06ad568d8c', '4c0c6ee3-fadb-43f2-8691-a22810aff2a9'),
+  ('766aeb80-ac62-46ed-bdf2-0916fe0a5b35', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge D-A', 'c9021b7a-be66-4b75-8cc1-5b1d71be8d71', '4c0c6ee3-fadb-43f2-8691-a22810aff2a9', '80d2cd93-d027-46f7-a786-65d85410b784'),
+  ('2b053dde-3637-4aad-b5bf-606d0ce9aad8', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge A-C', 'f24e293d-790e-477b-8285-85850e969e3c', '80d2cd93-d027-46f7-a786-65d85410b784', '1e708aa5-bb6a-468e-95d5-0d06ad568d8c'),
+  ('c4ece160-ff76-4158-82d9-f0a0b68f7740', '05dfbd09-3252-42a1-901b-85691802d9bc', 'ae54e3c5-31af-4be4-a602-771f4c3d2d5c', 'Kool Organisation Chart Edge B-D', '72f1101b-d7a0-4326-9410-21d863f0870e', 'ec6757c2-3ff6-4598-ad05-42a96a9a81d5', '4c0c6ee3-fadb-43f2-8691-a22810aff2a9');
+
+
 -- item attributes definitions
 INSERT INTO RepositoryItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
 VALUES
@@ -124,7 +154,9 @@ VALUES
 
 INSERT INTO EdgeItemAttributeDefinition(Id, OrganisationId, OwnerId, Name, DataType)
 VALUES
-  ('71da5ccf-fba7-40e3-9685-8fc8fbd70212', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Edge Item Attribute Definition', 'string');
+  ('71da5ccf-fba7-40e3-9685-8fc8fbd70212', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Edge Item Attribute Definition', 'string'),
+  ('5be052e8-b697-4a35-90fd-13953eb804c4', '05dfbd09-3252-42a1-901b-85691802d9bc', '66852486-9780-4aad-863a-b7fb2e903192', 'Timeline Item Attribute Definition', 'DateTimeInterval');
+
 
 -- item attributes
 INSERT INTO RepositoryItemAttribute(Id, OrganisationId, OwnerId, Name, DefinitionId, DataValueAsString)
@@ -149,6 +181,9 @@ VALUES
   ('43b61316-9eaf-422e-81ec-da26e5eafcf5', '05dfbd09-3252-42a1-901b-85691802d9bc', '2c962a0d-bff2-4f3d-8f8a-49c27418001b', 'Node D', 'f0dae827-f8e6-4ecf-b4c1-ff6b32678b92', 'Node D Attribute'),
   ('1a76cefa-de74-461b-8d56-f2d1624bc0f4', '05dfbd09-3252-42a1-901b-85691802d9bc', '2c4cccb1-7873-4732-b0e3-6425d4d24922', 'Node E', 'f0dae827-f8e6-4ecf-b4c1-ff6b32678b92', 'Node E Attribute');
 
+-- TODO   DateTimeInterval.Start + DateTimeInterval.End
+--    https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
+--    https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
 INSERT INTO EdgeItemAttribute(Id, OrganisationId, OwnerId, Name, DefinitionId, DataValueAsString)
 VALUES
   ('2c980b19-9fad-4f2a-a469-ae948f99c03d', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fdb37c86-62c3-42b4-a41c-8e648533609c', 'Edge A-B', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge A-B Attribute'),
@@ -156,7 +191,14 @@ VALUES
   ('4916dc3f-4030-4e89-bd15-9d00c87c04fc', '05dfbd09-3252-42a1-901b-85691802d9bc', '04d69adb-1da6-428f-a9d5-b5e05f2e8661', 'Edge C-D', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge C-D Attribute'),
   ('acced08b-fe29-4a1a-9b93-ca668e8b3482', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge D-A Attribute'),
   ('4dd0ffb3-6199-4e38-bfa9-dcc41cdedbca', '05dfbd09-3252-42a1-901b-85691802d9bc', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge A-C Attribute'),
-  ('9bfd22d6-757a-49e8-9ff2-c51ed59cdb76', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge B-D Attribute');
+  ('9bfd22d6-757a-49e8-9ff2-c51ed59cdb76', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'Edge D-A', '71da5ccf-fba7-40e3-9685-8fc8fbd70212', 'Edge B-D Attribute'),
+  ('70737d7b-0e5b-47bb-b947-42743948c1ce', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fdb37c86-62c3-42b4-a41c-8e648533609c', 'TimelineEdge A-B', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
+  ('30776d2e-0909-4f48-9f87-0099da9be22d', '05dfbd09-3252-42a1-901b-85691802d9bc', '7e352e70-164d-4489-ba73-5a9fcb17e6cf', 'TimelineEdge B-C', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
+  ('84f6e067-aeef-4102-9408-360a1ee732e0', '05dfbd09-3252-42a1-901b-85691802d9bc', '04d69adb-1da6-428f-a9d5-b5e05f2e8661', 'TimelineEdge C-D', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
+  ('970e8e19-b4f6-4304-a964-17de900df2dc', '05dfbd09-3252-42a1-901b-85691802d9bc', 'fb6f545b-0ab7-4351-b35e-8d37ae3f9cd9', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
+  ('e3515397-3681-4880-9871-791a384dff8c', '05dfbd09-3252-42a1-901b-85691802d9bc', '2bfad8e2-4c89-4da6-9cf4-a9737bf3a1d1', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}'),
+  ('a20124cd-93ac-475d-909d-64070d866617', '05dfbd09-3252-42a1-901b-85691802d9bc', '8af5d92c-d826-433c-b5ea-8a055684f241', 'TimelineEdge D-A', '5be052e8-b697-4a35-90fd-13953eb804c4', '{}');
+
 
 -- roles
 INSERT INTO Role(Id, OrganisationId, Name)
