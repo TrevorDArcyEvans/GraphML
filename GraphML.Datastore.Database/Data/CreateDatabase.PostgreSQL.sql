@@ -16,6 +16,10 @@ DROP TABLE IF EXISTS NodeItemAttributeDefinition;
 DROP TABLE IF EXISTS GraphItemAttributeDefinition;
 DROP TABLE IF EXISTS RepositoryItemAttributeDefinition;
 
+DROP TABLE IF EXISTS TimelineEdge;
+DROP TABLE IF EXISTS TimelineNode;
+DROP TABLE IF EXISTS Timeline;
+
 DROP TABLE IF EXISTS ChartEdge;
 DROP TABLE IF EXISTS ChartNode;
 DROP TABLE IF EXISTS Chart;
@@ -50,6 +54,7 @@ CREATE TABLE Log
 );
 CREATE INDEX IDX_Timestamp ON Log("Timestamp");
 
+-- top level entities
 CREATE TABLE Organisation
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
@@ -90,6 +95,8 @@ CREATE TABLE RepositoryManager
 );
 CREATE INDEX IDX_RepositoryManager_Organisation ON RepositoryManager("OwnerId");
 
+
+-- repository entities
 CREATE TABLE Repository
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
@@ -138,6 +145,8 @@ CREATE INDEX IDX_Edge_OwnerId ON Edge("OwnerId");
 CREATE INDEX IDX_Edge_SourceId ON Edge("SourceId");
 CREATE INDEX IDX_Edge_TargetId ON Edge("TargetId");
 
+
+-- graph entities
 CREATE TABLE Graph
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
@@ -183,6 +192,8 @@ CREATE TABLE GraphEdge
 );
 CREATE INDEX IDX_GraphEdge_OwnerId ON GraphEdge("OwnerId");
 
+
+-- chart entities
 CREATE TABLE Chart
 (
   "Id" CHAR(36) NOT NULL UNIQUE,
@@ -225,10 +236,56 @@ CREATE TABLE ChartEdge
   FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
   FOREIGN KEY ("OwnerId") REFERENCES RepositoryManager("Id") ON DELETE CASCADE,
   FOREIGN KEY ("GraphItemId") REFERENCES GraphEdge("Id") ON DELETE CASCADE,
-  FOREIGN KEY ("ChartSourceId") REFERENCES ChartNode("Id") ON DELETE NO ACTION,
-  FOREIGN KEY ("ChartTargetId") REFERENCES ChartNode("Id") ON DELETE NO ACTION
+  FOREIGN KEY ("ChartSourceId") REFERENCES ChartNode("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("ChartTargetId") REFERENCES ChartNode("Id") ON DELETE CASCADE
 );
 CREATE INDEX IDX_ChartEdge_GraphItem ON ChartEdge(OwnerId);
+
+
+-- timeline entities
+CREATE TABLE Timeline
+(
+  "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
+  "OwnerId" CHAR(36) NOT NULL,
+  "Name" NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("OwnerId") REFERENCES Graph("Id") ON DELETE CASCADE
+);
+CREATE INDEX IDX_Chart_Timeline ON Timeline(OwnerId);
+
+CREATE TABLE TimelineNode
+(
+  "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
+  "OwnerId" CHAR(36) NOT NULL,
+  "Name" NVARCHAR(MAX) NOT NULL,
+  "GraphItemId" CHAR(36) NOT NULL,
+  PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("OwnerId") REFERENCES Chart("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("GraphItemId") REFERENCES GraphNode("Id") ON DELETE CASCADE
+);
+CREATE INDEX IDX_TimelineNode_GraphItem ON TimelineNode(OwnerId);
+
+CREATE TABLE TimelineEdge
+(
+  "Id" CHAR(36) NOT NULL UNIQUE,
+  "OrganisationId" CHAR(36) NOT NULL,
+  "OwnerId" CHAR(36) NOT NULL,
+  "Name" NVARCHAR(MAX) NOT NULL,
+  "GraphItemId" CHAR(36) NOT NULL,
+  "TimelineSourceId" CHAR(36) NOT NULL,
+  "TimelineTargetId" CHAR(36) NOT NULL,
+  PRIMARY KEY ("Id"),
+  FOREIGN KEY ("OrganisationId") REFERENCES Organisation("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("OwnerId") REFERENCES Chart("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("GraphItemId") REFERENCES GraphEdge("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("TimelineSourceId") REFERENCES TimelineNode("Id") ON DELETE CASCADE,
+  FOREIGN KEY ("TimelineTargetId") REFERENCES TimelineNode("Id") ON DELETE CASCADE
+);
+CREATE INDEX IDX_TimelineEdge_GraphItem ON TimelineEdge(OwnerId);
 
 
 -- item attribute definitions
