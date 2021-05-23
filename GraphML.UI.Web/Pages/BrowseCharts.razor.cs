@@ -41,6 +41,9 @@ namespace GraphML.UI.Web.Pages
     private IChartServer _chartServer { get; set; }
 
     [Inject]
+    private ITimelineServer _timelineServer { get; set; }
+
+    [Inject]
     private IEdgeItemAttributeDefinitionServer _edgeItemAttribDefServer { get; set; }
 
     [Inject]
@@ -106,14 +109,12 @@ namespace GraphML.UI.Web.Pages
       return newItems.Single();
     }
 
-    private async Task<Chart> CreateNewTimeline(string itemName)
+    private async Task<Timeline> CreateNewTimeline(string itemName)
     {
-      var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
-      // TODO   create timeline in db
-      //var newItems = await _chartServer.Create(new[] { newItem });
+      var newItem = new Timeline(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
+      var newItems = await _timelineServer.Create(new[] { newItem });
 
-      //return newItems.Single();
-      return newItem;
+      return newItems.Single();
     }
 
     private void ConfirmDelete(Chart item)
@@ -134,7 +135,7 @@ namespace GraphML.UI.Web.Pages
       _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
     }
 
-    private void GotoShowTimeline(Chart timeline)
+    private void GotoShowTimeline(Timeline timeline)
     {
       _navMgr.NavigateTo($"/ShowTimeLine/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{timeline.Id}/{timeline.Name}/{_selIntervalAttr.Id}/{_selIntervalAttr.Name}");
     }
