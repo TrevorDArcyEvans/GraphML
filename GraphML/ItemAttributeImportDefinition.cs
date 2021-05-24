@@ -48,7 +48,7 @@ namespace GraphML.Datastore.Database.Importer
     /// <summary>
     /// Zero based array column index for attribute value
     /// <remarks>
-    /// For DateTimeInterval:<br/>
+    /// For <see cref="DateTimeInterval"/>:<br/>
     /// first index is Start<br/>
     /// second index is End
     /// </remarks>
