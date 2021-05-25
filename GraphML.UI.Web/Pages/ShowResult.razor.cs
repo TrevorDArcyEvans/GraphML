@@ -51,31 +51,36 @@ namespace GraphML.UI.Web.Pages
     private RenderFragment CreateDynamicComponent() => builder =>
     {
       // TODO   use external config to map [result] --> [visualiser]
+      var index = 0;
       switch (_request)
       {
         case IClosenessRequest:
-          builder.OpenComponent(0, typeof(Closeness));
-          builder.AddAttribute(1, nameof(Closeness.CorrelationId), _correlationId);
-          builder.CloseComponent();
+          builder.OpenComponent(index++, typeof(Closeness));
           break;
         case IDegreeRequest:
-          builder.OpenComponent(0, typeof(Degree));
-          builder.AddAttribute(1, nameof(Degree.CorrelationId), _correlationId);
-          builder.CloseComponent();
+          builder.OpenComponent(index++, typeof(Degree));
           break;
         case IBetweennessRequest:
-          builder.OpenComponent(0, typeof(Betweenness));
-          builder.AddAttribute(1, nameof(Betweenness.CorrelationId), _correlationId);
-          builder.CloseComponent();
+          builder.OpenComponent(index++, typeof(Betweenness));
           break;
         case IFindShortestPathsRequest:
-          builder.OpenComponent(0, typeof(FindShortestPaths));
-          builder.AddAttribute(1, nameof(FindShortestPaths.CorrelationId), _correlationId);
-          builder.CloseComponent();
+          builder.OpenComponent(index++, typeof(FindShortestPaths));
           break;
         default:
           throw new ArgumentOutOfRangeException($"Unknown request:  {_request}");
       }
+
+      builder.AddAttribute(index++, nameof(OrganisationName), OrganisationName);
+      builder.AddAttribute(index++, nameof(OrganisationId), OrganisationId);
+      builder.AddAttribute(index++, nameof(RepositoryManagerName), RepositoryManagerName);
+      builder.AddAttribute(index++, nameof(RepositoryManagerId), RepositoryManagerId);
+      builder.AddAttribute(index++, nameof(RepositoryName), RepositoryName);
+      builder.AddAttribute(index++, nameof(RepositoryId), RepositoryId);
+      builder.AddAttribute(index++, nameof(GraphName), GraphName);
+      builder.AddAttribute(index++, nameof(GraphId), GraphId);
+      builder.AddAttribute(index++, nameof(CorrelationId), CorrelationId);
+
+      builder.CloseComponent();
     };
   }
 }

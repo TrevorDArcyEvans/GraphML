@@ -11,36 +11,58 @@ namespace GraphML.UI.Web.Pages.Visualisations
 {
   public partial class Closeness
   {
-    [Parameter]
-    public Guid CorrelationId { get; set; }
+    #region Parameters
 
+    [Parameter]
+    public string OrganisationName { get; set; }
+
+    [Parameter]
+    public string OrganisationId { get; set; }
+
+    [Parameter]
+    public string RepositoryManagerName { get; set; }
+
+    [Parameter]
+    public string RepositoryManagerId { get; set; }
+
+    [Parameter]
+    public string RepositoryName { get; set; }
+
+    [Parameter]
+    public string RepositoryId { get; set; }
+
+    [Parameter]
+    public string GraphName { get; set; }
+
+    [Parameter]
+    public string GraphId { get; set; }
+
+    [Parameter]
+    public string CorrelationId { get; set; }
+
+    #endregion
+    
     #region Inject
 
     [Inject]
-    private IResultServer _resultServer { get; set; }
+    public IResultServer _resultServer { get; set; }
 
     [Inject]
-    private IGraphNodeServer _graphNodeServer { get; set; }
+    public IGraphNodeServer _graphNodeServer { get; set; }
+    
+    [Inject]
+    public IChartNodeServer _chartNodeServer { get; set; }
 
     [Inject]
-    private IChartServer _chartServer { get; set; }
+    public IChartServer _chartServer { get; set; }
 
     [Inject]
-    private NavigationManager _navMgr { get; set; }
+    public NavigationManager _navMgr { get; set; }
 
     #endregion
 
     private IEnumerable<SnaClosenessNode> _results;
     private SnaClosenessNode[] _graphNodes;
-
-    private string OrganisationName { get; set; }
-    private string OrganisationId { get; set; }
-    private string RepositoryManagerName { get; set; }
-    private string RepositoryManagerId { get; set; }
-    private string RepositoryName { get; set; }
-    private string RepositoryId { get; set; }
-    private string GraphName { get; set; }
-    private string GraphId { get; set; }
 
     private bool _newChartDialogIsOpen;
     private string _newItemName;
@@ -65,7 +87,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     {
       await base.OnInitializedAsync();
 
-      var genRes = await _resultServer.Retrieve(CorrelationId);
+      var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       var snaResult = (ClosenessResult<Guid>) genRes;
       var snaResults = snaResult.Result.ToList();
       var graphNodeIds = snaResults.Select(res => res.Vertex);
@@ -126,13 +148,16 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     private async Task<Chart> CreateNewChart(string itemName)
     {
-      // TODO   take first _graphNodes and get OrganisationId, OrganisationName, GraphId, GraphName et al
       var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
       var newItems = await _chartServer.Create(new[] { newItem });
+      var newChart = newItems.Single();
       
-      // TODO   add top n items to chart
-
-      return newItems.Single();
+      var chartNodes = _graphNodes
+        .Take(_selNumItems)
+        .Select(scn => new ChartNode(newChart.Id, scn.GraphNode.OrganisationId, scn.GraphNode.Id, scn.GraphNode.Name));
+      _ = await _chartNodeServer.Create(chartNodes);
+      
+      return newChart;
     }
 
     private void GotoShowChart(Chart chart)
