@@ -29,9 +29,6 @@
 
 @code {
 
-  [Parameter]
-  public Guid CorrelationId { get; set; }
-
   private IEnumerable<FindShortestPathsResult<Edge<Guid>>> _results;
   private FindShortestPathsResult<Edge<Guid>>[] _graphNodes;
 
@@ -39,7 +36,7 @@
   {
     await base.OnInitializedAsync();
 
-    var genRes = await _resultServer.Retrieve(CorrelationId);
+    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
     var res = (FindShortestPathsResults<Edge<Guid>>) genRes;
 
     _results = res.Result;

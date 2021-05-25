@@ -23,9 +23,6 @@
 
 @code {
 
-  [Parameter]
-  public Guid CorrelationId { get; set; }
-
   private IEnumerable<BetweennessVertexResult<Guid>> _results;
   private BetweennessVertexResult<Guid>[] _graphNodes;
 
@@ -33,7 +30,7 @@
   {
     await base.OnInitializedAsync();
 
-    var genRes = await _resultServer.Retrieve(CorrelationId);
+    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
     var res = (BetweennessResult<Guid>) genRes;
 
     _results = res.Result;

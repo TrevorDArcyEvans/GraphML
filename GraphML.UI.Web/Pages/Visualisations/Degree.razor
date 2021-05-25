@@ -25,9 +25,6 @@
 
 @code {
 
-  [Parameter]
-  public Guid CorrelationId { get; set; }
-
   private IEnumerable<DegreeVertexResult<Guid>> _results;
   private DegreeVertexResult<Guid>[] _graphNodes;
 
@@ -35,7 +32,7 @@
   {
     await base.OnInitializedAsync();
 
-    var genRes = await _resultServer.Retrieve(CorrelationId);
+    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
     var res = (DegreeResult<Guid>) genRes;
 
     _results = res.Result;
