@@ -37,6 +37,8 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    #region Inject
+
     [Inject]
     private IChartServer _chartServer { get; set; }
 
@@ -51,7 +53,9 @@ namespace GraphML.UI.Web.Pages
 
     [Inject]
     private NavigationManager _navMgr { get; set; }
-    
+
+    #endregion
+
     private Chart[] _charts;
     private Timeline[] _timelines;
 
@@ -67,7 +71,7 @@ namespace GraphML.UI.Web.Pages
     private Timeline _deleteTimelineItem;
 
     private EdgeItemAttributeDefinition _selIntervalAttr;
-    private EdgeItemAttributeDefinition[] _intervalAttrs ;
+    private EdgeItemAttributeDefinition[] _intervalAttrs;
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,7 +105,7 @@ namespace GraphML.UI.Web.Pages
 
       _newItemName = _dlgNewItemName;
       _newTimelineDialogIsOpen = false;
-     var newItem = await CreateNewTimeline(_newItemName);
+      var newItem = await CreateNewTimeline(_newItemName);
       GotoShowTimeline(newItem);
     }
 
