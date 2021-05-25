@@ -53,13 +53,12 @@
     */
   "MultiProjectConfigurations":
   {
-    "GraphML-all":
+    "GraphML-anal":
     {
       "Projects": {
-        "GraphML.API": {},
         "GraphML.Analysis.Server": {},
+        "GraphML.API": {},
         "GraphML.UI.Web": {},
-        "GraphML.UI.Uno.UWP": {},
         "IdentityServerAspNetIdentity": {}
       }
     },
@@ -67,8 +66,6 @@
       "Projects": {
         "GraphML.API": {},
         "GraphML.UI.Web": {},
-        "GraphML.UI.Uno.UWP": {},
-        "GraphML.UI.Uno.Wasm": {},
         "IdentityServerAspNetIdentity": {}
       }
     }
