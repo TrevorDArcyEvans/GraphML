@@ -116,7 +116,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
         switch (sort.SortId)
         {
-          case nameof(ClosenessVertexResult<Guid>.Closeness):
+          case nameof(SnaClosenessNode.Closeness):
             comparison = (s1, s2) => s1.CompareTo(s2);
             break;
           default:
@@ -155,7 +155,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
       
       var chartNodes = _graphNodes
         .Take(_selNumItems)
-        .Select(scn => new ChartNode(newChart.Id, scn.GraphNode.OrganisationId, scn.GraphNode.Id, scn.GraphNode.Name));
+        .Select(snaNode => new ChartNode(newChart.Id, snaNode.GraphNode.OrganisationId, snaNode.GraphNode.Id, snaNode.GraphNode.Name));
       _ = await _chartNodeServer.Create(chartNodes);
       
       return newChart;

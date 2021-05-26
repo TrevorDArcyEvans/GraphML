@@ -116,7 +116,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
       switch (sort.SortId)
       {
-        case nameof(BetweennessVertexResult<Guid>.Betweenness):
+        case nameof(SnaBetweennessNode.Betweenness):
           comparison = (s1, s2) => s1.CompareTo(s2);
           break;
         default:
