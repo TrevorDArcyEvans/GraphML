@@ -26,39 +26,43 @@
   </Breadcrumb>
 </span>
 
-<MatTable
-  Items="@_repoMgrs"
-  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(RepositoryManager), nameof(RepositoryManagerController.ByOwner), OrganisationId)"
-  PageParamName="pageIndex"
-  PageSizeParamName="pageSize"
-  PagingRecordsCountPropertyName="@nameof(PagedDataEx<RepositoryManager>.TotalCount).Camelize()"
-  PagingDataPropertyName="@nameof(PagedDataEx<RepositoryManager>.Items).Camelize()"
-  FilterByColumnName="@nameof(RepositoryManager.Name)"
-  Striped="true"
-  AllowSelection="true"
-  class="mat-elevation-z5">
-  <MatTableHeader>
-    <th>Name</th>
-    <th>Repositories</th>
-    <th>Attributes</th>
-  </MatTableHeader>
-  <MatTableRow>
-    <td>@context.Name</td>
-    <td>
-      <MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@context))"/>
-    </td>
-    <td>
-      <MatButton Icon="edit_attributes" @onclick="@(e => GotoBrowseAttributes(@context))"/>
-    </td>
-    <td>
-      <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
-    </td>
-  </MatTableRow>
-</MatTable>
+<div>
+  <MatTable
+    Items="@_repoMgrs"
+    ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(RepositoryManager), nameof(RepositoryManagerController.ByOwner), OrganisationId)"
+    PageParamName="pageIndex"
+    PageSizeParamName="pageSize"
+    PagingRecordsCountPropertyName="@nameof(PagedDataEx<RepositoryManager>.TotalCount).Camelize()"
+    PagingDataPropertyName="@nameof(PagedDataEx<RepositoryManager>.Items).Camelize()"
+    FilterByColumnName="@nameof(RepositoryManager.Name)"
+    Striped="true"
+    AllowSelection="true"
+    class="mat-elevation-z5">
+    <MatTableHeader>
+      <th>Name</th>
+      <th>Repositories</th>
+      <th>Attributes</th>
+    </MatTableHeader>
+    <MatTableRow>
+      <td>@context.Name</td>
+      <td>
+        <MatButton Icon="settings_input_component" @onclick="@(e => GotoBrowseRepositories(@context))"/>
+      </td>
+      <td>
+        <MatButton Icon="edit_attributes" @onclick="@(e => GotoBrowseAttributes(@context))"/>
+      </td>
+      <td>
+        <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
+      </td>
+    </MatTableRow>
+  </MatTable>
+</div>
+<p/>
 
 <div>
   <MatButton Icon="cloud_upload" @onclick="@(e => GotoImporter())">Import</MatButton>
 </div>
+<p/>
 
 <div>
   <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
