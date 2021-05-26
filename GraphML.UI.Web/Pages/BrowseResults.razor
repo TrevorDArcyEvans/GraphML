@@ -47,20 +47,22 @@
       <th>Type</th>
       <th>JobType</th>
       <th>CorrelationId</th>
+      <th>Created By</th>
       <th>CreatedOnUtc</th>
       <th>View</th>
     </MatTableHeader>
     <MatTableRow>
-      <td>@context.Type</td>
-      <td>@context.JobType</td>
-      <td>@context.CorrelationId</td>
-      <td>@context.CreatedOnUtc</td>
-      <td>
-        <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
-      </td>
-      <td>
-        <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
-      </td>
+        <td>@context.Type</td>
+        <td>@context.JobType</td>
+        <td>@context.CorrelationId</td>
+        <td>@context.Contact.Name</td>
+        <td>@context.CreatedOnUtc</td>
+        <td>
+            <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
+        </td>
+        <td>
+            <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteResult(@context))"></MatButton>
+        </td>
     </MatTableRow>
   </MatTable>
 </div>
