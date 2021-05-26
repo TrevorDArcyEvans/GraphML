@@ -36,7 +36,7 @@ namespace GraphML.Analysis.RankedShortestPath
     {
       var shortPathReq = (IFindShortestPathsRequest)req;
 
-      var graph = new BidirectionalGraph<Guid, Edge<Guid>>();
+      var graph = new BidirectionalGraph<Guid, IdentifiableEdge<Guid>>();
 
       var rootNode = _nodeDatastore.ByIds(new[] { shortPathReq.RootNodeId }).Single();
       var graphId = rootNode.OwnerId;
@@ -55,8 +55,8 @@ namespace GraphML.Analysis.RankedShortestPath
 
       // convert raw edges to QuikGraph edges
       // NOTE:  we also create reverse edges
-      var qgEdges = edges.Items.Select(e => new Edge<Guid>(e.GraphSourceId, e.GraphTargetId));
-      var qgRevEdges = edges.Items.Select(e => new Edge<Guid>(e.GraphTargetId, e.GraphSourceId));
+      var qgEdges = edges.Items.Select(e => new IdentifiableEdge<Guid>(e.Id, e.GraphSourceId, e.GraphTargetId));
+      var qgRevEdges = edges.Items.Select(e => new IdentifiableEdge<Guid>(e.Id, e.GraphTargetId, e.GraphSourceId));
 
       // add edges + reverse edges to graph
       graph.AddEdgeRange(qgEdges);

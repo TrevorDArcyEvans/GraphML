@@ -5,6 +5,6 @@ namespace GraphML.Analysis.RankedShortestPath
 {
   public interface IFindShortestPathsAlgorithmFactory
   {
-    IFindShortestPathsAlgorithm<Guid, Edge<Guid>> Create(IBidirectionalGraph<Guid, Edge<Guid>> graph, Func<Edge<Guid>, double> edgeWeights);
+    IFindShortestPathsAlgorithm<Guid, IdentifiableEdge<Guid>> Create(IBidirectionalGraph<Guid, IdentifiableEdge<Guid>> graph, Func<IdentifiableEdge<Guid>, double> edgeWeights);
   }
 }
