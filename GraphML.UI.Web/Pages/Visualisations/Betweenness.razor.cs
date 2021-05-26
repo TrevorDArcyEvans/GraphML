@@ -92,7 +92,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     var snaResults = snaResult.Result.ToList();
     var graphNodeIds = snaResults.Select(res => res.Vertex);
     var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
-    var results = graphNodes.Select(gn =>
+    _results = graphNodes.Select(gn =>
     {
       return new SnaBetweennessNode
       {
@@ -100,7 +100,6 @@ namespace GraphML.UI.Web.Pages.Visualisations
         Betweenness = snaResults.Single(res => res.Vertex == gn.Id).Betweenness
       };
     });
-    _graphNodes = results.ToArray();
 
     _graphNodes = _results.ToArray();
   }
@@ -156,7 +155,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
       
       var chartNodes = _graphNodes
         .Take(_selNumItems)
-        .Select(scn => new ChartNode(newChart.Id, scn.GraphNode.OrganisationId, scn.GraphNode.Id, scn.GraphNode.Name));
+        .Select(snaNode => new ChartNode(newChart.Id, snaNode.GraphNode.OrganisationId, snaNode.GraphNode.Id, snaNode.GraphNode.Name));
       _ = await _chartNodeServer.Create(chartNodes);
       
       return newChart;

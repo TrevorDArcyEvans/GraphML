@@ -92,7 +92,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var snaResults = snaResult.Result.ToList();
       var graphNodeIds = snaResults.Select(res => res.Vertex);
       var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
-      var results = graphNodes.Select(gn =>
+      _results = graphNodes.Select(gn =>
       {
         return new SnaClosenessNode
         {
@@ -100,7 +100,8 @@ namespace GraphML.UI.Web.Pages.Visualisations
           Closeness = snaResults.Single(res => res.Vertex == gn.Id).Closeness
         };
       });
-      _graphNodes = results.ToArray();
+
+      _graphNodes = _results.ToArray();
     }
 
     private void SortData(MatSortChangedEvent sort)
