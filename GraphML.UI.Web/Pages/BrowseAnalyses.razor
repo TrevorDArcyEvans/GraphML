@@ -101,7 +101,7 @@
         </MatExpansionPanel>
 
         <div>
-          <MatButton Icon="multiline_chart" @onclick="@(async e => await SubmitShortestPath())"/>
+          <MatButton Icon="multiline_chart" @onclick="@(e => OnNewDialog(SubmitShortestPath))"/>
         </div>
         <p>@_findShortestPathsCorrelationId</p>
       </MatExpansionPanelDetails>
@@ -112,7 +112,7 @@
         <MatExpansionPanelHeader>Betweenness</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="bar_chart" @onclick="@(async e => await SubmitBetweenness())"/>
+        <MatButton Icon="bar_chart" @onclick="@(e => OnNewDialog(SubmitBetweenness))"/>
         <p>@_betweennessCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -122,7 +122,7 @@
         <MatExpansionPanelHeader>Closeness</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="pie_chart" @onclick="@(async e => await SubmitCloseness())"/>
+        <MatButton Icon="pie_chart" @onclick="@(e => OnNewDialog(SubmitCloseness))"/>
         <p>@_closenessCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -132,14 +132,28 @@
         <MatExpansionPanelHeader>Degree</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="table_chart" @onclick="@(async e => await SubmitDegree())"/>
+        <MatButton Icon="table_chart" @onclick="@(e => OnNewDialog(SubmitDegree))"/>
         <p>@_degreeCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
 
   </MatAccordion>
 </div>
+<p/>
 
 <div>
   <MatButton Icon="list" @onclick="@(e => GotoListItems())">List items...</MatButton>
+</div>
+
+<div>
+  <MatDialog @bind-IsOpen="@_newDialogIsOpen">
+    <MatDialogTitle>Create new analysis</MatDialogTitle>
+    <MatDialogContent>
+      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _newDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
 </div>

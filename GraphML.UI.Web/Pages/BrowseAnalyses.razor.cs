@@ -48,6 +48,10 @@ namespace GraphML.UI.Web.Pages
     private GraphNode _shortestPathRootNode;
     private GraphNode _shortestPathGoalNode;
 
+    private bool _newDialogIsOpen;
+    private string _dlgNewItemName;
+    private Func<Task> _analysis;
+
     private async Task SubmitShortestPath()
     {
       if (_shortestPathRootNode is null ||
@@ -59,6 +63,7 @@ namespace GraphML.UI.Web.Pages
 
       var req = new FindShortestPathsRequest
       {
+        Description = _dlgNewItemName,
         Contact = _contact,
         GraphId = Guid.Parse(GraphId),
         RootNodeId = _shortestPathRootNode.Id,
@@ -71,6 +76,7 @@ namespace GraphML.UI.Web.Pages
     {
       var req = new BetweennessRequest
       {
+        Description = _dlgNewItemName,
         Contact = _contact,
         GraphId = Guid.Parse(GraphId)
       };
@@ -81,6 +87,7 @@ namespace GraphML.UI.Web.Pages
     {
       var req = new ClosenessRequest
       {
+        Description = _dlgNewItemName,
         Contact = _contact,
         GraphId = Guid.Parse(GraphId)
       };
@@ -91,6 +98,7 @@ namespace GraphML.UI.Web.Pages
     {
       var req = new DegreeRequest
       {
+        Description = _dlgNewItemName,
         Contact = _contact,
         GraphId = Guid.Parse(GraphId)
       };
@@ -107,6 +115,25 @@ namespace GraphML.UI.Web.Pages
     {
       _shortestPathGoalNode = (GraphNode) row;
       StateHasChanged();
+    }
+
+    private void OnNewDialog(Func<Task> analysis)
+    {
+      _dlgNewItemName = null;
+      _newDialogIsOpen = true;
+      _analysis = analysis;
+    }
+
+    private async Task OkClick()
+    {
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      {
+        return;
+      }
+
+      _newDialogIsOpen = false;
+      await _analysis();
+      _analysis = null;
     }
 
     protected override async void OnInitialized()
