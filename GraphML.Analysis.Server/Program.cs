@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
-using System.Threading;
 using Dapper;
 
 namespace GraphML.Analysis.Server
@@ -127,14 +126,7 @@ namespace GraphML.Analysis.Server
 
       while (true)
       {
-        if (config.MESSAGE_QUEUE_USE_THREADS())
-        {
-          ThreadPool.QueueUserWorkItem(x => { DoMessageLoop(); });
-        }
-        else
-        {
-          DoMessageLoop();
-        }
+        DoMessageLoop();
       }
     }
 

@@ -59,12 +59,6 @@ namespace GraphML.Common
         ? result
         : 5;
 
-    public static bool MESSAGE_QUEUE_USE_THREADS(this IConfiguration config) =>
-      bool.Parse(
-        Environment.GetEnvironmentVariable("MESSAGE_QUEUE_USE_THREADS") ??
-        config["Message_Queue:Use_Threads"] ??
-        false.ToString());
-
     public static string IDENTITY_SERVER_BASE_URL(this IConfiguration config) =>
       Environment.GetEnvironmentVariable("IDENTITY_SERVER_BASE_URL") ??
       config["Identity_Server:Base_Url"] ??
@@ -105,7 +99,6 @@ namespace GraphML.Common
              scopes;
     }
 
-
     public static void DumpSettings(IConfiguration config)
     {
       var root = (IConfigurationRoot) config;
@@ -115,33 +108,32 @@ namespace GraphML.Common
 
       Console.WriteLine("Settings:");
       Console.WriteLine($"  IDENTITY_SERVER:");
-      Console.WriteLine($"    BASE_URL                      : {config.IDENTITY_SERVER_BASE_URL()}");
-      Console.WriteLine($"    AUTHORIZATION_REL_URL         : {config.IDENTITY_SERVER_AUTHORIZATION_REL_URL()}");
-      Console.WriteLine($"    TOKEN_REL_URL                 : {config.IDENTITY_SERVER_TOKEN_REL_URL()}");
-      Console.WriteLine($"    AUDIENCE                      : {config.IDENTITY_SERVER_AUDIENCE()}");
-      Console.WriteLine($"    CLIENT_ID                     : {config.IDENTITY_SERVER_CLIENT_ID()}");
-      Console.WriteLine($"    CLIENT_SECRET                 : {config.IDENTITY_SERVER_CLIENT_SECRET()}");
-      Console.WriteLine($"    SCOPES                        : {string.Join(','.ToString(), config.IDENTITY_SERVER_SCOPES())}");
+      Console.WriteLine($"    BASE_URL                        : {config.IDENTITY_SERVER_BASE_URL()}");
+      Console.WriteLine($"    AUTHORIZATION_REL_URL           : {config.IDENTITY_SERVER_AUTHORIZATION_REL_URL()}");
+      Console.WriteLine($"    TOKEN_REL_URL                   : {config.IDENTITY_SERVER_TOKEN_REL_URL()}");
+      Console.WriteLine($"    AUDIENCE                        : {config.IDENTITY_SERVER_AUDIENCE()}");
+      Console.WriteLine($"    CLIENT_ID                       : {config.IDENTITY_SERVER_CLIENT_ID()}");
+      Console.WriteLine($"    CLIENT_SECRET                   : {config.IDENTITY_SERVER_CLIENT_SECRET()}");
+      Console.WriteLine($"    SCOPES                          : {string.Join(','.ToString(), config.IDENTITY_SERVER_SCOPES())}");
 
       Console.WriteLine($"  API:");
-      Console.WriteLine($"    API_URI       : {config.API_URI()}");
+      Console.WriteLine($"    API_URI                         : {config.API_URI()}");
 
       Console.WriteLine($"  DATASTORE:");
-      Console.WriteLine($"    DATASTORE_CONNECTION         : {config.DATASTORE_CONNECTION()}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE    : {config.DATASTORE_CONNECTION_TYPE(config.DATASTORE_CONNECTION())}");
-      Console.WriteLine($"    DATASTORE_CONNECTION_STRING  : {config.DATASTORE_CONNECTION_STRING(config.DATASTORE_CONNECTION())}");
+      Console.WriteLine($"    DATASTORE_CONNECTION            : {config.DATASTORE_CONNECTION()}");
+      Console.WriteLine($"    DATASTORE_CONNECTION_TYPE       : {config.DATASTORE_CONNECTION_TYPE(config.DATASTORE_CONNECTION())}");
+      Console.WriteLine($"    DATASTORE_CONNECTION_STRING     : {config.DATASTORE_CONNECTION_STRING(config.DATASTORE_CONNECTION())}");
 
       Console.WriteLine($"  LOG:");
-      Console.WriteLine($"    LOG_CONNECTION_STRING        : {config.LOG_CONNECTION_STRING()}");
+      Console.WriteLine($"    LOG_CONNECTION_STRING           : {config.LOG_CONNECTION_STRING()}");
 
       Console.WriteLine($"  RESULT:");
-      Console.WriteLine($"    RESULT_DATASTORE  : {config.RESULT_DATASTORE()}");
+      Console.WriteLine($"    RESULT_DATASTORE                : {config.RESULT_DATASTORE()}");
 
       Console.WriteLine($"  MESSAGE_QUEUE:");
       Console.WriteLine($"    MESSAGE_QUEUE_URL               : {config.MESSAGE_QUEUE_URL()}");
       Console.WriteLine($"    MESSAGE_QUEUE_NAME              : {config.MESSAGE_QUEUE_NAME()}");
       Console.WriteLine($"    MESSAGE_QUEUE_POLL_INTERVAL_S   : {config.MESSAGE_QUEUE_POLL_INTERVAL_S()}");
-      Console.WriteLine($"    MESSAGE_QUEUE_USE_THREADS       : {config.MESSAGE_QUEUE_USE_THREADS()}");
     }
   }
 }
