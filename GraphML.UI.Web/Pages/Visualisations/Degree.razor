@@ -1,74 +1,43 @@
 ﻿@using GraphML.Analysis.SNA.Centrality
-@using GraphML.Interfaces.Server
-
-@inject IResultServer _resultServer
 
 <b>Degree</b>
 
-<MatTable
-  Items="@_graphNodes"
-  Striped="true"
-  class="mat-elevation-z5">
-  <MatTableHeader>
-    <th>GraphNodeId</th>
-    <MatSortHeaderRow SortChanged="@SortData">
-      <MatSortHeader SortId="@nameof(DegreeVertexResult<Guid>.In)">In</MatSortHeader>
-      <MatSortHeader SortId="@nameof(DegreeVertexResult<Guid>.Out)">Out</MatSortHeader>
-    </MatSortHeaderRow>
-  </MatTableHeader>
-  <MatTableRow>
-    <td>@context.Vertex</td>
-    <td>@context.In</td>
-    <td>@context.Out</td>
-  </MatTableRow>
-</MatTable>
+<div>
+    <MatTable Items="@_graphNodes"
+              Striped="true"
+              class="mat-elevation-z5">
+        <MatTableHeader>
+            <th>GraphNodeId</th>
+            <MatSortHeaderRow SortChanged="@SortData">
+                <MatSortHeader SortId="@nameof(DegreeVertexResult<Guid>.In)">In</MatSortHeader>
+                <MatSortHeader SortId="@nameof(DegreeVertexResult<Guid>.Out)">Out</MatSortHeader>
+            </MatSortHeaderRow>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@context.GraphNode.Name</td>
+            <td>@context.In</td>
+            <td>@context.Out</td>
+        </MatTableRow>
+    </MatTable>
+</div>
 
-@code {
-  private IEnumerable<DegreeVertexResult<Guid>> _results;
-  private DegreeVertexResult<Guid>[] _graphNodes;
-
-  protected override async Task OnInitializedAsync()
-  {
-    await base.OnInitializedAsync();
-
-    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
-    var res = (DegreeResult<Guid>) genRes;
-
-    _results = res.Result;
-    _graphNodes = _results.ToArray();
-  }
-
-  private void SortData(MatSortChangedEvent sort)
-  {
-    _graphNodes = _results.ToArray();
-
-    if (!(sort == null ||
-          sort.Direction == MatSortDirection.None ||
-          string.IsNullOrEmpty(sort.SortId)))
-    {
-      Comparison<DegreeVertexResult<Guid>> comparison = null;
-
-      switch (sort.SortId)
-      {
-        case nameof(DegreeVertexResult<Guid>.In):
-          comparison = (s1, s2) => s1.In.CompareTo(s2.In);
-          break;
-        case nameof(DegreeVertexResult<Guid>.Out):
-          comparison = (s1, s2) => s1.Out.CompareTo(s2.Out);
-          break;
-        default:
-          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
-      }
-
-      if (sort.Direction == MatSortDirection.Desc)
-      {
-        Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1, s2));
-      }
-      else
-      {
-        Array.Sort(_graphNodes, (s1, s2) => comparison(s1, s2));
-      }
-    }
-  }
-
-}
+<div>
+    <MatButton OnClick="@(e => { _dlgNewItemName = null; _newChartDialogIsOpen = true; })" Icon="create_new_folder" Raised="true">New chart...</MatButton>
+    <MatDialog @bind-IsOpen="@_newChartDialogIsOpen">
+        <MatDialogTitle>Create new chart</MatDialogTitle>
+        <MatDialogContent>
+            <div>
+                <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+            </div>
+            <hr />
+            <div>
+                <label>Select top:</label>
+                <MatSelectValue @bind-Value="_selNumItems" Items="@_numItems" ValueSelector="@(i => i)"></MatSelectValue>
+            </div>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick="@(e => { _newChartDialogIsOpen = false; })">Cancel</MatButton>
+            <MatButton OnClick="@OkNewChartClick">OK</MatButton>
+        </MatDialogActions>
+    </MatDialog>
+</div>
