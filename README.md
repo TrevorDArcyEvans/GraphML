@@ -156,25 +156,6 @@ or just strategically well-placed.<p/>
 ```
 open https://localhost:5002/
 
-### GraphML.UI.Uno.UWP
-* best to run from _Visual Studio_
-* additional information:
-  * [Command-Line Activation of Universal Windows Apps](https://blogs.windows.com/windowsdeveloper/2017/07/05/command-line-activation-universal-windows-apps/)
-  * [Launching a Windows 10 UWP app from the command line cmd](https://stackoverflow.com/questions/51911405/launching-a-windows-10-uwp-app-from-the-command-line-cmd/51914388)
-
-### GraphML.UI.Uno.Skia.Gtk
-```bash
-cd GraphML.UI.Uno/GraphML.UI.Uno.Skia.Gtk/bin/Debug/net5.0
-./GraphML.UI.Uno.Skia.Gtk
-```
-
-### GraphML.UI.Uno.Wasm
-```bash
-cd GraphML.UI.Uno/GraphML.UI.Uno.Wasm/bin/Debug/net5.0/dist
-python3 -m http.server 8000
-```
-open http://localhost:8000/
-
 </details>
 
 ## Environment Variables
@@ -201,30 +182,6 @@ open http://localhost:8000/
 | MESSAGE_QUEUE_NAME              | | GraphML |
 | MESSAGE_QUEUE_POLL_INTERVAL_S   | time in seconds between checking for new analysis jobs | 5 |
 | MESSAGE_QUEUE_USE_THREADS       | | False |
-
-</details>
-
-<details>
-  <summary>GraphML.UI.Uno.Wasm</summary>
-</p>
-
-We use a custom `index.html`:<br/>
-  `GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\wwwroot\index.html`
-
-to load environment variables through:<br/>
-  `GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\WasmScripts\config-env-vars.js`
-
-```javascript
-//  How\where to configure BaseURL for Wasm app that uses WasmHttpHandler
-//    https://github.com/unoplatform/uno/issues/1481#issuecomment-531480543
-//  [wasm] Store AppSettings externally in some sort of editable text file such as
-//          .config, .json or .xml, so these values can be changed depending the
-//          on the deployment hosting target
-//    https://github.com/unoplatform/uno/issues/1500
-config.environmentVariables["IDENTITY_SERVER_CLIENT_ID"] = "GraphML.UI.Uno.Wasm";
-config.environmentVariables["IDENTITY_SERVER_CLIENT_SECRET"] = "secret";
-config.environmentVariables["API_URI"] = "https://localhost:5001";
-```
 
 </details>
 
@@ -478,7 +435,6 @@ make the Organisation entity redundant.
 | IdentityServerAspnetIdentity | 44387 |
 | GraphML.API | 5001 |
 | GraphML.UI.Web | 5002 |
-| GraphML.UI.Uno.Wasm | 8001 | when running from _Visual Studio_, port is set in:<p/>`GraphML:.\GraphML.UI.Uno\GraphML.UI.Uno.Wasm\Properties\launchSettings.json` |
 | Apache ActiveMQ | 61616 |
 | Apache ActiveMQ console | 8161 |
 | Redis | 6379 |
