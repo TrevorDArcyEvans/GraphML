@@ -54,6 +54,7 @@ namespace GraphML.UI.Web.Pages
     private List<Node> _data;
     private Table<Node> _table;
 
+    private Guid _repoId;
     private Guid _graphId;
     private Guid _orgid;
 
@@ -76,19 +77,35 @@ namespace GraphML.UI.Web.Pages
     {
       if (firstRender)
       {
+          _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
         _orgid = Guid.Parse(OrganisationId);
 
+        const int ChunkSize = 1000;
+
         // get GraphNodes already in Graph
-        var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
-        var allGraphNodes = allGraphNodesPage.Items;
-        var existRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
+        var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
+        var existRepoItemIds = new List<Guid>(allGraphNodesCount);
+        var numGraphNodeChunks = (allGraphNodesCount / ChunkSize) + 1;
+        for (var i = 0; i < numGraphNodeChunks; i++)
+        {
+          var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i * ChunkSize, ChunkSize, null);
+          var allGraphNodes = allGraphNodesPage.Items;
+          existRepoItemIds.AddRange(allGraphNodes.Select(gn => gn.RepositoryItemId));
+        }
 
         // remove those GraphNodes from available Nodes
-        var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
-        _data = dataPage.Items
-          .Where(n => !existRepoItemIds.Contains(n.Id))
-          .ToList();
+        var dataCount = await _nodeServer.Count(_repoId);
+        _data = new List<Node>(dataCount);
+        var numDataChunks = (dataCount / ChunkSize) + 1;
+        for (var i = 0; i < numDataChunks; i++)
+        {
+          var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i * ChunkSize, ChunkSize, null);
+          var dataPageNodes = dataPage.Items
+            .Where(n => !existRepoItemIds.Contains(n.Id))
+            .ToList();
+          _data .AddRange(dataPageNodes);
+        }
 
         StateHasChanged();
       }
