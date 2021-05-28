@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace GraphML.UI.Web.Pages
 {
-  public partial class AddGraphItems
+  public partial class AddGraphNodes
   {
     #region Parameters
 

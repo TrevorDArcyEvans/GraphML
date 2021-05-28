@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BlazorTable;
+using GraphML.Interfaces.Server;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+
+namespace GraphML.UI.Web.Pages
+{
+  public partial class AddGraphEdges
+  {
+    #region Parameters
+
+    [Parameter]
+    public string OrganisationName { get; set; }
+
+    [Parameter]
+    public string OrganisationId { get; set; }
+
+    [Parameter]
+    public string RepositoryManagerName { get; set; }
+
+    [Parameter]
+    public string RepositoryManagerId { get; set; }
+
+    [Parameter]
+    public string RepositoryName { get; set; }
+
+    [Parameter]
+    public string RepositoryId { get; set; }
+
+    [Parameter]
+    public string GraphName { get; set; }
+
+    [Parameter]
+    public string GraphId { get; set; }
+
+    #endregion
+
+    [Inject]
+    private INodeServer _nodeServer { get; set; }
+
+    [Inject]
+    private IEdgeServer _edgeServer { get; set; }
+
+    [Inject]
+    private IGraphNodeServer _graphNodeServer { get; set; }
+
+    [Inject]
+    private IGraphEdgeServer _graphEdgeServer { get; set; }
+
+    [Inject]
+    private IConfiguration _config { get; set; }
+
+    [Inject]
+    private NavigationManager _navMgr { get; set; }
+
+    private List<Edge> _data;
+    private Table<Edge> _table;
+
+    private Guid _graphId;
+    private Guid _orgid;
+
+    private bool _addAllDialogIsOpen;
+    private bool _isAddingItems;
+
+    // In Blazor WASM we would normally place
+    // data initialization here. However, on
+    // Blazor Server, a long running task in
+    // OnInitializedAsync will cause happen
+    // at the server and no spinner will display
+    // Instead, long running initialize methods
+    // should be moved to OnAfterRender with
+    // an added call to StateHasChange().
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await LoadData();
+    //}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+      if (firstRender)
+      {
+        _graphId = Guid.Parse(GraphId);
+        _orgid = Guid.Parse(OrganisationId);
+
+        // get GraphEdges already in Graph
+        var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, 0, int.MaxValue, null);
+        var allGraphEdges = allGraphEdgesPage.Items;
+        var existRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId);
+
+        // remove those GraphEdges from available Edges
+        var dataPage = await _edgeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
+        _data = dataPage.Items
+          .Where(n => !existRepoItemIds.Contains(n.Id))
+          .ToList();
+
+        StateHasChanged();
+      }
+    }
+
+    private async Task AddSelectedGraphItems()
+    {
+      var selItems = _table.SelectedItems;
+      var nodeIds = selItems
+          .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
+          .ToList();
+      var graphNodesPage = await _graphNodeServer.ByOwners(nodeIds, 0, int.MaxValue, null);
+      var graphNodes = graphNodesPage.Items;
+      var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
+      var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
+      var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
+      var missingGraphNodes = missingGraphNodeRepo
+          .Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name))
+          .ToList();
+      _ = await _graphNodeServer.Create(missingGraphNodes);
+      graphNodes.AddRange(missingGraphNodes);
+
+      var graphEdges = selItems
+          .Select(e =>
+          {
+              var source = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.SourceId);
+              var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
+              return new GraphEdge(
+                  _graphId, 
+                  _orgid, 
+                  e.Id, 
+                  e.Name,
+                  source.Id,
+                  target.Id);
+          });
+      await _graphEdgeServer.Create(graphEdges);
+
+      // successfully created new GraphEdges, so remove underlying Edges from available selection
+      selItems.ForEach(item => _data.Remove(item));
+    }
+
+    private async Task AddAllRepositoryItems()
+    {
+      try
+      {
+        _addAllDialogIsOpen = false;
+        _isAddingItems = true;
+
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
+
+        _table.SelectedItems.Clear();
+        _table.SelectedItems.AddRange(_data);
+        await AddSelectedGraphItems();
+      }
+      finally
+      {
+        _isAddingItems = false;
+      }
+    }
+  }
+}

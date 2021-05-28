@@ -62,9 +62,14 @@ namespace GraphML.UI.Web.Pages
       StateHasChanged();
     }
 
-    private void GotoAddGraphItems()
+    private void GotoAddGraphNodes()
     {
-      _navMgr.NavigateTo($"/AddGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
+      _navMgr.NavigateTo($"/AddGraphNodes/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
+    }
+
+    private void GotoAddGraphEdges()
+    {
+      _navMgr.NavigateTo($"/AddGraphEdges/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
     }
   }
 }
