@@ -68,10 +68,18 @@ namespace GraphML.UI.Web.Pages.Visualisations
       {
         _graphId = Guid.Parse(GraphId);
 
+        const int ChunkSize = 1000;
+
         // get GraphNodes already in Graph
-        var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, 0, int.MaxValue, null);
-        var allGraphNodes = allGraphNodesPage.Items;
-        _data = allGraphNodes.ToList();
+        var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
+        _data = new List<GraphNode>(allGraphNodesCount);
+        var numChunks = (allGraphNodesCount / ChunkSize) + 1;
+        for (var i = 0; i < numChunks; i++)
+        {
+          var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i * ChunkSize, ChunkSize, null);
+          var allGraphNodes = allGraphNodesPage.Items;
+          _data.AddRange(allGraphNodes);
+        }
 
         StateHasChanged();
       }
