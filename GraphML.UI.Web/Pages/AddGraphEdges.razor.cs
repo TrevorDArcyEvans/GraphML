@@ -60,6 +60,7 @@ namespace GraphML.UI.Web.Pages
     private List<Edge> _data;
     private Table<Edge> _table;
 
+    private Guid _repoId;
     private Guid _graphId;
     private Guid _orgid;
 
@@ -82,19 +83,36 @@ namespace GraphML.UI.Web.Pages
     {
       if (firstRender)
       {
+        _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
         _orgid = Guid.Parse(OrganisationId);
 
+        const int ChunkSize = 1000;
+
         // get GraphEdges already in Graph
-        var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, 0, int.MaxValue, null);
-        var allGraphEdges = allGraphEdgesPage.Items;
-        var existRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId);
+        var allGraphEdgesCount = await _graphEdgeServer.Count(_graphId);
+        var existRepoItemIds = new List<Guid>(allGraphEdgesCount);
+        var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
+        for (var i = 0; i < numGraphEdgeChunks; i++)
+        {
+          var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i * ChunkSize, ChunkSize, null);
+          var allGraphEdges = allGraphEdgesPage.Items;
+          var allGraphEdgesRepoItemIds= allGraphEdges.Select(gn => gn.RepositoryItemId);
+          existRepoItemIds.AddRange(allGraphEdgesRepoItemIds);
+        }
 
         // remove those GraphEdges from available Edges
-        var dataPage = await _edgeServer.ByOwner(Guid.Parse(RepositoryId), 0, int.MaxValue, null);
-        _data = dataPage.Items
-          .Where(n => !existRepoItemIds.Contains(n.Id))
-          .ToList();
+        var dataCount = await _edgeServer.Count(_repoId);
+        _data = new List<Edge>(dataCount);
+        var numDataChunks = (dataCount / ChunkSize) + 1;
+        for (var i = 0; i < numDataChunks; i++)
+        {
+          var dataPage = await _edgeServer.ByOwner(Guid.Parse(RepositoryId), i * ChunkSize, ChunkSize, null);
+          var dataPageEdges = dataPage.Items
+            .Where(n => !existRepoItemIds.Contains(n.Id))
+            .ToList();
+          _data.AddRange(dataPageEdges);
+        }
 
         StateHasChanged();
       }
@@ -102,6 +120,8 @@ namespace GraphML.UI.Web.Pages
 
     private async Task AddSelectedGraphItems()
     {
+        const int ChunkSize = 1000;
+
       var selItems = _table.SelectedItems;
       var nodeIds = selItems
           .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
