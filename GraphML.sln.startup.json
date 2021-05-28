@@ -68,6 +68,12 @@
         "GraphML.UI.Web": {},
         "IdentityServerAspNetIdentity": {}
       }
+    },
+    "GraphML-api": {
+      "Projects": {
+        "GraphML.API": {},
+        "IdentityServerAspNetIdentity": {}
+      }
     }
   }
 }
