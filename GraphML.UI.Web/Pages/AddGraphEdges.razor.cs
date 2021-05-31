@@ -95,10 +95,7 @@ namespace GraphML.UI.Web.Pages
         _orgId = Guid.Parse(OrganisationId);
         _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
-
-        const int ChunkSize = 1000;
-        const int DegreeofParallelism = 10;
-
+        
         var lockObj = new object();
 
         // get GraphEdges already in Graph
