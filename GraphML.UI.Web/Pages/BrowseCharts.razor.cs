@@ -75,7 +75,7 @@ namespace GraphML.UI.Web.Pages
 
     protected override async Task OnInitializedAsync()
     {
-      var intervalAttrsPage = await _edgeItemAttribDefServer.ByOwner(Guid.Parse(RepositoryManagerId), 0, int.MaxValue, null);
+      var intervalAttrsPage = await _edgeItemAttribDefServer.ByOwner(Guid.Parse(RepositoryManagerId), 1, int.MaxValue, null);
       _intervalAttrs = intervalAttrsPage
         .Items
         .Where(eiad => eiad.DataType == "DateTimeInterval")

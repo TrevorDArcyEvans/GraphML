@@ -140,7 +140,7 @@ namespace GraphML.UI.Web.Pages
       var nodeIds = selItems
         .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
         .ToList();
-      var graphNodesPage = await _graphNodeServer.ByOwners(nodeIds, 0, int.MaxValue, null);
+      var graphNodesPage = await _graphNodeServer.ByOwners(nodeIds, 1, int.MaxValue, null);
       var graphNodes = graphNodesPage.Items;
       var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
       var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);

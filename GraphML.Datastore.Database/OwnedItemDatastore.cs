@@ -19,6 +19,11 @@ namespace GraphML.Datastore.Database
 
     public virtual PagedDataEx<T> ByOwners(IEnumerable<Guid> ownerIds, int pageIndex, int pageSize, string searchTerm)
     {
+      if (pageIndex < 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 0");
+      }
+      
       return GetInternal(() =>
       {
         var where = $"where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)}) and {nameof(OwnedItem.Name)} like '%{searchTerm ?? string.Empty}%'";

@@ -160,8 +160,8 @@ namespace GraphML.UI.Web.Pages
 
       var graphs = await _graphServer.ByIds(new[] { Guid.Parse(GraphId) });
       _graph = graphs.Single();
-      var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
-      var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
+      var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
       var chartNodes = chartNodesPage.Items;
       var chartEdges = chartEdgesPage.Items;
       await Setup(chartNodes, chartEdges);
@@ -425,7 +425,7 @@ namespace GraphML.UI.Web.Pages
         var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
         var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
         var selGraphNode = selGraphNodes.Single();
-        var expGraphEdgesPage = await _graphEdgeServer.ByNodeIds(new[] { selGraphNode.Id }, 0, int.MaxValue, null);
+        var expGraphEdgesPage = await _graphEdgeServer.ByNodeIds(new[] { selGraphNode.Id }, 1, int.MaxValue, null);
         var expGraphEdges = expGraphEdgesPage.Items;
         var expGraphEdgeIds = expGraphEdges.Select(ge => ge.Id);
         var expGraphNodeIds = expGraphEdges.SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId }).Distinct();
@@ -526,7 +526,7 @@ namespace GraphML.UI.Web.Pages
         var selGraphNodeId = selChartNode.ChartNode.GraphItemId;
         var selGraphNodes = await _graphNodeServer.ByIds(new[] { selGraphNodeId });
         var selGraphNode = selGraphNodes.Single();
-        var parentsPage = await _nodeServer.GetParents(selGraphNode.RepositoryItemId, 0, int.MaxValue, null);
+        var parentsPage = await _nodeServer.GetParents(selGraphNode.RepositoryItemId, 1, int.MaxValue, null);
         _parentNodes = parentsPage.Items;
         var thisNodePage = await _nodeServer.ByIds(new[] { selGraphNode.RepositoryItemId });
         _selectedNode = thisNodePage.Single();
@@ -562,7 +562,7 @@ namespace GraphML.UI.Web.Pages
         }).ToList();
 
         // get all ChartNodes from Repository
-        var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+        var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
         var allChartNodes = allChartNodesPage.Items;
         var missNodeIds = await DeleteMissingNodes(allChartNodes, chartNodes);
 
@@ -580,7 +580,7 @@ namespace GraphML.UI.Web.Pages
         var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge).ToList();
 
         // get all ChartEdges from Repository
-        var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+        var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
         var allChartEdges = allChartEdgesPage.Items;
 
         await SaveRenamedEdges(allChartEdges, chartEdges);
@@ -609,7 +609,7 @@ namespace GraphML.UI.Web.Pages
     private async Task DeleteMissingEdges()
     {
       // get all ChartEdges from Repository
-      var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 0, int.MaxValue, null);
+      var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
       var allChartEdges = allChartEdgesPage.Items;
       var allChartEdgeNodeIds = allChartEdges.Select(ce => ce.Id);
 

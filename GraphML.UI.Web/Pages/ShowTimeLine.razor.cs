@@ -129,10 +129,10 @@ namespace GraphML.UI.Web.Pages
     private async Task<List<GanttDateTimeData>> GetData()
     {
       var graphId = Guid.Parse(GraphId);
-      var graphEdgesPage = await _graphEdgeServer.ByOwner(graphId, 0, int.MaxValue, null);
+      var graphEdgesPage = await _graphEdgeServer.ByOwner(graphId, 1, int.MaxValue, null);
       var graphEdges = graphEdgesPage.Items;
       var edgeIds = graphEdges.Select(ge => ge.RepositoryItemId);
-      var edgeItemAttribsPage = await _edgeItemAttribServer.ByOwners(edgeIds, 0, int.MaxValue, null);
+      var edgeItemAttribsPage = await _edgeItemAttribServer.ByOwners(edgeIds, 1, int.MaxValue, null);
       var edgeItemAttribDef = Guid.Parse(EdgeItemAttributeDefinitionId);
       var edgeItemAttribs = edgeItemAttribsPage.Items.Where(eia => eia.DefinitionId == edgeItemAttribDef);
       var dateTimeIntJson = edgeItemAttribs.Select(eia => eia.DataValueAsString);
