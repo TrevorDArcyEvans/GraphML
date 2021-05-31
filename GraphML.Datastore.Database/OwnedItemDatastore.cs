@@ -4,6 +4,7 @@ using GraphML.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphML.Datastore.Database
 {
@@ -26,9 +27,11 @@ namespace GraphML.Datastore.Database
       
       return GetInternal(() =>
       {
-        var where = $"where {nameof(OwnedItem.OwnerId)} in ({GetListIds(ownerIds)}) and {nameof(OwnedItem.Name)} like '%{searchTerm ?? string.Empty}%'";
-        var sql = 
-@$"select
+        var where = $"where {nameof(OwnedItem.OwnerId)}" +
+                    (ownerIds.Count() == 1 ? $"='{ownerIds.Single()}'" : $" in ({GetListIds(ownerIds)})") +
+                    (string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : $" and {nameof(OwnedItem.Name)} like '%{searchTerm ?? string.Empty}%'");
+        var sql =
+          @$"select
   * from {GetTableName()},
   (select count(*) as {nameof(PagedDataEx<T>.TotalCount)} from {GetTableName()} {where} )
 {where}
