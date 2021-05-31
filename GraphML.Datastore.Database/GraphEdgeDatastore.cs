@@ -19,6 +19,11 @@ namespace GraphML.Datastore.Database
 
     public PagedDataEx<GraphEdge> ByNodeIds(IEnumerable<Guid> ids, int pageIndex, int pageSize, string searchTerm)
     {
+      if (pageIndex < 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 0");
+      }
+      
       return GetInternal(() =>
       {
         var where = $"where ( {nameof(GraphEdge.GraphSourceId)} in ({GetListIds(ids)}) or {nameof(GraphEdge.GraphTargetId)} in ({GetListIds(ids)}) ) and {nameof(GraphEdge.Name)} like '%{searchTerm ?? string.Empty}%'";

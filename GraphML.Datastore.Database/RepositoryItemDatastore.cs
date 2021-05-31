@@ -18,6 +18,11 @@ namespace GraphML.Datastore.Database
 
     public PagedDataEx<T> GetParents(Guid itemId, int pageIndex, int pageSize, string searchTerm)
     {
+      if (pageIndex < 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 0");
+      }
+      
       return GetInternal(() =>
       {
         var where = $"where NextId = '{itemId}' and {nameof(RepositoryItem.Name)} like '%{searchTerm ?? string.Empty}%'";
