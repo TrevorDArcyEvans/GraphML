@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
 using GraphML.Interfaces.Server;
+using GraphML.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -39,6 +40,8 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    #region Inject
+
     [Inject]
     private INodeServer _nodeServer { get; set; }
 
@@ -51,24 +54,29 @@ namespace GraphML.UI.Web.Pages
     [Inject]
     private NavigationManager _navMgr { get; set; }
 
+    #endregion
+
+    private const int ChunkSize = 1000;
+    private const int DegreeofParallelism = 10;
+
     private List<Node> _data;
     private Table<Node> _table;
 
+    private Guid _orgId;
     private Guid _repoId;
     private Guid _graphId;
-    private Guid _orgid;
 
     private bool _addAllDialogIsOpen;
     private bool _isAddingItems;
 
-    /// In Blazor WASM we would normally place
-    /// data initialization here. However, on
-    /// Blazor Server, a long running task in
-    /// OnInitializedAsync will cause happen
-    /// at the server and no spinner will display
-    /// Instead, long running initialize methods
-    /// should be moved to OnAfterRender with
-    /// an added call to StateHasChange().
+    // In Blazor WASM we would normally place
+    // data initialization here. However, on
+    // Blazor Server, a long running task in
+    // OnInitializedAsync will cause happen
+    // at the server and no spinner will display
+    // Instead, long running initialize methods
+    // should be moved to OnAfterRender with
+    // an added call to StateHasChange().
     //protected override async Task OnInitializedAsync()
     //{
     //    await LoadData();
@@ -79,33 +87,42 @@ namespace GraphML.UI.Web.Pages
       {
         _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
-        _orgid = Guid.Parse(OrganisationId);
+        _orgId = Guid.Parse(OrganisationId);
 
-        const int ChunkSize = 1000;
+        var lockObj = new object();
 
         // get GraphNodes already in Graph
         var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
         var existRepoItemIds = new List<Guid>(allGraphNodesCount);
         var numGraphNodeChunks = (allGraphNodesCount / ChunkSize) + 1;
-        for (var i = 0; i < numGraphNodeChunks; i++)
+        var chunkRange = Enumerable.Range(0, numGraphNodeChunks);
+        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
         {
           var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
           var allGraphNodes = allGraphNodesPage.Items;
-          existRepoItemIds.AddRange(allGraphNodes.Select(gn => gn.RepositoryItemId));
-        }
+          var allGraphNodeRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
+          lock (lockObj)
+          {
+            existRepoItemIds.AddRange(allGraphNodeRepoItemIds);
+          }
+        });
 
         // remove those GraphNodes from available Nodes
         var dataCount = await _nodeServer.Count(_repoId);
         _data = new List<Node>(dataCount);
         var numDataChunks = (dataCount / ChunkSize) + 1;
-        for (var i = 0; i < numDataChunks; i++)
+        var dataRange = Enumerable.Range(0, numDataChunks);
+        await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
         {
           var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i + 1, ChunkSize, null);
           var dataPageNodes = dataPage.Items
             .Where(n => !existRepoItemIds.Contains(n.Id))
             .ToList();
-          _data.AddRange(dataPageNodes);
-        }
+          lock (lockObj)
+          {
+            _data.AddRange(dataPageNodes);
+          }
+        });
 
         StateHasChanged();
       }
@@ -121,7 +138,8 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        var graphNodes = items.Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name));
+        var graphNodes = items.Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name));
+        // TODO   chunk
         await _graphNodeServer.Create(graphNodes);
 
         // successfully created new GraphNodes, so remove underlying Nodes from available selection
