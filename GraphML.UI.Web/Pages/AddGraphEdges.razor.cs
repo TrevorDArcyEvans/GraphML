@@ -40,6 +40,8 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    #region Inject
+
     [Inject]
     private INodeServer _nodeServer { get; set; }
 
@@ -57,6 +59,8 @@ namespace GraphML.UI.Web.Pages
 
     [Inject]
     private NavigationManager _navMgr { get; set; }
+
+    #endregion
 
     private List<Edge> _data;
     private Table<Edge> _table;
@@ -132,8 +136,6 @@ namespace GraphML.UI.Web.Pages
 
     private async Task AddSelectedGraphItems()
     {
-      const int ChunkSize = 1000;
-
       var selItems = _table.SelectedItems;
       var nodeIds = selItems
         .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
