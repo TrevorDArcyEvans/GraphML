@@ -93,9 +93,16 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    private const int ChunkSize = 1000;
+    private const int DegreeofParallelism = 10;
+
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
     private Graph _graph;
+    
+    private Guid _orgId;
+    private Guid _graphId;
+    private Guid _chartId;
 
     // GraphNode.Id
     private Guid _draggedNodeId;
@@ -117,7 +124,7 @@ namespace GraphML.UI.Web.Pages
     private bool _editNodeDialogIsOpen;
     private string _editNodeName;
     private string _dlgEditNodeName;
-    
+
     // assumed to be an IconName but marshalled as a string
     // so we can interpret a null as not wanting to change
     // icon
@@ -133,6 +140,10 @@ namespace GraphML.UI.Web.Pages
 
     protected override async Task OnInitializedAsync()
     {
+        _orgId = Guid.Parse(OrganisationId);
+        _graphId = Guid.Parse(GraphId);
+        _chartId = Guid.Parse(ChartId);
+        
       var iconNames = Enum.GetNames(typeof(IconName));
       var options = new DiagramOptions
       {
@@ -158,10 +169,11 @@ namespace GraphML.UI.Web.Pages
         .Select(inname => new Icon { Name = inname })
         .ToArray();
 
-      var graphs = await _graphServer.ByIds(new[] { Guid.Parse(GraphId) });
+      var graphs = await _graphServer.ByIds(new[] { _graphId });
       _graph = graphs.Single();
-      var chartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
-      var chartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
+      // TODO   chunk retrieval
+      var chartNodesPage = await _chartNodeServer.ByOwner(_chartId, 1, int.MaxValue, null);
+      var chartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, 1, int.MaxValue, null);
       var chartNodes = chartNodesPage.Items;
       var chartEdges = chartEdgesPage.Items;
       await Setup(chartNodes, chartEdges);
@@ -194,7 +206,7 @@ namespace GraphML.UI.Web.Pages
         var nodes = chartNodes.Select(chartNode =>
           new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
           {
-            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null 
+            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null
           });
         _diagram.Nodes.Add(nodes);
 
@@ -254,21 +266,21 @@ namespace GraphML.UI.Web.Pages
         }
 
         // GraphNode --> ChartNode --> DiagramNode
-        var draggedNodes = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { _draggedNodeId });
+        var draggedNodes = await _chartNodeServer.ByGraphItems(_chartId, new[] { _draggedNodeId });
         var draggedNode = draggedNodes.SingleOrDefault();
         if (draggedNode is null)
         {
           // GraphNode is not in this Chart, so create a ChartNode in this Chart
           var graphNodes = await _graphNodeServer.ByIds(new[] { _draggedNodeId });
           var graphNode = graphNodes.Single();
-          draggedNode = new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), _draggedNodeId, graphNode.Name);
+          draggedNode = new ChartNode(_chartId, _orgId, _draggedNodeId, graphNode.Name);
           var newNodes = await _chartNodeServer.Create(new[] { draggedNode });
         }
 
         var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
         var node = new DiagramNode(draggedNode, position)
         {
-          IconName = Enum.TryParse<IconName>(draggedNode.IconName, out _) ? Enum.Parse<IconName>(draggedNode.IconName) : null 
+          IconName = Enum.TryParse<IconName>(draggedNode.IconName, out _) ? Enum.Parse<IconName>(draggedNode.IconName) : null
         };
         _diagram.Nodes.Add(node);
       }
@@ -311,15 +323,12 @@ namespace GraphML.UI.Web.Pages
 
         _newItemName = _dlgNewItemName;
 
-        var orgId = Guid.Parse(OrganisationId);
         var repoId = Guid.Parse(RepositoryId);
-        var graphId = Guid.Parse(GraphId);
-        var chartId = Guid.Parse(ChartId);
-        var node = new Node(repoId, orgId, _newItemName);
+        var node = new Node(repoId, _orgId, _newItemName);
         var newNodes = await _nodeServer.Create(new[] { node });
-        var graphNode = new GraphNode(graphId, orgId, node.Id, _newItemName);
+        var graphNode = new GraphNode(_graphId, _orgId, node.Id, _newItemName);
         var newGraphNodes = await _graphNodeServer.Create(new[] { graphNode });
-        var chartNode = new ChartNode(chartId, orgId, graphNode.Id, _newItemName)
+        var chartNode = new ChartNode(_chartId, _orgId, graphNode.Id, _newItemName)
         {
           IconName = _newIconName.ToString()
         };
@@ -436,7 +445,7 @@ namespace GraphML.UI.Web.Pages
 
         // work out missing GraphNodes = already in Diagram but not in expansion
         var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds).ToList();
-        var missChartNodes = (await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), missGraphNodeIds)).ToList();
+        var missChartNodes = (await _chartNodeServer.ByGraphItems(_chartId, missGraphNodeIds)).ToList();
         if (missChartNodes.Count() != missGraphNodeIds.Count())
         {
           // GraphNode.Id of ChartNodes which are in Repository
@@ -448,7 +457,7 @@ namespace GraphML.UI.Web.Pages
           // create a ChartNode in Repository for each missing GraphNode
           var missRepoChartGraphNodes = await _graphNodeServer.ByIds(missRepoChartGraphNodeIds);
           var missRepoChartNodes = missRepoChartGraphNodes.Select(gn =>
-            new ChartNode(Guid.Parse(ChartId), Guid.Parse(OrganisationId), gn.Id, gn.Name)).ToList();
+            new ChartNode(_chartId, _orgId, gn.Id, gn.Name)).ToList();
           await _chartNodeServer.Create(missRepoChartNodes);
           missChartNodes.AddRange(missRepoChartNodes);
         }
@@ -460,7 +469,7 @@ namespace GraphML.UI.Web.Pages
 
         // work out missing GraphEdges = already in Diagram but not in expansion
         var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds).ToList();
-        var missChartEdges = (await _chartEdgeServer.ByGraphItems(Guid.Parse(ChartId), missGraphEdgeIds)).ToList();
+        var missChartEdges = (await _chartEdgeServer.ByGraphItems(_chartId, missGraphEdgeIds)).ToList();
         if (missChartEdges.Count() != missGraphEdgeIds.Count())
         {
           // GraphEdge.Id of ChartEdges which are in Repository
@@ -473,11 +482,11 @@ namespace GraphML.UI.Web.Pages
           var missRepoChartGraphEdges = await _graphEdgeServer.ByIds(missRepoChartGraphEdgeIds);
           var missRepoChartEdges = missRepoChartGraphEdges.Select(async ge =>
             {
-              var chartNodeSources = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphSourceId });
+              var chartNodeSources = await _chartNodeServer.ByGraphItems(_chartId, new[] { ge.GraphSourceId });
               var chartNodeSource = chartNodeSources.Single();
-              var chartNodeTargets = await _chartNodeServer.ByGraphItems(Guid.Parse(ChartId), new[] { ge.GraphTargetId });
+              var chartNodeTargets = await _chartNodeServer.ByGraphItems(_chartId, new[] { ge.GraphTargetId });
               var chartNodeTarget = chartNodeTargets.Single();
-              return new ChartEdge(Guid.Parse(ChartId), Guid.Parse(OrganisationId), ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
+              return new ChartEdge(_chartId, _orgId, ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
             })
             .Select(t => t.Result)
             .ToList();
@@ -489,7 +498,7 @@ namespace GraphML.UI.Web.Pages
         var nodes = missChartNodes.Select(chartNode =>
           new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
           {
-            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null 
+            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null
           });
         _diagram.Nodes.Add(nodes);
 
@@ -562,7 +571,8 @@ namespace GraphML.UI.Web.Pages
         }).ToList();
 
         // get all ChartNodes from Repository
-        var allChartNodesPage = await _chartNodeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
+        // TODO   chunk retrieval
+        var allChartNodesPage = await _chartNodeServer.ByOwner(_chartId, 1, int.MaxValue, null);
         var allChartNodes = allChartNodesPage.Items;
         var missNodeIds = await DeleteMissingNodes(allChartNodes, chartNodes);
 
@@ -580,7 +590,8 @@ namespace GraphML.UI.Web.Pages
         var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge).ToList();
 
         // get all ChartEdges from Repository
-        var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
+        // TODO   chunk retrieval
+        var allChartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, 1, int.MaxValue, null);
         var allChartEdges = allChartEdgesPage.Items;
 
         await SaveRenamedEdges(allChartEdges, chartEdges);
@@ -609,7 +620,8 @@ namespace GraphML.UI.Web.Pages
     private async Task DeleteMissingEdges()
     {
       // get all ChartEdges from Repository
-      var allChartEdgesPage = await _chartEdgeServer.ByOwner(Guid.Parse(ChartId), 1, int.MaxValue, null);
+      // TODO   chunk retrieval
+      var allChartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, 1, int.MaxValue, null);
       var allChartEdges = allChartEdgesPage.Items;
       var allChartEdgeNodeIds = allChartEdges.Select(ce => ce.Id);
 
