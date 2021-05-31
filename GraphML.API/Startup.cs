@@ -25,6 +25,7 @@ using Flurl;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http.Features;
 using GraphML.Datastore.Database.Importer;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace GraphML.API
 {
@@ -71,15 +72,20 @@ namespace GraphML.API
           options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
           options.SerializerSettings.Formatting = Formatting.Indented;
           options.SerializerSettings.Converters.Add(new StringEnumConverter());
-          
+
           // https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
           // https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
-          var dateConverter = new IsoDateTimeConverter 
-          { 
-            DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'" 
+          var dateConverter = new IsoDateTimeConverter
+          {
+            DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'"
           };
           options.SerializerSettings.Converters.Add(dateConverter);
         });
+      services.AddResponseCompression(options =>
+      {
+        options.EnableForHttps = true;
+        options.Providers.Add<GzipCompressionProvider>();
+      });
 
       services.Configure<FormOptions>(x =>
       {
@@ -249,6 +255,7 @@ namespace GraphML.API
       }
 
       app.UseStaticFiles();
+      app.UseResponseCompression();
       app.UseMvc();
     }
   }
