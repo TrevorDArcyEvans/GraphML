@@ -21,7 +21,6 @@ namespace GraphML.Datastore.Database
     {
       return GetInternal(() =>
       {
-        // TODO   check SQL
         var where = $"where {nameof(GraphItem.OwnerId)} = '{graphId}' and {nameof(GraphItem.RepositoryItemId)} in ({GetListIds(repoItemIds)})";
         var sql = 
           @$"select
