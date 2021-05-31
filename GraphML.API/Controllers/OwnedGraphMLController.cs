@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace GraphML.API.Controllers
 {
@@ -21,6 +20,11 @@ namespace GraphML.API.Controllers
 
     protected PagedDataEx<T> ByOwnersInternal(IEnumerable<Guid> ownerIds, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null)
     {
+      if (pageIndex == 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 1");
+      }
+      
       var result = _ownedLogic.ByOwners(ownerIds, pageIndex, pageSize, searchTerm);
       return result;
     }

@@ -156,6 +156,11 @@ namespace GraphML.API.Controllers
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
+      if (pageIndex == 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 1");
+      }
+      
       var pdex = _graphLogic.ByNodeId(id, pageIndex - 1, pageSize, searchTerm);
       return Ok(pdex);
     }
@@ -180,6 +185,11 @@ namespace GraphML.API.Controllers
       [FromQuery] int pageSize = DefaultPageSize,
       [FromQuery] string searchTerm = null)
     {
+      if (pageIndex == 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 1");
+      }
+      
       var pdex = _graphLogic.ByEdgeId(id, pageIndex - 1, pageSize, searchTerm);
       return Ok(pdex);
     }

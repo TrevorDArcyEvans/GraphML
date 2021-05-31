@@ -23,6 +23,11 @@ namespace GraphML.API.Controllers
 
     protected PagedDataEx<T> GetParentsInternal(Guid itemId, int pageIndex = DefaultPageIndex, int pageSize = DefaultPageSize, string searchTerm = null)
     {
+      if (pageIndex == 0)
+      {
+        throw new ArgumentOutOfRangeException($"{nameof(pageIndex)} starts at 1");
+      }
+      
       var result = _repoItemLogic.GetParents(itemId, pageIndex, pageSize, searchTerm);
       return result;
     }
