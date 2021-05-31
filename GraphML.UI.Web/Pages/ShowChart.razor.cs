@@ -148,20 +148,7 @@ namespace GraphML.UI.Web.Pages
       _graphId = Guid.Parse(GraphId);
       _chartId = Guid.Parse(ChartId);
 
-      var options = new DiagramOptions
-      {
-        DeleteKey = "Delete", // What key deletes the selected nodes/links
-        DefaultNodeComponent = null, // Default component for nodes
-        AllowMultiSelection = true, // Whether to allow multi selection using CTRL
-        Links = new DiagramLinkOptions
-        {
-        },
-        Zoom = new DiagramZoomOptions
-        {
-          Minimum = 0.5, // Minimum zoom value
-          Inverse = false, // Whether to inverse the direction of the zoom when using the wheel
-        }
-      };
+      var options = GetOptions();
       _diagram = new Diagram(options);
       _diagram.MouseClick += Diagram_OnMouseClick;
 
@@ -177,6 +164,24 @@ namespace GraphML.UI.Web.Pages
       var chartNodes = await GetChartNodes();
       var chartEdges = await GetChartEdges();
       await Setup(chartNodes, chartEdges);
+    }
+
+    private static DiagramOptions GetOptions()
+    {
+      return new DiagramOptions
+      {
+        DeleteKey = "Delete", // What key deletes the selected nodes/links
+        DefaultNodeComponent = null, // Default component for nodes
+        AllowMultiSelection = true, // Whether to allow multi selection using CTRL
+        Links = new DiagramLinkOptions
+        {
+        },
+        Zoom = new DiagramZoomOptions
+        {
+          Minimum = 0.5, // Minimum zoom value
+          Inverse = false, // Whether to inverse the direction of the zoom when using the wheel
+        }
+      };
     }
 
     private async Task<List<ChartNode>> GetChartNodes()
