@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
 using GraphML.Interfaces.Server;
+using GraphML.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -88,31 +89,42 @@ namespace GraphML.UI.Web.Pages
         _orgid = Guid.Parse(OrganisationId);
 
         const int ChunkSize = 1000;
+        const int DegreeofParallelism = 10;
+
+        var lockObj = new object();
 
         // get GraphEdges already in Graph
         var allGraphEdgesCount = await _graphEdgeServer.Count(_graphId);
         var existRepoItemIds = new List<Guid>(allGraphEdgesCount);
         var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
-        for (var i = 0; i < numGraphEdgeChunks; i++)
+        var chunkRange = Enumerable. Range(0, numGraphEdgeChunks);
+        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
         {
-          var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i * ChunkSize, ChunkSize, null);
+          var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
           var allGraphEdges = allGraphEdgesPage.Items;
-          var allGraphEdgesRepoItemIds= allGraphEdges.Select(gn => gn.RepositoryItemId);
-          existRepoItemIds.AddRange(allGraphEdgesRepoItemIds);
-        }
+          var allGraphEdgesRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId);
+          lock (lockObj)
+          {
+            existRepoItemIds.AddRange(allGraphEdgesRepoItemIds);
+          }
+        });
 
         // remove those GraphEdges from available Edges
         var dataCount = await _edgeServer.Count(_repoId);
         _data = new List<Edge>(dataCount);
         var numDataChunks = (dataCount / ChunkSize) + 1;
-        for (var i = 0; i < numDataChunks; i++)
+        var dataRange = Enumerable.Range(0, numDataChunks);
+        await dataRange.ParallelForEachAsync(DegreeofParallelism, async i  =>
         {
-          var dataPage = await _edgeServer.ByOwner(Guid.Parse(RepositoryId), i * ChunkSize, ChunkSize, null);
+          var dataPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, null);
           var dataPageEdges = dataPage.Items
             .Where(n => !existRepoItemIds.Contains(n.Id))
             .ToList();
-          _data.AddRange(dataPageEdges);
-        }
+          lock (lockObj)
+          {
+            _data.AddRange(dataPageEdges);
+          }
+        });
 
         StateHasChanged();
       }
@@ -120,36 +132,36 @@ namespace GraphML.UI.Web.Pages
 
     private async Task AddSelectedGraphItems()
     {
-        const int ChunkSize = 1000;
+      const int ChunkSize = 1000;
 
       var selItems = _table.SelectedItems;
       var nodeIds = selItems
-          .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
-          .ToList();
+        .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
+        .ToList();
       var graphNodesPage = await _graphNodeServer.ByOwners(nodeIds, 0, int.MaxValue, null);
       var graphNodes = graphNodesPage.Items;
       var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
       var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
       var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
       var missingGraphNodes = missingGraphNodeRepo
-          .Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name))
-          .ToList();
+        .Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name))
+        .ToList();
       _ = await _graphNodeServer.Create(missingGraphNodes);
       graphNodes.AddRange(missingGraphNodes);
 
       var graphEdges = selItems
-          .Select(e =>
-          {
-              var source = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.SourceId);
-              var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
-              return new GraphEdge(
-                  _graphId, 
-                  _orgid, 
-                  e.Id, 
-                  e.Name,
-                  source.Id,
-                  target.Id);
-          });
+        .Select(e =>
+        {
+          var source = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.SourceId);
+          var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
+          return new GraphEdge(
+            _graphId,
+            _orgid,
+            e.Id,
+            e.Name,
+            source.Id,
+            target.Id);
+        });
       await _graphEdgeServer.Create(graphEdges);
 
       // successfully created new GraphEdges, so remove underlying Edges from available selection
