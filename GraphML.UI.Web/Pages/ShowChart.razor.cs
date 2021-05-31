@@ -610,9 +610,7 @@ namespace GraphML.UI.Web.Pages
         }).ToList();
 
         // get all ChartNodes from Repository
-        // TODO   chunk retrieval
-        var allChartNodesPage = await _chartNodeServer.ByOwner(_chartId, 1, int.MaxValue, null);
-        var allChartNodes = allChartNodesPage.Items;
+        var allChartNodes = await GetChartNodes();
         var missNodeIds = await DeleteMissingNodes(allChartNodes, chartNodes);
 
         await DeleteMissingEdges();
@@ -629,9 +627,7 @@ namespace GraphML.UI.Web.Pages
         var chartEdges = _diagram.Links.OfType<DiagramLink>().Select(dl => dl.ChartEdge).ToList();
 
         // get all ChartEdges from Repository
-        // TODO   chunk retrieval
-        var allChartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, 1, int.MaxValue, null);
-        var allChartEdges = allChartEdgesPage.Items;
+        var allChartEdges = await GetChartEdges();
 
         await SaveRenamedEdges(allChartEdges, chartEdges);
       }
@@ -659,9 +655,7 @@ namespace GraphML.UI.Web.Pages
     private async Task DeleteMissingEdges()
     {
       // get all ChartEdges from Repository
-      // TODO   chunk retrieval
-      var allChartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, 1, int.MaxValue, null);
-      var allChartEdges = allChartEdgesPage.Items;
+      var allChartEdges = await GetChartEdges();
       var allChartEdgeNodeIds = allChartEdges.Select(ce => ce.Id);
 
       // get all ChartEdges in this Diagram
