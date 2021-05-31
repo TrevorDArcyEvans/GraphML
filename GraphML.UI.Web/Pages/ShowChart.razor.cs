@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Blazorise;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
+using GraphML.Utils;
 using GraphShape.Algorithms.Layout;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -99,7 +101,7 @@ namespace GraphML.UI.Web.Pages
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
     private Graph _graph;
-    
+
     private Guid _orgId;
     private Guid _graphId;
     private Guid _chartId;
@@ -138,13 +140,14 @@ namespace GraphML.UI.Web.Pages
 
     private bool _isBusy;
 
+    #region Initialisation
+
     protected override async Task OnInitializedAsync()
     {
-        _orgId = Guid.Parse(OrganisationId);
-        _graphId = Guid.Parse(GraphId);
-        _chartId = Guid.Parse(ChartId);
-        
-      var iconNames = Enum.GetNames(typeof(IconName));
+      _orgId = Guid.Parse(OrganisationId);
+      _graphId = Guid.Parse(GraphId);
+      _chartId = Guid.Parse(ChartId);
+
       var options = new DiagramOptions
       {
         DeleteKey = "Delete", // What key deletes the selected nodes/links
@@ -171,13 +174,44 @@ namespace GraphML.UI.Web.Pages
 
       var graphs = await _graphServer.ByIds(new[] { _graphId });
       _graph = graphs.Single();
-      // TODO   chunk retrieval
-      var chartNodesPage = await _chartNodeServer.ByOwner(_chartId, 1, int.MaxValue, null);
-      var chartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, 1, int.MaxValue, null);
-      var chartNodes = chartNodesPage.Items;
-      var chartEdges = chartEdgesPage.Items;
+      var chartNodes = await GetChartNodes();
+      var chartEdges = await GetChartEdges();
       await Setup(chartNodes, chartEdges);
     }
+
+    private async Task<List<ChartNode>> GetChartNodes()
+    {
+      var numData = await _chartNodeServer.Count(_chartId);
+      var numChunks = (numData / ChunkSize) + 1;
+      var chunkRange = Enumerable.Range(0, numChunks);
+      var retval = new ConcurrentBag<ChartNode>();
+      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var chartNodesPage = await _chartNodeServer.ByOwner(_chartId, i + 1, ChunkSize, null);
+        var chartNodes = chartNodesPage.Items.ToList();
+        chartNodes.ForEach(cn => retval.Add(cn));
+      });
+
+      return retval.ToList();
+    }
+
+    private async Task<List<ChartEdge>> GetChartEdges()
+    {
+      var numData = await _chartEdgeServer.Count(_chartId);
+      var numChunks = (numData / ChunkSize) + 1;
+      var chunkRange = Enumerable.Range(0, numChunks);
+      var retval = new ConcurrentBag<ChartEdge>();
+      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var chartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, i + 1, ChunkSize, null);
+        var chartEdges = chartEdgesPage.Items.ToList();
+        chartEdges.ForEach(cn => retval.Add(cn));
+      });
+
+      return retval.ToList();
+    }
+
+    #endregion
 
     private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
     {
