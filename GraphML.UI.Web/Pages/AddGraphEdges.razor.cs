@@ -67,7 +67,7 @@ namespace GraphML.UI.Web.Pages
 
     private Guid _repoId;
     private Guid _graphId;
-    private Guid _orgid;
+    private Guid _orgId;
 
     private bool _addAllDialogIsOpen;
     private bool _isAddingItems;
@@ -90,7 +90,7 @@ namespace GraphML.UI.Web.Pages
       {
         _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
-        _orgid = Guid.Parse(OrganisationId);
+        _orgId = Guid.Parse(OrganisationId);
 
         const int ChunkSize = 1000;
         const int DegreeofParallelism = 10;
@@ -146,7 +146,7 @@ namespace GraphML.UI.Web.Pages
       var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
       var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
       var missingGraphNodes = missingGraphNodeRepo
-        .Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name))
+        .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
         .ToList();
       _ = await _graphNodeServer.Create(missingGraphNodes);
       graphNodes.AddRange(missingGraphNodes);
@@ -158,7 +158,7 @@ namespace GraphML.UI.Web.Pages
           var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
           return new GraphEdge(
             _graphId,
-            _orgid,
+            _orgId,
             e.Id,
             e.Name,
             source.Id,
