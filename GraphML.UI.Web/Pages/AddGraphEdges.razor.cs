@@ -138,39 +138,66 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
-    private async Task AddSelectedGraphItems()
+    private async Task AddGraphItems(List<Edge> items)
     {
-      var selItems = _table.SelectedItems;
-      var nodeIds = selItems
-        .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
-        .ToList();
-      var graphNodes = await GetGraphNodesByOwners(nodeIds);
-      var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
-      var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
-      var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
-      var missingGraphNodes = missingGraphNodeRepo
-        .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
-        .ToList();
-      _ = await _graphNodeServer.Create(missingGraphNodes);
-      graphNodes.AddRange(missingGraphNodes);
+      try
+      {
+        _addAllDialogIsOpen = false;
+        _isAddingItems = true;
 
-      var graphEdges = selItems
-        .Select(e =>
-        {
-          var source = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.SourceId);
-          var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
-          return new GraphEdge(
-            _graphId,
-            _orgId,
-            e.Id,
-            e.Name,
-            source.Id,
-            target.Id);
-        });
-      await _graphEdgeServer.Create(graphEdges);
+        // force a delay so spinner is rendered
+        await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-      // successfully created new GraphEdges, so remove underlying Edges from available selection
-      selItems.ForEach(item => _data.Remove(item));
+        var nodeIds = items
+          .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
+          .ToList();
+        var graphNodes = await GetGraphNodesByOwners(nodeIds);
+        var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
+        var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
+        var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
+        var missingGraphNodes = missingGraphNodeRepo
+          .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
+          .ToList();
+        _ = await _graphNodeServer.Create(missingGraphNodes);
+        graphNodes.AddRange(missingGraphNodes);
+
+        var graphEdges = items
+          .Select(e =>
+          {
+            var source = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.SourceId);
+            var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
+            return new GraphEdge(
+              _graphId,
+              _orgId,
+              e.Id,
+              e.Name,
+              source.Id,
+              target.Id);
+          });
+        await _graphEdgeServer.Create(graphEdges);
+
+        // successfully created new GraphEdges, so remove underlying Edges from available selection
+        items.ForEach(item => _data.Remove(item));
+      }
+      finally
+      {
+        _isAddingItems = false;
+      }
+    }
+
+    private async Task AddSelectedItems()
+    {
+      await AddGraphItems(_table.SelectedItems);
+    }
+
+    private async Task AddFilteredItems()
+    {
+      await AddGraphItems(_table.FilteredItems.ToList());
+    }
+
+    private async Task AddAllItems()
+    {
+      await AddGraphItems(_data);
     }
 
     private async Task<List<GraphNode>> GetGraphNodesByOwners(List<Guid> nodeIds)
@@ -187,26 +214,6 @@ namespace GraphML.UI.Web.Pages
       });
 
       return retval.ToList();
-    }
-
-    private async Task AddAllRepositoryItems()
-    {
-      try
-      {
-        _addAllDialogIsOpen = false;
-        _isAddingItems = true;
-
-        // force a delay so spinner is rendered
-        await Task.Delay(TimeSpan.FromSeconds(0.5));
-
-        _table.SelectedItems.Clear();
-        _table.SelectedItems.AddRange(_data);
-        await AddSelectedGraphItems();
-      }
-      finally
-      {
-        _isAddingItems = false;
-      }
     }
   }
 }

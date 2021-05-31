@@ -77,7 +77,7 @@ namespace GraphML.UI.Web.Pages
     {
       if (firstRender)
       {
-          _repoId = Guid.Parse(RepositoryId);
+        _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
         _orgid = Guid.Parse(OrganisationId);
 
@@ -89,7 +89,7 @@ namespace GraphML.UI.Web.Pages
         var numGraphNodeChunks = (allGraphNodesCount / ChunkSize) + 1;
         for (var i = 0; i < numGraphNodeChunks; i++)
         {
-          var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i * ChunkSize, ChunkSize, null);
+          var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
           var allGraphNodes = allGraphNodesPage.Items;
           existRepoItemIds.AddRange(allGraphNodes.Select(gn => gn.RepositoryItemId));
         }
@@ -100,28 +100,18 @@ namespace GraphML.UI.Web.Pages
         var numDataChunks = (dataCount / ChunkSize) + 1;
         for (var i = 0; i < numDataChunks; i++)
         {
-          var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i * ChunkSize, ChunkSize, null);
+          var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i + 1, ChunkSize, null);
           var dataPageNodes = dataPage.Items
             .Where(n => !existRepoItemIds.Contains(n.Id))
             .ToList();
-          _data .AddRange(dataPageNodes);
+          _data.AddRange(dataPageNodes);
         }
 
         StateHasChanged();
       }
     }
 
-    private async Task AddSelectedGraphItems()
-    {
-      var selItems = _table.SelectedItems;
-      var graphNodes = selItems.Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name));
-      await _graphNodeServer.Create(graphNodes);
-
-      // successfully created new GraphNodes, so remove underlying Nodes from available selection
-      selItems.ForEach(item => _data.Remove(item));
-    }
-
-    private async Task AddAllRepositoryItems()
+    private async Task AddGraphItems(List<Node> items)
     {
       try
       {
@@ -131,14 +121,31 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        _table.SelectedItems.Clear();
-        _table.SelectedItems.AddRange(_data);
-        await AddSelectedGraphItems();
+        var graphNodes = items.Select(n => new GraphNode(_graphId, _orgid, n.Id, n.Name));
+        await _graphNodeServer.Create(graphNodes);
+
+        // successfully created new GraphNodes, so remove underlying Nodes from available selection
+        items.ForEach(item => _data.Remove(item));
       }
       finally
       {
         _isAddingItems = false;
       }
+    }
+
+    private async Task AddSelectedItems()
+    {
+      await AddGraphItems(_table.SelectedItems);
+    }
+
+    private async Task AddFilteredItems()
+    {
+      await AddGraphItems(_table.FilteredItems.ToList());
+    }
+
+    private async Task AddAllItems()
+    {
+      await AddGraphItems(_data);
     }
   }
 }

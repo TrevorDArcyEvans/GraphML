@@ -6,58 +6,65 @@
 @using BlazorTable
 
 <b>Add Graph Items</b>
-<p />
+<p/>
 <span class="bread-crumb-trail">
-    <Breadcrumb>
-        <BreadcrumbItem>
-            <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-            <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-            <BreadcrumbLink To="@($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}")">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-            <BreadcrumbLink To="@($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}")">@HttpUtility.UrlDecode(@RepositoryName)</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-            <BreadcrumbLink To="@($"/BrowseGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}")">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem Active="true">
-            <BreadcrumbLink To="#">Add graph items</BreadcrumbLink>
-        </BreadcrumbItem>
-    </Breadcrumb>
+  <Breadcrumb>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="/BrowseOrganisations">Organisations</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositoryManagers/{OrganisationId}/{OrganisationName}")">@HttpUtility.UrlDecode(@OrganisationName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}")">@HttpUtility.UrlDecode(@RepositoryManagerName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseGraphs/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}")">@HttpUtility.UrlDecode(@RepositoryName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbLink To="@($"/BrowseGraphItems/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}")">@HttpUtility.UrlDecode(@GraphName)</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem Active="true">
+      <BreadcrumbLink To="#">Add graph items</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
 </span>
 
 <SpinLoader IsLoading="@(_data == null || _isAddingItems)">
-    <LoadingTemplate>
-        <GraphMLSpinner />
-    </LoadingTemplate>
-    <ContentTemplate>
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
 
-        <div>
-            <BlazorTable.Table @ref="_table" TableItem="Node" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
-                <BlazorTable.Column TableItem="Node" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true" />
-                <BlazorTable.Column TableItem="Node" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%" />
-                <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" />
-            </BlazorTable.Table>
-        </div>
+    <div>
+      <BlazorTable.Table @ref="_table" TableItem="Node" Items="_data" PageSize="15" ColumnReorder="true" SelectionType="SelectionType.Multiple">
+        <BlazorTable.Column TableItem="Node" Title="Id" Field="@(x => x.Id)" Sortable="true" Filterable="true" Width="10%" DefaultSortColumn="true"/>
+        <BlazorTable.Column TableItem="Node" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%"/>
+        <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true"/>
+      </BlazorTable.Table>
+    </div>
+    <p/>
 
-        <div>
-            <MatButton Icon="add" @onclick="@(e => AddSelectedGraphItems())" Raised="true">Add selected items</MatButton>
-        </div>
+    <div>
+      <MatButton Icon="add" @onclick="@(e => AddSelectedItems())" Raised="true">Add selected items</MatButton>
+    </div>
+    <p/>
 
-        <div>
-            <MatButton OnClick="@(e => { _addAllDialogIsOpen = true; })" Icon="library_add">Add all items...</MatButton>
-            <MatDialog @bind-IsOpen="@_addAllDialogIsOpen">
-                <MatDialogTitle>Add *all* repository items?</MatDialogTitle>
-                <MatDialogActions>
-                    <MatButton OnClick="@(e => { _addAllDialogIsOpen = false; })">Cancel</MatButton>
-                    <MatButton OnClick="@(async () => await AddAllRepositoryItems())">OK</MatButton>
-                </MatDialogActions>
-            </MatDialog>
-        </div>
+    <div>
+      <MatButton Icon="filter_list" @onclick="@(e => AddFilteredItems())" Raised="true">Add filtered items</MatButton>
+    </div>
+    <p/>
 
-    </ContentTemplate>
+    <div>
+      <MatButton OnClick="@(e => { _addAllDialogIsOpen = true; })" Icon="library_add">Add all items...</MatButton>
+      <MatDialog @bind-IsOpen="@_addAllDialogIsOpen">
+        <MatDialogTitle>Add *all* repository items?</MatDialogTitle>
+        <MatDialogActions>
+          <MatButton OnClick="@(e => { _addAllDialogIsOpen = false; })">Cancel</MatButton>
+          <MatButton OnClick="@(async () => await AddAllItems())">OK</MatButton>
+        </MatDialogActions>
+      </MatDialog>
+    </div>
+
+  </ContentTemplate>
 </SpinLoader>
