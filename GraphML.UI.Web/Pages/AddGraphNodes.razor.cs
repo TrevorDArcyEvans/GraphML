@@ -139,16 +139,20 @@ namespace GraphML.UI.Web.Pages
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
         var graphNodes = items.Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name)).ToList();
-        var numGraphNodeChunks = (graphNodes.Count() / ChunkSize) + 1;
+        var numGraphNodeChunks = (graphNodes.Count / ChunkSize) + 1;
         var chunkRange = Enumerable.Range(0, numGraphNodeChunks);
         await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
         {
-          var dataChunk = graphNodes.GetRange(i * ChunkSize, ChunkSize);
+          var dataChunk = graphNodes.Skip(i * ChunkSize).Take(ChunkSize);
           await _graphNodeServer.Create(dataChunk);
         });
 
         // successfully created new GraphNodes, so remove underlying Nodes from available selection
-        items.ForEach(item => _data.Remove(item));
+        // NOTE:  'items' and '_data' point back to the same underlying info,
+        // so we have to create a copy ('shadowItems') of 'items' otherwise we are trying to 
+        // modify a list whilst iterating over it.
+        var shadowItems = items.Select(item => item).ToList();
+        shadowItems.ForEach(item => _data.Remove(item));
       }
       finally
       {
