@@ -423,8 +423,7 @@ namespace GraphML.Datastore.Database.Importer
             return null;
           }
 
-          var data = bool.Parse(raw);
-          return JsonConvert.SerializeObject(data);
+          return JsonConvert.SerializeObject(bool.TryParse(raw, out var data) ? data : null);
         }
 
         case "int":
@@ -435,8 +434,7 @@ namespace GraphML.Datastore.Database.Importer
             return null;
           }
 
-          var data = int.Parse(raw);
-          return JsonConvert.SerializeObject(data);
+          return JsonConvert.SerializeObject(int.TryParse(raw, out var data) ? data : null);
         }
 
         case "double":
@@ -447,8 +445,7 @@ namespace GraphML.Datastore.Database.Importer
             return null;
           }
 
-          var data = double.Parse(raw);
-          return JsonConvert.SerializeObject(data);
+          return JsonConvert.SerializeObject(double.TryParse(raw, out var data) ? data : null);
         }
 
         case "DateTime":
@@ -460,7 +457,7 @@ namespace GraphML.Datastore.Database.Importer
           }
 
           var data = ParseDateTime(raw, dateTimeFormat);
-          return JsonConvert.SerializeObject(data);
+          return data is null ? null : JsonConvert.SerializeObject(data.Value);
         }
 
         case "DateTimeInterval":
@@ -474,7 +471,13 @@ namespace GraphML.Datastore.Database.Importer
 
           var start = ParseDateTime(startStr, dateTimeFormat);
           var end = ParseDateTime(endStr, dateTimeFormat);
-          var data = new DateTimeInterval(start, end);
+          if (start is null ||
+              end is null)
+          {
+            return null;
+          }
+          
+          var data = new DateTimeInterval(start.Value, end.Value);
           return JsonConvert.SerializeObject(data);
         }
 
@@ -483,7 +486,7 @@ namespace GraphML.Datastore.Database.Importer
       }
     }
 
-    private static DateTime ParseDateTime(string raw, string dateTimeFormat)
+    private static DateTime? ParseDateTime(string raw, string dateTimeFormat)
     {
       if (dateTimeFormat == "SecondsSinceUnixEpoch")
       {
@@ -492,8 +495,32 @@ namespace GraphML.Datastore.Database.Importer
         return dt;
       }
 
-      var data = dateTimeFormat is null ? DateTime.Parse(raw, CultureInfo.InvariantCulture) : DateTime.ParseExact(raw, dateTimeFormat, CultureInfo.InvariantCulture);
-      return data;
+      {
+        if (dateTimeFormat is null)
+        {
+          if (DateTime.TryParse(raw, out var data))
+          {
+            return data;
+          }
+        }
+      }
+
+      {
+        if (DateTime.TryParseExact(raw, dateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var data))
+        {
+          return data;
+        }
+      }
+
+      {
+        // Last ditch attempt for IMDb-movies.csv which usually puts dates in yyyy-mm-dd but sometimes only has the year
+        if (DateTime.TryParseExact(raw, "yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var data))
+        {
+          return data;
+        }
+      }
+
+      return null;
     }
 
     private static DateTime ConvertFromUnixTimestamp(double timestamp)
