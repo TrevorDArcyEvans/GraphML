@@ -95,7 +95,7 @@ namespace GraphML.UI.Web.Pages
         _orgId = Guid.Parse(OrganisationId);
         _repoId = Guid.Parse(RepositoryId);
         _graphId = Guid.Parse(GraphId);
-        
+
         var lockObj = new object();
 
         // get GraphEdges already in Graph
@@ -155,8 +155,13 @@ namespace GraphML.UI.Web.Pages
         var missingGraphNodes = missingGraphNodeRepo
           .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
           .ToList();
-        // TODO   chunk
-        _ = await _graphNodeServer.Create(missingGraphNodes);
+        var numMissGraphNodeChunks = (missingGraphNodes.Count / ChunkSize) + 1;
+        var missChunkRange = Enumerable.Range(0, numMissGraphNodeChunks);
+        await missChunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+        {
+          var dataChunk = missingGraphNodes.Skip(i * ChunkSize).Take(ChunkSize);
+          _ = await _graphNodeServer.Create(dataChunk);
+        });
         graphNodes.AddRange(missingGraphNodes);
 
         var graphEdges = items
@@ -171,12 +176,22 @@ namespace GraphML.UI.Web.Pages
               e.Name,
               source.Id,
               target.Id);
-          });
-        // TODO   chunk
-        await _graphEdgeServer.Create(graphEdges);
+          })
+          .ToList();
+        var numGraphEdgeChunks = (graphEdges.Count / ChunkSize) + 1;
+        var chunkRange = Enumerable.Range(0, numGraphEdgeChunks);
+        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+        {
+          var dataChunk = graphEdges.Skip(i * ChunkSize).Take(ChunkSize);
+          await _graphEdgeServer.Create(dataChunk);
+        });
 
         // successfully created new GraphEdges, so remove underlying Edges from available selection
-        items.ForEach(item => _data.Remove(item));
+        // NOTE:  'items' and '_data' point back to the same underlying info,
+        // so we have to create a copy ('shadowItems') of 'items' otherwise we are trying to 
+        // modify a list whilst iterating over it.
+        var shadowItems = items.Select(item => item).ToList();
+        shadowItems.ForEach(item => _data.Remove(item));
       }
       finally
       {
