@@ -92,47 +92,52 @@ namespace GraphML.UI.Web.Pages
     {
       if (firstRender)
       {
-        _orgId = Guid.Parse(OrganisationId);
-        _repoId = Guid.Parse(RepositoryId);
-        _graphId = Guid.Parse(GraphId);
-
-        var lockObj = new object();
-
-        // get GraphEdges already in Graph
-        var allGraphEdgesCount = await _graphEdgeServer.Count(_graphId);
-        var existRepoItemIds = new List<Guid>(allGraphEdgesCount);
-        var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
-        var chunkRange = Enumerable.Range(0, numGraphEdgeChunks);
-        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
-          var allGraphEdges = allGraphEdgesPage.Items;
-          var allGraphEdgesRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId);
-          lock (lockObj)
-          {
-            existRepoItemIds.AddRange(allGraphEdgesRepoItemIds);
-          }
-        });
-
-        // remove those GraphEdges from available Edges
-        var dataCount = await _edgeServer.Count(_repoId);
-        _data = new List<Edge>(dataCount);
-        var numDataChunks = (dataCount / ChunkSize) + 1;
-        var dataRange = Enumerable.Range(0, numDataChunks);
-        await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var dataPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, null);
-          var dataPageEdges = dataPage.Items
-            .Where(n => !existRepoItemIds.Contains(n.Id))
-            .ToList();
-          lock (lockObj)
-          {
-            _data.AddRange(dataPageEdges);
-          }
-        });
-
-        StateHasChanged();
+        await LoadData();
       }
+    }
+
+    private async Task LoadData()
+    {
+      _orgId = Guid.Parse(OrganisationId);
+      _repoId = Guid.Parse(RepositoryId);
+      _graphId = Guid.Parse(GraphId);
+
+      var lockObj = new object();
+
+      // get GraphEdges already in Graph
+      var allGraphEdgesCount = await _graphEdgeServer.Count(_graphId);
+      var existRepoItemIds = new List<Guid>(allGraphEdgesCount);
+      var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
+      var chunkRange = Enumerable.Range(0, numGraphEdgeChunks);
+      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
+        var allGraphEdges = allGraphEdgesPage.Items;
+        var allGraphEdgesRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId);
+        lock (lockObj)
+        {
+          existRepoItemIds.AddRange(allGraphEdgesRepoItemIds);
+        }
+      });
+
+      // remove those GraphEdges from available Edges
+      var dataCount = await _edgeServer.Count(_repoId);
+      _data = new List<Edge>(dataCount);
+      var numDataChunks = (dataCount / ChunkSize) + 1;
+      var dataRange = Enumerable.Range(0, numDataChunks);
+      await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var dataPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, null);
+        var dataPageEdges = dataPage.Items
+          .Where(n => !existRepoItemIds.Contains(n.Id))
+          .ToList();
+        lock (lockObj)
+        {
+          _data.AddRange(dataPageEdges);
+        }
+      });
+
+      StateHasChanged();
     }
 
     private async Task AddGraphItems(List<Edge> items)

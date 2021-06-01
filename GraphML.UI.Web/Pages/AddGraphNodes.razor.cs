@@ -85,47 +85,52 @@ namespace GraphML.UI.Web.Pages
     {
       if (firstRender)
       {
-        _repoId = Guid.Parse(RepositoryId);
-        _graphId = Guid.Parse(GraphId);
-        _orgId = Guid.Parse(OrganisationId);
-
-        var lockObj = new object();
-
-        // get GraphNodes already in Graph
-        var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
-        var existRepoItemIds = new List<Guid>(allGraphNodesCount);
-        var numGraphNodeChunks = (allGraphNodesCount / ChunkSize) + 1;
-        var chunkRange = Enumerable.Range(0, numGraphNodeChunks);
-        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
-          var allGraphNodes = allGraphNodesPage.Items;
-          var allGraphNodeRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
-          lock (lockObj)
-          {
-            existRepoItemIds.AddRange(allGraphNodeRepoItemIds);
-          }
-        });
-
-        // remove those GraphNodes from available Nodes
-        var dataCount = await _nodeServer.Count(_repoId);
-        _data = new List<Node>(dataCount);
-        var numDataChunks = (dataCount / ChunkSize) + 1;
-        var dataRange = Enumerable.Range(0, numDataChunks);
-        await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i + 1, ChunkSize, null);
-          var dataPageNodes = dataPage.Items
-            .Where(n => !existRepoItemIds.Contains(n.Id))
-            .ToList();
-          lock (lockObj)
-          {
-            _data.AddRange(dataPageNodes);
-          }
-        });
-
-        StateHasChanged();
+        await LoadData();
       }
+    }
+
+    private async Task LoadData()
+    {
+      _repoId = Guid.Parse(RepositoryId);
+      _graphId = Guid.Parse(GraphId);
+      _orgId = Guid.Parse(OrganisationId);
+
+      var lockObj = new object();
+
+      // get GraphNodes already in Graph
+      var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
+      var existRepoItemIds = new List<Guid>(allGraphNodesCount);
+      var numGraphNodeChunks = (allGraphNodesCount / ChunkSize) + 1;
+      var chunkRange = Enumerable.Range(0, numGraphNodeChunks);
+      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
+        var allGraphNodes = allGraphNodesPage.Items;
+        var allGraphNodeRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
+        lock (lockObj)
+        {
+          existRepoItemIds.AddRange(allGraphNodeRepoItemIds);
+        }
+      });
+
+      // remove those GraphNodes from available Nodes
+      var dataCount = await _nodeServer.Count(_repoId);
+      _data = new List<Node>(dataCount);
+      var numDataChunks = (dataCount / ChunkSize) + 1;
+      var dataRange = Enumerable.Range(0, numDataChunks);
+      await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i + 1, ChunkSize, null);
+        var dataPageNodes = dataPage.Items
+          .Where(n => !existRepoItemIds.Contains(n.Id))
+          .ToList();
+        lock (lockObj)
+        {
+          _data.AddRange(dataPageNodes);
+        }
+      });
+
+      StateHasChanged();
     }
 
     private async Task AddGraphItems(List<Node> items)
