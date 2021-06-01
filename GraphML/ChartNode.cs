@@ -24,11 +24,14 @@ namespace GraphML
     public int Y { get; set; }
     
     /// <summary>
-    /// Name of Font-Awesome <see cref="IconName"/> when rendering
-    /// an Icon on a Diagram surface
+    /// Name of image file (including extension) from 'wwwroot' directory
+    /// when rendering an Icon on a Diagram surface
     /// <remarks>
     /// If this is null, then no Icon is shown.
     /// </remarks>
+    /// <example>
+    /// icons/onebit_19.png
+    /// </example>
     /// </summary>
     public string IconName { get; set; }
 

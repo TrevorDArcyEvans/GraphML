@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Diagrams.Core;
@@ -97,7 +98,9 @@ namespace GraphML.UI.Web.Pages
 
     private const int ChunkSize = 1000;
     private const int DegreeofParallelism = 10;
-
+    
+    private  static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+    
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
     private Graph _graph;
@@ -109,10 +112,10 @@ namespace GraphML.UI.Web.Pages
     // GraphNode.Id
     private Guid _draggedNodeId;
 
-    private Icon[] _icons;
+    private string[] _icons;
 
     private bool _isNewNode;
-    private IconName? _newIconName;
+    private string _newIconName;
     private bool _newDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
@@ -127,9 +130,6 @@ namespace GraphML.UI.Web.Pages
     private string _editNodeName;
     private string _dlgEditNodeName;
 
-    // assumed to be an IconName but marshalled as a string
-    // so we can interpret a null as not wanting to change
-    // icon
     private string _dlgEditNodeIconName;
 
     private bool _editLinkDialogIsOpen;
@@ -155,8 +155,11 @@ namespace GraphML.UI.Web.Pages
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
       _diagram.RegisterModelComponent<LinkLabelModel, DiagramLinkLabelWidget>();
 
-      _icons = Enum.GetValues<IconName>()
-        .Select(inname => new Icon { Name = inname })
+      var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
+      _icons = Directory
+        .GetFiles(iconDir)
+        .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
+        .Select(fileName => Path.Combine("icons", Path.GetFileName(fileName)))
         .ToArray();
 
       var graphs = await _graphServer.ByIds(new[] { _graphId });
@@ -245,7 +248,7 @@ namespace GraphML.UI.Web.Pages
         var nodes = chartNodes.Select(chartNode =>
           new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
           {
-            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null
+            IconName = chartNode.IconName
           });
         _diagram.Nodes.Add(nodes);
 
@@ -319,7 +322,7 @@ namespace GraphML.UI.Web.Pages
         var position = _diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
         var node = new DiagramNode(draggedNode, position)
         {
-          IconName = Enum.TryParse<IconName>(draggedNode.IconName, out _) ? Enum.Parse<IconName>(draggedNode.IconName) : null
+          IconName = draggedNode.IconName
         };
         _diagram.Nodes.Add(node);
       }
@@ -333,7 +336,7 @@ namespace GraphML.UI.Web.Pages
 
     #region Drag-Drop new node
 
-    private void OnDragNewStart(IconName iconName)
+    private void OnDragNewStart(string iconName)
     {
       _isNewNode = true;
       _newIconName = iconName;
@@ -414,7 +417,7 @@ namespace GraphML.UI.Web.Pages
 
         var selChartNode = _diagram.GetSelectedModels().OfType<DiagramNode>().ToList().Single();
         selChartNode.Name = _editNodeName;
-        selChartNode.IconName = string.IsNullOrEmpty(_dlgEditNodeIconName) ? null : Enum.Parse<IconName>(_dlgEditNodeIconName);
+        selChartNode.IconName = string.IsNullOrEmpty(_dlgEditNodeIconName) ? null : _dlgEditNodeIconName;
         selChartNode.Refresh();
       }
       finally
@@ -537,7 +540,7 @@ namespace GraphML.UI.Web.Pages
         var nodes = missChartNodes.Select(chartNode =>
           new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
           {
-            IconName = Enum.TryParse<IconName>(chartNode.IconName, out _) ? Enum.Parse<IconName>(chartNode.IconName) : null
+            IconName = chartNode.IconName
           });
         _diagram.Nodes.Add(nodes);
 

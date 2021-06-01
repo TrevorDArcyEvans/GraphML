@@ -78,16 +78,16 @@
         <MatExpansionPanelDetails>
           <MatTable
             Items="@_icons"
-            FilterByColumnName="@nameof(Icon.Name)"
+            FilterByColumnName="Name"
             Striped="true"
             AllowSelection="true"
             class="mat-elevation-z5">
             <MatTableRow>
-              <span draggable="true" @ondragstart="@(() => OnDragNewStart((IconName) @context.Name))">
+              <span draggable="true" @ondragstart="@(() => OnDragNewStart(context))">
                 <td>
-                  <Icon Name="@context.Name"/>
+                  <img src="@context"/>
                 </td>
-                <td>@context.Name</td>
+                <td>@context</td>
               </span>
             </MatTableRow>
           </MatTable>
@@ -208,17 +208,17 @@
         <MatTextField Label="Name" @bind-Value="@_dlgEditNodeName" FullWidth="true"/>
       </div>
       <div>
-        <Icon Name="@(string.IsNullOrEmpty(_dlgEditNodeIconName) ? null : Enum.Parse<IconName>(_dlgEditNodeIconName))"/>
-        <MatTextField 
-          Label="Icon" 
+        <img src="@_dlgEditNodeIconName"/>
+        <MatTextField
+          Label="Icon"
           Helpertext="Double click icon in list to change"
           HelperTextPersistent="true"
-          @bind-Value="@_dlgEditNodeIconName" 
-          FullWidth="true" 
-          HideClearButton="false" 
+          @bind-Value="@_dlgEditNodeIconName"
+          FullWidth="true"
+          HideClearButton="false"
           ReadOnly="true"/>
       </div>
-      
+
       <div>
         <MatAccordion>
           <MatExpansionPanel>
@@ -228,16 +228,16 @@
             <MatExpansionPanelDetails>
               <MatTable
                 Items="@_icons"
-                FilterByColumnName="@nameof(Icon.Name)"
+                FilterByColumnName="Name"
                 Striped="true"
                 AllowSelection="false"
-                OnRowDbClick="@(obj => { _dlgEditNodeIconName = ((Icon)obj).Name.ToString(); })"
+                OnRowDbClick="@(obj => { _dlgEditNodeIconName = (string) obj; })"
                 class="mat-elevation-z5">
                 <MatTableRow>
                   <td>
-                    <Icon Name="@context.Name"/>
+                    <img src="@context"/>
                   </td>
-                  <td>@context.Name</td>
+                  <td>@context</td>
                 </MatTableRow>
               </MatTable>
             </MatExpansionPanelDetails>

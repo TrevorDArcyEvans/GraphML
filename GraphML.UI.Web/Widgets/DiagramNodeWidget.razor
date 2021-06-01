@@ -1,7 +1,7 @@
 @using GraphML.UI.Web.Models
 
 <div class="graphml-node @(Node.Selected ? " graphml-selected" : "")">
-  <Icon Name="@Node.IconName"/>
+  <img src="@Node.IconName" width="32px" height="32px" alt="@Node.IconName"/>
   @Node.Name
 </div>
 
@@ -9,4 +9,5 @@
 
   [Parameter]
   public DiagramNode Node { get; set; }
+
 }
