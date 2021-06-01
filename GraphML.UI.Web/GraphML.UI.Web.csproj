@@ -27,6 +27,11 @@
 		<None Include="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<Content Update="wwwroot\icons\*.*">
+		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,6 +50,7 @@
     <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
 		<PackageReference Include="morelinq" Version="3.3.2" />
 		<PackageReference Include="MySql.Data" Version="8.0.22" />
 		<PackageReference Include="NLog" Version="4.7.5" />
@@ -63,6 +69,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="wwwroot\icons" />
 	  <Folder Include="wwwroot\_content" />
 	</ItemGroup>
 

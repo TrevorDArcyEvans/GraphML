@@ -263,6 +263,8 @@ __pycache__/
 
 
 GraphML.API/Logs/
+GraphML.UI.Web/wwwroot/icons/**
+!GraphML.UI.Web/wwwroot/icons/.gitkeep
 GraphML.cer
 GraphML.key
 
