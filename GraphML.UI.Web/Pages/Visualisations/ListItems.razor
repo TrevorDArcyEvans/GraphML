@@ -51,7 +51,7 @@
         <MatOption TValue="int" Value="@((int) ListItemsAction.TakeSelected)">Take selected</MatOption>
       </MatSelect>
 
-      <MatButton Icon="build" @onclick="@(e => OnTakeAction((ListItemsAction) _itemsAction))" Raised="true">Go!</MatButton>
+      <MatButton Icon="build" @onclick="@(async e => await OnTakeAction((ListItemsAction) _itemsAction))" Raised="true">Go!</MatButton>
     </div>
 
   </ContentTemplate>

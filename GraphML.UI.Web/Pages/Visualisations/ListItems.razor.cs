@@ -102,23 +102,35 @@ namespace GraphML.UI.Web.Pages.Visualisations
       StateHasChanged();
     }
 
-    private void OnTakeAction(ListItemsAction itemsAction)
+    private async Task OnTakeAction(ListItemsAction itemsAction)
     {
-      var filtCount = _table.FilteredItems.Count();
-
-      switch (itemsAction)
+      var oldPageSize = _table.PageSize;
+      try
       {
-        case ListItemsAction.TakeHalf:
-          _data = _table.FilteredItems.Take(filtCount / 2 + 1).ToList();
-          break;
-        case ListItemsAction.TakeQuarter:
-          _data = _table.FilteredItems.Take(filtCount / 4 + 1).ToList();
-          break;
-        case ListItemsAction.TakeSelected:
-          _data = _table.SelectedItems.ToList();
-          break;
-        default:
-          throw new ArgumentOutOfRangeException($"Unknown action:  {itemsAction}");
+        // Table.Filtered items only returns *displayed* items on current page,
+        // so we force display all (filtered) items
+        await _table.SetPageSizeAsync(int.MaxValue);
+
+        var filtCount = _table.FilteredItems.Count();
+
+        switch (itemsAction)
+        {
+          case ListItemsAction.TakeHalf:
+            _data = _table.FilteredItems.Take(filtCount / 2 + 1).ToList();
+            break;
+          case ListItemsAction.TakeQuarter:
+            _data = _table.FilteredItems.Take(filtCount / 4 + 1).ToList();
+            break;
+          case ListItemsAction.TakeSelected:
+            _data = _table.SelectedItems.ToList();
+            break;
+          default:
+            throw new ArgumentOutOfRangeException($"Unknown action:  {itemsAction}");
+        }
+      }
+      finally
+      {
+        await _table.SetPageSizeAsync(oldPageSize);
       }
     }
   }
