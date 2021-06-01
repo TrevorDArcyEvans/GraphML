@@ -618,6 +618,7 @@ namespace GraphML.UI.Web.Pages
         await DeleteDanglingDiagramLinks(missNodeIds);
 
         // only save ChartNodes in Diagram
+        // TODO   chunk
         await _chartNodeServer.Update(chartNodes);
 
         await SaveRenamedNodes(allChartNodes, chartNodes);
@@ -647,6 +648,7 @@ namespace GraphML.UI.Web.Pages
       var missNodes = allChartNodes.Where(cn => missNodeIds.Contains(cn.Id));
 
       // delete missing ChartNodes from Repository
+      // TODO   chunk
       await _chartNodeServer.Delete(missNodes);
 
       return missNodeIds;
@@ -667,6 +669,7 @@ namespace GraphML.UI.Web.Pages
       var missEdges = allChartEdges.Where(ce => missEdgeIds.Contains(ce.Id));
 
       // delete missing ChartEdges from Repository
+      // TODO   chunk
       await _chartEdgeServer.Delete(missEdges);
     }
 
@@ -678,6 +681,7 @@ namespace GraphML.UI.Web.Pages
       var dangChartEdges = _diagram.Links.OfType<DiagramLink>()
         .Where(dl => missNodeIds.Contains(dl.ChartEdge.ChartSourceId) || missNodeIds.Contains(dl.ChartEdge.ChartTargetId))
         .Select(dl => dl.ChartEdge);
+      // TODO   chunk
       await _chartEdgeServer.Delete(dangChartEdges);
     }
 
@@ -687,15 +691,20 @@ namespace GraphML.UI.Web.Pages
         .Where(cn => allChartNodes.Single(acn => cn.Id == acn.Id).Name != cn.Name).ToList();
       var changedNameGraphNodeIds = changedNameChartNodes
         .Select(cn => cn.GraphItemId);
+      // TODO   chunk
       var changedNameGraphNodes = (await _graphNodeServer.ByIds(changedNameGraphNodeIds)).ToList();
       var changedNameRepoGraphNodeIds = changedNameGraphNodes.Select(gn => gn.RepositoryItemId);
+      // TODO   chunk
       var changedNameRepoNodes = (await _nodeServer.ByIds(changedNameRepoGraphNodeIds)).ToList();
       changedNameGraphNodes
         .ForEach(gn => gn.Name = chartNodes.Single(cn => cn.GraphItemId == gn.Id).Name);
       changedNameRepoNodes
         .ForEach(rn => rn.Name = changedNameGraphNodes.Single(gn => gn.RepositoryItemId == rn.Id).Name);
+      // TODO   chunk
       await _chartNodeServer.Update(changedNameChartNodes);
+      // TODO   chunk
       await _graphNodeServer.Update(changedNameGraphNodes);
+      // TODO   chunk
       await _nodeServer.Update(changedNameRepoNodes);
     }
 
@@ -705,15 +714,20 @@ namespace GraphML.UI.Web.Pages
         .Where(cn => allChartEdges.Single(acn => cn.Id == acn.Id).Name != cn.Name).ToList();
       var changedNameGraphEdgeIds = changedNameChartEdges
         .Select(cn => cn.GraphItemId);
+      // TODO   chunk
       var changedNameGraphEdges = (await _graphEdgeServer.ByIds(changedNameGraphEdgeIds)).ToList();
       var changedNameRepoGraphEdgeIds = changedNameGraphEdges.Select(gn => gn.RepositoryItemId);
+      // TODO   chunk
       var changedNameRepoEdges = (await _edgeServer.ByIds(changedNameRepoGraphEdgeIds)).ToList();
       changedNameGraphEdges
         .ForEach(gn => gn.Name = chartEdges.Single(cn => cn.GraphItemId == gn.Id).Name);
       changedNameRepoEdges
         .ForEach(rn => rn.Name = changedNameGraphEdges.Single(gn => gn.RepositoryItemId == rn.Id).Name);
+      // TODO   chunk
       await _chartEdgeServer.Update(changedNameChartEdges);
+      // TODO   chunk
       await _graphEdgeServer.Update(changedNameGraphEdges);
+      // TODO   chunk
       await _edgeServer.Update(changedNameRepoEdges);
     }
 
