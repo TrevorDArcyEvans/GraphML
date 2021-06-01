@@ -155,6 +155,7 @@ namespace GraphML.UI.Web.Pages
         var missingGraphNodes = missingGraphNodeRepo
           .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
           .ToList();
+        // TODO   chunk
         _ = await _graphNodeServer.Create(missingGraphNodes);
         graphNodes.AddRange(missingGraphNodes);
 
@@ -171,6 +172,7 @@ namespace GraphML.UI.Web.Pages
               source.Id,
               target.Id);
           });
+        // TODO   chunk
         await _graphEdgeServer.Create(graphEdges);
 
         // successfully created new GraphEdges, so remove underlying Edges from available selection
