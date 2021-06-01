@@ -138,9 +138,14 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        var graphNodes = items.Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name));
-        // TODO   chunk
-        await _graphNodeServer.Create(graphNodes);
+        var graphNodes = items.Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name)).ToList();
+        var numGraphNodeChunks = (graphNodes.Count() / ChunkSize) + 1;
+        var chunkRange = Enumerable.Range(0, numGraphNodeChunks);
+        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+        {
+          var dataChunk = graphNodes.GetRange(i * ChunkSize, ChunkSize);
+          await _graphNodeServer.Create(dataChunk);
+        });
 
         // successfully created new GraphNodes, so remove underlying Nodes from available selection
         items.ForEach(item => _data.Remove(item));
