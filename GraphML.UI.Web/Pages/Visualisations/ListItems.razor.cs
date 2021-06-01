@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
 using GraphML.Interfaces.Server;
+using GraphML.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -39,6 +40,8 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     #endregion
 
+    #region Inject
+
     [Inject]
     private IGraphNodeServer _graphNodeServer { get; set; }
 
@@ -47,6 +50,11 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     [Inject]
     private NavigationManager _navMgr { get; set; }
+
+    #endregion
+
+    private const int ChunkSize = 1000;
+    private const int DegreeofParallelism = 10;
 
     private List<GraphNode> _data;
     private Table<GraphNode> _table;
@@ -66,23 +74,32 @@ namespace GraphML.UI.Web.Pages.Visualisations
     {
       if (firstRender)
       {
-        _graphId = Guid.Parse(GraphId);
+        await LoadData();
+      }
+    }
 
-        const int ChunkSize = 1000;
+    private async Task LoadData()
+    {
+      _graphId = Guid.Parse(GraphId);
 
-        // get GraphNodes already in Graph
-        var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
-        _data = new List<GraphNode>(allGraphNodesCount);
-        var numChunks = (allGraphNodesCount / ChunkSize) + 1;
-        for (var i = 0; i < numChunks; i++)
+      var lockObj = new object();
+
+      // get GraphNodes already in Graph
+      var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
+      _data = new List<GraphNode>(allGraphNodesCount);
+      var numChunks = (allGraphNodesCount / ChunkSize) + 1;
+      var chunkRange = Enumerable.Range(0, numChunks);
+      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      {
+        var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
+        var allGraphNodes = allGraphNodesPage.Items;
+        lock (lockObj)
         {
-          var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i * ChunkSize, ChunkSize, null);
-          var allGraphNodes = allGraphNodesPage.Items;
           _data.AddRange(allGraphNodes);
         }
+      });
 
-        StateHasChanged();
-      }
+      StateHasChanged();
     }
 
     private void OnTakeAction(ListItemsAction itemsAction)
