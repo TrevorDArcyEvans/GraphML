@@ -157,9 +157,9 @@ namespace GraphML.UI.Web.Pages
 
       var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
       _icons = Directory
-        .GetFiles(iconDir)
+        .GetFiles(iconDir, "*", SearchOption.AllDirectories)
         .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
-        .Select(fileName => Path.Combine("icons", Path.GetFileName(fileName)))
+        .Select(fileName => Path.GetRelativePath("wwwroot", fileName))
         .ToArray();
 
       var graphs = await _graphServer.ByIds(new[] { _graphId });
