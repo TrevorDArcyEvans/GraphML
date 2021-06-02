@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Authentication;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Blazorise;
@@ -12,6 +14,8 @@ using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using BlazorTable;
 using GraphML.Common;
+using GraphML.RPC;
+using Grpc.Net.Client;
 using MatBlazor;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -193,6 +197,31 @@ namespace GraphML.UI.Web
         endpoints.MapBlazorHub();
         endpoints.MapFallbackToPage("/_Host");
       });
+
+
+      // TODO   remove
+      Test_gRPC();
+    }
+    private static void Test_gRPC()
+    {
+      // The port number(5001) must match the port of the gRPC server.
+      using var channel = GrpcChannel.ForAddress("http://localhost:5020", new GrpcChannelOptions
+      {
+        MaxReceiveMessageSize = null, // null = remove limit!
+        MaxSendMessageSize = 100 * 1024 * 1024 // 100 MB
+      });
+      var client = new EdgeService.EdgeServiceClient(channel);
+      var request = new EdgeByOwnerRequest
+      {
+        OwnerId = "100fba96-f33d-4242-a551-722b73bc9c6d"
+      };
+      var sw = Stopwatch.StartNew();
+      var response = client.ByOwner(request);
+      var elapsedMs = sw.ElapsedMilliseconds;
+
+      Console.WriteLine(response.Edges.Count);
+      Console.WriteLine($"  {elapsedMs} ms");
+      Console.WriteLine();
     }
   }
 }

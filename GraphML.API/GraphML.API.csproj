@@ -37,6 +37,12 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Protobuf Include="..\GraphML\Protos\Edge.proto" GrpcServices="Server">
+      <Link>Protos\Edge.proto</Link>
+    </Protobuf>
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
@@ -50,6 +56,7 @@
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
     <PackageReference Include="FluentValidation" Version="9.3.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
     <PackageReference Include="Flurl" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />

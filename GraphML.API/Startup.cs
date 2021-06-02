@@ -23,6 +23,7 @@ using Dapper;
 using Newtonsoft.Json.Converters;
 using Flurl;
 using System.Net.Http;
+using GraphML.API.Services;
 using Microsoft.AspNetCore.Http.Features;
 using GraphML.Datastore.Database.Importer;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -85,6 +86,11 @@ namespace GraphML.API
       {
         options.EnableForHttps = true;
         options.Providers.Add<GzipCompressionProvider>();
+      });
+      services.AddGrpc(options =>
+      {
+        options.MaxSendMessageSize = null; // null = remove limit!
+        options.MaxReceiveMessageSize = 100 * 1024 * 1024; // 100 MB
       });
 
       services.Configure<FormOptions>(x =>
@@ -257,6 +263,12 @@ namespace GraphML.API
       app.UseStaticFiles();
       app.UseResponseCompression();
       app.UseMvc();
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+        endpoints.MapGrpcService<EdgeServiceImpl>();
+      });
     }
   }
 }

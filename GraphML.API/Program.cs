@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace GraphML.API
 {
   public sealed class Program
   {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
       try
       {
-        WebHostBuilder.BuildWebHost(args).Run();
+        await WebHostBuilder.BuildWebHost(args).Build().RunAsync();
       }
       finally
       {
