@@ -29,13 +29,21 @@ namespace GraphML.API.Services
       var response = new EdgeByOwnerResponse();
       foreach (var dataEdge in data)
       {
-        var rpcEdge = new GraphML.RPC.Edge
+        var rpcEdge = new RPC.Edge
         {
-          Name = dataEdge.Name,
-          Id = dataEdge.Id.ToString(),
-          OrganisationId = dataEdge.OrganisationId.ToString(),
-          OwnerId = dataEdge.OwnerId.ToString(),
-          NextId = dataEdge.NextId.ToString(),
+          Base = new RPC.RepositoryItem
+          {
+            Base = new RPC.OwnedItem
+            {
+              Base = new RPC.Item
+              {
+                Name = dataEdge.Name,
+                Id = dataEdge.Id.ToString(),
+                OrganisationId = dataEdge.OrganisationId.ToString()
+              },
+              OwnerId = dataEdge.OwnerId.ToString()
+            },NextId = dataEdge.NextId.ToString()
+          },
           SourceId = dataEdge.SourceId.ToString(),
           TargetId = dataEdge.TargetId.ToString()
         };

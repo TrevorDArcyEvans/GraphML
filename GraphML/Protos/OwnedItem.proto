@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option csharp_namespace = "GraphML.RPC";
+
+import "Item.proto";
+
+message OwnedItem
+{
+  Item base = 1;
+
+  // OwnedItem
+  string ownerId = 2;
+}
+

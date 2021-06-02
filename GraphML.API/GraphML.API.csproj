@@ -39,8 +39,21 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Protobuf Include="..\GraphML\Protos\Item.proto" GrpcServices="Server">
+      <Link>Protos\Item.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\GraphML\Protos\OwnedItem.proto" GrpcServices="Server">
+      <Link>Protos\OwnedItem.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\GraphML\Protos\RepositoryItem.proto" GrpcServices="Server">
+      <Link>Protos\RepositoryItem.proto</Link>
+    </Protobuf>
     <Protobuf Include="..\GraphML\Protos\Edge.proto" GrpcServices="Server">
       <Link>Protos\Edge.proto</Link>
+    </Protobuf>
+
+    <Protobuf Include="..\GraphML\Protos\EdgeService.proto" GrpcServices="Server">
+      <Link>Protos\EdgeService.proto</Link>
     </Protobuf>
   </ItemGroup>
 

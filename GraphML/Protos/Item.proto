@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "GraphML.RPC";
+
+message Item
+{
+  // Item
+  string name = 1;
+  string id = 2;
+  string organisationId = 3;
+}

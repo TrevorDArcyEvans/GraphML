@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "GraphML.RPC";
+
+import "Edge.proto";
+
+service EdgeService
+{
+  rpc ByOwner(EdgeByOwnerRequest) returns (EdgeByOwnerResponse);
+}
+
+message EdgeByOwnerRequest
+{
+  string ownerId = 1;
+}
+
+message EdgeByOwnerResponse
+{
+  repeated Edge edges = 1;
+}
