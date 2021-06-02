@@ -25,16 +25,18 @@
     <Protobuf Include="Protos\OwnedItem.proto" ProtoRoot="Protos\" />
     <Protobuf Include="Protos\RepositoryItem.proto" ProtoRoot="Protos\" />
     <Protobuf Include="Protos\Edge.proto" ProtoRoot="Protos\" />
+    <Protobuf Include="Protos\Node.proto" ProtoRoot="Protos\" />
 
     <Protobuf Include="Protos\EdgeService.proto" ProtoRoot="Protos\" />
+    <Protobuf Include="Protos\NodeService.proto" ProtoRoot="Protos\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-    <PackageReference Include="Google.Protobuf" Version="3.17.2"/>
+    <PackageReference Include="Google.Protobuf" Version="3.17.2" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.37.0"/>
+    <PackageReference Include="Grpc.Net.Client" Version="2.37.0" />
     <PackageReference Include="Grpc.Tools" Version="2.38.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

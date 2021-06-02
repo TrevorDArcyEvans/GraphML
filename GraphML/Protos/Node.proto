@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option csharp_namespace = "GraphML.RPC";
+
+import "RepositoryItem.proto";
+
+message Node
+{
+  RepositoryItem base = 1;
+  
+  // Node
+}
+

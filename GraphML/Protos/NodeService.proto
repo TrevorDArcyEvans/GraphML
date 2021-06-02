@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "GraphML.RPC";
+
+import "Node.proto";
+
+service NodeService
+{
+  rpc ByOwner(NodeByOwnerRequest) returns (NodeByOwnerResponse);
+}
+
+message NodeByOwnerRequest
+{
+  string ownerId = 1;
+}
+
+message NodeByOwnerResponse
+{
+  repeated Node nodes = 1;
+}
