@@ -35,25 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\GraphML\Protos\Item.proto" GrpcServices="Client">
-      <Link>Protos\Item.proto</Link>
-    </Protobuf>
-    <Protobuf Include="..\GraphML\Protos\OwnedItem.proto" GrpcServices="Client">
-      <Link>Protos\OwnedItem.proto</Link>
-    </Protobuf>
-    <Protobuf Include="..\GraphML\Protos\RepositoryItem.proto" GrpcServices="Client">
-      <Link>Protos\RepositoryItem.proto</Link>
-    </Protobuf>
-    <Protobuf Include="..\GraphML\Protos\Edge.proto" GrpcServices="Client">
-      <Link>Protos\Edge.proto</Link>
-    </Protobuf>
-
-    <Protobuf Include="..\GraphML\Protos\EdgeService.proto" GrpcServices="Client">
-      <Link>Protos\EdgeService.proto</Link>
-    </Protobuf>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.0.0"/>
     <PackageReference Include="Autofac.Configuration" Version="6.0.0"/>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0"/>
@@ -66,10 +47,6 @@
     <PackageReference Include="BlazorTable" Version="1.15.0"/>
     <PackageReference Include="Google.Protobuf" Version="3.17.2"/>
     <PackageReference Include="Grpc.Net.Client" Version="2.37.0"/>
-    <PackageReference Include="Grpc.Tools" Version="2.38.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="GraphShape" Version="1.2.0"/>
     <PackageReference Include="Humanizer.Core" Version="2.8.26"/>
     <PackageReference Include="MatBlazor" Version="2.9.0-develop-042"/>
