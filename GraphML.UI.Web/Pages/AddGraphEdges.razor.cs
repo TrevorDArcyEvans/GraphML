@@ -114,10 +114,19 @@ namespace GraphML.UI.Web.Pages
         });
         var graphNodes = await GetGraphNodesByOwners(nodeIds.ToList());
         var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
-        var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
+        var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds).ToList();
+        var missingGraphNodeRepo = new ConcurrentBag<Node>();
+        var numMissGraphNodeRepoChunks = (missingGraphNodeRepoIds.Count / ChunkSize) + 1;
+        var numMissGraphNodeRepoChunksRange = Enumerable.Range(0, numMissGraphNodeRepoChunks);
+        await numMissGraphNodeRepoChunksRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+        {
+          var dataChunk = missingGraphNodeRepoIds.Skip(i * ChunkSize).Take(ChunkSize);
+          var data = await _nodeServer.ByIds(dataChunk);
+          data
+            .ToList()
+            .ForEach(n => missingGraphNodeRepo.Add(n));
+        });
 
-        // TODO   chunk
-        var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
         var missingGraphNodes = missingGraphNodeRepo
           .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
           .ToList();
