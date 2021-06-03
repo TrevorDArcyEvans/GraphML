@@ -91,9 +91,6 @@ namespace GraphML.UI.Web.Pages
     [Inject]
     private IConfiguration _config { get; set; }
 
-    [Inject]
-    private NavigationManager _navMgr { get; set; }
-
     #endregion
 
     private const int ChunkSize = 1000;
@@ -789,11 +786,6 @@ namespace GraphML.UI.Web.Pages
       {
         _isBusy = false;
       }
-    }
-
-    private void GotoBrowseCharts()
-    {
-      _navMgr.NavigateTo($"/BrowseCharts/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}");
     }
   }
 }
