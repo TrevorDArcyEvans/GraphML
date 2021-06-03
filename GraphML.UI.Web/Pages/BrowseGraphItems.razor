@@ -32,16 +32,17 @@
 <div>
   <MatTabGroup>
     <MatTab Label="Graph Nodes">
-      <MatTable Items="@_nodes"
-                ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
-                PageParamName="pageIndex"
-                PageSizeParamName="pageSize"
-                PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-                PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-                FilterByColumnName="@nameof(GraphNode.Name)"
-                Striped="true"
-                AllowSelection="true"
-                class="mat-elevation-z5">
+      <MatTable
+        Items="@_nodes"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+        PageParamName="pageIndex"
+        PageSizeParamName="pageSize"
+        PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+        PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+        FilterByColumnName="@nameof(GraphNode.Name)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
         <MatTableHeader>
           <th>Name</th>
         </MatTableHeader>
@@ -59,16 +60,17 @@
     </MatTab>
 
     <MatTab Label="Graph Edges">
-      <MatTable Items="@_edges"
-                ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphEdge), nameof(GraphEdgeController.ByOwner), GraphId)"
-                PageParamName="pageIndex"
-                PageSizeParamName="pageSize"
-                PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphEdge>.TotalCount).Camelize()"
-                PagingDataPropertyName="@nameof(PagedDataEx<GraphEdge>.Items).Camelize()"
-                FilterByColumnName="@nameof(GraphEdge.Name)"
-                Striped="true"
-                AllowSelection="true"
-                class="mat-elevation-z5">
+      <MatTable
+        Items="@_edges"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphEdge), nameof(GraphEdgeController.ByOwner), GraphId)"
+        PageParamName="pageIndex"
+        PageSizeParamName="pageSize"
+        PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphEdge>.TotalCount).Camelize()"
+        PagingDataPropertyName="@nameof(PagedDataEx<GraphEdge>.Items).Camelize()"
+        FilterByColumnName="@nameof(GraphEdge.Name)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
         <MatTableHeader>
           <th>Name</th>
         </MatTableHeader>
