@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     #endregion
 
     private const int ChunkSize = 1000;
-    private const int DegreeofParallelism = 10;
+    private const int DegreeOfParallelism = 10;
 
     private List<GraphNode> _data;
     private Table<GraphNode> _table;
@@ -82,22 +83,20 @@ namespace GraphML.UI.Web.Pages.Visualisations
     {
       _graphId = Guid.Parse(GraphId);
 
-      var lockObj = new object();
-
       // get GraphNodes already in Graph
       var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
       _data = new List<GraphNode>(allGraphNodesCount);
+      var allGraphNodes = new ConcurrentBag<GraphNode>();
       var numChunks = (allGraphNodesCount / ChunkSize) + 1;
       var chunkRange = Enumerable.Range(0, numChunks);
-      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      await chunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
       {
         var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
-        var allGraphNodes = allGraphNodesPage.Items;
-        lock (lockObj)
-        {
-          _data.AddRange(allGraphNodes);
-        }
+        allGraphNodesPage.Items
+          .ToList()
+          .ForEach(gn => allGraphNodes.Add(gn));
       });
+      _data.AddRange(allGraphNodes);
 
       StateHasChanged();
     }
