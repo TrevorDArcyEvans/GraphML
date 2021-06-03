@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlazorTable;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Widgets;
 using GraphML.Utils;
