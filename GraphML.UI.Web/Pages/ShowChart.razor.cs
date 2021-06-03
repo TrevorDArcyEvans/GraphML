@@ -97,7 +97,7 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     private const int ChunkSize = 1000;
-    private const int DegreeofParallelism = 10;
+    private const int DegreeOfParallelism = 10;
     
     private  static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
     
@@ -193,7 +193,7 @@ namespace GraphML.UI.Web.Pages
       var numChunks = (numData / ChunkSize) + 1;
       var chunkRange = Enumerable.Range(0, numChunks);
       var retval = new ConcurrentBag<ChartNode>();
-      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      await chunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
       {
         var chartNodesPage = await _chartNodeServer.ByOwner(_chartId, i + 1, ChunkSize, null);
         var chartNodes = chartNodesPage.Items.ToList();
@@ -209,7 +209,7 @@ namespace GraphML.UI.Web.Pages
       var numChunks = (numData / ChunkSize) + 1;
       var chunkRange = Enumerable.Range(0, numChunks);
       var retval = new ConcurrentBag<ChartEdge>();
-      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      await chunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
       {
         var chartEdgesPage = await _chartEdgeServer.ByOwner(_chartId, i + 1, ChunkSize, null);
         var chartEdges = chartEdgesPage.Items.ToList();

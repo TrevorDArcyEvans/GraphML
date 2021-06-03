@@ -129,7 +129,7 @@ namespace GraphML.UI.Web.Pages
     private async Task<List<GanttDateTimeData>> GetData()
     {
       const int ChunkSize = 1000;
-      const int DegreeofParallelism = 10;
+      const int DegreeOfParallelism = 10;
 
       var lockObj = new object();
 
@@ -138,7 +138,7 @@ namespace GraphML.UI.Web.Pages
       var edgeIds = new List<Guid>(allGraphEdgesCount);
       var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
       var graphEdgeChunkRange = Enumerable.Range(0, numGraphEdgeChunks);
-      await graphEdgeChunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      await graphEdgeChunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
       {
         var graphEdgesPage = await _graphEdgeServer.ByOwner(graphId, i + 1, ChunkSize, null);
         var graphEdges = graphEdgesPage.Items;
@@ -152,7 +152,7 @@ namespace GraphML.UI.Web.Pages
       var numEdgeItemAttrChunks = edgeIds.Count / ChunkSize + 1;
       var edgeItemAttribs = new List<EdgeItemAttribute>(edgeIds.Count());
       var edgeItemAttrChunkRange = Enumerable.Range(0, numEdgeItemAttrChunks);
-      await edgeItemAttrChunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+      await edgeItemAttrChunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
       {
       var edgeItemAttribsPage = await _edgeItemAttribServer.ByOwners(edgeIds, i + 1, ChunkSize, null);
         lock (lockObj)

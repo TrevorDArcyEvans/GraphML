@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlazorTable;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Widgets;
 using GraphML.Utils;
@@ -59,7 +56,7 @@ namespace GraphML.UI.Web.Pages
     #endregion
 
     private const int ChunkSize = 10000;
-    private const int DegreeofParallelism = 10;
+    private const int DegreeOfParallelism = 10;
 
     private Node[] _data;
     private MatTableEx<Node> _table;
@@ -92,7 +89,7 @@ namespace GraphML.UI.Web.Pages
         var numRepoItems = (int) repoItemsPage.TotalCount;
         var numChunks = numRepoItems / ChunkSize + 1;
         var chunkRange = Enumerable.Range(0, numChunks);
-        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+        await chunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
         {
           var dataChunkPage = await _nodeServer.ByOwner(_repoId, i + 1, ChunkSize, searchTerm);
           var dataChunk = dataChunkPage.Items;
