@@ -35,9 +35,9 @@
     ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
     PageParamName="pageIndex"
     PageSizeParamName="pageSize"
-    PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-    PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-    FilterByColumnName="@nameof(GraphNode.Name)"
+    PagingRecordsCountPropertyName="@nameof(PagedDataEx<Chart>.TotalCount).Camelize()"
+    PagingDataPropertyName="@nameof(PagedDataEx<Chart>.Items).Camelize()"
+    FilterByColumnName="@nameof(Chart.Name)"
     Striped="true"
     AllowSelection="true"
     class="mat-elevation-z5">
