@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,9 +22,25 @@ namespace GraphML.API.Server
 {
   public abstract class ServerBase
   {
+    private static JsonSerializerSettings _settings = new JsonSerializerSettings
+    {
+      ContractResolver = new CamelCasePropertyNamesContractResolver(),
+      Formatting = Formatting.Indented,
+      Converters = new List<JsonConverter>(new JsonConverter[]
+      {
+        new StringEnumConverter(),
+
+        // https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
+        // https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
+        new IsoDateTimeConverter
+        {
+          DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'"
+        }
+      })
+    };
+
     private readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly HttpClient _client;
-    private readonly JsonSerializerSettings _settings = new JsonSerializerSettings();
     private readonly ILogger<ServerBase> _logger;
     private readonly ISyncPolicy _policy;
 
@@ -42,18 +59,6 @@ namespace GraphML.API.Server
       _policy = policy.Build(_logger);
 
       _client.BaseAddress ??= new Uri(config.API_URI());
-
-      _settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-      _settings.Formatting = Formatting.Indented;
-      _settings.Converters.Add(new StringEnumConverter());
-
-      // https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
-      // https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
-      var dateConverter = new IsoDateTimeConverter
-      {
-        DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'"
-      };
-      _settings.Converters.Add(dateConverter);
     }
 
     protected HttpRequestMessage GetRequest(string path)
@@ -126,8 +131,14 @@ namespace GraphML.API.Server
     protected async Task<TOther> RetrieveResponse<TOther>(HttpRequestMessage request)
     {
       var resp = await RetrieveRawResponse(request);
-      var json = await resp.Content.ReadAsStringAsync();
-      var retval = JsonConvert.DeserializeObject<TOther>(json, _settings);
+      await using var strm = await resp.Content.ReadAsStreamAsync();
+      using var sr = new StreamReader(strm);
+      using var reader = new JsonTextReader(sr);
+      var serialiser = new JsonSerializer
+      {
+        ContractResolver = _settings.ContractResolver
+      };
+      var retval = serialiser.Deserialize<TOther>(reader);
 
       return retval;
     }
@@ -136,7 +147,7 @@ namespace GraphML.API.Server
     {
       return await GetInternal(async () =>
       {
-        var resp = _client.SendAsync(request, new CancellationTokenSource().Token).Result;
+        var resp = await _client.SendAsync(request, new CancellationTokenSource().Token);
 
         resp.EnsureSuccessStatusCode();
 
