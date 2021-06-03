@@ -76,14 +76,13 @@ namespace GraphML.UI.Web.Pages.Visualisations
     {
       if (firstRender)
       {
+        _graphId = Guid.Parse(GraphId);
         await LoadData();
       }
     }
 
     private async Task LoadData()
     {
-      _graphId = Guid.Parse(GraphId);
-
       // get GraphNodes already in Graph
       var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
       _data = new List<GraphNode>(allGraphNodesCount);
