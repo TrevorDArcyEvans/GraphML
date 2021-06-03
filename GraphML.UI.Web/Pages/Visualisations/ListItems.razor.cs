@@ -59,6 +59,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     private List<GraphNode> _data;
     private Table<GraphNode> _table;
+    private readonly List<int> _pageSizes = new List<int>(new[] { 5, 10, 25, 50, 100 });
 
     private Guid _graphId;
 
