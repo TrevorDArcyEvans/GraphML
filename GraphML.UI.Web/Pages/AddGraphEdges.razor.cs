@@ -63,7 +63,7 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private const int ChunkSize = 1000;
+    private const int ChunkSize = 10000;
     private const int DegreeofParallelism = 10;
 
     private List<Edge> _data;
@@ -101,23 +101,18 @@ namespace GraphML.UI.Web.Pages
       _orgId = Guid.Parse(OrganisationId);
       _repoId = Guid.Parse(RepositoryId);
       _graphId = Guid.Parse(GraphId);
-
-      var lockObj = new object();
-
+      
       // get GraphEdges already in Graph
       var allGraphEdgesCount = await _graphEdgeServer.Count(_graphId);
-      var existRepoItemIds = new List<Guid>(allGraphEdgesCount);
+      var existRepoItemIds = new ConcurrentBag<Guid>();
       var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
       var chunkRange = Enumerable.Range(0, numGraphEdgeChunks);
       await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
       {
         var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
         var allGraphEdges = allGraphEdgesPage.Items;
-        var allGraphEdgesRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId);
-        lock (lockObj)
-        {
-          existRepoItemIds.AddRange(allGraphEdgesRepoItemIds);
-        }
+        var allGraphEdgesRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId).ToList();
+        allGraphEdgesRepoItemIds.ForEach(id => existRepoItemIds.Add(id));
       });
 
       // remove those GraphEdges from available Edges
@@ -125,17 +120,16 @@ namespace GraphML.UI.Web.Pages
       _data = new List<Edge>(dataCount);
       var numDataChunks = (dataCount / ChunkSize) + 1;
       var dataRange = Enumerable.Range(0, numDataChunks);
+      var data = new ConcurrentBag<Edge>();
       await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
       {
         var dataPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, null);
         var dataPageEdges = dataPage.Items
           .Where(n => !existRepoItemIds.Contains(n.Id))
           .ToList();
-        lock (lockObj)
-        {
-          _data.AddRange(dataPageEdges);
-        }
+        dataPageEdges.ForEach(e => data.Add(e));
       });
+      _data.AddRange(data);
 
       StateHasChanged();
     }

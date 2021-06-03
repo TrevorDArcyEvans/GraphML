@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,7 +57,7 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private const int ChunkSize = 1000;
+    private const int ChunkSize = 10000;
     private const int DegreeofParallelism = 10;
 
     private List<Node> _data;
@@ -94,23 +95,18 @@ namespace GraphML.UI.Web.Pages
       _repoId = Guid.Parse(RepositoryId);
       _graphId = Guid.Parse(GraphId);
       _orgId = Guid.Parse(OrganisationId);
-
-      var lockObj = new object();
-
+      
       // get GraphNodes already in Graph
       var allGraphNodesCount = await _graphNodeServer.Count(_graphId);
-      var existRepoItemIds = new List<Guid>(allGraphNodesCount);
+      var existRepoItemIds = new ConcurrentBag<Guid>();
       var numGraphNodeChunks = (allGraphNodesCount / ChunkSize) + 1;
       var chunkRange = Enumerable.Range(0, numGraphNodeChunks);
       await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
       {
         var allGraphNodesPage = await _graphNodeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
         var allGraphNodes = allGraphNodesPage.Items;
-        var allGraphNodeRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId);
-        lock (lockObj)
-        {
-          existRepoItemIds.AddRange(allGraphNodeRepoItemIds);
-        }
+        var allGraphNodeRepoItemIds = allGraphNodes.Select(gn => gn.RepositoryItemId).ToList();
+        allGraphNodeRepoItemIds.ForEach(id => existRepoItemIds.Add(id));
       });
 
       // remove those GraphNodes from available Nodes
@@ -118,17 +114,16 @@ namespace GraphML.UI.Web.Pages
       _data = new List<Node>(dataCount);
       var numDataChunks = (dataCount / ChunkSize) + 1;
       var dataRange = Enumerable.Range(0, numDataChunks);
+      var data = new ConcurrentBag<Node>();
       await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
       {
         var dataPage = await _nodeServer.ByOwner(Guid.Parse(RepositoryId), i + 1, ChunkSize, null);
         var dataPageNodes = dataPage.Items
           .Where(n => !existRepoItemIds.Contains(n.Id))
           .ToList();
-        lock (lockObj)
-        {
-          _data.AddRange(dataPageNodes);
-        }
+        dataPageNodes.ForEach(n => data.Add(n));
       });
+      _data.AddRange(data);
 
       StateHasChanged();
     }
