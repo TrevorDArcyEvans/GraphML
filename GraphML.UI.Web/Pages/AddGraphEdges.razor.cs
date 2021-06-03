@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
 using GraphML.Interfaces.Server;
+using GraphML.UI.Web.Widgets;
 using GraphML.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -66,8 +67,8 @@ namespace GraphML.UI.Web.Pages
     private const int ChunkSize = 10000;
     private const int DegreeofParallelism = 10;
 
-    private List<Edge> _data;
-    private Table<Edge> _table;
+    private Edge[] _data;
+    private MatTableEx<Edge> _table;
 
     private Guid _orgId;
     private Guid _repoId;
@@ -76,65 +77,14 @@ namespace GraphML.UI.Web.Pages
     private bool _addAllDialogIsOpen;
     private bool _isAddingItems;
 
-    // In Blazor WASM we would normally place
-    // data initialization here. However, on
-    // Blazor Server, a long running task in
-    // OnInitializedAsync will cause happen
-    // at the server and no spinner will display
-    // Instead, long running initialize methods
-    // should be moved to OnAfterRender with
-    // an added call to StateHasChange().
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await LoadData();
-    //}
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-      if (firstRender)
-      {
-        await LoadData();
-      }
-    }
-
-    private async Task LoadData()
+    protected override void OnInitialized()
     {
       _orgId = Guid.Parse(OrganisationId);
       _repoId = Guid.Parse(RepositoryId);
       _graphId = Guid.Parse(GraphId);
-      
-      // get GraphEdges already in Graph
-      var allGraphEdgesCount = await _graphEdgeServer.Count(_graphId);
-      var existRepoItemIds = new ConcurrentBag<Guid>();
-      var numGraphEdgeChunks = (allGraphEdgesCount / ChunkSize) + 1;
-      var chunkRange = Enumerable.Range(0, numGraphEdgeChunks);
-      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-      {
-        var allGraphEdgesPage = await _graphEdgeServer.ByOwner(_graphId, i + 1, ChunkSize, null);
-        var allGraphEdges = allGraphEdgesPage.Items;
-        var allGraphEdgesRepoItemIds = allGraphEdges.Select(gn => gn.RepositoryItemId).ToList();
-        allGraphEdgesRepoItemIds.ForEach(id => existRepoItemIds.Add(id));
-      });
-
-      // remove those GraphEdges from available Edges
-      var dataCount = await _edgeServer.Count(_repoId);
-      _data = new List<Edge>(dataCount);
-      var numDataChunks = (dataCount / ChunkSize) + 1;
-      var dataRange = Enumerable.Range(0, numDataChunks);
-      var data = new ConcurrentBag<Edge>();
-      await dataRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-      {
-        var dataPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, null);
-        var dataPageEdges = dataPage.Items
-          .Where(n => !existRepoItemIds.Contains(n.Id))
-          .ToList();
-        dataPageEdges.ForEach(e => data.Add(e));
-      });
-      _data.AddRange(data);
-
-      StateHasChanged();
     }
 
-    private async Task AddGraphItems(List<Edge> items)
+    private async Task AddGraphItems(string searchTerm = null)
     {
       try
       {
@@ -144,12 +94,29 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        var nodeIds = items
-          .SelectMany(e => new[] { e.SourceId, e.TargetId }).Distinct()
-          .ToList();
-        var graphNodes = await GetGraphNodesByOwners(nodeIds);
+        // create missing GraphNodes
+        var repoItemsPage = await _edgeServer.ByOwner(_repoId, 1, 1, searchTerm);
+        var numRepoItems = (int) repoItemsPage.TotalCount;
+        var numChunks = numRepoItems / ChunkSize + 1;
+        var edgeChunkRange = Enumerable.Range(0, numChunks);
+        var nodeIds = new ConcurrentBag<Guid>();
+        var items = new ConcurrentBag<Edge>();
+        await edgeChunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
+        {
+          var dataChunkPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, searchTerm);
+          var dataChunk = dataChunkPage.Items
+            .ToList();
+          dataChunk.SelectMany(e => new[] { e.SourceId, e.TargetId })
+            .Distinct()
+            .ToList()
+            .ForEach(id => nodeIds.Add(id));
+          dataChunk.ForEach(e => items.Add(e));
+        });
+        var graphNodes = await GetGraphNodesByOwners(nodeIds.ToList());
         var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
         var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds);
+
+        // TODO   chunk
         var missingGraphNodeRepo = await _nodeServer.ByIds(missingGraphNodeRepoIds);
         var missingGraphNodes = missingGraphNodeRepo
           .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
@@ -163,11 +130,12 @@ namespace GraphML.UI.Web.Pages
         });
         graphNodes.AddRange(missingGraphNodes);
 
+        // create new GraphEdges
         var graphEdges = items
           .Select(e =>
           {
-            var source = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.SourceId);
-            var target = graphNodes.SingleOrDefault(gn => gn.RepositoryItemId == e.TargetId);
+            var source = graphNodes.Single(gn => gn.RepositoryItemId == e.SourceId);
+            var target = graphNodes.Single(gn => gn.RepositoryItemId == e.TargetId);
             return new GraphEdge(
               _graphId,
               _orgId,
@@ -184,13 +152,6 @@ namespace GraphML.UI.Web.Pages
           var dataChunk = graphEdges.Skip(i * ChunkSize).Take(ChunkSize);
           await _graphEdgeServer.Create(dataChunk);
         });
-
-        // successfully created new GraphEdges, so remove underlying Edges from available selection
-        // NOTE:  'items' and '_data' point back to the same underlying info,
-        // so we have to create a copy ('shadowItems') of 'items' otherwise we are trying to 
-        // modify a list whilst iterating over it.
-        var shadowItems = items.Select(item => item).ToList();
-        shadowItems.ForEach(item => _data.Remove(item));
       }
       finally
       {
@@ -198,19 +159,14 @@ namespace GraphML.UI.Web.Pages
       }
     }
 
-    private async Task AddSelectedItems()
-    {
-      await AddGraphItems(_table.SelectedItems);
-    }
-
     private async Task AddFilteredItems()
     {
-      await AddGraphItems(_table.FilteredItems.ToList());
+      await AddGraphItems(_table.GetSearchTerm());
     }
 
     private async Task AddAllItems()
     {
-      await AddGraphItems(_data);
+      await AddGraphItems();
     }
 
     private async Task<List<GraphNode>> GetGraphNodesByOwners(List<Guid> nodeIds)
