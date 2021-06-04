@@ -8,7 +8,6 @@ using Blazor.Diagrams.Core;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using BlazorContextMenu;
-using Blazorise;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
@@ -17,7 +16,6 @@ using GraphShape.Algorithms.Layout;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Configuration;
-using Icon = Blazorise.Icons.FontAwesome.Icon;
 using QG = QuikGraph;
 using Point = Blazor.Diagrams.Core.Geometry.Point;
 
@@ -95,9 +93,11 @@ namespace GraphML.UI.Web.Pages
 
     private const int ChunkSize = 1000;
     private const int DegreeOfParallelism = 10;
-    
-    private  static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
-    
+
+    private static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+
+    #region member variables
+
     private Diagram _diagram { get; set; }
     private GraphNode[] _graphNodes;
     private Graph _graph;
@@ -136,6 +136,8 @@ namespace GraphML.UI.Web.Pages
     private string _layout;
 
     private bool _isBusy;
+
+    #endregion
 
     #region Initialisation
 
@@ -216,23 +218,6 @@ namespace GraphML.UI.Web.Pages
       return retval.ToList();
     }
 
-    #endregion
-
-    private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
-    {
-      if (eventArgs.Button == 2 &&
-          model is DiagramNode)
-      {
-        _contextMenuService.ShowMenu("NodeContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
-      }
-
-      if (eventArgs.Button == 2 &&
-          model is DiagramLink)
-      {
-        _contextMenuService.ShowMenu("LinkContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
-      }
-    }
-
     private async Task Setup(IEnumerable<ChartNode> chartNodes, IEnumerable<ChartEdge> chartEdges)
     {
       try
@@ -264,6 +249,23 @@ namespace GraphML.UI.Web.Pages
       finally
       {
         _isBusy = false;
+      }
+    }
+
+    #endregion
+
+    private void Diagram_OnMouseClick(Model model, MouseEventArgs eventArgs)
+    {
+      if (eventArgs.Button == 2 &&
+          model is DiagramNode)
+      {
+        _contextMenuService.ShowMenu("NodeContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
+      }
+
+      if (eventArgs.Button == 2 &&
+          model is DiagramLink)
+      {
+        _contextMenuService.ShowMenu("LinkContextMenu", (int) eventArgs.ClientX, (int) eventArgs.ClientY);
       }
     }
 
