@@ -45,6 +45,12 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     [Inject]
     private IGraphNodeServer _graphNodeServer { get; set; }
+    
+    [Inject]
+    public IChartNodeServer _chartNodeServer { get; set; }
+
+    [Inject]
+    public IChartServer _chartServer { get; set; }
 
     [Inject]
     private IConfiguration _config { get; set; }
@@ -62,6 +68,22 @@ namespace GraphML.UI.Web.Pages.Visualisations
     private readonly List<int> _pageSizes = new List<int>(new[] { 5, 10, 25, 50, 100 });
 
     private Guid _graphId;
+    
+    private bool _newChartDialogIsOpen;
+    private string _newItemName;
+    private string _dlgNewItemName;
+
+    private int _selNumItems = 100;
+    private readonly int[] _numItems = new int[]
+    {
+      10,
+      25,
+      50,
+      100,
+      250,
+      500,
+      1000
+    };
 
     private int _itemsAction;
 
@@ -131,6 +153,38 @@ namespace GraphML.UI.Web.Pages.Visualisations
       {
         await _table.SetPageSizeAsync(oldPageSize);
       }
+    }
+
+    private async Task OkNewChartClick()
+    {
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      {
+        return;
+      }
+
+      _newItemName = _dlgNewItemName;
+      _newChartDialogIsOpen = false;
+      var newItem = await CreateNewChart(_newItemName);
+      GotoShowChart(newItem);
+    }
+
+    private async Task<Chart> CreateNewChart(string itemName)
+    {
+      var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
+      var newItems = await _chartServer.Create(new[] { newItem });
+      var newChart = newItems.Single();
+      
+      var chartNodes = _data
+        .Take(_selNumItems)
+        .Select(gn => new ChartNode(newChart.Id, gn.OrganisationId, gn.Id, gn.Name));
+      _ = await _chartNodeServer.Create(chartNodes);
+      
+      return newChart;
+    }
+
+    private void GotoShowChart(Chart chart)
+    {
+      _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
     }
   }
 }

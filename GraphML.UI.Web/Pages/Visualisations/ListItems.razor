@@ -56,3 +56,25 @@
 
   </ContentTemplate>
 </SpinLoader>
+<p/>
+
+<div>
+  <MatButton OnClick="@(e => { _dlgNewItemName = null; _newChartDialogIsOpen = true; })" Icon="create_new_folder" Raised="true">New chart...</MatButton>
+  <MatDialog @bind-IsOpen="@_newChartDialogIsOpen">
+    <MatDialogTitle>Create new chart</MatDialogTitle>
+    <MatDialogContent>
+      <div>
+        <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+      </div>
+      <hr/>
+      <div>
+        <label>Select top:</label>
+        <MatSelectValue @bind-Value="_selNumItems" Items="@_numItems" ValueSelector="@(i => i)"></MatSelectValue>
+      </div>
+    </MatDialogContent>
+    <MatDialogActions>
+      <MatButton OnClick="@(e => { _newChartDialogIsOpen = false; })">Cancel</MatButton>
+      <MatButton OnClick="@OkNewChartClick">OK</MatButton>
+    </MatDialogActions>
+  </MatDialog>
+</div>
