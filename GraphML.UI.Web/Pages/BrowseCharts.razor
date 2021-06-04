@@ -127,9 +127,13 @@
       <hr/>
       <div>
         <label>Select date-time interval attribute:</label>
-        <MatSelectValue @bind-Value="_selIntervalAttr" Items="@_intervalAttrs" ValueSelector="@(eiad => eiad)">
+        @*
+        BUG:   889 : MatSelectValue: null reference exception when setting Items async
+                  https://github.com/SamProf/MatBlazor/issues/889
+        <MatSelectValue @ref="_selectVal" @bind-Value="_selIntervalAttr" Items="@_intervalAttrs" ValueSelector="@(eiad => eiad)">
           <ItemTemplate>@context?.Name</ItemTemplate>
         </MatSelectValue>
+        *@
       </div>
     </MatDialogContent>
     <MatDialogActions>

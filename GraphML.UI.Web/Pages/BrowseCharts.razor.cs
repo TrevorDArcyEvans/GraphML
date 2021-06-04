@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Interfaces.Server;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -72,14 +73,20 @@ namespace GraphML.UI.Web.Pages
 
     private EdgeItemAttributeDefinition _selIntervalAttr;
     private EdgeItemAttributeDefinition[] _intervalAttrs;
+    private MatSelectValue<EdgeItemAttributeDefinition, EdgeItemAttributeDefinition> _selectVal;
 
     protected override async Task OnInitializedAsync()
     {
+      await base.OnInitializedAsync();
+
+      // BUG:   889 : MatSelectValue: null reference exception when setting Items async
+      //          https://github.com/SamProf/MatBlazor/issues/889
       var intervalAttrsPage = await _edgeItemAttribDefServer.ByOwner(Guid.Parse(RepositoryManagerId), 1, int.MaxValue, null);
       _intervalAttrs = intervalAttrsPage
         .Items
         .Where(eiad => eiad.DataType == "DateTimeInterval")
         .ToArray();
+      _selIntervalAttr = _intervalAttrs.First();
     }
 
     private async Task OkNewChartClick()
