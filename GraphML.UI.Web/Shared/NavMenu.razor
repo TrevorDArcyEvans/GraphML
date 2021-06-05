@@ -49,6 +49,11 @@
           </MatButtonLink>
         </li>
         <li class="nav-item px-3">
+          <MatButtonLink class="nav-link" href="About">
+            <span class="oi oi-info" aria-hidden="true"></span> About
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
           <MatButtonLink class="nav-link" href="/LogoutIDP">
             <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
             (@context.User.Claims.FirstOrDefault(c => c.Type == "name")?.Value)
