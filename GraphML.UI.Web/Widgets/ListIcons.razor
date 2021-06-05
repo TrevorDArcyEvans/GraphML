@@ -1,0 +1,36 @@
+@using System.IO
+
+<div>
+  <MatTable
+    Items="@_icons"
+    FilterByColumnName="Name"
+    Striped="true"
+    AllowSelection="true"
+    class="mat-elevation-z5">
+    <MatTableRow>
+      <span>
+        <td>
+          <img src="@context"/>
+        </td>
+        <td>@context</td>
+      </span>
+    </MatTableRow>
+  </MatTable>
+</div>
+
+@code
+{
+  private static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+
+  private string[] _icons;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
+    _icons = Directory
+      .GetFiles(iconDir, "*", SearchOption.AllDirectories)
+      .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
+      .Select(fileName => Path.GetRelativePath("wwwroot", fileName))
+      .ToArray();
+  }
+}

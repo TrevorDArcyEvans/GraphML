@@ -44,8 +44,12 @@
           </MatButtonLink>
         </li>
         <li class="nav-item px-3">
-          <MatButtonLink class="nav-link"
-                         href="/LogoutIDP">
+          <MatButtonLink class="nav-link" href="BrowseIcons">
+            <span class="oi oi-aperture" aria-hidden="true"></span> Icons
+          </MatButtonLink>
+        </li>
+        <li class="nav-item px-3">
+          <MatButtonLink class="nav-link" href="/LogoutIDP">
             <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
             (@context.User.Claims.FirstOrDefault(c => c.Type == "name")?.Value)
           </MatButtonLink>
@@ -53,8 +57,7 @@
       </Authorized>
 
       <NotAuthorized>
-        <MatButtonLink class="nav-link"
-                       href="LoginIDP">
+        <MatButtonLink class="nav-link" href="LoginIDP">
           <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
         </MatButtonLink>
       </NotAuthorized>
