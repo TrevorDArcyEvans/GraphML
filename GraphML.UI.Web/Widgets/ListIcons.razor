@@ -7,20 +7,22 @@
     Striped="true"
     AllowSelection="true"
     class="mat-elevation-z5">
+    <MatTableHeader>
+      <th>Icon</th>
+      <th>Path</th>
+    </MatTableHeader>
     <MatTableRow>
-      <span>
-        <td>
-          <img src="@context"/>
-        </td>
-        <td>@context</td>
-      </span>
+      <td>
+        <img src="@context" alt="@context" width="32px" height="32px"/>
+      </td>
+      <td>@context</td>
     </MatTableRow>
   </MatTable>
 </div>
 
 @code
 {
-  private static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+  private static readonly List<string> ImageExtensions = new() { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
 
   private string[] _icons;
 
