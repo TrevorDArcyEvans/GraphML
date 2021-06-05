@@ -1,21 +1,30 @@
 @using System.IO
+@using MoreLinq
 
-<div>
+<div width="100%">
   <MatTable
     Items="@_icons"
-    FilterByColumnName="Name"
+    PageSize="5"
     Striped="true"
     AllowSelection="true"
     class="mat-elevation-z5">
-    <MatTableHeader>
-      <th>Icon</th>
-      <th>Path</th>
-    </MatTableHeader>
     <MatTableRow>
       <td>
-        <img src="@context" alt="@context" width="32px" height="32px"/>
+        <div class="mat-layout-grid">
+          <div class="mat-layout-grid-inner">
+            @{
+              foreach (var icon in context)
+              {
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-1" style="word-wrap: break-word; width: 96px">
+                  <img src="@icon" alt="@icon" width="32px" height="32px"/>
+                  <p/>
+                  @Path.GetFileNameWithoutExtension(icon)
+                </div>
+              }
+            }
+          </div>
+        </div>
       </td>
-      <td>@context</td>
     </MatTableRow>
   </MatTable>
 </div>
@@ -24,15 +33,21 @@
 {
   private static readonly List<string> ImageExtensions = new() { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
 
-  private string[] _icons;
+  private List<List<string>> _icons = new();
 
   protected override async Task OnInitializedAsync()
   {
     var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
-    _icons = Directory
+    var allIcons = Directory
       .GetFiles(iconDir, "*", SearchOption.AllDirectories)
       .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
-      .Select(fileName => Path.GetRelativePath("wwwroot", fileName))
-      .ToArray();
+      .Select(fileName => Path.GetRelativePath("wwwroot", fileName));
+    var numChunks = (allIcons.Count() / 10) + 1;
+    var chunkRange = Enumerable.Range(0, numChunks);
+    chunkRange.ForEach(i =>
+    {
+      var data = allIcons.Skip(i * 10).Take(10).ToList();
+      _icons.Add(data);
+    });
   }
 }
