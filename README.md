@@ -130,6 +130,7 @@ or just strategically well-placed.<p/>
   ./IdentityServerAspNetIdentity
 ```
 1. open [IdentityServer4 Login](https://localhost:44387/Account/Login)
+1. open [IdentityServer4 Discovery Document](https://localhost:44387/.well-known/openid-configuration)
 1. run _Analysis Server_
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
