@@ -45,7 +45,12 @@ else
   private async Task<string> GetUserInfo()
   {
     var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-    var client = new HttpClient
+    var handler = new HttpClientHandler
+    {
+      ServerCertificateCustomValidationCallback = delegate { return true; },
+      UseDefaultCredentials = true
+    };
+    var client = new HttpClient(handler)
     {
       BaseAddress = new Uri(_config.IDENTITY_SERVER_BASE_URL())
     };
