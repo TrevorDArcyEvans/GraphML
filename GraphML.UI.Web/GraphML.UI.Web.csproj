@@ -1,76 +1,76 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-		<StartupObject>GraphML.UI.Web.Program</StartupObject>
-		<UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
-		<ApplicationIcon />
-		<OutputType>Exe</OutputType>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\GraphML.snk</AssemblyOriginatorKeyFile>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <StartupObject>GraphML.UI.Web.Program</StartupObject>
+        <UserSecretsId>GraphML-e8202f10-7ebf-473a-8876-ca78548583fd</UserSecretsId>
+        <ApplicationIcon/>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\GraphML.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<Content Remove="appsettings.json" />
-	</ItemGroup>
+    <ItemGroup>
+        <Content Remove="appsettings.json"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<None Include="..\GraphML.API\nlog.config" Link="nlog.config">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<Content Update="wwwroot\icons\*.*">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="..\GraphML.API\nlog.config" Link="nlog.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <Content Update="wwwroot\icons\*.*">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Autofac" Version="6.0.0" />
-		<PackageReference Include="Autofac.Configuration" Version="6.0.0" />
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-		<PackageReference Include="Blazor.ContextMenu" Version="1.9.0" />
-		<PackageReference Include="Blazorise" Version="0.9.3.6" />
-		<PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.6" />
-		<PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.6" />
-		<PackageReference Include="BlazorPro.Spinkit" Version="1.2.0" />
-    <PackageReference Include="BlazorRazor" Version="1.0.0" />
-    <PackageReference Include="BlazorTable" Version="1.15.0" />
-    <PackageReference Include="GraphShape" Version="1.2.0" />
-    <PackageReference Include="Humanizer.Core" Version="2.8.26" />
-    <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-		<PackageReference Include="morelinq" Version="3.3.2" />
-		<PackageReference Include="MySql.Data" Version="8.0.22" />
-		<PackageReference Include="NLog" Version="4.7.5" />
-		<PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
-		<PackageReference Include="Npgsql" Version="5.0.0" />
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.6" />
-		<PackageReference Include="Z.Blazor.Diagrams" Version="2.0.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.0.0"/>
+        <PackageReference Include="Autofac.Configuration" Version="6.0.0"/>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0"/>
+        <PackageReference Include="Blazor.ContextMenu" Version="1.9.0"/>
+        <PackageReference Include="Blazorise" Version="0.9.3.6"/>
+        <PackageReference Include="Blazorise.Bootstrap" Version="0.9.3.6"/>
+        <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.3.6"/>
+        <PackageReference Include="BlazorPro.Spinkit" Version="1.2.0"/>
+        <PackageReference Include="BlazorRazor" Version="1.0.0"/>
+        <PackageReference Include="BlazorTable" Version="1.15.0"/>
+        <PackageReference Include="GraphShape" Version="1.2.0"/>
+        <PackageReference Include="Humanizer.Core" Version="2.8.26"/>
+        <PackageReference Include="MatBlazor" Version="2.9.0-develop-042"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0"/>
+        <PackageReference Include="morelinq" Version="3.3.2"/>
+        <PackageReference Include="MySql.Data" Version="8.0.22"/>
+        <PackageReference Include="NLog" Version="4.7.5"/>
+        <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3"/>
+        <PackageReference Include="Npgsql" Version="5.0.0"/>
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.2"/>
+        <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.6"/>
+        <PackageReference Include="Z.Blazor.Diagrams" Version="2.0.0"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\ChartJs.Blazor\src\ChartJs.Blazor\ChartJs.Blazor.csproj" />
-		<ProjectReference Include="..\GraphML.API\GraphML.API.csproj" />
-		<ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj" />
-		<ProjectReference Include="..\GraphML\GraphML.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ChartJs.Blazor\src\ChartJs.Blazor\ChartJs.Blazor.csproj"/>
+        <ProjectReference Include="..\GraphML.API\GraphML.API.csproj"/>
+        <ProjectReference Include="..\GraphML.Common\GraphML.Common.csproj"/>
+        <ProjectReference Include="..\GraphML\GraphML.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\icons" />
-	  <Folder Include="wwwroot\_content" />
-	</ItemGroup>
+    <ItemGroup>
+        <Folder Include="wwwroot\icons"/>
+        <Folder Include="wwwroot\_content"/>
+    </ItemGroup>
 
 </Project>
