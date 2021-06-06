@@ -1,5 +1,7 @@
 ﻿@page "/AddGraphNodes/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
+@attribute [Authorize]
+
 @using GraphML
 @using GraphML.UI.Web.Widgets
 @using System.Web

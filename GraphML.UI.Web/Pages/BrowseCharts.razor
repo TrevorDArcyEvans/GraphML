@@ -1,5 +1,7 @@
 @page "/BrowseCharts/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
+@attribute [Authorize]
+
 @using GraphML
 @using GraphML.Common
 @using Flurl

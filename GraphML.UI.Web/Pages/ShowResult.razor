@@ -1,5 +1,7 @@
 @page "/ShowResult/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{CorrelationId}"
 
+@attribute [Authorize]
+
 @using Microsoft.Extensions.Configuration
 @using System.Web;
 @using GraphML.Interfaces.Server

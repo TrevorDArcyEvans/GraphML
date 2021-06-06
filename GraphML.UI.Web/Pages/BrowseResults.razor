@@ -1,5 +1,7 @@
 @page "/BrowseResults/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}"
 
+@attribute [Authorize]
+
 @using Flurl
 @using System.Web;
 @using GraphML.API.Controllers
