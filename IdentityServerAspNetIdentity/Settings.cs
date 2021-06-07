@@ -46,12 +46,12 @@ namespace IdentityServerAspNetIdentity
                   .Select(cs => new Secret(cs.Value.Sha256()))
                   .ToList(),
 
-            AllowedGrantTypes = new [] { GrantType.AuthorizationCode, GrantType.ClientCredentials, GrantType.ResourceOwnerPassword },
+            AllowedGrantTypes = new[] { GrantType.AuthorizationCode, GrantType.ClientCredentials, GrantType.ResourceOwnerPassword },
             RequireConsent = false,
             RequirePkce = true,
 
-                  // where to redirect to after login
-                  RedirectUris = child
+            // where to redirect to after login
+            RedirectUris = child
                   .GetSection("RedirectUris")
                   .GetChildren()
                   .Select(cs => cs.Value)
@@ -63,23 +63,24 @@ namespace IdentityServerAspNetIdentity
                   .Select(cs => cs.Value)
                   .ToList(),
 
-                  // where to redirect to after logout
-                  PostLogoutRedirectUris = child
+            // where to redirect to after logout
+            PostLogoutRedirectUris = child
                   .GetSection("PostLogoutRedirectUris")
                   .GetChildren()
                   .Select(cs => cs.Value)
                   .ToList(),
 
-                  // allowed scopes - include Api Resources and Identity Resources that may be accessed by this client
-                  AllowedScopes = child
+            // allowed scopes - include Api Resources and Identity Resources that may be accessed by this client
+            AllowedScopes = child
                   .GetSection("AllowedScopes")
                   .GetChildren()
                   .Select(cs => cs.Value)
                   .ToList(),
 
-                  // include the refresh token
-                  AllowOfflineAccess = true,
+            // include the refresh token
+            AllowOfflineAccess = true,
 
+            AccessTokenLifetime = (int)TimeSpan.FromHours(16).TotalMinutes,
             ClientClaimsPrefix = "",
             AlwaysSendClientClaims = true,
             AlwaysIncludeUserClaimsInIdToken = true
