@@ -39,6 +39,7 @@ namespace GraphML.API.Server
       })
     };
 
+    private readonly IConfiguration _config;
     private readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly HttpClient _client;
     private readonly ILogger<ServerBase> _logger;
@@ -53,12 +54,13 @@ namespace GraphML.API.Server
       ILogger<ServerBase> logger,
       ISyncPolicyFactory policy)
     {
+      _config = config;
       _httpContextAccessor = httpContextAccessor;
       _client = client;
       _logger = logger;
       _policy = policy.Build(_logger);
 
-      _client.BaseAddress ??= new Uri(config.API_URI());
+      _client.BaseAddress ??= new Uri(_config.API_URI());
     }
 
     protected HttpRequestMessage GetRequest(string path)
