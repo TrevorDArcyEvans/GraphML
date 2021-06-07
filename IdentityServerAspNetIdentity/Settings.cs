@@ -81,6 +81,7 @@ namespace IdentityServerAspNetIdentity
             AllowOfflineAccess = true,
 
             AccessTokenLifetime = (int)TimeSpan.FromHours(16).TotalMinutes,
+            IdentityTokenLifetime = (int)TimeSpan.FromHours(16).TotalMinutes,
             ClientClaimsPrefix = "",
             AlwaysSendClientClaims = true,
             AlwaysIncludeUserClaimsInIdToken = true
