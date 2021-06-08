@@ -1,7 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using GraphML.API.Attributes;
+using GraphML.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +25,20 @@ namespace GraphML.API.Controllers
     /// </summary>
     /// <response code="200">Success - if no Entities found, return empty list</response>
     [HttpGet]
-    [Route(nameof(GetAPIUserClaimsJson))]
+    [Route(nameof(GetAPIUserClaims))]
     [ValidateModelState]
-    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(string))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, Type = typeof(LookupEx<string, string>))]
     [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
-    public ActionResult<string> GetAPIUserClaimsJson()
+    public ActionResult<LookupEx<string, string>> GetAPIUserClaims()
     {
-      var claimTypes = from c in User.Claims select new { c.Type, c.Value };
-      var retval = JsonConvert.SerializeObject(claimTypes, Formatting.Indented);
+      var retval = new LookupEx<string, string>();
+      var claims = User.Claims;
+      foreach (var claim in claims)
+      {
+        var grping = retval.GetGrouping(claim.Type, true);
+        grping.Add(claim.Value);
+      }
+
       return Ok(retval);
     }
   }

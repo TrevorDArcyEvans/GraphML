@@ -14,7 +14,8 @@
 @inject IIdentityServer _identityServer
 @inject IConfiguration _config
 
-<b>User Claims from API</b><p/>
+<b>User Claims from API</b>
+<p/>
 
 @if (userClaimsJson == null)
 {
@@ -24,12 +25,16 @@
 }
 else
 {
-  <p>These are the user claims that were presented to the API</p>
-  <pre> @userClaimsJson </pre>
+  <div>
+    <p>These are the user claims that were presented to the API</p>
+    <MatTextField @bind-Value="@userClaimsJson" Label="User Claims" TextArea="true" FullWidth="true" Style="height: 300px"/>
+  </div>
   <hr/>
 
-  <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
-  <pre> @userInfo </pre>
+  <div>
+    <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
+    <pre> @userInfo </pre>
+  </div>
 }
 
 @code {
@@ -38,7 +43,8 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    userClaimsJson = await _identityServer.GetAPIUserClaimsJson();
+    var claims = await _identityServer.GetAPIUserClaims();
+    userClaimsJson = JsonConvert.SerializeObject(claims, Formatting.Indented, new LookupSerializer<string>());
     userInfo = await GetUserInfo();
   }
 
