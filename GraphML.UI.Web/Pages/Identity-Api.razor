@@ -17,7 +17,7 @@
 <b>User Claims from API</b>
 <p/>
 
-@if (userClaimsJson == null)
+@if (_userClaimsJson == null)
 {
   <p>
     <em>Loading...</em>
@@ -27,25 +27,41 @@ else
 {
   <div>
     <p>These are the user claims that were presented to the API</p>
-    <MatTextField @bind-Value="@userClaimsJson" Label="User Claims" TextArea="true" FullWidth="true" Style="height: 300px"/>
+    <MatTextField Value="@_userClaimsJson" Label="User Claims" TextArea="true" FullWidth="true" ReadOnly="true" Style="height: 300px"/>
+  </div>
+  <div>
+    <MatTextField Value="@_notBefore.ToString("O")" Label="Not Before" FullWidth="true" ReadOnly="true" />
+  </div>
+  <div>
+    <MatTextField Value="@_expiry.ToString("O")" Label="Expiry" FullWidth="true" ReadOnly="true" />
+  </div>
+  <div>
+    <MatTextField Value="@_authTime.ToString("O")" Label="AuthenticationBuilder Time" FullWidth="true" ReadOnly="true" />
   </div>
   <hr/>
 
   <div>
     <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
-    <pre> @userInfo </pre>
+    <pre> @_userInfo </pre>
   </div>
 }
 
 @code {
-  private string userClaimsJson;
-  private string userInfo;
+  private string _userClaimsJson;
+  private string _userInfo;
+  private DateTime _notBefore;
+  private DateTime _expiry;
+  private DateTime _authTime;
 
   protected override async Task OnInitializedAsync()
   {
     var claims = await _identityServer.GetAPIUserClaims();
-    userClaimsJson = JsonConvert.SerializeObject(claims, Formatting.Indented, new LookupSerializer<string>());
-    userInfo = await GetUserInfo();
+
+    _notBefore = GetTime(claims, "nbf");
+    _expiry = GetTime(claims, "exp");
+    _authTime = GetTime(claims, "auth_time");
+    _userClaimsJson = JsonConvert.SerializeObject(claims, Formatting.Indented, new LookupSerializer<string>());
+    _userInfo = await GetUserInfo();
   }
 
   private async Task<string> GetUserInfo()
@@ -67,6 +83,13 @@ else
     var retval = JsonConvert.SerializeObject(jObj, Formatting.Indented);
 
     return retval;
+  }
+
+  private static DateTime GetTime(ILookup<string, string> data, string claim)
+  {
+    var str = data[claim].Single();
+    var val = int.Parse(str);
+    return DateTime.UnixEpoch.AddSeconds(val);
   }
 
 }
