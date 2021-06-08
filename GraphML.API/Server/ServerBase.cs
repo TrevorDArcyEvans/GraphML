@@ -73,7 +73,7 @@ namespace GraphML.API.Server
       var accessToken = _httpContextAccessor.HttpContext.GetTokenAsync("access_token").Result; // TODO async
       if (accessToken != null)
       {
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
       }
 
       return request;

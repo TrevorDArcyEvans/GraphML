@@ -72,7 +72,7 @@ namespace GraphML.UI.Web
           throw new AuthenticationException("Access token is missing");
         }
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         return client;
       });
