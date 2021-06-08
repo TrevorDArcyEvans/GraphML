@@ -80,8 +80,8 @@ namespace IdentityServerAspNetIdentity
             // include the refresh token
             AllowOfflineAccess = true,
 
-            AccessTokenLifetime = (int)TimeSpan.FromHours(16).TotalMinutes,
-            IdentityTokenLifetime = (int)TimeSpan.FromHours(16).TotalMinutes,
+            AccessTokenLifetime = (int)TimeSpan.FromHours(16).TotalSeconds,
+            IdentityTokenLifetime = (int)TimeSpan.FromHours(16).TotalSeconds,
             ClientClaimsPrefix = "",
             AlwaysSendClientClaims = true,
             AlwaysIncludeUserClaimsInIdToken = true
