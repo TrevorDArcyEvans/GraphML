@@ -32,6 +32,7 @@ namespace GraphML.Analysis.RankedShortestPath
       _factory = factory;
       _resultLogic = resultLogic;
     }
+    
     public override void Run(IRequest req)
     {
       var shortPathReq = (IFindShortestPathsRequest)req;

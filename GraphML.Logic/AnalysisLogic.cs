@@ -73,6 +73,17 @@ namespace GraphML.Logic
       Send(req);
     }
 
+    public void FindDuplicates(IFindDuplicatesRequest req)
+    {
+      // requester is same org as graph
+      var valRes = _graphRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.FindDuplicates)));
+      if (!valRes.IsValid)
+      {
+        return;
+      }
+      Send(req);
+    }
+
     private void Send(IRequest req)
     {
       var jsonReq = JsonConvert.SerializeObject(req);

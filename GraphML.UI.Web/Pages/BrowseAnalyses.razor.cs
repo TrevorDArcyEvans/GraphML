@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using GraphML.Analysis.FindDuplicates;
 using GraphML.Analysis.RankedShortestPath;
 using GraphML.Analysis.SNA.Centrality;
 using GraphML.Common;
@@ -41,7 +42,9 @@ namespace GraphML.UI.Web.Pages
     private Guid _betweennessCorrelationId = Guid.Empty;
     private Guid _closenessCorrelationId = Guid.Empty;
     private Guid _degreeCorrelationId = Guid.Empty;
+    private Guid _findDuplicatesCorrelationId = Guid.Empty;
 
+    private Guid _graphId;
     private Contact _contact;
 
     private GraphNode[] _graphNodes;
@@ -51,6 +54,21 @@ namespace GraphML.UI.Web.Pages
     private bool _newDialogIsOpen;
     private string _dlgNewItemName;
     private Func<Task> _analysis;
+
+    private int _selNumItems = 10;
+    private readonly int[] _numItems = new int[]
+    {
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    };
 
     private async Task SubmitShortestPath()
     {
@@ -65,7 +83,7 @@ namespace GraphML.UI.Web.Pages
       {
         Description = _dlgNewItemName,
         Contact = _contact,
-        GraphId = Guid.Parse(GraphId),
+        GraphId = _graphId,
         RootNodeId = _shortestPathRootNode.Id,
         GoalNodeId = _shortestPathGoalNode.Id
       };
@@ -78,7 +96,7 @@ namespace GraphML.UI.Web.Pages
       {
         Description = _dlgNewItemName,
         Contact = _contact,
-        GraphId = Guid.Parse(GraphId)
+        GraphId = _graphId
       };
       _betweennessCorrelationId = await _analysisServer.Betweenness(req);
     }
@@ -89,7 +107,7 @@ namespace GraphML.UI.Web.Pages
       {
         Description = _dlgNewItemName,
         Contact = _contact,
-        GraphId = Guid.Parse(GraphId)
+        GraphId = _graphId
       };
       _closenessCorrelationId = await _analysisServer.Closeness(req);
     }
@@ -100,9 +118,21 @@ namespace GraphML.UI.Web.Pages
       {
         Description = _dlgNewItemName,
         Contact = _contact,
-        GraphId = Guid.Parse(GraphId)
+        GraphId = _graphId
       };
       _degreeCorrelationId = await _analysisServer.Degree(req);
+    }
+
+    private async Task SubmitFindDuplicates()
+    {
+      var req = new FindDuplicatesRequest()
+      {
+        Description = _dlgNewItemName,
+        Contact = _contact,
+        GraphId = _graphId,
+        MinMatchingKeyLength = _selNumItems
+      };
+      _findDuplicatesCorrelationId = await _analysisServer.FindDuplicates(req);
     }
 
     private void OnRootSelectionChanged(object row)
@@ -142,6 +172,7 @@ namespace GraphML.UI.Web.Pages
 
       var email = _context.Email();
       _contact = await _contactServer.ByEmail(email);
+      _graphId = Guid.Parse(GraphId);
     }
 
     private void GotoListItems()

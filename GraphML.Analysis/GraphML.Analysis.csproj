@@ -19,19 +19,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
+    <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs"/>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\GraphML.snk" Link="GraphML.snk" />
+    <None Include="..\GraphML.snk" Link="GraphML.snk"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="QuikGraph" Version="2.3.0" />
+    <PackageReference Include="Phonix" Version="1.0.2"/>
+    <PackageReference Include="QuikGraph" Version="2.3.0"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
+    <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj"/>
   </ItemGroup>
 
 </Project>

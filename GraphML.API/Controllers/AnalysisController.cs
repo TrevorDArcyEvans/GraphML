@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using GraphML.Analysis.FindDuplicates;
 
 namespace GraphML.API.Controllers
 {
@@ -100,6 +101,24 @@ namespace GraphML.API.Controllers
     public ActionResult<Guid> FindShortestPaths([FromBody] [Required] FindShortestPathsRequest req)
     {
       _logic.FindShortestPaths(req);
+
+      return Ok(req.CorrelationId);
+    }
+
+    /// <summary>
+    /// Find duplicate nodes in a graph using double metaphone algorithm
+    /// </summary>
+    /// <param name="req">Job request</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpPost]
+    [Route(nameof(FindDuplicates))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Guid> FindDuplicates([FromBody] [Required] FindDuplicatesRequest req)
+    {
+      _logic.FindDuplicates(req);
 
       return Ok(req.CorrelationId);
     }

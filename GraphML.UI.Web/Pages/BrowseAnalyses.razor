@@ -139,6 +139,20 @@
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
 
+    <MatExpansionPanel>
+      <MatExpansionPanelSummary>
+        <MatExpansionPanelHeader>Find Duplicates</MatExpansionPanelHeader>
+      </MatExpansionPanelSummary>
+      <MatExpansionPanelDetails>
+      <div>
+        <label>Minimum matching key length:</label>
+        <MatSelectValue @bind-Value="_selNumItems" Items="@_numItems" ValueSelector="@(i => i)"></MatSelectValue>
+      </div>
+        <MatButton Icon="file_copy" @onclick="@(e => OnNewDialog(SubmitFindDuplicates))"/>
+        <p>@_findDuplicatesCorrelationId</p>
+      </MatExpansionPanelDetails>
+    </MatExpansionPanel>
+
   </MatAccordion>
 </div>
 <p/>

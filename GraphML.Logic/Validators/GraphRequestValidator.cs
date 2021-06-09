@@ -41,6 +41,10 @@ namespace GraphML.Logic.Validators
       {
         RequesterMustBeSameOrganisation();
       });
+      RuleSet(nameof(IAnalysisLogic.FindDuplicates), () =>
+      {
+        RequesterMustBeSameOrganisation();
+      });
     }
 
     public void RequesterMustBeSameOrganisation()

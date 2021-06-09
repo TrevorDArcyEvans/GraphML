@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using System;
 using System.Net.Http;
+using GraphML.Analysis.FindDuplicates;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
@@ -52,6 +53,14 @@ namespace GraphML.API.Server
     public async Task<Guid> FindShortestPaths(FindShortestPathsRequest req)
     {
       var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.FindShortestPaths)}"), req);
+      var retval = await RetrieveResponse<Guid>(request);
+
+      return retval;
+    }
+
+    public async Task<Guid> FindDuplicates(FindDuplicatesRequest req)
+    {
+      var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.FindDuplicates)}"), req);
       var retval = await RetrieveResponse<Guid>(request);
 
       return retval;
