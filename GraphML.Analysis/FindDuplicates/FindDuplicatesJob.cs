@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GraphML.Common;
@@ -33,23 +34,16 @@ namespace GraphML.Analysis.FindDuplicates
       const int MaxKeyLength = 15;
 
       var findDupesReq = (IFindDuplicatesRequest) req;
-      var graphId = findDupesReq.GraphId;
 
       // raw nodes from db
-      var nodes = _nodeDatastore.ByOwners(new[] { graphId }, 0, int.MaxValue, null).Items;
+      var nodes = _nodeDatastore.ByOwners(new[] { findDupesReq.GraphId }, 0, int.MaxValue, null).Items;
       var keys = GetKeys(nodes, MaxKeyLength);
       var dupes = GetDuplicates(keys);
-      var result = new FindDuplicatesResult(dupes);
-      
-      var options = new JsonSerializerSettings();
-      options.Converters.Add(new LookupSerializer<string[]>());
-      var resultJson = JsonConvert.SerializeObject(result, options);
-      
-      // TODO   JSON serialisation
-      List<IGrouping<string, string[]>> filteredDupes = dupes
+      var filteredDupes = dupes
         .Where(x => x.Count() > 1 && x.Key.Length > findDupesReq.MinMatchingKeyLength)
         .ToList();
-      var json = JsonConvert.SerializeObject(filteredDupes, options);
+      var result = new FindDuplicatesResult(filteredDupes);
+      var resultJson = JsonConvert.SerializeObject(result, new FindDuplicatesResultSerializer());
 
       _resultLogic.Create(req, resultJson);
     }
