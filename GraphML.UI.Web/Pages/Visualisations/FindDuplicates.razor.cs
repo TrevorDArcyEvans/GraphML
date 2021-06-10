@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Analysis.FindDuplicates;
 using GraphML.Interfaces.Server;
@@ -59,6 +60,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     #endregion
 
     private FindDuplicatesResult _result;
+    private string _dataDisplay;
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,6 +68,11 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       _result = (FindDuplicatesResult) genRes;
+      foreach (var grping in _result.Result)
+      {
+        var ids = grping.ToList().SelectMany(x => x);
+        _dataDisplay += string.Join('|', ids) + Environment.NewLine;
+      }
     }
   }
 }
