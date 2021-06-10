@@ -103,7 +103,7 @@
         </MatExpansionPanel>
 
         <div>
-          <MatButton Icon="multiline_chart" @onclick="@(e => OnNewDialog(SubmitShortestPath))"/>
+          <MatButton Icon="multiline_chart" @onclick="@(e => OnNewDialog(SubmitShortestPath))" Raised="true"/>
         </div>
         <p>@_findShortestPathsCorrelationId</p>
       </MatExpansionPanelDetails>
@@ -114,7 +114,7 @@
         <MatExpansionPanelHeader>Betweenness</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="bar_chart" @onclick="@(e => OnNewDialog(SubmitBetweenness))"/>
+        <MatButton Icon="bar_chart" @onclick="@(e => OnNewDialog(SubmitBetweenness))" Raised="true"/>
         <p>@_betweennessCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -124,7 +124,7 @@
         <MatExpansionPanelHeader>Closeness</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="pie_chart" @onclick="@(e => OnNewDialog(SubmitCloseness))"/>
+        <MatButton Icon="pie_chart" @onclick="@(e => OnNewDialog(SubmitCloseness))" Raised="true"/>
         <p>@_closenessCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -134,7 +134,7 @@
         <MatExpansionPanelHeader>Degree</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="table_chart" @onclick="@(e => OnNewDialog(SubmitDegree))"/>
+        <MatButton Icon="table_chart" @onclick="@(e => OnNewDialog(SubmitDegree))" Raised="true"/>
         <p>@_degreeCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -148,7 +148,7 @@
         <label>Minimum matching key length:</label>
         <MatSelectValue @bind-Value="_selNumItems" Items="@_numItems" ValueSelector="@(i => i)"></MatSelectValue>
       </div>
-        <MatButton Icon="file_copy" @onclick="@(e => OnNewDialog(SubmitFindDuplicates))"/>
+        <MatButton Icon="file_copy" @onclick="@(e => OnNewDialog(SubmitFindDuplicates))" Raised="true"/>
         <p>@_findDuplicatesCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
