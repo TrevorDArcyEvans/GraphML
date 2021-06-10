@@ -66,6 +66,9 @@ namespace GraphML.UI.Web.Pages
         case IFindShortestPathsRequest:
           builder.OpenComponent(index++, typeof(FindShortestPaths));
           break;
+        case IFindDuplicatesRequest:
+          builder.OpenComponent(index++, typeof(FindDuplicates));
+          break;
         default:
           throw new ArgumentOutOfRangeException($"Unknown request:  {_request}");
       }
