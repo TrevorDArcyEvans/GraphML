@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Configuration
 @using System.Web;
 @using GraphML.Interfaces.Server
+@using GraphML.UI.Web.Widgets
 
 @inject IResultServer _resultServer
 @inject IConfiguration _config
@@ -35,11 +36,13 @@
   </Breadcrumb>
 </span>
 
-@if (_request == null)
-{
-  <p>Loading..</p>
-}
-else
-{
-  @CreateDynamicComponent()
-}
+<SpinLoader IsLoading="@(_request == null)">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    @CreateDynamicComponent()
+
+  </ContentTemplate>
+</SpinLoader>

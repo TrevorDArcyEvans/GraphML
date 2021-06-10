@@ -9,6 +9,7 @@
 @using GraphML.Interfaces.Server
 @using Microsoft.Extensions.Configuration
 @using GraphML.Common
+@using GraphML.UI.Web.Widgets
 
 @inject IHttpContextAccessor _httpContextAccessor
 @inject IIdentityServer _identityServer
@@ -17,34 +18,34 @@
 <b>User Claims from API</b>
 <p/>
 
-@if (_userClaimsJson == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <div>
-    <p>These are the user claims that were presented to the API</p>
-    <MatTextField Value="@_userClaimsJson" Label="User Claims" TextArea="true" FullWidth="true" ReadOnly="true" Style="height: 300px"/>
-  </div>
-  <div>
-    <MatTextField Value="@_notBefore.ToString("O")" Label="Not Before" FullWidth="true" ReadOnly="true" />
-  </div>
-  <div>
-    <MatTextField Value="@_expiry.ToString("O")" Label="Expiry" FullWidth="true" ReadOnly="true" />
-  </div>
-  <div>
-    <MatTextField Value="@_authTime.ToString("O")" Label="AuthenticationBuilder Time" FullWidth="true" ReadOnly="true" />
-  </div>
-  <hr/>
+<SpinLoader IsLoading="@(_userClaimsJson == null)">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
 
-  <div>
-    <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
-    <pre> @_userInfo </pre>
-  </div>
-}
+    <div>
+      <p>These are the user claims that were presented to the API</p>
+      <MatTextField Value="@_userClaimsJson" Label="User Claims" TextArea="true" FullWidth="true" ReadOnly="true" Style="height: 300px"/>
+    </div>
+    <div>
+      <MatTextField Value="@_notBefore.ToString("O")" Label="Not Before" FullWidth="true" ReadOnly="true"/>
+    </div>
+    <div>
+      <MatTextField Value="@_expiry.ToString("O")" Label="Expiry" FullWidth="true" ReadOnly="true"/>
+    </div>
+    <div>
+      <MatTextField Value="@_authTime.ToString("O")" Label="AuthenticationBuilder Time" FullWidth="true" ReadOnly="true"/>
+    </div>
+    <hr/>
+
+    <div>
+      <p>OIDC Information from <span style="font-family: monospace">IdentityServer/connect/userinfo</span></p>
+      <pre> @_userInfo </pre>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>
 
 @code {
   private string _userClaimsJson;

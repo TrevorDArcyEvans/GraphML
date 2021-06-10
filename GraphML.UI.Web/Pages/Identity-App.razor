@@ -4,25 +4,27 @@
 
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
+@using GraphML.UI.Web.Widgets
 
 @inject IHttpContextAccessor _httpContextAccessor
 
-@attribute [Authorize]
+@attribute            [Authorize]
 
-<b>User Claims from APP</b><p/>
+<b>User Claims from APP</b>
+<p/>
 
 <p>These are the user claims that were presented to the Application</p>
 
-@if (userClaimsJson == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <pre> @userClaimsJson </pre>
-}
+<SpinLoader IsLoading="@(userClaimsJson == null)">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    <pre> @userClaimsJson </pre>
+
+  </ContentTemplate>
+</SpinLoader>
 
 @code {
   private string userClaimsJson = string.Empty;
@@ -30,9 +32,10 @@ else
   protected override Task OnInitializedAsync()
   {
     var claimsList = _httpContextAccessor.HttpContext.User.Claims;
-    var rawList = (from c in claimsList select new {c.Type, c.Value});
+    var rawList = (from c in claimsList select new { c.Type, c.Value });
     userClaimsJson = JsonConvert.SerializeObject(rawList, Formatting.Indented);
 
     return Task.CompletedTask;
   }
+
 }

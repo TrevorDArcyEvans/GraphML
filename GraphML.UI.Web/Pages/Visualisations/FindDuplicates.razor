@@ -1,5 +1,20 @@
-﻿<b>Find Duplicates</b>
+﻿@using GraphML.UI.Web.Widgets
 
-<div>
-  <h1><TODO> Find Duplicates </TODO></h1>
-</div>
+<b>Find Duplicates</b>
+
+<h1>
+  <TODO> Find Duplicates </TODO>
+</h1>
+
+<SpinLoader IsLoading="@(_result == null)">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    <h1>
+      <TODO> Show Find Duplicates Result </TODO>
+    </h1>
+
+  </ContentTemplate>
+</SpinLoader>

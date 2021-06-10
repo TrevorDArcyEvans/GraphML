@@ -58,13 +58,14 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     #endregion
 
-    private FindDuplicatesResult _results;
+    private FindDuplicatesResult _result;
 
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
 
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
+      _result = (FindDuplicatesResult) genRes;
     }
   }
 }
