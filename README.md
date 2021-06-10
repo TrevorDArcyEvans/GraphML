@@ -57,6 +57,10 @@ or just strategically well-placed.<p/>
   * nodejs
   * git
   * Google Chrome web browser
+    * primary web client
+    * does not work with Apache ActiveMQ admin page
+  * Firefox web browser
+    * required to view Apache ActiveMQ admin page
   * database:
     * Microsoft SQL Server
     * MySQL or MariaDB
@@ -471,6 +475,13 @@ Recommended method is to use a _Docker_ container:
 Alternate method is to install and run Redis on WSL:
 
   https://redislabs.com/blog/redis-on-windows-10/
+
+```bash
+  sudo apt install redis-server
+  sudo service redis-server status
+  sudo service redis-server start
+  sudo service redis-server stop
+```
 
 ### Redis Commander
 ```bash
