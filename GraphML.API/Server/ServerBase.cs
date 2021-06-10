@@ -35,7 +35,9 @@ namespace GraphML.API.Server
         new IsoDateTimeConverter
         {
           DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fff'Z'"
-        }
+        },
+        new LookupSerializer<string[]>(),
+        new FindDuplicatesResultSerializer()
       })
     };
 
@@ -135,12 +137,8 @@ namespace GraphML.API.Server
       var resp = await RetrieveRawResponse(request);
       await using var strm = await resp.Content.ReadAsStreamAsync();
       using var sr = new StreamReader(strm);
-      using var reader = new JsonTextReader(sr);
-      var serialiser = new JsonSerializer
-      {
-        ContractResolver = _settings.ContractResolver
-      };
-      var retval = serialiser.Deserialize<TOther>(reader);
+      var json = await sr.ReadToEndAsync();
+      var retval = JsonConvert.DeserializeObject<TOther>(json, _settings);
 
       return retval;
     }

@@ -53,6 +53,16 @@ namespace GraphML.Datastore.Redis
     private readonly IServer _server;
     private readonly IDatabase _db;
 
+    private readonly JsonSerializerSettings _settings = new()
+    {
+      Converters = new List<JsonConverter>(
+        new JsonConverter[]
+        {
+          new LookupSerializer<string[]>(),
+          new FindDuplicatesResultSerializer()
+        })
+    };
+
     public ResultDatastore(
       IConfiguration config,
       ILogger<ResultDatastore> logger,
@@ -97,8 +107,8 @@ namespace GraphML.Datastore.Redis
       {
         var keys = _server.Keys()
           .Where(x =>
-            x.ToString().StartsWith($"{correlationId}") ||  // result
-            x.ToString().EndsWith($"{correlationId}"))      // request
+            x.ToString().StartsWith($"{correlationId}") || // result
+            x.ToString().EndsWith($"{correlationId}")) // request
           .ToArray();
 
         _db.KeyDelete(keys);
@@ -122,7 +132,7 @@ namespace GraphML.Datastore.Redis
           var jobj = JObject.Parse(json);
           var reqTypeStr = jobj["Type"].ToString();
           var reqType = Type.GetType(reqTypeStr);
-          var request = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+          var request = (IRequest) JsonConvert.DeserializeObject(json, reqType);
 
           retval.Add(request);
         }
@@ -146,7 +156,7 @@ namespace GraphML.Datastore.Redis
           var jobj = JObject.Parse(json);
           var reqTypeStr = jobj["Type"].ToString();
           var reqType = Type.GetType(reqTypeStr);
-          var request = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+          var request = (IRequest) JsonConvert.DeserializeObject(json, reqType);
 
           retval.Add(request);
         }
@@ -170,7 +180,7 @@ namespace GraphML.Datastore.Redis
           var jobj = JObject.Parse(json);
           var reqTypeStr = jobj["Type"].ToString();
           var reqType = Type.GetType(reqTypeStr);
-          var request = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+          var request = (IRequest) JsonConvert.DeserializeObject(json, reqType);
 
           retval.Add(request);
         }
@@ -192,7 +202,7 @@ namespace GraphML.Datastore.Redis
         var jobj = JObject.Parse(json);
         var reqTypeStr = jobj["Type"].ToString();
         var reqType = Type.GetType(reqTypeStr);
-        var retval = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+        var retval = (IRequest) JsonConvert.DeserializeObject(json, reqType);
 
         return retval;
       });
@@ -211,7 +221,7 @@ namespace GraphML.Datastore.Redis
         var jobj = JObject.Parse(json);
         var resTypeStr = jobj["Type"].ToString();
         var resType = Type.GetType(resTypeStr);
-        var result = (IResult)JsonConvert.DeserializeObject(json, resType);
+        var result = (IResult) JsonConvert.DeserializeObject(json, resType, _settings);
 
         return result;
       });

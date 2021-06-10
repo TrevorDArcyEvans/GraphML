@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
 using GraphML.API.Controllers;
+using GraphML.Common;
 using GraphML.Interfaces;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +18,16 @@ namespace GraphML.API.Server
 {
   public sealed class ResultServer : ServerBase, IResultServer
   {
+    private readonly JsonSerializerSettings _settings = new()
+    {
+      Converters = new List<JsonConverter>(
+        new JsonConverter[]
+        {
+          new LookupSerializer<string[]>(),
+          new FindDuplicatesResultSerializer()
+        })
+    };
+
     public ResultServer(
       IConfiguration config,
       IHttpContextAccessor httpContextAccessor,
@@ -76,11 +88,14 @@ namespace GraphML.API.Server
 
     private async Task<object> GetObject(HttpRequestMessage request)
     {
-      var retval = await RetrieveResponse<object>(request);
-      var jobj = (JObject) retval;
+      var resp = await RetrieveRawResponse(request);
+      await using var strm = await resp.Content.ReadAsStreamAsync();
+      using var sr = new StreamReader(strm);
+      var json = await sr.ReadToEndAsync();
+      var jobj = JObject.Parse(json);
       var reqTypeStr = jobj["type"].ToString();
       var reqType = Type.GetType(reqTypeStr);
-      var obj = JsonConvert.DeserializeObject(jobj.ToString(), reqType);
+      var obj = JsonConvert.DeserializeObject(json, reqType, _settings);
       return obj;
     }
 

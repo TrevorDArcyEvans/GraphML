@@ -73,6 +73,7 @@ namespace GraphML.API
           options.SerializerSettings.Formatting = Formatting.Indented;
           options.SerializerSettings.Converters.Add(new StringEnumConverter());
           options.SerializerSettings.Converters.Add(new LookupSerializer<string>());
+          options.SerializerSettings.Converters.Add(new FindDuplicatesResultSerializer());
 
           // https://stackoverflow.com/questions/18193281/force-json-net-to-include-milliseconds-when-serializing-datetime-even-if-ms-com
           // https://stackoverflow.com/questions/10286204/what-is-the-right-json-date-format
