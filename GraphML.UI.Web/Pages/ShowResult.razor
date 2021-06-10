@@ -35,4 +35,11 @@
   </Breadcrumb>
 </span>
 
-@CreateDynamicComponent()
+@if (_request == null)
+{
+  <p>Loading..</p>
+}
+else
+{
+  @CreateDynamicComponent()
+}
