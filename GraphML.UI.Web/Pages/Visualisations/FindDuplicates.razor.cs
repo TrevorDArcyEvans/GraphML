@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Analysis.FindDuplicates;
@@ -60,7 +61,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     #endregion
 
     private FindDuplicatesResult _result;
-    private string _dataDisplay;
+    private List<List<GraphNode>> _data;
 
     protected override async Task OnInitializedAsync()
     {
@@ -68,11 +69,18 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       _result = (FindDuplicatesResult) genRes;
+      var allNodes = new List<List<GraphNode>>();
       foreach (var grping in _result.Result)
       {
-        var ids = grping.ToList().SelectMany(x => x);
-        _dataDisplay += string.Join('|', ids) + Environment.NewLine;
+        var ids = grping
+          .ToList()
+          .SelectMany(x => x)
+          .Select(id => Guid.Parse(id));
+        var gns = await _graphNodeServer.ByIds(ids);
+        allNodes.Add(gns.ToList());
       }
+
+      _data = allNodes;
     }
   }
 }
