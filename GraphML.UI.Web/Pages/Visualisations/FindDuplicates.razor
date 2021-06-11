@@ -11,14 +11,14 @@
 
     <MatTableEx
       Items="_data"
-      FilterByColumnName="Matches"
+      FilterByColumnName="@nameof(FindDuplicatesViewModel.Matches)"
       Striped="true"
       class="mat-elevation-z5">
       <MatTableHeader>
         <th>Matches</th>
       </MatTableHeader>
       <MatTableRow>
-        <td>@string.Join('|', context.Select(gn => gn.Name))</td>
+        <td>@context.Matches</td>
       </MatTableRow>
     </MatTableEx>
 
