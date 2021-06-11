@@ -4,6 +4,7 @@ using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -13,10 +14,11 @@ namespace GraphML.Logic
 
     public GraphLogic(
       IHttpContextAccessor context,
+      ILogger<GraphLogic> logger,
       IGraphDatastore datastore,
       IGraphValidator validator,
       IGraphFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _graphDatastore = datastore;
     }
@@ -35,6 +37,7 @@ namespace GraphML.Logic
         };
       }
 
+      _logger.LogError(valRes.ToString());
       return new PagedDataEx<Graph>();
     }
 
@@ -52,6 +55,7 @@ namespace GraphML.Logic
         };
       }
 
+      _logger.LogError(valRes.ToString());
       return new PagedDataEx<Graph>();
     }
   }

@@ -1,6 +1,7 @@
 ﻿using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -8,10 +9,11 @@ namespace GraphML.Logic
   {
     public GraphNodeLogic(
       IHttpContextAccessor context,
+      ILogger<GraphNodeLogic> logger,
       IGraphNodeDatastore datastore,
       IGraphNodeValidator validator,
       IGraphNodeFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
     }
   }

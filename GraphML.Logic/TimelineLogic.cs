@@ -1,6 +1,7 @@
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -8,10 +9,11 @@ namespace GraphML.Logic
   {
     public TimelineLogic(
       IHttpContextAccessor context,
+      ILogger<TimelineLogic> logger,
       ITimelineDatastore datastore,
       ITimelineValidator validator,
       ITimelineFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
     }
   }

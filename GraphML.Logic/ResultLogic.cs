@@ -5,17 +5,20 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
   public sealed class ResultLogic : IResultLogic
   {
     private readonly IHttpContextAccessor _context;
+    private readonly ILogger<ResultLogic> _logger;
     private readonly IResultDatastore _datastore;
     private readonly IResultValidator _validator;
 
     public ResultLogic(
       IHttpContextAccessor context,
+      ILogger<ResultLogic> logger,
       IResultDatastore datastore,
       IResultValidator validator)
     {
@@ -30,6 +33,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(request.Contact.Id, options => options.IncludeRuleSets(nameof(IResultLogic.Create)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return;
       }
 
@@ -42,6 +46,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(correlationId, options => options.IncludeRuleSets(nameof(IResultLogic.Delete)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return;
       }
 
@@ -54,6 +59,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(contactId, options => options.IncludeRuleSets(nameof(IResultLogic.ByContact)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return Enumerable.Empty<IRequest>();
       }
 
@@ -66,6 +72,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(orgId, options => options.IncludeRuleSets(nameof(IResultLogic.ByOrganisation)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return Enumerable.Empty<IRequest>();
       }
 
@@ -78,6 +85,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(graphId, options => options.IncludeRuleSets(nameof(IResultLogic.ByGraph)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return Enumerable.Empty<IRequest>();
       }
 
@@ -90,6 +98,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(corrId, options => options.IncludeRuleSets(nameof(IResultLogic.ByCorrelation)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return null;
       }
 
@@ -102,6 +111,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(correlationId, options => options.IncludeRuleSets(nameof(IResultLogic.Retrieve)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return null;
       }
 

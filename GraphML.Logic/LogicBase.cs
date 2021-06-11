@@ -5,23 +5,27 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
   public abstract class LogicBase<T> : ILogic<T> where T : Item, new()
   {
     protected readonly IHttpContextAccessor _context;
+    protected readonly ILogger<LogicBase<T>> _logger;
     protected readonly IItemDatastore<T> _datastore;
     protected readonly IValidator<T> _validator;
     protected readonly IFilter<T> _filter;
 
     public LogicBase(
       IHttpContextAccessor context,
+      ILogger<LogicBase<T>> logger,
       IItemDatastore<T> datastore,
       IValidator<T> validator,
       IFilter<T> filter)
     {
       _context = context;
+      _logger = logger;
       _datastore = datastore;
       _validator = validator;
       _filter = filter;
@@ -32,6 +36,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.ByIds)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return Enumerable.Empty<T>();
       }
 
@@ -45,6 +50,7 @@ namespace GraphML.Logic
         var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Create)));
         if (!valRes.IsValid)
         {
+          _logger.LogError(valRes.ToString());
           return Enumerable.Empty<T>();
         }
       }
@@ -59,6 +65,7 @@ namespace GraphML.Logic
         var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Delete)));
         if (!valRes.IsValid)
         {
+          _logger.LogError(valRes.ToString());
           return;
         }
       }
@@ -73,6 +80,7 @@ namespace GraphML.Logic
         var valRes = _validator.Validate(ent, options => options.IncludeRuleSets(nameof(ILogic<T>.Update)));
         if (!valRes.IsValid)
         {
+          _logger.LogError(valRes.ToString());
           return;
         }
       }
@@ -85,6 +93,7 @@ namespace GraphML.Logic
       var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(ILogic<T>.Count)));
       if (!valRes.IsValid)
       {
+        _logger.LogError(valRes.ToString());
         return 0;
       }
 

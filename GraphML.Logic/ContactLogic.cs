@@ -3,6 +3,7 @@ using System.Linq;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -12,10 +13,11 @@ namespace GraphML.Logic
 
     public ContactLogic(
       IHttpContextAccessor context,
+      ILogger<ContactLogic> logger,
       IContactDatastore datastore,
       IContactValidator validator,
       IContactFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _contactDatastore = datastore;
     }
@@ -28,6 +30,7 @@ namespace GraphML.Logic
         return _filter.Filter(new[] { _contactDatastore.ByEmail(email) }).SingleOrDefault();
       }
 
+      _logger.LogError(valRes.ToString());
       return null;
     }
   }

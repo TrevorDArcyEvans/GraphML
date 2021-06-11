@@ -5,6 +5,7 @@ using FluentValidation;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -14,10 +15,11 @@ namespace GraphML.Logic
     
     protected GraphItemLogicBase(
       IHttpContextAccessor context, 
+      ILogger<GraphItemLogicBase<T>> logger,
       IGraphItemDatastore<T> datastore, 
       IValidator<T> validator, 
       IFilter<T> filter) : 
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _graphItemDatastore = datastore;
     }
@@ -32,6 +34,7 @@ namespace GraphML.Logic
         return filtered;
       }
 
+      _logger.LogError(valRes.ToString());
       return Enumerable.Empty<T>();
     }
   }

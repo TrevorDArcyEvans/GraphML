@@ -4,6 +4,7 @@ using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -13,10 +14,11 @@ namespace GraphML.Logic
 
     public OrganisationLogic(
       IHttpContextAccessor context,
+      ILogger<OrganisationLogic> logger,
       IOrganisationDatastore datastore,
       IOrganisationValidator validator,
       IOrganisationFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _orgDatastore = datastore;
     }
@@ -35,6 +37,7 @@ namespace GraphML.Logic
         };
       }
 
+      _logger.LogError(valRes.ToString());
       return new PagedDataEx<Organisation>();
     }
   }

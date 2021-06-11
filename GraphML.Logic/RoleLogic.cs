@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GraphML.Common;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -16,11 +17,12 @@ namespace GraphML.Logic
 
     public RoleLogic(
       IHttpContextAccessor context,
+      ILogger<RoleLogic> logger,
       IRoleDatastore datastore,
       IRoleValidator validator,
       IRoleFilter filter,
       IContactDatastore contactDatastore) :
-      base(context, datastore, validator, filter)
+      base(context,  logger,datastore, validator, filter)
     {
       _roleDatastore = datastore;
       _contactDatastore = contactDatastore;
@@ -34,6 +36,7 @@ namespace GraphML.Logic
         return _filter.Filter(_roleDatastore.ByContactId(id));
       }
 
+      _logger.LogError(valRes.ToString());
       return Enumerable.Empty<Role>();
     }
 
@@ -45,6 +48,7 @@ namespace GraphML.Logic
         return _filter.Filter(_roleDatastore.GetAll());
       }
 
+      _logger.LogError(valRes.ToString());
       return Enumerable.Empty<Role>();
     }
 
@@ -57,12 +61,14 @@ namespace GraphML.Logic
         var contact = _contactDatastore.ByEmail(email);
         if (contact is null)
         {
+          _logger.LogError($"Contact not found for:  {email}");
           return Enumerable.Empty<Role>();
         }
 
         return _filter.Filter(_roleDatastore.ByContactId(contact.Id));
       }
 
+      _logger.LogError(valRes.ToString());
       return Enumerable.Empty<Role>();
     }
   }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -14,10 +15,11 @@ namespace GraphML.Logic
 
     public OwnedLogicBase(
       IHttpContextAccessor context,
+      ILogger<OwnedLogicBase<T>> logger,
       IOwnedDatastore<T> datastore,
       IValidator<T> validator,
       IFilter<T> filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _ownedDatastore = datastore;
     }
@@ -36,6 +38,7 @@ namespace GraphML.Logic
         };
       }
 
+      _logger.LogError(valRes.ToString());
       return new PagedDataEx<T>();
     }
 
@@ -47,6 +50,7 @@ namespace GraphML.Logic
         return 0;
       }
 
+      _logger.LogError(valRes.ToString());
       return _ownedDatastore.Count(ownerId);
     }
   }

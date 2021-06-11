@@ -1,6 +1,7 @@
 ﻿using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -9,10 +10,11 @@ namespace GraphML.Logic
     private readonly IRepositoryManagerDatastore _repoMgrDatastore;
     public RepositoryManagerLogic(
       IHttpContextAccessor context,
+      ILogger<RepositoryManagerLogic> logger,
       IRepositoryManagerDatastore datastore,
       IRepositoryManagerValidator validator,
       IRepositoryManagerFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _repoMgrDatastore = datastore;
     }

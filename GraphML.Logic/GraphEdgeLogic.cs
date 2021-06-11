@@ -5,6 +5,7 @@ using System.Linq;
 using GraphML.Interfaces;
 using GraphML.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace GraphML.Logic
 {
@@ -14,10 +15,11 @@ namespace GraphML.Logic
 
     public GraphEdgeLogic(
       IHttpContextAccessor context,
+      ILogger<GraphEdgeLogic> logger,
       IGraphEdgeDatastore datastore,
       IGraphEdgeValidator validator,
       IGraphEdgeFilter filter) :
-      base(context, datastore, validator, filter)
+      base(context, logger, datastore, validator, filter)
     {
       _edgeDatastore = datastore;
     }
@@ -36,6 +38,7 @@ namespace GraphML.Logic
         };
       }
 
+      _logger.LogError(valRes.ToString());
       return new PagedDataEx<GraphEdge>();
     }
   }
