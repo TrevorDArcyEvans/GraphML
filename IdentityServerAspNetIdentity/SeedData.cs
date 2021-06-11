@@ -22,11 +22,11 @@ namespace IdentityServerAspNetIdentity
       var services = new ServiceCollection();
       services.AddLogging();
       services.AddDbContext<ApplicationDbContext>(options =>
-         options.UseSqlite(connectionString));
+        options.UseSqlite(connectionString));
 
       services.AddIdentity<ApplicationUser, IdentityRole>()
-          .AddEntityFrameworkStores<ApplicationDbContext>()
-          .AddDefaultTokenProviders();
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
       using (var serviceProvider = services.BuildServiceProvider())
       {
@@ -38,146 +38,211 @@ namespace IdentityServerAspNetIdentity
           var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
           #region Alice
-          var alice = userMgr.FindByNameAsync("alice").Result;
-          if (alice == null)
-          {
-            alice = new ApplicationUser
-            {
-              UserName = "alice"
-            };
-            var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
 
-            result = userMgr.AddClaimsAsync(alice, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Alice"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "DrKool@KoolOrganisation.org"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-                        // Add user_scope claim for Identity to authorize UI and API actions. Wendy has this permission, Bob does not.
-                        new Claim("appuser_claim","identity")
-                        }).Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
-            Log.Debug("alice created");
-          }
-          else
           {
-            Log.Debug("alice already exists");
+            var alice = userMgr.FindByNameAsync("alice").Result;
+            if (alice == null)
+            {
+              alice = new ApplicationUser
+              {
+                UserName = "alice"
+              };
+              var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              result = userMgr.AddClaimsAsync(alice, new Claim[]
+              {
+                new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                new Claim(JwtClaimTypes.GivenName, "Alice"),
+                new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                new Claim(JwtClaimTypes.Email, "DrKool@KoolOrganisation.org"),
+                new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                // Add user_scope claim for Identity to authorize UI and API actions. Wendy has this permission, Bob does not.
+                new Claim("appuser_claim", "identity")
+              }).Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              Log.Debug("alice created");
+            }
+            else
+            {
+              Log.Debug("alice already exists");
+            }
           }
+
           #endregion
 
           #region Bob
-          var bob = userMgr.FindByNameAsync("bob").Result;
-          if (bob == null)
-          {
-            bob = new ApplicationUser
-            {
-              UserName = "bob"
-            };
-            var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
 
-            result = userMgr.AddClaimsAsync(bob, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Bob"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-                        new Claim("location", "somewhere")
-                    }).Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
-            Log.Debug("bob created");
-          }
-          else
           {
-            Log.Debug("bob already exists");
+            var bob = userMgr.FindByNameAsync("bob").Result;
+            if (bob == null)
+            {
+              bob = new ApplicationUser
+              {
+                UserName = "bob"
+              };
+              var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              result = userMgr.AddClaimsAsync(bob, new Claim[]
+              {
+                new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                new Claim(JwtClaimTypes.GivenName, "Bob"),
+                new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
+                new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                new Claim("location", "somewhere")
+              }).Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              Log.Debug("bob created");
+            }
+            else
+            {
+              Log.Debug("bob already exists");
+            }
           }
+
           #endregion
 
           #region Carol
-          var carol = userMgr.FindByNameAsync("carol").Result;
-          if (carol == null)
-          {
-            carol = new ApplicationUser
-            {
-              UserName = "carol"
-            };
-            var result = userMgr.CreateAsync(carol, "Pass123$").Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
 
-            result = userMgr.AddClaimsAsync(carol, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Carol Connors"),
-                        new Claim(JwtClaimTypes.GivenName, "Carol"),
-                        new Claim(JwtClaimTypes.FamilyName, "Connors"),
-                        new Claim(JwtClaimTypes.Email, "carol@KoolOrganisation.org"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://www.KoolOrganisation.org"),
-                        new Claim("appuser_claim", "identity")
-                        }).Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
-            Log.Debug("carol created");
-          }
-          else
           {
-            Log.Debug("carol already exists");
+            var carol = userMgr.FindByNameAsync("carol").Result;
+            if (carol == null)
+            {
+              carol = new ApplicationUser
+              {
+                UserName = "carol"
+              };
+              var result = userMgr.CreateAsync(carol, "Pass123$").Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              result = userMgr.AddClaimsAsync(carol, new Claim[]
+              {
+                new Claim(JwtClaimTypes.Name, "Carol Connors"),
+                new Claim(JwtClaimTypes.GivenName, "Carol"),
+                new Claim(JwtClaimTypes.FamilyName, "Connors"),
+                new Claim(JwtClaimTypes.Email, "carol@KoolOrganisation.org"),
+                new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                new Claim(JwtClaimTypes.WebSite, "http://www.KoolOrganisation.org"),
+                new Claim("appuser_claim", "identity")
+              }).Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              Log.Debug("carol created");
+            }
+            else
+            {
+              Log.Debug("carol already exists");
+            }
           }
+
           #endregion
 
           #region Dave
-          var dave = userMgr.FindByNameAsync("dave").Result;
-          if (dave == null)
-          {
-              dave = new ApplicationUser
-            {
-              UserName = "dave"
-              };
-            var result = userMgr.CreateAsync(dave, "Pass123$").Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
 
-            result = userMgr.AddClaimsAsync(dave, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Dave Cummings"),
-                        new Claim(JwtClaimTypes.GivenName, "Dave"),
-                        new Claim(JwtClaimTypes.FamilyName, "Cummings"),
-                        new Claim(JwtClaimTypes.Email, "dave@KoolOrganisation.org"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://www.KoolOrganisation.org"),
-                        new Claim("appuser_claim", "identity")
-                        }).Result;
-            if (!result.Succeeded)
-            {
-              throw new Exception(result.Errors.First().Description);
-            }
-            Log.Debug("dave created");
-          }
-          else
           {
-            Log.Debug("dave already exists");
+            var dave = userMgr.FindByNameAsync("dave").Result;
+            if (dave == null)
+            {
+              dave = new ApplicationUser
+              {
+                UserName = "dave"
+              };
+              var result = userMgr.CreateAsync(dave, "Pass123$").Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              result = userMgr.AddClaimsAsync(dave, new Claim[]
+              {
+                new Claim(JwtClaimTypes.Name, "Dave Cummings"),
+                new Claim(JwtClaimTypes.GivenName, "Dave"),
+                new Claim(JwtClaimTypes.FamilyName, "Cummings"),
+                new Claim(JwtClaimTypes.Email, "dave@KoolOrganisation.org"),
+                new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                new Claim(JwtClaimTypes.WebSite, "http://www.KoolOrganisation.org"),
+                new Claim("appuser_claim", "identity")
+              }).Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              Log.Debug("dave created");
+            }
+            else
+            {
+              Log.Debug("dave already exists");
+            }
           }
+
+          #endregion
+
+          #region Eric
+
+          {
+            var eric = userMgr.FindByNameAsync("eric").Result;
+            if (eric == null)
+            {
+              eric = new ApplicationUser
+              {
+                UserName = "eric"
+              };
+              var result = userMgr.CreateAsync(eric, "Pass123$").Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              result = userMgr.AddClaimsAsync(eric, new Claim[]
+              {
+                new Claim(JwtClaimTypes.Name, "Eric Edwards"),
+                new Claim(JwtClaimTypes.GivenName, "Eric"),
+                new Claim(JwtClaimTypes.FamilyName, "Edwards"),
+                new Claim(JwtClaimTypes.Email, "eric@GraphML.com"),
+                new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                new Claim(JwtClaimTypes.WebSite, "http://www.GraphML.com"),
+                new Claim("appuser_claim", "identity")
+              }).Result;
+              if (!result.Succeeded)
+              {
+                throw new Exception(result.Errors.First().Description);
+              }
+
+              Log.Debug("eric created");
+            }
+            else
+            {
+              Log.Debug("eric already exists");
+            }
+          }
+
           #endregion
         }
       }
