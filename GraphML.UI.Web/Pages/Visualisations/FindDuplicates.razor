@@ -1,14 +1,26 @@
 ﻿@using GraphML.UI.Web.Widgets
 
 <b>Find Duplicates</b>
+<p/>
 
-<SpinLoader IsLoading="@(_result == null)">
+<SpinLoader IsLoading="@(_data == null)">
   <LoadingTemplate>
     <GraphMLSpinner/>
   </LoadingTemplate>
   <ContentTemplate>
 
-    <pre>@_dataDisplay</pre>
+    <MatTableEx
+      Items="_data"
+      FilterByColumnName="@nameof(FindDuplicatesViewModel.Matches)"
+      Striped="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Matches</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Matches</td>
+      </MatTableRow>
+    </MatTableEx>
 
   </ContentTemplate>
 </SpinLoader>
