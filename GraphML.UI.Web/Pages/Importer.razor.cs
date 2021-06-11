@@ -55,6 +55,8 @@ namespace GraphML.UI.Web.Pages
       return new ImportSpecification
       {
         Organisation = OrganisationName,
+        RepositoryManager = "Repository Manager",
+        Repository = "Repository",
         NodeItemAttributeImportDefinitions = new List<NodeItemAttributeImportDefinition>
         {
           new NodeItemAttributeImportDefinition()
