@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Widgets;
-using GraphML.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -44,15 +40,6 @@ namespace GraphML.UI.Web.Pages
     #region Inject
 
     [Inject]
-    private INodeServer _nodeServer { get; set; }
-
-    [Inject]
-    private IEdgeServer _edgeServer { get; set; }
-
-    [Inject]
-    private IGraphNodeServer _graphNodeServer { get; set; }
-
-    [Inject]
     private IGraphEdgeServer _graphEdgeServer { get; set; }
 
     [Inject]
@@ -63,14 +50,9 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
-    private const int ChunkSize = 10000;
-    private const int DegreeofParallelism = 10;
-
     private Edge[] _data;
     private MatTableEx<Edge> _table;
-
-    private Guid _orgId;
-    private Guid _repoId;
+    
     private Guid _graphId;
 
     private bool _addAllDialogIsOpen;
@@ -78,12 +60,10 @@ namespace GraphML.UI.Web.Pages
 
     protected override void OnInitialized()
     {
-      _orgId = Guid.Parse(OrganisationId);
-      _repoId = Guid.Parse(RepositoryId);
       _graphId = Guid.Parse(GraphId);
     }
 
-    private async Task AddGraphItems(string searchTerm = null)
+    private async Task AddGraphItems(string searchTerm = "")
     {
       try
       {
@@ -93,73 +73,7 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        // create missing GraphNodes
-        var repoItemsPage = await _edgeServer.ByOwner(_repoId, 1, 1, searchTerm);
-        var numRepoItems = (int) repoItemsPage.TotalCount;
-        var numChunks = numRepoItems / ChunkSize + 1;
-        var edgeChunkRange = Enumerable.Range(0, numChunks);
-        var nodeIds = new ConcurrentBag<Guid>();
-        var items = new ConcurrentBag<Edge>();
-        await edgeChunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var dataChunkPage = await _edgeServer.ByOwner(_repoId, i + 1, ChunkSize, searchTerm);
-          var dataChunk = dataChunkPage.Items
-            .ToList();
-          dataChunk.SelectMany(e => new[] { e.SourceId, e.TargetId })
-            .Distinct()
-            .ToList()
-            .ForEach(id => nodeIds.Add(id));
-          dataChunk.ForEach(e => items.Add(e));
-        });
-        var graphNodes = await GetGraphNodesByOwners(nodeIds.ToList());
-        var graphNodeRepoIds = graphNodes.Select(gn => gn.RepositoryItemId);
-        var missingGraphNodeRepoIds = nodeIds.Except(graphNodeRepoIds).ToList();
-        var missingGraphNodeRepo = new ConcurrentBag<Node>();
-        var numMissGraphNodeRepoChunks = (missingGraphNodeRepoIds.Count / ChunkSize) + 1;
-        var numMissGraphNodeRepoChunksRange = Enumerable.Range(0, numMissGraphNodeRepoChunks);
-        await numMissGraphNodeRepoChunksRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var dataChunk = missingGraphNodeRepoIds.Skip(i * ChunkSize).Take(ChunkSize);
-          var data = await _nodeServer.ByIds(dataChunk);
-          data
-            .ToList()
-            .ForEach(n => missingGraphNodeRepo.Add(n));
-        });
-
-        var missingGraphNodes = missingGraphNodeRepo
-          .Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name))
-          .ToList();
-        var numMissGraphNodeChunks = (missingGraphNodes.Count / ChunkSize) + 1;
-        var missChunkRange = Enumerable.Range(0, numMissGraphNodeChunks);
-        await missChunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var dataChunk = missingGraphNodes.Skip(i * ChunkSize).Take(ChunkSize);
-          _ = await _graphNodeServer.Create(dataChunk);
-        });
-        graphNodes.AddRange(missingGraphNodes);
-
-        // create new GraphEdges
-        var graphEdges = items
-          .Select(e =>
-          {
-            var source = graphNodes.Single(gn => gn.RepositoryItemId == e.SourceId);
-            var target = graphNodes.Single(gn => gn.RepositoryItemId == e.TargetId);
-            return new GraphEdge(
-              _graphId,
-              _orgId,
-              e.Id,
-              e.Name,
-              source.Id,
-              target.Id);
-          })
-          .ToList();
-        var numGraphEdgeChunks = (graphEdges.Count / ChunkSize) + 1;
-        var chunkRange = Enumerable.Range(0, numGraphEdgeChunks);
-        await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-        {
-          var dataChunk = graphEdges.Skip(i * ChunkSize).Take(ChunkSize);
-          await _graphEdgeServer.Create(dataChunk);
-        });
+        await _graphEdgeServer.AddByFilter(_graphId, searchTerm);
       }
       finally
       {
@@ -176,21 +90,6 @@ namespace GraphML.UI.Web.Pages
     {
       await AddGraphItems();
     }
-
-    private async Task<List<GraphNode>> GetGraphNodesByOwners(List<Guid> nodeIds)
-    {
-      var numData = nodeIds.Count;
-      var numChunks = (numData / ChunkSize) + 1;
-      var chunkRange = Enumerable.Range(0, numChunks);
-      var retval = new ConcurrentBag<GraphNode>();
-      await chunkRange.ParallelForEachAsync(DegreeofParallelism, async i =>
-      {
-        var graphNodesPage = await _graphNodeServer.ByOwners(nodeIds, i + 1, ChunkSize, null);
-        var graphNodes = graphNodesPage.Items.ToList();
-        graphNodes.ForEach(gn => retval.Add(gn));
-      });
-
-      return retval.ToList();
-    }
   }
 }
+
