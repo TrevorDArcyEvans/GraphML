@@ -27,8 +27,7 @@ namespace GraphML.Datastore.Database
     public IEnumerable<GraphNode> AddByFilter(Guid graphId, string filter)
     {
       var graph = _graphDatastore.ByIds(new[] { graphId }).Single();
-      var repoId = graph.RepositoryId;
-      var nodes = _nodeDatastore.ByOwners(new[] { repoId }, 0, int.MaxValue, filter).Items;
+      var nodes = _nodeDatastore.ByOwners(new[] { graph.RepositoryId }, 0, int.MaxValue, filter).Items;
       var graphNodes = nodes.Select(n => new GraphNode(graphId, graph.OrganisationId, n.Id, n.Name)).ToList();
 
       Create(graphNodes);

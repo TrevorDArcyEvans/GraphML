@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Interfaces.Server;
 using GraphML.UI.Web.Widgets;
-using GraphML.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
@@ -42,9 +40,6 @@ namespace GraphML.UI.Web.Pages
     #region Inject
 
     [Inject]
-    private INodeServer _nodeServer { get; set; }
-
-    [Inject]
     private IGraphNodeServer _graphNodeServer { get; set; }
 
     [Inject]
@@ -54,9 +49,6 @@ namespace GraphML.UI.Web.Pages
     private NavigationManager _navMgr { get; set; }
 
     #endregion
-
-    private const int ChunkSize = 10000;
-    private const int DegreeOfParallelism = 10;
 
     private Node[] _data;
     private MatTableEx<Node> _table;
