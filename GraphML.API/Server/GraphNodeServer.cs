@@ -32,5 +32,14 @@ namespace GraphML.API.Server
 
       return retval;
     }
+
+    public async Task<IEnumerable<GraphNode>> AddByFilter(Guid graphId, string filter)
+    {
+      var url = Url.Combine(ResourceBase, $"{nameof(GraphNodeController.AddByFilter)}", graphId.ToString());
+      var request = PostRequest(url, filter);
+      var retval = await RetrieveResponse<IEnumerable<GraphNode>>(request);
+
+      return retval;
+    }
   }
 }

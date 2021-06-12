@@ -37,5 +37,19 @@ namespace GraphML.Logic
       _logger.LogError(valRes.ToString());
       return Enumerable.Empty<T>();
     }
+
+    public IEnumerable<T> AddByFilter(Guid graphId, string filter)
+    {
+      var valRes = _validator.Validate(new T(), options => options.IncludeRuleSets(nameof(AddByFilter)));
+      if (valRes.IsValid)
+      {
+        var items = _graphItemDatastore.AddByFilter(graphId, filter);
+        var filtered = _filter.Filter(items);
+        return filtered;
+      }
+
+      _logger.LogError(valRes.ToString());
+      return Enumerable.Empty<T>();
+    }
   }
 }

@@ -48,5 +48,10 @@ order by {nameof(GraphEdge.Name)}
         return retval;
       });
     }
+
+    public IEnumerable<GraphEdge> AddByFilter(Guid graphId, string filter)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

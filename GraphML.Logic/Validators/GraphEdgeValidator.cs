@@ -15,6 +15,9 @@ namespace GraphML.Logic.Validators
       RuleSet(nameof(IGraphEdgeLogic.ByRepositoryItems), () =>
       {
       });
+      RuleSet(nameof(IGraphNodeLogic.AddByFilter), () =>
+      {
+      });
       RuleSet(nameof(IGraphEdgeLogic.ByNodeIds), () =>
       {
       });

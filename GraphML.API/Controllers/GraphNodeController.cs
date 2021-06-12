@@ -137,6 +137,24 @@ namespace GraphML.API.Controllers
     }
 
     /// <summary>
+    /// Add new Entities to a Graph by specifying a filter on underlying Repository
+    /// </summary>
+    /// <param name="graphId">unique identifier of Graph</param>
+    /// <param name="filter">Repository filter for new Entities</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Incorrect reference in Entities</response>
+    [HttpPost]
+    [Route(nameof(AddByFilter) + "/{graphId}")]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(IEnumerable<GraphNode>))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<IEnumerable<GraphNode>> AddByFilter([FromRoute] [Required] Guid graphId, [FromBody] string filter)
+    {
+      var retval = _graphNodeLogic.AddByFilter(graphId, filter);
+      return Ok(retval);
+    }
+
+    /// <summary>
     /// Retrieve total number of Entities
     /// </summary>
     /// <param name="ownerId">identifier of owner</param>

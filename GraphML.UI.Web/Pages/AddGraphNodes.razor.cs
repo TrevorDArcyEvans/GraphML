@@ -75,7 +75,7 @@ namespace GraphML.UI.Web.Pages
       _graphId = Guid.Parse(GraphId);
     }
 
-    private async Task AddGraphItems(string searchTerm = null)
+    private async Task AddGraphItems(string searchTerm = "")
     {
       try
       {
@@ -85,17 +85,7 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-        var repoItemsPage = await _nodeServer.ByOwner(_repoId, 1, 1, searchTerm);
-        var numRepoItems = (int) repoItemsPage.TotalCount;
-        var numChunks = numRepoItems / ChunkSize + 1;
-        var chunkRange = Enumerable.Range(0, numChunks);
-        await chunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
-        {
-          var dataChunkPage = await _nodeServer.ByOwner(_repoId, i + 1, ChunkSize, searchTerm);
-          var dataChunk = dataChunkPage.Items;
-          var graphItems = dataChunk.Select(n => new GraphNode(_graphId, _orgId, n.Id, n.Name));
-          await _graphNodeServer.Create(graphItems);
-        });
+        await _graphNodeServer.AddByFilter(_graphId, searchTerm);
       }
       finally
       {
