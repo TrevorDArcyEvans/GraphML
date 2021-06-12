@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-
-namespace GraphML.Logic.Interfaces
+﻿namespace GraphML.Logic.Interfaces
 {
-  public interface IGraphNodeValidator : IValidator<GraphNode>
+  public interface IGraphNodeValidator : IGraphItemValidator<GraphNode>
   {
   }
 }
