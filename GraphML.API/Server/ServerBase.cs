@@ -160,6 +160,10 @@ namespace GraphML.API.Server
       var request = GetRequest(path);
       var json = JsonConvert.SerializeObject(body, _settings);
       request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+      if (body is null)
+      {
+        request.Content.Headers.Add(@"Content-Length", "0");
+      }
 
       return request;
     }
