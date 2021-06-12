@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GraphML.Logic.Validators
 {
-  public sealed class GraphEdgeValidator : OwnedValidatorBase<GraphEdge>, IGraphEdgeValidator
+  public sealed class GraphEdgeValidator : GraphItemValidatorBase<GraphEdge>, IGraphEdgeValidator
   {
     public GraphEdgeValidator(
     IHttpContextAccessor context,
@@ -12,12 +12,6 @@ namespace GraphML.Logic.Validators
     IRoleDatastore roleDatastore) :
     base(context, contactDatastore, roleDatastore)
     {
-      RuleSet(nameof(IGraphEdgeLogic.ByRepositoryItems), () =>
-      {
-      });
-      RuleSet(nameof(IGraphNodeLogic.AddByFilter), () =>
-      {
-      });
       RuleSet(nameof(IGraphEdgeLogic.ByNodeIds), () =>
       {
       });
