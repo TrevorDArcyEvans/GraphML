@@ -65,7 +65,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     private List<GraphNode> _data;
     private Table<GraphNode> _table;
-    private readonly List<int> _pageSizes = new List<int>(new[] { 5, 10, 25, 50, 100 });
+    private readonly List<int> _pageSizes = new(new[] { 5, 10, 25, 50, 100 });
 
     private Guid _graphId;
     
@@ -74,16 +74,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
     private string _dlgNewItemName;
 
     private int _selNumItems = 100;
-    private readonly int[] _numItems = new int[]
-    {
-      10,
-      25,
-      50,
-      100,
-      250,
-      500,
-      1000
-    };
+    private readonly int[] _numItems = { 10, 25, 50, 100, 250, 500, 1000 };
 
     private int _itemsAction;
 
