@@ -165,7 +165,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var newItems = await _chartServer.Create(new[] { newItem });
       var newChart = newItems.Single();
       
-      var chartNodes = _data
+      var chartNodes = _table.FilteredItems
         .Take(_selNumItems)
         .Select(gn => new ChartNode(newChart.Id, gn.OrganisationId, gn.Id, gn.Name));
       _ = await _chartNodeServer.Create(chartNodes);
