@@ -392,6 +392,7 @@ open https://localhost:5002/
 | `bob`    | `Pass123$`   | BobSmith@email.com              | none | known to _IdentityServer4_ but not _GraphML_ |
 | `carol`  | `Pass123$`   | carol@KoolOrganisation.org      | UserAdmin |
 | `dave`   | `Pass123$`   | dave@KoolOrganisation.org       | User |
+| `eric`   | `Pass123$`   | eric@GraphML.com                | User |
 
 </details>
 
