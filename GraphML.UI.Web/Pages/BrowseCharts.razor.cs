@@ -86,7 +86,7 @@ namespace GraphML.UI.Web.Pages
         .Items
         .Where(eiad => eiad.DataType == "DateTimeInterval")
         .ToArray();
-      _selIntervalAttr = _intervalAttrs.First();
+      _selIntervalAttr = _intervalAttrs.FirstOrDefault();
     }
 
     private async Task OkNewChartClick()
