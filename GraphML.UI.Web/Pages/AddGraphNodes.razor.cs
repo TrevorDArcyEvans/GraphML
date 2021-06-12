@@ -61,8 +61,6 @@ namespace GraphML.UI.Web.Pages
     private Node[] _data;
     private MatTableEx<Node> _table;
 
-    private Guid _orgId;
-    private Guid _repoId;
     private Guid _graphId;
 
     private bool _addAllDialogIsOpen;
@@ -70,8 +68,6 @@ namespace GraphML.UI.Web.Pages
 
     protected override void OnInitialized()
     {
-      _orgId = Guid.Parse(OrganisationId);
-      _repoId = Guid.Parse(RepositoryId);
       _graphId = Guid.Parse(GraphId);
     }
 
