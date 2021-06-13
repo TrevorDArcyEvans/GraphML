@@ -25,6 +25,8 @@ namespace GraphML.UI.Web.Pages
 
     private Repository[] _repos;
 
+    private bool _isBusy;
+
     private bool _newDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
@@ -68,8 +70,16 @@ namespace GraphML.UI.Web.Pages
     private async Task Delete()
     {
       _deleteDialogIsOpen = false;
-      await _repoServer.Delete(new[] { _deleteItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _repoServer.Delete(new[] { _deleteItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void GotoBrowseGraphs(Repository repo)
