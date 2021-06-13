@@ -31,6 +31,8 @@ namespace GraphML.UI.Web.Pages
 
     private Graph[] _graphs;
 
+    private bool _isBusy;
+
     private bool _newDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
@@ -74,8 +76,16 @@ namespace GraphML.UI.Web.Pages
     private async Task Delete()
     {
       _deleteDialogIsOpen = false;
-      await _graphServer.Delete(new[] { _deleteItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _graphServer.Delete(new[] { _deleteItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void GotoBrowseGraphItems(Graph graph)

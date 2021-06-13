@@ -3,6 +3,7 @@
 @attribute [Authorize]
 
 @using GraphML
+@using GraphML.UI.Web.Widgets
 @using GraphML.Common
 @using Microsoft.Extensions.Configuration
 @using Flurl
@@ -34,43 +35,54 @@
   </Breadcrumb>
 </span>
 
-<MatTable
-  Items="@_graphs"
-  ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Graph), nameof(GraphController.ByOwner), RepositoryId)"
-  PageParamName="pageIndex"
-  PageSizeParamName="pageSize"
-  PagingRecordsCountPropertyName="@nameof(PagedDataEx<Graph>.TotalCount).Camelize()"
-  PagingDataPropertyName="@nameof(PagedDataEx<Graph>.Items).Camelize()"
-  FilterByColumnName="@nameof(Graph.Name)"
-  Striped="true"
-  AllowSelection="true"
-  class="mat-elevation-z5">
-  <MatTableHeader>
-    <th>Name</th>
-    <th>Graphs Items</th>
-    <th>Charts</th>
-    <th>Analyses</th>
-    <th>Results</th>
-  </MatTableHeader>
-  <MatTableRow>
-    <td>@context.Name</td>
-    <td>
-      <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseGraphItems(@context))"/>
-    </td>
-    <td>
-      <MatButton Icon="file_copy" @onclick="@(e => GotoBrowseCharts(@context))"/>
-    </td>
-    <td>
-      <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(@context))"/>
-    </td>
-    <td>
-      <MatButton Icon="assignment_turned_in" @onclick="@(e => GotoBrowseResults(@context))"/>
-    </td>
-    <td>
-      <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
-    </td>
-  </MatTableRow>
-</MatTable>
+<SpinLoader IsLoading="@_isBusy">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    <div>
+      <MatTable
+        Items="@_graphs"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Graph), nameof(GraphController.ByOwner), RepositoryId)"
+        PageParamName="pageIndex"
+        PageSizeParamName="pageSize"
+        PagingRecordsCountPropertyName="@nameof(PagedDataEx<Graph>.TotalCount).Camelize()"
+        PagingDataPropertyName="@nameof(PagedDataEx<Graph>.Items).Camelize()"
+        FilterByColumnName="@nameof(Graph.Name)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
+        <MatTableHeader>
+          <th>Name</th>
+          <th>Graphs Items</th>
+          <th>Charts</th>
+          <th>Analyses</th>
+          <th>Results</th>
+        </MatTableHeader>
+        <MatTableRow>
+          <td>@context.Name</td>
+          <td>
+            <MatButton Icon="vertical_split" @onclick="@(e => GotoBrowseGraphItems(@context))"/>
+          </td>
+          <td>
+            <MatButton Icon="file_copy" @onclick="@(e => GotoBrowseCharts(@context))"/>
+          </td>
+          <td>
+            <MatButton Icon="functions" @onclick="@(e => GotoBrowseAnalyses(@context))"/>
+          </td>
+          <td>
+            <MatButton Icon="assignment_turned_in" @onclick="@(e => GotoBrowseResults(@context))"/>
+          </td>
+          <td>
+            <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
+          </td>
+        </MatTableRow>
+      </MatTable>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>
 
 <div>
   <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">
