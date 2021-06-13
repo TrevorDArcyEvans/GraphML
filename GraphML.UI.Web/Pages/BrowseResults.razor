@@ -4,6 +4,7 @@
 
 @using Flurl
 @using System.Web;
+@using GraphML.UI.Web.Widgets
 @using GraphML.API.Controllers
 @using GraphML.Common
 @using GraphML.Interfaces.Server
@@ -38,36 +39,45 @@
   </Breadcrumb>
 </span>
 
-<div>
-  <MatTable
-    Items="@_requests"
-    ApiUrl="@Url.Combine(@_config.API_URI(), "api", "Result", nameof(ResultController.ByGraph), GraphId)"
-    Striped="true"
-    AllowSelection="true"
-    class="mat-elevation-z5">
-    <MatTableHeader>
-      <th>Description</th>
-      <th>JobType</th>
-      <th>CorrelationId</th>
-      <th>Created By</th>
-      <th>CreatedOnUtc</th>
-      <th>View</th>
-    </MatTableHeader>
-    <MatTableRow>
-        <td>@context.Description</td>
-        <td>@context.JobType</td>
-        <td>@context.CorrelationId</td>
-        <td>@context.Contact.Name</td>
-        <td>@context.CreatedOnUtc</td>
-        <td>
+<SpinLoader IsLoading="@_isBusy">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    <div>
+      <MatTable
+        Items="@_requests"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", "Result", nameof(ResultController.ByGraph), GraphId)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
+        <MatTableHeader>
+          <th>Description</th>
+          <th>JobType</th>
+          <th>CorrelationId</th>
+          <th>Created By</th>
+          <th>CreatedOnUtc</th>
+          <th>View</th>
+        </MatTableHeader>
+        <MatTableRow>
+          <td>@context.Description</td>
+          <td>@context.JobType</td>
+          <td>@context.CorrelationId</td>
+          <td>@context.Contact.Name</td>
+          <td>@context.CreatedOnUtc</td>
+          <td>
             <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
-        </td>
-        <td>
+          </td>
+          <td>
             <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteResult(@context))"></MatButton>
-        </td>
-    </MatTableRow>
-  </MatTable>
-</div>
+          </td>
+        </MatTableRow>
+      </MatTable>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>
 
 <div>
   <MatDialog @bind-IsOpen="@_deleteDialogIsOpen">

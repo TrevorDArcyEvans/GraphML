@@ -37,6 +37,8 @@ namespace GraphML.UI.Web.Pages
 
     private RequestBase[] _requests;
 
+    private bool _isBusy;
+
     private bool _deleteDialogIsOpen;
     private RequestBase _deleteResult;
 
@@ -49,8 +51,16 @@ namespace GraphML.UI.Web.Pages
     private async Task DeleteResult()
     {
       _deleteDialogIsOpen = false;
-      await _resultServer.Delete(_deleteResult.CorrelationId);
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _resultServer.Delete(_deleteResult.CorrelationId);
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void OnShowResult(Guid correlationId)
