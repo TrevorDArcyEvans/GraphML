@@ -3,6 +3,7 @@
 @attribute [Authorize]
 
 @using GraphML
+@using GraphML.UI.Web.Widgets
 @using GraphML.Common
 @using Flurl
 @using GraphML.API.Controllers
@@ -31,62 +32,71 @@
   </Breadcrumb>
 </span>
 
-<div>
-  <MatTabGroup>
-    <MatTab Label="Graph Nodes">
-      <MatTable
-        Items="@_nodes"
-        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
-        PageParamName="pageIndex"
-        PageSizeParamName="pageSize"
-        PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
-        PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
-        FilterByColumnName="@nameof(GraphNode.Name)"
-        Striped="true"
-        AllowSelection="true"
-        class="mat-elevation-z5">
-        <MatTableHeader>
-          <th>Name</th>
-        </MatTableHeader>
-        <MatTableRow>
-          <td>@context.Name</td>
-          <td>
-            <MatButton Icon="delete" @onclick="@(e => DeleteGraphNode(@context))"></MatButton>
-          </td>
-        </MatTableRow>
-      </MatTable>
+<SpinLoader IsLoading="@_isBusy">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
 
-      <div>
-        <MatButton Icon="library_add" @onclick="@(e => GotoAddGraphNodes())">Add graph nodes...</MatButton>
-      </div>
-    </MatTab>
+    <div>
+      <MatTabGroup>
+        <MatTab Label="Graph Nodes">
+          <MatTable
+            Items="@_nodes"
+            ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphNode), nameof(GraphNodeController.ByOwner), GraphId)"
+            PageParamName="pageIndex"
+            PageSizeParamName="pageSize"
+            PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphNode>.TotalCount).Camelize()"
+            PagingDataPropertyName="@nameof(PagedDataEx<GraphNode>.Items).Camelize()"
+            FilterByColumnName="@nameof(GraphNode.Name)"
+            Striped="true"
+            AllowSelection="true"
+            class="mat-elevation-z5">
+            <MatTableHeader>
+              <th>Name</th>
+            </MatTableHeader>
+            <MatTableRow>
+              <td>@context.Name</td>
+              <td>
+                <MatButton Icon="delete" @onclick="@(e => DeleteGraphNode(@context))"></MatButton>
+              </td>
+            </MatTableRow>
+          </MatTable>
 
-    <MatTab Label="Graph Edges">
-      <MatTable
-        Items="@_edges"
-        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphEdge), nameof(GraphEdgeController.ByOwner), GraphId)"
-        PageParamName="pageIndex"
-        PageSizeParamName="pageSize"
-        PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphEdge>.TotalCount).Camelize()"
-        PagingDataPropertyName="@nameof(PagedDataEx<GraphEdge>.Items).Camelize()"
-        FilterByColumnName="@nameof(GraphEdge.Name)"
-        Striped="true"
-        AllowSelection="true"
-        class="mat-elevation-z5">
-        <MatTableHeader>
-          <th>Name</th>
-        </MatTableHeader>
-        <MatTableRow>
-          <td>@context.Name</td>
-          <td>
-            <MatButton Icon="delete" @onclick="@(e => DeleteGraphEdge(@context))"></MatButton>
-          </td>
-        </MatTableRow>
-      </MatTable>
+          <div>
+            <MatButton Icon="library_add" @onclick="@(e => GotoAddGraphNodes())">Add graph nodes...</MatButton>
+          </div>
+        </MatTab>
 
-      <div>
-        <MatButton Icon="library_add" @onclick="@(e => GotoAddGraphEdges())">Add graph edges...</MatButton>
-      </div>
-    </MatTab>
-  </MatTabGroup>
-</div>
+        <MatTab Label="Graph Edges">
+          <MatTable
+            Items="@_edges"
+            ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(GraphEdge), nameof(GraphEdgeController.ByOwner), GraphId)"
+            PageParamName="pageIndex"
+            PageSizeParamName="pageSize"
+            PagingRecordsCountPropertyName="@nameof(PagedDataEx<GraphEdge>.TotalCount).Camelize()"
+            PagingDataPropertyName="@nameof(PagedDataEx<GraphEdge>.Items).Camelize()"
+            FilterByColumnName="@nameof(GraphEdge.Name)"
+            Striped="true"
+            AllowSelection="true"
+            class="mat-elevation-z5">
+            <MatTableHeader>
+              <th>Name</th>
+            </MatTableHeader>
+            <MatTableRow>
+              <td>@context.Name</td>
+              <td>
+                <MatButton Icon="delete" @onclick="@(e => DeleteGraphEdge(@context))"></MatButton>
+              </td>
+            </MatTableRow>
+          </MatTable>
+
+          <div>
+            <MatButton Icon="library_add" @onclick="@(e => GotoAddGraphEdges())">Add graph edges...</MatButton>
+          </div>
+        </MatTab>
+      </MatTabGroup>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>

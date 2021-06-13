@@ -50,16 +50,34 @@ namespace GraphML.UI.Web.Pages
     private GraphNode[] _nodes;
     private GraphEdge[] _edges;
 
+    private bool _isBusy;
+
     private async Task DeleteGraphNode(GraphNode graphItem)
     {
-      await _graphNodeServer.Delete(new[] { graphItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _graphNodeServer.Delete(new[] { graphItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private async Task DeleteGraphEdge(GraphEdge graphItem)
     {
-      await _graphEdgeServer.Delete(new[] { graphItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _graphEdgeServer.Delete(new[] { graphItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void GotoAddGraphNodes()
