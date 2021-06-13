@@ -60,6 +60,8 @@ namespace GraphML.UI.Web.Pages
     private Chart[] _charts;
     private Timeline[] _timelines;
 
+    private bool _isBusy;
+
     private bool _newChartDialogIsOpen;
     private bool _newTimelineDialogIsOpen;
     private string _newItemName;
@@ -141,8 +143,16 @@ namespace GraphML.UI.Web.Pages
     private async Task DeleteChart()
     {
       _deleteChartDialogIsOpen = false;
-      await _chartServer.Delete(new[] { _deleteChartItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _chartServer.Delete(new[] { _deleteChartItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void ConfirmDeleteTimeline(Timeline item)
@@ -154,8 +164,16 @@ namespace GraphML.UI.Web.Pages
     private async Task DeleteTimeline()
     {
       _deleteTimelineDialogIsOpen = false;
-      await _timelineServer.Delete(new[] { _deleteTimelineItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _timelineServer.Delete(new[] { _deleteTimelineItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void GotoShowChart(Chart chart)

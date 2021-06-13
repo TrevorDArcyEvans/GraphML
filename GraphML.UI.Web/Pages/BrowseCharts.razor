@@ -3,6 +3,7 @@
 @attribute [Authorize]
 
 @using GraphML
+@using GraphML.UI.Web.Widgets
 @using GraphML.Common
 @using Flurl
 @using GraphML.API.Controllers
@@ -31,57 +32,66 @@
   </Breadcrumb>
 </span>
 
-<div>
-  <MatTable
-    Items="@_charts"
-    ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
-    PageParamName="pageIndex"
-    PageSizeParamName="pageSize"
-    PagingRecordsCountPropertyName="@nameof(PagedDataEx<Chart>.TotalCount).Camelize()"
-    PagingDataPropertyName="@nameof(PagedDataEx<Chart>.Items).Camelize()"
-    FilterByColumnName="@nameof(Chart.Name)"
-    Striped="true"
-    AllowSelection="true"
-    class="mat-elevation-z5">
-    <MatTableHeader>
-      <th>Name</th>
-    </MatTableHeader>
-    <MatTableRow>
-      <td>
-        <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
-      </td>
-      <td>
-        <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
-      </td>
-    </MatTableRow>
-  </MatTable>
-</div>
+<SpinLoader IsLoading="@_isBusy">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
 
-<div>
-  <MatTable
-    Items="@_timelines"
-    ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Timeline), nameof(TimelineController.ByOwner), GraphId)"
-    PageParamName="pageIndex"
-    PageSizeParamName="pageSize"
-    PagingRecordsCountPropertyName="@nameof(PagedDataEx<Timeline>.TotalCount).Camelize()"
-    PagingDataPropertyName="@nameof(PagedDataEx<Timeline>.Items).Camelize()"
-    FilterByColumnName="@nameof(Timeline.Name)"
-    Striped="true"
-    AllowSelection="true"
-    class="mat-elevation-z5">
-    <MatTableHeader>
-      <th>Name</th>
-    </MatTableHeader>
-    <MatTableRow>
-      <td>
-        <MatButton Label="@context.Name" @onclick="@(e => GotoShowTimeline(@context))"></MatButton>
-      </td>
-      <td>
-        <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))"></MatButton>
-      </td>
-    </MatTableRow>
-  </MatTable>
-</div>
+    <div>
+      <MatTable
+        Items="@_charts"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
+        PageParamName="pageIndex"
+        PageSizeParamName="pageSize"
+        PagingRecordsCountPropertyName="@nameof(PagedDataEx<Chart>.TotalCount).Camelize()"
+        PagingDataPropertyName="@nameof(PagedDataEx<Chart>.Items).Camelize()"
+        FilterByColumnName="@nameof(Chart.Name)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
+        <MatTableHeader>
+          <th>Name</th>
+        </MatTableHeader>
+        <MatTableRow>
+          <td>
+            <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
+          </td>
+          <td>
+            <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+          </td>
+        </MatTableRow>
+      </MatTable>
+    </div>
+
+    <div>
+      <MatTable
+        Items="@_timelines"
+        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Timeline), nameof(TimelineController.ByOwner), GraphId)"
+        PageParamName="pageIndex"
+        PageSizeParamName="pageSize"
+        PagingRecordsCountPropertyName="@nameof(PagedDataEx<Timeline>.TotalCount).Camelize()"
+        PagingDataPropertyName="@nameof(PagedDataEx<Timeline>.Items).Camelize()"
+        FilterByColumnName="@nameof(Timeline.Name)"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
+        <MatTableHeader>
+          <th>Name</th>
+        </MatTableHeader>
+        <MatTableRow>
+          <td>
+            <MatButton Label="@context.Name" @onclick="@(e => GotoShowTimeline(@context))"></MatButton>
+          </td>
+          <td>
+            <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))"></MatButton>
+          </td>
+        </MatTableRow>
+      </MatTable>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>
 
 <div>
   <MatDialog @bind-IsOpen="@_deleteChartDialogIsOpen">
