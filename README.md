@@ -491,4 +491,6 @@ Alternate method is to install and run Redis on WSL:
 ```
 open [_Redis Commander_ management console](http://127.0.0.1:8080)
 
+_**Pro Tip**_ : to reset the database, use `flushdb`
+
 </details>
