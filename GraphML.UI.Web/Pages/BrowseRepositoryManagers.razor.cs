@@ -15,6 +15,8 @@ namespace GraphML.UI.Web.Pages
 
     private RepositoryManager[] _repoMgrs;
 
+    private bool _isBusy;
+
     private bool _newDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
@@ -63,8 +65,16 @@ namespace GraphML.UI.Web.Pages
     private async Task Delete()
     {
       _deleteDialogIsOpen = false;
-      await _repoMgrServer.Delete(new[] { _deleteItem });
-      StateHasChanged();
+      try
+      {
+        _isBusy = true;
+        await _repoMgrServer.Delete(new[] { _deleteItem });
+        StateHasChanged();
+      }
+      finally
+      {
+        _isBusy = false;
+      }
     }
 
     private void GotoBrowseRepositories(RepositoryManager repoMgr)
