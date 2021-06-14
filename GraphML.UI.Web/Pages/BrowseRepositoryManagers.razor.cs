@@ -85,10 +85,5 @@ namespace GraphML.UI.Web.Pages
     {
       _navMgr.NavigateTo($"/BrowseRepositories/{OrganisationId}/{OrganisationName}/{repoMgr.Id}/{repoMgr.Name}");
     }
-
-    private void GotoImporter()
-    {
-      _navMgr.NavigateTo($"/Importer/{OrganisationId}/{OrganisationName}");
-    }
   }
 }

@@ -19,6 +19,12 @@ namespace GraphML.UI.Web.Pages
     [Parameter]
     public string OrganisationId { get; set; }
 
+    [Parameter]
+    public string RepositoryManagerName { get; set; }
+
+    [Parameter]
+    public string RepositoryManagerId { get; set; }
+
     #endregion
 
     private string ImportSpec { get; set; }
@@ -59,15 +65,15 @@ namespace GraphML.UI.Web.Pages
       return new ImportSpecification
       {
         Organisation = OrganisationName,
-        RepositoryManager = "Repository Manager",
+        RepositoryManager = RepositoryManagerName,
         Repository = "Repository",
         NodeItemAttributeImportDefinitions = new List<NodeItemAttributeImportDefinition>
         {
-          new NodeItemAttributeImportDefinition()
+          new()
         },
         EdgeItemAttributeImportDefinitions = new List<EdgeItemAttributeImportDefinition>
         {
-          new EdgeItemAttributeImportDefinition()
+          new()
         }
       };
     }
