@@ -260,6 +260,8 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Mono auto generated files
+mono_crash.*
 
 
 GraphML.API/Logs/
