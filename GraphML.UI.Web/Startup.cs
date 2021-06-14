@@ -64,7 +64,10 @@ namespace GraphML.UI.Web
           ServerCertificateCustomValidationCallback = delegate { return true; },
           UseDefaultCredentials = true
         };
-        var client = new HttpClient(handler);
+        var client = new HttpClient(handler)
+        {
+          Timeout = TimeSpan.FromHours(1)
+        };
         var ctx = sp.GetService<IHttpContextAccessor>();
         var accessToken = ctx.HttpContext.GetTokenAsync("access_token").Result; // TODO async
         if (string.IsNullOrEmpty(accessToken))
