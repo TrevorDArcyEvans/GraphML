@@ -66,7 +66,7 @@ namespace GraphML.UI.Web
         };
         var client = new HttpClient(handler)
         {
-          Timeout = TimeSpan.FromHours(1)
+          Timeout = TimeSpan.FromHours(3)
         };
         var ctx = sp.GetService<IHttpContextAccessor>();
         var accessToken = ctx.HttpContext.GetTokenAsync("access_token").Result; // TODO async
