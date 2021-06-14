@@ -56,7 +56,7 @@ namespace GraphML.UI.Web.Pages
     private Guid _graphId;
 
     private bool _addAllDialogIsOpen;
-    private bool _isAddingItems;
+    private bool _isBusy;
 
     protected override void OnInitialized()
     {
@@ -68,7 +68,7 @@ namespace GraphML.UI.Web.Pages
       try
       {
         _addAllDialogIsOpen = false;
-        _isAddingItems = true;
+        _isBusy = true;
 
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
@@ -77,7 +77,7 @@ namespace GraphML.UI.Web.Pages
       }
       finally
       {
-        _isAddingItems = false;
+        _isBusy = false;
       }
     }
 
