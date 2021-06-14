@@ -499,7 +499,7 @@ namespace GraphML.UI.Web.Pages
           var missRepoChartGraphNodes = await _graphNodeServer.ByIds(missRepoChartGraphNodeIds);
           var missRepoChartNodes = missRepoChartGraphNodes.Select(gn =>
             new ChartNode(_chartId, _orgId, gn.Id, gn.Name)).ToList();
-          await _chartNodeServer.Create(missRepoChartNodes);
+          _ = await _chartNodeServer.Create(missRepoChartNodes);
           missChartNodes.AddRange(missRepoChartNodes);
         }
 
@@ -531,7 +531,7 @@ namespace GraphML.UI.Web.Pages
             })
             .Select(t => t.Result)
             .ToList();
-          await _chartEdgeServer.Create(missRepoChartEdges);
+          _ = await _chartEdgeServer.Create(missRepoChartEdges);
           missChartEdges.AddRange(missRepoChartEdges);
         }
 

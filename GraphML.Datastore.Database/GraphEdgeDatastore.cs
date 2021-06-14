@@ -80,7 +80,7 @@ order by {nameof(GraphEdge.Name)}
       var missingGraphNodes = missingGraphNodeRepo
         .Select(n => new GraphNode(graphId, graph.OrganisationId, n.Id, n.Name))
         .ToList();
-      _graphNodeDatastore.Create(missingGraphNodes);
+      _ =_graphNodeDatastore.Create(missingGraphNodes);
       graphNodes.AddRange(missingGraphNodes);
       var graphNodeMap = graphNodes.ToDictionary(gn => gn.RepositoryItemId, gn => gn.Id);
 
