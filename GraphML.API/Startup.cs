@@ -26,6 +26,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Http.Features;
 using GraphML.Datastore.Database.Importer;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace GraphML.API
 {
@@ -92,7 +93,12 @@ namespace GraphML.API
       services.Configure<FormOptions>(x =>
       {
         x.ValueLengthLimit = int.MaxValue;
-        x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart
+        x.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
+        x.MultipartHeadersLengthLimit = int.MaxValue;
+      });
+      services.Configure<KestrelServerOptions>(options =>
+      {
+        options.Limits.MaxRequestBodySize = int.MaxValue; // if don't set default value is: 30 MB
       });
 
       if (CurrentEnvironment.IsDevelopment())
