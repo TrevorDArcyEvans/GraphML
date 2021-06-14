@@ -56,19 +56,7 @@ namespace GraphML.UI.Web.Pages
     private Func<Task> _analysis;
 
     private int _selNumItems = 10;
-    private readonly int[] _numItems = new int[]
-    {
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    };
+    private readonly int[] _numItems = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
     private async Task SubmitShortestPath()
     {

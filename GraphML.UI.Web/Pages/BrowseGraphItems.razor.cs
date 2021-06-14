@@ -35,6 +35,8 @@ namespace GraphML.UI.Web.Pages
 
     #endregion
 
+    #region Inject
+
     [Inject]
     private IGraphNodeServer _graphNodeServer { get; set; }
 
@@ -46,6 +48,8 @@ namespace GraphML.UI.Web.Pages
 
     [Inject]
     private NavigationManager _navMgr { get; set; }
+
+    #endregion
 
     private GraphNode[] _nodes;
     private GraphEdge[] _edges;

@@ -49,7 +49,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     [Inject]
     public IGraphNodeServer _graphNodeServer { get; set; }
-    
+
     [Inject]
     public IChartNodeServer _chartNodeServer { get; set; }
 
@@ -69,70 +69,58 @@ namespace GraphML.UI.Web.Pages.Visualisations
     private string _dlgNewItemName;
 
     private int _selNumItems = 10;
-    private readonly int[] _numItems = new int[]
+    private readonly int[] _numItems = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    protected override async Task OnInitializedAsync()
     {
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    };
+      await base.OnInitializedAsync();
 
-  protected override async Task OnInitializedAsync()
-  {
-    await base.OnInitializedAsync();
+      var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
+      var snaResult = (BetweennessResult<Guid>) genRes;
+      var snaResults = snaResult.Result.ToList();
+      var graphNodeIds = snaResults.Select(res => res.Vertex);
+      var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
+      _results = graphNodes.Select(gn =>
+      {
+        return new SnaBetweennessNode
+        {
+          GraphNode = gn,
+          Betweenness = snaResults.Single(res => res.Vertex == gn.Id).Betweenness
+        };
+      });
 
-    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
-    var snaResult = (BetweennessResult<Guid>) genRes;
-    var snaResults = snaResult.Result.ToList();
-    var graphNodeIds = snaResults.Select(res => res.Vertex);
-    var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
-    _results = graphNodes.Select(gn =>
+      _graphNodes = _results.ToArray();
+    }
+
+    private void SortData(MatSortChangedEvent sort)
     {
-      return new SnaBetweennessNode
+      _graphNodes = _results.ToArray();
+
+      if (!(sort == null ||
+            sort.Direction == MatSortDirection.None ||
+            string.IsNullOrEmpty(sort.SortId)))
       {
-        GraphNode = gn,
-        Betweenness = snaResults.Single(res => res.Vertex == gn.Id).Betweenness
-      };
-    });
+        Comparison<double> comparison = null;
 
-    _graphNodes = _results.ToArray();
-  }
+        switch (sort.SortId)
+        {
+          case nameof(SnaBetweennessNode.Betweenness):
+            comparison = (s1, s2) => s1.CompareTo(s2);
+            break;
+          default:
+            throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
+        }
 
-  private void SortData(MatSortChangedEvent sort)
-  {
-    _graphNodes = _results.ToArray();
-
-    if (!(sort == null ||
-          sort.Direction == MatSortDirection.None ||
-          string.IsNullOrEmpty(sort.SortId)))
-    {
-      Comparison<double> comparison = null;
-
-      switch (sort.SortId)
-      {
-        case nameof(SnaBetweennessNode.Betweenness):
-          comparison = (s1, s2) => s1.CompareTo(s2);
-          break;
-        default:
-          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
-      }
-
-      if (sort.Direction == MatSortDirection.Desc)
-      {
-        Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Betweenness, s2.Betweenness));
-      }
-      else
-      {
-        Array.Sort(_graphNodes, (s1, s2) => comparison(s1.Betweenness, s2.Betweenness));
+        if (sort.Direction == MatSortDirection.Desc)
+        {
+          Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1.Betweenness, s2.Betweenness));
+        }
+        else
+        {
+          Array.Sort(_graphNodes, (s1, s2) => comparison(s1.Betweenness, s2.Betweenness));
+        }
       }
     }
-  }
 
     private async Task OkNewChartClick()
     {
@@ -152,12 +140,12 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
       var newItems = await _chartServer.Create(new[] { newItem });
       var newChart = newItems.Single();
-      
+
       var chartNodes = _graphNodes
         .Take(_selNumItems)
         .Select(snaNode => new ChartNode(newChart.Id, snaNode.GraphNode.OrganisationId, snaNode.GraphNode.Id, snaNode.GraphNode.Name));
       _ = await _chartNodeServer.Create(chartNodes);
-      
+
       return newChart;
     }
 

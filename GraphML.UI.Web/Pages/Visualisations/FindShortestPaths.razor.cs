@@ -55,10 +55,10 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     [Inject]
     public IGraphEdgeServer _graphEdgeServer { get; set; }
-    
+
     [Inject]
     public IChartNodeServer _chartNodeServer { get; set; }
-    
+
     [Inject]
     public IChartEdgeServer _chartEdgeServer { get; set; }
 
@@ -69,81 +69,69 @@ namespace GraphML.UI.Web.Pages.Visualisations
     public NavigationManager _navMgr { get; set; }
 
     #endregion
-    
-  private IEnumerable<FindShortestPathGraphResult> _results;
-  private FindShortestPathGraphResult[] _displayResults;
+
+    private IEnumerable<FindShortestPathGraphResult> _results;
+    private FindShortestPathGraphResult[] _displayResults;
 
     private bool _newChartDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
 
     private int _selNumItems = 10;
-    private readonly int[] _numItems = new int[]
+    private readonly int[] _numItems = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    protected override async Task OnInitializedAsync()
     {
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    };
+      await base.OnInitializedAsync();
 
-  protected override async Task OnInitializedAsync()
-  {
-    await base.OnInitializedAsync();
+      var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
+      var snaResult = (FindShortestPathsResults<IdentifiableEdge<Guid>>) genRes;
+      var snaResults = snaResult.Result.ToList();
+      _results = snaResults.Select(async res =>
+        {
+          var graphEdgeIds = res.Path.Select(edge => edge.Id);
+          var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
+          return new FindShortestPathGraphResult
+          {
+            Path = graphEdges,
+            Cost = res.Cost
+          };
+        })
+        .Select(t => t.Result)
+        .ToList();
 
-    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
-    var snaResult = (FindShortestPathsResults<IdentifiableEdge<Guid>>) genRes;
-    var snaResults = snaResult.Result.ToList();
-    _results = snaResults.Select(async res =>
-    {
-      var graphEdgeIds = res.Path.Select(edge => edge.Id);
-      var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
-      return new FindShortestPathGraphResult
-      {
-          Path = graphEdges,
-          Cost = res.Cost
-      };
-    })
-    .Select(t => t.Result)
-    .ToList();
-
-    _displayResults = _results.ToArray();
-  }
+      _displayResults = _results.ToArray();
+    }
 
     private void SortData(MatSortChangedEvent sort)
-  {
-    _displayResults = _results.ToArray();
-
-    if (!(sort == null ||
-          sort.Direction == MatSortDirection.None ||
-          string.IsNullOrEmpty(sort.SortId)))
     {
-      Comparison<double> comparison = null;
+      _displayResults = _results.ToArray();
 
-      switch (sort.SortId)
+      if (!(sort == null ||
+            sort.Direction == MatSortDirection.None ||
+            string.IsNullOrEmpty(sort.SortId)))
       {
-        case nameof(FindShortestPathsResult<Edge<Guid>>.Cost):
-          comparison = (s1, s2) => s1.CompareTo(s2);
-          break;
-        default:
-          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
-      }
+        Comparison<double> comparison = null;
 
-      if (sort.Direction == MatSortDirection.Desc)
-      {
-        Array.Sort(_displayResults, (s1, s2) => -1 * comparison(s1.Cost, s2.Cost));
-      }
-      else
-      {
-        Array.Sort(_displayResults, (s1, s2) => comparison(s1.Cost, s2.Cost));
+        switch (sort.SortId)
+        {
+          case nameof(FindShortestPathsResult<Edge<Guid>>.Cost):
+            comparison = (s1, s2) => s1.CompareTo(s2);
+            break;
+          default:
+            throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
+        }
+
+        if (sort.Direction == MatSortDirection.Desc)
+        {
+          Array.Sort(_displayResults, (s1, s2) => -1 * comparison(s1.Cost, s2.Cost));
+        }
+        else
+        {
+          Array.Sort(_displayResults, (s1, s2) => comparison(s1.Cost, s2.Cost));
+        }
       }
     }
-  }
 
     private async Task OkNewChartClick()
     {
@@ -172,21 +160,21 @@ namespace GraphML.UI.Web.Pages.Visualisations
         .DistinctBy(ge => ge.Id)
         .ToList();
       var graphNodeIds = graphEdges
-          .SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId })
-          .Distinct();
+        .SelectMany(ge => new[] { ge.GraphSourceId, ge.GraphTargetId })
+        .Distinct();
       var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
       var chartNodes = graphNodes
-          .Select(gn => new ChartNode(newChart.Id, gn.OrganisationId, gn.Id, gn.Name))
-          .ToList();
+        .Select(gn => new ChartNode(newChart.Id, gn.OrganisationId, gn.Id, gn.Name))
+        .ToList();
       var chartEdges = graphEdges
-          .Select(ge => 
-              new ChartEdge(
-                  newChart.Id, 
-                  ge.OrganisationId, 
-                  ge.Id, 
-                  ge.Name,
-                  chartNodes.Single(cn => cn.GraphItemId == ge.GraphSourceId).Id,
-                  chartNodes.Single(cn => cn.GraphItemId == ge.GraphTargetId).Id));
+        .Select(ge =>
+          new ChartEdge(
+            newChart.Id,
+            ge.OrganisationId,
+            ge.Id,
+            ge.Name,
+            chartNodes.Single(cn => cn.GraphItemId == ge.GraphSourceId).Id,
+            chartNodes.Single(cn => cn.GraphItemId == ge.GraphTargetId).Id));
       _ = await _chartNodeServer.Create(chartNodes);
       _ = await _chartEdgeServer.Create(chartEdges);
 

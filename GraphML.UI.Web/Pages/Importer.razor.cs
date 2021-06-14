@@ -11,11 +11,15 @@ namespace GraphML.UI.Web.Pages
 {
   public partial class Importer
   {
+    #region Parameters
+
     [Parameter]
     public string OrganisationName { get; set; }
 
     [Parameter]
     public string OrganisationId { get; set; }
+
+    #endregion
 
     private string ImportSpec { get; set; }
     private string CurrentFileName { get; set; } = string.Empty;

@@ -49,7 +49,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     [Inject]
     public IGraphNodeServer _graphNodeServer { get; set; }
-    
+
     [Inject]
     public IChartNodeServer _chartNodeServer { get; set; }
 
@@ -60,84 +60,72 @@ namespace GraphML.UI.Web.Pages.Visualisations
     public NavigationManager _navMgr { get; set; }
 
     #endregion
-    
-  private IEnumerable<SnaDegreeNode> _results;
-  private SnaDegreeNode[] _graphNodes;
+
+    private IEnumerable<SnaDegreeNode> _results;
+    private SnaDegreeNode[] _graphNodes;
 
     private bool _newChartDialogIsOpen;
     private string _newItemName;
     private string _dlgNewItemName;
 
     private int _selNumItems = 10;
-    private readonly int[] _numItems = new int[]
+    private readonly int[] _numItems = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    protected override async Task OnInitializedAsync()
     {
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    };
+      await base.OnInitializedAsync();
 
-  protected override async Task OnInitializedAsync()
-  {
-    await base.OnInitializedAsync();
+      var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
+      var snaResult = (DegreeResult<Guid>) genRes;
+      var snaResults = snaResult.Result.ToList();
+      var graphNodeIds = snaResults.Select(res => res.Vertex);
+      var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
+      _results = graphNodes.Select(gn =>
+      {
+        var degreeRes = snaResults.Single(res => res.Vertex == gn.Id);
+        return new SnaDegreeNode
+        {
+          GraphNode = gn,
+          In = degreeRes.In,
+          Out = degreeRes.Out
+        };
+      });
 
-    var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
-    var snaResult = (DegreeResult<Guid>) genRes;
-    var snaResults = snaResult.Result.ToList();
-    var graphNodeIds = snaResults.Select(res => res.Vertex);
-    var graphNodes = await _graphNodeServer.ByIds(graphNodeIds);
-    _results = graphNodes.Select(gn =>
+      _graphNodes = _results.ToArray();
+    }
+
+    private void SortData(MatSortChangedEvent sort)
     {
-      var degreeRes = snaResults.Single(res => res.Vertex == gn.Id);
-      return new SnaDegreeNode
+      _graphNodes = _results.ToArray();
+
+      if (!(sort == null ||
+            sort.Direction == MatSortDirection.None ||
+            string.IsNullOrEmpty(sort.SortId)))
       {
-        GraphNode = gn,
-        In = degreeRes.In,
-        Out = degreeRes.Out
-      };
-    });
+        Comparison<SnaDegreeNode> comparison = null;
 
-    _graphNodes = _results.ToArray();
-  }
+        switch (sort.SortId)
+        {
+          case nameof(SnaDegreeNode.In):
+            comparison = (s1, s2) => s1.In.CompareTo(s2.In);
+            break;
+          case nameof(SnaDegreeNode.Out):
+            comparison = (s1, s2) => s1.Out.CompareTo(s2.Out);
+            break;
+          default:
+            throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
+        }
 
-  private void SortData(MatSortChangedEvent sort)
-  {
-    _graphNodes = _results.ToArray();
-
-    if (!(sort == null ||
-          sort.Direction == MatSortDirection.None ||
-          string.IsNullOrEmpty(sort.SortId)))
-    {
-      Comparison<SnaDegreeNode> comparison = null;
-
-      switch (sort.SortId)
-      {
-        case nameof(SnaDegreeNode.In):
-          comparison = (s1, s2) => s1.In.CompareTo(s2.In);
-          break;
-        case nameof(SnaDegreeNode.Out):
-          comparison = (s1, s2) => s1.Out.CompareTo(s2.Out);
-          break;
-        default:
-          throw new ArgumentOutOfRangeException($"Unknown sort:  {sort.SortId}");
-      }
-
-      if (sort.Direction == MatSortDirection.Desc)
-      {
-        Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1, s2));
-      }
-      else
-      {
-        Array.Sort(_graphNodes, (s1, s2) => comparison(s1, s2));
+        if (sort.Direction == MatSortDirection.Desc)
+        {
+          Array.Sort(_graphNodes, (s1, s2) => -1 * comparison(s1, s2));
+        }
+        else
+        {
+          Array.Sort(_graphNodes, (s1, s2) => comparison(s1, s2));
+        }
       }
     }
-  }
 
     private async Task OkNewChartClick()
     {
@@ -157,12 +145,12 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
       var newItems = await _chartServer.Create(new[] { newItem });
       var newChart = newItems.Single();
-      
+
       var chartNodes = _graphNodes
         .Take(_selNumItems)
         .Select(snaNode => new ChartNode(newChart.Id, snaNode.GraphNode.OrganisationId, snaNode.GraphNode.Id, snaNode.GraphNode.Name));
       _ = await _chartNodeServer.Create(chartNodes);
-      
+
       return newChart;
     }
 

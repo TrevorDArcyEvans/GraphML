@@ -7,11 +7,15 @@ namespace GraphML.UI.Web.Pages
 {
   public partial class BrowseRepositoryManagers
   {
+    #region Parameters
+
     [Parameter]
     public string OrganisationName { get; set; }
 
     [Parameter]
     public string OrganisationId { get; set; }
+
+    #endregion
 
     private RepositoryManager[] _repoMgrs;
 
