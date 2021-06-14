@@ -82,20 +82,21 @@ order by {nameof(GraphEdge.Name)}
         .ToList();
       _graphNodeDatastore.Create(missingGraphNodes);
       graphNodes.AddRange(missingGraphNodes);
+      var graphNodeMap = graphNodes.ToDictionary(gn => gn.RepositoryItemId, gn => gn.Id);
 
       // create new GraphEdges
       var graphEdges = edges
         .Select(e =>
         {
-          var source = graphNodes.Single(gn => gn.RepositoryItemId == e.SourceId);
-          var target = graphNodes.Single(gn => gn.RepositoryItemId == e.TargetId);
+          var sourceId = graphNodeMap[e.SourceId];
+          var targetId = graphNodeMap[e.TargetId];
           return new GraphEdge(
             graphId,
             graph.OrganisationId,
             e.Id,
             e.Name,
-            source.Id,
-            target.Id);
+            sourceId,
+            targetId);
         })
         .ToList();
       Create(graphEdges);
