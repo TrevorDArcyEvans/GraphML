@@ -70,7 +70,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     #endregion
 
-    private IEnumerable<FindShortestPathGraphResult> _results;
+    private List<FindShortestPathGraphResult> _results = new();
     private FindShortestPathGraphResult[] _displayResults;
 
     private bool _newChartDialogIsOpen;
@@ -87,18 +87,17 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       var snaResult = (FindShortestPathsResults<IdentifiableEdge<Guid>>) genRes;
       var snaResults = snaResult.Result.ToList();
-      _results = snaResults.Select(async res =>
+      foreach (var res in snaResults)
+      {
+        var graphEdgeIds = res.Path.Select(edge => edge.Id);
+        var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
+        var graphRes = new FindShortestPathGraphResult
         {
-          var graphEdgeIds = res.Path.Select(edge => edge.Id);
-          var graphEdges = await _graphEdgeServer.ByIds(graphEdgeIds);
-          return new FindShortestPathGraphResult
-          {
-            Path = graphEdges,
-            Cost = res.Cost
-          };
-        })
-        .Select(t => t.Result)
-        .ToList();
+          Path = graphEdges,
+          Cost = res.Cost
+        };
+        _results.Add(graphRes);
+      }
 
       _displayResults = _results.ToArray();
     }
