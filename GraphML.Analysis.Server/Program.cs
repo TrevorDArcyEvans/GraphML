@@ -72,7 +72,7 @@ namespace GraphML.Analysis.Server
       // to add logging services.
       serviceCollection.AddLogging();
 
-#region Autofac
+      #region Autofac
 
       // Create the container builder.
       var containerBuilder = new ContainerBuilder();
@@ -119,7 +119,7 @@ namespace GraphML.Analysis.Server
       var container = containerBuilder.Build();
       _serviceProvider = new AutofacServiceProvider(container);
 
-#endregion
+      #endregion
 
       _receiver = _serviceProvider.GetRequiredService<IRequestMessageReceiver>();
       _logger = _serviceProvider.GetRequiredService<ILogger<Program>>();
@@ -143,12 +143,14 @@ namespace GraphML.Analysis.Server
     {
       try
       {
+        _logger.LogInformation($"Job --> {json}");
+
         var jobj = JObject.Parse(json);
         var reqTypeStr = jobj["Type"].ToString();
         var reqType = Type.GetType(reqTypeStr);
-        var req = (IRequest)JsonConvert.DeserializeObject(json, reqType);
+        var req = (IRequest) JsonConvert.DeserializeObject(json, reqType);
         var jobType = Type.GetType(req.JobType);
-        var job = (IJob)_serviceProvider.GetService(jobType);
+        var job = (IJob) _serviceProvider.GetService(jobType);
 
         job.Run(req);
       }
