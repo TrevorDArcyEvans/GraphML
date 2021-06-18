@@ -111,7 +111,7 @@ namespace GraphML.UI.Web.Pages
     private Guid _draggedNodeId;
 
     private string[] _icons;
-    
+
     private bool _isNewNode;
     private string _newIconName;
     private bool _newDialogIsOpen;
@@ -794,7 +794,13 @@ namespace GraphML.UI.Web.Pages
 
     private void OnShowLabel(bool value)
     {
-      throw new NotImplementedException();
+      _diagram
+        .Links
+        .OfType<DiagramLink>()
+        .SelectMany(dl => dl.Labels)
+        .OfType<DiagramLinkLabel>()
+        .ToList()
+        .ForEach(dll => { dll.ShowLabel = value; });
     }
   }
 }
