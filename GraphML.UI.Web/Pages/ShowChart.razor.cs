@@ -521,16 +521,17 @@ namespace GraphML.UI.Web.Pages
 
           // create a ChartEdge in Repository for each missing GraphEdge
           var missRepoChartGraphEdges = await _graphEdgeServer.ByIds(missRepoChartGraphEdgeIds);
-          var missRepoChartEdges = missRepoChartGraphEdges.Select(async ge =>
-            {
-              var chartNodeSources = await _chartNodeServer.ByGraphItems(_chartId, new[] { ge.GraphSourceId });
-              var chartNodeSource = chartNodeSources.Single();
-              var chartNodeTargets = await _chartNodeServer.ByGraphItems(_chartId, new[] { ge.GraphTargetId });
-              var chartNodeTarget = chartNodeTargets.Single();
-              return new ChartEdge(_chartId, _orgId, ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
-            })
-            .Select(t => t.Result)
-            .ToList();
+          var missRepoChartEdges = new ConcurrentBag<ChartEdge>();
+          await missRepoChartGraphEdges.ParallelForEachAsync(DegreeOfParallelism, async ge =>
+          {
+            var chartNodeSources = await _chartNodeServer.ByGraphItems(_chartId, new[] { ge.GraphSourceId });
+            var chartNodeSource = chartNodeSources.Single();
+            var chartNodeTargets = await _chartNodeServer.ByGraphItems(_chartId, new[] { ge.GraphTargetId });
+            var chartNodeTarget = chartNodeTargets.Single();
+            var chartEdge = new ChartEdge(_chartId, _orgId, ge.Id, ge.Name, chartNodeSource.Id, chartNodeTarget.Id);
+
+            missRepoChartEdges.Add(chartEdge);
+          });
           _ = await _chartEdgeServer.Create(missRepoChartEdges);
           missChartEdges.AddRange(missRepoChartEdges);
         }
