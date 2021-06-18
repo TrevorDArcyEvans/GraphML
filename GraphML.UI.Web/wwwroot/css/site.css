@@ -148,16 +148,16 @@ app {
 }
 
 .graphml-link {
-  width: 80px;
-  height: 80px;
-  font-size: 12px;
+  width: 32px;
+  height: 32px;
+  font-size: 8px;
 }
 
 .graphml-node {
-  width: 80px;
-  height: 80px;
-  font-size: 12px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  font-size: 8px;
+  border-radius: 4px;
   background-color: #f5f5f5;
   border: 1px solid #e8e8e8;
   -webkit-box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, .12);
@@ -175,5 +175,5 @@ app {
 }
 
 .graphml-selected {
-  border: 2px solid #6e9fd4;
+  border: 3px solid #6e9fd4;
 }
