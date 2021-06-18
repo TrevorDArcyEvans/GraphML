@@ -13,7 +13,6 @@ using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
 using GraphML.Utils;
 using GraphShape.Algorithms.Layout;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Configuration;
@@ -95,7 +94,7 @@ namespace GraphML.UI.Web.Pages
     private const int ChunkSize = 1000;
     private const int DegreeOfParallelism = 10;
 
-    private static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+    private static readonly List<string> ImageExtensions = new() { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
 
     #region member variables
 
@@ -120,7 +119,7 @@ namespace GraphML.UI.Web.Pages
     private Point _newNodePos;
 
     private bool _parentChildDialogIsOpen;
-    private List<Node> _parentNodes = new List<Node>();
+    private List<Node> _parentNodes = new();
     private Node _selectedNode;
     private Node _childNode;
 
@@ -181,7 +180,8 @@ namespace GraphML.UI.Web.Pages
         },
         Zoom = new DiagramZoomOptions
         {
-          Minimum = 0.5, // Minimum zoom value
+          Minimum = 0.1,
+          Maximum = 4.0,
           Inverse = false, // Whether to inverse the direction of the zoom when using the wheel
         }
       };
