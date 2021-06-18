@@ -11,6 +11,7 @@
 @using Flurl
 @using GraphML.API.Controllers
 @using GraphML.Common
+@using GraphML.UI.Web.Models
 @using Humanizer
 @using QuikGraph
 @using GraphML.UI.Web.Widgets
@@ -91,11 +92,11 @@
             AllowSelection="true"
             class="mat-elevation-z5">
             <MatTableRow>
-              <span draggable="true" @ondragstart="@(() => OnDragNewStart(context))">
+              <span draggable="true" @ondragstart="@(() => OnDragNewStart(context.Path))">
                 <td>
-                  <img src="@context"/>
+                  <img src="@context.Path" width="32px" height="32px"/>
                 </td>
-                <td>@context</td>
+                <td>@context.Path</td>
               </span>
             </MatTableRow>
           </MatTable>
@@ -214,7 +215,7 @@
         <MatTextField Label="Name" @bind-Value="@_dlgEditNodeName" FullWidth="true"/>
       </div>
       <div>
-        <img src="@_dlgEditNodeIconName"/>
+        <img src="@_dlgEditNodeIconName" width="32px" height="32px"/>
         <MatTextField
           Label="Icon"
           Helpertext="Double click icon in list to change"
@@ -234,16 +235,17 @@
             <MatExpansionPanelDetails>
               <MatTable
                 Items="@_icons"
-                FilterByColumnName="Name"
+                FilterByColumnName="Path"
+                RequestApiOnlyOnce="true"
                 Striped="true"
                 AllowSelection="false"
-                OnRowDbClick="@(obj => { _dlgEditNodeIconName = (string) obj; })"
+                OnRowDbClick="@(obj => { _dlgEditNodeIconName = ((IconInfo) obj).Path; })"
                 class="mat-elevation-z5">
                 <MatTableRow>
                   <td>
-                    <img src="@context"/>
+                    <img src="@context.Path" width="32px" height="32px"/>
                   </td>
-                  <td>@context</td>
+                  <td>@context.Path</td>
                 </MatTableRow>
               </MatTable>
             </MatExpansionPanelDetails>

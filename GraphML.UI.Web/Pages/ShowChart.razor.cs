@@ -109,7 +109,7 @@ namespace GraphML.UI.Web.Pages
     // GraphNode.Id
     private Guid _draggedNodeId;
 
-    private string[] _icons;
+    private IconInfo[] _icons;
 
     private bool _isNewNode;
     private string _newIconName;
@@ -159,6 +159,7 @@ namespace GraphML.UI.Web.Pages
         .GetFiles(iconDir, "*", SearchOption.AllDirectories)
         .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
         .Select(fileName => Path.GetRelativePath("wwwroot", fileName))
+        .Select(path => new IconInfo(path))
         .ToArray();
 
       var graphs = await _graphServer.ByIds(new[] { _graphId });
