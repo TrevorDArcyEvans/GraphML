@@ -98,7 +98,7 @@ namespace GraphML.UI.Web.Pages
 
     #region member variables
 
-    private Diagram _diagram { get; set; }
+    private readonly Diagram _diagram = new(GetOptions());
     private GraphNode[] _graphNodes;
     private Graph _graph;
 
@@ -147,8 +147,6 @@ namespace GraphML.UI.Web.Pages
       _graphId = Guid.Parse(GraphId);
       _chartId = Guid.Parse(ChartId);
 
-      var options = GetOptions();
-      _diagram = new Diagram(options);
       _diagram.MouseClick += Diagram_OnMouseClick;
 
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
