@@ -13,6 +13,7 @@ using GraphML.UI.Web.Models;
 using GraphML.UI.Web.Widgets;
 using GraphML.Utils;
 using GraphShape.Algorithms.Layout;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Configuration;
@@ -110,7 +111,7 @@ namespace GraphML.UI.Web.Pages
     private Guid _draggedNodeId;
 
     private string[] _icons;
-
+    
     private bool _isNewNode;
     private string _newIconName;
     private bool _newDialogIsOpen;
@@ -152,7 +153,7 @@ namespace GraphML.UI.Web.Pages
       _diagram.MouseClick += Diagram_OnMouseClick;
 
       _diagram.RegisterModelComponent<DiagramNode, DiagramNodeWidget>();
-      _diagram.RegisterModelComponent<LinkLabelModel, DiagramLinkLabelWidget>();
+      _diagram.RegisterModelComponent<DiagramLinkLabel, DiagramLinkLabelWidget>();
 
       var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
       _icons = Directory
@@ -789,6 +790,11 @@ namespace GraphML.UI.Web.Pages
       {
         _isBusy = false;
       }
+    }
+
+    private void OnShowLabel(bool value)
+    {
+      throw new NotImplementedException();
     }
   }
 }

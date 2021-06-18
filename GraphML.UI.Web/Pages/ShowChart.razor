@@ -44,6 +44,12 @@
 <MatDrawerContainer Style="width: 100vw; height: 100vh;">
   <MatDrawer @bind-Opened="@_drawerOpened">
     <MatAccordion>
+      <div>
+        <MatCheckbox
+          Label="Show/Hide link labels"
+          ValueChanged="(bool value) => OnShowLabel(value)"/>
+      </div>
+
       <MatExpansionPanel>
         <MatExpansionPanelSummary>
           <MatExpansionPanelHeader>Add</MatExpansionPanelHeader>

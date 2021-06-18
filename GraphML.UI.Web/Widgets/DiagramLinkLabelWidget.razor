@@ -1,12 +1,21 @@
 @using Blazor.Diagrams.Core.Geometry
-@using Blazor.Diagrams.Core.Models
 @using Blazor.Diagrams.Core.Extensions
+@using GraphML.UI.Web.Models
 
-@((MarkupString)$"<foreignObject class=\"graphml-link\" x=\"{X.ToInvariantString()}\" y=\"{Y.ToInvariantString()}\"><div style=\"font-size:8px\" class=\"link-label\">{Label.Content}</div></foreignObject>")
+@{
+  if (Label.ShowLabel)
+  {
+    @((MarkupString) $"<foreignObject class=\"graphml-link\" x=\"{X.ToInvariantString()}\" y=\"{Y.ToInvariantString()}\"><div style=\"font-size:8px\" class=\"link-label\">{Label.Content}</div></foreignObject>")
+  }
+}
 
 @code {
-  [Parameter] public LinkLabelModel Label { get; set; }
-  [Parameter] public Point Position { get; set; }
+
+  [Parameter]
+  public DiagramLinkLabel Label { get; set; }
+
+  [Parameter]
+  public Point Position { get; set; }
 
   private double X => Position.X + (Label.Offset?.X ?? 0);
   private double Y => Position.Y + (Label.Offset?.Y ?? 0);

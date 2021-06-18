@@ -1,7 +1,12 @@
 @using GraphML.UI.Web.Models
 
 <div class="graphml-node @(Node.Selected ? " graphml-selected" : "")">
-  <img src="@Node.IconName" width="32px" height="32px" alt="@Node.IconName"/>
+  @{
+    if (!string.IsNullOrWhiteSpace(Node.IconName))
+    {
+      <img src="@Node.IconName" width="32px" height="32px" alt="@Node.IconName"/>
+    }
+  }
   @Node.Name
 </div>
 

@@ -15,7 +15,7 @@ namespace GraphML.UI.Web.Models
       base(chartEdge.Id.ToString(), sourceNode, targetNode)
     {
       ChartEdge = chartEdge;
-      Labels.Add(new LinkLabelModel(this, chartEdge.Name));
+      Labels.Add(new DiagramLinkLabel(this, chartEdge.Name));
     }
 
     public ChartEdge ChartEdge { get; }
