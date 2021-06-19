@@ -122,7 +122,15 @@
         -->
         <div class="diagram-container row h-100 v-100" oncontextmenu="return false;" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
           <CascadingValue Value="_diagram">
-            <DiagramCanvas></DiagramCanvas>
+            <DiagramCanvas>
+              <Widgets>
+                <!--
+                BUG: 104 : NavigatorWidget not work with empty Diagram 
+                https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/104
+                -->
+                <!-- NavigatorWidget Width="300" Height="200" DefaultStyle="true"></NavigatorWidget -->
+              </Widgets>
+            </DiagramCanvas>
           </CascadingValue>
         </div>
 
