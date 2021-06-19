@@ -143,6 +143,8 @@ namespace GraphML.UI.Web.Pages
 
     protected override async Task OnInitializedAsync()
     {
+      await base.OnInitializedAsync();
+      
       _orgId = Guid.Parse(OrganisationId);
       _graphId = Guid.Parse(GraphId);
       _chartId = Guid.Parse(ChartId);
