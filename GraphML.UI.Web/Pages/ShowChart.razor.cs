@@ -819,6 +819,8 @@ namespace GraphML.UI.Web.Pages
       });
     }
 
+    #region Zoom
+
     private void CentreOnNode(DiagramNode node)
     {
       // TODO
@@ -847,5 +849,7 @@ namespace GraphML.UI.Web.Pages
     {
       _diagram.ZoomToFit();
     }
+
+    #endregion
   }
 }
