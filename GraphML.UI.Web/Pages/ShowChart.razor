@@ -46,6 +46,12 @@
   <MatDrawer @bind-Opened="@_drawerOpened">
     <MatAccordion>
       <div>
+          <MatIconButton Icon="zoom_in" OnClick="@ZoomIn"/>
+          <MatIconButton Icon="zoom_out" OnClick="@ZoomOut"/>
+          <MatIconButton Icon="crop_free" OnClick="@ZoomReset"/>
+          <MatIconButton Icon="zoom_out_map" OnClick="@ZoomToFit"/>
+      </div>
+      <div>
         <MatCheckbox
           Label="Show/Hide link labels"
           ValueChanged="(bool value) => OnShowLabel(value)"/>
@@ -53,7 +59,36 @@
 
       <MatExpansionPanel>
         <MatExpansionPanelSummary>
-          <MatExpansionPanelHeader>Add</MatExpansionPanelHeader>
+          <MatExpansionPanelHeader>
+            <MatIcon Icon="find_in_page"/>
+            Find
+          </MatExpansionPanelHeader>
+        </MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+          <MatTable
+            Items="@_diagNodes"
+            FilterByColumnName="@nameof(DiagramNode.Name)"
+            RequestApiOnlyOnce="true"
+            Striped="true"
+            AllowSelection="false"
+            OnRowDbClick="@(obj => { CentreOnNode((DiagramNode) obj); })"
+            class="mat-elevation-z5">
+            <MatTableHeader>
+              <th>Name</th>
+            </MatTableHeader>
+            <MatTableRow>
+              @context.Name
+            </MatTableRow>
+          </MatTable>
+        </MatExpansionPanelDetails>
+      </MatExpansionPanel>
+
+      <MatExpansionPanel>
+        <MatExpansionPanelSummary>
+          <MatExpansionPanelHeader>
+            <MatIcon Icon="add"/>
+            Add
+          </MatExpansionPanelHeader>
         </MatExpansionPanelSummary>
         <MatExpansionPanelDetails>
           <MatTable
@@ -82,7 +117,10 @@
 
       <MatExpansionPanel>
         <MatExpansionPanelSummary>
-          <MatExpansionPanelHeader>New</MatExpansionPanelHeader>
+          <MatExpansionPanelHeader>
+            <MatIcon Icon="fiber_new"/>
+            New
+          </MatExpansionPanelHeader>
         </MatExpansionPanelSummary>
         <MatExpansionPanelDetails>
           <MatTable

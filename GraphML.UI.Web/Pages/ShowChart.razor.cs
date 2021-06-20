@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Diagrams.Core;
+using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using BlazorContextMenu;
@@ -100,6 +101,7 @@ namespace GraphML.UI.Web.Pages
 
     private readonly Diagram _diagram = new(GetOptions());
     private GraphNode[] _graphNodes;
+    private List<DiagramNode> _diagNodes;
     private Graph _graph;
 
     private Guid _orgId;
@@ -144,7 +146,7 @@ namespace GraphML.UI.Web.Pages
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
-      
+
       _orgId = Guid.Parse(OrganisationId);
       _graphId = Guid.Parse(GraphId);
       _chartId = Guid.Parse(ChartId);
@@ -229,11 +231,15 @@ namespace GraphML.UI.Web.Pages
         // force a delay so spinner is rendered
         await Task.Delay(TimeSpan.FromSeconds(0.5));
 
+        _diagram.Nodes.Added += UpdateDiagramNodes();
+        _diagram.Nodes.Removed += UpdateDiagramNodes();
+
         var nodes = chartNodes.Select(chartNode =>
-          new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
-          {
-            IconName = chartNode.IconName
-          });
+            new DiagramNode(chartNode, new Point(chartNode.X, chartNode.Y))
+            {
+              IconName = chartNode.IconName
+            })
+          .ToList();
         _diagram.Nodes.Add(nodes);
 
         var links = chartEdges.Select(chartEdge =>
@@ -802,6 +808,44 @@ namespace GraphML.UI.Web.Pages
         .OfType<DiagramLinkLabel>()
         .ToList()
         .ForEach(dll => { dll.ShowLabel = value; });
+    }
+
+    private Action<NodeModel> UpdateDiagramNodes()
+    {
+      return (_ =>
+      {
+        _diagNodes = _diagram.Nodes.OfType<DiagramNode>().ToList();
+        StateHasChanged();
+      });
+    }
+
+    private void CentreOnNode(DiagramNode node)
+    {
+      // TODO
+      var cont = _diagram.Container ?? Rectangle.Zero;
+      var deltaX = -_diagram.Pan.X + (-node.Position.X + cont.Width) / 2;
+      var deltaY = -_diagram.Pan.Y + (-node.Position.Y + cont.Height) / 2;
+      _diagram.UpdatePan(deltaX, deltaY);
+    }
+
+    private void ZoomIn()
+    {
+      _diagram.SetZoom(_diagram.Zoom * 1.15);
+    }
+
+    private void ZoomOut()
+    {
+      _diagram.SetZoom(_diagram.Zoom * 0.85);
+    }
+
+    private void ZoomReset()
+    {
+      _diagram.SetZoom(1.0);
+    }
+
+    private void ZoomToFit()
+    {
+      _diagram.ZoomToFit();
     }
   }
 }
