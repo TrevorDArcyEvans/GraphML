@@ -823,10 +823,10 @@ namespace GraphML.UI.Web.Pages
 
     private void CentreOnNode(DiagramNode node)
     {
-      // TODO
+      // TODO   not perfect but good enough for the moment
       var cont = _diagram.Container ?? Rectangle.Zero;
-      var deltaX = -_diagram.Pan.X + (-node.Position.X + cont.Width) / 2;
-      var deltaY = -_diagram.Pan.Y + (-node.Position.Y + cont.Height) / 2;
+      var deltaX = -_diagram.Pan.X + (-node.Position.X + cont.Width / 2 - cont.Left);
+      var deltaY = -_diagram.Pan.Y + (-node.Position.Y + cont.Height / 2 - cont.Top);
       _diagram.UpdatePan(deltaX, deltaY);
     }
 
