@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GraphML.API.Controllers;
 using System;
 using System.Net.Http;
+using GraphML.Analysis.FindCommunities;
 using GraphML.Analysis.FindDuplicates;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;

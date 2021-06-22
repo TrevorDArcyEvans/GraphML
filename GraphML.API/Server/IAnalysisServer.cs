@@ -2,6 +2,7 @@
 using GraphML.Analysis.SNA.Centrality;
 using System.Threading.Tasks;
 using System;
+using GraphML.Analysis.FindCommunities;
 using GraphML.Analysis.FindDuplicates;
 
 namespace GraphML.API.Server

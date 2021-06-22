@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Comuna\src\Comuna\Comuna.csproj" />
     <ProjectReference Include="..\GraphML.Interfaces\GraphML.Interfaces.csproj" />
   </ItemGroup>
 

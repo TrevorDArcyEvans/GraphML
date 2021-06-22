@@ -1,6 +1,6 @@
 ﻿using GraphML.Interfaces;
 
-namespace GraphML.Analysis.FindDuplicates
+namespace GraphML.Analysis.FindCommunities
 {
   public sealed class FindCommunitiesRequest : RequestBase, IFindCommunitiesRequest
   {

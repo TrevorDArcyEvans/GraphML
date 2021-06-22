@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using GraphML.Analysis.FindCommunities;
 using GraphML.Analysis.FindDuplicates;
 using GraphML.Analysis.RankedShortestPath;
 using GraphML.Analysis.SNA.Centrality;
