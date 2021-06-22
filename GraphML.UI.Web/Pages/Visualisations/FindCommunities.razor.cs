@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Analysis.FindCommunities;
-using GraphML.Analysis.FindDuplicates;
 using GraphML.Interfaces.Server;
 using Microsoft.AspNetCore.Components;
 
@@ -51,6 +50,9 @@ namespace GraphML.UI.Web.Pages.Visualisations
     public IGraphNodeServer _graphNodeServer { get; set; }
 
     [Inject]
+    public IGraphEdgeServer _graphEdgeServer { get; set; }
+
+    [Inject]
     public IChartNodeServer _chartNodeServer { get; set; }
 
     [Inject]
@@ -64,13 +66,50 @@ namespace GraphML.UI.Web.Pages.Visualisations
     private FindCommunitiesResult _result;
     private List<List<Guid>> _data;
 
+    private bool _newChartDialogIsOpen;
+    private string _newItemName;
+    private string _dlgNewItemName;
+
+    private int _selNumItems = 10;
+    private readonly int[] _numItems = Enumerable.Range(1, 10).ToArray();
+
     protected override async Task OnInitializedAsync()
     {
       await base.OnInitializedAsync();
 
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       _result = (FindCommunitiesResult) genRes;
-      _data = _result.Result.OrderBy(x => x.Count()).ToList();
+      _data = _result.Result.OrderBy(x => x.Count).ToList();
+    }
+
+    private async Task OkNewChartClick()
+    {
+      if (string.IsNullOrWhiteSpace(_dlgNewItemName))
+      {
+        return;
+      }
+
+      _newItemName = _dlgNewItemName;
+      _newChartDialogIsOpen = false;
+      var newItem = await CreateNewChart(_newItemName, _selNumItems);
+      GotoShowChart(newItem);
+    }
+
+    private async Task<Chart> CreateNewChart(string itemName, int selNumItems)
+    {
+      var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
+      var newItems = await _chartServer.Create(new[] { newItem });
+      var newChart = newItems.Single();
+
+      // TODO   add GraphNodes from each Community
+      // TODO   add GraphEdges from each Community
+
+      return newChart;
+    }
+
+    private void GotoShowChart(Chart chart)
+    {
+      _navMgr.NavigateTo($"/ShowChart/{OrganisationId}/{OrganisationName}/{RepositoryManagerId}/{RepositoryManagerName}/{RepositoryId}/{RepositoryName}/{GraphId}/{GraphName}/{chart.Id}/{chart.Name}");
     }
   }
 }
