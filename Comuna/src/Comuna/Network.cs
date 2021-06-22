@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using QuickGraph;
+using QuikGraph;
 
 namespace Comuna
 {

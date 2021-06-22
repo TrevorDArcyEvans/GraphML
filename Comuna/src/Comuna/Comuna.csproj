@@ -21,9 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="QuickGraph">
-      <HintPath>..\..\ext\QuickGraph.dll</HintPath>
-    </Reference>
+    <PackageReference Include="QuikGraph" Version="2.3.0"/>
   </ItemGroup>
 
 </Project>

@@ -26,7 +26,7 @@
 // ------------------------------------------
 
 using System;
-using QuickGraph;
+using QuikGraph;
 
 namespace Comuna
 {
