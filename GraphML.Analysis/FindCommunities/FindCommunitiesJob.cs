@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Comuna;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace GraphML.Analysis.FindCommunities
 {
@@ -31,10 +33,10 @@ namespace GraphML.Analysis.FindCommunities
 
     public void Run(IRequest req)
     {
-      var findDupesReq = (IFindCommunitiesRequest) req;
+      var findCommReq = (IFindCommunitiesRequest) req;
 
       // raw nodes from db
-      var nodes = _nodeDatastore.ByOwners(new[] { findDupesReq.GraphId }, 0, int.MaxValue, null).Items;
+      var nodes = _nodeDatastore.ByOwners(new[] { findCommReq.GraphId }, 0, int.MaxValue, null).Items;
       var index = 0u;
       var nodesMap = nodes.ToDictionary(node => index++, node => node.Id);
       var network = new Network();
@@ -43,7 +45,8 @@ namespace GraphML.Analysis.FindCommunities
         .ToList()
         .ForEach(id => network.AddVertex(id));
 
-      var edges = _edgeDatastore.ByOwners(new[] { findDupesReq.GraphId }, 0, int.MaxValue, null).Items;
+      // raw edges from db
+      var edges = _edgeDatastore.ByOwners(new[] { findCommReq.GraphId }, 0, int.MaxValue, null).Items;
       edges.ForEach(edge =>
       {
         var source = nodesMap.Single(x => x.Value == edge.GraphSourceId).Key;
@@ -56,17 +59,23 @@ namespace GraphML.Analysis.FindCommunities
 
       algo.Update();
 
-      var communityNodes = algo.GetCommunityNodes();
-      foreach (var commNodes in communityNodes)
+      var communities = new List<List<Guid>>();
+      var allCommNodes = algo.GetCommunityNodes();
+      foreach (var commNodes in allCommNodes)
       {
         Console.WriteLine($"Community: {commNodes.Key}");
         foreach (var commNode in commNodes)
         {
           Console.WriteLine($"  Node: {commNode.Node}");
         }
-      }
 
-      throw new NotImplementedException();
+        var community = commNodes.Select(cn => nodesMap[cn.Node]).ToList();
+        communities.Add(community);
+      }
+      var result = new FindCommunitiesResult(communities);
+      var resultJson = JsonConvert.SerializeObject(result);
+
+      _resultLogic.Create(req, resultJson);
     }
   }
 }
