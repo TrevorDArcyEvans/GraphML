@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Comuna\Comuna.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QuickGraph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3">
+      <HintPath>..\..\..\ext\QuickGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+</Project>
