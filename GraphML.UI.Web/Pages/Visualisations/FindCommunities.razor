@@ -1,0 +1,25 @@
+﻿@using GraphML.UI.Web.Widgets
+
+<b>Find Communities</b>
+<p/>
+
+<SpinLoader IsLoading="@(_data == null)">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    <MatTableEx
+      Items="_data"
+      Striped="true"
+      class="mat-elevation-z5">
+      <MatTableHeader>
+        <th>Community Size</th>
+      </MatTableHeader>
+      <MatTableRow>
+        <td>@context.Count</td>
+      </MatTableRow>
+    </MatTableEx>
+
+  </ContentTemplate>
+</SpinLoader>

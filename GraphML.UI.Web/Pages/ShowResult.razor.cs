@@ -69,6 +69,9 @@ namespace GraphML.UI.Web.Pages
         case IFindDuplicatesRequest:
           builder.OpenComponent(index++, typeof(FindDuplicates));
           break;
+        case IFindCommunitiesRequest:
+          builder.OpenComponent(index++, typeof(FindCommunities));
+          break;
         default:
           throw new ArgumentOutOfRangeException($"Unknown request:  {_request}");
       }
