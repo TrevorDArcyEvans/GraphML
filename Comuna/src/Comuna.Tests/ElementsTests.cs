@@ -27,11 +27,11 @@
 
 using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Comuna.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ElementsTests
     {
         #region Static Fields & Constants
@@ -42,7 +42,7 @@ namespace Comuna.Tests
 
         #region Public Methods
 
-        [TestMethod]
+        [Test]
         public void ClearConnectionsTest()
         {
             const int num = 10;
@@ -58,7 +58,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, network.TotalWeight, double.Epsilon, "Network total weight should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void ClearNetworkTest()
         {
             const int num = 10;
@@ -75,7 +75,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, network.TotalWeight, double.Epsilon, "Network total weight should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void ClearNodesTest()
         {
             const int num = 10;
@@ -91,7 +91,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, network.TotalWeight, double.Epsilon, "Network total weight should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void EqualConnectionsTest()
         {
             var conn1 = new Connection(1, 2);
@@ -101,7 +101,7 @@ namespace Comuna.Tests
             Assert.IsFalse(conn1 != conn2, $"Connection {conn1} should be equal to connection {conn2}.");
         }
 
-        [TestMethod]
+        [Test]
         public void LoadCsvFileTest()
         {
             // creates and saves network
@@ -134,7 +134,7 @@ namespace Comuna.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void NetworkConnectionTest()
         {
             const int num = 10;
@@ -153,7 +153,7 @@ namespace Comuna.Tests
             Assert.AreEqual(num - 1, network.EdgeCount, $"Num. network connections should be {num - 1}.");
         }
 
-        [TestMethod]
+        [Test]
         public void NetworkNodeTest()
         {
             const int numNodes = 10;
@@ -168,7 +168,7 @@ namespace Comuna.Tests
             Assert.AreEqual(numNodes, network.VertexCount, $"Num. network nodes should be {numNodes}.");
         }
 
-        [TestMethod]
+        [Test]
         public void NetworkWeightTest()
         {
             const int num = 10;
@@ -199,7 +199,7 @@ namespace Comuna.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveConnectionsTest()
         {
             const int num = 10;
@@ -218,7 +218,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, network.TotalWeight, double.Epsilon, "Network total weight should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveNodesTest()
         {
             const int num = 10;
@@ -235,7 +235,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, network.TotalWeight, double.Epsilon, "Network total weight should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void SaveCsvFileTest()
         {
             // creates network nodes

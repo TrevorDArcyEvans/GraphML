@@ -1,13 +1,10 @@
-﻿using FluentAssertions;
-
-namespace Comuna.Tests
+﻿namespace Comuna.Tests
 {
-  using System;
-  using System.Collections.Generic;
+  using FluentAssertions;
+  using NUnit.Framework;
   using System.Linq;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-  [TestClass]
+  [TestFixture]
   public class HighlyConnectedSubgraphs_Tests
   {
 /*
@@ -79,7 +76,7 @@ Community: 2
   Node: 5
 */
 
-    [TestMethod]
+    [Test]
     public void Algorithm_Returns_Expected_Number_Communities()
     {
       var network = CreateNetwork();
@@ -91,7 +88,7 @@ Community: 2
       communityNodes.Count().Should().Be(3);
     }
 
-    [TestMethod]
+    [Test]
     public void Algorithm_Returns_Communities_With_Expected_Number_Nodes()
     {
       var network = CreateNetwork();
@@ -105,10 +102,9 @@ Community: 2
       communityNodes.Single(cn => cn.Key == 2).Count().Should().Be(3);
     }
 
-    [DataTestMethod]
-    [DataRow(0, new[] { 0, 1, 2, 10, 11 })]
-    [DataRow(1, new[] { 6, 7, 8, 9 })]
-    [DataRow(2, new[] { 3, 4, 5 })]
+    [TestCase(0, new[] { 0, 1, 2, 10, 11 })]
+    [TestCase(1, new[] { 6, 7, 8, 9 })]
+    [TestCase(2, new[] { 3, 4, 5 })]
     public void Algorithm_Returns_Community_With_Expected_Nodes(int community, int[] nodeIds)
     {
       var network = CreateNetwork();

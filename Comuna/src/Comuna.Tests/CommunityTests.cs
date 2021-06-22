@@ -28,16 +28,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Comuna.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CommunityTests
     {
         #region Public Methods
 
-        [TestMethod]
+        [Test]
         public void CommunityGraphTest()
         {
             // creates network nodes
@@ -62,7 +62,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, communityGraph.TotalWeight, double.Epsilon, "Community graph total weight should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void DisposeTest()
         {
             // creates network nodes
@@ -89,7 +89,7 @@ namespace Comuna.Tests
             commAlgorithm.Dispose();
         }
 
-        [TestMethod]
+        [Test]
         public void FullyConnectedTest()
         {
             // creates network nodes
@@ -116,7 +116,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, commAlgorithm.GetModularity(), double.Epsilon, "Community modularity should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void NetworkPassesTest()
         {
             // creates network nodes
@@ -208,7 +208,7 @@ namespace Comuna.Tests
             //communityAlg.DisplayCommunities();
         }
 
-        [TestMethod]
+        [Test]
         public void NoConnectionsTest()
         {
             // creates network nodes
@@ -231,7 +231,7 @@ namespace Comuna.Tests
             Assert.AreEqual(0, commAlgorithm.GetModularity(), double.Epsilon, "Community modularity should be 0.");
         }
 
-        [TestMethod]
+        [Test]
         public void RenumberTest()
         {
             // creates network nodes
@@ -278,7 +278,7 @@ namespace Comuna.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ZeroWeightsTest()
         {
             // creates network nodes
