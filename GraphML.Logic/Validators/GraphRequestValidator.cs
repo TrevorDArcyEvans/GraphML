@@ -45,6 +45,10 @@ namespace GraphML.Logic.Validators
       {
         RequesterMustBeSameOrganisation();
       });
+      RuleSet(nameof(IAnalysisLogic.FindCommunities), () =>
+      {
+        RequesterMustBeSameOrganisation();
+      });
     }
 
     public void RequesterMustBeSameOrganisation()

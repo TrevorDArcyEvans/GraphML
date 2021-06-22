@@ -153,6 +153,16 @@
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
 
+    <MatExpansionPanel>
+      <MatExpansionPanelSummary>
+        <MatExpansionPanelHeader>Find Communities</MatExpansionPanelHeader>
+      </MatExpansionPanelSummary>
+      <MatExpansionPanelDetails>
+        <MatButton Icon="device_hub" @onclick="@(e => OnNewDialog(SubmitFindCommunities))" Raised="true"/>
+        <p>@_findCommunitiesCorrelationId</p>
+      </MatExpansionPanelDetails>
+    </MatExpansionPanel>
+
   </MatAccordion>
 </div>
 <p/>

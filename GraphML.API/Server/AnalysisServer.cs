@@ -65,5 +65,13 @@ namespace GraphML.API.Server
 
       return retval;
     }
+
+    public async Task<Guid> FindCommunities(FindCommunitiesRequest req)
+    {
+      var request = PostRequest(Url.Combine(ResourceBase, $"{nameof(AnalysisController.FindCommunities)}"), req);
+      var retval = await RetrieveResponse<Guid>(request);
+
+      return retval;
+    }
   }
 }

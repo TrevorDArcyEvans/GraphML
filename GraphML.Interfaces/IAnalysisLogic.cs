@@ -7,5 +7,6 @@
     void Betweenness(IBetweennessRequest req);
     void FindShortestPaths(IFindShortestPathsRequest req);
     void FindDuplicates(IFindDuplicatesRequest req);
+    void FindCommunities(IFindCommunitiesRequest req);
   }
 }

@@ -13,5 +13,6 @@ namespace GraphML.API.Server
     Task<Guid> Betweenness(BetweennessRequest req);
     Task<Guid> FindShortestPaths(FindShortestPathsRequest req);
     Task<Guid> FindDuplicates(FindDuplicatesRequest req);
+    Task<Guid> FindCommunities(FindCommunitiesRequest req);
   }
 }

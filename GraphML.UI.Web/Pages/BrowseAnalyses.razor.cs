@@ -43,6 +43,7 @@ namespace GraphML.UI.Web.Pages
     private Guid _closenessCorrelationId = Guid.Empty;
     private Guid _degreeCorrelationId = Guid.Empty;
     private Guid _findDuplicatesCorrelationId = Guid.Empty;
+    private Guid _findCommunitiesCorrelationId = Guid.Empty;
 
     private Guid _graphId;
     private Contact _contact;
@@ -121,6 +122,17 @@ namespace GraphML.UI.Web.Pages
         MinMatchingKeyLength = _selNumItems
       };
       _findDuplicatesCorrelationId = await _analysisServer.FindDuplicates(req);
+    }
+
+    private async Task SubmitFindCommunities()
+    {
+      var req = new FindCommunitiesRequest
+      {
+        Description = _dlgNewItemName,
+        Contact = _contact,
+        GraphId = _graphId
+      };
+      _findCommunitiesCorrelationId = await _analysisServer.FindCommunities(req);
     }
 
     private void OnRootSelectionChanged(object row)

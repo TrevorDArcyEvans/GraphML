@@ -93,6 +93,18 @@ namespace GraphML.Logic
       Send(req);
     }
 
+    public void FindCommunities(IFindCommunitiesRequest req)
+    {
+      // requester is same org as graph
+      var valRes = _graphRequestValidator.Validate(req, options => options.IncludeRuleSets(nameof(IAnalysisLogic.FindCommunities)));
+      if (!valRes.IsValid)
+      {
+        _logger.LogError(valRes.ToString());
+        return;
+      }
+      Send(req);
+    }
+
     private void Send(IRequest req)
     {
       var jsonReq = JsonConvert.SerializeObject(req);

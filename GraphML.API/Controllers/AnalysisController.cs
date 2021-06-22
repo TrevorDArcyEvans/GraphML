@@ -122,5 +122,23 @@ namespace GraphML.API.Controllers
 
       return Ok(req.CorrelationId);
     }
+
+    /// <summary>
+    /// Find duplicate nodes in a graph using double metaphone algorithm
+    /// </summary>
+    /// <param name="req">Job request</param>
+    /// <response code="200">Success</response>
+    /// <response code="404">Entity not found</response>
+    [HttpPost]
+    [Route(nameof(FindCommunities))]
+    [ValidateModelState]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.OK, type: typeof(Guid))]
+    [ProducesResponseType(statusCode: (int) HttpStatusCode.NotFound)]
+    public ActionResult<Guid> FindCommunities([FromBody] [Required] FindCommunitiesRequest req)
+    {
+      _logic.FindCommunities(req);
+
+      return Ok(req.CorrelationId);
+    }
   }
 }
