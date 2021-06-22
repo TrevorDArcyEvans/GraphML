@@ -63,12 +63,6 @@ namespace GraphML.Analysis.FindCommunities
       var allCommNodes = algo.GetCommunityNodes();
       foreach (var commNodes in allCommNodes)
       {
-        Console.WriteLine($"Community: {commNodes.Key}");
-        foreach (var commNode in commNodes)
-        {
-          Console.WriteLine($"  Node: {commNode.Node}");
-        }
-
         var community = commNodes.Select(cn => nodesMap[cn.Node]).ToList();
         communities.Add(community);
       }
