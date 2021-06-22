@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GraphML.Analysis.FindCommunities;
 using GraphML.Analysis.FindDuplicates;
@@ -58,7 +59,7 @@ namespace GraphML.UI.Web.Pages
     private Func<Task> _analysis;
 
     private int _selNumItems = 10;
-    private readonly int[] _numItems = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    private readonly int[] _numItems = Enumerable.Range(1, 10).ToArray();
 
     private async Task SubmitShortestPath()
     {
