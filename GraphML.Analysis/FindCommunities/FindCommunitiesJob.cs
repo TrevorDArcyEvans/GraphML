@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Comuna;
 using GraphML.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +9,8 @@ namespace GraphML.Analysis.FindCommunities
 {
   public sealed class FindCommunitiesJob : IFindCommunitiesJob
   {
+    private const int MaxCommunities = 10;
+    
     private readonly IConfiguration _config;
     private readonly ILogger<FindCommunitiesJob> _logger;
     private readonly IGraphNodeDatastore _nodeDatastore;
@@ -59,13 +59,13 @@ namespace GraphML.Analysis.FindCommunities
 
       algo.Update();
 
-      var communities = new List<List<Guid>>();
       var allCommNodes = algo.GetCommunityNodes();
-      foreach (var commNodes in allCommNodes)
-      {
-        var community = commNodes.Select(cn => nodesMap[cn.Node]).ToList();
-        communities.Add(community);
-      }
+      var allCommunities = allCommNodes
+        .Select(commNodes => commNodes.Select(cn => nodesMap[cn.Node]).ToList())
+        .OrderBy(x => x.Count)
+        .ToList();
+      var cutoff = allCommunities.Take(MaxCommunities).Last().Count();
+      var communities = allCommunities.Where(x => x.Count >= cutoff).ToList();
       var result = new FindCommunitiesResult(communities);
       var resultJson = JsonConvert.SerializeObject(result);
 
