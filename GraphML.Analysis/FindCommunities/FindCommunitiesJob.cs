@@ -63,7 +63,7 @@ namespace GraphML.Analysis.FindCommunities
       var allCommNodes = algo.GetCommunityNodes();
       var allCommunities = allCommNodes
         .Select(commNodes => commNodes.Select(cn => indexNodeMap[cn.Node]).ToList())
-        .OrderBy(x => x.Count)
+        .OrderByDescending(x => x.Count)
         .ToList();
       var cutoff = allCommunities.Take(MaxCommunities).Last().Count();
       var communities = allCommunities.Where(x => x.Count >= cutoff).ToList();

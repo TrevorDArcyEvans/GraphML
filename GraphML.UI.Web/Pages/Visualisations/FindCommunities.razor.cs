@@ -79,7 +79,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       _result = (FindCommunitiesResult) genRes;
-      _data = _result.Result.OrderBy(x => x.Count).ToList();
+      _data = _result.Result.OrderByDescending(x => x.Count).ToList();
     }
 
     private async Task OkNewChartClick()
