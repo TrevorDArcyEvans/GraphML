@@ -63,8 +63,12 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
     #endregion
 
+    // give a small sample of members as there could be thousands!
+    private const int SampleSize = 10;
+
     private FindCommunitiesResult _result;
     private List<List<Guid>> _data;
+    private readonly List<GraphNode> _sampleGraphNodes = new();
 
     private bool _newChartDialogIsOpen;
     private string _newItemName;
@@ -79,7 +83,12 @@ namespace GraphML.UI.Web.Pages.Visualisations
 
       var genRes = await _resultServer.Retrieve(Guid.Parse(CorrelationId));
       _result = (FindCommunitiesResult) genRes;
-      _data = _result.Result.OrderByDescending(x => x.Count).ToList();
+      var datas = _result.Result.OrderByDescending(x => x.Count).ToList();
+      var sampleIds = datas.SelectMany(d => d.Take(SampleSize));
+      var samples = await _graphNodeServer.ByIds(sampleIds);
+
+      _sampleGraphNodes.AddRange(samples);
+      _data = datas;
     }
 
     private async Task OkNewChartClick()

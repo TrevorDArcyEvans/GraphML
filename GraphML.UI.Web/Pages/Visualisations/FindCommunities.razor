@@ -11,14 +11,44 @@
 
     <div>
       <MatTableEx
-        Items="_data"
+        Items="@_data"
         Striped="true"
         class="mat-elevation-z5">
         <MatTableHeader>
           <th>Community Size</th>
+          <th>Members (Sample Only)</th>
         </MatTableHeader>
         <MatTableRow>
           <td>@context.Count</td>
+          @{
+            var sample = context.Take(SampleSize);
+            var names = _sampleGraphNodes
+              .Where(cn => sample.Contains(cn.Id))
+              .Select(cn => cn.Name)
+              .ToList();
+            <td>
+              <MatAccordion>
+                <MatExpansionPanel>
+                  <MatExpansionPanelSummary>
+                    <MatExpansionPanelHeader>
+                      <MatIcon Icon="fiber_smart_record"/>
+                      Names
+                    </MatExpansionPanelHeader>
+                  </MatExpansionPanelSummary>
+                  <MatExpansionPanelDetails>
+                    <MatList>
+                      @{
+                        foreach (var name in names)
+                        {
+                          <MatListItem>@name</MatListItem>
+                        }
+                      }
+                    </MatList>
+                  </MatExpansionPanelDetails>
+                </MatExpansionPanel>
+              </MatAccordion>
+            </td>
+          }
         </MatTableRow>
       </MatTableEx>
     </div>
