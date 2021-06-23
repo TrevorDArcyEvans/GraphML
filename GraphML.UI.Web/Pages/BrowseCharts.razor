@@ -10,7 +10,7 @@
 @using System.Web;
 @using Humanizer
 
-<b>Charts</b>
+<b>Diagrams</b>
 <p/>
 <span class="bread-crumb-trail">
   <Breadcrumb>
@@ -38,57 +38,102 @@
   </LoadingTemplate>
   <ContentTemplate>
 
-    <div>
-      <MatTable
-        Items="@_charts"
-        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
-        PageParamName="pageIndex"
-        PageSizeParamName="pageSize"
-        PagingRecordsCountPropertyName="@nameof(PagedDataEx<Chart>.TotalCount).Camelize()"
-        PagingDataPropertyName="@nameof(PagedDataEx<Chart>.Items).Camelize()"
-        FilterByColumnName="@nameof(Chart.Name)"
-        Striped="true"
-        AllowSelection="true"
-        class="mat-elevation-z5">
-        <MatTableHeader>
-          <th>Name</th>
-        </MatTableHeader>
-        <MatTableRow>
-          <td>
-            <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
-          </td>
-          <td>
-            <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
-          </td>
-        </MatTableRow>
-      </MatTable>
-    </div>
+    <MatTabGroup>
+      <MatTab Label="Charts">
+        <MatTable
+          Items="@_charts"
+          ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Chart), nameof(ChartController.ByOwner), GraphId)"
+          PageParamName="pageIndex"
+          PageSizeParamName="pageSize"
+          PagingRecordsCountPropertyName="@nameof(PagedDataEx<Chart>.TotalCount).Camelize()"
+          PagingDataPropertyName="@nameof(PagedDataEx<Chart>.Items).Camelize()"
+          FilterByColumnName="@nameof(Chart.Name)"
+          Striped="true"
+          AllowSelection="true"
+          class="mat-elevation-z5">
+          <MatTableHeader>
+            <th>Name</th>
+          </MatTableHeader>
+          <MatTableRow>
+            <td>
+              <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
+            </td>
+            <td>
+              <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+            </td>
+          </MatTableRow>
+        </MatTable>
+        <p/>
 
-    <div>
-      <MatTable
-        Items="@_timelines"
-        ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Timeline), nameof(TimelineController.ByOwner), GraphId)"
-        PageParamName="pageIndex"
-        PageSizeParamName="pageSize"
-        PagingRecordsCountPropertyName="@nameof(PagedDataEx<Timeline>.TotalCount).Camelize()"
-        PagingDataPropertyName="@nameof(PagedDataEx<Timeline>.Items).Camelize()"
-        FilterByColumnName="@nameof(Timeline.Name)"
-        Striped="true"
-        AllowSelection="true"
-        class="mat-elevation-z5">
-        <MatTableHeader>
-          <th>Name</th>
-        </MatTableHeader>
-        <MatTableRow>
-          <td>
-            <MatButton Label="@context.Name" @onclick="@(e => GotoShowTimeline(@context))"></MatButton>
-          </td>
-          <td>
-            <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))"></MatButton>
-          </td>
-        </MatTableRow>
-      </MatTable>
-    </div>
+        <div>
+          <MatButton OnClick="@(e => { _dlgNewItemName = null; _newChartDialogIsOpen = true; })" Icon="create_new_folder" Raised="true">New chart...</MatButton>
+          <MatDialog @bind-IsOpen="@_newChartDialogIsOpen">
+            <MatDialogTitle>Create new chart</MatDialogTitle>
+            <MatDialogContent>
+              <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+            </MatDialogContent>
+            <MatDialogActions>
+              <MatButton OnClick="@(e => { _newChartDialogIsOpen = false; })">Cancel</MatButton>
+              <MatButton OnClick="@OkNewChartClick">OK</MatButton>
+            </MatDialogActions>
+          </MatDialog>
+        </div>
+      </MatTab>
+
+      <MatTab Label="Timelines">
+        <MatTable
+          Items="@_timelines"
+          ApiUrl="@Url.Combine(@_config.API_URI(), "api", nameof(Timeline), nameof(TimelineController.ByOwner), GraphId)"
+          PageParamName="pageIndex"
+          PageSizeParamName="pageSize"
+          PagingRecordsCountPropertyName="@nameof(PagedDataEx<Timeline>.TotalCount).Camelize()"
+          PagingDataPropertyName="@nameof(PagedDataEx<Timeline>.Items).Camelize()"
+          FilterByColumnName="@nameof(Timeline.Name)"
+          Striped="true"
+          AllowSelection="true"
+          class="mat-elevation-z5">
+          <MatTableHeader>
+            <th>Name</th>
+          </MatTableHeader>
+          <MatTableRow>
+            <td>
+              <MatButton Label="@context.Name" @onclick="@(e => GotoShowTimeline(@context))"></MatButton>
+            </td>
+            <td>
+              <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))"></MatButton>
+            </td>
+          </MatTableRow>
+        </MatTable>
+        <p/>
+
+        <div>
+          <MatButton OnClick="@(e => { _dlgNewItemName = null; _newTimelineDialogIsOpen = true; })" Icon="timeline" Raised="true">New timeline...</MatButton>
+          <MatDialog @bind-IsOpen="@_newTimelineDialogIsOpen">
+            <MatDialogTitle>Create new timeline</MatDialogTitle>
+            <MatDialogContent>
+              <div>
+                <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
+              </div>
+              <hr/>
+              <div>
+                <label>Select date-time interval attribute:</label>
+                @*
+                     BUG:   889 : MatSelectValue: null reference exception when setting Items async
+                               https://github.com/SamProf/MatBlazor/issues/889
+                     <MatSelectValue @ref="_selectVal" @bind-Value="_selIntervalAttr" Items="@_intervalAttrs" ValueSelector="@(eiad => eiad)">
+                       <ItemTemplate>@context?.Name</ItemTemplate>
+                     </MatSelectValue>
+                     *@
+              </div>
+            </MatDialogContent>
+            <MatDialogActions>
+              <MatButton OnClick="@(e => { _newTimelineDialogIsOpen = false; })">Cancel</MatButton>
+              <MatButton OnClick="@OkNewTimelineClick">OK</MatButton>
+            </MatDialogActions>
+          </MatDialog>
+        </div>
+      </MatTab>
+    </MatTabGroup>
 
   </ContentTemplate>
 </SpinLoader>
@@ -109,48 +154,6 @@
     <MatDialogActions>
       <MatButton OnClick="@(e => { _deleteTimelineItem = null; _deleteTimelineDialogIsOpen = false; })">Cancel</MatButton>
       <MatButton OnClick="@DeleteTimeline">OK</MatButton>
-    </MatDialogActions>
-  </MatDialog>
-</div>
-
-<div>
-  <MatButton OnClick="@(e => { _dlgNewItemName = null; _newChartDialogIsOpen = true; })" Icon="create_new_folder" Raised="true">New chart...</MatButton>
-  <MatDialog @bind-IsOpen="@_newChartDialogIsOpen">
-    <MatDialogTitle>Create new chart</MatDialogTitle>
-    <MatDialogContent>
-      <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
-    </MatDialogContent>
-    <MatDialogActions>
-      <MatButton OnClick="@(e => { _newChartDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@OkNewChartClick">OK</MatButton>
-    </MatDialogActions>
-  </MatDialog>
-</div>
-<p/>
-
-<div>
-  <MatButton OnClick="@(e => { _dlgNewItemName = null; _newTimelineDialogIsOpen = true; })" Icon="timeline" Raised="true">New timeline...</MatButton>
-  <MatDialog @bind-IsOpen="@_newTimelineDialogIsOpen">
-    <MatDialogTitle>Create new timeline</MatDialogTitle>
-    <MatDialogContent>
-      <div>
-        <MatTextField @bind-Value="@_dlgNewItemName"></MatTextField>
-      </div>
-      <hr/>
-      <div>
-        <label>Select date-time interval attribute:</label>
-        @*
-        BUG:   889 : MatSelectValue: null reference exception when setting Items async
-                  https://github.com/SamProf/MatBlazor/issues/889
-        <MatSelectValue @ref="_selectVal" @bind-Value="_selIntervalAttr" Items="@_intervalAttrs" ValueSelector="@(eiad => eiad)">
-          <ItemTemplate>@context?.Name</ItemTemplate>
-        </MatSelectValue>
-        *@
-      </div>
-    </MatDialogContent>
-    <MatDialogActions>
-      <MatButton OnClick="@(e => { _newTimelineDialogIsOpen = false; })">Cancel</MatButton>
-      <MatButton OnClick="@OkNewTimelineClick">OK</MatButton>
     </MatDialogActions>
   </MatDialog>
 </div>
