@@ -38,9 +38,10 @@ namespace GraphML.Analysis.FindCommunities
       // raw nodes from db
       var nodes = _nodeDatastore.ByOwners(new[] { findCommReq.GraphId }, 0, int.MaxValue, null).Items;
       var index = 0u;
-      var nodesMap = nodes.ToDictionary(node => index++, node => node.Id);
+      var indexNodeMap = nodes.ToDictionary(node => index++, node => node.Id);
+      var nodeIndexMap = indexNodeMap.ToDictionary(inm => inm.Value, inm => inm.Key);
       var network = new Network();
-      nodesMap
+      indexNodeMap
         .Keys
         .ToList()
         .ForEach(id => network.AddVertex(id));
@@ -49,8 +50,8 @@ namespace GraphML.Analysis.FindCommunities
       var edges = _edgeDatastore.ByOwners(new[] { findCommReq.GraphId }, 0, int.MaxValue, null).Items;
       edges.ForEach(edge =>
       {
-        var source = nodesMap.Single(x => x.Value == edge.GraphSourceId).Key;
-        var target = nodesMap.Single(x => x.Value == edge.GraphTargetId).Key;
+        var source = nodeIndexMap[edge.GraphSourceId];
+        var target = nodeIndexMap[edge.GraphTargetId];
         var conn = new Connection(source, target);
         network.AddEdge(conn);
       });
@@ -61,7 +62,7 @@ namespace GraphML.Analysis.FindCommunities
 
       var allCommNodes = algo.GetCommunityNodes();
       var allCommunities = allCommNodes
-        .Select(commNodes => commNodes.Select(cn => nodesMap[cn.Node]).ToList())
+        .Select(commNodes => commNodes.Select(cn => indexNodeMap[cn.Node]).ToList())
         .OrderBy(x => x.Count)
         .ToList();
       var cutoff = allCommunities.Take(MaxCommunities).Last().Count();
