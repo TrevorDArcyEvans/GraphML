@@ -56,6 +56,9 @@ namespace GraphML.UI.Web.Pages.Visualisations
     public IChartNodeServer _chartNodeServer { get; set; }
 
     [Inject]
+    public IChartEdgeServer _chartEdgeServer { get; set; }
+
+    [Inject]
     public IChartServer _chartServer { get; set; }
 
     [Inject]
@@ -109,9 +112,29 @@ namespace GraphML.UI.Web.Pages.Visualisations
       var newItem = new Chart(Guid.Parse(GraphId), Guid.Parse(OrganisationId), itemName);
       var newItems = await _chartServer.Create(new[] { newItem });
       var newChart = newItems.Single();
-
-      // TODO   add GraphNodes from each Community
-      // TODO   add GraphEdges from each Community
+      var communities = _data.Take(selNumItems);
+      foreach (var community in communities)
+      {
+        var graphNodes = (await _graphNodeServer.ByIds((community))).ToList();
+        var graphNodeIds = graphNodes.Select(gn => gn.Id).ToHashSet();
+        var graphEdgesPage = await _graphEdgeServer.ByNodeIds(graphNodeIds, 0, int.MaxValue, null);
+        var graphEdges = graphEdgesPage.Items
+          .Where(ge => graphNodeIds.Contains(ge.GraphSourceId) && graphNodeIds.Contains(ge.GraphTargetId));
+        var chartNodes = graphNodes
+          .Select(gn => new ChartNode(newChart.Id, gn.OrganisationId, gn.Id, gn.Name))
+          .ToList();
+        var chartEdges = graphEdges
+          .Select(ge =>
+            new ChartEdge(
+              newChart.Id,
+              ge.OrganisationId,
+              ge.Id,
+              ge.Name,
+              chartNodes.Single(cn => cn.GraphItemId == ge.GraphSourceId).Id,
+              chartNodes.Single(cn => cn.GraphItemId == ge.GraphTargetId).Id));
+        _ = await _chartNodeServer.Create(chartNodes);
+        _ = await _chartEdgeServer.Create(chartEdges);
+      }
 
       return newChart;
     }
