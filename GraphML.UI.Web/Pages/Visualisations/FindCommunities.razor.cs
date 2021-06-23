@@ -117,7 +117,7 @@ namespace GraphML.UI.Web.Pages.Visualisations
       {
         var graphNodes = (await _graphNodeServer.ByIds((community))).ToList();
         var graphNodeIds = graphNodes.Select(gn => gn.Id).ToHashSet();
-        var graphEdgesPage = await _graphEdgeServer.ByNodeIds(graphNodeIds, 0, int.MaxValue, null);
+        var graphEdgesPage = await _graphEdgeServer.ByNodeIds(graphNodeIds, 1, int.MaxValue, null);
         var graphEdges = graphEdgesPage.Items
           .Where(ge => graphNodeIds.Contains(ge.GraphSourceId) && graphNodeIds.Contains(ge.GraphTargetId));
         var chartNodes = graphNodes
