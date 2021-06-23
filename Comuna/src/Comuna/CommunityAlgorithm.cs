@@ -527,7 +527,16 @@ namespace Comuna
       foreach (var edge in neighbourEdges)
       {
         var neigh = edge.Source.Equals(node) ? edge.Target : edge.Source;
-        sortedList.Add(neigh, edge.Weight);
+        
+        // Accumulate edge weight for duplicate edges
+        if (sortedList.ContainsKey(neigh))
+        {
+          sortedList[neigh] += edge.Weight;
+        }
+        else
+        {
+          sortedList.Add(neigh, edge.Weight);
+        }
       }
 
       return sortedList;
