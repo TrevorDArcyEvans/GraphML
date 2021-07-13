@@ -1,12 +1,29 @@
 @page "/About"
+@using System.IO
 
 @attribute [Authorize]
 
-<b>About</b><p/>
+<b>About</b>
+<p/>
 
-<b>GraphML</b> uses components from:<p/>
-<MatList>
-  <MatListItem Href="https://github.com/SamProf/MatBlazor/blob/master/LICENSE">MatBlazor</MatListItem>
-  <MatListItem Href="https://github.com/Blazor-Diagrams/Blazor.Diagrams/blob/master/LICENSE">Blazor.Diagrams</MatListItem>
-  <MatListItem Href="https://github.com/mariusmuntean/ChartJs.Blazor/blob/master/LICENSE">ChartJS.Blazor</MatListItem>
-</MatList>
+<b>GraphML</b> uses components from:
+<p/>
+@{
+  var lics = Directory.EnumerateFiles("Licenses", "*.txt").OrderBy(x => x);
+  <MatAccordion>
+    @foreach (var lic in lics)
+    {
+      var content = File.ReadAllText(lic);
+      <MatExpansionPanel>
+        <MatExpansionPanelSummary>
+          <MatExpansionPanelHeader>
+            @Path.GetFileNameWithoutExtension(lic)
+          </MatExpansionPanelHeader>
+        </MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+          <MatTextField Value="@content" FullWidth="true" TextArea="true" ReadOnly="true" Outlined="true" Style="height: 600px" />
+        </MatExpansionPanelDetails>
+      </MatExpansionPanel>
+    }
+  </MatAccordion>
+}
