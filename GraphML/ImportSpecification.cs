@@ -74,7 +74,7 @@ namespace GraphML.Datastore.Database.Importer
     /// </summary>
     [Required]
     [JsonProperty(nameof(NodeItemAttributeImportDefinitions))]
-    public List<NodeItemAttributeImportDefinition> NodeItemAttributeImportDefinitions { get; set; } = new List<NodeItemAttributeImportDefinition>();
+    public List<NodeItemAttributeImportDefinition> NodeItemAttributeImportDefinitions { get; set; } = new();
 
     /// <summary>
     /// Collection of <see cref="EdgeItemAttributeImportDefinition"/>.<br/>
@@ -86,6 +86,6 @@ namespace GraphML.Datastore.Database.Importer
     /// </summary>
     [Required]
     [JsonProperty(nameof(EdgeItemAttributeImportDefinitions))]
-    public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeImportDefinitions { get; set; } = new List<EdgeItemAttributeImportDefinition>();
+    public List<EdgeItemAttributeImportDefinition> EdgeItemAttributeImportDefinitions { get; set; } = new();
   }
 }
