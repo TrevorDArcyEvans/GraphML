@@ -589,3 +589,6 @@ a. within three (3) years of the date you received the Oracle product that inclu
 subject of your request, or
 b. in the case of code licensed under the GPL v3 for as long as Oracle offers spare parts or customer
 support for that product model.
+12
+
+https://downloads.mysql.com/docs/licenses/connector-net-8.0-gpl-en.pdf
