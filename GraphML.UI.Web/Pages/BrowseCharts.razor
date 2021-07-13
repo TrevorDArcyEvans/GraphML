@@ -59,7 +59,9 @@
               <MatButton Label="@context.Name" @onclick="@(e => GotoShowChart(@context))"></MatButton>
             </td>
             <td>
-              <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))"></MatButton>
+              <MatTooltip Tooltip="Delete" Context="subContext">
+                <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteChart(@context))" RefBack="@subContext"></MatButton>
+              </MatTooltip>
             </td>
           </MatTableRow>
         </MatTable>
@@ -100,7 +102,9 @@
               <MatButton Label="@context.Name" @onclick="@(e => GotoShowTimeline(@context))"></MatButton>
             </td>
             <td>
-              <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))"></MatButton>
+              <MatTooltip Tooltip="Delete" Context="subContext">
+                <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteTimeline(@context))" RefBack="@subContext"></MatButton>
+              </MatTooltip>
             </td>
           </MatTableRow>
         </MatTable>

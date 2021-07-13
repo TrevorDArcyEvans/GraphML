@@ -70,7 +70,9 @@
             <MatButton Icon="pageview" @onclick="@(e => OnShowResult(@context.CorrelationId))"></MatButton>
           </td>
           <td>
-            <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteResult(@context))"></MatButton>
+            <MatTooltip Tooltip="Delete" Context="subContext">
+              <MatButton Icon="delete" @onclick="@(e => ConfirmDeleteResult(@context))" RefBack="@subContext"></MatButton>
+            </MatTooltip>
           </td>
         </MatTableRow>
       </MatTable>

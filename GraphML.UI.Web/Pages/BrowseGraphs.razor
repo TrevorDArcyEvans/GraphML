@@ -75,7 +75,9 @@
             <MatButton Icon="assignment_turned_in" @onclick="@(e => GotoBrowseResults(@context))"/>
           </td>
           <td>
-            <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))"></MatButton>
+            <MatTooltip Tooltip="Delete" Context="subContext">
+              <MatButton Icon="delete" @onclick="@(e => ConfirmDelete(@context))" RefBack="@subContext"></MatButton>
+            </MatTooltip>
           </td>
         </MatTableRow>
       </MatTable>

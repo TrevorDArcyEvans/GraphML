@@ -46,10 +46,18 @@
   <MatDrawer @bind-Opened="@_drawerOpened">
     <MatAccordion>
       <div>
-          <MatIconButton Icon="zoom_in" OnClick="@ZoomIn"/>
-          <MatIconButton Icon="zoom_out" OnClick="@ZoomOut"/>
-          <MatIconButton Icon="crop_free" OnClick="@ZoomReset"/>
-          <MatIconButton Icon="zoom_out_map" OnClick="@ZoomToFit"/>
+        <MatTooltip Tooltip="Zoom in">
+          <MatIconButton Icon="zoom_in" OnClick="@ZoomIn" RefBack="@context"/>
+        </MatTooltip>
+        <MatTooltip Tooltip="Zoom out">
+          <MatIconButton Icon="zoom_out" OnClick="@ZoomOut" RefBack="@context"/>
+        </MatTooltip>
+        <MatTooltip Tooltip="Reset zoom">
+          <MatIconButton Icon="crop_free" OnClick="@ZoomReset" RefBack="@context"/>
+        </MatTooltip>
+        <MatTooltip Tooltip="Zoom to fit">
+          <MatIconButton Icon="zoom_out_map" OnClick="@ZoomToFit" RefBack="@context"/>
+        </MatTooltip>
       </div>
       <div>
         <MatCheckbox
