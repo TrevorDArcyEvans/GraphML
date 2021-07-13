@@ -103,7 +103,9 @@
         </MatExpansionPanel>
 
         <div>
-          <MatButton Icon="multiline_chart" @onclick="@(e => OnNewDialog(SubmitShortestPath))" Raised="true"/>
+          <MatTooltip Tooltip="Submit job">
+            <MatButton Icon="multiline_chart" @onclick="@(e => OnNewDialog(SubmitShortestPath))" Raised="true" RefBack="@context"/>
+          </MatTooltip>
         </div>
         <p>@_findShortestPathsCorrelationId</p>
       </MatExpansionPanelDetails>
@@ -114,7 +116,9 @@
         <MatExpansionPanelHeader>Betweenness</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="bar_chart" @onclick="@(e => OnNewDialog(SubmitBetweenness))" Raised="true"/>
+        <MatTooltip Tooltip="Submit job">
+          <MatButton Icon="bar_chart" @onclick="@(e => OnNewDialog(SubmitBetweenness))" Raised="true" RefBack="@context"/>
+        </MatTooltip>
         <p>@_betweennessCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -124,7 +128,9 @@
         <MatExpansionPanelHeader>Closeness</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="pie_chart" @onclick="@(e => OnNewDialog(SubmitCloseness))" Raised="true"/>
+        <MatTooltip Tooltip="Submit job">
+          <MatButton Icon="pie_chart" @onclick="@(e => OnNewDialog(SubmitCloseness))" Raised="true" RefBack="@context"/>
+        </MatTooltip>
         <p>@_closenessCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -134,7 +140,9 @@
         <MatExpansionPanelHeader>Degree</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="table_chart" @onclick="@(e => OnNewDialog(SubmitDegree))" Raised="true"/>
+        <MatTooltip Tooltip="Submit job">
+          <MatButton Icon="table_chart" @onclick="@(e => OnNewDialog(SubmitDegree))" Raised="true" RefBack="@context"/>
+        </MatTooltip>
         <p>@_degreeCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -144,11 +152,13 @@
         <MatExpansionPanelHeader>Find Duplicates</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-      <div>
-        <label>Minimum matching key length:</label>
-        <MatSelectValue @bind-Value="_selNumItems" Items="@_numItems" ValueSelector="@(i => i)"></MatSelectValue>
-      </div>
-        <MatButton Icon="file_copy" @onclick="@(e => OnNewDialog(SubmitFindDuplicates))" Raised="true"/>
+        <div>
+          <label>Minimum matching key length:</label>
+          <MatSelectValue @bind-Value="_selNumItems" Items="@_numItems" ValueSelector="@(i => i)"></MatSelectValue>
+        </div>
+        <MatTooltip Tooltip="Submit job">
+          <MatButton Icon="file_copy" @onclick="@(e => OnNewDialog(SubmitFindDuplicates))" Raised="true" RefBack="@context"/>
+        </MatTooltip>
         <p>@_findDuplicatesCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>
@@ -158,7 +168,9 @@
         <MatExpansionPanelHeader>Find Communities</MatExpansionPanelHeader>
       </MatExpansionPanelSummary>
       <MatExpansionPanelDetails>
-        <MatButton Icon="device_hub" @onclick="@(e => OnNewDialog(SubmitFindCommunities))" Raised="true"/>
+        <MatTooltip Tooltip="Submit job">
+          <MatButton Icon="device_hub" @onclick="@(e => OnNewDialog(SubmitFindCommunities))" Raised="true" RefBack="@context"/>
+        </MatTooltip>
         <p>@_findCommunitiesCorrelationId</p>
       </MatExpansionPanelDetails>
     </MatExpansionPanel>

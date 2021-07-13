@@ -58,7 +58,9 @@
             <MatTableRow>
               <td>@context.Name</td>
               <td>
-                <MatButton Icon="delete" @onclick="@(e => DeleteGraphNode(@context))"></MatButton>
+                <MatTooltip Tooltip="Delete" Context="subContext">
+                  <MatButton Icon="delete" @onclick="@(e => DeleteGraphNode(@context))" RefBack="@subContext"></MatButton>
+                </MatTooltip>
               </td>
             </MatTableRow>
           </MatTable>
@@ -86,7 +88,9 @@
             <MatTableRow>
               <td>@context.Name</td>
               <td>
-                <MatButton Icon="delete" @onclick="@(e => DeleteGraphEdge(@context))"></MatButton>
+                <MatTooltip Tooltip="Delete" Context="subContext">
+                  <MatButton Icon="delete" @onclick="@(e => DeleteGraphEdge(@context))" RefBack="@subContext"></MatButton>
+                </MatTooltip>
               </td>
             </MatTableRow>
           </MatTable>
