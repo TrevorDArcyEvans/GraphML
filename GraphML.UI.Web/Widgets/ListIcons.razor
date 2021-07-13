@@ -1,53 +1,77 @@
 @using System.IO
+@using System.Threading.Tasks
 @using MoreLinq
+@using GraphML.UI.Web.Widgets
 
-<div width="100%">
-  <MatTable
-    Items="@_icons"
-    PageSize="5"
-    Striped="true"
-    AllowSelection="true"
-    class="mat-elevation-z5">
-    <MatTableRow>
-      <td>
-        <div class="mat-layout-grid">
-          <div class="mat-layout-grid-inner">
-            @{
-              foreach (var icon in context)
-              {
-                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-1" style="word-wrap: break-word; width: 96px">
-                  <img src="@icon" alt="@icon" width="32px" height="32px"/>
-                  <p/>
-                  @Path.GetFileNameWithoutExtension(icon)
-                </div>
-              }
-            }
-          </div>
-        </div>
-      </td>
-    </MatTableRow>
-  </MatTable>
-</div>
+<SpinLoader IsLoading="@_isBusy">
+  <LoadingTemplate>
+    <GraphMLSpinner/>
+  </LoadingTemplate>
+  <ContentTemplate>
+
+    <div width="100%">
+      <MatTable
+        Items="@_icons"
+        PageSize="5"
+        Striped="true"
+        AllowSelection="true"
+        class="mat-elevation-z5">
+        <MatTableRow>
+          <td>
+            <div class="mat-layout-grid">
+              <div class="mat-layout-grid-inner">
+                @{
+                  foreach (var icon in context)
+                  {
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-1" style="word-wrap: break-word; width: 96px">
+                      <img src="@icon" alt="@icon" width="32px" height="32px"/>
+                      <p/>
+                      @Path.GetFileNameWithoutExtension(icon)
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </td>
+        </MatTableRow>
+      </MatTable>
+    </div>
+
+  </ContentTemplate>
+</SpinLoader>
 
 @code
 {
   private static readonly List<string> ImageExtensions = new() { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
 
   private List<List<string>> _icons = new();
+  private bool _isBusy = true;
 
   protected override async Task OnInitializedAsync()
   {
-    var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
-    var allIcons = Directory
-      .GetFiles(iconDir, "*", SearchOption.AllDirectories)
-      .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
-      .Select(fileName => Path.GetRelativePath("wwwroot", fileName));
-    var numChunks = (allIcons.Count() / 10) + 1;
-    var chunkRange = Enumerable.Range(0, numChunks);
-    chunkRange.ForEach(i =>
+    try
     {
-      var data = allIcons.Skip(i * 10).Take(10).ToList();
-      _icons.Add(data);
-    });
+      _isBusy = true;
+
+      // force a delay so spinner is rendered
+      await Task.Delay(TimeSpan.FromSeconds(0.5));
+
+      var iconDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons");
+      var allIcons = Directory
+        .GetFiles(iconDir, "*", SearchOption.AllDirectories)
+        .Where(fileName => ImageExtensions.Contains(Path.GetExtension(fileName).ToUpperInvariant()))
+        .Select(fileName => Path.GetRelativePath("wwwroot", fileName));
+      var numChunks = (allIcons.Count() / 10) + 1;
+      var chunkRange = Enumerable.Range(0, numChunks);
+      chunkRange.ForEach(i =>
+      {
+        var data = allIcons.Skip(i * 10).Take(10).ToList();
+        _icons.Add(data);
+      });
+    }
+    finally
+    {
+      _isBusy = false;
+    }
   }
 }
