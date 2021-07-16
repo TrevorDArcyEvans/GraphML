@@ -63,6 +63,30 @@ namespace GraphML.Datastore.Database.Importer
     [Required]
     [JsonProperty(nameof(TargetNodeColumn))]
     public int TargetNodeColumn { get; set; } = 1;
+    
+    /// <summary>
+    /// Relative path of image file (including extension) from 'wwwroot' directory
+    /// when rendering an Icon on a Diagram surface
+    /// <remarks>
+    /// If this is null, then no Icon is shown.
+    /// </remarks>
+    /// <example>
+    /// icons/onebit_19.png
+    /// </example>
+    /// </summary>
+    public string SourceIconName { get; set; }
+    
+    /// <summary>
+    /// Relative path of image file (including extension) from 'wwwroot' directory
+    /// when rendering an Icon on a Diagram surface
+    /// <remarks>
+    /// If this is null, then no Icon is shown.
+    /// </remarks>
+    /// <example>
+    /// icons/onebit_19.png
+    /// </example>
+    /// </summary>
+    public string TargetIconName { get; set; }
 
     /// <summary>
     /// Collection of <see cref="NodeItemAttributeImportDefinition"/>.<br/>

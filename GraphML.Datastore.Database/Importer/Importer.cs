@@ -90,6 +90,7 @@ namespace GraphML.Datastore.Database.Importer
       var edges = new List<Edge>();
       var edgeAttrs = new List<EdgeItemAttribute>();
       var nodeAttrs = new List<NodeItemAttribute>();
+      var srcNodeSet = new HashSet<Guid>();
       while (csv.Read())
       {
         var srcNode = GetOrCreateNode(csv, _importSpec.SourceNodeColumn, org, repo, nodeMap);
@@ -108,6 +109,14 @@ namespace GraphML.Datastore.Database.Importer
           ProcessEdgeItemAttributes(edgeAttrDefsMap, csv, edge, org, edgeAttrs);
         }
 
+        if (srcNode is not null)
+        {
+          if (!srcNodeSet.Contains(srcNode.Id))
+          {
+            srcNodeSet.Add(srcNode.Id);
+          }
+        }
+
         ProcessNodeItemAttributes(nodeAttrDefsMap, csv, srcNode, tarNode, org, nodeAttrs);
       }
 
@@ -121,6 +130,7 @@ namespace GraphML.Datastore.Database.Importer
       var graph = new Graph(repo.Id, org.Id, graphChartName);
       var graphNodes = nodes.Select(n => new GraphNode(graph.Id, org.Id, n.Id, n.Name)).ToList();
       var graphNodeMap = graphNodes.ToDictionary(gn => gn.RepositoryItemId, gn => gn.Id);
+      var graphNodeRevMap = graphNodes.ToDictionary(gn => gn.Id, gn => gn.RepositoryItemId);
       var graphEdges = edges
         .Select(e =>
         {
@@ -136,7 +146,17 @@ namespace GraphML.Datastore.Database.Importer
         })
         .ToList();
       var chart = new Chart(graph.Id, org.Id, graphChartName);
-      var chartNodes = graphNodes.Select(gn => new ChartNode(chart.Id, org.Id, gn.Id, gn.Name)).ToList();
+      var chartNodes = graphNodes
+        .Select(gn =>
+        {
+          var nodeId = graphNodeRevMap[gn.Id];
+          var isSource = srcNodeSet.Contains(nodeId);
+          return new ChartNode(chart.Id, org.Id, gn.Id, gn.Name)
+          {
+            IconName = isSource ? _importSpec.SourceIconName : _importSpec.TargetIconName
+          };
+        })
+        .ToList();
       var chartNodesMap = chartNodes.ToDictionary(cn => cn.GraphItemId, cn => cn.Id);
       var chartEdges = graphEdges
         .Select(ge =>
