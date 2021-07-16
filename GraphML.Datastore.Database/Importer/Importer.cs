@@ -117,6 +117,38 @@ namespace GraphML.Datastore.Database.Importer
 
       _logInfoAction($"Transformed data at               : {sw.ElapsedMilliseconds} ms");
 
+      var graphChartName = Path.GetFileNameWithoutExtension(_importSpec.DataFile);
+      var graph = new Graph(repo.Id, org.Id, graphChartName);
+      var graphNodes = nodes.Select(n => new GraphNode(graph.Id, org.Id, n.Id, n.Name)).ToList();
+      var graphNodeMap = graphNodes.ToDictionary(gn => gn.RepositoryItemId, gn => gn.Id);
+      var graphEdges = edges
+        .Select(e =>
+        {
+          var sourceId = graphNodeMap[e.SourceId];
+          var targetId = graphNodeMap[e.TargetId];
+          return new GraphEdge(
+            graph.Id,
+            graph.OrganisationId,
+            e.Id,
+            e.Name,
+            sourceId,
+            targetId);
+        })
+        .ToList();
+      var chart = new Chart(graph.Id, org.Id, graphChartName);
+      var chartNodes = graphNodes.Select(gn => new ChartNode(chart.Id, org.Id, gn.Id, gn.Name)).ToList();
+      var chartNodesMap = chartNodes.ToDictionary(cn => cn.GraphItemId, cn => cn.Id);
+      var chartEdges = graphEdges
+        .Select(ge =>
+          new ChartEdge(
+            chart.Id,
+            ge.OrganisationId,
+            ge.Id,
+            ge.Name,
+            chartNodesMap[ge.GraphSourceId],
+            chartNodesMap[ge.GraphTargetId]))
+        .ToList();
+
       if (conn is SqlConnection sqlConn && trans is SqlTransaction sqlTrans)
       {
         var bulky = new BulkUploadToMsSqlServer(sqlConn, sqlTrans);
@@ -136,6 +168,24 @@ namespace GraphML.Datastore.Database.Importer
         _logInfoAction($"Started edge attribute import at  : {sw.ElapsedMilliseconds} ms");
         bulky.Commit(edgeAttrs, GetTableName<EdgeItemAttribute>());
         _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        bulky.Commit(new[] { graph }, GetTableName<Graph>());
+        _logInfoAction($"Started graph node import at      : {sw.ElapsedMilliseconds} ms");
+        bulky.Commit(graphNodes, GetTableName<GraphNode>());
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        _logInfoAction($"Started graph edge import at      : {sw.ElapsedMilliseconds} ms");
+        bulky.Commit(graphEdges, GetTableName<GraphEdge>());
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        bulky.Commit(new[] { chart }, GetTableName<Chart>());
+        _logInfoAction($"Started chart node import at      : {sw.ElapsedMilliseconds} ms");
+        bulky.Commit(chartNodes, GetTableName<ChartNode>());
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        _logInfoAction($"Started chart edge import at      : {sw.ElapsedMilliseconds} ms");
+        bulky.Commit(chartEdges, GetTableName<ChartEdge>());
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
       }
       else
       {
@@ -153,6 +203,24 @@ namespace GraphML.Datastore.Database.Importer
 
         _logInfoAction($"Started edge attribute import at  : {sw.ElapsedMilliseconds} ms");
         conn.Insert(edgeAttrs, trans);
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        conn.Insert(graph, trans);
+        _logInfoAction($"Started graph node import at      : {sw.ElapsedMilliseconds} ms");
+        conn.Insert(graphNodes, trans);
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        _logInfoAction($"Started graph edge import at      : {sw.ElapsedMilliseconds} ms");
+        conn.Insert(graphEdges, trans);
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        conn.Insert(chart, trans);
+        _logInfoAction($"Started chart node import at      : {sw.ElapsedMilliseconds} ms");
+        conn.Insert(chartNodes, trans);
+        _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
+
+        _logInfoAction($"Started chart edge import at      : {sw.ElapsedMilliseconds} ms");
+        conn.Insert(chartEdges, trans);
         _logInfoAction($"  finished at                     : {sw.ElapsedMilliseconds} ms");
       }
 
@@ -476,7 +544,7 @@ namespace GraphML.Datastore.Database.Importer
           {
             return null;
           }
-          
+
           var data = new DateTimeInterval(start.Value, end.Value);
           return JsonConvert.SerializeObject(data);
         }

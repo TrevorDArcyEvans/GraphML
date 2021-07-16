@@ -4,6 +4,7 @@
 * each data row is an edge between two nodes
   * or a single node
 * add attributes to nodes and edges
+* automatically create a default _Graph_ and _Chart_
 
 ## Import Specification
 
