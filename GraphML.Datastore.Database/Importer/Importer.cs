@@ -94,7 +94,7 @@ namespace GraphML.Datastore.Database.Importer
       {
         var srcNode = GetOrCreateNode(csv, _importSpec.SourceNodeColumn, org, repo, nodeMap);
         var tarNode = GetOrCreateNode(csv, _importSpec.TargetNodeColumn, org, repo, nodeMap);
-        if (!(srcNode is null) && !(tarNode is null))
+        if (srcNode is not null && tarNode is not null)
         {
           var edge = new Edge
           {
