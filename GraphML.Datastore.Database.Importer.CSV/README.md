@@ -4,6 +4,7 @@
 * each data row is an edge between two nodes
   * or a single node
 * add attributes to nodes and edges
+* icons for source and target nodes
 * automatically create a default _Graph_ and _Chart_
 
 ## Import Specification
@@ -86,6 +87,8 @@
 | HasHeaderRecord | if first line of _DataFile_ is a header | `true/false` |
 | SourceNodeColumn | zero based column index for SourceNode name/identifier | defaults to 0 |
 | TargetNodeColumn | zero based column index for TargetNode name/identifier | defaults to 1 |
+| SourceIconName | relative path of image file (including extension) from 'wwwroot' directory when rendering an Icon on a Diagram surface | defaults to `null` ie no icon |
+| TargetIconName | relative path of image file (including extension) from 'wwwroot' directory when rendering an Icon on a Diagram surface | defaults to `null` ie no icon |
 | NodeItemAttributeImportDefinitions | collection of attributes to apply to each node | will be created if it does not exist<p/>if does exist, must be same data type |
 | EdgeItemAttributeImportDefinitions | collection of attributes to apply to each edge | will be created if it does not exist<p/>if does exist, must be same data type |
 
