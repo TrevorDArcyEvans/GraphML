@@ -24,7 +24,7 @@ namespace GraphML
     public int Y { get; set; }
     
     /// <summary>
-    /// Name of image file (including extension) from 'wwwroot' directory
+    /// Relative path of image file (including extension) from 'wwwroot' directory
     /// when rendering an Icon on a Diagram surface
     /// <remarks>
     /// If this is null, then no Icon is shown.
