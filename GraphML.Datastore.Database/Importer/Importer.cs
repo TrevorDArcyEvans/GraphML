@@ -109,12 +109,10 @@ namespace GraphML.Datastore.Database.Importer
           ProcessEdgeItemAttributes(edgeAttrDefsMap, csv, edge, org, edgeAttrs);
         }
 
-        if (srcNode is not null)
+        if (srcNode is not null &&
+            !srcNodeSet.Contains(srcNode.Id))
         {
-          if (!srcNodeSet.Contains(srcNode.Id))
-          {
-            srcNodeSet.Add(srcNode.Id);
-          }
+          srcNodeSet.Add(srcNode.Id);
         }
 
         ProcessNodeItemAttributes(nodeAttrDefsMap, csv, srcNode, tarNode, org, nodeAttrs);
