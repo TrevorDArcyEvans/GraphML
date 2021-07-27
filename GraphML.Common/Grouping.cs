@@ -70,7 +70,6 @@ namespace GraphML.Common
     bool ICollection<TElement>.Remove(TElement item)
     {
       throw new NotSupportedException();
-      return false;
     }
 
     int IList<TElement>.IndexOf(TElement item) => Array.IndexOf(_elements, item, 0, _count);
@@ -91,10 +90,7 @@ namespace GraphML.Common
         return _elements[index];
       }
 
-      set
-      {
-        throw new NotSupportedException();
-      }
+      set => throw new NotSupportedException();
     }
   }
 }
