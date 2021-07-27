@@ -33,13 +33,16 @@ namespace GraphML.Utils
         }
 
         var required = prop.GetCustomAttribute<RequiredAttribute>();
-        if (required != null && !required.AllowEmptyStrings)
+        if (required == null ||
+            required.AllowEmptyStrings)
         {
-          var value = prop.GetValue(obj) as string;
-          if (string.IsNullOrWhiteSpace(value))
-          {
-            throw new InvalidOperationException($"Value is null or whitespace:  {prop.ReflectedType}.{prop.Name}");
-          }
+          continue;
+        }
+        
+        var value = prop.GetValue(obj) as string;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+          throw new InvalidOperationException($"Value is null or whitespace:  {prop.ReflectedType}.{prop.Name}");
         }
       }
     }
