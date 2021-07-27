@@ -82,6 +82,8 @@ or just strategically well-placed.<p/>
   * Microsoft SQL Server Management Studio (Windows)
   * [ReportGenerator](https://github.com/danielpalme/ReportGenerator)
   * [python](https://www.python.org/downloads/windows/)
+  * [Doxygen](https://www.doxygen.nl/index.html)
+  * [dot](https://graphviz.org/)
 
 </details>
 
@@ -111,6 +113,11 @@ or just strategically well-placed.<p/>
 ``` bash
   reportgenerator -reports:**/coverage.opencover.xml -targetdir:./CodeCoverage
 ```
+1. generate documentation
+``` bash
+  doxygen
+```
+open [documentation](file:///Documentation/html/index.html)
 
 </details>
 
