@@ -304,77 +304,83 @@ namespace GraphML.Datastore.Database.Importer
         switch (kvp.Key.ApplyTo)
         {
           case ApplyTo.SourceNode:
-          {
-            if (srcNode is not null)
-            {
-              var nodeAttr = new NodeItemAttribute
-              {
-                Name = kvp.Value.Name,
-                DataValueAsString = valStr,
-                DefinitionId = kvp.Value.Id,
-                NodeId = srcNode.Id,
-                OrganisationId = org.Id,
-              };
-
-              nodeAttrs.Add(nodeAttr);
-            }
-
+            ApplyToSourceNode(srcNode, org, nodeAttrs, kvp, valStr);
             break;
-          }
 
           case ApplyTo.TargetNode:
-          {
-            if (tarNode is not null)
-            {
-              var nodeAttr = new NodeItemAttribute
-              {
-                Name = kvp.Value.Name,
-                DataValueAsString = valStr,
-                DefinitionId = kvp.Value.Id,
-                NodeId = tarNode.Id,
-                OrganisationId = org.Id,
-              };
-
-              nodeAttrs.Add(nodeAttr);
-            }
-
+            ApplyToTargetNode(tarNode, org, nodeAttrs, kvp, valStr);
             break;
-          }
 
           case ApplyTo.BothNodes:
-          {
-            if (srcNode is not null)
-            {
-              var nodeAttr = new NodeItemAttribute
-              {
-                Name = kvp.Value.Name,
-                DataValueAsString = valStr,
-                DefinitionId = kvp.Value.Id,
-                NodeId = srcNode.Id,
-                OrganisationId = org.Id,
-              };
-              nodeAttrs.Add(nodeAttr);
-            }
-
-            if (tarNode is not null)
-            {
-              var nodeAttr = new NodeItemAttribute
-              {
-                Name = kvp.Value.Name,
-                DataValueAsString = valStr,
-                DefinitionId = kvp.Value.Id,
-                NodeId = tarNode.Id,
-                OrganisationId = org.Id,
-              };
-              nodeAttrs.Add(nodeAttr);
-            }
-
+            ApplyToBothNodes(srcNode, tarNode, org, nodeAttrs, kvp, valStr);
             break;
-          }
 
           default:
             throw new ArgumentOutOfRangeException($"Unknown option:  {kvp.Key.ApplyTo}");
         }
+      }
+    }
+
+    private static void ApplyToBothNodes(Node srcNode, Node tarNode, Organisation org, List<NodeItemAttribute> nodeAttrs, KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, string valStr)
+    {
+      if (srcNode is not null)
+      {
+        var nodeAttr = new NodeItemAttribute
+        {
+          Name = kvp.Value.Name,
+          DataValueAsString = valStr,
+          DefinitionId = kvp.Value.Id,
+          NodeId = srcNode.Id,
+          OrganisationId = org.Id,
+        };
+        nodeAttrs.Add(nodeAttr);
+      }
+
+      if (tarNode is not null)
+      {
+        var nodeAttr = new NodeItemAttribute
+        {
+          Name = kvp.Value.Name,
+          DataValueAsString = valStr,
+          DefinitionId = kvp.Value.Id,
+          NodeId = tarNode.Id,
+          OrganisationId = org.Id,
+        };
+        nodeAttrs.Add(nodeAttr);
+      }
+    }
+
+    private static void ApplyToTargetNode(Node tarNode, Organisation org, List<NodeItemAttribute> nodeAttrs, KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, string valStr)
+    {
+      if (tarNode is not null)
+      {
+        var nodeAttr = new NodeItemAttribute
+        {
+          Name = kvp.Value.Name,
+          DataValueAsString = valStr,
+          DefinitionId = kvp.Value.Id,
+          NodeId = tarNode.Id,
+          OrganisationId = org.Id,
+        };
+
+        nodeAttrs.Add(nodeAttr);
+      }
+    }
+
+    private static void ApplyToSourceNode(Node srcNode, Organisation org, List<NodeItemAttribute> nodeAttrs, KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, string valStr)
+    {
+      if (srcNode is not null)
+      {
+        var nodeAttr = new NodeItemAttribute
+        {
+          Name = kvp.Value.Name,
+          DataValueAsString = valStr,
+          DefinitionId = kvp.Value.Id,
+          NodeId = srcNode.Id,
+          OrganisationId = org.Id,
+        };
+
+        nodeAttrs.Add(nodeAttr);
       }
     }
 
@@ -490,86 +496,104 @@ namespace GraphML.Datastore.Database.Importer
       switch (dataType)
       {
         case "string":
-        {
-          var raw = reader[cols[0]];
-          if (raw is null)
-          {
-            return null;
-          }
-
-          var data = raw;
-          return JsonConvert.SerializeObject(data);
-        }
+          return GetJsonString(reader, cols);
 
         case "bool":
-        {
-          var raw = reader[cols[0]];
-          if (raw is null)
-          {
-            return null;
-          }
-
-          return JsonConvert.SerializeObject(bool.TryParse(raw, out var data) ? data : null);
-        }
+          return GetJsonBool(reader, cols);
 
         case "int":
-        {
-          var raw = reader[cols[0]];
-          if (raw is null)
-          {
-            return null;
-          }
-
-          return JsonConvert.SerializeObject(int.TryParse(raw, out var data) ? data : null);
-        }
+          return GetJsonInt(reader, cols);
 
         case "double":
-        {
-          var raw = reader[cols[0]];
-          if (raw is null)
-          {
-            return null;
-          }
-
-          return JsonConvert.SerializeObject(double.TryParse(raw, out var data) ? data : null);
-        }
+          return GetJsonDouble(reader, cols);
 
         case "DateTime":
-        {
-          var raw = reader[cols[0]];
-          if (raw is null)
-          {
-            return null;
-          }
-
-          var data = ParseDateTime(raw, dateTimeFormat);
-          return data is null ? null : JsonConvert.SerializeObject(data.Value);
-        }
+          return GetJsonDateTime(reader, cols, dateTimeFormat);
 
         case "DateTimeInterval":
-        {
-          var startStr = reader[cols[0]];
-          var endStr = reader[cols[1]];
-          if (startStr is null || endStr is null)
-          {
-            return null;
-          }
-
-          var start = ParseDateTime(startStr, dateTimeFormat);
-          var end = ParseDateTime(endStr, dateTimeFormat);
-          if (start is null ||
-              end is null)
-          {
-            return null;
-          }
-
-          var data = new DateTimeInterval(start.Value, end.Value);
-          return JsonConvert.SerializeObject(data);
-        }
+          return GetJsonDateTimeInterval(reader, cols, dateTimeFormat);
 
         default:
           throw new ArgumentOutOfRangeException($"Unknown DataType:  {dataType}");
       }
+    }
+
+    private static string GetJsonDateTimeInterval(IReaderRow reader, int[] cols, string dateTimeFormat)
+    {
+      var startStr = reader[cols[0]];
+      var endStr = reader[cols[1]];
+      if (startStr is null || endStr is null)
+      {
+        return null;
+      }
+
+      var start = ParseDateTime(startStr, dateTimeFormat);
+      var end = ParseDateTime(endStr, dateTimeFormat);
+      if (start is null ||
+          end is null)
+      {
+        return null;
+      }
+
+      var data = new DateTimeInterval(start.Value, end.Value);
+      return JsonConvert.SerializeObject(data);
+    }
+
+    private static string GetJsonDateTime(IReaderRow reader, int[] cols, string dateTimeFormat)
+    {
+      var raw = reader[cols[0]];
+      if (raw is null)
+      {
+        return null;
+      }
+
+      var data = ParseDateTime(raw, dateTimeFormat);
+      return data is null ? null : JsonConvert.SerializeObject(data.Value);
+    }
+
+    private static string GetJsonDouble(IReaderRow reader, int[] cols)
+    {
+      var raw = reader[cols[0]];
+      if (raw is null)
+      {
+        return null;
+      }
+
+      return JsonConvert.SerializeObject(double.TryParse(raw, out var data) ? data : null);
+    }
+
+    private static string GetJsonInt(IReaderRow reader, int[] cols)
+    {
+      var raw = reader[cols[0]];
+      if (raw is null)
+      {
+        return null;
+      }
+
+      return JsonConvert.SerializeObject(int.TryParse(raw, out var data) ? data : null);
+    }
+
+    private static string GetJsonBool(IReaderRow reader, int[] cols)
+    {
+      var raw = reader[cols[0]];
+      if (raw is null)
+      {
+        return null;
+      }
+
+      return JsonConvert.SerializeObject(bool.TryParse(raw, out var data) ? data : null);
+    }
+
+    private static string GetJsonString(IReaderRow reader, int[] cols)
+    {
+      var raw = reader[cols[0]];
+      if (raw is null)
+      {
+        return null;
+      }
+
+      var data = raw;
+      return JsonConvert.SerializeObject(data);
     }
 
     private static DateTime? ParseDateTime(string raw, string dateTimeFormat)
