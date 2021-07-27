@@ -321,7 +321,13 @@ namespace GraphML.Datastore.Database.Importer
       }
     }
 
-    private static void ApplyToBothNodes(Node srcNode, Node tarNode, Organisation org, List<NodeItemAttribute> nodeAttrs, KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, string valStr)
+    private static void ApplyToBothNodes(
+      Node srcNode, 
+      Node tarNode, 
+      Organisation org, 
+      List<NodeItemAttribute> nodeAttrs, 
+      KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, 
+      string valStr)
     {
       if (srcNode is not null)
       {
@@ -350,7 +356,12 @@ namespace GraphML.Datastore.Database.Importer
       }
     }
 
-    private static void ApplyToTargetNode(Node tarNode, Organisation org, List<NodeItemAttribute> nodeAttrs, KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, string valStr)
+    private static void ApplyToTargetNode(
+      Node tarNode, 
+      Organisation org, 
+      List<NodeItemAttribute> nodeAttrs, 
+      KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, 
+      string valStr)
     {
       if (tarNode is not null)
       {
@@ -367,7 +378,12 @@ namespace GraphML.Datastore.Database.Importer
       }
     }
 
-    private static void ApplyToSourceNode(Node srcNode, Organisation org, List<NodeItemAttribute> nodeAttrs, KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, string valStr)
+    private static void ApplyToSourceNode(
+      Node srcNode, 
+      Organisation org, 
+      List<NodeItemAttribute> nodeAttrs, 
+      KeyValuePair<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> kvp, 
+      string valStr)
     {
       if (srcNode is not null)
       {
@@ -444,8 +460,8 @@ namespace GraphML.Datastore.Database.Importer
     private Dictionary<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition> GetNodeItemAttributeDefinitionsMap(
       IDbConnection conn,
       IDbTransaction trans,
-      RepositoryManager
-        repoMgr, Organisation org)
+      RepositoryManager repoMgr, 
+      Organisation org)
     {
       var nodeAttrDefsMap = new Dictionary<NodeItemAttributeImportDefinition, NodeItemAttributeDefinition>();
       foreach (var def in _importSpec.NodeItemAttributeImportDefinitions)
