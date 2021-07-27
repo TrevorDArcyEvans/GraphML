@@ -10,7 +10,6 @@ namespace GraphML.Common
     private readonly IEqualityComparer<TKey> _comparer = EqualityComparer<TKey>.Default;
     private Grouping<TKey, TElement>[] _groupings = new Grouping<TKey, TElement>[1];
     private Grouping<TKey, TElement>? _lastGrouping;
-    private int _count;
 
     public IEnumerator<IGrouping<TKey, TElement>> GetEnumerator()
     {
@@ -34,7 +33,7 @@ namespace GraphML.Common
 
     public bool Contains(TKey key) => GetGrouping(key, create: false) != null;
 
-    public int Count => _count;
+    public int Count { get; private set; }
 
     public IEnumerable<TElement> this[TKey key]
     {
@@ -58,7 +57,7 @@ namespace GraphML.Common
 
       if (create)
       {
-        if (_count == _groupings.Length)
+        if (Count == _groupings.Length)
         {
           Resize();
         }
@@ -78,7 +77,7 @@ namespace GraphML.Common
         }
 
         _lastGrouping = g;
-        _count++;
+        Count++;
         return g;
       }
 
@@ -93,7 +92,7 @@ namespace GraphML.Common
 
     private void Resize()
     {
-      var newSize = checked((_count * 2) + 1);
+      var newSize = checked((Count * 2) + 1);
       var newGroupings = new Grouping<TKey, TElement>[newSize];
       var g = _lastGrouping!;
       do
