@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  ui_web:
+    build:
+      dockerfile: GraphML.UI.Web/Dockerfile
+      context: .
+    image: graphml/ui/web
+    networks:
+      - graphml_network
+    ports:
+      - "5002:5002"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - api
+      - analysis
+      - identity_server
+
+  analysis:
+    build:
+      dockerfile: GraphML.Analysis.Server/Dockerfile
+      context: .
+    image: graphml/analysis
+    networks:
+      - graphml_network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - cache
+      - message_queue
+
+  api:
+    build:
+      dockerfile: GraphML.API/Dockerfile
+      context: .
+    image: graphml/api
+    networks:
+      - graphml_network
+    ports:
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - identity_server
+      - cache
+      - message_queue
+
+  identity_server:
+    build: ./IdentityServerAspNetIdentity
+    image: graphml/identity_server
+    networks:
+      - graphml_network
+    ports:
+      - "44387:44387"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  cache:
+    image: redis:latest
+    networks:
+      - graphml_network
+    ports:
+      - "6379:6379"
+    restart: always
+
+  message_queue:
+    image: rmohr/activemq
+    networks:
+      - graphml_network
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    restart: always
+
+networks:
+  graphml_network:
+    driver: bridge

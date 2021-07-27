@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  api:
+    image: graphml/ui/web
+    build:
+      context: ../
+      dockerfile: GraphML.UI.Web/Dockerfile
+    ports:
+      - "5002:5002"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  identity_server:
+    image: graphml/identity_server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "44387:44387"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:44387
