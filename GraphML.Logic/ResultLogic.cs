@@ -23,6 +23,7 @@ namespace GraphML.Logic
       IResultValidator validator)
     {
       _context = context;
+      _logger = logger;
       _datastore = datastore;
       _validator = validator;
     }
