@@ -20,8 +20,16 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <NoWarn>1701;1702;1591;8632</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <NoWarn>1701;1702;1591;8632</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="QuikGraph" Version="2.3.0"/>
+    <PackageReference Include="QuikGraph" Version="2.3.0" />
   </ItemGroup>
 
 </Project>
