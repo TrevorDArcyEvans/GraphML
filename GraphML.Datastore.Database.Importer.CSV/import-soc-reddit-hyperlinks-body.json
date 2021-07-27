@@ -22,6 +22,8 @@
     "HasHeaderRecord": true,
     "SourceNodeColumn" : 0,
     "TargetNodeColumn" : 1,
+    "SourceIconName": "icons/Ultimate-Free-Web-Designer-Icon-Set/beer.png",
+    "TargetIconName": "icons/Ultimate-Free-Web-Designer-Icon-Set/star.png",
     "EdgeItemAttributeImportDefinitions": [
       {
         "Name": "PostId",
