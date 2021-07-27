@@ -17,7 +17,7 @@ This is the measure that helps you find the nodes that are closest to the other 
 based on their ability to reach them.<p/>
 To calculate this, the algorithm finds the shortest path between each node, then assigns each node a 
 score based on the sum of all the paths.<p/>
-Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.</p> 
+Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.<p/> 
 
       [Wikipedia](https://en.wikipedia.org/wiki/Centrality)
     </details>
@@ -40,7 +40,7 @@ or just strategically well-placed.<p/>
 
 ## Prerequisites
 <details>
-</p>
+<p/>
 
 1. Prerequisites:
   * host:
@@ -88,7 +88,7 @@ or just strategically well-placed.<p/>
 ## Getting Started
 <details>
   <summary>Building</summary>
-</p>
+<p/>
 
 1. clone repo
 ```bash
@@ -116,7 +116,7 @@ or just strategically well-placed.<p/>
 
 <details>
   <summary>Back End</summary>
-</p>
+<p/>
 
 1. run _API_
 ```bash
@@ -153,7 +153,7 @@ or just strategically well-placed.<p/>
 <details>
   <summary>Front End/s</summary>
 
-### GraphML.UI.Web
+  **GraphML.UI.Web**
 ```bash
   export ASPNETCORE_ENVIRONMENT=Development
   cd GraphML.UI.Web/bin/Debug/net5.0
@@ -163,11 +163,22 @@ open https://localhost:5002/
 
 </details>
 
+<details>
+  <summary>Docker</summary>
+
+```bash
+  docker-compose build
+  docker-compose up
+```
+open https://localhost:5002/
+
+</details>
+
 ## Environment Variables
 
 <details>
   <summary>Backend API</summary>
-</p>
+<p/>
 
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
