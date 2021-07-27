@@ -65,7 +65,7 @@ namespace GraphML.Analysis.FindCommunities
         .Select(commNodes => commNodes.Select(cn => indexNodeMap[cn.Node]).ToList())
         .OrderByDescending(x => x.Count)
         .ToList();
-      var cutoff = allCommunities.Take(MaxCommunities).Last().Count();
+      var cutoff = allCommunities.Take(MaxCommunities).Last().Count;
       var communities = allCommunities.Where(x => x.Count >= cutoff).ToList();
       var result = new FindCommunitiesResult(communities);
       var resultJson = JsonConvert.SerializeObject(result);

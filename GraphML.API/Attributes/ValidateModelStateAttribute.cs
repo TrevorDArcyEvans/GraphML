@@ -45,12 +45,14 @@ namespace GraphML.API.Attributes
       {
         var attributeInstance = parameter.GetCustomAttribute(attributeData.AttributeType);
 
-        if (attributeInstance is ValidationAttribute validationAttribute)
+        if (attributeInstance is not ValidationAttribute validationAttribute)
         {
-          if (!(bool) validationAttribute.IsValid(args))
-          {
-            modelState.AddModelError(parameter.Name, validationAttribute.FormatErrorMessage(parameter.Name));
-          }
+          continue;
+        }
+        
+        if (!validationAttribute.IsValid(args))
+        {
+          modelState.AddModelError(parameter.Name, validationAttribute.FormatErrorMessage(parameter.Name));
         }
       }
     }

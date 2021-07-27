@@ -70,9 +70,9 @@ namespace GraphML.API.Server
       return objs;
     }
 
-    public async Task<IRequest> ByCorrelation(Guid corrId)
+    public async Task<IRequest> ByCorrelation(Guid correlationId)
     {
-      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), corrId.ToString()));
+      var request = GetRequest(Url.Combine(ResourceBase, nameof(ResultController.ByCorrelation), correlationId.ToString()));
       var obj = await GetObject(request);
 
       return (IRequest) obj;

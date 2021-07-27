@@ -250,10 +250,10 @@ namespace GraphML.Datastore.Database.Importer
       _logInfoAction($"Finished!");
       _logInfoAction(Environment.NewLine);
       _logInfoAction($"Summary:");
-      _logInfoAction($"  Nodes          : {nodes.Count()}");
-      _logInfoAction($"    Attributes   : {nodeAttrs.Count()}");
-      _logInfoAction($"  Edges          : {edges.Count()}");
-      _logInfoAction($"    Attributes   : {edgeAttrs.Count()}");
+      _logInfoAction($"  Nodes          : {nodes.Count}");
+      _logInfoAction($"    Attributes   : {nodeAttrs.Count}");
+      _logInfoAction($"  Edges          : {edges.Count}");
+      _logInfoAction($"    Attributes   : {edgeAttrs.Count}");
       _logInfoAction($"  Elapsed time   : {sw.ElapsedMilliseconds} ms");
     }
 

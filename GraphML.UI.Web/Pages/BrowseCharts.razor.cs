@@ -115,7 +115,7 @@ namespace GraphML.UI.Web.Pages
       _newItemName = _dlgNewItemName;
       _newTimelineDialogIsOpen = false;
       var newItem = await CreateNewTimeline(_newItemName);
-      GotoShowTimeline(newItem);
+      await GotoShowTimeline(newItem);
     }
 
     private async Task<Chart> CreateNewChart(string itemName)

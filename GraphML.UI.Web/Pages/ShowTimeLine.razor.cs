@@ -150,7 +150,7 @@ namespace GraphML.UI.Web.Pages
 
       var edgeItemAttribDef = Guid.Parse(EdgeItemAttributeDefinitionId);
       var numEdgeItemAttrChunks = edgeIds.Count / ChunkSize + 1;
-      var edgeItemAttribs = new List<EdgeItemAttribute>(edgeIds.Count());
+      var edgeItemAttribs = new List<EdgeItemAttribute>(edgeIds.Count);
       var edgeItemAttrChunkRange = Enumerable.Range(0, numEdgeItemAttrChunks);
       await edgeItemAttrChunkRange.ParallelForEachAsync(DegreeOfParallelism, async i =>
       {

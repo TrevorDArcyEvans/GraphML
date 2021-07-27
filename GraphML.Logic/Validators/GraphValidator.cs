@@ -24,10 +24,12 @@ namespace GraphML.Logic.Validators
 
     public void RuleForByNodeId()
     {
+      // PLACE_HOLDER
     }
 
     public void RuleForByEdgeId()
     {
+      // PLACE_HOLDER
     }
   }
 }

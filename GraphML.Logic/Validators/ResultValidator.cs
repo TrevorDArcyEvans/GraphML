@@ -152,7 +152,7 @@ namespace GraphML.Logic.Validators
     {
       var roles = _roleDatastore.ByContactId(contactId);
 
-      return roles.Any(x => x.Name == Roles.UserAdmin);;
+      return roles.Any(x => x.Name == Roles.UserAdmin);
     }
   }
 }

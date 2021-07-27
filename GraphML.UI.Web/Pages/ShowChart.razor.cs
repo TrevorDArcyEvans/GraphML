@@ -495,7 +495,7 @@ namespace GraphML.UI.Web.Pages
         // work out missing GraphNodes = already in Diagram but not in expansion
         var missGraphNodeIds = expGraphNodeIds.Except(graphNodeIds).ToList();
         var missChartNodes = (await _chartNodeServer.ByGraphItems(_chartId, missGraphNodeIds)).ToList();
-        if (missChartNodes.Count() != missGraphNodeIds.Count())
+        if (missChartNodes.Count != missGraphNodeIds.Count)
         {
           // GraphNode.Id of ChartNodes which are in Repository
           var repoChartGraphNodeIds = missChartNodes.Select(cn => cn.GraphItemId);
@@ -519,7 +519,7 @@ namespace GraphML.UI.Web.Pages
         // work out missing GraphEdges = already in Diagram but not in expansion
         var missGraphEdgeIds = expGraphEdgeIds.Except(graphEdgeIds).ToList();
         var missChartEdges = (await _chartEdgeServer.ByGraphItems(_chartId, missGraphEdgeIds)).ToList();
-        if (missChartEdges.Count() != missGraphEdgeIds.Count())
+        if (missChartEdges.Count != missGraphEdgeIds.Count)
         {
           // GraphEdge.Id of ChartEdges which are in Repository
           var repoChartGraphEdgeIds = missChartEdges.Select(ce => ce.GraphItemId);
