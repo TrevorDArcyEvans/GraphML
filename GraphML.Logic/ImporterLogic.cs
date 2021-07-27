@@ -18,6 +18,7 @@ namespace GraphML.Logic
       ILogger<ImporterLogic> logger,
       IImporterValidator validator)
     {
+      _logger = logger;
       _validator = validator;
     }
     
