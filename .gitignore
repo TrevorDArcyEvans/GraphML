@@ -278,3 +278,5 @@ Documentation
 **/coverage.opencover.xml
 CodeCoverage/
 
+# Sonarqube
+.sonarqube
