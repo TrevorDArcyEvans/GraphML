@@ -1,4 +1,7 @@
 # GraphML ![](Readme-Docs/GraphML.icon.png)
+
+![](Readme-Docs/GraphML.UI.DeathStar.png)
+
 GraphML analyses graphs for the following measures:
 
 <details>
@@ -12,7 +15,28 @@ Hops can also be weighted, meaning you can calculate actual distances, as well a
   [Wikipedia](https://en.wikipedia.org/wiki/K_shortest_path_routing)
 
 </details>
-  
+
+<details>
+  <summary>finding communities</summary>
+
+Uses _Louvain_ method for finding communities in large networks as described in [Blondel et. al, 2008]. 
+The main concept is that of network modularity that assesses the quality of the current community partition. 
+The algorithm works by successively improving the network's modularity by trying to change the community that each node belongs to. 
+If there is no improvement in modularity this means that the best community partition has been found.
+
+[Wikipedia](http://en.wikipedia.org/wiki/Metaphone)
+
+</details>
+
+<details>
+  <summary>finding duplicates</summary>
+
+Uses _Double Metaphone_ phonetic encoding algorithm to find potentially duplicate entities.
+
+[Wikipedia](https://en.wikipedia.org/wiki/Louvain_method)
+
+</details>
+
 **Social Network Analysis (SNA)**
   <details>
     <summary>closeness</summary>
@@ -49,6 +73,7 @@ or just strategically well-placed.<p/>
   </details>
 
 ## Prerequisites
+
 <details>
 <p/>
 
@@ -109,6 +134,7 @@ or just strategically well-placed.<p/>
 </details>
 
 ## Getting Started
+
 <details>
   <summary>Building</summary>
 <p/>
@@ -230,6 +256,7 @@ open https://localhost:5002/
 </details>
 
 ## Overview
+
 <details><p/>
 
   ![GraphML.Overview](Readme-Docs/GraphML.Overview.png "GraphML.Overview")
@@ -237,28 +264,48 @@ open https://localhost:5002/
 </details>
 
 ## Architecture
+
 <details><p/>
+  <summary>Overview</summary>
 
   ![GraphML.Architecture](Readme-Docs/GraphML.Architecture.png "GraphML.Architecture")
 
 </details>
 
 ## Analysis
+
 <details><p/>
+  <summary>Components</summary>
+
+The following components are used to analyse a graph:
+* [QuikGraph](https://github.com/KeRNeLith/QuikGraph)
+  * betweeness
+  * closeness
+  * degree
+* [Comuna](https://github.com/pedrodbs/Comuna)
+  * finding communities
+* [Phonix](https://github.com/eldersantos/phonix)
+  * finding duplicates
+
+</details>
+
+<details><p/>
+  <summary>Data flow</summary>
 
   ![GraphML.Analysis](Readme-Docs/GraphML.Analysis.Sequence.png "GraphML.Analysis")
 
 </details>
 
 ## Data Model
-<details>
+
+<details><p/>
   <summary>Classes</summary>
 
 ![GraphML.Classes](Readme-Docs/GraphML.Classes.png "GraphML.Classes")
 
 </details>
 
-<details>
+<details><p/>
   <summary>Composition</summary>
 
 ![GraphML.Composition](Readme-Docs/GraphML.Composition.png "GraphML.Composition")
@@ -452,7 +499,47 @@ open https://localhost:5002/
 
 </details>
 
+## User Interface
+
+<details>
+
+A reference browser based GUI is provided.  This is written in [Blazor](https://en.wikipedia.org/wiki/Blazor)
+and uses the following components:
+* [Blazor.ContextMenu](https://github.com/stavroskasidis/BlazorContextMenu)
+* [Blazorise](https://blazorise.com/)
+* [Blazorise.Bootstrap](https://blazorise.com/docs/usage/bootstrap/)
+* [Blazorise.Icons.FontAwesome](https://blazorise.com/docs/extensions/icons/)
+* [BlazorPro.Spinkit](https://github.com/EdCharbeneau/BlazorPro.Spinkit)
+* [BlazorRazor](https://github.com/Tricklebyte/BlazorRazor)
+* [BlazorTable](https://github.com/IvanJosipovic/BlazorTable)
+* [GraphShape](https://github.com/KeRNeLith/GraphShape) (graph layout)
+* [MatBlazor](https://www.matblazor.com/)
+* [Z.Blazor.Diagrams](https://github.com/Blazor-Diagrams/Blazor.Diagrams) (graph visualisation)
+* [ChartJs.Blazor](https://github.com/mariusmuntean/ChartJs.Blazor) (timeline visualisation)
+
+At this stage, printing is limited to using the web browser's native printing.
+Export to PDF (or other formats) is not supported by the current diagramming 
+component (Z.Blazor.Diagrams) but may be possible with other components
+eg [Syncfusion](https://www.syncfusion.com/blazor-components/blazor-diagram) or
+[Blazor.Diagrams](https://github.com/excubo-ag/Blazor.Diagrams).
+Obviously, replacing such a fundamental component is risky and difficult.
+
+Icons should be 32x32 pixels in size and are resized to this for display.
+
+There are *many* sources of free or low cost icons on the internet eg:
+* [flaticon](https://www.flaticon.com/)
+* [Aroma-Free-Icon-Set-For-Designers](https://www.smashingmagazine.com/2011/11/free-icon-set-for-web-designers-aroma-250-png-icons/)
+* [Basal Icons](https://webneel.com/post/freedownload/web-design/icon-design/basal-icons)
+* [Iconshock](https://www.iconshock.com/)
+* [Iconshock-Windows-7](https://www.iconshock.com/windows-icons/)
+* [Onebit](https://iconarchive.com/show/onebit-icons-by-icojam.html)
+* [Ultimate-Free-Web-Designer-Icon-Set](https://www.webfx.com/blog/web-design/free-icons-1000/)
+* [WooFunction Icons](https://iconarchive.com/show/woofunction-icons-by-wefunction.html)
+
+</details>
+
 ## Multi-Tenancy
+
 <details>
 
 At this stage, multi-tenancy isolation is implemented in GraphML.Logic:
@@ -475,6 +562,7 @@ a similar effect at the expense of managing each deployment.
 </details>
 
 ## Misc
+
 <details>
   <summary>Port Allocations</summary>
 
@@ -534,5 +622,25 @@ Alternate method is to install and run Redis on WSL:
 open [_Redis Commander_ management console](http://127.0.0.1:8080)
 
 _**Pro Tip**_ : to reset the database, use `flushdb`
+
+### Markdown Viewer
+This document is best view in Google Chrome with the [Markdown Viewer extension](https://chrome.google.com/webstore/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk).
+Remember to enable access to file urls in the settings.
+
+</details>
+
+## Further Work
+
+<details>
+
+* update _ranked shortest path_ to support temporal analysis
+  * going forward in time eg for financial transactions or phone calls
+  * support `DateTimeInterval`
+  * should be able to transform graph such that links which go backwards in time have infinite weight
+  * provide UI to select time attribute
+* *really* improve timeline visualisation
+  * probably best to invest in _Syncfusion_ diagramming component (!)
+* improve printing/export
+  * probably best to invest in _Syncfusion_ diagramming component (!)
 
 </details>
