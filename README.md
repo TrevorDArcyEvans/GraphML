@@ -1,54 +1,67 @@
 # GraphML ![](Readme-Docs/GraphML.icon.png)
 GraphML analyses graphs for the following measures:
 
-* <details>
-    <summary>ranked shortest paths</summary>
+<details>
+  <summary>ranked shortest paths</summary>
+
 These calculations help your users understand ways to travel through (or ‘traverse’) a network.<p/>
 The distance function measures how many hops apart two nodes are in a network. Shortest path 
 highlights the route that passes through the lowest number of nodes. <p/>
 Hops can also be weighted, meaning you can calculate actual distances, as well as the number of hops.<p/>
 
   [Wikipedia](https://en.wikipedia.org/wiki/K_shortest_path_routing)
-  </details>
-* Social Network Analysis (SNA)
-  * <details>
-      <summary>closeness</summary>
+
+</details>
+  
+**Social Network Analysis (SNA)**
+  <details>
+    <summary>closeness</summary>
+
 This is the measure that helps you find the nodes that are closest to the other nodes in a network,
 based on their ability to reach them.<p/>
 To calculate this, the algorithm finds the shortest path between each node, then assigns each node a 
 score based on the sum of all the paths.<p/>
 Nodes with a high closeness value have a lower distance to all other nodes. They’d be efficient broadcasters of information.<p/> 
 
-      [Wikipedia](https://en.wikipedia.org/wiki/Centrality)
-    </details>
-  * <details>
-      <summary>betweeness</summary>
+[Wikipedia](https://en.wikipedia.org/wiki/Centrality)
+
+  </details>
+
+  <details>
+    <summary>betweeness</summary>
+
 Nodes with a high betweenness centrality score are the ones that most frequently act as ‘bridges’ between other nodes. 
 They form the shortest pathways of communication within the network.<p/>
 Usually this would indicate important gatekeepers of information between groups.<p/>
 
-    [Wikipedia](https://en.wikipedia.org/wiki/Betweenness_centrality) <p/>
-    </details>
-  * <details>
-      <summary>degree</summary>
+[Wikipedia](https://en.wikipedia.org/wiki/Betweenness_centrality) <p/>
+
+  </details>
+
+  <details>
+    <summary>degree</summary>
 The degree centrality measure finds nodes with the highest number of links to other nodes in the network.<p/>
 Nodes with a high degree centrality have the best connections to those around them – they might be influential,
 or just strategically well-placed.<p/>
 
-    [Wikipedia]( https://en.wikipedia.org/wiki/Degree_(graph_theory) ) <p/>
-    </details>
+[Wikipedia]( https://en.wikipedia.org/wiki/Degree_(graph_theory) ) <p/>
+
+  </details>
 
 ## Prerequisites
 <details>
 <p/>
 
-1. Prerequisites:
+* Mandatory:
+
+  <details>
+
   * host:
     * Linux
     * Windows (not tested but should work)
   * target:
     * Linux (services)
-    * WebAssembly aka WASM (GUI)
+    * Google Chrome web browser
   * .NET Core SDK v5.0
   * integrated development environment:
     * Visual Studio Code (Linux or Windows)
@@ -70,7 +83,13 @@ or just strategically well-placed.<p/>
     * [Apache ActiveMQ](http://activemq.apache.org/)
   * results store:
     * [Redis](https://redis.io/)
-1. Optional
+
+  </details>
+
+* Optional
+
+  <details>
+
   * [Git Extensions](https://github.com/gitextensions/gitextensions) (Windows)
   * [Docker](https://docs.docker.com/docker-for-windows/install/) (Windows)
   * [SwitchStartupProject for VS 2019](https://heptapod.host/thirteen/switchstartupproject/) (Visual Studio)
@@ -84,6 +103,8 @@ or just strategically well-placed.<p/>
   * [python](https://www.python.org/downloads/windows/)
   * [Doxygen](https://www.doxygen.nl/index.html)
   * [dot](https://graphviz.org/)
+
+  </details>
 
 </details>
 
@@ -447,6 +468,9 @@ which is better suited to high security environments.
 This will make validators and filters redundnant as all calls are
 guaranteed to come from the same organisation.  In turn, this will
 make the Organisation entity redundant.
+
+Alternatively, a dedicated deployment *per organisation* would achieve
+a similar effect at the expense of managing each deployment.
 
 </details>
 
