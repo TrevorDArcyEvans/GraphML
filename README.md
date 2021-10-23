@@ -538,6 +538,17 @@ There are *many* sources of free or low cost icons on the internet eg:
 
 </details>
 
+## Sample data
+
+<details>
+
+Real world, large datasets can be obtained from:
+* [Stanford Large Network Dataset Collection](http://snap.stanford.edu/data/index.html)
+* [IMDb Datasets](https://www.imdb.com/interfaces/)
+* [CORD-19: The Covid-19 Open Research Dataset](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7251955/)
+
+</details>
+
 ## Multi-Tenancy
 
 <details>
