@@ -561,6 +561,33 @@ a similar effect at the expense of managing each deployment.
 
 </details>
 
+## Third Party Bugs
+
+### Z.Blazor.Diagrams
+
+<details>
+
+* [How to reattach links](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/91)
+* ~~[Deleting link on portless node leaves dangling link - inconsistent with ported node](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/96)~~
+* [No way to interactively create links between portless nodes](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/99)
+* [Enhancement request: separate links between same pairs of nodes](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/100)
+* ~~[Enhancement request: Would like Diagram.MouseDoubleClick event](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/101)~~
+* ~~[Moving ported nodes programmatically results in links rendered incorrectl](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/102)~~
+* [Enhancement request: Export to PDF](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/103)
+* [NavigatorWidget not work with empty Diagram](https://github.com/Blazor-Diagrams/Blazor.Diagrams/issues/104)
+
+</details>
+
+### MatBlazor
+
+<details>
+
+* [HideClearButton has no effect on MatTextField](https://github.com/SamProf/MatBlazor/issues/718)
+* [Support all Material Icons](https://github.com/SamProf/MatBlazor/issues/868)
+* [Ability to use own icon packs](https://github.com/SamProf/MatBlazor/issues/732)
+
+</details>
+
 ## Misc
 
 <details>
@@ -642,5 +669,8 @@ Remember to enable access to file urls in the settings.
   * probably best to invest in _Syncfusion_ diagramming component (!)
 * improve printing/export
   * probably best to invest in _Syncfusion_ diagramming component (!)
+* support AMQP
+* support other datastores
+* unit tests
 
 </details>
