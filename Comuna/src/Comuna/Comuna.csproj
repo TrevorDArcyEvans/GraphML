@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>Comuna</PackageId>
     <Copyright>Copyright © Pedro Sequeira 2018</Copyright>
     <Product>Comuna.NET</Product>

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using IResult = GraphML.Interfaces.IResult;
 
 namespace GraphML.API.Server
 {
